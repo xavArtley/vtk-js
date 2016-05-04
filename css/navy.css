@@ -493,6 +493,17 @@ body {
   background: #25a1f0;
   color: #fff;
 }
+.link {
+  color: #0e83cd;
+  text-decoration: none;
+  -webkit-transition: 0.2s;
+  -moz-transition: 0.2s;
+  -ms-transition: 0.2s;
+  transition: 0.2s;
+}
+.link:hover {
+  color: #1094e8;
+}
 #sidebar {
   width: 220px;
   float: left;
