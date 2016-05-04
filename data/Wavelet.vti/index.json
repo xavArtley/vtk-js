@@ -1,0 +1,46 @@
+{
+  "type": "ImageData", 
+  "ImageData": {
+    "Origin": [
+      0.0, 
+      0.0, 
+      0.0
+    ], 
+    "CellData": {}, 
+    "Dimensions": [
+      21, 
+      21, 
+      21
+    ], 
+    "PointData": {
+      "RTData": {
+        "name": "RTData", 
+        "tuple": 1, 
+        "dataType": "Float32Array", 
+        "ref": {
+          "encode": "LittleEndian", 
+          "basepath": "data", 
+          "id": "d42f855c14d32707570a50f67ab96952"
+        }, 
+        "ranges": [
+          {
+            "max": 276.8288269042969, 
+            "component": null, 
+            "min": 37.35310363769531
+          }
+        ], 
+        "type": "DataArray", 
+        "size": 9261
+      }
+    }, 
+    "Spacing": [
+      1.0, 
+      1.0, 
+      1.0
+    ], 
+    "FieldData": {}
+  }, 
+  "metadata": {
+    "name": "Wavelet.vti"
+  }
+}

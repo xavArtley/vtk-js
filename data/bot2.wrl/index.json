@@ -1,0 +1,158 @@
+{
+  "PolyData": {
+    "PointData": {
+      "VRMLColor": {
+        "name": "VRMLColor", 
+        "tuple": 3, 
+        "dataType": "Uint8Array", 
+        "ref": {
+          "encode": "LittleEndian", 
+          "basepath": "data", 
+          "id": "dcd0b56b7fc38cbd4e2b51f9c54aeb0c"
+        }, 
+        "ranges": [
+          {
+            "max": 255.0, 
+            "component": null, 
+            "min": 8.0
+          }, 
+          {
+            "max": 255.0, 
+            "component": null, 
+            "min": 8.0
+          }, 
+          {
+            "max": 255.0, 
+            "component": null, 
+            "min": 26.0
+          }, 
+          {
+            "max": 441.6729559300637, 
+            "component": null, 
+            "min": 135.47324459095236
+          }
+        ], 
+        "type": "DataArray", 
+        "size": 738
+      }
+    }, 
+    "Cells": {
+      "Polys": {
+        "name": "_polys", 
+        "tuple": 1, 
+        "dataType": "Uint32Array", 
+        "ref": {
+          "encode": "LittleEndian", 
+          "basepath": "data", 
+          "id": "e87a15b6aee10a1567b5810a902b7d1b"
+        }, 
+        "ranges": [
+          {
+            "max": 245.0, 
+            "component": null, 
+            "min": 0.0
+          }
+        ], 
+        "type": "DataArray", 
+        "size": 1944
+      }, 
+      "Strips": {
+        "name": "_strips", 
+        "tuple": 1, 
+        "dataType": "Uint32Array", 
+        "ref": {
+          "encode": "LittleEndian", 
+          "basepath": "data", 
+          "id": "d41d8cd98f00b204e9800998ecf8427e"
+        }, 
+        "ranges": [
+          {
+            "max": -1e+299, 
+            "component": null, 
+            "min": 1e+299
+          }
+        ], 
+        "type": "DataArray", 
+        "size": 0
+      }, 
+      "Lines": {
+        "name": "_lines", 
+        "tuple": 1, 
+        "dataType": "Uint32Array", 
+        "ref": {
+          "encode": "LittleEndian", 
+          "basepath": "data", 
+          "id": "d41d8cd98f00b204e9800998ecf8427e"
+        }, 
+        "ranges": [
+          {
+            "max": -1e+299, 
+            "component": null, 
+            "min": 1e+299
+          }
+        ], 
+        "type": "DataArray", 
+        "size": 0
+      }, 
+      "Verts": {
+        "name": "_verts", 
+        "tuple": 1, 
+        "dataType": "Uint32Array", 
+        "ref": {
+          "encode": "LittleEndian", 
+          "basepath": "data", 
+          "id": "d41d8cd98f00b204e9800998ecf8427e"
+        }, 
+        "ranges": [
+          {
+            "max": -1e+299, 
+            "component": null, 
+            "min": 1e+299
+          }
+        ], 
+        "type": "DataArray", 
+        "size": 0
+      }
+    }, 
+    "Points": {
+      "name": "_points", 
+      "tuple": 3, 
+      "dataType": "Float32Array", 
+      "ref": {
+        "encode": "LittleEndian", 
+        "basepath": "data", 
+        "id": "f5987b1ad84b82d8f2a5b0d234588e56"
+      }, 
+      "ranges": [
+        {
+          "max": 137.0, 
+          "component": null, 
+          "min": -137.0
+        }, 
+        {
+          "max": 187.0, 
+          "component": null, 
+          "min": -227.0
+        }, 
+        {
+          "max": 76.30000305175781, 
+          "component": null, 
+          "min": -60.0
+        }, 
+        {
+          "max": 257.9709479398849, 
+          "component": null, 
+          "min": 17.612909704561375
+        }
+      ], 
+      "type": "DataArray", 
+      "size": 738
+    }, 
+    "CellData": {}, 
+    "FieldData": {}
+  }, 
+  "type": "PolyData", 
+  "metadata": {
+    "name": "bot2.wrl"
+  }
+}
