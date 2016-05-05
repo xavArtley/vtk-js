@@ -74,6 +74,7 @@
 
 	    r.updateData().then(function (ok) {
 	      console.log('all data downloaded', reader.getOutput());
+	      console.log('blocks', reader.listBlocks());
 	      if (datasetToLoad.length) {
 	        loadDataSet(datasetToLoad.pop());
 	      }
@@ -276,6 +277,7 @@
 	  if (dataset.type === 'MultiBlock') {
 	    Object.keys(dataset.MultiBlock.Blocks).forEach(function (blockName) {
 	      block[blockName] = fillBlocks(dataset.MultiBlock.Blocks[blockName], {}, arraysToList, enable);
+	      block[blockName].enable = enable;
 	    });
 	  } else {
 	    (function () {
@@ -295,6 +297,7 @@
 	      });
 	    })();
 	  }
+
 	  return block;
 	}
 
@@ -313,6 +316,11 @@
 
 	      var subRoot = root.MultiBlock.Blocks[blockName];
 	      var subState = blockState[blockName];
+
+	      if (!subState.enable) {
+	        return;
+	      }
+
 	      if (isDatasetEnable(subRoot, subState, dataset)) {
 	        enable = true;
 	      }
