@@ -52,7 +52,9 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var datasetToLoad = [('/vtk-js') + '/data/can.ex2', ('/vtk-js') + '/data/bot2.wrl', ('/vtk-js') + '/data/disk_out_ref.ex2', ('/vtk-js') + '/data/Wavelet.vti']; /* global __BASE_PATH__ */
+	var datasetToLoad = [
+	// `${__BASE_PATH__}/data/can.ex2`,
+	('/vtk-js') + '/data/bot2.wrl', ('/vtk-js') + '/data/disk_out_ref.ex2', ('/vtk-js') + '/data/Wavelet.vti']; /* global __BASE_PATH__ */
 
 
 	var reader = new _2.default();
@@ -123,6 +125,8 @@
 	  return null;
 	}
 
+	var BUSY = 'HttpDataSetReader.busy';
+	var LOCATIONS = ['PointData', 'CellData', 'FieldData'];
 	var ENDIANNESS = getEndianness();
 	var TYPE_BYTES = {
 	  Int8Array: 1,
@@ -135,14 +139,11 @@
 	  Float32Array: 4,
 	  Float64Array: 8
 	};
-	var BUSY = 'HttpDataSetReader.busy';
-	var LOCATIONS = ['PointData', 'CellData', 'FieldData'];
 
 	var GEOMETRY_ARRAYS = {
 	  PolyData: function PolyData(dataset) {
 	    var arrayToDownload = [];
 	    arrayToDownload.push(dataset.PolyData.Points);
-
 	    Object.keys(dataset.PolyData.Cells).forEach(function (cellName) {
 	      if (dataset.PolyData.Cells[cellName]) {
 	        arrayToDownload.push(dataset.PolyData.Cells[cellName]);
@@ -153,6 +154,33 @@
 	  },
 	  ImageData: function ImageData(dataset) {
 	    return [];
+	  },
+	  UnstructuredGrid: function UnstructuredGrid(dataset) {
+	    var arrayToDownload = [];
+	    arrayToDownload.push(dataset.UnstructuredGrid.Points);
+	    arrayToDownload.push(dataset.UnstructuredGrid.Cells);
+	    arrayToDownload.push(dataset.UnstructuredGrid.CellTypes);
+
+	    return arrayToDownload;
+	  },
+	  RectilinearGrid: function RectilinearGrid(dataset) {
+	    var arrayToDownload = [];
+	    arrayToDownload.push(dataset.RectilinearGrid.XCoordinates);
+	    arrayToDownload.push(dataset.RectilinearGrid.YCoordinates);
+	    arrayToDownload.push(dataset.RectilinearGrid.ZCoordinates);
+
+	    return arrayToDownload;
+	  },
+	  MultiBlock: function MultiBlock(dataset) {
+	    var arrayToDownload = [];
+	    Object.keys(dataset.MultiBlock.Blocks).forEach(function (blockName) {
+	      var fn = GEOMETRY_ARRAYS[dataset.MultiBlock.Blocks[blockName].type];
+	      if (fn) {
+	        arrayToDownload = [].concat(arrayToDownload, fn(dataset.MultiBlock.Blocks[blockName]));
+	      }
+	    });
+
+	    return arrayToDownload;
 	  }
 	};
 
@@ -201,17 +229,24 @@
 	            array.buffer = xhr.response;
 
 	            if (fetchGzip) {
-	              array.buffer = _pako2.default.inflate(new Uint8Array(array.buffer)).buffer;
-	              array.values = new window[array.dataType]();
+	              if (array.dataType === 'JSON') {
+	                array.buffer = _pako2.default.inflate(new Uint8Array(array.buffer), { to: 'string' });
+	              } else {
+	                array.buffer = _pako2.default.inflate(new Uint8Array(array.buffer)).buffer;
+	              }
 	            }
 
-	            if (ENDIANNESS !== array.ref.encode && ENDIANNESS) {
-	              // Need to swap bytes
-	              console.log('Swap bytes of', array.name);
-	              swapBytes(array.buffer, TYPE_BYTES[array.dataType]);
-	            }
+	            if (array.dataType === 'JSON') {
+	              array.values = JSON.parse(array.buffer);
+	            } else {
+	              if (ENDIANNESS !== array.ref.encode && ENDIANNESS) {
+	                // Need to swap bytes
+	                console.log('Swap bytes of', array.name);
+	                swapBytes(array.buffer, TYPE_BYTES[array.dataType]);
+	              }
 
-	            array.values = new window[array.dataType](array.buffer);
+	              array.values = new window[array.dataType](array.buffer);
+	            }
 
 	            if (array.values.length !== array.size) {
 	              console.error('Error in FetchArray:', array.name, 'does not have the proper array size. Got', array.values.length, 'instead of', array.size);
@@ -227,7 +262,7 @@
 
 	      // Make request
 	      xhr.open('GET', url, true);
-	      xhr.responseType = 'arraybuffer';
+	      xhr.responseType = fetchGzip || array.dataType !== 'JSON' ? 'arraybuffer' : 'text';
 	      xhr.send();
 	    });
 	  }
@@ -235,6 +270,56 @@
 	  return new Promise(function (resolve, reject) {
 	    resolve(instance, instance.dataset);
 	  });
+	}
+
+	function fillBlocks(dataset, block, arraysToList, enable) {
+	  if (dataset.type === 'MultiBlock') {
+	    Object.keys(dataset.MultiBlock.Blocks).forEach(function (blockName) {
+	      block[blockName] = fillBlocks(dataset.MultiBlock.Blocks[blockName], {}, arraysToList, enable);
+	    });
+	  } else {
+	    (function () {
+	      block.type = dataset.type;
+	      block.enable = enable;
+	      var container = dataset[dataset.type];
+	      LOCATIONS.forEach(function (location) {
+	        if (container[location]) {
+	          Object.keys(container[location]).forEach(function (name) {
+	            if (arraysToList[location + '_:|:_' + name]) {
+	              arraysToList[location + '_:|:_' + name].ds.push(container);
+	            } else {
+	              arraysToList[location + '_:|:_' + name] = { name: name, enable: enable, location: location, ds: [container] };
+	            }
+	          });
+	        }
+	      });
+	    })();
+	  }
+	  return block;
+	}
+
+	function isDatasetEnable(root, blockState, dataset) {
+	  var enable = false;
+	  if (root[root.type] === dataset) {
+	    return blockState ? blockState.enable : true;
+	  }
+
+	  // Find corresponding datasetBlock
+	  if (root.MultiBlock && root.MultiBlock.Blocks) {
+	    Object.keys(root.MultiBlock.Blocks).forEach(function (blockName) {
+	      if (enable) {
+	        return;
+	      }
+
+	      var subRoot = root.MultiBlock.Blocks[blockName];
+	      var subState = blockState[blockName];
+	      if (isDatasetEnable(subRoot, subState, dataset)) {
+	        enable = true;
+	      }
+	    });
+	  }
+
+	  return enable;
 	}
 
 	var HttpDataSetReader = function () {
@@ -245,6 +330,7 @@
 	    _classCallCheck(this, HttpDataSetReader);
 
 	    this.arrays = [];
+	    this.blocks = null;
 	    this.dataset = null;
 	    this.url = null;
 	    this.enableArray = !!enableAllArrays;
@@ -290,13 +376,25 @@
 	                _this.arrays = [];
 	                var container = _this.dataset[_this.dataset.type];
 	                var enable = _this.enableArray;
-	                LOCATIONS.forEach(function (location) {
-	                  if (container[location]) {
-	                    Object.keys(container[location]).forEach(function (name) {
-	                      _this.arrays.push({ name: name, enable: enable, location: location });
+	                if (container.Blocks) {
+	                  (function () {
+	                    _this.blocks = {};
+	                    var arraysToList = {};
+	                    fillBlocks(_this.dataset, _this.blocks, arraysToList, enable);
+	                    Object.keys(arraysToList).forEach(function (id) {
+	                      _this.arrays.push(arraysToList[id]);
 	                    });
-	                  }
-	                });
+	                  })();
+	                } else {
+	                  // Regular dataset
+	                  LOCATIONS.forEach(function (location) {
+	                    if (container[location]) {
+	                      Object.keys(container[location]).forEach(function (name) {
+	                        _this.arrays.push({ name: name, enable: enable, location: location, ds: [container] });
+	                      });
+	                    }
+	                  });
+	                }
 
 	                // Fetch geometry arrays
 	                var pendingPromises = [];
@@ -336,7 +434,11 @@
 	      this.arrays.filter(function (array) {
 	        return array.enable;
 	      }).forEach(function (array) {
-	        arrayToFecth.push(_this2.dataset[_this2.dataset.type][array.location][array.name]);
+	        array.ds.forEach(function (ds) {
+	          if (isDatasetEnable(_this2.dataset, _this2.blocks, ds)) {
+	            arrayToFecth.push(ds[array.location][array.name]);
+	          }
+	        });
 	      });
 
 	      return new Promise(function (resolve, reject) {
@@ -357,6 +459,11 @@
 	      });
 	    }
 	  }, {
+	    key: 'listBlocks',
+	    value: function listBlocks() {
+	      return this.blocks;
+	    }
+	  }, {
 	    key: 'listArrays',
 	    value: function listArrays() {
 	      return this.arrays;
@@ -374,6 +481,23 @@
 	      }
 	    }
 	  }, {
+	    key: 'enableBlock',
+	    value: function enableBlock(blockPath) {
+	      var enable = arguments.length <= 1 || arguments[1] === undefined ? true : arguments[1];
+	      var pathSeparator = arguments.length <= 2 || arguments[2] === undefined ? '.' : arguments[2];
+
+	      var container = this.blocks;
+	      var path = blockPath.split(pathSeparator);
+
+	      while (container && path.length > 1) {
+	        container = container[path.shift];
+	      }
+
+	      if (container && path.length === 1) {
+	        container[path[0]].enable = enable;
+	      }
+	    }
+	  }, {
 	    key: 'getOutput',
 	    value: function getOutput() {
 	      return this.dataset;
@@ -383,6 +507,7 @@
 	    value: function destroy() {
 	      this.off();
 	      this.arrays = null;
+	      this.block = null;
 	      this.dataset = null;
 	      this.url = null;
 	    }
