@@ -55,7 +55,7 @@
 	// Create cone source instance
 	var coneSource = _2.default.newInstance({ height: 2.0 });
 
-	coneSource.onModified(function (s) {
+	var subscription = coneSource.onModified(function (s) {
 	  console.log('source modified', s.getOutput().metadata.state);
 	});
 
@@ -69,6 +69,11 @@
 
 	coneSource.setResolution(10);
 	coneSource.setResolution(20);
+
+	console.log('unsubscribe');
+	subscription.unsubscribe();
+	subscription = null;
+
 	coneSource.setResolution(30);
 	coneSource.setResolution(10);
 	console.log('resolution', coneSource.getResolution());
@@ -94,6 +99,7 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
+	exports.coneSource = coneSource;
 
 	var _macro = __webpack_require__(2);
 
@@ -145,7 +151,7 @@
 	          }
 	        };
 
-	        // Add parameter used to create dataset
+	        // Add parameter used to create dataset as metadata.state[*]
 	        STD_FIELDS.forEach(function (field) {
 	          state[field] = model[field];
 	        });
@@ -268,9 +274,18 @@
 	exports.setArray = setArray;
 	exports.setGetArray = setGetArray;
 	exports.algo = algo;
+	exports.event = event;
+	// ----------------------------------------------------------------------------
+	// capitilze provided string
+	// ----------------------------------------------------------------------------
+
 	function capitalize(str) {
 	  return str.charAt(0).toUpperCase() + str.slice(1);
 	}
+
+	// ----------------------------------------------------------------------------
+	// vtkObject: modified(), onModified(callback), delete()
+	// ----------------------------------------------------------------------------
 
 	function obj(publicAPI, model) {
 	  var callbacks = [];
@@ -324,6 +339,8 @@
 	}
 
 	// ----------------------------------------------------------------------------
+	// getXXX: add getters
+	// ----------------------------------------------------------------------------
 
 	function get(publicAPI, model, fieldNames) {
 	  fieldNames.forEach(function (field) {
@@ -333,6 +350,8 @@
 	  });
 	}
 
+	// ----------------------------------------------------------------------------
+	// setXXX: add setters
 	// ----------------------------------------------------------------------------
 
 	function set(publicAPI, model, fieldNames) {
@@ -356,12 +375,16 @@
 	}
 
 	// ----------------------------------------------------------------------------
+	// set/get XXX: add both setters and getters
+	// ----------------------------------------------------------------------------
 
 	function setGet(publicAPI, model, fieldNames) {
 	  get(publicAPI, model, fieldNames);
 	  set(publicAPI, model, fieldNames);
 	}
 
+	// ----------------------------------------------------------------------------
+	// getXXX: add getters for object of type array
 	// ----------------------------------------------------------------------------
 
 	function getArray(publicAPI, model, fieldNames) {
@@ -372,6 +395,8 @@
 	  });
 	}
 
+	// ----------------------------------------------------------------------------
+	// setXXX: add setter for object of type array
 	// ----------------------------------------------------------------------------
 
 	function setArray(publicAPI, model, fieldNames, size) {
@@ -401,12 +426,16 @@
 	}
 
 	// ----------------------------------------------------------------------------
+	// set/get XXX: add setter and getter for object of type array
+	// ----------------------------------------------------------------------------
 
 	function setGetArray(publicAPI, model, fieldNames, size) {
 	  getArray(publicAPI, model, fieldNames);
 	  setArray(publicAPI, model, fieldNames, size);
 	}
 
+	// ----------------------------------------------------------------------------
+	// vtkAlgorithm: setInputData(), setInputConnection(), getOutput(), getOutputPort()
 	// ----------------------------------------------------------------------------
 
 	function algo(publicAPI, model, numberOfInputs, numberOfOutputs) {
@@ -474,6 +503,59 @@
 	    publicAPI.getOutput = getOutput;
 	    publicAPI.getOutputPort = getOutputPort;
 	  }
+	}
+
+	// ----------------------------------------------------------------------------
+	// Event handling: onXXX(callback), fireXXX(args...)
+	// ----------------------------------------------------------------------------
+
+	function event(publicAPI, model, eventName) {
+	  var callbacks = [];
+	  var previousDelete = publicAPI.delete;
+
+	  function off(index) {
+	    callbacks[index] = null;
+	  }
+
+	  function on(index) {
+	    function unsubscribe() {
+	      off(index);
+	    }
+	    return Object.freeze({ unsubscribe: unsubscribe });
+	  }
+
+	  publicAPI['fire' + capitalize(eventName)] = function () {
+	    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+	      args[_key] = arguments[_key];
+	    }
+
+	    if (model.deleted) {
+	      console.log('instance deleted - can not call any method');
+	      return;
+	    }
+
+	    callbacks.forEach(function (callback) {
+	      return callback && callback.apply(publicAPI, args);
+	    });
+	  };
+
+	  publicAPI['on' + capitalize(eventName)] = function (callback) {
+	    if (model.deleted) {
+	      console.log('instance deleted - can not call any method');
+	      return null;
+	    }
+
+	    var index = callbacks.length;
+	    callbacks.push(callback);
+	    return on(index);
+	  };
+
+	  publicAPI.delete = function () {
+	    previousDelete();
+	    callbacks.forEach(function (el, index) {
+	      return off(index);
+	    });
+	  };
 	}
 
 /***/ }
