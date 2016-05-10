@@ -544,6 +544,9 @@
 	// ----------------------------------------------------------------------------
 
 	function obj(publicAPI, model) {
+	  var type = arguments.length <= 2 || arguments[2] === undefined ? 'vtkObject' : arguments[2];
+	  var implementations = arguments.length <= 3 || arguments[3] === undefined ? [] : arguments[3];
+
 	  var callbacks = [];
 	  model.mtime = 1;
 
@@ -579,6 +582,27 @@
 	    var index = callbacks.length;
 	    callbacks.push(callback);
 	    return on(index);
+	  };
+
+	  publicAPI.getMTime = function () {
+	    return model.mtime;
+	  };
+
+	  publicAPI.isA = function (t) {
+	    return type === t;
+	  };
+
+	  publicAPI.getClassName = function () {
+	    return type;
+	  };
+
+	  publicAPI.getImplements = function (map) {
+	    if (map) {
+	      return implementations.filter(function (name) {
+	        return !!map[name];
+	      });
+	    }
+	    return implementations;
 	  };
 
 	  publicAPI.delete = function () {
