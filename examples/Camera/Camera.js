@@ -5999,8 +5999,23 @@
 	  value: true
 	});
 	exports.radiansFromDegrees = radiansFromDegrees;
+	exports.areBoundsInitialized = areBoundsInitialized;
+	exports.uninitializeBounds = uninitializeBounds;
 	function radiansFromDegrees(deg) {
 	  return deg / 180 * Math.PI;
+	}
+
+	function areBoundsInitialized(bounds) {
+	  return !(bounds[1] - bounds[0] < 0.0);
+	}
+
+	function uninitializeBounds(bounds) {
+	  bounds[0] = 1.0;
+	  bounds[1] = -1.0;
+	  bounds[2] = 1.0;
+	  bounds[3] = -1.0;
+	  bounds[4] = 1.0;
+	  bounds[5] = -1.0;
 	}
 
 /***/ }
