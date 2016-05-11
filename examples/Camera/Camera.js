@@ -6018,5 +6018,7 @@
 	  bounds[5] = -1.0;
 	}
 
+	exports.default = { uninitializeBounds: uninitializeBounds, radiansFromDegrees: radiansFromDegrees, areBoundsInitialized: areBoundsInitialized };
+
 /***/ }
 /******/ ]);
