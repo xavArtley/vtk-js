@@ -100,7 +100,9 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
+	exports.newInstance = undefined;
 	exports.httpDataSetReader = httpDataSetReader;
+	exports.extend = extend;
 
 	var _macro = __webpack_require__(2);
 
@@ -114,22 +116,15 @@
 
 	var _pako2 = _interopRequireDefault(_pako);
 
+	var _Constants = __webpack_require__(20);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
-	var LOCATIONS = ['PointData', 'CellData', 'FieldData'];
-	var TYPE_BYTES = {
-	  Int8Array: 1,
-	  Uint8Array: 1,
-	  Uint8ClampedArray: 1,
-	  Int16Array: 2,
-	  Uint16Array: 2,
-	  Int32Array: 4,
-	  Uint32Array: 4,
-	  Float32Array: 4,
-	  Float64Array: 8
-	};
+	// ----------------------------------------------------------------------------
+	// Global methods
+	// ----------------------------------------------------------------------------
 
 	var GEOMETRY_ARRAYS = {
 	  PolyData: function PolyData(dataset) {
@@ -176,10 +171,13 @@
 	};
 
 	// ----------------------------------------------------------------------------
-	// HttpDataSetReader methods
+	// vtkHttpDataSetReader methods
 	// ----------------------------------------------------------------------------
 
 	function httpDataSetReader(publicAPI, model) {
+	  // Set our className
+	  model.classHierarchy.push('vtkHttpDataSetReader');
+
 	  // Internal method to fetch Array
 	  function fetchArray(array) {
 	    var fetchGzip = arguments.length <= 1 || arguments[1] === undefined ? false : arguments[1];
@@ -215,7 +213,7 @@
 	                if (_Endian2.default.ENDIANNESS !== array.ref.encode && _Endian2.default.ENDIANNESS) {
 	                  // Need to swap bytes
 	                  console.log('Swap bytes of', array.name);
-	                  _Endian2.default.swapBytes(array.buffer, TYPE_BYTES[array.dataType]);
+	                  _Endian2.default.swapBytes(array.buffer, _Constants.TYPE_BYTES[array.dataType]);
 	                }
 
 	                array.values = new window[array.dataType](array.buffer);
@@ -262,7 +260,7 @@
 	        block.type = dataset.type;
 	        block.enable = enable;
 	        var container = dataset[dataset.type];
-	        LOCATIONS.forEach(function (location) {
+	        _Constants.LOCATIONS.forEach(function (location) {
 	          if (container[location]) {
 	            Object.keys(container[location]).forEach(function (name) {
 	              if (arraysToList[location + '_:|:_' + name]) {
@@ -346,7 +344,7 @@
 	                })();
 	              } else {
 	                // Regular dataset
-	                LOCATIONS.forEach(function (location) {
+	                _Constants.LOCATIONS.forEach(function (location) {
 	                  if (container[location]) {
 	                    Object.keys(container[location]).forEach(function (name) {
 	                      model.arrays.push({ name: name, enable: enable, location: location, ds: [container] });
@@ -484,33 +482,31 @@
 	  requestCount: 0
 	};
 
-	var STD_FIELDS = ['enableArray', 'fetchGzip', 'blocks', 'url', 'baseURL'];
-	var ARRAY_FIELDS = ['arrays'];
-
 	// ----------------------------------------------------------------------------
 
-	function newInstance() {
-	  var initialValues = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+	function extend(publicAPI, model) {
+	  var initialValues = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
 
-	  var model = Object.assign({}, DEFAULT_VALUES, initialValues);
-	  var publicAPI = {};
+	  Object.assign(model, DEFAULT_VALUES, initialValues);
 
 	  // Build VTK API
 	  macro.obj(publicAPI, model);
-	  macro.get(publicAPI, model, STD_FIELDS);
-	  macro.getArray(publicAPI, model, ARRAY_FIELDS);
+	  macro.get(publicAPI, model, ['enableArray', 'fetchGzip', 'blocks', 'url', 'baseURL']);
+	  macro.getArray(publicAPI, model, ['arrays']);
 	  macro.algo(publicAPI, model, 0, 1);
 	  macro.event(publicAPI, model, 'busy');
 
 	  // Object methods
 	  httpDataSetReader(publicAPI, model);
-
-	  return Object.freeze(publicAPI);
 	}
 
 	// ----------------------------------------------------------------------------
 
-	exports.default = { newInstance: newInstance };
+	var newInstance = exports.newInstance = macro.newInstance(extend);
+
+	// ----------------------------------------------------------------------------
+
+	exports.default = { newInstance: newInstance, extend: extend };
 
 /***/ },
 /* 2 */
@@ -846,9 +842,9 @@
 	  return function () {
 	    var initialValues = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
 
-	    var model = Object.assign({}, initialValues);
+	    var model = {};
 	    var publicAPI = {};
-	    extend(publicAPI, model);
+	    extend(publicAPI, model, initialValues);
 	    return Object.freeze(publicAPI);
 	  };
 	}
@@ -7540,6 +7536,29 @@
 	}
 
 	module.exports = GZheader;
+
+/***/ },
+/* 20 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	var LOCATIONS = exports.LOCATIONS = ['PointData', 'CellData', 'FieldData'];
+
+	var TYPE_BYTES = exports.TYPE_BYTES = {
+	  Int8Array: 1,
+	  Uint8Array: 1,
+	  Uint8ClampedArray: 1,
+	  Int16Array: 2,
+	  Uint16Array: 2,
+	  Int32Array: 4,
+	  Uint32Array: 4,
+	  Float32Array: 4,
+	  Float64Array: 8
+	};
 
 /***/ }
 /******/ ]);

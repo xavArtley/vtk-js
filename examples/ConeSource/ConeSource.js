@@ -99,7 +99,9 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
+	exports.newInstance = undefined;
 	exports.coneSource = coneSource;
+	exports.extend = extend;
 
 	var _macro = __webpack_require__(2);
 
@@ -108,15 +110,13 @@
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 	// ----------------------------------------------------------------------------
-
-	var STD_FIELDS = ['height', 'radius', 'resolution', 'capping'];
-	var ARRAY_FIELDS_3 = ['center', 'direction'];
-
-	// ----------------------------------------------------------------------------
-	// ConeSource methods
+	// vtkConeSource methods
 	// ----------------------------------------------------------------------------
 
 	function coneSource(publicAPI, model) {
+	  // Set our className
+	  model.classHierarchy.push('vtkConeSource');
+
 	  function update() {
 	    if (model.deleted) {
 	      return;
@@ -152,10 +152,10 @@
 	        };
 
 	        // Add parameter used to create dataset as metadata.state[*]
-	        STD_FIELDS.forEach(function (field) {
+	        ['height', 'radius', 'resolution', 'capping'].forEach(function (field) {
 	          state[field] = model[field];
 	        });
-	        ARRAY_FIELDS_3.forEach(function (field) {
+	        ['center', 'direction'].forEach(function (field) {
 	          state[field] = [].concat(model[field]);
 	        });
 
@@ -234,27 +234,26 @@
 
 	// ----------------------------------------------------------------------------
 
-	function newInstance() {
-	  var initialValues = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+	function extend(publicAPI, model) {
+	  var initialValues = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
 
-	  var model = Object.assign({}, DEFAULT_VALUES, initialValues);
-	  var publicAPI = {};
+	  Object.assign(model, DEFAULT_VALUES, initialValues);
 
 	  // Build VTK API
 	  macro.obj(publicAPI, model);
-	  macro.setGet(publicAPI, model, STD_FIELDS);
-	  macro.setGetArray(publicAPI, model, ARRAY_FIELDS_3, 3);
+	  macro.setGet(publicAPI, model, ['height', 'radius', 'resolution', 'capping']);
+	  macro.setGetArray(publicAPI, model, ['center', 'direction'], 3);
 	  macro.algo(publicAPI, model, 0, 1);
-
-	  // Object methods
 	  coneSource(publicAPI, model);
-
-	  return Object.freeze(publicAPI);
 	}
 
 	// ----------------------------------------------------------------------------
 
-	exports.default = { newInstance: newInstance };
+	var newInstance = exports.newInstance = macro.newInstance(extend);
+
+	// ----------------------------------------------------------------------------
+
+	exports.default = { newInstance: newInstance, extend: extend };
 
 /***/ },
 /* 2 */
@@ -590,9 +589,9 @@
 	  return function () {
 	    var initialValues = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
 
-	    var model = Object.assign({}, initialValues);
+	    var model = {};
 	    var publicAPI = {};
-	    extend(publicAPI, model);
+	    extend(publicAPI, model, initialValues);
 	    return Object.freeze(publicAPI);
 	  };
 	}
