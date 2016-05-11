@@ -639,13 +639,15 @@
 	    function setter(value) {
 	      if (model.deleted) {
 	        console.log('instance deleted - can not call any method');
-	        return;
+	        return false;
 	      }
 
 	      if (model[field] !== value) {
 	        model[field] = value;
 	        publicAPI.modified();
+	        return true;
 	      }
+	      return false;
 	    }
 
 	    publicAPI['set' + capitalize(field)] = setter;
@@ -735,6 +737,12 @@
 	    model.inputConnection[port] = null;
 	  }
 
+	  function getInputData() {
+	    var port = arguments.length <= 0 || arguments[0] === undefined ? 0 : arguments[0];
+
+	    return model.inputData[port] || model.inputConnection[port]();
+	  }
+
 	  function setInputConnection(outputPort) {
 	    var port = arguments.length <= 1 || arguments[1] === undefined ? 0 : arguments[1];
 
@@ -777,6 +785,7 @@
 	    // Expose public methods
 	    publicAPI.setInputData = setInputData;
 	    publicAPI.setInputConnection = setInputConnection;
+	    publicAPI.getInputData = getInputData;
 	  }
 
 	  if (numberOfOutputs) {

@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head prefix="og: http://ogp.me/ns#">
+  <meta charset="utf-8">
+  <title>Plane | VTK.js</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://kitware.github.io/vtk-js/api/Plane.html">
+  <!-- Alternative links -->
+  
+    
+      <link rel="alternative" hreflang="en" href="https://kitware.github.io/vtk-js/api/Plane.html">
+    
+  
+  <!-- Icon -->
+  <link rel="apple-touch-icon" sizes="57x57" href="/vtk-js/icon/apple-touch-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="/vtk-js/icon/apple-touch-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="/vtk-js/icon/apple-touch-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="/vtk-js/icon/apple-touch-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="/vtk-js/icon/apple-touch-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/vtk-js/icon/apple-touch-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/vtk-js/icon/apple-touch-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/vtk-js/icon/apple-touch-icon-152x152.png">
+  <link rel="icon" type="image/png" href="/vtk-js/icon/favicon-196x196.png" sizes="196x196">
+  <link rel="icon" type="image/png" href="/vtk-js/icon/favicon-160x160.png" sizes="160x160">
+  <link rel="icon" type="image/png" href="/vtk-js/icon/favicon-96x96.png" sizes="96x96">
+  <link rel="icon" type="image/png" href="/vtk-js/icon/favicon-16x16.png" sizes="16x16">
+  <link rel="icon" type="image/png" href="/vtk-js/icon/favicon-32x32.png" sizes="32x32">
+  <meta name="msapplication-TileColor" content="#2f83cd">
+  <meta name="msapplication-TileImage" content="/vtk-js/icon/mstile-144x144.png">
+  <!-- CSS -->
+  <!-- build:css build/css/navy.css -->
+  <link rel="stylesheet" href="/vtk-js/css/navy.css">
+  <!-- endbuild -->
+  <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css">
+  <!-- RSS -->
+  <link rel="alternate" href="/vtk-js/atom.xml" title="VTK.js">
+  <!-- Open Graph -->
+  <meta name="description" content="IntroductionvtkPlane provides methods for various plane computations. These includeprojecting points onto a plane, evaluating the plane equation, andreturning plane normal. vtkPlane is a concrete impl">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Plane">
+<meta property="og:url" content="https://kitware.github.io/vtk-js/api/Plane.html">
+<meta property="og:site_name" content="VTK.js">
+<meta property="og:description" content="IntroductionvtkPlane provides methods for various plane computations. These includeprojecting points onto a plane, evaluating the plane equation, andreturning plane normal. vtkPlane is a concrete impl">
+<meta property="og:updated_time" content="2016-05-11T03:32:12.535Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Plane">
+<meta name="twitter:description" content="IntroductionvtkPlane provides methods for various plane computations. These includeprojecting points onto a plane, evaluating the plane equation, andreturning plane normal. vtkPlane is a concrete impl">
+  <!-- Google Analytics -->
+  
+</head>
+
+<body>
+  <div id="container">
+    <header id="header" class="wrapper">
+  <div id="header-inner" class="inner">
+    <h1 id="logo-wrap">
+      <a href="/vtk-js/" id="logo">ParaViewWeb</a>
+    </h1>
+    <nav id="main-nav">
+      <a href="/vtk-js/docs/" class="main-nav-link">Docs</a><a href="/vtk-js/api/" class="main-nav-link">API</a><a href="/vtk-js/examples/" class="main-nav-link">Examples</a>
+      <a href="https://github.com/kitware/vtk-js" class="main-nav-link"><i class="fa fa-github-alt"></i></a>
+      <div id="search-input-wrap">
+        <div id="search-input-icon">
+          <i class="fa fa-search"></i>
+        </div>
+        <input type="search" id="search-input" placeholder="Search...">
+      </div>
+    </nav>
+    <a id="mobile-nav-toggle">
+      <span class="mobile-nav-toggle-bar"></span>
+      <span class="mobile-nav-toggle-bar"></span>
+      <span class="mobile-nav-toggle-bar"></span>
+    </a>
+  </div>
+</header>
+
+    <div id="content-wrap">
+  <div id="content" class="wrapper">
+    <div id="content-inner">
+      <article class="article-container" itemscope itemtype="http://schema.org/Article">
+        <div class="article-inner">
+          <div class="article">
+            <div class="inner">
+              <header class="article-header">
+                <h1 class="article-title" itemprop="name">Plane</h1>
+              </header>
+              <div class="article-content" itemprop="articleBody">
+                <h2 id="Introduction" class="article-heading"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction<a class="article-anchor" href="#Introduction" aria-hidden="true"></a></h2><p>vtkPlane provides methods for various plane computations. These include<br>projecting points onto a plane, evaluating the plane equation, and<br>returning plane normal. vtkPlane is a concrete implementation of the<br>abstract class vtkImplicitFunction.</p>
+<h3 id="FIXME-TODO" class="article-heading"><a href="#FIXME-TODO" class="headerlink" title="FIXME / TODO"></a>FIXME / TODO<a class="article-anchor" href="#FIXME-TODO" aria-hidden="true"></a></h3><p>class VTKCOMMONDATAMODEL_EXPORT vtkPlane : public vtkImplicitFunction<br>{<br>public:<br>  // Description<br>  // Construct plane passing through origin and normal to z-axis.<br>  static vtkPlane *New();</p>
+<p>  vtkTypeMacro(vtkPlane,vtkImplicitFunction);<br>  void PrintSelf(ostream&amp; os, vtkIndent indent);</p>
+<p>  // Description<br>  // Evaluate plane equation for point x[3].<br>  double EvaluateFunction(double x[3]);<br>  double EvaluateFunction(double x, double y, double z)<br>    {return this-&gt;vtkImplicitFunction::EvaluateFunction(x, y, z); } ;</p>
+<p>  // Description<br>  // Evaluate function gradient at point x[3].<br>  void EvaluateGradient(double x[3], double g[3]);</p>
+<p>  // Description:<br>  // Set/get plane normal. Plane is defined by point and normal.<br>  vtkSetVector3Macro(Normal,double);<br>  vtkGetVectorMacro(Normal,double,3);</p>
+<p>  // Description:<br>  // Set/get point through which plane passes. Plane is defined by point<br>  // and normal.<br>  vtkSetVector3Macro(Origin,double);<br>  vtkGetVectorMacro(Origin,double,3);</p>
+<p>  // Description:<br>  // Translate the plane in the direction of the normal by the<br>  // distance specified.  Negative values move the plane in the<br>  // opposite direction.<br>  void Push(double distance);</p>
+<p>  // Description<br>  // Project a point x onto plane defined by origin and normal. The<br>  // projected point is returned in xproj. NOTE : normal assumed to<br>  // have magnitude 1.<br>  static void ProjectPoint(double x[3], double origin[3], double normal[3],<br>                           double xproj[3]);<br>  void ProjectPoint(double x[3], double xproj[3]);</p>
+<p>  // Description<br>  // Project a vector v onto plane defined by origin and normal. The<br>  // projected vector is returned in vproj.<br>  static void ProjectVector(double v[3], double origin[3], double normal[3],<br>                           double vproj[3]);<br>  void ProjectVector(double v[3], double vproj[3]);</p>
+<p>  // Description<br>  // Project a point x onto plane defined by origin and normal. The<br>  // projected point is returned in xproj. NOTE : normal does NOT have to<br>  // have magnitude 1.<br>  static void GeneralizedProjectPoint(double x[3], double origin[3],<br>                                      double normal[3], double xproj[3]);<br>  void GeneralizedProjectPoint(double x[3], double xproj[3]);</p>
+<p>  // Description:<br>  // Quick evaluation of plane equation n(x-origin)=0.<br>  static double Evaluate(double normal[3], double origin[3], double x[3]);</p>
+<p>  // Description:<br>  // Return the distance of a point x to a plane defined by n(x-p0) = 0. The<br>  // normal n[3] must be magnitude=1.<br>  static double DistanceToPlane(double x[3], double n[3], double p0[3]);<br>  double DistanceToPlane(double x[3]);</p>
+<p>  // Description:<br>  // Given a line defined by the two points p1,p2; and a plane defined by the<br>  // normal n and point p0, compute an intersection. The parametric<br>  // coordinate along the line is returned in t, and the coordinates of<br>  // intersection are returned in x. A zero is returned if the plane and line<br>  // do not intersect between (0&lt;=t&lt;=1). If the plane and line are parallel,<br>  // zero is returned and t is set to VTK_LARGE_DOUBLE.<br>  static int IntersectWithLine(double p1[3], double p2[3], double n[3],<br>                               double p0[3], double&amp; t, double x[3]);<br>  int IntersectWithLine(double p1[3], double p2[3], double&amp; t, double x[3]);</p>
+<p>protected:<br>  vtkPlane();<br>  ~vtkPlane() {}</p>
+<p>  double Normal[3];<br>  double Origin[3];</p>
+<p>private:<br>  vtkPlane(const vtkPlane&amp;);  // Not implemented.<br>  void operator=(const vtkPlane&amp;);  // Not implemented.<br>};</p>
+<p>inline double vtkPlane::DistanceToPlane(double x[3], double n[3], double p0[3])<br>{</p>
+<p>#define vtkPlaneAbs(x) ((x)&lt;0?-(x):(x))<br>  return (vtkPlaneAbs(n[0]<em>(x[0]-p0[0]) + n[1]</em>(x[1]-p0[1]) +<br>                      n[2]*(x[2]-p0[2])));<br>}</p>
+<p>#endif</p>
+<h1 id="Source" class="article-heading"><a href="#Source" class="headerlink" title="Source"></a>Source<a class="article-anchor" href="#Source" aria-hidden="true"></a></h1><figure class="highlight js"><figcaption><span>index.js</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> macro <span class="keyword">from</span> <span class="string">'../../../macro'</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">evaluate</span>(<span class="params">normal, origin, x</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> normal[<span class="number">0</span>] * (x[<span class="number">0</span>] - origin[<span class="number">0</span>])</span><br><span class="line">       + normal[<span class="number">1</span>] * (x[<span class="number">1</span>] - origin[<span class="number">1</span>])</span><br><span class="line">       + normal[<span class="number">2</span>] * (x[<span class="number">2</span>] - origin[<span class="number">2</span>]);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// ----------------------------------------------------------------------------</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> STATIC = &#123;</span><br><span class="line">  evaluate,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// ----------------------------------------------------------------------------</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">plane</span>(<span class="params">publicAPI, model</span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// ----------------------------------------------------------------------------</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> DEFAULT_VALUES = &#123;</span><br><span class="line"></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// ----------------------------------------------------------------------------</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">extend</span>(<span class="params">publicAPI, initialValues = &#123;&#125;</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> model = <span class="built_in">Object</span>.assign(initialValues, DEFAULT_VALUES);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Object methods</span></span><br><span class="line">  macro.setGet(publicAPI, model, [<span class="string">'bounds'</span>]);</span><br><span class="line">  plane(publicAPI, model);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// ----------------------------------------------------------------------------</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">newInstance</span>(<span class="params">initialValues = &#123;&#125;</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> model = <span class="built_in">Object</span>.assign(&#123;&#125;, DEFAULT_VALUES, initialValues);</span><br><span class="line">  <span class="keyword">const</span> publicAPI = &#123;&#125;;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Build VTK API</span></span><br><span class="line">  macro.obj(publicAPI, model, <span class="string">'vtkPlane'</span>);</span><br><span class="line">  extend(publicAPI, model);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> <span class="built_in">Object</span>.freeze(publicAPI);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// ----------------------------------------------------------------------------</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="built_in">Object</span>.assign(&#123; newInstance, extend &#125;, STATIC);</span><br></pre></td></tr></table></figure>
+
+              </div>
+              <footer class="article-footer">
+                <time class="article-footer-updated" datetime="2016-05-11T03:32:12.535Z" itemprop="dateModified">Last updated: 2016-05-11</time>
+                <a href="BoundingBox.html" class="article-footer-prev" title="BoundingBox"><i class="fa fa-chevron-left"></i><span>Prev</span></a><a href="Transform.html" class="article-footer-next" title="Transform"><span>Next</span><i class="fa fa-chevron-right"></i></a>
+              </footer>
+              
+            </div>
+          </div>
+          <aside id="article-toc" role="navigation">
+            <div id="article-toc-inner">
+              <strong class="sidebar-title">Contents</strong>
+              <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Introduction"><span class="toc-text">Introduction</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#FIXME-TODO"><span class="toc-text">FIXME / TODO</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Source"><span class="toc-text">Source</span></a>
+              <a href="#" id="article-toc-top">Back to Top</a>
+            </div>
+          </aside>
+        </div>
+      </article>
+      <aside id="sidebar" role="navigation">
+  <div class="inner"><strong class="sidebar-title">Charts/Core</strong><strong class="sidebar-title">Common/Core</strong><a href="DataArray.html" class="sidebar-link">DataArray</a><a href="Endian.html" class="sidebar-link">Endian</a><a href="LookupTable.html" class="sidebar-link">LookupTable</a><a href="Points.html" class="sidebar-link">Points</a><strong class="sidebar-title">Common/DataModel</strong><a href="BoundingBox.html" class="sidebar-link">BoundingBox</a><a href="Plane.html" class="sidebar-link current">Plane</a><strong class="sidebar-title">Common/Transforms</strong><a href="Transform.html" class="sidebar-link">Transform</a><strong class="sidebar-title">Filters/Sources</strong><a href="ConeSource.html" class="sidebar-link">ConeSource</a><a href="SphereSource.html" class="sidebar-link">SphereSource</a><strong class="sidebar-title">IO/Core</strong><a href="HttpDataSetReader.html" class="sidebar-link">HttpDataSetReader</a><strong class="sidebar-title">Interaction/Style</strong><strong class="sidebar-title">Interaction/Widgets</strong><strong class="sidebar-title">Rendering/Core</strong><a href="Actor.html" class="sidebar-link">Actor</a><a href="Camera.html" class="sidebar-link">Camera</a><a href="ColorTransfertFunction.html" class="sidebar-link">ColorTransfertFunction</a><a href="Light.html" class="sidebar-link">Light</a><a href="LightKit.html" class="sidebar-link">LightKit</a><a href="Mapper.html" class="sidebar-link">Mapper</a><a href="Prop.html" class="sidebar-link">Prop</a><a href="Prop3D.html" class="sidebar-link">Prop3D</a><a href="Property.html" class="sidebar-link">Property</a><a href="RenderWindow.html" class="sidebar-link">RenderWindow</a><a href="Renderer.html" class="sidebar-link">Renderer</a><strong class="sidebar-title">Rendering/SceneGraph</strong><a href="ViewNode.html" class="sidebar-link">ViewNode</a><a href="ViewNodeFactory.html" class="sidebar-link">ViewNodeFactory</a><strong class="sidebar-title">Rendering/Volume</strong><strong class="sidebar-title">Rendering/VolumeWebGL</strong><strong class="sidebar-title">Rendering/WebGL</strong><a href="Shader.html" class="sidebar-link">Shader</a><a href="ShaderProgram.html" class="sidebar-link">ShaderProgram</a><a href="Utilities.html" class="sidebar-link">Utilities</a><a href="WebGLActor.html" class="sidebar-link">WebGLActor</a><a href="WebGLPolyDataMapper.html" class="sidebar-link">WebGLPolyDataMapper</a><a href="WebGLRenderWindow.html" class="sidebar-link">WebGLRenderWindow</a><a href="WebGLRenderer.html" class="sidebar-link">WebGLRenderer</a><a href="WebGLViewNodeFactory.html" class="sidebar-link">WebGLViewNodeFactory</a><strong class="sidebar-title">Views/Context2D</strong><a href="ContextInteractorStyle.html" class="sidebar-link">ContextInteractorStyle</a><a href="ContextView.html" class="sidebar-link">ContextView</a><strong class="sidebar-title">Views/Core</strong><a href="DataRepresentation.html" class="sidebar-link">DataRepresentation</a><a href="RenderViewBase.html" class="sidebar-link">RenderViewBase</a><a href="View.html" class="sidebar-link">View</a><a href="ViewTheme.html" class="sidebar-link">ViewTheme</a></div>
+</aside>
+    </div>
+  </div>
+</div>
+
+    <footer id="footer" class="wrapper">
+  <div class="inner">
+    <div id="footer-copyright">
+      &copy; 2016 <a href="http://www.kitware.com" target="_blank">Kitware Inc.</a>
+    </div>
+    <div id="footer-links">
+      <a href="https://github.com/kitware/vtk-js" class="footer-link" target="_blank"><i class="fa fa-github-alt"></i></a>
+    </div>
+  </div>
+</footer>
+
+  </div>
+  <div id="mobile-nav-dimmer"></div>
+  <nav id="mobile-nav">
+  <div id="mobile-nav-inner">
+    <ul id="mobile-nav-list">
+      <a href="/vtk-js/docs/" class="mobile-nav-link">Docs</a><a href="/vtk-js/api/" class="mobile-nav-link">API</a><a href="/vtk-js/examples/" class="mobile-nav-link">Examples</a>
+      <li class="mobile-nav-item">
+        <a href="https://github.com/kitware/vtk-js" class="mobile-nav-link" rel="external" target="_blank">GitHub</a>
+      </li>
+    </ul>
+    
+      <strong class="mobile-nav-title">Charts/Core</strong><strong class="mobile-nav-title">Common/Core</strong><a href="DataArray.html" class="mobile-nav-link">DataArray</a><a href="Endian.html" class="mobile-nav-link">Endian</a><a href="LookupTable.html" class="mobile-nav-link">LookupTable</a><a href="Points.html" class="mobile-nav-link">Points</a><strong class="mobile-nav-title">Common/DataModel</strong><a href="BoundingBox.html" class="mobile-nav-link">BoundingBox</a><a href="Plane.html" class="mobile-nav-link current">Plane</a><strong class="mobile-nav-title">Common/Transforms</strong><a href="Transform.html" class="mobile-nav-link">Transform</a><strong class="mobile-nav-title">Filters/Sources</strong><a href="ConeSource.html" class="mobile-nav-link">ConeSource</a><a href="SphereSource.html" class="mobile-nav-link">SphereSource</a><strong class="mobile-nav-title">IO/Core</strong><a href="HttpDataSetReader.html" class="mobile-nav-link">HttpDataSetReader</a><strong class="mobile-nav-title">Interaction/Style</strong><strong class="mobile-nav-title">Interaction/Widgets</strong><strong class="mobile-nav-title">Rendering/Core</strong><a href="Actor.html" class="mobile-nav-link">Actor</a><a href="Camera.html" class="mobile-nav-link">Camera</a><a href="ColorTransfertFunction.html" class="mobile-nav-link">ColorTransfertFunction</a><a href="Light.html" class="mobile-nav-link">Light</a><a href="LightKit.html" class="mobile-nav-link">LightKit</a><a href="Mapper.html" class="mobile-nav-link">Mapper</a><a href="Prop.html" class="mobile-nav-link">Prop</a><a href="Prop3D.html" class="mobile-nav-link">Prop3D</a><a href="Property.html" class="mobile-nav-link">Property</a><a href="RenderWindow.html" class="mobile-nav-link">RenderWindow</a><a href="Renderer.html" class="mobile-nav-link">Renderer</a><strong class="mobile-nav-title">Rendering/SceneGraph</strong><a href="ViewNode.html" class="mobile-nav-link">ViewNode</a><a href="ViewNodeFactory.html" class="mobile-nav-link">ViewNodeFactory</a><strong class="mobile-nav-title">Rendering/Volume</strong><strong class="mobile-nav-title">Rendering/VolumeWebGL</strong><strong class="mobile-nav-title">Rendering/WebGL</strong><a href="Shader.html" class="mobile-nav-link">Shader</a><a href="ShaderProgram.html" class="mobile-nav-link">ShaderProgram</a><a href="Utilities.html" class="mobile-nav-link">Utilities</a><a href="WebGLActor.html" class="mobile-nav-link">WebGLActor</a><a href="WebGLPolyDataMapper.html" class="mobile-nav-link">WebGLPolyDataMapper</a><a href="WebGLRenderWindow.html" class="mobile-nav-link">WebGLRenderWindow</a><a href="WebGLRenderer.html" class="mobile-nav-link">WebGLRenderer</a><a href="WebGLViewNodeFactory.html" class="mobile-nav-link">WebGLViewNodeFactory</a><strong class="mobile-nav-title">Views/Context2D</strong><a href="ContextInteractorStyle.html" class="mobile-nav-link">ContextInteractorStyle</a><a href="ContextView.html" class="mobile-nav-link">ContextView</a><strong class="mobile-nav-title">Views/Core</strong><a href="DataRepresentation.html" class="mobile-nav-link">DataRepresentation</a><a href="RenderViewBase.html" class="mobile-nav-link">RenderViewBase</a><a href="View.html" class="mobile-nav-link">View</a><a href="ViewTheme.html" class="mobile-nav-link">ViewTheme</a>
+    
+  </div>
+  <div id="mobile-lang-select-wrap">
+    <span id="mobile-lang-select-label"><i class="fa fa-globe"></i><span>English</span></span>
+    <select id="mobile-lang-select" data-canonical="api/Plane.html">
+      
+        <option value="en" selected>English</option>
+      
+    </select>
+  </div>
+</nav>
+  <!-- Scripts -->
+<!-- build:js build/js/main.js -->
+<script src="/vtk-js/js/lang_select.js"></script>
+<script src="/vtk-js/js/toc.js"></script>
+<script src="/vtk-js/js/mobile_nav.js"></script>
+<!-- endbuild -->
+<script src="https://cdn.jsdelivr.net/retinajs/1.3.0/retina.min.js" async></script>
+
+
+
+</body>
+</html>
