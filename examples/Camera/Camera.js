@@ -6001,6 +6001,7 @@
 	exports.radiansFromDegrees = radiansFromDegrees;
 	exports.areBoundsInitialized = areBoundsInitialized;
 	exports.uninitializeBounds = uninitializeBounds;
+	exports.dot = dot;
 	function radiansFromDegrees(deg) {
 	  return deg / 180 * Math.PI;
 	}
@@ -6018,7 +6019,16 @@
 	  bounds[5] = -1.0;
 	}
 
-	exports.default = { uninitializeBounds: uninitializeBounds, radiansFromDegrees: radiansFromDegrees, areBoundsInitialized: areBoundsInitialized };
+	function dot(x, y) {
+	  return x[0] * y[0] + x[1] * y[1] + x[2] * y[2];
+	}
+
+	exports.default = {
+	  uninitializeBounds: uninitializeBounds,
+	  radiansFromDegrees: radiansFromDegrees,
+	  areBoundsInitialized: areBoundsInitialized,
+	  dot: dot
+	};
 
 /***/ }
 /******/ ]);
