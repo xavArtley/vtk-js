@@ -360,6 +360,9 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
+
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+
 	exports.capitalize = capitalize;
 	exports.obj = obj;
 	exports.get = get;
@@ -371,6 +374,9 @@
 	exports.algo = algo;
 	exports.event = event;
 	exports.newInstance = newInstance;
+
+	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
 	var globalMTime = 0;
 	// ----------------------------------------------------------------------------
 	// capitilze provided string
@@ -435,6 +441,29 @@
 	    return model.classHierarchy.slice(-1)[0];
 	  };
 
+	  publicAPI.set = function () {
+	    var map = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+
+	    Object.keys(map).forEach(function (name) {
+	      if (Array.isArray(map[name])) {
+	        publicAPI['set' + capitalize(name)].apply(publicAPI, _toConsumableArray(map[name]));
+	      } else {
+	        publicAPI['set' + capitalize(name)](map[name]);
+	      }
+	    });
+	  };
+
+	  publicAPI.get = function (list) {
+	    if (!list) {
+	      return model;
+	    }
+	    var subset = {};
+	    list.forEach(function (name) {
+	      subset[name] = model[name];
+	    });
+	    return subset;
+	  };
+
 	  publicAPI.delete = function () {
 	    Object.keys(model).forEach(function (field) {
 	      return delete model[field];
@@ -464,9 +493,59 @@
 	// setXXX: add setters
 	// ----------------------------------------------------------------------------
 
-	function set(publicAPI, model, fieldNames) {
-	  function createSetter(field) {
-	    function setter(value) {
+	var objectSetterMap = {
+	  enum: function _enum(publicAPI, model, field) {
+	    return function (value) {
+	      if (typeof value === 'string') {
+	        if (model.enum[value] !== undefined) {
+	          if (model[field.name] !== model.enum[value]) {
+	            model[field.name] = model.enum[value];
+	            publicAPI.modified();
+	            return true;
+	          }
+	          return false;
+	        }
+	        console.log('Set Enum with invalid argument', field, value);
+	        return null;
+	      }
+	      if (typeof value === 'number') {
+	        if (model[field.name] !== value) {
+	          if (Object.keys(field.enum).map(function (key) {
+	            return field.enum[key];
+	          }).indexOf(value) !== -1) {
+	            model[field.name] = value;
+	            publicAPI.modified();
+	            return true;
+	          }
+	          console.log('Set Enum outside range', field, value);
+	        }
+	        return false;
+	      }
+	      console.log('Set Enum with invalid argument (String/Number)', field, value);
+	      return null;
+	    };
+	  }
+	};
+
+	function findSetter(field) {
+	  if ((typeof field === 'undefined' ? 'undefined' : _typeof(field)) === 'object') {
+	    var _ret = function () {
+	      var fn = objectSetterMap[field.type];
+	      if (fn) {
+	        return {
+	          v: function v(publicAPI, model) {
+	            return fn(publicAPI, model, field);
+	          }
+	        };
+	      }
+
+	      console.error('No setter for field', field);
+	    }();
+
+	    if ((typeof _ret === 'undefined' ? 'undefined' : _typeof(_ret)) === "object") return _ret.v;
+	  }
+	  return function getSetter(publicAPI, model) {
+	    return function setter(value) {
 	      if (model.deleted) {
 	        console.log('instance deleted - can not call any method');
 	        return false;
@@ -478,12 +557,14 @@
 	        return true;
 	      }
 	      return false;
-	    }
+	    };
+	  };
+	}
 
-	    publicAPI['set' + capitalize(field)] = setter;
-	  }
-
-	  fieldNames.forEach(createSetter);
+	function set(publicAPI, model, fields) {
+	  fields.forEach(function (field) {
+	    publicAPI['set' + capitalize(field)] = findSetter(field)(publicAPI, model);
+	  });
 	}
 
 	// ----------------------------------------------------------------------------
@@ -513,7 +594,11 @@
 
 	function setArray(publicAPI, model, fieldNames, size) {
 	  fieldNames.forEach(function (field) {
-	    publicAPI['set' + capitalize(field)] = function (array) {
+	    publicAPI['set' + capitalize(field)] = function () {
+	      for (var _len = arguments.length, array = Array(_len), _key = 0; _key < _len; _key++) {
+	        array[_key] = arguments[_key];
+	      }
+
 	      if (model.deleted) {
 	        console.log('instance deleted - can not call any method');
 	        return;
@@ -644,8 +729,8 @@
 	  }
 
 	  publicAPI['fire' + capitalize(eventName)] = function () {
-	    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-	      args[_key] = arguments[_key];
+	    for (var _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+	      args[_key2] = arguments[_key2];
 	    }
 
 	    if (model.deleted) {
