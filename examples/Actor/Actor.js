@@ -98,8 +98,7 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.DEFAULT_VALUES = exports.types = undefined;
-	exports.actor = actor;
+	exports.newInstance = exports.types = undefined;
 	exports.extend = extend;
 
 	var _macro = __webpack_require__(2);
@@ -122,15 +121,14 @@
 
 	var types = exports.types = ['Actor'];
 
-	var SET_FIELDS = ['property'];
-
-	var SET_GET_FIELDS = ['backfaceProperty',
-	// 'texture', // Actor should have an array of textures
-	'mapper', 'forceOpaque', 'forceTranslucent'];
-
-	var SET_ARRAY_6 = ['bounds'];
+	// ----------------------------------------------------------------------------
+	// vtkActor methods
+	// ----------------------------------------------------------------------------
 
 	function actor(publicAPI, model) {
+	  // Set our className
+	  model.classHierarchy.push('vtkActor');
+
 	  publicAPI.renderOpaqueGeometry = function (viewport) {
 	    var renderedSomething = false;
 
@@ -332,7 +330,7 @@
 	  };
 	}
 
-	var DEFAULT_VALUES = exports.DEFAULT_VALUES = {
+	var DEFAULT_VALUES = {
 	  bounds: [1, -1, 1, -1, 1, -1],
 	  backfaceProperty: null,
 	  mapper: null,
@@ -341,6 +339,10 @@
 	  forceOpaque: false,
 	  forceTranslucent: false
 	};
+
+	// ----------------------------------------------------------------------------
+	// Object factory
+	// ----------------------------------------------------------------------------
 
 	function extend(publicAPI) {
 	  var initialValues = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
@@ -351,26 +353,21 @@
 	  _Prop3D2.default.extend(publicAPI, model);
 
 	  // Build VTK API
-	  macro.set(publicAPI, model, SET_FIELDS);
-	  macro.setGet(publicAPI, model, SET_GET_FIELDS);
-	  macro.getArray(publicAPI, model, SET_ARRAY_6, 6);
+	  macro.set(publicAPI, model, ['property']);
+	  macro.setGet(publicAPI, model, ['backfaceProperty', 'forceOpaque', 'forceTranslucent', 'mapper']);
+
+	  // 'texture', // Actor should have an array of textures
+	  macro.getArray(publicAPI, model, ['bounds'], 6);
 
 	  // Object methods
 	  actor(publicAPI, model);
 	}
 
-	function newInstance() {
-	  var initialValues = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+	// ----------------------------------------------------------------------------
 
-	  var model = Object.assign({}, DEFAULT_VALUES, initialValues);
-	  var publicAPI = {};
+	var newInstance = exports.newInstance = macro.newInstance(extend);
 
-	  // Build VTK API
-	  macro.obj(publicAPI, model, 'vtkActor');
-	  extend(publicAPI, model);
-
-	  return Object.freeze(publicAPI);
-	}
+	// ----------------------------------------------------------------------------
 
 	exports.default = { newInstance: newInstance, extend: extend };
 
@@ -393,6 +390,8 @@
 	exports.setGetArray = setGetArray;
 	exports.algo = algo;
 	exports.event = event;
+	exports.newInstance = newInstance;
+	var globalMTime = 0;
 	// ----------------------------------------------------------------------------
 	// capitilze provided string
 	// ----------------------------------------------------------------------------
@@ -406,11 +405,9 @@
 	// ----------------------------------------------------------------------------
 
 	function obj(publicAPI, model) {
-	  var type = arguments.length <= 2 || arguments[2] === undefined ? 'vtkObject' : arguments[2];
-	  var implementations = arguments.length <= 3 || arguments[3] === undefined ? [] : arguments[3];
-
 	  var callbacks = [];
-	  model.mtime = 1;
+	  model.mtime = globalMTime;
+	  model.classHierarchy = ['vtkObject'];
 
 	  function off(index) {
 	    callbacks[index] = null;
@@ -429,7 +426,7 @@
 	      return;
 	    }
 
-	    ++model.mtime;
+	    model.mtime = ++globalMTime;
 	    callbacks.forEach(function (callback) {
 	      return callback && callback(publicAPI);
 	    });
@@ -450,21 +447,12 @@
 	    return model.mtime;
 	  };
 
-	  publicAPI.isA = function (t) {
-	    return type === t;
+	  publicAPI.isA = function (className) {
+	    return model.classHierarchy.indexOf(className) !== -1;
 	  };
 
 	  publicAPI.getClassName = function () {
-	    return type;
-	  };
-
-	  publicAPI.getImplements = function (map) {
-	    if (map) {
-	      return implementations.filter(function (name) {
-	        return !!map[name];
-	      });
-	    }
-	    return implementations;
+	    return model.classHierarchy.slice(-1)[0];
 	  };
 
 	  publicAPI.delete = function () {
@@ -709,6 +697,21 @@
 	  };
 	}
 
+	// ----------------------------------------------------------------------------
+	// newInstance
+	// ----------------------------------------------------------------------------
+
+	function newInstance(extend) {
+	  return function () {
+	    var initialValues = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+
+	    var model = Object.assign({}, initialValues);
+	    var publicAPI = {};
+	    extend(publicAPI, model);
+	    return Object.freeze(publicAPI);
+	  };
+	}
+
 /***/ },
 /* 3 */
 /***/ function(module, exports, __webpack_require__) {
@@ -718,6 +721,7 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
+	exports.newInstance = undefined;
 	exports.extend = extend;
 
 	var _macro = __webpack_require__(2);
@@ -735,18 +739,13 @@
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 	// ----------------------------------------------------------------------------
-
-	var GET_FIELDS = ['isIdentity'];
-
-	var ARRAY_3 = ['origin', 'position', 'orientation', 'scale'];
-
-	var GET_ARRAY = ['center'];
-
-	// ----------------------------------------------------------------------------
-	// Property methods
+	// vtkProp3D methods
 	// ----------------------------------------------------------------------------
 
 	function prop3D(publicAPI, model) {
+	  // Set our className
+	  model.classHierarchy.push('vtkProp3D');
+
 	  function updateIdentityFlag() {
 	    if (!model.isIdentity) {
 	      return;
@@ -869,9 +868,9 @@
 	  _Prop2.default.extend(publicAPI, model);
 
 	  // Build VTK API
-	  macro.get(publicAPI, model, GET_FIELDS);
-	  macro.getArray(publicAPI, model, GET_ARRAY);
-	  macro.setGetArray(publicAPI, model, ARRAY_3, 3);
+	  macro.get(publicAPI, model, ['isIdentity']);
+	  macro.getArray(publicAPI, model, ['center']);
+	  macro.setGetArray(publicAPI, model, ['origin', 'position', 'orientation', 'scale'], 3);
 
 	  // Object internal instance
 	  model.matrix = _glMatrix.mat4.create();
@@ -882,18 +881,7 @@
 
 	// ----------------------------------------------------------------------------
 
-	function newInstance() {
-	  var initialValues = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
-
-	  var model = Object.assign({}, DEFAULT_VALUES, initialValues);
-	  var publicAPI = {};
-
-	  // Build VTK API
-	  macro.obj(publicAPI, model, 'vtkProp3D');
-	  extend(publicAPI, model);
-
-	  return Object.freeze(publicAPI);
-	}
+	var newInstance = exports.newInstance = macro.newInstance(extend);
 
 	// ----------------------------------------------------------------------------
 
@@ -6117,6 +6105,7 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
+	exports.newInstance = undefined;
 	exports.extend = extend;
 
 	var _macro = __webpack_require__(2);
@@ -6126,10 +6115,13 @@
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 	// ----------------------------------------------------------------------------
-	// Property methods
+	// vtkProp methods
 	// ----------------------------------------------------------------------------
 
 	function prop(publicAPI, model) {
+	  // Set our className
+	  model.classHierarchy.push('vtkProp');
+
 	  publicAPI.getRedrawMTime = function () {
 	    return model.mtime;
 	  };
@@ -6154,6 +6146,7 @@
 	  var model = Object.assign(initialValues, DEFAULT_VALUES);
 
 	  // Build VTK API
+	  macro.obj(publicAPI, model);
 	  macro.setGet(publicAPI, model, Object.keys(DEFAULT_VALUES));
 
 	  // Object methods
@@ -6162,18 +6155,7 @@
 
 	// ----------------------------------------------------------------------------
 
-	function newInstance() {
-	  var initialValues = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
-
-	  var model = Object.assign({}, initialValues);
-	  var publicAPI = {};
-
-	  // Build VTK API
-	  macro.obj(publicAPI, model, 'vtkProp');
-	  extend(publicAPI, model);
-
-	  return Object.freeze(publicAPI);
-	}
+	var newInstance = exports.newInstance = macro.newInstance(extend);
 
 	// ----------------------------------------------------------------------------
 
@@ -6188,31 +6170,25 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.RepresentationModel = exports.ShadingModel = undefined;
+	exports.newInstance = undefined;
 	exports.extend = extend;
 
 	var _macro = __webpack_require__(2);
 
 	var macro = _interopRequireWildcard(_macro);
 
+	var _Constants = __webpack_require__(16);
+
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 	// ----------------------------------------------------------------------------
-
-	var ShadingModel = exports.ShadingModel = ['VTK_FLAT', 'VTK_GOURAUD', 'VTK_PHONG'];
-	var RepresentationModel = exports.RepresentationModel = ['VTK_POINTS', 'VTK_WIREFRAME', 'VTK_SURFACE'];
-
-	var SET_GET_FIELDS = ['lighting', 'interpolation', 'ambient', 'diffuse', 'specular', 'specularPower', 'opacity', 'edgeVisibility', 'lineWidth', 'lineStipplePattern', 'lineStippleRepeatFactor', 'pointSize', 'backfaceCulling', 'frontfaceCulling'];
-
-	var GET_FIELDS = ['lineStipplePattern'];
-
-	var FIELD_ARRAY_3 = ['ambientColor', 'specularColor', 'diffuseColor', 'edgeColor'];
-
-	// ----------------------------------------------------------------------------
-	// Property methods
+	// vtkProperty methods
 	// ----------------------------------------------------------------------------
 
 	function property(publicAPI, model) {
+	  // Set our className
+	  model.classHierarchy.push('vtkProperty');
+
 	  publicAPI.setInterpolationToFlat = function () {
 	    return publicAPI.setInterpolation(0);
 	  };
@@ -6224,7 +6200,7 @@
 	  };
 
 	  publicAPI.getInterpolationAsString = function () {
-	    return ShadingModel[model.interpolation];
+	    return _Constants.SHADING_MODEL[model.interpolation];
 	  };
 
 	  publicAPI.setColor = function (r, g, b) {
@@ -6301,9 +6277,10 @@
 	  model.lineStipplePattern[1] = 255;
 
 	  // Build VTK API
-	  macro.get(publicAPI, model, GET_FIELDS);
-	  macro.setGet(publicAPI, model, SET_GET_FIELDS);
-	  macro.setGetArray(publicAPI, model, FIELD_ARRAY_3, 3);
+	  macro.obj(publicAPI, model);
+	  macro.get(publicAPI, model, ['lineStipplePattern']);
+	  macro.setGet(publicAPI, model, ['lighting', 'interpolation', 'ambient', 'diffuse', 'specular', 'specularPower', 'opacity', 'edgeVisibility', 'lineWidth', 'lineStipplePattern', 'lineStippleRepeatFactor', 'pointSize', 'backfaceCulling', 'frontfaceCulling']);
+	  macro.setGetArray(publicAPI, model, ['ambientColor', 'specularColor', 'diffuseColor', 'edgeColor'], 3);
 
 	  // Object methods
 	  property(publicAPI, model);
@@ -6311,22 +6288,29 @@
 
 	// ----------------------------------------------------------------------------
 
-	function newInstance() {
-	  var initialValues = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
-
-	  var model = Object.assign({}, initialValues);
-	  var publicAPI = {};
-
-	  // vtkObject
-	  macro.obj(publicAPI, model, 'vtkProperty');
-	  extend(publicAPI, model);
-
-	  return Object.freeze(publicAPI);
-	}
+	var newInstance = exports.newInstance = macro.newInstance(extend);
 
 	// ----------------------------------------------------------------------------
 
 	exports.default = { newInstance: newInstance, extend: extend };
+
+/***/ },
+/* 16 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	var SHADING_MODEL = exports.SHADING_MODEL = ['VTK_FLAT', // 0
+	'VTK_GOURAUD', // 1
+	'VTK_PHONG'];
+
+	// 2
+	var REPRESENTATION_MODEL = exports.REPRESENTATION_MODEL = ['VTK_POINTS', // 0
+	'VTK_WIREFRAME', // 1
+	'VTK_SURFACE'];
 
 /***/ }
 /******/ ]);

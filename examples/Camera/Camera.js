@@ -66,8 +66,7 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.DEFAULT_VALUES = undefined;
-	exports.camera = camera;
+	exports.newInstance = exports.DEFAULT_VALUES = undefined;
 	exports.extend = extend;
 
 	var _macro = __webpack_require__(2);
@@ -76,21 +75,11 @@
 
 	var _glMatrix = __webpack_require__(3);
 
+	var _Math = __webpack_require__(13);
+
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 	/* eslint-disable new-cap */
-
-	// ----------------------------------------------------------------------------
-
-	var SET_GET_FIELDS = ['parallelProjection', 'useHorizontalViewAngle', 'viewAngle', 'parallelScale', 'eyeAngle', 'focalDisk', 'useOffAxisProjection', 'eyeSeparation', 'eyeTransformMatrix', 'modelTransformMatrix', 'leftEye', 'freezeFocalPoint', 'useScissor'];
-
-	var GET_FIELDS = ['thickness', 'userViewTransform', 'userTransform'];
-
-	var GET_ARRAY = ['directionOfProjection', 'windowCenter', 'viewPlaneNormal'];
-
-	var SET_GET_ARRAY_2 = ['clippingRange'];
-
-	var SET_GET_ARRAY_3 = ['position', 'focalPoint', 'viewUp', 'viewShear', 'screenBottomLeft', 'screenBottomRight', 'screenTopRight'];
 
 	/*
 	 * Convenience function to access elements of a gl-matrix.  If it turns
@@ -102,15 +91,14 @@
 	//   return matrix[idx];
 	// }
 
-	function radiansFromDegrees(deg) {
-	  return deg / 180 * Math.PI;
-	}
-
 	// ----------------------------------------------------------------------------
-	// Camera methods
+	// vtkCamera methods
 	// ----------------------------------------------------------------------------
 
 	function camera(publicAPI, model) {
+	  // Set our className
+	  model.classHierarchy.push('vtkCamera');
+
 	  // Set up private variables and methods
 	  var viewMatrix = _glMatrix.mat4.create();
 	  var projectionMatrix = _glMatrix.mat4.create();
@@ -167,7 +155,7 @@
 
 	    var rotateMatrix = _glMatrix.mat4.create(); // FIXME: don't create a new one each time?
 	    var viewDir = _glMatrix.vec3.fromValues(at[0] - eye[0], at[1] - eye[1], at[2] - eye[2]);
-	    _glMatrix.mat4.rotate(rotateMatrix, rotateMatrix, radiansFromDegrees(angle), viewDir);
+	    _glMatrix.mat4.rotate(rotateMatrix, rotateMatrix, (0, _Math.radiansFromDegrees)(angle), viewDir);
 	    _glMatrix.vec4.transformMat4(viewUpVec4, viewUpVec4, rotateMatrix);
 
 	    model.viewUp[0] = viewUpVec4[0];
@@ -343,11 +331,16 @@
 	  model.modelTransformMatrix = _glMatrix.mat4.create();
 
 	  // Build VTK API
-	  macro.get(publicAPI, model, GET_FIELDS);
-	  macro.setGet(publicAPI, model, SET_GET_FIELDS);
-	  macro.getArray(publicAPI, model, GET_ARRAY);
-	  macro.setGetArray(publicAPI, model, SET_GET_ARRAY_2, 2);
-	  macro.setGetArray(publicAPI, model, SET_GET_ARRAY_3, 3);
+	  macro.obj(publicAPI, model);
+	  macro.get(publicAPI, model, ['thickness', 'userViewTransform', 'userTransform']);
+
+	  macro.setGet(publicAPI, model, ['parallelProjection', 'useHorizontalViewAngle', 'viewAngle', 'parallelScale', 'eyeAngle', 'focalDisk', 'useOffAxisProjection', 'eyeSeparation', 'eyeTransformMatrix', 'modelTransformMatrix', 'leftEye', 'freezeFocalPoint', 'useScissor']);
+
+	  macro.getArray(publicAPI, model, ['directionOfProjection', 'windowCenter', 'viewPlaneNormal']);
+
+	  macro.setGetArray(publicAPI, model, ['clippingRange'], 2);
+
+	  macro.setGetArray(publicAPI, model, ['position', 'focalPoint', 'viewUp', 'viewShear', 'screenBottomLeft', 'screenBottomRight', 'screenTopRight'], 3);
 
 	  // Object methods
 	  camera(publicAPI, model);
@@ -355,22 +348,9 @@
 
 	// ----------------------------------------------------------------------------
 
-	function newInstance() {
-	  var initialValues = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
-
-	  var model = Object.assign({}, DEFAULT_VALUES, initialValues);
-	  var publicAPI = {};
-
-	  // Build VTK API
-	  macro.obj(publicAPI, model, 'vtkCamera');
-	  extend(publicAPI, model);
-
-	  return Object.freeze(publicAPI);
-	}
+	var newInstance = exports.newInstance = macro.newInstance(extend);
 
 	// ----------------------------------------------------------------------------
-
-	/* eslint-enable new-cap */
 
 	exports.default = { newInstance: newInstance, extend: extend };
 
@@ -393,6 +373,8 @@
 	exports.setGetArray = setGetArray;
 	exports.algo = algo;
 	exports.event = event;
+	exports.newInstance = newInstance;
+	var globalMTime = 0;
 	// ----------------------------------------------------------------------------
 	// capitilze provided string
 	// ----------------------------------------------------------------------------
@@ -406,11 +388,9 @@
 	// ----------------------------------------------------------------------------
 
 	function obj(publicAPI, model) {
-	  var type = arguments.length <= 2 || arguments[2] === undefined ? 'vtkObject' : arguments[2];
-	  var implementations = arguments.length <= 3 || arguments[3] === undefined ? [] : arguments[3];
-
 	  var callbacks = [];
-	  model.mtime = 1;
+	  model.mtime = globalMTime;
+	  model.classHierarchy = ['vtkObject'];
 
 	  function off(index) {
 	    callbacks[index] = null;
@@ -429,7 +409,7 @@
 	      return;
 	    }
 
-	    ++model.mtime;
+	    model.mtime = ++globalMTime;
 	    callbacks.forEach(function (callback) {
 	      return callback && callback(publicAPI);
 	    });
@@ -450,21 +430,12 @@
 	    return model.mtime;
 	  };
 
-	  publicAPI.isA = function (t) {
-	    return type === t;
+	  publicAPI.isA = function (className) {
+	    return model.classHierarchy.indexOf(className) !== -1;
 	  };
 
 	  publicAPI.getClassName = function () {
-	    return type;
-	  };
-
-	  publicAPI.getImplements = function (map) {
-	    if (map) {
-	      return implementations.filter(function (name) {
-	        return !!map[name];
-	      });
-	    }
-	    return implementations;
+	    return model.classHierarchy.slice(-1)[0];
 	  };
 
 	  publicAPI.delete = function () {
@@ -706,6 +677,21 @@
 	    callbacks.forEach(function (el, index) {
 	      return off(index);
 	    });
+	  };
+	}
+
+	// ----------------------------------------------------------------------------
+	// newInstance
+	// ----------------------------------------------------------------------------
+
+	function newInstance(extend) {
+	  return function () {
+	    var initialValues = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+
+	    var model = Object.assign({}, initialValues);
+	    var publicAPI = {};
+	    extend(publicAPI, model);
+	    return Object.freeze(publicAPI);
 	  };
 	}
 
@@ -5917,6 +5903,20 @@
 	};
 
 	module.exports = vec2;
+
+/***/ },
+/* 13 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.radiansFromDegrees = radiansFromDegrees;
+	function radiansFromDegrees(deg) {
+	  return deg / 180 * Math.PI;
+	}
 
 /***/ }
 /******/ ]);

@@ -531,6 +531,8 @@
 	exports.setGetArray = setGetArray;
 	exports.algo = algo;
 	exports.event = event;
+	exports.newInstance = newInstance;
+	var globalMTime = 0;
 	// ----------------------------------------------------------------------------
 	// capitilze provided string
 	// ----------------------------------------------------------------------------
@@ -544,11 +546,9 @@
 	// ----------------------------------------------------------------------------
 
 	function obj(publicAPI, model) {
-	  var type = arguments.length <= 2 || arguments[2] === undefined ? 'vtkObject' : arguments[2];
-	  var implementations = arguments.length <= 3 || arguments[3] === undefined ? [] : arguments[3];
-
 	  var callbacks = [];
-	  model.mtime = 1;
+	  model.mtime = globalMTime;
+	  model.classHierarchy = ['vtkObject'];
 
 	  function off(index) {
 	    callbacks[index] = null;
@@ -567,7 +567,7 @@
 	      return;
 	    }
 
-	    ++model.mtime;
+	    model.mtime = ++globalMTime;
 	    callbacks.forEach(function (callback) {
 	      return callback && callback(publicAPI);
 	    });
@@ -588,21 +588,12 @@
 	    return model.mtime;
 	  };
 
-	  publicAPI.isA = function (t) {
-	    return type === t;
+	  publicAPI.isA = function (className) {
+	    return model.classHierarchy.indexOf(className) !== -1;
 	  };
 
 	  publicAPI.getClassName = function () {
-	    return type;
-	  };
-
-	  publicAPI.getImplements = function (map) {
-	    if (map) {
-	      return implementations.filter(function (name) {
-	        return !!map[name];
-	      });
-	    }
-	    return implementations;
+	    return model.classHierarchy.slice(-1)[0];
 	  };
 
 	  publicAPI.delete = function () {
@@ -844,6 +835,21 @@
 	    callbacks.forEach(function (el, index) {
 	      return off(index);
 	    });
+	  };
+	}
+
+	// ----------------------------------------------------------------------------
+	// newInstance
+	// ----------------------------------------------------------------------------
+
+	function newInstance(extend) {
+	  return function () {
+	    var initialValues = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+
+	    var model = Object.assign({}, initialValues);
+	    var publicAPI = {};
+	    extend(publicAPI, model);
+	    return Object.freeze(publicAPI);
 	  };
 	}
 
