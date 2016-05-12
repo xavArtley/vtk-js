@@ -6521,7 +6521,7 @@
 	      xyz[_key] = arguments[_key];
 	    }
 
-	    model.bounds.map(function (value, index) {
+	    model.bounds = model.bounds.map(function (value, index) {
 	      if (index % 2 === 0) {
 	        var _idx = index / 2;
 	        return value < xyz[_idx] ? value : xyz[_idx];
