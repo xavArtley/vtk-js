@@ -6979,7 +6979,8 @@
 	  lineStippleRepeatFactor: 1,
 	  pointSize: 1,
 	  backfaceCulling: false,
-	  frontfaceCulling: false
+	  frontfaceCulling: false,
+	  representation: _Constants.REPRESENTATIONS.VTK_SURFACE
 	};
 
 	// ----------------------------------------------------------------------------
@@ -6997,7 +6998,7 @@
 	  // Build VTK API
 	  macro.obj(publicAPI, model);
 	  macro.get(publicAPI, model, ['lineStipplePattern']);
-	  macro.setGet(publicAPI, model, ['lighting', 'interpolation', 'ambient', 'diffuse', 'specular', 'specularPower', 'opacity', 'edgeVisibility', 'lineWidth', 'lineStipplePattern', 'lineStippleRepeatFactor', 'pointSize', 'backfaceCulling', 'frontfaceCulling']);
+	  macro.setGet(publicAPI, model, ['lighting', 'interpolation', 'ambient', 'diffuse', 'specular', 'specularPower', 'opacity', 'edgeVisibility', 'lineWidth', 'lineStipplePattern', 'lineStippleRepeatFactor', 'pointSize', 'backfaceCulling', 'frontfaceCulling', 'representation']);
 	  macro.setGetArray(publicAPI, model, ['ambientColor', 'specularColor', 'diffuseColor', 'edgeColor'], 3);
 
 	  // Object methods
