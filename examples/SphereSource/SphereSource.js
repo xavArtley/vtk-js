@@ -390,7 +390,9 @@
 	// vtkObject: modified(), onModified(callback), delete()
 	// ----------------------------------------------------------------------------
 
-	function obj(publicAPI, model) {
+	function obj(publicAPI) {
+	  var model = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+
 	  var callbacks = [];
 	  model.mtime = globalMTime;
 	  model.classHierarchy = ['vtkObject'];
@@ -710,7 +712,7 @@
 	}
 
 	// ----------------------------------------------------------------------------
-	// Event handling: onXXX(callback), fireXXX(args...)
+	// Event handling: onXXX(callback), invokeXXX(args...)
 	// ----------------------------------------------------------------------------
 
 	function event(publicAPI, model, eventName) {
@@ -728,7 +730,7 @@
 	    return Object.freeze({ unsubscribe: unsubscribe });
 	  }
 
-	  publicAPI['fire' + capitalize(eventName)] = function () {
+	  publicAPI['invoke' + capitalize(eventName)] = function () {
 	    for (var _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
 	      args[_key2] = arguments[_key2];
 	    }
