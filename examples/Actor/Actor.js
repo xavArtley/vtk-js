@@ -298,7 +298,7 @@
 	      return a && b[0] === b[1];
 	    }, true) || publicAPI.getMTime() > model.boundsMTime) {
 	      (function () {
-	        vtkDebugMacro('Recomputing bounds...');
+	        console.debug('Recomputing bounds...');
 	        model.mapperBounds = bds.map(function (x) {
 	          return x;
 	        });
