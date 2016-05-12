@@ -488,9 +488,15 @@
 
 	function get(publicAPI, model, fieldNames) {
 	  fieldNames.forEach(function (field) {
-	    publicAPI['get' + capitalize(field)] = function () {
-	      return model[field];
-	    };
+	    if ((typeof field === 'undefined' ? 'undefined' : _typeof(field)) === 'object') {
+	      publicAPI['get' + capitalize(field.name)] = function () {
+	        return model[field];
+	      };
+	    } else {
+	      publicAPI['get' + capitalize(field)] = function () {
+	        return model[field];
+	      };
+	    }
 	  });
 	}
 
