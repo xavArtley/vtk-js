@@ -111,6 +111,10 @@
 
 	var _BoundingBox2 = _interopRequireDefault(_BoundingBox);
 
+	var _DataSet = __webpack_require__(5);
+
+	var _DataSet2 = _interopRequireDefault(_DataSet);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
@@ -129,7 +133,7 @@
 	    }
 
 	    var dataset = model.output[0];
-	    if (!dataset || dataset.mtime !== model.mtime) {
+	    if (!dataset || dataset.getMTime() < model.mtime) {
 	      (function () {
 	        var state = {};
 	        dataset = {
@@ -225,7 +229,7 @@
 	        // FIXME apply tranform
 
 	        // Update output
-	        model.output[0] = dataset;
+	        model.output[0] = _DataSet2.default.newInstance(dataset);
 	      })();
 	    }
 	  }
@@ -1219,6 +1223,434 @@
 	// ----------------------------------------------------------------------------
 
 	exports.default = Object.assign({ newInstance: newInstance, extend: extend }, STATIC);
+
+/***/ },
+/* 5 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.newInstance = exports.STATIC = undefined;
+	exports.extend = extend;
+
+	var _Math = __webpack_require__(6);
+
+	var _Math2 = _interopRequireDefault(_Math);
+
+	var _BoundingBox = __webpack_require__(3);
+
+	var _BoundingBox2 = _interopRequireDefault(_BoundingBox);
+
+	var _DataArray = __webpack_require__(7);
+
+	var _DataArray2 = _interopRequireDefault(_DataArray);
+
+	var _macro = __webpack_require__(2);
+
+	var macro = _interopRequireWildcard(_macro);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	// ----------------------------------------------------------------------------
+	// Global methods
+	// ----------------------------------------------------------------------------
+
+	function getBounds(dataset) {
+	  if (dataset.bounds) {
+	    return dataset.bounds;
+	  }
+	  if (dataset.type && dataset[dataset.type]) {
+	    var ds = dataset[dataset.type];
+	    if (ds.bounds) {
+	      return ds.bounds;
+	    }
+	    if (ds.Points && ds.Points.bounds) {
+	      return ds.Points.bounds;
+	    }
+
+	    if (ds.Points && ds.Points.values) {
+	      var array = ds.Points.values;
+	      var bbox = _BoundingBox2.default.newInstance();
+	      var size = array.length;
+	      var delta = ds.Points.tuple ? ds.Points.tuple : 3;
+	      for (var idx = 0; idx < size; idx += delta) {
+	        bbox.addPoint(array[idx * delta], array[idx * delta + 1], array[idx * delta + 2]);
+	      }
+	      ds.Points.bounds = bbox.getBounds();
+	      return ds.Points.bounds;
+	    }
+	  }
+	  return _Math2.default.createUninitializedBouds();
+	}
+
+	// ----------------------------------------------------------------------------
+	// Static API
+	// ----------------------------------------------------------------------------
+
+	var STATIC = exports.STATIC = {
+	  getBounds: getBounds
+	};
+
+	// ----------------------------------------------------------------------------
+	// vtkDataArray methods
+	// ----------------------------------------------------------------------------
+
+	function dataSet(publicAPI, model) {
+	  // Set our className
+	  model.classHierarchy.push('vtkDataSet');
+
+	  // Expose dataset
+	  var dataset = model[model.type];
+	  publicAPI.dataset = dataset;
+
+	  // Provide getPoints() if available
+	  if (dataset.Points) {
+	    (function () {
+	      var points = _DataArray2.default.newInstance(dataset.Points);
+	      publicAPI.getPoints = function () {
+	        return points;
+	      };
+	    })();
+	  }
+
+	  ['PointData', 'CellData', 'FieldData'].forEach(function (dataCategoryName) {
+	    if (dataset[dataCategoryName]) {
+	      (function () {
+	        var container = {};
+
+	        Object.keys(dataset[dataCategoryName]).forEach(function (name) {
+	          if (dataset[dataCategoryName][name].type === 'DataArray') {
+	            container[name] = _DataArray2.default.newInstance(dataset[dataCategoryName][name]);
+	          }
+	        });
+	        publicAPI['get' + dataCategoryName] = function () {
+	          return container;
+	        };
+	      })();
+	    }
+	  });
+
+	  ['Cells', 'CellsTypes'].forEach(function (arrayName) {
+	    if (dataset[arrayName].type === 'DataArray') {
+	      (function () {
+	        var dataArray = _DataArray2.default.newInstance(dataset[arrayName]);
+	        publicAPI['get' + arrayName] = function () {
+	          return dataArray;
+	        };
+	      })();
+	    }
+	  });
+
+	  // PolyData Cells
+	  Object.keys(dataset.Cells).forEach(function (arrayName) {
+	    if (dataset[arrayName].type === 'DataArray') {
+	      (function () {
+	        var dataArray = _DataArray2.default.newInstance(dataset.Cells[arrayName]);
+	        publicAPI['get' + arrayName] = function () {
+	          return dataArray;
+	        };
+	      })();
+	    }
+	  });
+	}
+
+	// ----------------------------------------------------------------------------
+	// Object factory
+	// ----------------------------------------------------------------------------
+
+	var DEFAULT_VALUES = {};
+
+	// ----------------------------------------------------------------------------
+
+	function extend(publicAPI, model) {
+	  var initialValues = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+
+	  Object.assign(model, DEFAULT_VALUES, initialValues);
+
+	  // Object methods
+	  macro.obj(publicAPI, model);
+
+	  // Object specific methods
+	  dataSet(publicAPI, model);
+	}
+
+	// ----------------------------------------------------------------------------
+
+	var newInstance = exports.newInstance = macro.newInstance(extend);
+
+	// ----------------------------------------------------------------------------
+
+	exports.default = Object.assign({ newInstance: newInstance, extend: extend }, STATIC);
+
+/***/ },
+/* 6 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.radiansFromDegrees = radiansFromDegrees;
+	exports.areBoundsInitialized = areBoundsInitialized;
+	exports.uninitializeBounds = uninitializeBounds;
+	exports.createUninitializedBouds = createUninitializedBouds;
+	exports.dot = dot;
+	function radiansFromDegrees(deg) {
+	  return deg / 180 * Math.PI;
+	}
+
+	function areBoundsInitialized(bounds) {
+	  return !(bounds[1] - bounds[0] < 0.0);
+	}
+
+	function uninitializeBounds(bounds) {
+	  bounds[0] = 1.0;
+	  bounds[1] = -1.0;
+	  bounds[2] = 1.0;
+	  bounds[3] = -1.0;
+	  bounds[4] = 1.0;
+	  bounds[5] = -1.0;
+	}
+
+	function createUninitializedBouds() {
+	  return [].concat([Number.MAX_VALUE, Number.MIN_VALUE, // X
+	  Number.MAX_VALUE, Number.MIN_VALUE, // Y
+	  Number.MAX_VALUE, Number.MIN_VALUE]);
+	}
+
+	// Z
+	function dot(x, y) {
+	  return x[0] * y[0] + x[1] * y[1] + x[2] * y[2];
+	}
+
+	exports.default = {
+	  uninitializeBounds: uninitializeBounds,
+	  radiansFromDegrees: radiansFromDegrees,
+	  areBoundsInitialized: areBoundsInitialized,
+	  dot: dot,
+	  createUninitializedBouds: createUninitializedBouds
+	};
+
+/***/ },
+/* 7 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.newInstance = exports.STATIC = undefined;
+	exports.extend = extend;
+
+	var _macro = __webpack_require__(2);
+
+	var macro = _interopRequireWildcard(_macro);
+
+	var _Constants = __webpack_require__(8);
+
+	var _Constants2 = _interopRequireDefault(_Constants);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	// ----------------------------------------------------------------------------
+	// Global methods
+	// ----------------------------------------------------------------------------
+
+	function computeRange(values) {
+	  var component = arguments.length <= 1 || arguments[1] === undefined ? 0 : arguments[1];
+	  var tuple = arguments.length <= 2 || arguments[2] === undefined ? 1 : arguments[2];
+
+	  var range = { min: Number.MAX_VALUE, max: Number.MIN_VALUE };
+
+	  if (component < 0) {
+	    // Compute magnitude
+	    console.log('vtkDataArray: Compute magnitude - NOT IMPLEMENTED');
+	    return range;
+	  }
+
+	  var size = values.length;
+	  for (var i = component; i < size; i += tuple) {
+	    var value = values[i];
+	    if (range.min > value) {
+	      range.min = value;
+	    }
+	    if (range.max > value) {
+	      range.max = value;
+	    }
+	  }
+
+	  return range;
+	}
+
+	function insureRangeSize() {
+	  var ranges = arguments.length <= 0 || arguments[0] === undefined ? [] : arguments[0];
+	  var size = arguments[1];
+
+	  // Pad ranges with null value to get the
+	  while (ranges.length <= size) {
+	    ranges.push(null);
+	  }
+	  return ranges;
+	}
+
+	// ----------------------------------------------------------------------------
+	// Static API
+	// ----------------------------------------------------------------------------
+
+	var STATIC = exports.STATIC = {
+	  computeRange: computeRange
+	};
+
+	// ----------------------------------------------------------------------------
+	// vtkDataArray methods
+	// ----------------------------------------------------------------------------
+
+	function dataArray(publicAPI, model) {
+	  // Set our className
+	  model.classHierarchy.push('vtkDataArray');
+
+	  publicAPI.getElementComponentSize = function () {
+	    return _Constants2.default.BYTE_SIZE[model.dataType];
+	  };
+
+	  // Description:
+	  // Return the data component at the location specified by tupleIdx and
+	  // compIdx.
+	  publicAPI.getComponent = function (tupleIdx, compIdx) {
+	    return model.values[tupleIdx * model.tuple + compIdx];
+	  };
+
+	  // Description:
+	  // Set the data component at the location specified by tupleIdx and compIdx
+	  // to value.
+	  // Note that i is less than NumberOfTuples and j is less than
+	  //  NumberOfComponents. Make sure enough memory has been allocated
+	  // (use SetNumberOfTuples() and SetNumberOfComponents()).
+	  publicAPI.setComponent = function (tupleIdx, compIdx, value) {
+	    if (value !== model.values[tupleIdx * model.tuple + compIdx]) {
+	      model.values[tupleIdx * model.tuple + compIdx] = value;
+	      publicAPI.modified();
+	      model.ranges = null;
+	    }
+	  };
+
+	  publicAPI.getData = function () {
+	    return model.values;
+	  };
+
+	  publicAPI.getRange = function () {
+	    var componentIndex = arguments.length <= 0 || arguments[0] === undefined ? 0 : arguments[0];
+
+	    var rangeIdx = componentIndex < 0 ? model.tuple : componentIndex;
+	    var range = null;
+
+	    if (!model.ranges) {
+	      model.ranges = insureRangeSize(model.ranges, model.tuple);
+	    }
+	    range = model.ranges[rangeIdx];
+
+	    if (range) {
+	      return [range.min, range.max];
+	    }
+
+	    // Need to compute ranges...
+	    range = model.ranges[rangeIdx] = computeRange(model.values, componentIndex);
+	    return [range.min, range.max];
+	  };
+
+	  publicAPI.getTupleLocation = function () {
+	    var idx = arguments.length <= 0 || arguments[0] === undefined ? 1 : arguments[0];
+	    return idx * model.tuple;
+	  };
+
+	  publicAPI.getBounds = function () {
+	    return [].concat(publicAPI.getRange(0), publicAPI.getRange(1), publicAPI.getRange(2));
+	  };
+	}
+
+	// ----------------------------------------------------------------------------
+	// Object factory
+	// ----------------------------------------------------------------------------
+
+	var DEFAULT_VALUES = {
+	  type: 'DataArray',
+	  name: '',
+	  tuple: 1,
+	  size: 1024,
+	  dataType: _Constants2.default.DEFAULT_DATATYPE,
+	  values: null,
+	  ranges: null
+	};
+
+	// ----------------------------------------------------------------------------
+
+	function extend(publicAPI, model) {
+	  var initialValues = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+
+	  Object.assign(model, DEFAULT_VALUES, initialValues);
+
+	  if (!model.values || !model.size || model.type !== 'DataArray') {
+	    throw Error('Can not create DataArray object without: size > 0, values or type = DataArray');
+	  }
+
+	  if (model.values) {
+	    model.dataType = model.values.name;
+	  } else {
+	    model.values = new window[model.dataType](model.size);
+	  }
+
+	  // Object methods
+	  macro.obj(publicAPI, model);
+	  macro.setGet(publicAPI, model, ['name']);
+
+	  // Object specific methods
+	  dataArray(publicAPI, model);
+	}
+
+	// ----------------------------------------------------------------------------
+
+	var newInstance = exports.newInstance = macro.newInstance(extend);
+
+	// ----------------------------------------------------------------------------
+
+	exports.default = Object.assign({ newInstance: newInstance, extend: extend }, STATIC);
+
+/***/ },
+/* 8 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	var BYTE_SIZE = exports.BYTE_SIZE = {
+	  Int8Array: 1,
+	  Uint8Array: 1,
+	  Uint8ClampedArray: 1,
+	  Int16Array: 2,
+	  Uint16Array: 2,
+	  Int32Array: 4,
+	  Uint32Array: 4,
+	  Float32Array: 4,
+	  Float64Array: 8
+	};
+
+	var DEFAULT_DATATYPE = exports.DEFAULT_DATATYPE = 'Float32Array';
+
+	exports.default = {
+	  DEFAULT_DATATYPE: DEFAULT_DATATYPE,
+	  BYTE_SIZE: BYTE_SIZE
+	};
 
 /***/ }
 /******/ ]);
