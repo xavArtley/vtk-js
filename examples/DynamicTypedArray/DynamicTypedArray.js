@@ -78,6 +78,21 @@
 	console.log('Full array:');
 	console.log(bArray1.getFrozenArray());
 
+	/*
+	 * Test 3
+	 */
+
+	var bArray2 = new _.DynamicTypedArray();
+
+	console.log(bArray2);
+
+	for (var _i2 = 0; _i2 < 100000; ++_i2) {
+	  bArray2.push(_i2);
+	}
+
+	var frozenB = bArray2.getFrozenArray();
+	console.log('Full array length: ' + frozenB.length);
+
 /***/ },
 /* 1 */
 /***/ function(module, exports) {
@@ -93,7 +108,9 @@
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 	var DynamicTypedArray = exports.DynamicTypedArray = function () {
-	  function DynamicTypedArray(_ref) {
+	  function DynamicTypedArray() {
+	    var _ref = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+
 	    var _ref$chunkSize = _ref.chunkSize;
 	    var chunkSize = _ref$chunkSize === undefined ? 65536 : _ref$chunkSize;
 	    var _ref$arrayType = _ref.arrayType;
