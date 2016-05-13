@@ -118,21 +118,26 @@
 
 	    _classCallCheck(this, DynamicTypedArray);
 
-	    this.chunkContainer = [];
 	    this.ArrayConstructor = window[arrayType];
 	    this.chunkSize = chunkSize;
-	    this.chunkContainer.push(new this.ArrayConstructor(chunkSize));
-	    this.lastChunkItemCount = 0;
+	    this.reset();
 	  }
 
 	  _createClass(DynamicTypedArray, [{
+	    key: 'reset',
+	    value: function reset() {
+	      this.chunkContainer = [];
+	      this.chunkContainer.push(new this.ArrayConstructor(this.chunkSize));
+	      this.lastChunkItemCount = 0;
+	    }
+	  }, {
 	    key: 'push',
-	    value: function push(int32) {
+	    value: function push(value) {
 	      if (this.lastChunkItemCount === this.chunkSize) {
 	        this.chunkContainer.push(new this.ArrayConstructor(this.chunkSize));
 	        this.lastChunkItemCount = 0;
 	      }
-	      this.chunkContainer[this.chunkContainer.length - 1][this.lastChunkItemCount] = int32;
+	      this.chunkContainer[this.chunkContainer.length - 1][this.lastChunkItemCount] = value;
 	      this.lastChunkItemCount += 1;
 	    }
 	  }, {

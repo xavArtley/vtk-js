@@ -2,6 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://kitware.github.io/vtk-js/api/VertexBufferObject.html</loc>
+    
+    <lastmod>2016-05-13T14:32:07.301Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://kitware.github.io/vtk-js/api/DynamicTypedArray.html</loc>
+    
+    <lastmod>2016-05-13T14:32:07.257Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://kitware.github.io/vtk-js/api/Camera.html</loc>
     
     <lastmod>2016-05-13T14:13:46.294Z</lastmod>
@@ -9,14 +23,14 @@
   </url>
   
   <url>
-    <loc>https://kitware.github.io/vtk-js/api/RenderWindow.html</loc>
+    <loc>https://kitware.github.io/vtk-js/api/PolyDataMapper.html</loc>
     
     <lastmod>2016-05-13T14:05:41.840Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://kitware.github.io/vtk-js/api/PolyDataMapper.html</loc>
+    <loc>https://kitware.github.io/vtk-js/api/RenderWindow.html</loc>
     
     <lastmod>2016-05-13T14:05:41.840Z</lastmod>
     
@@ -107,13 +121,6 @@
   </url>
   
   <url>
-    <loc>https://kitware.github.io/vtk-js/api/DynamicTypedArray.html</loc>
-    
-    <lastmod>2016-05-12T21:56:01.400Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://kitware.github.io/vtk-js/api/Helper.html</loc>
     
     <lastmod>2016-05-12T21:52:40.939Z</lastmod>
@@ -145,13 +152,6 @@
     <loc>https://kitware.github.io/vtk-js/api/BufferObject.html</loc>
     
     <lastmod>2016-05-12T20:32:30.359Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://kitware.github.io/vtk-js/api/VertexBufferObject.html</loc>
-    
-    <lastmod>2016-05-12T20:15:22.370Z</lastmod>
     
   </url>
   
@@ -198,14 +198,14 @@
   </url>
   
   <url>
-    <loc>https://kitware.github.io/vtk-js/api/Prop.html</loc>
+    <loc>https://kitware.github.io/vtk-js/api/Prop3D.html</loc>
     
     <lastmod>2016-05-12T15:54:49.529Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://kitware.github.io/vtk-js/api/Prop3D.html</loc>
+    <loc>https://kitware.github.io/vtk-js/api/Prop.html</loc>
     
     <lastmod>2016-05-12T15:54:49.529Z</lastmod>
     
@@ -338,6 +338,13 @@
   </url>
   
   <url>
+    <loc>https://kitware.github.io/vtk-js/examples/SphereSource.html</loc>
+    
+    <lastmod>2016-05-06T23:06:57.443Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://kitware.github.io/vtk-js/examples/HttpDataSetReader.html</loc>
     
     <lastmod>2016-05-06T23:06:57.443Z</lastmod>
@@ -345,9 +352,16 @@
   </url>
   
   <url>
-    <loc>https://kitware.github.io/vtk-js/examples/SphereSource.html</loc>
+    <loc>https://kitware.github.io/vtk-js/api/View.html</loc>
     
-    <lastmod>2016-05-06T23:06:57.443Z</lastmod>
+    <lastmod>2016-05-06T23:06:57.043Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://kitware.github.io/vtk-js/api/ContextInteractorStyle.html</loc>
+    
+    <lastmod>2016-05-06T23:06:57.043Z</lastmod>
     
   </url>
   
@@ -366,7 +380,7 @@
   </url>
   
   <url>
-    <loc>https://kitware.github.io/vtk-js/api/ContextInteractorStyle.html</loc>
+    <loc>https://kitware.github.io/vtk-js/api/RenderViewBase.html</loc>
     
     <lastmod>2016-05-06T23:06:57.043Z</lastmod>
     
@@ -380,28 +394,14 @@
   </url>
   
   <url>
-    <loc>https://kitware.github.io/vtk-js/api/RenderViewBase.html</loc>
-    
-    <lastmod>2016-05-06T23:06:57.043Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://kitware.github.io/vtk-js/api/View.html</loc>
-    
-    <lastmod>2016-05-06T23:06:57.043Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://kitware.github.io/vtk-js/api/LightKit.html</loc>
+    <loc>https://kitware.github.io/vtk-js/api/ColorTransfertFunction.html</loc>
     
     <lastmod>2016-05-06T23:06:57.039Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://kitware.github.io/vtk-js/api/ColorTransfertFunction.html</loc>
+    <loc>https://kitware.github.io/vtk-js/api/LightKit.html</loc>
     
     <lastmod>2016-05-06T23:06:57.039Z</lastmod>
     
@@ -415,14 +415,14 @@
   </url>
   
   <url>
-    <loc>https://kitware.github.io/vtk-js/api/Endian.html</loc>
+    <loc>https://kitware.github.io/vtk-js/api/Points.html</loc>
     
     <lastmod>2016-05-06T23:06:57.031Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://kitware.github.io/vtk-js/api/Points.html</loc>
+    <loc>https://kitware.github.io/vtk-js/api/Endian.html</loc>
     
     <lastmod>2016-05-06T23:06:57.031Z</lastmod>
     
