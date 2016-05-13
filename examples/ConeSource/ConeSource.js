@@ -1359,11 +1359,18 @@
 
 	  // PolyData Cells
 	  if (model.type === 'PolyData') {
-	    Object.keys(dataset.Cells).forEach(function (arrayName) {
-	      if (dataset.Cells[arrayName].type === 'DataArray') {
+	    ['Verts', 'Lines', 'Polys', 'Strips'].forEach(function (cellName) {
+	      if (dataset.Cells[cellName]) {
 	        (function () {
-	          var dataArray = _DataArray2.default.newInstance(dataset.Cells[arrayName]);
-	          publicAPI['get' + arrayName] = function () {
+	          var dataArray = _DataArray2.default.newInstance(dataset.Cells[cellName]);
+	          publicAPI['get' + cellName] = function () {
+	            return dataArray;
+	          };
+	        })();
+	      } else {
+	        (function () {
+	          var dataArray = _DataArray2.default.newInstance({ empty: true });
+	          publicAPI['get' + cellName] = function () {
 	            return dataArray;
 	          };
 	        })();
@@ -1465,12 +1472,29 @@
 	  return ranges;
 	}
 
+	function extractCellSizes(cellArray) {
+	  var currentIdx = 0;
+	  return cellArray.filter(function (value, index) {
+	    if (index === currentIdx) {
+	      currentIdx += value + 1;
+	      return true;
+	    }
+	    return false;
+	  });
+	}
+
+	function getNumberOfCells(cellArray) {
+	  return extractCellSizes(cellArray).length;
+	}
+
 	// ----------------------------------------------------------------------------
 	// Static API
 	// ----------------------------------------------------------------------------
 
 	var STATIC = exports.STATIC = {
-	  computeRange: computeRange
+	  computeRange: computeRange,
+	  extractCellSizes: extractCellSizes,
+	  getNumberOfCells: getNumberOfCells
 	};
 
 	// ----------------------------------------------------------------------------
@@ -1561,6 +1585,25 @@
 	  publicAPI.getDataType = function () {
 	    return model.dataType;
 	  };
+
+	  publicAPI.getNumberOfCells = function () {
+	    if (model.numberOfCells !== undefined) {
+	      return model.numberOfCells;
+	    }
+
+	    model.cellSizes = extractCellSizes(model.values);
+	    model.numberOfCells = model.cellSizes.length;
+	    return model.numberOfCells;
+	  };
+
+	  publicAPI.getCellSizes = function () {
+	    if (model.cellSizes !== undefined) {
+	      return model.cellSizes;
+	    }
+
+	    model.cellSizes = extractCellSizes(model.values);
+	    return model.cellSizes;
+	  };
 	}
 
 	// ----------------------------------------------------------------------------
@@ -1571,7 +1614,7 @@
 	  type: 'DataArray',
 	  name: '',
 	  tuple: 1,
-	  size: 1024,
+	  size: 0,
 	  dataType: _Constants2.default.DEFAULT_DATATYPE,
 	  values: null,
 	  ranges: null
@@ -1584,7 +1627,7 @@
 
 	  Object.assign(model, DEFAULT_VALUES, initialValues);
 
-	  if (!model.values || !model.size || model.type !== 'DataArray') {
+	  if (!model.values || !model.size || model.empty || model.type !== 'DataArray') {
 	    throw Error('Can not create DataArray object without: size > 0, values or type = DataArray');
 	  }
 
