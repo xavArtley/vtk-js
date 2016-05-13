@@ -1334,6 +1334,13 @@
 	            container[name] = _DataArray2.default.newInstance(dataset[dataCategoryName][name]);
 	          }
 	        });
+
+	        if (dataCategoryName === 'PointData' && dataset[dataCategoryName].Normals) {
+	          container.getNormals = function () {
+	            return container.Normals;
+	          };
+	        }
+
 	        publicAPI['get' + dataCategoryName] = function () {
 	          return container;
 	        };
@@ -1585,6 +1592,16 @@
 
 	  publicAPI.getBounds = function () {
 	    return [].concat(publicAPI.getRange(0), publicAPI.getRange(1), publicAPI.getRange(2));
+	  };
+
+	  publicAPI.getNumberOfComponents = function () {
+	    return model.tuple;
+	  };
+	  publicAPI.getNumberOfValues = function () {
+	    return model.values.length;
+	  };
+	  publicAPI.getNumberOfTuples = function () {
+	    return model.values.length / model.tuple;
 	  };
 	}
 
