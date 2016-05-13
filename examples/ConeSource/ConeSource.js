@@ -1662,27 +1662,71 @@
 	  model.classHierarchy.push('vtkDataSetAttributes');
 
 	  publicAPI.getScalars = function () {
-	    var scalarArray = model.arrays[model.activeScalar];
-	    if (scalarArray) {
-	      return scalarArray;
+	    var array = model.arrays[model.activeScalars];
+	    if (array) {
+	      return array;
+	    }
+	    return null;
+	  };
+
+	  publicAPI.getVectors = function () {
+	    var array = model.arrays[model.activeVectors];
+	    if (array) {
+	      return array;
 	    }
 	    return null;
 	  };
 
 	  publicAPI.getNormals = function () {
-	    var scalarArray = model.arrays.Normals;
-	    if (scalarArray) {
-	      return scalarArray;
+	    var array = model.arrays.Normals;
+	    if (array) {
+	      return array;
 	    }
 	    return null;
 	  };
 
 	  publicAPI.getTCoords = function () {
-	    var scalarArray = model.arrays.TCoords; // FIXME is it the right array name?
-	    if (scalarArray) {
-	      return scalarArray;
+	    var array = model.arrays.TCoords; // FIXME is it the right array name?
+	    if (array) {
+	      return array;
 	    }
 	    return null;
+	  };
+
+	  publicAPI.getGlobalIds = function () {
+	    var array = model.arrays[model.activeGlobalIds];
+	    if (array) {
+	      return array;
+	    }
+	    return null;
+	  };
+
+	  publicAPI.getPedigreeIds = function () {
+	    var array = model.arrays[model.activePedigreeIds];
+	    if (array) {
+	      return array;
+	    }
+	    return null;
+	  };
+
+	  publicAPI.addArray = function (array) {
+	    if (model.arrays[array.getName()]) {
+	      throw new Error('Array with same name already exist', array, model.arrays);
+	    }
+	    model.arrays[array.getName()] = array;
+	  };
+
+	  publicAPI.removeArray = function (name) {
+	    var array = model.arrays[name];
+	    delete model.arrays[name];
+	    return array;
+	  };
+
+	  publicAPI.getArrayNames = function () {
+	    return Object.keys(model.arrays);
+	  };
+	  publicAPI.getArray = function (name) {
+	    return model.arrays[name];
 	  };
 	}
 
@@ -1691,9 +1735,11 @@
 	// ----------------------------------------------------------------------------
 
 	var DEFAULT_VALUES = {
-	  activeScalar: '',
-	  activeVector: '',
-	  activeTensor: '',
+	  activeScalars: '',
+	  activeVectors: '',
+	  activeTensors: '',
+	  activeGlobalIds: '',
+	  activePedigreeIds: '',
 	  arrays: null
 	};
 
@@ -1706,7 +1752,7 @@
 
 	  // Object methods
 	  macro.obj(publicAPI, model);
-	  macro.setGet(publicAPI, model, ['activeScalar', 'activeVector', 'activeTensor']);
+	  macro.setGet(publicAPI, model, ['activeScalars', 'activeVectors', 'activeTensors', 'activeGlobalIds', 'activePedigreeIds']);
 
 	  if (!model.arrays) {
 	    model.arrays = {};
