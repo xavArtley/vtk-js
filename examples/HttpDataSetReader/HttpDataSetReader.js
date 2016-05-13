@@ -101,7 +101,7 @@
 	  value: true
 	});
 	exports.newInstance = undefined;
-	exports.httpDataSetReader = httpDataSetReader;
+	exports.vtkHttpDataSetReader = vtkHttpDataSetReader;
 	exports.extend = extend;
 
 	var _macro = __webpack_require__(2);
@@ -174,7 +174,7 @@
 	// vtkHttpDataSetReader methods
 	// ----------------------------------------------------------------------------
 
-	function httpDataSetReader(publicAPI, model) {
+	function vtkHttpDataSetReader(publicAPI, model) {
 	  // Set our className
 	  model.classHierarchy.push('vtkHttpDataSetReader');
 
@@ -497,7 +497,7 @@
 	  macro.event(publicAPI, model, 'busy');
 
 	  // Object methods
-	  httpDataSetReader(publicAPI, model);
+	  vtkHttpDataSetReader(publicAPI, model);
 	}
 
 	// ----------------------------------------------------------------------------

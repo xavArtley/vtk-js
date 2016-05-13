@@ -102,7 +102,7 @@
 	  value: true
 	});
 	exports.newInstance = undefined;
-	exports.coneSource = coneSource;
+	exports.vtkConeSource = vtkConeSource;
 	exports.extend = extend;
 
 	var _macro = __webpack_require__(2);
@@ -125,7 +125,7 @@
 	// vtkConeSource methods
 	// ----------------------------------------------------------------------------
 
-	function coneSource(publicAPI, model) {
+	function vtkConeSource(publicAPI, model) {
 	  // Set our className
 	  model.classHierarchy.push('vtkConeSource');
 
@@ -266,7 +266,7 @@
 	  macro.setGet(publicAPI, model, ['height', 'radius', 'resolution', 'capping']);
 	  macro.setGetArray(publicAPI, model, ['center', 'direction'], 3);
 	  macro.algo(publicAPI, model, 0, 1);
-	  coneSource(publicAPI, model);
+	  vtkConeSource(publicAPI, model);
 	}
 
 	// ----------------------------------------------------------------------------
@@ -826,7 +826,7 @@
 	// vtkBoundingBox methods
 	// ----------------------------------------------------------------------------
 
-	function boundingBox(publicAPI, model) {
+	function vtkBoundingBox(publicAPI, model) {
 	  // Set our className
 	  model.classHierarchy.push('vtkBoundingBox');
 
@@ -1149,7 +1149,7 @@
 	  // Object methods
 	  macro.obj(publicAPI, model);
 	  macro.setGet(publicAPI, model, ['bounds']);
-	  boundingBox(publicAPI, model);
+	  vtkBoundingBox(publicAPI, model);
 	}
 
 	// ----------------------------------------------------------------------------
@@ -1198,7 +1198,7 @@
 	// vtkPlane methods
 	// ----------------------------------------------------------------------------
 
-	function plane(publicAPI, model) {
+	function vtkPlane(publicAPI, model) {
 	  // Set our className
 	  model.classHierarchy.push('vtkPlane');
 	}
@@ -1219,7 +1219,7 @@
 	  // Object methods
 	  macro.obj(publicAPI, model);
 	  macro.setGet(publicAPI, model, ['bounds']);
-	  plane(publicAPI, model);
+	  vtkPlane(publicAPI, model);
 	}
 
 	// ----------------------------------------------------------------------------
@@ -1501,7 +1501,7 @@
 	// vtkDataArray methods
 	// ----------------------------------------------------------------------------
 
-	function dataArray(publicAPI, model) {
+	function vtkDataArray(publicAPI, model) {
 	  // Set our className
 	  model.classHierarchy.push('vtkDataArray');
 
@@ -1644,7 +1644,7 @@
 	  macro.setGet(publicAPI, model, ['name']);
 
 	  // Object specific methods
-	  dataArray(publicAPI, model);
+	  vtkDataArray(publicAPI, model);
 	}
 
 	// ----------------------------------------------------------------------------

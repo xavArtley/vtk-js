@@ -73,9 +73,13 @@
 
 	var macro = _interopRequireWildcard(_macro);
 
-	var _glMatrix = __webpack_require__(3);
+	var _Math = __webpack_require__(3);
 
-	var _Math = __webpack_require__(13);
+	var _Math2 = _interopRequireDefault(_Math);
+
+	var _glMatrix = __webpack_require__(4);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -95,7 +99,7 @@
 	// vtkCamera methods
 	// ----------------------------------------------------------------------------
 
-	function camera(publicAPI, model) {
+	function vtkCamera(publicAPI, model) {
 	  // Set our className
 	  model.classHierarchy.push('vtkCamera');
 
@@ -155,7 +159,7 @@
 
 	    var rotateMatrix = _glMatrix.mat4.create(); // FIXME: don't create a new one each time?
 	    var viewDir = _glMatrix.vec3.fromValues(at[0] - eye[0], at[1] - eye[1], at[2] - eye[2]);
-	    _glMatrix.mat4.rotate(rotateMatrix, rotateMatrix, (0, _Math.radiansFromDegrees)(angle), viewDir);
+	    _glMatrix.mat4.rotate(rotateMatrix, rotateMatrix, _Math2.default.radiansFromDegrees(angle), viewDir);
 	    _glMatrix.vec4.transformMat4(viewUpVec4, viewUpVec4, rotateMatrix);
 
 	    model.viewUp[0] = viewUpVec4[0];
@@ -343,7 +347,7 @@
 	  macro.setGetArray(publicAPI, model, ['position', 'focalPoint', 'viewUp', 'viewShear', 'screenBottomLeft', 'screenBottomRight', 'screenTopRight'], 3);
 
 	  // Object methods
-	  camera(publicAPI, model);
+	  vtkCamera(publicAPI, model);
 	}
 
 	// ----------------------------------------------------------------------------
@@ -794,6 +798,56 @@
 
 /***/ },
 /* 3 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.radiansFromDegrees = radiansFromDegrees;
+	exports.areBoundsInitialized = areBoundsInitialized;
+	exports.uninitializeBounds = uninitializeBounds;
+	exports.createUninitializedBouds = createUninitializedBouds;
+	exports.dot = dot;
+	function radiansFromDegrees(deg) {
+	  return deg / 180 * Math.PI;
+	}
+
+	function areBoundsInitialized(bounds) {
+	  return !(bounds[1] - bounds[0] < 0.0);
+	}
+
+	function uninitializeBounds(bounds) {
+	  bounds[0] = 1.0;
+	  bounds[1] = -1.0;
+	  bounds[2] = 1.0;
+	  bounds[3] = -1.0;
+	  bounds[4] = 1.0;
+	  bounds[5] = -1.0;
+	}
+
+	function createUninitializedBouds() {
+	  return [].concat([Number.MAX_VALUE, Number.MIN_VALUE, // X
+	  Number.MAX_VALUE, Number.MIN_VALUE, // Y
+	  Number.MAX_VALUE, Number.MIN_VALUE]);
+	}
+
+	// Z
+	function dot(x, y) {
+	  return x[0] * y[0] + x[1] * y[1] + x[2] * y[2];
+	}
+
+	exports.default = {
+	  uninitializeBounds: uninitializeBounds,
+	  radiansFromDegrees: radiansFromDegrees,
+	  areBoundsInitialized: areBoundsInitialized,
+	  dot: dot,
+	  createUninitializedBouds: createUninitializedBouds
+	};
+
+/***/ },
+/* 4 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -826,18 +880,18 @@
 	THE SOFTWARE. */
 	// END HEADER
 
-	exports.glMatrix = __webpack_require__(4);
-	exports.mat2 = __webpack_require__(5);
-	exports.mat2d = __webpack_require__(6);
-	exports.mat3 = __webpack_require__(7);
-	exports.mat4 = __webpack_require__(8);
-	exports.quat = __webpack_require__(9);
-	exports.vec2 = __webpack_require__(12);
-	exports.vec3 = __webpack_require__(10);
-	exports.vec4 = __webpack_require__(11);
+	exports.glMatrix = __webpack_require__(5);
+	exports.mat2 = __webpack_require__(6);
+	exports.mat2d = __webpack_require__(7);
+	exports.mat3 = __webpack_require__(8);
+	exports.mat4 = __webpack_require__(9);
+	exports.quat = __webpack_require__(10);
+	exports.vec2 = __webpack_require__(13);
+	exports.vec3 = __webpack_require__(11);
+	exports.vec4 = __webpack_require__(12);
 
 /***/ },
-/* 4 */
+/* 5 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -896,7 +950,7 @@
 	module.exports = glMatrix;
 
 /***/ },
-/* 5 */
+/* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -921,7 +975,7 @@
 	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 	THE SOFTWARE. */
 
-	var glMatrix = __webpack_require__(4);
+	var glMatrix = __webpack_require__(5);
 
 	/**
 	 * @class 2x2 Matrix
@@ -1221,7 +1275,7 @@
 	module.exports = mat2;
 
 /***/ },
-/* 6 */
+/* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1246,7 +1300,7 @@
 	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 	THE SOFTWARE. */
 
-	var glMatrix = __webpack_require__(4);
+	var glMatrix = __webpack_require__(5);
 
 	/**
 	 * @class 2x3 Matrix
@@ -1576,7 +1630,7 @@
 	module.exports = mat2d;
 
 /***/ },
-/* 7 */
+/* 8 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1601,7 +1655,7 @@
 	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 	THE SOFTWARE. */
 
-	var glMatrix = __webpack_require__(4);
+	var glMatrix = __webpack_require__(5);
 
 	/**
 	 * @class 3x3 Matrix
@@ -2204,7 +2258,7 @@
 	module.exports = mat3;
 
 /***/ },
-/* 8 */
+/* 9 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2229,7 +2283,7 @@
 	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 	THE SOFTWARE. */
 
-	var glMatrix = __webpack_require__(4);
+	var glMatrix = __webpack_require__(5);
 
 	/**
 	 * @class 4x4 Matrix
@@ -3600,7 +3654,7 @@
 	module.exports = mat4;
 
 /***/ },
-/* 9 */
+/* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -3625,10 +3679,10 @@
 	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 	THE SOFTWARE. */
 
-	var glMatrix = __webpack_require__(4);
-	var mat3 = __webpack_require__(7);
-	var vec3 = __webpack_require__(10);
-	var vec4 = __webpack_require__(11);
+	var glMatrix = __webpack_require__(5);
+	var mat3 = __webpack_require__(8);
+	var vec3 = __webpack_require__(11);
+	var vec4 = __webpack_require__(12);
 
 	/**
 	 * @class Quaternion
@@ -4186,7 +4240,7 @@
 	module.exports = quat;
 
 /***/ },
-/* 10 */
+/* 11 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -4211,7 +4265,7 @@
 	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 	THE SOFTWARE. */
 
-	var glMatrix = __webpack_require__(4);
+	var glMatrix = __webpack_require__(5);
 
 	/**
 	 * @class 3 Dimensional Vector
@@ -4919,7 +4973,7 @@
 	module.exports = vec3;
 
 /***/ },
-/* 11 */
+/* 12 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -4944,7 +4998,7 @@
 	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 	THE SOFTWARE. */
 
-	var glMatrix = __webpack_require__(4);
+	var glMatrix = __webpack_require__(5);
 
 	/**
 	 * @class 4 Dimensional Vector
@@ -5472,7 +5526,7 @@
 	module.exports = vec4;
 
 /***/ },
-/* 12 */
+/* 13 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -5497,7 +5551,7 @@
 	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 	THE SOFTWARE. */
 
-	var glMatrix = __webpack_require__(4);
+	var glMatrix = __webpack_require__(5);
 
 	/**
 	 * @class 2 Dimensional Vector
@@ -6000,56 +6054,6 @@
 	};
 
 	module.exports = vec2;
-
-/***/ },
-/* 13 */
-/***/ function(module, exports) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.radiansFromDegrees = radiansFromDegrees;
-	exports.areBoundsInitialized = areBoundsInitialized;
-	exports.uninitializeBounds = uninitializeBounds;
-	exports.createUninitializedBouds = createUninitializedBouds;
-	exports.dot = dot;
-	function radiansFromDegrees(deg) {
-	  return deg / 180 * Math.PI;
-	}
-
-	function areBoundsInitialized(bounds) {
-	  return !(bounds[1] - bounds[0] < 0.0);
-	}
-
-	function uninitializeBounds(bounds) {
-	  bounds[0] = 1.0;
-	  bounds[1] = -1.0;
-	  bounds[2] = 1.0;
-	  bounds[3] = -1.0;
-	  bounds[4] = 1.0;
-	  bounds[5] = -1.0;
-	}
-
-	function createUninitializedBouds() {
-	  return [].concat([Number.MAX_VALUE, Number.MIN_VALUE, // X
-	  Number.MAX_VALUE, Number.MIN_VALUE, // Y
-	  Number.MAX_VALUE, Number.MIN_VALUE]);
-	}
-
-	// Z
-	function dot(x, y) {
-	  return x[0] * y[0] + x[1] * y[1] + x[2] * y[2];
-	}
-
-	exports.default = {
-	  uninitializeBounds: uninitializeBounds,
-	  radiansFromDegrees: radiansFromDegrees,
-	  areBoundsInitialized: areBoundsInitialized,
-	  dot: dot,
-	  createUninitializedBouds: createUninitializedBouds
-	};
 
 /***/ }
 /******/ ]);

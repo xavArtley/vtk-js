@@ -173,7 +173,7 @@
 	// vtkBoundingBox methods
 	// ----------------------------------------------------------------------------
 
-	function boundingBox(publicAPI, model) {
+	function vtkBoundingBox(publicAPI, model) {
 	  // Set our className
 	  model.classHierarchy.push('vtkBoundingBox');
 
@@ -496,7 +496,7 @@
 	  // Object methods
 	  macro.obj(publicAPI, model);
 	  macro.setGet(publicAPI, model, ['bounds']);
-	  boundingBox(publicAPI, model);
+	  vtkBoundingBox(publicAPI, model);
 	}
 
 	// ----------------------------------------------------------------------------
@@ -983,7 +983,7 @@
 	// vtkPlane methods
 	// ----------------------------------------------------------------------------
 
-	function plane(publicAPI, model) {
+	function vtkPlane(publicAPI, model) {
 	  // Set our className
 	  model.classHierarchy.push('vtkPlane');
 	}
@@ -1004,7 +1004,7 @@
 	  // Object methods
 	  macro.obj(publicAPI, model);
 	  macro.setGet(publicAPI, model, ['bounds']);
-	  plane(publicAPI, model);
+	  vtkPlane(publicAPI, model);
 	}
 
 	// ----------------------------------------------------------------------------

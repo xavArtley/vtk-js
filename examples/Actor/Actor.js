@@ -98,7 +98,7 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.newInstance = exports.types = undefined;
+	exports.newInstance = undefined;
 	exports.extend = extend;
 
 	var _macro = __webpack_require__(2);
@@ -113,19 +113,17 @@
 
 	var _Property2 = _interopRequireDefault(_Property);
 
-	var _glMatrix = __webpack_require__(4);
+	var _glMatrix = __webpack_require__(7);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
-	var types = exports.types = ['Actor'];
-
 	// ----------------------------------------------------------------------------
 	// vtkActor methods
 	// ----------------------------------------------------------------------------
 
-	function actor(publicAPI, model) {
+	function vtkActor(publicAPI, model) {
 	  // Set our className
 	  model.classHierarchy.push('vtkActor');
 
@@ -399,7 +397,7 @@
 	  macro.getArray(publicAPI, model, ['bounds'], 6);
 
 	  // Object methods
-	  actor(publicAPI, model);
+	  vtkActor(publicAPI, model);
 	}
 
 	// ----------------------------------------------------------------------------
@@ -864,15 +862,15 @@
 
 	var macro = _interopRequireWildcard(_macro);
 
-	var _glMatrix = __webpack_require__(4);
+	var _BoundingBox = __webpack_require__(4);
 
-	var _Prop = __webpack_require__(14);
+	var _BoundingBox2 = _interopRequireDefault(_BoundingBox);
+
+	var _Prop = __webpack_require__(6);
 
 	var _Prop2 = _interopRequireDefault(_Prop);
 
-	var _BoundingBox = __webpack_require__(15);
-
-	var _BoundingBox2 = _interopRequireDefault(_BoundingBox);
+	var _glMatrix = __webpack_require__(7);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -888,7 +886,7 @@
 	// vtkProp3D methods
 	// ----------------------------------------------------------------------------
 
-	function prop3D(publicAPI, model) {
+	function vtkProp3D(publicAPI, model) {
 	  // Set our className
 	  model.classHierarchy.push('vtkProp3D');
 
@@ -1017,7 +1015,7 @@
 	  model.transform = null; // FIXME
 
 	  // Object methods
-	  prop3D(publicAPI, model);
+	  vtkProp3D(publicAPI, model);
 	}
 
 	// ----------------------------------------------------------------------------
@@ -1030,6 +1028,652 @@
 
 /***/ },
 /* 4 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.newInstance = exports.STATIC = exports.INIT_BOUNDS = undefined;
+
+	var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+
+	exports.extend = extend;
+
+	var _macro = __webpack_require__(2);
+
+	var macro = _interopRequireWildcard(_macro);
+
+	var _Plane = __webpack_require__(5);
+
+	var _Plane2 = _interopRequireDefault(_Plane);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+	var INIT_BOUNDS = exports.INIT_BOUNDS = [Number.MAX_VALUE, Number.MIN_VALUE, // X
+	Number.MAX_VALUE, Number.MIN_VALUE, // Y
+	Number.MAX_VALUE, Number.MIN_VALUE];
+
+	// ----------------------------------------------------------------------------
+	// Global methods
+	// ----------------------------------------------------------------------------
+
+	// Z
+	function isValid(bounds) {
+	  return bounds[0] <= bounds[1] && bounds[2] <= bounds[3] && bounds[4] <= bounds[5];
+	}
+
+	function getCenter(bounds) {
+	  return [0.5 * (bounds[0] + bounds[1]), 0.5 * (bounds[2] + bounds[3]), 0.5 * (bounds[4] + bounds[5])];
+	}
+
+	function getLength(bounds, index) {
+	  return bounds[index * 2 + 1] - bounds[index * 2];
+	}
+
+	function getLengths(bounds) {
+	  return [getLength(bounds, 0), getLength(bounds, 1), getLength(bounds, 2)];
+	}
+
+	function getXRange(bounds) {
+	  return bounds.slice(0, 2);
+	}
+
+	function getYRange(bounds) {
+	  return bounds.slice(2, 4);
+	}
+
+	function getZRange(bounds) {
+	  return bounds.slice(4, 6);
+	}
+
+	function getMaxLength(bounds) {
+	  var l = getLengths(bounds);
+	  if (l[0] > l[1]) {
+	    if (l[0] > l[2]) {
+	      return l[0];
+	    }
+	    return l[2];
+	  } else if (l[1] > l[2]) {
+	    return l[1];
+	  }
+	  return l[2];
+	}
+
+	function getDiagonalLength(bounds) {
+	  if (isValid(bounds)) {
+	    var l = getLengths(bounds);
+	    return Math.sqrt(l[0] * l[0] + l[1] * l[1] + l[2] * l[2]);
+	  }
+	  return null;
+	}
+
+	function oppositeSign(a, b) {
+	  return a <= 0 && b >= 0 || a >= 0 && b <= 0;
+	}
+
+	// ----------------------------------------------------------------------------
+	// Static API
+	// ----------------------------------------------------------------------------
+
+	var STATIC = exports.STATIC = {
+	  isValid: isValid,
+	  getCenter: getCenter,
+	  getLength: getLength,
+	  getLengths: getLengths,
+	  getMaxLength: getMaxLength,
+	  getDiagonalLength: getDiagonalLength,
+	  getXRange: getXRange,
+	  getYRange: getYRange,
+	  getZRange: getZRange
+	};
+
+	// ----------------------------------------------------------------------------
+	// vtkBoundingBox methods
+	// ----------------------------------------------------------------------------
+
+	function vtkBoundingBox(publicAPI, model) {
+	  // Set our className
+	  model.classHierarchy.push('vtkBoundingBox');
+
+	  publicAPI.clone = function () {
+	    var bounds = [].concat(model.bounds);
+	    /* eslint-disable no-use-before-define */
+	    return newInstance({ bounds: bounds });
+	    /* eslint-enable no-use-before-define */
+	  };
+
+	  publicAPI.equals = function (other) {
+	    var a = model.bounds;
+	    var b = other.getBounds();
+	    return a[0] === b[0] && a[1] === b[1] && a[2] === b[2] && a[3] === b[3] && a[4] === b[4] && a[5] === b[5];
+	  };
+
+	  publicAPI.setMinPoint = function (x, y, z) {
+	    var _model$bounds = _slicedToArray(model.bounds, 6);
+
+	    var xMin = _model$bounds[0];
+	    var xMax = _model$bounds[1];
+	    var yMin = _model$bounds[2];
+	    var yMax = _model$bounds[3];
+	    var zMin = _model$bounds[4];
+	    var zMax = _model$bounds[5];
+
+	    model.bounds = [x, x > xMax ? x : xMax, y, y > yMax ? y : yMax, z, z > zMax ? z : zMax];
+
+	    return xMin !== x || yMin !== y || zMin !== z;
+	  };
+
+	  publicAPI.setMaxPoint = function (x, y, z) {
+	    var _model$bounds2 = _slicedToArray(model.bounds, 6);
+
+	    var xMin = _model$bounds2[0];
+	    var xMax = _model$bounds2[1];
+	    var yMin = _model$bounds2[2];
+	    var yMax = _model$bounds2[3];
+	    var zMin = _model$bounds2[4];
+	    var zMax = _model$bounds2[5];
+
+	    model.bounds = [x < xMin ? x : xMin, x, y < yMin ? y : yMin, y, z < zMin ? z : zMin, z];
+
+	    return xMax !== x || yMax !== y || zMax !== z;
+	  };
+
+	  publicAPI.addPoint = function () {
+	    for (var _len = arguments.length, xyz = Array(_len), _key = 0; _key < _len; _key++) {
+	      xyz[_key] = arguments[_key];
+	    }
+
+	    model.bounds = model.bounds.map(function (value, index) {
+	      if (index % 2 === 0) {
+	        var _idx = index / 2;
+	        return value < xyz[_idx] ? value : xyz[_idx];
+	      }
+	      var idx = (index - 1) / 2;
+	      return value > xyz[idx] ? value : xyz[idx];
+	    });
+	  };
+
+	  publicAPI.addBounds = function (xMin, xMax, yMin, yMax, zMin, zMax) {
+	    var _model$bounds3 = _slicedToArray(model.bounds, 6);
+
+	    var _xMin = _model$bounds3[0];
+	    var _xMax = _model$bounds3[1];
+	    var _yMin = _model$bounds3[2];
+	    var _yMax = _model$bounds3[3];
+	    var _zMin = _model$bounds3[4];
+	    var _zMax = _model$bounds3[5];
+
+	    model.bounds = [Math.min(xMin, _xMin), Math.max(xMax, _xMax), Math.min(yMin, _yMin), Math.max(yMax, _yMax), Math.min(zMin, _zMin), Math.max(zMax, _zMax)];
+	  };
+
+	  publicAPI.addBox = function (other) {
+	    publicAPI.addBounds.apply(publicAPI, _toConsumableArray(other.getBounds()));
+	  };
+
+	  publicAPI.isValid = function () {
+	    return isValid(model.bounds);
+	  };
+
+	  publicAPI.intersect = function (bbox) {
+	    if (!(publicAPI.isValid() && bbox.isValid())) {
+	      return false;
+	    }
+
+	    var newBounds = [0, 0, 0, 0, 0, 0];
+	    var bBounds = bbox.getBounds();
+	    var intersects = void 0;
+	    for (var i = 0; i < 3; i++) {
+	      intersects = false;
+	      if (bBounds[i * 2] >= model.bounds[i * 2] && bBounds[i * 2] <= model.bounds[i * 2 + 1]) {
+	        intersects = true;
+	        newBounds[i * 2] = bBounds[i * 2];
+	      } else if (model.bounds[i * 2] >= bBounds[i * 2] && model.bounds[i * 2] <= bBounds[i * 2 + 1]) {
+	        intersects = true;
+	        newBounds[i * 2] = model.bounds[i * 2];
+	      }
+
+	      if (bBounds[i * 2 + 1] >= model.bounds[i * 2] && bBounds[i * 2 + 1] <= model.bounds[i * 2 + 1]) {
+	        intersects = true;
+	        newBounds[i * 2 + 1] = bbox.MaxPnt[i];
+	      } else if (model.bounds[i * 2 + 1] >= bbox.MinPnt[i * 2] && model.bounds[i * 2 + 1] <= bbox.MaxPnt[i * 2 + 1]) {
+	        intersects = true;
+	        newBounds[i * 2 + 1] = model.bounds[i * 2 + 1];
+	      }
+
+	      if (!intersects) {
+	        return false;
+	      }
+	    }
+
+	    // OK they did intersect - set the box to be the result
+	    model.bounds = newBounds;
+	    return true;
+	  };
+
+	  publicAPI.intersects = function (bbox) {
+	    if (!(publicAPI.isValid() && bbox.isValid())) {
+	      return false;
+	    }
+	    var bBounds = bbox.getBounds();
+	    for (var i = 0; i < 3; i++) {
+	      if (bBounds[i * 2] >= model.bounds[i * 2] && bBounds[i * 2] <= model.bounds[i * 2 + 1]) {
+	        continue;
+	      } else if (model.bounds[i * 2] >= bBounds[i * 2] && model.bounds[i * 2] <= bBounds[i * 2 + 1]) {
+	        continue;
+	      }
+
+	      if (bBounds[i * 2 + 1] >= model.bounds[i * 2] && bBounds[i * 2 + 1] <= model.bounds[i * 2 + 1]) {
+	        continue;
+	      } else if (model.bounds[i * 2 + 1] >= bbox.MinPnt[i * 2] && model.bounds[i * 2 + 1] <= bbox.MaxPnt[i * 2 + 1]) {
+	        continue;
+	      }
+	      return false;
+	    }
+
+	    return true;
+	  };
+
+	  publicAPI.intersectPlane = function (origin, normal) {
+	    // Index[0..2] represents the order of traversing the corners of a cube
+	    // in (x,y,z), (y,x,z) and (z,x,y) ordering, respectively
+	    var index = [[0, 1, 2, 3, 4, 5, 6, 7], [0, 1, 4, 5, 2, 3, 6, 7], [0, 2, 4, 6, 1, 3, 5, 7]];
+
+	    // stores the signed distance to a plane
+	    var d = [0, 0, 0, 0, 0, 0, 0, 0];
+	    var idx = 0;
+	    for (var ix = 0; ix < 2; ix++) {
+	      for (var iy = 2; iy < 4; iy++) {
+	        for (var iz = 4; iz < 6; iz++) {
+	          var x = [model.bounds[ix], model.bounds[iy], model.bounds[iz]];
+	          d[idx++] = _Plane2.default.evaluate(normal, origin, x);
+	        }
+	      }
+	    }
+
+	    var dir = 2;
+	    while (dir--) {
+	      // in each direction, we test if the vertices of two orthogonal faces
+	      // are on either side of the plane
+	      if (oppositeSign(d[index[dir][0]], d[index[dir][4]]) && oppositeSign(d[index[dir][1]], d[index[dir][5]]) && oppositeSign(d[index[dir][2]], d[index[dir][6]]) && oppositeSign(d[index[dir][3]], d[index[dir][7]])) {
+	        break;
+	      }
+	    }
+
+	    if (dir < 0) {
+	      return false;
+	    }
+
+	    var sign = Math.sign(normal[dir]);
+	    var size = Math.abs((model.bounds[dir * 2 + 1] - model.bounds[dir * 2]) * normal[dir]);
+	    var t = sign > 0 ? 1 : 0;
+	    for (var i = 0; i < 4; i++) {
+	      if (size === 0) {
+	        continue; // shouldn't happen
+	      }
+	      var ti = Math.abs(d[index[dir][i]]) / size;
+	      if (sign > 0 && ti < t) {
+	        t = ti;
+	      }
+
+	      if (sign < 0 && ti > t) {
+	        t = ti;
+	      }
+	    }
+	    var bound = (1.0 - t) * model.bounds[dir * 2] + t * model.bounds[dir * 2 + 1];
+
+	    if (sign > 0) {
+	      model.bounds[dir * 2] = bound;
+	    } else {
+	      model.bounds[dir * 2 + 1] = bound;
+	    }
+
+	    return true;
+	  };
+
+	  publicAPI.containsPoint = function (x, y, z) {
+	    if (x < model.bounds[0] || x > model.bounds[1]) {
+	      return false;
+	    }
+
+	    if (y < model.bounds[2] || y > model.bounds[3]) {
+	      return false;
+	    }
+
+	    if (z < model.bounds[4] || z > model.bounds[5]) {
+	      return false;
+	    }
+
+	    return true;
+	  };
+
+	  publicAPI.getMinPoint = function () {
+	    return [model.bounds[0], model.bounds[2], model.bounds[4]];
+	  };
+	  publicAPI.getMaxPoint = function () {
+	    return [model.bounds[1], model.bounds[3], model.bounds[5]];
+	  };
+	  publicAPI.getBound = function (index) {
+	    return model.bound[index];
+	  };
+
+	  publicAPI.contains = function (bbox) {
+	    // if either box is not valid or they don't intersect
+	    if (!publicAPI.intersects(bbox)) {
+	      return false;
+	    }
+
+	    if (!publicAPI.containsPoint.apply(publicAPI, _toConsumableArray(bbox.getMinPoint()))) {
+	      return false;
+	    }
+
+	    if (!publicAPI.containsPoint.apply(publicAPI, _toConsumableArray(bbox.getMaxPoint()))) {
+	      return 0;
+	    }
+
+	    return true;
+	  };
+
+	  publicAPI.getCenter = function () {
+	    return getCenter(model.bounds);
+	  };
+	  publicAPI.getLength = function (index) {
+	    return getLength(model.bounds, index);
+	  };
+	  publicAPI.getLengths = function () {
+	    return getLengths(model.bounds);
+	  };
+	  publicAPI.getMaxLength = function () {
+	    return getMaxLength(model.bounds);
+	  };
+	  publicAPI.getDiagonalLength = function () {
+	    return getDiagonalLength(model.bounds);
+	  };
+
+	  publicAPI.reset = function () {
+	    return publicAPI.setBounds([].concat(INIT_BOUNDS));
+	  };
+
+	  publicAPI.inflate = function (delta) {
+	    model.bounds = model.bounds.map(function (value, index) {
+	      if (index % 2 === 0) {
+	        return value - delta;
+	      }
+	      return value + delta;
+	    });
+	  };
+
+	  publicAPI.scale = function (sx, sy, sz) {
+	    if (publicAPI.isValid()) {
+	      var newBounds = [].concat(model.bounds);
+	      if (sx >= 0.0) {
+	        newBounds[0] *= sx;
+	        newBounds[1] *= sx;
+	      } else {
+	        newBounds[0] = sx * model.bounds[1];
+	        newBounds[1] = sx * model.bounds[0];
+	      }
+
+	      if (sy >= 0.0) {
+	        newBounds[2] *= sy;
+	        newBounds[3] *= sy;
+	      } else {
+	        newBounds[2] = sy * model.bounds[3];
+	        newBounds[3] = sy * model.bounds[2];
+	      }
+
+	      if (sz >= 0.0) {
+	        newBounds[4] *= sz;
+	        newBounds[5] *= sz;
+	      } else {
+	        newBounds[4] = sz * model.bounds[5];
+	        newBounds[5] = sz * model.bounds[4];
+	      }
+
+	      model.bounds = newBounds;
+	      return true;
+	    }
+	    return false;
+	  };
+	}
+
+	// ----------------------------------------------------------------------------
+	// Object factory
+	// ----------------------------------------------------------------------------
+
+	var DEFAULT_VALUES = {
+	  bounds: [].concat(INIT_BOUNDS)
+	};
+
+	// ----------------------------------------------------------------------------
+
+	function extend(publicAPI, model) {
+	  var initialValues = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+
+	  Object.assign(model, DEFAULT_VALUES, initialValues);
+
+	  // Object methods
+	  macro.obj(publicAPI, model);
+	  macro.setGet(publicAPI, model, ['bounds']);
+	  vtkBoundingBox(publicAPI, model);
+	}
+
+	// ----------------------------------------------------------------------------
+
+	var newInstance = exports.newInstance = macro.newInstance(extend);
+
+	// ----------------------------------------------------------------------------
+
+	exports.default = Object.assign({ newInstance: newInstance, extend: extend }, STATIC);
+
+/***/ },
+/* 5 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.newInstance = exports.STATIC = undefined;
+	exports.extend = extend;
+
+	var _macro = __webpack_require__(2);
+
+	var macro = _interopRequireWildcard(_macro);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	// ----------------------------------------------------------------------------
+	// Global methods
+	// ----------------------------------------------------------------------------
+
+	function evaluate(normal, origin, x) {
+	  return normal[0] * (x[0] - origin[0]) + normal[1] * (x[1] - origin[1]) + normal[2] * (x[2] - origin[2]);
+	}
+
+	// ----------------------------------------------------------------------------
+	// Static API
+	// ----------------------------------------------------------------------------
+
+	var STATIC = exports.STATIC = {
+	  evaluate: evaluate
+	};
+
+	// ----------------------------------------------------------------------------
+	// vtkPlane methods
+	// ----------------------------------------------------------------------------
+
+	function vtkPlane(publicAPI, model) {
+	  // Set our className
+	  model.classHierarchy.push('vtkPlane');
+	}
+
+	// ----------------------------------------------------------------------------
+	// Object factory
+	// ----------------------------------------------------------------------------
+
+	var DEFAULT_VALUES = {};
+
+	// ----------------------------------------------------------------------------
+
+	function extend(publicAPI, model) {
+	  var initialValues = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+
+	  Object.assign(model, DEFAULT_VALUES, initialValues);
+
+	  // Object methods
+	  macro.obj(publicAPI, model);
+	  macro.setGet(publicAPI, model, ['bounds']);
+	  vtkPlane(publicAPI, model);
+	}
+
+	// ----------------------------------------------------------------------------
+
+	var newInstance = exports.newInstance = macro.newInstance(extend);
+
+	// ----------------------------------------------------------------------------
+
+	exports.default = Object.assign({ newInstance: newInstance, extend: extend }, STATIC);
+
+/***/ },
+/* 6 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.newInstance = undefined;
+	exports.extend = extend;
+
+	var _macro = __webpack_require__(2);
+
+	var macro = _interopRequireWildcard(_macro);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	function notImplemented(method) {
+	  return function () {
+	    return console.log('vtkProp::${method} - NOT IMPLEMENTED');
+	  };
+	}
+
+	// ----------------------------------------------------------------------------
+	// vtkProp methods
+	// ----------------------------------------------------------------------------
+
+	function vtkProp(publicAPI, model) {
+	  // Set our className
+	  model.classHierarchy.push('vtkProp');
+
+	  publicAPI.pick = notImplemented('pick');
+	  publicAPI.hasKey = notImplemented('hasKey');
+
+	  publicAPI.renderFilteredOpaqueGeometry = function (viewport, requiredKeys) {
+	    if (publicAPI.hasKey(requiredKeys)) {
+	      return !!publicAPI.renderOpaqueGeometry(viewport);
+	    }
+	    return false;
+	  };
+
+	  publicAPI.renderFilteredTranslucentPolygonalGeometry = function (viewport, requiredKeys) {
+	    if (publicAPI.hasKey(requiredKeys)) {
+	      return !!publicAPI.renderTranslucentPolygonalGeometry(viewport);
+	    }
+	    return false;
+	  };
+
+	  publicAPI.renderFilteredVolumetricGeometry = function (viewport, requiredKeys) {
+	    if (publicAPI.hasKey(requiredKeys)) {
+	      return !!publicAPI.renderVolumetricGeometry(viewport);
+	    }
+	    return false;
+	  };
+
+	  publicAPI.renderFilteredOverlay = function (viewport, requiredKeys) {
+	    if (publicAPI.hasKey(requiredKeys)) {
+	      return !!publicAPI.renderOverlay(viewport);
+	    }
+	    return false;
+	  };
+
+	  publicAPI.getRedrawMTime = function () {
+	    return model.mtime;
+	  };
+
+	  publicAPI.setEstimatedRenderTime = function (t) {
+	    model.estimatedRenderTime = t;
+	    model.savedEstimatedRenderTime = t;
+	  };
+
+	  publicAPI.restoreEstimatedRenderTime = function () {
+	    model.estimatedRenderTime = model.savedEstimatedRenderTime;
+	  };
+
+	  publicAPI.addEstimatedRenderTime = function (t) {
+	    model.estimatedRenderTime += t;
+	  };
+
+	  publicAPI.setAllocatedRenderTime = function (t) {
+	    model.allocatedRenderTime = t;
+	    model.savedEstimatedRenderTime = model.estimatedRenderTime;
+	    model.estimatedRenderTime = 0;
+	  };
+
+	  publicAPI.getSupportsSelection = function () {
+	    return false;
+	  };
+	}
+
+	// ----------------------------------------------------------------------------
+	// Object factory
+	// ----------------------------------------------------------------------------
+
+	var DEFAULT_VALUES = {
+	  visibility: true,
+	  pickable: true,
+	  dragable: true,
+	  useBounds: true,
+	  allocatedRenderTime: 10,
+	  estimatedRenderTime: 0,
+	  savedEstimatedRenderTime: 0,
+	  renderTimeMultiplier: 1,
+	  paths: null
+	};
+
+	// ----------------------------------------------------------------------------
+
+	function extend(publicAPI, model) {
+	  var initialValues = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+
+	  Object.assign(model, DEFAULT_VALUES, initialValues);
+
+	  // Build VTK API
+	  macro.obj(publicAPI, model);
+	  macro.get(publicAPI, model, ['estimatedRenderTime', 'allocatedRenderTime']);
+	  macro.setGet(publicAPI, model, ['visibility', 'pickable', 'dragable', 'useBounds', 'renderTimeMultiplier']);
+
+	  // Object methods
+	  vtkProp(publicAPI, model);
+	}
+
+	// ----------------------------------------------------------------------------
+
+	var newInstance = exports.newInstance = macro.newInstance(extend);
+
+	// ----------------------------------------------------------------------------
+
+	exports.default = { newInstance: newInstance, extend: extend };
+
+/***/ },
+/* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1062,18 +1706,18 @@
 	THE SOFTWARE. */
 	// END HEADER
 
-	exports.glMatrix = __webpack_require__(5);
-	exports.mat2 = __webpack_require__(6);
-	exports.mat2d = __webpack_require__(7);
-	exports.mat3 = __webpack_require__(8);
-	exports.mat4 = __webpack_require__(9);
-	exports.quat = __webpack_require__(10);
-	exports.vec2 = __webpack_require__(13);
-	exports.vec3 = __webpack_require__(11);
-	exports.vec4 = __webpack_require__(12);
+	exports.glMatrix = __webpack_require__(8);
+	exports.mat2 = __webpack_require__(9);
+	exports.mat2d = __webpack_require__(10);
+	exports.mat3 = __webpack_require__(11);
+	exports.mat4 = __webpack_require__(12);
+	exports.quat = __webpack_require__(13);
+	exports.vec2 = __webpack_require__(16);
+	exports.vec3 = __webpack_require__(14);
+	exports.vec4 = __webpack_require__(15);
 
 /***/ },
-/* 5 */
+/* 8 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1132,7 +1776,7 @@
 	module.exports = glMatrix;
 
 /***/ },
-/* 6 */
+/* 9 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1157,7 +1801,7 @@
 	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 	THE SOFTWARE. */
 
-	var glMatrix = __webpack_require__(5);
+	var glMatrix = __webpack_require__(8);
 
 	/**
 	 * @class 2x2 Matrix
@@ -1457,7 +2101,7 @@
 	module.exports = mat2;
 
 /***/ },
-/* 7 */
+/* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1482,7 +2126,7 @@
 	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 	THE SOFTWARE. */
 
-	var glMatrix = __webpack_require__(5);
+	var glMatrix = __webpack_require__(8);
 
 	/**
 	 * @class 2x3 Matrix
@@ -1812,7 +2456,7 @@
 	module.exports = mat2d;
 
 /***/ },
-/* 8 */
+/* 11 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1837,7 +2481,7 @@
 	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 	THE SOFTWARE. */
 
-	var glMatrix = __webpack_require__(5);
+	var glMatrix = __webpack_require__(8);
 
 	/**
 	 * @class 3x3 Matrix
@@ -2440,7 +3084,7 @@
 	module.exports = mat3;
 
 /***/ },
-/* 9 */
+/* 12 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2465,7 +3109,7 @@
 	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 	THE SOFTWARE. */
 
-	var glMatrix = __webpack_require__(5);
+	var glMatrix = __webpack_require__(8);
 
 	/**
 	 * @class 4x4 Matrix
@@ -3836,7 +4480,7 @@
 	module.exports = mat4;
 
 /***/ },
-/* 10 */
+/* 13 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -3861,10 +4505,10 @@
 	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 	THE SOFTWARE. */
 
-	var glMatrix = __webpack_require__(5);
-	var mat3 = __webpack_require__(8);
-	var vec3 = __webpack_require__(11);
-	var vec4 = __webpack_require__(12);
+	var glMatrix = __webpack_require__(8);
+	var mat3 = __webpack_require__(11);
+	var vec3 = __webpack_require__(14);
+	var vec4 = __webpack_require__(15);
 
 	/**
 	 * @class Quaternion
@@ -4422,7 +5066,7 @@
 	module.exports = quat;
 
 /***/ },
-/* 11 */
+/* 14 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -4447,7 +5091,7 @@
 	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 	THE SOFTWARE. */
 
-	var glMatrix = __webpack_require__(5);
+	var glMatrix = __webpack_require__(8);
 
 	/**
 	 * @class 3 Dimensional Vector
@@ -5155,7 +5799,7 @@
 	module.exports = vec3;
 
 /***/ },
-/* 12 */
+/* 15 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -5180,7 +5824,7 @@
 	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 	THE SOFTWARE. */
 
-	var glMatrix = __webpack_require__(5);
+	var glMatrix = __webpack_require__(8);
 
 	/**
 	 * @class 4 Dimensional Vector
@@ -5708,7 +6352,7 @@
 	module.exports = vec4;
 
 /***/ },
-/* 13 */
+/* 16 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -5733,7 +6377,7 @@
 	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 	THE SOFTWARE. */
 
-	var glMatrix = __webpack_require__(5);
+	var glMatrix = __webpack_require__(8);
 
 	/**
 	 * @class 2 Dimensional Vector
@@ -6236,652 +6880,6 @@
 	};
 
 	module.exports = vec2;
-
-/***/ },
-/* 14 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.newInstance = undefined;
-	exports.extend = extend;
-
-	var _macro = __webpack_require__(2);
-
-	var macro = _interopRequireWildcard(_macro);
-
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-	function notImplemented(method) {
-	  return function () {
-	    return console.log('vtkProp::${method} - NOT IMPLEMENTED');
-	  };
-	}
-
-	// ----------------------------------------------------------------------------
-	// vtkProp methods
-	// ----------------------------------------------------------------------------
-
-	function prop(publicAPI, model) {
-	  // Set our className
-	  model.classHierarchy.push('vtkProp');
-
-	  publicAPI.pick = notImplemented('pick');
-	  publicAPI.hasKey = notImplemented('hasKey');
-
-	  publicAPI.renderFilteredOpaqueGeometry = function (viewport, requiredKeys) {
-	    if (publicAPI.hasKey(requiredKeys)) {
-	      return !!publicAPI.renderOpaqueGeometry(viewport);
-	    }
-	    return false;
-	  };
-
-	  publicAPI.renderFilteredTranslucentPolygonalGeometry = function (viewport, requiredKeys) {
-	    if (publicAPI.hasKey(requiredKeys)) {
-	      return !!publicAPI.renderTranslucentPolygonalGeometry(viewport);
-	    }
-	    return false;
-	  };
-
-	  publicAPI.renderFilteredVolumetricGeometry = function (viewport, requiredKeys) {
-	    if (publicAPI.hasKey(requiredKeys)) {
-	      return !!publicAPI.renderVolumetricGeometry(viewport);
-	    }
-	    return false;
-	  };
-
-	  publicAPI.renderFilteredOverlay = function (viewport, requiredKeys) {
-	    if (publicAPI.hasKey(requiredKeys)) {
-	      return !!publicAPI.renderOverlay(viewport);
-	    }
-	    return false;
-	  };
-
-	  publicAPI.getRedrawMTime = function () {
-	    return model.mtime;
-	  };
-
-	  publicAPI.setEstimatedRenderTime = function (t) {
-	    model.estimatedRenderTime = t;
-	    model.savedEstimatedRenderTime = t;
-	  };
-
-	  publicAPI.restoreEstimatedRenderTime = function () {
-	    model.estimatedRenderTime = model.savedEstimatedRenderTime;
-	  };
-
-	  publicAPI.addEstimatedRenderTime = function (t) {
-	    model.estimatedRenderTime += t;
-	  };
-
-	  publicAPI.setAllocatedRenderTime = function (t) {
-	    model.allocatedRenderTime = t;
-	    model.savedEstimatedRenderTime = model.estimatedRenderTime;
-	    model.estimatedRenderTime = 0;
-	  };
-
-	  publicAPI.getSupportsSelection = function () {
-	    return false;
-	  };
-	}
-
-	// ----------------------------------------------------------------------------
-	// Object factory
-	// ----------------------------------------------------------------------------
-
-	var DEFAULT_VALUES = {
-	  visibility: true,
-	  pickable: true,
-	  dragable: true,
-	  useBounds: true,
-	  allocatedRenderTime: 10,
-	  estimatedRenderTime: 0,
-	  savedEstimatedRenderTime: 0,
-	  renderTimeMultiplier: 1,
-	  paths: null
-	};
-
-	// ----------------------------------------------------------------------------
-
-	function extend(publicAPI, model) {
-	  var initialValues = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
-
-	  Object.assign(model, DEFAULT_VALUES, initialValues);
-
-	  // Build VTK API
-	  macro.obj(publicAPI, model);
-	  macro.get(publicAPI, model, ['estimatedRenderTime', 'allocatedRenderTime']);
-	  macro.setGet(publicAPI, model, ['visibility', 'pickable', 'dragable', 'useBounds', 'renderTimeMultiplier']);
-
-	  // Object methods
-	  prop(publicAPI, model);
-	}
-
-	// ----------------------------------------------------------------------------
-
-	var newInstance = exports.newInstance = macro.newInstance(extend);
-
-	// ----------------------------------------------------------------------------
-
-	exports.default = { newInstance: newInstance, extend: extend };
-
-/***/ },
-/* 15 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.newInstance = exports.STATIC = exports.INIT_BOUNDS = undefined;
-
-	var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
-
-	exports.extend = extend;
-
-	var _macro = __webpack_require__(2);
-
-	var macro = _interopRequireWildcard(_macro);
-
-	var _Plane = __webpack_require__(16);
-
-	var _Plane2 = _interopRequireDefault(_Plane);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
-	var INIT_BOUNDS = exports.INIT_BOUNDS = [Number.MAX_VALUE, Number.MIN_VALUE, // X
-	Number.MAX_VALUE, Number.MIN_VALUE, // Y
-	Number.MAX_VALUE, Number.MIN_VALUE];
-
-	// ----------------------------------------------------------------------------
-	// Global methods
-	// ----------------------------------------------------------------------------
-
-	// Z
-	function isValid(bounds) {
-	  return bounds[0] <= bounds[1] && bounds[2] <= bounds[3] && bounds[4] <= bounds[5];
-	}
-
-	function getCenter(bounds) {
-	  return [0.5 * (bounds[0] + bounds[1]), 0.5 * (bounds[2] + bounds[3]), 0.5 * (bounds[4] + bounds[5])];
-	}
-
-	function getLength(bounds, index) {
-	  return bounds[index * 2 + 1] - bounds[index * 2];
-	}
-
-	function getLengths(bounds) {
-	  return [getLength(bounds, 0), getLength(bounds, 1), getLength(bounds, 2)];
-	}
-
-	function getXRange(bounds) {
-	  return bounds.slice(0, 2);
-	}
-
-	function getYRange(bounds) {
-	  return bounds.slice(2, 4);
-	}
-
-	function getZRange(bounds) {
-	  return bounds.slice(4, 6);
-	}
-
-	function getMaxLength(bounds) {
-	  var l = getLengths(bounds);
-	  if (l[0] > l[1]) {
-	    if (l[0] > l[2]) {
-	      return l[0];
-	    }
-	    return l[2];
-	  } else if (l[1] > l[2]) {
-	    return l[1];
-	  }
-	  return l[2];
-	}
-
-	function getDiagonalLength(bounds) {
-	  if (isValid(bounds)) {
-	    var l = getLengths(bounds);
-	    return Math.sqrt(l[0] * l[0] + l[1] * l[1] + l[2] * l[2]);
-	  }
-	  return null;
-	}
-
-	function oppositeSign(a, b) {
-	  return a <= 0 && b >= 0 || a >= 0 && b <= 0;
-	}
-
-	// ----------------------------------------------------------------------------
-	// Static API
-	// ----------------------------------------------------------------------------
-
-	var STATIC = exports.STATIC = {
-	  isValid: isValid,
-	  getCenter: getCenter,
-	  getLength: getLength,
-	  getLengths: getLengths,
-	  getMaxLength: getMaxLength,
-	  getDiagonalLength: getDiagonalLength,
-	  getXRange: getXRange,
-	  getYRange: getYRange,
-	  getZRange: getZRange
-	};
-
-	// ----------------------------------------------------------------------------
-	// vtkBoundingBox methods
-	// ----------------------------------------------------------------------------
-
-	function boundingBox(publicAPI, model) {
-	  // Set our className
-	  model.classHierarchy.push('vtkBoundingBox');
-
-	  publicAPI.clone = function () {
-	    var bounds = [].concat(model.bounds);
-	    /* eslint-disable no-use-before-define */
-	    return newInstance({ bounds: bounds });
-	    /* eslint-enable no-use-before-define */
-	  };
-
-	  publicAPI.equals = function (other) {
-	    var a = model.bounds;
-	    var b = other.getBounds();
-	    return a[0] === b[0] && a[1] === b[1] && a[2] === b[2] && a[3] === b[3] && a[4] === b[4] && a[5] === b[5];
-	  };
-
-	  publicAPI.setMinPoint = function (x, y, z) {
-	    var _model$bounds = _slicedToArray(model.bounds, 6);
-
-	    var xMin = _model$bounds[0];
-	    var xMax = _model$bounds[1];
-	    var yMin = _model$bounds[2];
-	    var yMax = _model$bounds[3];
-	    var zMin = _model$bounds[4];
-	    var zMax = _model$bounds[5];
-
-	    model.bounds = [x, x > xMax ? x : xMax, y, y > yMax ? y : yMax, z, z > zMax ? z : zMax];
-
-	    return xMin !== x || yMin !== y || zMin !== z;
-	  };
-
-	  publicAPI.setMaxPoint = function (x, y, z) {
-	    var _model$bounds2 = _slicedToArray(model.bounds, 6);
-
-	    var xMin = _model$bounds2[0];
-	    var xMax = _model$bounds2[1];
-	    var yMin = _model$bounds2[2];
-	    var yMax = _model$bounds2[3];
-	    var zMin = _model$bounds2[4];
-	    var zMax = _model$bounds2[5];
-
-	    model.bounds = [x < xMin ? x : xMin, x, y < yMin ? y : yMin, y, z < zMin ? z : zMin, z];
-
-	    return xMax !== x || yMax !== y || zMax !== z;
-	  };
-
-	  publicAPI.addPoint = function () {
-	    for (var _len = arguments.length, xyz = Array(_len), _key = 0; _key < _len; _key++) {
-	      xyz[_key] = arguments[_key];
-	    }
-
-	    model.bounds = model.bounds.map(function (value, index) {
-	      if (index % 2 === 0) {
-	        var _idx = index / 2;
-	        return value < xyz[_idx] ? value : xyz[_idx];
-	      }
-	      var idx = (index - 1) / 2;
-	      return value > xyz[idx] ? value : xyz[idx];
-	    });
-	  };
-
-	  publicAPI.addBounds = function (xMin, xMax, yMin, yMax, zMin, zMax) {
-	    var _model$bounds3 = _slicedToArray(model.bounds, 6);
-
-	    var _xMin = _model$bounds3[0];
-	    var _xMax = _model$bounds3[1];
-	    var _yMin = _model$bounds3[2];
-	    var _yMax = _model$bounds3[3];
-	    var _zMin = _model$bounds3[4];
-	    var _zMax = _model$bounds3[5];
-
-	    model.bounds = [Math.min(xMin, _xMin), Math.max(xMax, _xMax), Math.min(yMin, _yMin), Math.max(yMax, _yMax), Math.min(zMin, _zMin), Math.max(zMax, _zMax)];
-	  };
-
-	  publicAPI.addBox = function (other) {
-	    publicAPI.addBounds.apply(publicAPI, _toConsumableArray(other.getBounds()));
-	  };
-
-	  publicAPI.isValid = function () {
-	    return isValid(model.bounds);
-	  };
-
-	  publicAPI.intersect = function (bbox) {
-	    if (!(publicAPI.isValid() && bbox.isValid())) {
-	      return false;
-	    }
-
-	    var newBounds = [0, 0, 0, 0, 0, 0];
-	    var bBounds = bbox.getBounds();
-	    var intersects = void 0;
-	    for (var i = 0; i < 3; i++) {
-	      intersects = false;
-	      if (bBounds[i * 2] >= model.bounds[i * 2] && bBounds[i * 2] <= model.bounds[i * 2 + 1]) {
-	        intersects = true;
-	        newBounds[i * 2] = bBounds[i * 2];
-	      } else if (model.bounds[i * 2] >= bBounds[i * 2] && model.bounds[i * 2] <= bBounds[i * 2 + 1]) {
-	        intersects = true;
-	        newBounds[i * 2] = model.bounds[i * 2];
-	      }
-
-	      if (bBounds[i * 2 + 1] >= model.bounds[i * 2] && bBounds[i * 2 + 1] <= model.bounds[i * 2 + 1]) {
-	        intersects = true;
-	        newBounds[i * 2 + 1] = bbox.MaxPnt[i];
-	      } else if (model.bounds[i * 2 + 1] >= bbox.MinPnt[i * 2] && model.bounds[i * 2 + 1] <= bbox.MaxPnt[i * 2 + 1]) {
-	        intersects = true;
-	        newBounds[i * 2 + 1] = model.bounds[i * 2 + 1];
-	      }
-
-	      if (!intersects) {
-	        return false;
-	      }
-	    }
-
-	    // OK they did intersect - set the box to be the result
-	    model.bounds = newBounds;
-	    return true;
-	  };
-
-	  publicAPI.intersects = function (bbox) {
-	    if (!(publicAPI.isValid() && bbox.isValid())) {
-	      return false;
-	    }
-	    var bBounds = bbox.getBounds();
-	    for (var i = 0; i < 3; i++) {
-	      if (bBounds[i * 2] >= model.bounds[i * 2] && bBounds[i * 2] <= model.bounds[i * 2 + 1]) {
-	        continue;
-	      } else if (model.bounds[i * 2] >= bBounds[i * 2] && model.bounds[i * 2] <= bBounds[i * 2 + 1]) {
-	        continue;
-	      }
-
-	      if (bBounds[i * 2 + 1] >= model.bounds[i * 2] && bBounds[i * 2 + 1] <= model.bounds[i * 2 + 1]) {
-	        continue;
-	      } else if (model.bounds[i * 2 + 1] >= bbox.MinPnt[i * 2] && model.bounds[i * 2 + 1] <= bbox.MaxPnt[i * 2 + 1]) {
-	        continue;
-	      }
-	      return false;
-	    }
-
-	    return true;
-	  };
-
-	  publicAPI.intersectPlane = function (origin, normal) {
-	    // Index[0..2] represents the order of traversing the corners of a cube
-	    // in (x,y,z), (y,x,z) and (z,x,y) ordering, respectively
-	    var index = [[0, 1, 2, 3, 4, 5, 6, 7], [0, 1, 4, 5, 2, 3, 6, 7], [0, 2, 4, 6, 1, 3, 5, 7]];
-
-	    // stores the signed distance to a plane
-	    var d = [0, 0, 0, 0, 0, 0, 0, 0];
-	    var idx = 0;
-	    for (var ix = 0; ix < 2; ix++) {
-	      for (var iy = 2; iy < 4; iy++) {
-	        for (var iz = 4; iz < 6; iz++) {
-	          var x = [model.bounds[ix], model.bounds[iy], model.bounds[iz]];
-	          d[idx++] = _Plane2.default.evaluate(normal, origin, x);
-	        }
-	      }
-	    }
-
-	    var dir = 2;
-	    while (dir--) {
-	      // in each direction, we test if the vertices of two orthogonal faces
-	      // are on either side of the plane
-	      if (oppositeSign(d[index[dir][0]], d[index[dir][4]]) && oppositeSign(d[index[dir][1]], d[index[dir][5]]) && oppositeSign(d[index[dir][2]], d[index[dir][6]]) && oppositeSign(d[index[dir][3]], d[index[dir][7]])) {
-	        break;
-	      }
-	    }
-
-	    if (dir < 0) {
-	      return false;
-	    }
-
-	    var sign = Math.sign(normal[dir]);
-	    var size = Math.abs((model.bounds[dir * 2 + 1] - model.bounds[dir * 2]) * normal[dir]);
-	    var t = sign > 0 ? 1 : 0;
-	    for (var i = 0; i < 4; i++) {
-	      if (size === 0) {
-	        continue; // shouldn't happen
-	      }
-	      var ti = Math.abs(d[index[dir][i]]) / size;
-	      if (sign > 0 && ti < t) {
-	        t = ti;
-	      }
-
-	      if (sign < 0 && ti > t) {
-	        t = ti;
-	      }
-	    }
-	    var bound = (1.0 - t) * model.bounds[dir * 2] + t * model.bounds[dir * 2 + 1];
-
-	    if (sign > 0) {
-	      model.bounds[dir * 2] = bound;
-	    } else {
-	      model.bounds[dir * 2 + 1] = bound;
-	    }
-
-	    return true;
-	  };
-
-	  publicAPI.containsPoint = function (x, y, z) {
-	    if (x < model.bounds[0] || x > model.bounds[1]) {
-	      return false;
-	    }
-
-	    if (y < model.bounds[2] || y > model.bounds[3]) {
-	      return false;
-	    }
-
-	    if (z < model.bounds[4] || z > model.bounds[5]) {
-	      return false;
-	    }
-
-	    return true;
-	  };
-
-	  publicAPI.getMinPoint = function () {
-	    return [model.bounds[0], model.bounds[2], model.bounds[4]];
-	  };
-	  publicAPI.getMaxPoint = function () {
-	    return [model.bounds[1], model.bounds[3], model.bounds[5]];
-	  };
-	  publicAPI.getBound = function (index) {
-	    return model.bound[index];
-	  };
-
-	  publicAPI.contains = function (bbox) {
-	    // if either box is not valid or they don't intersect
-	    if (!publicAPI.intersects(bbox)) {
-	      return false;
-	    }
-
-	    if (!publicAPI.containsPoint.apply(publicAPI, _toConsumableArray(bbox.getMinPoint()))) {
-	      return false;
-	    }
-
-	    if (!publicAPI.containsPoint.apply(publicAPI, _toConsumableArray(bbox.getMaxPoint()))) {
-	      return 0;
-	    }
-
-	    return true;
-	  };
-
-	  publicAPI.getCenter = function () {
-	    return getCenter(model.bounds);
-	  };
-	  publicAPI.getLength = function (index) {
-	    return getLength(model.bounds, index);
-	  };
-	  publicAPI.getLengths = function () {
-	    return getLengths(model.bounds);
-	  };
-	  publicAPI.getMaxLength = function () {
-	    return getMaxLength(model.bounds);
-	  };
-	  publicAPI.getDiagonalLength = function () {
-	    return getDiagonalLength(model.bounds);
-	  };
-
-	  publicAPI.reset = function () {
-	    return publicAPI.setBounds([].concat(INIT_BOUNDS));
-	  };
-
-	  publicAPI.inflate = function (delta) {
-	    model.bounds = model.bounds.map(function (value, index) {
-	      if (index % 2 === 0) {
-	        return value - delta;
-	      }
-	      return value + delta;
-	    });
-	  };
-
-	  publicAPI.scale = function (sx, sy, sz) {
-	    if (publicAPI.isValid()) {
-	      var newBounds = [].concat(model.bounds);
-	      if (sx >= 0.0) {
-	        newBounds[0] *= sx;
-	        newBounds[1] *= sx;
-	      } else {
-	        newBounds[0] = sx * model.bounds[1];
-	        newBounds[1] = sx * model.bounds[0];
-	      }
-
-	      if (sy >= 0.0) {
-	        newBounds[2] *= sy;
-	        newBounds[3] *= sy;
-	      } else {
-	        newBounds[2] = sy * model.bounds[3];
-	        newBounds[3] = sy * model.bounds[2];
-	      }
-
-	      if (sz >= 0.0) {
-	        newBounds[4] *= sz;
-	        newBounds[5] *= sz;
-	      } else {
-	        newBounds[4] = sz * model.bounds[5];
-	        newBounds[5] = sz * model.bounds[4];
-	      }
-
-	      model.bounds = newBounds;
-	      return true;
-	    }
-	    return false;
-	  };
-	}
-
-	// ----------------------------------------------------------------------------
-	// Object factory
-	// ----------------------------------------------------------------------------
-
-	var DEFAULT_VALUES = {
-	  bounds: [].concat(INIT_BOUNDS)
-	};
-
-	// ----------------------------------------------------------------------------
-
-	function extend(publicAPI, model) {
-	  var initialValues = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
-
-	  Object.assign(model, DEFAULT_VALUES, initialValues);
-
-	  // Object methods
-	  macro.obj(publicAPI, model);
-	  macro.setGet(publicAPI, model, ['bounds']);
-	  boundingBox(publicAPI, model);
-	}
-
-	// ----------------------------------------------------------------------------
-
-	var newInstance = exports.newInstance = macro.newInstance(extend);
-
-	// ----------------------------------------------------------------------------
-
-	exports.default = Object.assign({ newInstance: newInstance, extend: extend }, STATIC);
-
-/***/ },
-/* 16 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.newInstance = exports.STATIC = undefined;
-	exports.extend = extend;
-
-	var _macro = __webpack_require__(2);
-
-	var macro = _interopRequireWildcard(_macro);
-
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-	// ----------------------------------------------------------------------------
-	// Global methods
-	// ----------------------------------------------------------------------------
-
-	function evaluate(normal, origin, x) {
-	  return normal[0] * (x[0] - origin[0]) + normal[1] * (x[1] - origin[1]) + normal[2] * (x[2] - origin[2]);
-	}
-
-	// ----------------------------------------------------------------------------
-	// Static API
-	// ----------------------------------------------------------------------------
-
-	var STATIC = exports.STATIC = {
-	  evaluate: evaluate
-	};
-
-	// ----------------------------------------------------------------------------
-	// vtkPlane methods
-	// ----------------------------------------------------------------------------
-
-	function plane(publicAPI, model) {
-	  // Set our className
-	  model.classHierarchy.push('vtkPlane');
-	}
-
-	// ----------------------------------------------------------------------------
-	// Object factory
-	// ----------------------------------------------------------------------------
-
-	var DEFAULT_VALUES = {};
-
-	// ----------------------------------------------------------------------------
-
-	function extend(publicAPI, model) {
-	  var initialValues = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
-
-	  Object.assign(model, DEFAULT_VALUES, initialValues);
-
-	  // Object methods
-	  macro.obj(publicAPI, model);
-	  macro.setGet(publicAPI, model, ['bounds']);
-	  plane(publicAPI, model);
-	}
-
-	// ----------------------------------------------------------------------------
-
-	var newInstance = exports.newInstance = macro.newInstance(extend);
-
-	// ----------------------------------------------------------------------------
-
-	exports.default = Object.assign({ newInstance: newInstance, extend: extend }, STATIC);
 
 /***/ },
 /* 17 */

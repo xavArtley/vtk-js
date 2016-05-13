@@ -68,7 +68,7 @@
 	  value: true
 	});
 	exports.newInstance = undefined;
-	exports.sphereSource = sphereSource;
+	exports.vtkSphereSource = vtkSphereSource;
 	exports.extend = extend;
 
 	var _macro = __webpack_require__(2);
@@ -81,7 +81,7 @@
 	// vtkSphereSource methods
 	// ----------------------------------------------------------------------------
 
-	function sphereSource(publicAPI, model) {
+	function vtkSphereSource(publicAPI, model) {
 	  // Set our className
 	  model.classHierarchy.push('vtkSphereSource');
 
@@ -340,7 +340,7 @@
 	  macro.setGet(publicAPI, model, ['radius', 'latLongTessellation', 'thetaResolution', 'startTheta', 'endTheta', 'phiResolution', 'startPhi', 'endPhi']);
 	  macro.setGetArray(publicAPI, model, ['center'], 3);
 	  macro.algo(publicAPI, model, 0, 1);
-	  sphereSource(publicAPI, model);
+	  vtkSphereSource(publicAPI, model);
 	}
 
 	// ----------------------------------------------------------------------------
