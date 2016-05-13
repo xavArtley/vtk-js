@@ -6907,7 +6907,7 @@
 	// vtkProperty methods
 	// ----------------------------------------------------------------------------
 
-	function property(publicAPI, model) {
+	function vtkProperty(publicAPI, model) {
 	  // Set our className
 	  model.classHierarchy.push('vtkProperty');
 
@@ -6966,25 +6966,30 @@
 	// ----------------------------------------------------------------------------
 
 	var DEFAULT_VALUES = {
-	  lighting: true,
-	  interpolation: 0,
 	  color: [1, 1, 1],
 	  ambientColor: [1, 1, 1],
 	  diffuseColor: [1, 1, 1],
 	  specularColor: [1, 1, 1],
+	  edgeColor: [0, 0, 0],
+
 	  ambient: 0,
 	  diffuse: 1,
 	  specular: 0,
 	  specularPower: 1,
 	  opacity: 1,
+	  interpolation: _Constants.INTERPOLATIONS.VTK_GOURAUD,
+	  representation: _Constants.REPRESENTATIONS.VTK_SURFACE,
 	  edgeVisibility: false,
-	  edgeColor: [0, 0, 0],
-	  lineWidth: 1,
-	  lineStippleRepeatFactor: 1,
-	  pointSize: 1,
 	  backfaceCulling: false,
 	  frontfaceCulling: false,
-	  representation: _Constants.REPRESENTATIONS.VTK_SURFACE
+	  pointSize: 1,
+	  lineWidth: 1,
+	  lineStipplePattern: null,
+	  lineStippleRepeatFactor: 1,
+	  lighting: true,
+
+	  shading: false,
+	  materialName: null
 	};
 
 	// ----------------------------------------------------------------------------
@@ -7006,7 +7011,7 @@
 	  macro.setGetArray(publicAPI, model, ['ambientColor', 'specularColor', 'diffuseColor', 'edgeColor'], 3);
 
 	  // Object methods
-	  property(publicAPI, model);
+	  vtkProperty(publicAPI, model);
 	}
 
 	// ----------------------------------------------------------------------------
@@ -7048,7 +7053,19 @@
 	  VTK_SURFACE: 2
 	};
 
-	exports.default = { SHADINGS: SHADINGS, SHADING_MODEL: SHADING_MODEL, REPRESENTATIONS: REPRESENTATIONS, REPRESENTATION_MODEL: REPRESENTATION_MODEL };
+	var INTERPOLATIONS = exports.INTERPOLATIONS = {
+	  VTK_FLAT: 0,
+	  VTK_GOURAUD: 1,
+	  VTK_PHONG: 2
+	};
+
+	exports.default = {
+	  SHADINGS: SHADINGS,
+	  SHADING_MODEL: SHADING_MODEL,
+	  REPRESENTATIONS: REPRESENTATIONS,
+	  INTERPOLATIONS: INTERPOLATIONS,
+	  REPRESENTATION_MODEL: REPRESENTATION_MODEL
+	};
 
 /***/ }
 /******/ ]);
