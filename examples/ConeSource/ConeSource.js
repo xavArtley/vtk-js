@@ -1558,6 +1558,9 @@
 	  publicAPI.getNumberOfTuples = function () {
 	    return model.values.length / model.tuple;
 	  };
+	  publicAPI.getDataType = function () {
+	    return model.dataType;
+	  };
 	}
 
 	// ----------------------------------------------------------------------------
