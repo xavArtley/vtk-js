@@ -56,7 +56,7 @@
 	var coneSource = _2.default.newInstance({ height: 2.0 });
 
 	var subscription = coneSource.onModified(function (s) {
-	  console.log('source modified', s.getOutput().metadata.state);
+	  console.log('source modified', s.getOutput().get('metadata').metadata.state);
 	});
 
 	console.log('height', coneSource.getHeight());
@@ -78,6 +78,8 @@
 	coneSource.setResolution(10);
 	console.log('resolution', coneSource.getResolution());
 	console.log('Output (resolution:10)', coneSource.getOutput());
+
+	window.ds = coneSource.getOutput();
 
 	// Delete source
 	coneSource.delete();
@@ -379,7 +381,11 @@
 	    });
 	  };
 
-	  publicAPI.get = function (list) {
+	  publicAPI.get = function () {
+	    for (var _len = arguments.length, list = Array(_len), _key = 0; _key < _len; _key++) {
+	      list[_key] = arguments[_key];
+	    }
+
 	    if (!list) {
 	      return model;
 	    }
@@ -527,8 +533,8 @@
 	function setArray(publicAPI, model, fieldNames, size) {
 	  fieldNames.forEach(function (field) {
 	    publicAPI['set' + capitalize(field)] = function () {
-	      for (var _len = arguments.length, array = Array(_len), _key = 0; _key < _len; _key++) {
-	        array[_key] = arguments[_key];
+	      for (var _len2 = arguments.length, array = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+	        array[_key2] = arguments[_key2];
 	      }
 
 	      if (model.deleted) {
@@ -661,8 +667,8 @@
 	  }
 
 	  publicAPI['invoke' + capitalize(eventName)] = function () {
-	    for (var _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
-	      args[_key2] = arguments[_key2];
+	    for (var _len3 = arguments.length, args = Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
+	      args[_key3] = arguments[_key3];
 	    }
 
 	    if (model.deleted) {
@@ -1335,28 +1341,32 @@
 	    }
 	  });
 
-	  ['Cells', 'CellsTypes'].forEach(function (arrayName) {
-	    if (dataset[arrayName].type === 'DataArray') {
-	      (function () {
-	        var dataArray = _DataArray2.default.newInstance(dataset[arrayName]);
-	        publicAPI['get' + arrayName] = function () {
-	          return dataArray;
-	        };
-	      })();
-	    }
-	  });
+	  if (model.type === 'UnstructuredGrid') {
+	    ['Cells', 'CellsTypes'].forEach(function (arrayName) {
+	      if (dataset[arrayName].type === 'DataArray') {
+	        (function () {
+	          var dataArray = _DataArray2.default.newInstance(dataset[arrayName]);
+	          publicAPI['get' + arrayName] = function () {
+	            return dataArray;
+	          };
+	        })();
+	      }
+	    });
+	  }
 
 	  // PolyData Cells
-	  Object.keys(dataset.Cells).forEach(function (arrayName) {
-	    if (dataset[arrayName].type === 'DataArray') {
-	      (function () {
-	        var dataArray = _DataArray2.default.newInstance(dataset.Cells[arrayName]);
-	        publicAPI['get' + arrayName] = function () {
-	          return dataArray;
-	        };
-	      })();
-	    }
-	  });
+	  if (model.type === 'PolyData') {
+	    Object.keys(dataset.Cells).forEach(function (arrayName) {
+	      if (dataset.Cells[arrayName].type === 'DataArray') {
+	        (function () {
+	          var dataArray = _DataArray2.default.newInstance(dataset.Cells[arrayName]);
+	          publicAPI['get' + arrayName] = function () {
+	            return dataArray;
+	          };
+	        })();
+	      }
+	    });
+	  }
 	}
 
 	// ----------------------------------------------------------------------------
@@ -1483,7 +1493,7 @@
 	    if (range.min > value) {
 	      range.min = value;
 	    }
-	    if (range.max > value) {
+	    if (range.max < value) {
 	      range.max = value;
 	    }
 	  }
@@ -1491,10 +1501,10 @@
 	  return range;
 	}
 
-	function insureRangeSize() {
-	  var ranges = arguments.length <= 0 || arguments[0] === undefined ? [] : arguments[0];
-	  var size = arguments[1];
+	function insureRangeSize(rangeArray) {
+	  var size = arguments.length <= 1 || arguments[1] === undefined ? 0 : arguments[1];
 
+	  var ranges = rangeArray || [];
 	  // Pad ranges with null value to get the
 	  while (ranges.length <= size) {
 	    ranges.push(null);
@@ -1519,13 +1529,14 @@
 	  model.classHierarchy.push('vtkDataArray');
 
 	  publicAPI.getElementComponentSize = function () {
-	    return _Constants2.default.BYTE_SIZE[model.dataType];
+	    return model.values.BYTES_PER_ELEMENT;
 	  };
 
 	  // Description:
 	  // Return the data component at the location specified by tupleIdx and
 	  // compIdx.
-	  publicAPI.getComponent = function (tupleIdx, compIdx) {
+	  publicAPI.getComponent = function (tupleIdx) {
+	    var compIdx = arguments.length <= 1 || arguments[1] === undefined ? 0 : arguments[1];
 	    return model.values[tupleIdx * model.tuple + compIdx];
 	  };
 

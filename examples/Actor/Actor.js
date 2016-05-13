@@ -514,7 +514,11 @@
 	    });
 	  };
 
-	  publicAPI.get = function (list) {
+	  publicAPI.get = function () {
+	    for (var _len = arguments.length, list = Array(_len), _key = 0; _key < _len; _key++) {
+	      list[_key] = arguments[_key];
+	    }
+
 	    if (!list) {
 	      return model;
 	    }
@@ -662,8 +666,8 @@
 	function setArray(publicAPI, model, fieldNames, size) {
 	  fieldNames.forEach(function (field) {
 	    publicAPI['set' + capitalize(field)] = function () {
-	      for (var _len = arguments.length, array = Array(_len), _key = 0; _key < _len; _key++) {
-	        array[_key] = arguments[_key];
+	      for (var _len2 = arguments.length, array = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+	        array[_key2] = arguments[_key2];
 	      }
 
 	      if (model.deleted) {
@@ -796,8 +800,8 @@
 	  }
 
 	  publicAPI['invoke' + capitalize(eventName)] = function () {
-	    for (var _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
-	      args[_key2] = arguments[_key2];
+	    for (var _len3 = arguments.length, args = Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
+	      args[_key3] = arguments[_key3];
 	    }
 
 	    if (model.deleted) {
