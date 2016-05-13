@@ -6903,6 +6903,12 @@
 
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
+	function notImplemented(method) {
+	  return function () {
+	    return console.log('vtkProperty::${method} - NOT IMPLEMENTED');
+	  };
+	}
+
 	// ----------------------------------------------------------------------------
 	// vtkProperty methods
 	// ----------------------------------------------------------------------------
@@ -6910,20 +6916,6 @@
 	function vtkProperty(publicAPI, model) {
 	  // Set our className
 	  model.classHierarchy.push('vtkProperty');
-
-	  publicAPI.setInterpolationToFlat = function () {
-	    return publicAPI.setInterpolation(0);
-	  };
-	  publicAPI.setInterpolationToGouraud = function () {
-	    return publicAPI.setInterpolation(1);
-	  };
-	  publicAPI.setInterpolationToPhong = function () {
-	    return publicAPI.setInterpolation(2);
-	  };
-
-	  publicAPI.getInterpolationAsString = function () {
-	    return _Constants.SHADING_MODEL[model.interpolation];
-	  };
 
 	  publicAPI.setColor = function (r, g, b) {
 	    if (model.color[0] !== r || model.color[1] !== g || model.color[2] !== b) {
@@ -6938,7 +6930,9 @@
 	    publicAPI.setSpecularColor(model.color);
 	  };
 
+	  publicAPI.computeCompositeColor = notImplemented('ComputeCompositeColor');
 	  publicAPI.getColor = function () {
+	    // Inline computeCompositeColor
 	    var norm = 0.0;
 	    if (model.ambient + model.diffuse + model.specular > 0) {
 	      norm = 1.0 / (model.ambient + model.diffuse + model.specular);
@@ -6949,6 +6943,32 @@
 	    }
 
 	    return [].concat(model.color);
+	  };
+
+	  publicAPI.setTexture = notImplemented('SetTexture');
+	  publicAPI.getTexture = notImplemented('getTexture');
+	  publicAPI.getNumberOfTextures = notImplemented('getNumberOfTextures');
+	  publicAPI.removeTexture = notImplemented('removeTexture');
+	  publicAPI.removeAllTextures = notImplemented('RemoveAllTextures');
+	  publicAPI.getTextureAtIndex = notImplemented('getTextureAtIndex');
+	  publicAPI.getTextureUnitAtIndex = notImplemented('getTextureUnitAtIndex');
+	  publicAPI.getTextureUnit = notImplemented('getTextureUnit');
+	  publicAPI.render = notImplemented('render');
+	  publicAPI.postRender = notImplemented('postRender');
+	  publicAPI.addShaderVariable = notImplemented('AddShaderVariable');
+
+	  publicAPI.setInterpolationToFlat = function () {
+	    return publicAPI.setInterpolation(0);
+	  };
+	  publicAPI.setInterpolationToGouraud = function () {
+	    return publicAPI.setInterpolation(1);
+	  };
+	  publicAPI.setInterpolationToPhong = function () {
+	    return publicAPI.setInterpolation(2);
+	  };
+
+	  publicAPI.getInterpolationAsString = function () {
+	    return _Constants.SHADING_MODEL[model.interpolation];
 	  };
 
 	  publicAPI.setLineStipplePattern = function (b0, b1) {
