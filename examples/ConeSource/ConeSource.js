@@ -1242,25 +1242,29 @@
 	exports.newInstance = exports.STATIC = undefined;
 	exports.extend = extend;
 
-	var _Math = __webpack_require__(6);
+	var _macro = __webpack_require__(2);
 
-	var _Math2 = _interopRequireDefault(_Math);
+	var macro = _interopRequireWildcard(_macro);
 
 	var _BoundingBox = __webpack_require__(3);
 
 	var _BoundingBox2 = _interopRequireDefault(_BoundingBox);
 
-	var _DataArray = __webpack_require__(7);
+	var _DataArray = __webpack_require__(6);
 
 	var _DataArray2 = _interopRequireDefault(_DataArray);
 
-	var _macro = __webpack_require__(2);
+	var _DataSetAttributes = __webpack_require__(8);
 
-	var macro = _interopRequireWildcard(_macro);
+	var _DataSetAttributes2 = _interopRequireDefault(_DataSetAttributes);
 
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+	var _Math = __webpack_require__(9);
+
+	var _Math2 = _interopRequireDefault(_Math);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 	// ----------------------------------------------------------------------------
 	// Global methods
@@ -1306,7 +1310,7 @@
 	// vtkDataArray methods
 	// ----------------------------------------------------------------------------
 
-	function dataSet(publicAPI, model) {
+	function vtkDataSet(publicAPI, model) {
 	  // Set our className
 	  model.classHierarchy.push('vtkDataSet');
 
@@ -1325,29 +1329,21 @@
 	  }
 
 	  ['PointData', 'CellData', 'FieldData'].forEach(function (dataCategoryName) {
+	    var arrays = {};
 	    if (dataset[dataCategoryName]) {
-	      (function () {
-	        var container = {};
-
-	        Object.keys(dataset[dataCategoryName]).forEach(function (name) {
-	          if (dataset[dataCategoryName][name].type === 'DataArray') {
-	            container[name] = _DataArray2.default.newInstance(dataset[dataCategoryName][name]);
-	          }
-	        });
-
-	        if (dataCategoryName === 'PointData' && dataset[dataCategoryName].Normals) {
-	          container.getNormals = function () {
-	            return container.Normals;
-	          };
+	      Object.keys(dataset[dataCategoryName]).forEach(function (name) {
+	        if (dataset[dataCategoryName][name].type === 'DataArray') {
+	          arrays[name] = _DataArray2.default.newInstance(dataset[dataCategoryName][name]);
 	        }
-
-	        publicAPI['get' + dataCategoryName] = function () {
-	          return container;
-	        };
-	      })();
+	      });
 	    }
+	    // FIXME: missing active arrays...
+	    publicAPI['get' + dataCategoryName] = function () {
+	      return _DataSetAttributes2.default.newInstance({ arrays: arrays });
+	    };
 	  });
 
+	  // UnstructuredGrid Cells + Types
 	  if (model.type === 'UnstructuredGrid') {
 	    ['Cells', 'CellsTypes'].forEach(function (arrayName) {
 	      if (dataset[arrayName].type === 'DataArray') {
@@ -1393,7 +1389,7 @@
 	  macro.obj(publicAPI, model);
 
 	  // Object specific methods
-	  dataSet(publicAPI, model);
+	  vtkDataSet(publicAPI, model);
 	}
 
 	// ----------------------------------------------------------------------------
@@ -1406,56 +1402,6 @@
 
 /***/ },
 /* 6 */
-/***/ function(module, exports) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.radiansFromDegrees = radiansFromDegrees;
-	exports.areBoundsInitialized = areBoundsInitialized;
-	exports.uninitializeBounds = uninitializeBounds;
-	exports.createUninitializedBouds = createUninitializedBouds;
-	exports.dot = dot;
-	function radiansFromDegrees(deg) {
-	  return deg / 180 * Math.PI;
-	}
-
-	function areBoundsInitialized(bounds) {
-	  return !(bounds[1] - bounds[0] < 0.0);
-	}
-
-	function uninitializeBounds(bounds) {
-	  bounds[0] = 1.0;
-	  bounds[1] = -1.0;
-	  bounds[2] = 1.0;
-	  bounds[3] = -1.0;
-	  bounds[4] = 1.0;
-	  bounds[5] = -1.0;
-	}
-
-	function createUninitializedBouds() {
-	  return [].concat([Number.MAX_VALUE, Number.MIN_VALUE, // X
-	  Number.MAX_VALUE, Number.MIN_VALUE, // Y
-	  Number.MAX_VALUE, Number.MIN_VALUE]);
-	}
-
-	// Z
-	function dot(x, y) {
-	  return x[0] * y[0] + x[1] * y[1] + x[2] * y[2];
-	}
-
-	exports.default = {
-	  uninitializeBounds: uninitializeBounds,
-	  radiansFromDegrees: radiansFromDegrees,
-	  areBoundsInitialized: areBoundsInitialized,
-	  dot: dot,
-	  createUninitializedBouds: createUninitializedBouds
-	};
-
-/***/ },
-/* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1470,7 +1416,7 @@
 
 	var macro = _interopRequireWildcard(_macro);
 
-	var _Constants = __webpack_require__(8);
+	var _Constants = __webpack_require__(7);
 
 	var _Constants2 = _interopRequireDefault(_Constants);
 
@@ -1662,7 +1608,7 @@
 	exports.default = Object.assign({ newInstance: newInstance, extend: extend }, STATIC);
 
 /***/ },
-/* 8 */
+/* 7 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1687,6 +1633,145 @@
 	exports.default = {
 	  DEFAULT_DATATYPE: DEFAULT_DATATYPE,
 	  BYTE_SIZE: BYTE_SIZE
+	};
+
+/***/ },
+/* 8 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.newInstance = undefined;
+	exports.extend = extend;
+
+	var _macro = __webpack_require__(2);
+
+	var macro = _interopRequireWildcard(_macro);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	// ----------------------------------------------------------------------------
+	// vtkDataSetAttributes methods
+	// ----------------------------------------------------------------------------
+
+	function vtkDataSetAttributes(publicAPI, model) {
+	  // Set our className
+	  model.classHierarchy.push('vtkDataSetAttributes');
+
+	  publicAPI.getScalars = function () {
+	    var scalarArray = model.arrays[model.activeScalar];
+	    if (scalarArray) {
+	      return scalarArray;
+	    }
+	    return null;
+	  };
+
+	  publicAPI.getNormals = function () {
+	    var scalarArray = model.arrays.Normals;
+	    if (scalarArray) {
+	      return scalarArray;
+	    }
+	    return null;
+	  };
+
+	  publicAPI.getTCoords = function () {
+	    var scalarArray = model.arrays.TCoords; // FIXME is it the right array name?
+	    if (scalarArray) {
+	      return scalarArray;
+	    }
+	    return null;
+	  };
+	}
+
+	// ----------------------------------------------------------------------------
+	// Object factory
+	// ----------------------------------------------------------------------------
+
+	var DEFAULT_VALUES = {
+	  activeScalar: '',
+	  activeVector: '',
+	  activeTensor: '',
+	  arrays: null
+	};
+
+	// ----------------------------------------------------------------------------
+
+	function extend(publicAPI, model) {
+	  var initialValues = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+
+	  Object.assign(model, DEFAULT_VALUES, initialValues);
+
+	  // Object methods
+	  macro.obj(publicAPI, model);
+	  macro.setGet(publicAPI, model, ['activeScalar', 'activeVector', 'activeTensor']);
+
+	  if (!model.arrays) {
+	    model.arrays = {};
+	  }
+
+	  // Object specific methods
+	  vtkDataSetAttributes(publicAPI, model);
+	}
+
+	// ----------------------------------------------------------------------------
+
+	var newInstance = exports.newInstance = macro.newInstance(extend);
+
+	// ----------------------------------------------------------------------------
+
+	exports.default = { newInstance: newInstance, extend: extend };
+
+/***/ },
+/* 9 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.radiansFromDegrees = radiansFromDegrees;
+	exports.areBoundsInitialized = areBoundsInitialized;
+	exports.uninitializeBounds = uninitializeBounds;
+	exports.createUninitializedBouds = createUninitializedBouds;
+	exports.dot = dot;
+	function radiansFromDegrees(deg) {
+	  return deg / 180 * Math.PI;
+	}
+
+	function areBoundsInitialized(bounds) {
+	  return !(bounds[1] - bounds[0] < 0.0);
+	}
+
+	function uninitializeBounds(bounds) {
+	  bounds[0] = 1.0;
+	  bounds[1] = -1.0;
+	  bounds[2] = 1.0;
+	  bounds[3] = -1.0;
+	  bounds[4] = 1.0;
+	  bounds[5] = -1.0;
+	}
+
+	function createUninitializedBouds() {
+	  return [].concat([Number.MAX_VALUE, Number.MIN_VALUE, // X
+	  Number.MAX_VALUE, Number.MIN_VALUE, // Y
+	  Number.MAX_VALUE, Number.MIN_VALUE]);
+	}
+
+	// Z
+	function dot(x, y) {
+	  return x[0] * y[0] + x[1] * y[1] + x[2] * y[2];
+	}
+
+	exports.default = {
+	  uninitializeBounds: uninitializeBounds,
+	  radiansFromDegrees: radiansFromDegrees,
+	  areBoundsInitialized: areBoundsInitialized,
+	  dot: dot,
+	  createUninitializedBouds: createUninitializedBouds
 	};
 
 /***/ }
