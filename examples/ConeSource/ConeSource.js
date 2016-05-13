@@ -1627,7 +1627,11 @@
 
 	  Object.assign(model, DEFAULT_VALUES, initialValues);
 
-	  if (!model.values || !model.size || model.empty || model.type !== 'DataArray') {
+	  if (model.values) {
+	    model.size = model.values.length;
+	  }
+
+	  if (!model.empty && (!model.values || !model.size) || model.type !== 'DataArray') {
 	    throw Error('Can not create DataArray object without: size > 0, values or type = DataArray');
 	  }
 
