@@ -2,15 +2,15 @@
 <html lang="en">
 <head prefix="og: http://ogp.me/ns#">
   <meta charset="utf-8">
-  <title>Troubleshooting | Visualizer</title>
+  <title>Visualizer</title>
   <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- Canonical links -->
-  <link rel="canonical" href="https://kitware.github.io/visualizer/docs/troubleshooting.html">
+  <link rel="canonical" href="https://kitware.github.io/visualizer/docs/redux.html">
   <!-- Alternative links -->
   
     
-      <link rel="alternative" hreflang="en" href="https://kitware.github.io/visualizer/docs/troubleshooting.html">
+      <link rel="alternative" hreflang="en" href="https://kitware.github.io/visualizer/docs/redux.html">
     
   
   <!-- Icon -->
@@ -39,16 +39,19 @@
   <!-- RSS -->
   <link rel="alternate" href="/visualizer/atom.xml" title="Visualizer">
   <!-- Open Graph -->
-  <meta name="description" content="In case you’re experiencing problems with using ParaViewWeb Visualizer, here is a list of solutions to some frequently encountered issues. If this page doesn’t help you solve your problem, try doing a">
+  <meta name="description" content="Visualizer Data ModelVisualizer use Redux for managing its internal state which is described below.
+Global state&amp;#123;    busy: false,    proxies: &amp;#123;        &apos;1234&apos;: &amp;#123;        &amp;#125;    &amp;#125;,">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Troubleshooting">
-<meta property="og:url" content="https://kitware.github.io/visualizer/docs/troubleshooting.html">
+<meta property="og:title" content="Visualizer">
+<meta property="og:url" content="https://kitware.github.io/visualizer/docs/redux.html">
 <meta property="og:site_name" content="Visualizer">
-<meta property="og:description" content="In case you’re experiencing problems with using ParaViewWeb Visualizer, here is a list of solutions to some frequently encountered issues. If this page doesn’t help you solve your problem, try doing a">
+<meta property="og:description" content="Visualizer Data ModelVisualizer use Redux for managing its internal state which is described below.
+Global state&amp;#123;    busy: false,    proxies: &amp;#123;        &apos;1234&apos;: &amp;#123;        &amp;#125;    &amp;#125;,">
 <meta property="og:updated_time" content="2016-05-16T19:57:03.581Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Troubleshooting">
-<meta name="twitter:description" content="In case you’re experiencing problems with using ParaViewWeb Visualizer, here is a list of solutions to some frequently encountered issues. If this page doesn’t help you solve your problem, try doing a">
+<meta name="twitter:title" content="Visualizer">
+<meta name="twitter:description" content="Visualizer Data ModelVisualizer use Redux for managing its internal state which is described below.
+Global state&amp;#123;    busy: false,    proxies: &amp;#123;        &apos;1234&apos;: &amp;#123;        &amp;#125;    &amp;#125;,">
   <!-- Google Analytics -->
   
 </head>
@@ -86,11 +89,12 @@
           <div class="article">
             <div class="inner">
               <header class="article-header">
-                <h1 class="article-title" itemprop="name">Troubleshooting</h1>
+                <h1 class="article-title" itemprop="name"></h1>
               </header>
               <div class="article-content" itemprop="articleBody">
-                <p>In case you’re experiencing problems with using ParaViewWeb Visualizer, here is a list of solutions to some frequently encountered issues. If this page doesn’t help you solve your problem, try doing a search on <a href="https://github.com/kitware/visualizer/issues" target="_blank" rel="external">GitHub</a> or our <a href="http://www.paraview.org/mailman/listinfo/paraview" target="_blank" rel="external">Mailing list</a>.</p>
-
+                <h1 id="Visualizer-Data-Model" class="article-heading"><a href="#Visualizer-Data-Model" class="headerlink" title="Visualizer Data Model"></a>Visualizer Data Model<a class="article-anchor" href="#Visualizer-Data-Model" aria-hidden="true"></a></h1><p>Visualizer use <strong>Redux</strong> for managing its internal state which is described below.</p>
+<h2 id="Global-state" class="article-heading"><a href="#Global-state" class="headerlink" title="Global state"></a>Global state<a class="article-anchor" href="#Global-state" aria-hidden="true"></a></h2><figure class="highlight js"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    busy: <span class="literal">false</span>,</span><br><span class="line">    proxies: &#123;</span><br><span class="line">        <span class="string">'1234'</span>: &#123;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    pipeline: &#123;</span><br><span class="line"></span><br><span class="line">    &#125;,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Actions" class="article-heading"><a href="#Actions" class="headerlink" title="Actions"></a>Actions<a class="article-anchor" href="#Actions" aria-hidden="true"></a></h2>
               </div>
               <footer class="article-footer">
                 <time class="article-footer-updated" datetime="2016-05-16T19:57:03.581Z" itemprop="dateModified">Last updated: 2016-05-16</time>
@@ -102,7 +106,7 @@
           <aside id="article-toc" role="navigation">
             <div id="article-toc-inner">
               <strong class="sidebar-title">Contents</strong>
-              
+              <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Visualizer-Data-Model"><span class="toc-text">Visualizer Data Model</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Global-state"><span class="toc-text">Global state</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Actions"><span class="toc-text">Actions</span></a></li></ol></li></ol>
               <a href="#" id="article-toc-top">Back to Top</a>
             </div>
           </aside>
@@ -142,7 +146,7 @@
   </div>
   <div id="mobile-lang-select-wrap">
     <span id="mobile-lang-select-label"><i class="fa fa-globe"></i><span>English</span></span>
-    <select id="mobile-lang-select" data-canonical="docs/troubleshooting.html">
+    <select id="mobile-lang-select" data-canonical="docs/redux.html">
       
         <option value="en" selected>English</option>
       
