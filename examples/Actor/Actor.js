@@ -6975,6 +6975,16 @@
 	    publicAPI.modified();
 	  };
 
+	  publicAPI.setRepresentationToWireframe = function () {
+	    return publicAPI.setRepresentation(_Constants.REPRESENTATIONS.VTK_WIREFRAME);
+	  };
+	  publicAPI.setRepresentationToSurface = function () {
+	    return publicAPI.setRepresentation(_Constants.REPRESENTATIONS.VTK_SURFACE);
+	  };
+	  publicAPI.setRepresentationToPoints = function () {
+	    return publicAPI.setRepresentation(_Constants.REPRESENTATIONS.VTK_POINTS);
+	  };
+
 	  // NoOp here
 	  publicAPI.releaseGraphicsResources = function () {};
 	}
