@@ -169,11 +169,48 @@
 	    publicAPI.modified();
 	  };
 
-	  publicAPI.azimuth = function (angle) {};
+	  publicAPI.azimuth = function (angle) {
+	    var newPosition = _glMatrix.vec3.create();
+	    var fp = model.focalPoint;
+
+	    var trans = _glMatrix.mat4.create();
+	    _glMatrix.mat4.identity(trans);
+
+	    // translate the focal point to the origin,
+	    // rotate about view up,
+	    // translate back again
+	    _glMatrix.mat4.translate(trans, trans, _glMatrix.vec3.fromValues(fp[0], fp[1], fp[2]));
+	    _glMatrix.mat4.rotate(trans, trans, _Math2.default.radiansFromDegrees(angle), _glMatrix.vec3.fromValues(model.viewUp[0], model.viewUp[1], model.viewUp[2]));
+	    _glMatrix.mat4.translate(trans, trans, _glMatrix.vec3.fromValues(-fp[0], -fp[1], -fp[2]));
+
+	    // apply the transform to the position
+	    _glMatrix.vec3.transformMat4(newPosition, _glMatrix.vec3.fromValues(model.position[0], model.position[1], model.position[2]), trans);
+	    publicAPI.setPosition(newPosition[0], newPosition[1], newPosition[2]);
+	  };
 
 	  publicAPI.yaw = function (angle) {};
 
-	  publicAPI.elevation = function (angle) {};
+	  publicAPI.elevation = function (angle) {
+	    var newPosition = _glMatrix.vec3.create();
+	    var fp = model.focalPoint;
+
+	    var vt = publicAPI.getViewTransformMatrix();
+	    var axis = [-vt[0], -vt[1], -vt[2]];
+
+	    var trans = _glMatrix.mat4.create();
+	    _glMatrix.mat4.identity(trans);
+
+	    // translate the focal point to the origin,
+	    // rotate about view up,
+	    // translate back again
+	    _glMatrix.mat4.translate(trans, trans, _glMatrix.vec3.fromValues(fp[0], fp[1], fp[2]));
+	    _glMatrix.mat4.rotate(trans, trans, _Math2.default.radiansFromDegrees(angle), _glMatrix.vec3.fromValues(axis[0], axis[1], axis[2]));
+	    _glMatrix.mat4.translate(trans, trans, _glMatrix.vec3.fromValues(-fp[0], -fp[1], -fp[2]));
+
+	    // apply the transform to the position
+	    _glMatrix.vec3.transformMat4(newPosition, _glMatrix.vec3.fromValues(model.position[0], model.position[1], model.position[2]), trans);
+	    publicAPI.setPosition(newPosition[0], newPosition[1], newPosition[2]);
+	  };
 
 	  publicAPI.pitch = function (angle) {};
 
@@ -198,9 +235,12 @@
 	    var at = model.focalPoint;
 	    var up = model.viewUp;
 
-	    return _glMatrix.mat4.lookAt(viewMatrix, _glMatrix.vec3.fromValues(eye[0], eye[1], eye[2]), // eye
+	    var result = _glMatrix.mat4.lookAt(viewMatrix, _glMatrix.vec3.fromValues(eye[0], eye[1], eye[2]), // eye
 	    _glMatrix.vec3.fromValues(at[0], at[1], at[2]), // at
 	    _glMatrix.vec3.fromValues(up[0], up[1], up[2])); // up
+
+	    _glMatrix.mat4.transpose(result, result);
+	    return result;
 	  };
 
 	  publicAPI.getViewTransformObject = function () {};
@@ -211,6 +251,8 @@
 	    // FIXME: Not sure what to do about adjust z buffer here
 	    // adjust Z-buffer range
 	    // this->ProjectionTransform->AdjustZBuffer( -1, +1, nearz, farz );
+	    var cWidth = model.clippingRange[1] - model.clippingRange[0];
+	    var cRange = [model.clippingRange[0] + (nearz + 1) * cWidth / 2.0, model.clippingRange[0] + (farz + 1) * cWidth / 2.0];
 
 	    if (model.parallelProjection) {
 	      // set up a rectangular parallelipiped
@@ -232,11 +274,12 @@
 	      if (model.useHorizontalViewAngle === true) {
 	        fovy = model.viewAngle / aspect;
 	      }
-	      _glMatrix.mat4.perspective(projectionMatrix, fovy, aspect, nearz, farz);
+	      _glMatrix.mat4.perspective(projectionMatrix, _Math2.default.radiansFromDegrees(fovy), aspect, cRange[0], cRange[1]);
 	    }
 
 	    // No stereo, no view shear at the current time
 
+	    _glMatrix.mat4.transpose(projectionMatrix, projectionMatrix);
 	    return projectionMatrix;
 	  };
 
