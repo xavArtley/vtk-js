@@ -942,6 +942,11 @@
 	      }
 	    });
 	  }
+
+	  // Push getBounds on root API
+	  if (publicAPI.getPoints) {
+	    publicAPI.getBounds = publicAPI.getPoints().getBounds;
+	  }
 	}
 
 	// ----------------------------------------------------------------------------
