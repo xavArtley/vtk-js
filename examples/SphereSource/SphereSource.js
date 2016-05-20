@@ -272,7 +272,7 @@
 	        for (var _i3 = 0; _i3 < thetaResolution; _i3++) {
 	          for (var _j = 0; _j < phiResolution - 1; _j++) {
 	            var a = phiResolution * _i3 + _j + numPoles;
-	            var b = points[pointIdx * 3 + 0] + 1;
+	            var b = a + 1;
 	            var c = (phiResolution * (_i3 + 1) + _j) % base + numPoles + 1;
 
 	            if (!model.latLongTessellation) {
