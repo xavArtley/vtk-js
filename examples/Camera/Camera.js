@@ -370,7 +370,10 @@
 	  };
 
 	  publicAPI.getCompositeProjectionTransformMatrix = function (aspect, nearz, farz) {
-	    // return glmatrix object
+	    var vMat = publicAPI.getViewTransformMatrix();
+	    var pMat = publicAPI.getProjectionTransformMatrix(aspect, nearz, farz);
+	    _glMatrix.mat4.multiply(pMat, vMat, pMat);
+	    return pMat;
 	  };
 
 	  // publicAPI.getProjectionTransformMatrix = renderer => {
