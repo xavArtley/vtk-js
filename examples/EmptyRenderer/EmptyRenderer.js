@@ -50,11 +50,11 @@
 
 	var _RenderWindow2 = _interopRequireDefault(_RenderWindow);
 
-	var _RenderWindow3 = __webpack_require__(34);
+	var _RenderWindow3 = __webpack_require__(35);
 
 	var _RenderWindow4 = _interopRequireDefault(_RenderWindow3);
 
-	var _Renderer = __webpack_require__(35);
+	var _Renderer = __webpack_require__(36);
 
 	var _Renderer2 = _interopRequireDefault(_Renderer);
 
@@ -111,15 +111,15 @@
 
 	var macro = _interopRequireWildcard(_macro);
 
-	var _ViewNodeFactory = __webpack_require__(3);
+	var _ViewNodeFactory = __webpack_require__(4);
 
 	var _ViewNodeFactory2 = _interopRequireDefault(_ViewNodeFactory);
 
-	var _ShaderCache = __webpack_require__(32);
+	var _ShaderCache = __webpack_require__(33);
 
 	var _ShaderCache2 = _interopRequireDefault(_ShaderCache);
 
-	var _ViewNode = __webpack_require__(6);
+	var _ViewNode = __webpack_require__(7);
 
 	var _ViewNode2 = _interopRequireDefault(_ViewNode);
 
@@ -298,7 +298,7 @@
 
 /***/ },
 /* 2 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
@@ -319,6 +319,12 @@
 	exports.algo = algo;
 	exports.event = event;
 	exports.newInstance = newInstance;
+
+	var _vtk = __webpack_require__(3);
+
+	var _vtk2 = _interopRequireDefault(_vtk);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
@@ -723,8 +729,8 @@
 	// newInstance
 	// ----------------------------------------------------------------------------
 
-	function newInstance(extend) {
-	  return function () {
+	function newInstance(extend, className) {
+	  var constructor = function constructor() {
 	    var initialValues = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
 
 	    var model = {};
@@ -732,10 +738,54 @@
 	    extend(publicAPI, model, initialValues);
 	    return Object.freeze(publicAPI);
 	  };
+
+	  // Register constructor to factory
+	  if (className) {
+	    _vtk2.default.register(className, constructor);
+	  }
+
+	  return constructor;
 	}
 
 /***/ },
 /* 3 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.default = vtk;
+	exports.register = register;
+	var factoryMapping = {};
+
+	function vtk(obj) {
+	  if (obj.isA) {
+	    return obj;
+	  }
+	  if (!obj.type) {
+	    console.log('Invalid VTK object');
+	    return null;
+	  }
+	  var constructor = factoryMapping[obj.type];
+	  if (!constructor) {
+	    console.log('No vtk class found for Object of type', obj.type);
+	    return null;
+	  }
+
+	  return constructor(obj);
+	}
+
+	function register(vtkClassName, constructor) {
+	  factoryMapping[vtkClassName] = constructor;
+	}
+
+	// Nest register method under the vtk function
+	vtk.register = register;
+
+/***/ },
+/* 4 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -751,7 +801,7 @@
 
 	var macro = _interopRequireWildcard(_macro);
 
-	var _ViewNodeFactory = __webpack_require__(4);
+	var _ViewNodeFactory = __webpack_require__(5);
 
 	var _ViewNodeFactory2 = _interopRequireDefault(_ViewNodeFactory);
 
@@ -759,19 +809,19 @@
 
 	var _RenderWindow2 = _interopRequireDefault(_RenderWindow);
 
-	var _Renderer = __webpack_require__(5);
+	var _Renderer = __webpack_require__(6);
 
 	var _Renderer2 = _interopRequireDefault(_Renderer);
 
-	var _Actor = __webpack_require__(7);
+	var _Actor = __webpack_require__(8);
 
 	var _Actor2 = _interopRequireDefault(_Actor);
 
-	var _Camera = __webpack_require__(8);
+	var _Camera = __webpack_require__(9);
 
 	var _Camera2 = _interopRequireDefault(_Camera);
 
-	var _PolyDataMapper = __webpack_require__(19);
+	var _PolyDataMapper = __webpack_require__(20);
 
 	var _PolyDataMapper2 = _interopRequireDefault(_PolyDataMapper);
 
@@ -824,7 +874,7 @@
 	exports.default = { newInstance: newInstance, extend: extend };
 
 /***/ },
-/* 4 */
+/* 5 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -894,7 +944,7 @@
 	exports.default = { newInstance: newInstance, extend: extend };
 
 /***/ },
-/* 5 */
+/* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -910,7 +960,7 @@
 
 	var macro = _interopRequireWildcard(_macro);
 
-	var _ViewNode = __webpack_require__(6);
+	var _ViewNode = __webpack_require__(7);
 
 	var _ViewNode2 = _interopRequireDefault(_ViewNode);
 
@@ -1031,7 +1081,7 @@
 	exports.default = { newInstance: newInstance, extend: extend };
 
 /***/ },
-/* 6 */
+/* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1204,7 +1254,7 @@
 	exports.default = { newInstance: newInstance, extend: extend, PASS_TYPES: PASS_TYPES };
 
 /***/ },
-/* 7 */
+/* 8 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1219,7 +1269,7 @@
 
 	var macro = _interopRequireWildcard(_macro);
 
-	var _ViewNode = __webpack_require__(6);
+	var _ViewNode = __webpack_require__(7);
 
 	var _ViewNode2 = _interopRequireDefault(_ViewNode);
 
@@ -1306,7 +1356,7 @@
 	exports.default = { newInstance: newInstance, extend: extend };
 
 /***/ },
-/* 8 */
+/* 9 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1321,11 +1371,11 @@
 
 	var macro = _interopRequireWildcard(_macro);
 
-	var _ViewNode = __webpack_require__(6);
+	var _ViewNode = __webpack_require__(7);
 
 	var _ViewNode2 = _interopRequireDefault(_ViewNode);
 
-	var _glMatrix = __webpack_require__(9);
+	var _glMatrix = __webpack_require__(10);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -1446,7 +1496,7 @@
 	exports.default = { newInstance: newInstance, extend: extend };
 
 /***/ },
-/* 9 */
+/* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1479,18 +1529,18 @@
 	THE SOFTWARE. */
 	// END HEADER
 
-	exports.glMatrix = __webpack_require__(10);
-	exports.mat2 = __webpack_require__(11);
-	exports.mat2d = __webpack_require__(12);
-	exports.mat3 = __webpack_require__(13);
-	exports.mat4 = __webpack_require__(14);
-	exports.quat = __webpack_require__(15);
-	exports.vec2 = __webpack_require__(18);
-	exports.vec3 = __webpack_require__(16);
-	exports.vec4 = __webpack_require__(17);
+	exports.glMatrix = __webpack_require__(11);
+	exports.mat2 = __webpack_require__(12);
+	exports.mat2d = __webpack_require__(13);
+	exports.mat3 = __webpack_require__(14);
+	exports.mat4 = __webpack_require__(15);
+	exports.quat = __webpack_require__(16);
+	exports.vec2 = __webpack_require__(19);
+	exports.vec3 = __webpack_require__(17);
+	exports.vec4 = __webpack_require__(18);
 
 /***/ },
-/* 10 */
+/* 11 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1549,7 +1599,7 @@
 	module.exports = glMatrix;
 
 /***/ },
-/* 11 */
+/* 12 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1574,7 +1624,7 @@
 	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 	THE SOFTWARE. */
 
-	var glMatrix = __webpack_require__(10);
+	var glMatrix = __webpack_require__(11);
 
 	/**
 	 * @class 2x2 Matrix
@@ -1874,7 +1924,7 @@
 	module.exports = mat2;
 
 /***/ },
-/* 12 */
+/* 13 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1899,7 +1949,7 @@
 	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 	THE SOFTWARE. */
 
-	var glMatrix = __webpack_require__(10);
+	var glMatrix = __webpack_require__(11);
 
 	/**
 	 * @class 2x3 Matrix
@@ -2229,7 +2279,7 @@
 	module.exports = mat2d;
 
 /***/ },
-/* 13 */
+/* 14 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2254,7 +2304,7 @@
 	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 	THE SOFTWARE. */
 
-	var glMatrix = __webpack_require__(10);
+	var glMatrix = __webpack_require__(11);
 
 	/**
 	 * @class 3x3 Matrix
@@ -2857,7 +2907,7 @@
 	module.exports = mat3;
 
 /***/ },
-/* 14 */
+/* 15 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2882,7 +2932,7 @@
 	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 	THE SOFTWARE. */
 
-	var glMatrix = __webpack_require__(10);
+	var glMatrix = __webpack_require__(11);
 
 	/**
 	 * @class 4x4 Matrix
@@ -4253,7 +4303,7 @@
 	module.exports = mat4;
 
 /***/ },
-/* 15 */
+/* 16 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -4278,10 +4328,10 @@
 	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 	THE SOFTWARE. */
 
-	var glMatrix = __webpack_require__(10);
-	var mat3 = __webpack_require__(13);
-	var vec3 = __webpack_require__(16);
-	var vec4 = __webpack_require__(17);
+	var glMatrix = __webpack_require__(11);
+	var mat3 = __webpack_require__(14);
+	var vec3 = __webpack_require__(17);
+	var vec4 = __webpack_require__(18);
 
 	/**
 	 * @class Quaternion
@@ -4839,7 +4889,7 @@
 	module.exports = quat;
 
 /***/ },
-/* 16 */
+/* 17 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -4864,7 +4914,7 @@
 	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 	THE SOFTWARE. */
 
-	var glMatrix = __webpack_require__(10);
+	var glMatrix = __webpack_require__(11);
 
 	/**
 	 * @class 3 Dimensional Vector
@@ -5572,7 +5622,7 @@
 	module.exports = vec3;
 
 /***/ },
-/* 17 */
+/* 18 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -5597,7 +5647,7 @@
 	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 	THE SOFTWARE. */
 
-	var glMatrix = __webpack_require__(10);
+	var glMatrix = __webpack_require__(11);
 
 	/**
 	 * @class 4 Dimensional Vector
@@ -6125,7 +6175,7 @@
 	module.exports = vec4;
 
 /***/ },
-/* 18 */
+/* 19 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -6150,7 +6200,7 @@
 	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 	THE SOFTWARE. */
 
-	var glMatrix = __webpack_require__(10);
+	var glMatrix = __webpack_require__(11);
 
 	/**
 	 * @class 2 Dimensional Vector
@@ -6655,7 +6705,7 @@
 	module.exports = vec2;
 
 /***/ },
-/* 19 */
+/* 20 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -6671,29 +6721,29 @@
 
 	var macro = _interopRequireWildcard(_macro);
 
-	var _Helper = __webpack_require__(20);
+	var _Helper = __webpack_require__(21);
 
 	var _Helper2 = _interopRequireDefault(_Helper);
 
-	var _Math = __webpack_require__(29);
+	var _Math = __webpack_require__(30);
 
 	var _Math2 = _interopRequireDefault(_Math);
 
-	var _ShaderProgram = __webpack_require__(26);
+	var _ShaderProgram = __webpack_require__(27);
 
 	var _ShaderProgram2 = _interopRequireDefault(_ShaderProgram);
 
-	var _ViewNode = __webpack_require__(6);
+	var _ViewNode = __webpack_require__(7);
 
 	var _ViewNode2 = _interopRequireDefault(_ViewNode);
 
-	var _Constants = __webpack_require__(25);
+	var _Constants = __webpack_require__(26);
 
-	var _vtkPolyDataVS = __webpack_require__(30);
+	var _vtkPolyDataVS = __webpack_require__(31);
 
 	var _vtkPolyDataVS2 = _interopRequireDefault(_vtkPolyDataVS);
 
-	var _vtkPolyDataFS = __webpack_require__(31);
+	var _vtkPolyDataFS = __webpack_require__(32);
 
 	var _vtkPolyDataFS2 = _interopRequireDefault(_vtkPolyDataFS);
 
@@ -7445,7 +7495,7 @@
 	exports.default = { newInstance: newInstance, extend: extend };
 
 /***/ },
-/* 20 */
+/* 21 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -7461,15 +7511,15 @@
 
 	var macro = _interopRequireWildcard(_macro);
 
-	var _CellArrayBufferObject = __webpack_require__(21);
+	var _CellArrayBufferObject = __webpack_require__(22);
 
 	var _CellArrayBufferObject2 = _interopRequireDefault(_CellArrayBufferObject);
 
-	var _ShaderProgram = __webpack_require__(26);
+	var _ShaderProgram = __webpack_require__(27);
 
 	var _ShaderProgram2 = _interopRequireDefault(_ShaderProgram);
 
-	var _VertexArrayObject = __webpack_require__(28);
+	var _VertexArrayObject = __webpack_require__(29);
 
 	var _VertexArrayObject2 = _interopRequireDefault(_VertexArrayObject);
 
@@ -7540,7 +7590,7 @@
 	exports.default = { newInstance: newInstance, extend: extend };
 
 /***/ },
-/* 21 */
+/* 22 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -7555,15 +7605,15 @@
 
 	var macro = _interopRequireWildcard(_macro);
 
-	var _BufferObject = __webpack_require__(22);
+	var _BufferObject = __webpack_require__(23);
 
 	var _BufferObject2 = _interopRequireDefault(_BufferObject);
 
-	var _DynamicTypedArray = __webpack_require__(24);
+	var _DynamicTypedArray = __webpack_require__(25);
 
-	var _Constants = __webpack_require__(23);
+	var _Constants = __webpack_require__(24);
 
-	var _Constants2 = __webpack_require__(25);
+	var _Constants2 = __webpack_require__(26);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -7802,7 +7852,7 @@
 	exports.default = { newInstance: newInstance, extend: extend };
 
 /***/ },
-/* 22 */
+/* 23 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -7817,7 +7867,7 @@
 
 	var macro = _interopRequireWildcard(_macro);
 
-	var _Constants = __webpack_require__(23);
+	var _Constants = __webpack_require__(24);
 
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -7962,7 +8012,7 @@
 	exports.default = Object.assign({ newInstance: newInstance, extend: extend }, STATIC);
 
 /***/ },
-/* 23 */
+/* 24 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -7979,7 +8029,7 @@
 	exports.default = { OBJECT_TYPE: OBJECT_TYPE };
 
 /***/ },
-/* 24 */
+/* 25 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -8058,7 +8108,7 @@
 	}();
 
 /***/ },
-/* 25 */
+/* 26 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -8103,7 +8153,7 @@
 	};
 
 /***/ },
-/* 26 */
+/* 27 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -8120,7 +8170,7 @@
 
 	var macro = _interopRequireWildcard(_macro);
 
-	var _Shader = __webpack_require__(27);
+	var _Shader = __webpack_require__(28);
 
 	var _Shader2 = _interopRequireDefault(_Shader);
 
@@ -8542,7 +8592,7 @@
 	exports.default = { newInstance: newInstance, extend: extend, substitute: substitute };
 
 /***/ },
-/* 27 */
+/* 28 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -8660,7 +8710,7 @@
 	exports.default = { newInstance: newInstance, extend: extend };
 
 /***/ },
-/* 28 */
+/* 29 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -8675,7 +8725,7 @@
 
 	var macro = _interopRequireWildcard(_macro);
 
-	var _Constants = __webpack_require__(23);
+	var _Constants = __webpack_require__(24);
 
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -8956,7 +9006,7 @@
 	exports.default = { newInstance: newInstance, extend: extend };
 
 /***/ },
-/* 29 */
+/* 30 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -10968,19 +11018,19 @@
 	};
 
 /***/ },
-/* 30 */
+/* 31 */
 /***/ function(module, exports) {
 
 	module.exports = "//VTK::System::Dec\n\n/*=========================================================================\n\n  Program:   Visualization Toolkit\n  Module:    vtkPolyDataVS.glsl\n\n  Copyright (c) Ken Martin, Will Schroeder, Bill Lorensen\n  All rights reserved.\n  See Copyright.txt or http://www.kitware.com/Copyright.htm for details.\n\n     This software is distributed WITHOUT ANY WARRANTY; without even\n     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR\n     PURPOSE.  See the above copyright notice for more information.\n\n=========================================================================*/\n\nattribute vec4 vertexMC;\n\n// frag position in VC\n//VTK::PositionVC::Dec\n\n// optional normal declaration\n//VTK::Normal::Dec\n\n// extra lighting parameters\n//VTK::Light::Dec\n\n// Texture coordinates\n//VTK::TCoord::Dec\n\n// material property values\n//VTK::Color::Dec\n\n// clipping plane vars\n//VTK::Clip::Dec\n\n// camera and actor matrix values\n//VTK::Camera::Dec\n\n// Apple Bug\n//VTK::PrimID::Dec\n\nvoid main()\n{\n  //VTK::Color::Impl\n\n  //VTK::Normal::Impl\n\n  //VTK::TCoord::Impl\n\n  //VTK::Clip::Impl\n\n  //VTK::PrimID::Impl\n\n  //VTK::PositionVC::Impl\n\n  //VTK::Light::Impl\n}\n"
 
 /***/ },
-/* 31 */
+/* 32 */
 /***/ function(module, exports) {
 
 	module.exports = "//VTK::System::Dec\n\n/*=========================================================================\n\n  Program:   Visualization Toolkit\n  Module:    vtkPolyDataFS.glsl\n\n  Copyright (c) Ken Martin, Will Schroeder, Bill Lorensen\n  All rights reserved.\n  See Copyright.txt or http://www.kitware.com/Copyright.htm for details.\n\n     This software is distributed WITHOUT ANY WARRANTY; without even\n     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR\n     PURPOSE.  See the above copyright notice for more information.\n\n=========================================================================*/\n// Template for the polydata mappers fragment shader\n\nuniform int PrimitiveIDOffset;\n\n// VC position of this fragment\n//VTK::PositionVC::Dec\n\n// optional color passed in from the vertex shader, vertexColor\n//VTK::Color::Dec\n\n// optional surface normal declaration\n//VTK::Normal::Dec\n\n// extra lighting parameters\n//VTK::Light::Dec\n\n// Texture coordinates\n//VTK::TCoord::Dec\n\n// picking support\n//VTK::Picking::Dec\n\n// Depth Peeling Support\n//VTK::DepthPeeling::Dec\n\n// clipping plane vars\n//VTK::Clip::Dec\n\n// the output of this shader\n//VTK::Output::Dec\n\n// Apple Bug\n//VTK::PrimID::Dec\n\n// handle coincident offsets\n//VTK::Coincident::Dec\n\nvoid main()\n{\n  // VC position of this fragment. This should not branch/return/discard.\n  //VTK::PositionVC::Impl\n\n  // Place any calls that require uniform flow (e.g. dFdx) here.\n  //VTK::UniformFlow::Impl\n\n  // Early depth peeling abort:\n  //VTK::DepthPeeling::PreColor\n\n  // Apple Bug\n  //VTK::PrimID::Impl\n\n  //VTK::Clip::Impl\n\n  //VTK::Color::Impl\n\n  // Generate the normal if we are not passed in one\n  //VTK::Normal::Impl\n\n  //VTK::Light::Impl\n\n  //VTK::TCoord::Impl\n\n  if (gl_FragData[0].a <= 0.0)\n    {\n    discard;\n    }\n\n  //VTK::DepthPeeling::Impl\n\n  //VTK::Picking::Impl\n\n  // handle coincident offsets\n  //VTK::Coincident::Impl\n}\n"
 
 /***/ },
-/* 32 */
+/* 33 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -10995,11 +11045,11 @@
 
 	var macro = _interopRequireWildcard(_macro);
 
-	var _ShaderProgram = __webpack_require__(26);
+	var _ShaderProgram = __webpack_require__(27);
 
 	var _ShaderProgram2 = _interopRequireDefault(_ShaderProgram);
 
-	var _blueimpMd = __webpack_require__(33);
+	var _blueimpMd = __webpack_require__(34);
 
 	var _blueimpMd2 = _interopRequireDefault(_blueimpMd);
 
@@ -11178,7 +11228,7 @@
 	exports.default = { newInstance: newInstance, extend: extend };
 
 /***/ },
-/* 33 */
+/* 34 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;'use strict';
@@ -11466,7 +11516,7 @@
 	})(undefined);
 
 /***/ },
-/* 34 */
+/* 35 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -11590,7 +11640,7 @@
 	exports.default = { newInstance: newInstance, extend: extend };
 
 /***/ },
-/* 35 */
+/* 36 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -11605,29 +11655,29 @@
 
 	var macro = _interopRequireWildcard(_macro);
 
-	var _Camera = __webpack_require__(36);
+	var _Camera = __webpack_require__(37);
 
 	var _Camera2 = _interopRequireDefault(_Camera);
 
-	var _Light = __webpack_require__(37);
+	var _Light = __webpack_require__(38);
 
 	var _Light2 = _interopRequireDefault(_Light);
 
-	var _Math = __webpack_require__(29);
+	var _Math = __webpack_require__(30);
 
 	var _Math2 = _interopRequireDefault(_Math);
 
-	var _TimerLog = __webpack_require__(38);
+	var _TimerLog = __webpack_require__(39);
 
 	var _TimerLog2 = _interopRequireDefault(_TimerLog);
 
-	var _Viewport = __webpack_require__(39);
+	var _Viewport = __webpack_require__(40);
 
 	var _Viewport2 = _interopRequireDefault(_Viewport);
 
-	var _BoundingBox = __webpack_require__(40);
+	var _BoundingBox = __webpack_require__(41);
 
-	var _glMatrix = __webpack_require__(9);
+	var _glMatrix = __webpack_require__(10);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -12427,7 +12477,7 @@
 	exports.default = { newInstance: newInstance, extend: extend };
 
 /***/ },
-/* 36 */
+/* 37 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -12442,11 +12492,11 @@
 
 	var macro = _interopRequireWildcard(_macro);
 
-	var _Math = __webpack_require__(29);
+	var _Math = __webpack_require__(30);
 
 	var _Math2 = _interopRequireDefault(_Math);
 
-	var _glMatrix = __webpack_require__(9);
+	var _glMatrix = __webpack_require__(10);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -12856,7 +12906,7 @@
 	exports.default = { newInstance: newInstance, extend: extend };
 
 /***/ },
-/* 37 */
+/* 38 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -12872,7 +12922,7 @@
 
 	var macro = _interopRequireWildcard(_macro);
 
-	var _Math = __webpack_require__(29);
+	var _Math = __webpack_require__(30);
 
 	var _Math2 = _interopRequireDefault(_Math);
 
@@ -12988,7 +13038,7 @@
 	exports.default = { newInstance: newInstance, extend: extend, LIGHT_TYPES: LIGHT_TYPES };
 
 /***/ },
-/* 38 */
+/* 39 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -13006,7 +13056,7 @@
 	};
 
 /***/ },
-/* 39 */
+/* 40 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -13175,7 +13225,7 @@
 	exports.default = { newInstance: newInstance, extend: extend };
 
 /***/ },
-/* 40 */
+/* 41 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -13193,7 +13243,7 @@
 
 	var macro = _interopRequireWildcard(_macro);
 
-	var _Plane = __webpack_require__(41);
+	var _Plane = __webpack_require__(42);
 
 	var _Plane2 = _interopRequireDefault(_Plane);
 
@@ -13595,6 +13645,7 @@
 	// ----------------------------------------------------------------------------
 
 	var DEFAULT_VALUES = {
+	  type: 'vtkBoundingBox',
 	  bounds: [].concat(INIT_BOUNDS)
 	};
 
@@ -13613,14 +13664,14 @@
 
 	// ----------------------------------------------------------------------------
 
-	var newInstance = exports.newInstance = macro.newInstance(extend);
+	var newInstance = exports.newInstance = macro.newInstance(extend, 'vtkBoundingBox');
 
 	// ----------------------------------------------------------------------------
 
 	exports.default = Object.assign({ newInstance: newInstance, extend: extend }, STATIC);
 
 /***/ },
-/* 41 */
+/* 42 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -13666,7 +13717,9 @@
 	// Object factory
 	// ----------------------------------------------------------------------------
 
-	var DEFAULT_VALUES = {};
+	var DEFAULT_VALUES = {
+	  type: 'vtkPlane'
+	};
 
 	// ----------------------------------------------------------------------------
 
@@ -13683,7 +13736,7 @@
 
 	// ----------------------------------------------------------------------------
 
-	var newInstance = exports.newInstance = macro.newInstance(extend);
+	var newInstance = exports.newInstance = macro.newInstance(extend, 'vtkPlane');
 
 	// ----------------------------------------------------------------------------
 
