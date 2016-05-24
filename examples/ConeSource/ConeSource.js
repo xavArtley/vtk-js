@@ -10808,6 +10808,10 @@
 	  };
 
 	  publicAPI.mapScalars = function (input, alpha) {
+	    if (input.getPointData().getScalars() === null) {
+	      model.colorMapColors = null;
+	      return;
+	    }
 	    var lut = publicAPI.getLookupTable();
 	    if (lut) {
 	      // Ensure that the lookup table is built
