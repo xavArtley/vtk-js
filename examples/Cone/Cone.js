@@ -50,35 +50,39 @@
 
 	var _RenderWindow2 = _interopRequireDefault(_RenderWindow);
 
-	var _RenderWindow3 = __webpack_require__(35);
+	var _RenderWindow3 = __webpack_require__(36);
 
 	var _RenderWindow4 = _interopRequireDefault(_RenderWindow3);
 
-	var _Renderer = __webpack_require__(36);
+	var _Renderer = __webpack_require__(37);
 
 	var _Renderer2 = _interopRequireDefault(_Renderer);
 
-	var _ConeSource = __webpack_require__(43);
+	var _ConeSource = __webpack_require__(44);
 
 	var _ConeSource2 = _interopRequireDefault(_ConeSource);
 
-	var _Actor = __webpack_require__(50);
+	var _Actor = __webpack_require__(51);
 
 	var _Actor2 = _interopRequireDefault(_Actor);
 
-	var _Mapper = __webpack_require__(54);
+	var _Mapper = __webpack_require__(55);
 
 	var _Mapper2 = _interopRequireDefault(_Mapper);
 
-	var _Camera = __webpack_require__(37);
+	var _Camera = __webpack_require__(38);
 
 	var _Camera2 = _interopRequireDefault(_Camera);
 
-	var _RenderWindowInteractor = __webpack_require__(59);
+	var _RenderWindowInteractor = __webpack_require__(61);
 
 	var _RenderWindowInteractor2 = _interopRequireDefault(_RenderWindowInteractor);
 
-	var _controller = __webpack_require__(64);
+	var _DataArray = __webpack_require__(49);
+
+	var _DataArray2 = _interopRequireDefault(_DataArray);
+
+	var _controller = __webpack_require__(66);
 
 	var _controller2 = _interopRequireDefault(_controller);
 
@@ -123,7 +127,31 @@
 	cam.setClippingRange(0.1, 50.0);
 
 	var coneSource = _ConeSource2.default.newInstance({ height: 1.0 });
-	mapper.setInputConnection(coneSource.getOutputPort());
+
+	var scalars = {
+	  type: 'vtkDataArray',
+	  name: 'temp',
+	  tuple: 1,
+	  dataType: 'Float32Array'
+	};
+
+	var s = new window[scalars.dataType](coneSource.getResolution() + 1);
+	for (var i = 0; i < s.length; i++) {
+	  s[i] = Math.random();
+	}
+	scalars.values = s;
+	scalars.size = s.length;
+
+	var da = _DataArray2.default.newInstance(scalars);
+	da.setName('temp');
+
+	var coneData = coneSource.getOutput();
+	var cpd = coneData.getPointData();
+	cpd.addArray(da);
+	cpd.setActiveScalars(da.getName());
+
+	// mapper.setInputConnection(coneSource.getOutputPort());
+	mapper.setInputData(coneData);
 
 	iren.initialize();
 	iren.bindEvents(renderWindowContainer, document);
@@ -169,7 +197,7 @@
 
 	var _ViewNodeFactory2 = _interopRequireDefault(_ViewNodeFactory);
 
-	var _ShaderCache = __webpack_require__(33);
+	var _ShaderCache = __webpack_require__(34);
 
 	var _ShaderCache2 = _interopRequireDefault(_ShaderCache);
 
@@ -6793,11 +6821,13 @@
 
 	var _Constants = __webpack_require__(26);
 
-	var _vtkPolyDataVS = __webpack_require__(31);
+	var _Constants2 = __webpack_require__(31);
+
+	var _vtkPolyDataVS = __webpack_require__(32);
 
 	var _vtkPolyDataVS2 = _interopRequireDefault(_vtkPolyDataVS);
 
-	var _vtkPolyDataFS = __webpack_require__(32);
+	var _vtkPolyDataFS = __webpack_require__(33);
 
 	var _vtkPolyDataFS2 = _interopRequireDefault(_vtkPolyDataFS);
 
@@ -6853,6 +6883,8 @@
 	  };
 
 	  publicAPI.replaceShaderColor = function (shaders, ren, actor) {
+	    var VSSource = shaders.Vertex;
+	    var GSSource = shaders.Geometry;
 	    var FSSource = shaders.Fragment;
 
 	    var lastLightComplexity = model.lastLightComplexity.get(model.lastBoundBO);
@@ -6864,7 +6896,6 @@
 	    if (lastLightComplexity) {
 	      colorDec = colorDec.concat(['uniform vec3 specularColorUniform; // intensity weighted color', 'uniform float specularPowerUniform;']);
 	    }
-	    FSSource = _ShaderProgram2.default.substitute(FSSource, '//VTK::Color::Dec', colorDec).result;
 
 	    // now handle the more complex fragment shader implementation
 	    // the following are always defined variables.  We start
@@ -6878,8 +6909,33 @@
 	      colorImpl = colorImpl.concat(['  specularColor = specularColorUniform;', '  specularPower = specularPowerUniform;']);
 	    }
 
-	    FSSource = _ShaderProgram2.default.substitute(FSSource, '//VTK::Color::Impl', colorImpl).result;
+	    // add scalar vertex coloring
+	    if (model.lastBoundBO.getCABO().getColorComponents() !== 0) {
+	      colorDec = colorDec.concat(['varying vec4 vertexColorVSOutput;']);
+	      VSSource = _ShaderProgram2.default.substitute(VSSource, '//VTK::Color::Dec', ['attribute vec4 scalarColor;', 'varying vec4 vertexColorVSOutput;']).result;
+	      VSSource = _ShaderProgram2.default.substitute(VSSource, '//VTK::Color::Impl', ['vertexColorVSOutput =  scalarColor;']).result;
+	      GSSource = _ShaderProgram2.default.substitute(GSSource, '//VTK::Color::Dec', ['in vec4 vertexColorVSOutput[];', 'out vec4 vertexColorGSOutput;']).result;
+	      GSSource = _ShaderProgram2.default.substitute(GSSource, '//VTK::Color::Impl', ['vertexColorGSOutput = vertexColorVSOutput[i];']).result;
+	    }
 
+	    var scalarMatMode = model.renderable.getScalarMaterialMode();
+
+	    if (model.lastBoundBO.getCABO().getColorComponents() !== 0) {
+	      if (scalarMatMode === _Constants2.MATERIAL_MODE_VALUES.VTK_MATERIALMODE_AMBIENT || scalarMatMode === _Constants2.MATERIAL_MODE_VALUES.VTK_MATERIALMODE_DEFAULT && actor.getProperty().getAmbient() > actor.getProperty().getDiffuse()) {
+	        FSSource = _ShaderProgram2.default.substitute(FSSource, '//VTK::Color::Impl', colorImpl.concat(['  ambientColor = vertexColorVSOutput.rgb;', '  opacity = opacity*vertexColorVSOutput.a;'])).result;
+	      } else if (scalarMatMode === _Constants2.MATERIAL_MODE_VALUES.VTK_MATERIALMODE_DIFFUSE || scalarMatMode === _Constants2.MATERIAL_MODE_VALUES.VTK_MATERIALMODE_DEFAULT && actor.getProperty().getAmbient() <= actor.getProperty().getDiffuse()) {
+	        FSSource = _ShaderProgram2.default.substitute(FSSource, '//VTK::Color::Impl', colorImpl.concat(['  diffuseColor = vertexColorVSOutput.rgb;', '  opacity = opacity*vertexColorVSOutput.a;'])).result;
+	      } else {
+	        FSSource = _ShaderProgram2.default.substitute(FSSource, '//VTK::Color::Impl', colorImpl.concat(['  diffuseColor = vertexColorVSOutput.rgb;', '  ambientColor = vertexColorVSOutput.rgb;', '  opacity = opacity*vertexColorVSOutput.a;'])).result;
+	      }
+	    } else {
+	      FSSource = _ShaderProgram2.default.substitute(FSSource, '//VTK::Color::Impl', colorImpl).result;
+	    }
+
+	    FSSource = _ShaderProgram2.default.substitute(FSSource, '//VTK::Color::Dec', colorDec).result;
+
+	    shaders.Vertex = VSSource;
+	    shaders.Geometry = GSSource;
 	    shaders.Fragment = FSSource;
 	  };
 
@@ -7132,16 +7188,12 @@
 	      //       console.error(<< 'Error setting 'tcoordMC' in shader VAO.');
 	      //       }
 	      //     }
-	      //   if (model.VBO.ColorComponents != 0 && !model.DrawingEdges &&
-	      //       cellBO.Program.IsAttributeUsed('scalarColor'))
-	      //     {
-	      //     if (!cellBO.getVAO().AddAttributeArray(cellBO.Program, model.VBO,
-	      //                                     'scalarColor', model.VBO.ColorOffset,
-	      //                                     model.VBO.Stride, VTK_UNSIGNED_CHAR,
-	      //                                     model.VBO.ColorComponents, true))
-	      //       {
-	      //       console.error(<< 'Error setting 'scalarColor' in shader VAO.');
-	      //       }
+	      if (cellBO.getProgram().isAttributeUsed('scalarColor') && cellBO.getCABO().getColorComponents()) {
+	        if (!cellBO.getVAO().addAttributeArray(cellBO.getProgram(), cellBO.getCABO(), 'scalarColor', cellBO.getCABO().getColorOffset(), cellBO.getCABO().getStride(), model.context.FLOAT /* BYTE */
+	        , cellBO.getCABO().getColorComponents(), true)) {
+	          console.error('Error setting scalarColor in shader VAO.');
+	        }
+	      }
 	    }
 	  };
 
@@ -7457,6 +7509,9 @@
 	      return;
 	    }
 
+	    model.renderable.mapScalars(poly, 1.0);
+	    var c = model.renderable.getColorMapColors();
+
 	    // Do we have normals?
 	    var n = actor.getProperty().getInterpolation() !== _Constants.SHADINGS.VTK_FLAT ? poly.getPointData().getNormals() : null;
 
@@ -7467,10 +7522,9 @@
 	    // parameters in the mapper
 
 	    var representation = actor.getProperty().getRepresentation();
-	    var toString = poly.getMTime() + 'A' + representation + 'B' + poly.getMTime() + 'C' + (n ? n.getMTime() : 1) + 'C';
+	    var toString = poly.getMTime() + 'A' + representation + 'B' + poly.getMTime() + 'C' + (n ? n.getMTime() : 1) + 'C' + (model.colors ? model.colors.getMTime() : 1);
 
 	    var tcoords = null;
-	    var c = null;
 	    if (model.VBOBuildString !== toString) {
 	      // Build the VBOs
 	      var points = poly.getPoints();
@@ -7724,7 +7778,8 @@
 	    if (colors !== null) {
 	      model.colorComponents = colors.getNumberOfComponents();
 	      model.colorOffset = /* sizeof(float) */4 * model.blockSize;
-	      model.blockSize += 1;
+	      //      model.blockSize += 1;
+	      model.blockSize += model.colorComponents;
 	      colorData = colors.getData();
 	    }
 	    model.stride = /* sizeof(float) */4 * model.blockSize;
@@ -7734,7 +7789,7 @@
 	    var tcoordIdx = 0;
 	    var colorIdx = 0;
 
-	    var colorHolder = new Uint8Array(4);
+	    // const colorHolder = new Uint8Array(4);
 
 	    var addAPoint = function addAPoint(i) {
 	      // Vertices
@@ -7760,19 +7815,23 @@
 	      }
 
 	      if (colorData !== null) {
-	        colorHolder[0] = colorData[colorIdx++];
-	        colorHolder[1] = colorData[colorIdx++];
-	        colorHolder[2] = colorData[colorIdx++];
-
-	        if (colorComponents === 4) {
-	          colorHolder[3] = colorData[colorIdx++];
-	        } else {
-	          // must be 3 color components then
-	          colorHolder[3] = 255;
+	        for (var _j = 0; _j < colorComponents; ++_j) {
+	          packedVBO.push(colorData[colorIdx++] / 255.5);
 	        }
-
-	        packedVBO.push(new Float32Array(colorHolder.buffer)[0]);
 	      }
+	      // if (colorData !== null) {
+	      //   colorHolder[0] = colorData[colorIdx++];
+	      //   colorHolder[1] = colorData[colorIdx++];
+	      //   colorHolder[2] = colorData[colorIdx++];
+
+	      //   if (colorComponents === 4) {
+	      //     colorHolder[3] = colorData[colorIdx++];
+	      //   } else {  // must be 3 color components then
+	      //     colorHolder[3] = 255;
+	      //   }
+
+	      //   packedVBO.push(new Float32Array(colorHolder.buffer)[0]);
+	      // }
 	    };
 
 	    var cellBuilders = {
@@ -7878,7 +7937,7 @@
 	  tCoordOffset: 0,
 	  tCoordComponents: 0,
 	  colorOffset: 0,
-	  numColorComponents: 0
+	  colorComponents: 0
 	};
 
 	// ----------------------------------------------------------------------------
@@ -7891,7 +7950,7 @@
 	  // Inheritance
 	  _BufferObject2.default.extend(publicAPI, model);
 
-	  macro.get(publicAPI, model, ['elementCount', 'stride', 'vertexOffset', 'normalOffset', 'tCoordOffset', 'tCoordComponents', 'colorOffset', 'numColorComponents']);
+	  macro.get(publicAPI, model, ['elementCount', 'stride', 'vertexOffset', 'normalOffset', 'tCoordOffset', 'tCoordComponents', 'colorOffset', 'colorComponents']);
 
 	  // Object specific methods
 	  vtkOpenGLCellArrayBufferObject(publicAPI, model);
@@ -11075,16 +11134,40 @@
 /* 31 */
 /***/ function(module, exports) {
 
-	module.exports = "//VTK::System::Dec\n\n/*=========================================================================\n\n  Program:   Visualization Toolkit\n  Module:    vtkPolyDataVS.glsl\n\n  Copyright (c) Ken Martin, Will Schroeder, Bill Lorensen\n  All rights reserved.\n  See Copyright.txt or http://www.kitware.com/Copyright.htm for details.\n\n     This software is distributed WITHOUT ANY WARRANTY; without even\n     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR\n     PURPOSE.  See the above copyright notice for more information.\n\n=========================================================================*/\n\nattribute vec4 vertexMC;\n\n// frag position in VC\n//VTK::PositionVC::Dec\n\n// optional normal declaration\n//VTK::Normal::Dec\n\n// extra lighting parameters\n//VTK::Light::Dec\n\n// Texture coordinates\n//VTK::TCoord::Dec\n\n// material property values\n//VTK::Color::Dec\n\n// clipping plane vars\n//VTK::Clip::Dec\n\n// camera and actor matrix values\n//VTK::Camera::Dec\n\n// Apple Bug\n//VTK::PrimID::Dec\n\nvoid main()\n{\n  //VTK::Color::Impl\n\n  //VTK::Normal::Impl\n\n  //VTK::TCoord::Impl\n\n  //VTK::Clip::Impl\n\n  //VTK::PrimID::Impl\n\n  //VTK::PositionVC::Impl\n\n  //VTK::Light::Impl\n}\n"
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	var COLOR_MODE = exports.COLOR_MODE = ['VTK_COLOR_MODE_DEFAULT', 'VTK_COLOR_MODE_MAP_SCALARS', 'VTK_COLOR_MODE_DIRECT_SCALARS'];
+
+	var SCALAR_MODE = exports.SCALAR_MODE = ['VTK_SCALAR_MODE_DEFAULT', 'VTK_SCALAR_MODE_USE_POINT_DATA', 'VTK_SCALAR_MODE_USE_CELL_DATA', 'VTK_SCALAR_MODE_USE_POINT_FIELD_DATA', 'VTK_SCALAR_MODE_USE_CELL_FIELD_DATA', 'VTK_SCALAR_MODE_USE_FIELD_DATA'];
+
+	var MATERIAL_MODE = exports.MATERIAL_MODE = ['VTK_MATERIALMODE_DEFAULT', 'VTK_MATERIALMODE_AMBIENT', 'VTK_MATERIALMODE_DIFFUSE', 'VTK_MATERIALMODE_AMBIENT_AND_DIFFUSE'];
+
+	var MATERIAL_MODE_VALUES = exports.MATERIAL_MODE_VALUES = {
+	  VTK_MATERIALMODE_DEFAULT: 0,
+	  VTK_MATERIALMODE_AMBIENT: 1,
+	  VTK_MATERIALMODE_DIFFUSE: 2,
+	  VTK_MATERIALMODE_AMBIENT_AND_DIFFUSE: 3
+	};
+
+	exports.default = { MATERIAL_MODE_VALUES: MATERIAL_MODE_VALUES };
 
 /***/ },
 /* 32 */
 /***/ function(module, exports) {
 
-	module.exports = "//VTK::System::Dec\n\n/*=========================================================================\n\n  Program:   Visualization Toolkit\n  Module:    vtkPolyDataFS.glsl\n\n  Copyright (c) Ken Martin, Will Schroeder, Bill Lorensen\n  All rights reserved.\n  See Copyright.txt or http://www.kitware.com/Copyright.htm for details.\n\n     This software is distributed WITHOUT ANY WARRANTY; without even\n     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR\n     PURPOSE.  See the above copyright notice for more information.\n\n=========================================================================*/\n// Template for the polydata mappers fragment shader\n\nuniform int PrimitiveIDOffset;\n\n// VC position of this fragment\n//VTK::PositionVC::Dec\n\n// optional color passed in from the vertex shader, vertexColor\n//VTK::Color::Dec\n\n// optional surface normal declaration\n//VTK::Normal::Dec\n\n// extra lighting parameters\n//VTK::Light::Dec\n\n// Texture coordinates\n//VTK::TCoord::Dec\n\n// picking support\n//VTK::Picking::Dec\n\n// Depth Peeling Support\n//VTK::DepthPeeling::Dec\n\n// clipping plane vars\n//VTK::Clip::Dec\n\n// the output of this shader\n//VTK::Output::Dec\n\n// Apple Bug\n//VTK::PrimID::Dec\n\n// handle coincident offsets\n//VTK::Coincident::Dec\n\nvoid main()\n{\n  // VC position of this fragment. This should not branch/return/discard.\n  //VTK::PositionVC::Impl\n\n  // Place any calls that require uniform flow (e.g. dFdx) here.\n  //VTK::UniformFlow::Impl\n\n  // Early depth peeling abort:\n  //VTK::DepthPeeling::PreColor\n\n  // Apple Bug\n  //VTK::PrimID::Impl\n\n  //VTK::Clip::Impl\n\n  //VTK::Color::Impl\n\n  // Generate the normal if we are not passed in one\n  //VTK::Normal::Impl\n\n  //VTK::Light::Impl\n\n  //VTK::TCoord::Impl\n\n  if (gl_FragData[0].a <= 0.0)\n    {\n    discard;\n    }\n\n  //VTK::DepthPeeling::Impl\n\n  //VTK::Picking::Impl\n\n  // handle coincident offsets\n  //VTK::Coincident::Impl\n}\n"
+	module.exports = "//VTK::System::Dec\n\n/*=========================================================================\n\n  Program:   Visualization Toolkit\n  Module:    vtkPolyDataVS.glsl\n\n  Copyright (c) Ken Martin, Will Schroeder, Bill Lorensen\n  All rights reserved.\n  See Copyright.txt or http://www.kitware.com/Copyright.htm for details.\n\n     This software is distributed WITHOUT ANY WARRANTY; without even\n     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR\n     PURPOSE.  See the above copyright notice for more information.\n\n=========================================================================*/\n\nattribute vec4 vertexMC;\n\n// frag position in VC\n//VTK::PositionVC::Dec\n\n// optional normal declaration\n//VTK::Normal::Dec\n\n// extra lighting parameters\n//VTK::Light::Dec\n\n// Texture coordinates\n//VTK::TCoord::Dec\n\n// material property values\n//VTK::Color::Dec\n\n// clipping plane vars\n//VTK::Clip::Dec\n\n// camera and actor matrix values\n//VTK::Camera::Dec\n\n// Apple Bug\n//VTK::PrimID::Dec\n\nvoid main()\n{\n  //VTK::Color::Impl\n\n  //VTK::Normal::Impl\n\n  //VTK::TCoord::Impl\n\n  //VTK::Clip::Impl\n\n  //VTK::PrimID::Impl\n\n  //VTK::PositionVC::Impl\n\n  //VTK::Light::Impl\n}\n"
 
 /***/ },
 /* 33 */
+/***/ function(module, exports) {
+
+	module.exports = "//VTK::System::Dec\n\n/*=========================================================================\n\n  Program:   Visualization Toolkit\n  Module:    vtkPolyDataFS.glsl\n\n  Copyright (c) Ken Martin, Will Schroeder, Bill Lorensen\n  All rights reserved.\n  See Copyright.txt or http://www.kitware.com/Copyright.htm for details.\n\n     This software is distributed WITHOUT ANY WARRANTY; without even\n     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR\n     PURPOSE.  See the above copyright notice for more information.\n\n=========================================================================*/\n// Template for the polydata mappers fragment shader\n\nuniform int PrimitiveIDOffset;\n\n// VC position of this fragment\n//VTK::PositionVC::Dec\n\n// optional color passed in from the vertex shader, vertexColor\n//VTK::Color::Dec\n\n// optional surface normal declaration\n//VTK::Normal::Dec\n\n// extra lighting parameters\n//VTK::Light::Dec\n\n// Texture coordinates\n//VTK::TCoord::Dec\n\n// picking support\n//VTK::Picking::Dec\n\n// Depth Peeling Support\n//VTK::DepthPeeling::Dec\n\n// clipping plane vars\n//VTK::Clip::Dec\n\n// the output of this shader\n//VTK::Output::Dec\n\n// Apple Bug\n//VTK::PrimID::Dec\n\n// handle coincident offsets\n//VTK::Coincident::Dec\n\nvoid main()\n{\n  // VC position of this fragment. This should not branch/return/discard.\n  //VTK::PositionVC::Impl\n\n  // Place any calls that require uniform flow (e.g. dFdx) here.\n  //VTK::UniformFlow::Impl\n\n  // Early depth peeling abort:\n  //VTK::DepthPeeling::PreColor\n\n  // Apple Bug\n  //VTK::PrimID::Impl\n\n  //VTK::Clip::Impl\n\n  //VTK::Color::Impl\n\n  // Generate the normal if we are not passed in one\n  //VTK::Normal::Impl\n\n  //VTK::Light::Impl\n\n  //VTK::TCoord::Impl\n\n  if (gl_FragData[0].a <= 0.0)\n    {\n    discard;\n    }\n\n  //VTK::DepthPeeling::Impl\n\n  //VTK::Picking::Impl\n\n  // handle coincident offsets\n  //VTK::Coincident::Impl\n}\n"
+
+/***/ },
+/* 34 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -11103,7 +11186,7 @@
 
 	var _ShaderProgram2 = _interopRequireDefault(_ShaderProgram);
 
-	var _blueimpMd = __webpack_require__(34);
+	var _blueimpMd = __webpack_require__(35);
 
 	var _blueimpMd2 = _interopRequireDefault(_blueimpMd);
 
@@ -11282,7 +11365,7 @@
 	exports.default = { newInstance: newInstance, extend: extend };
 
 /***/ },
-/* 34 */
+/* 35 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;'use strict';
@@ -11570,7 +11653,7 @@
 	})(undefined);
 
 /***/ },
-/* 35 */
+/* 36 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -11694,7 +11777,7 @@
 	exports.default = { newInstance: newInstance, extend: extend };
 
 /***/ },
-/* 36 */
+/* 37 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -11709,11 +11792,11 @@
 
 	var macro = _interopRequireWildcard(_macro);
 
-	var _Camera = __webpack_require__(37);
+	var _Camera = __webpack_require__(38);
 
 	var _Camera2 = _interopRequireDefault(_Camera);
 
-	var _Light = __webpack_require__(38);
+	var _Light = __webpack_require__(39);
 
 	var _Light2 = _interopRequireDefault(_Light);
 
@@ -11721,15 +11804,15 @@
 
 	var _Math2 = _interopRequireDefault(_Math);
 
-	var _TimerLog = __webpack_require__(39);
+	var _TimerLog = __webpack_require__(40);
 
 	var _TimerLog2 = _interopRequireDefault(_TimerLog);
 
-	var _Viewport = __webpack_require__(40);
+	var _Viewport = __webpack_require__(41);
 
 	var _Viewport2 = _interopRequireDefault(_Viewport);
 
-	var _BoundingBox = __webpack_require__(41);
+	var _BoundingBox = __webpack_require__(42);
 
 	var _glMatrix = __webpack_require__(10);
 
@@ -12531,7 +12614,7 @@
 	exports.default = { newInstance: newInstance, extend: extend };
 
 /***/ },
-/* 37 */
+/* 38 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -12960,7 +13043,7 @@
 	exports.default = { newInstance: newInstance, extend: extend };
 
 /***/ },
-/* 38 */
+/* 39 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -13092,7 +13175,7 @@
 	exports.default = { newInstance: newInstance, extend: extend, LIGHT_TYPES: LIGHT_TYPES };
 
 /***/ },
-/* 39 */
+/* 40 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -13110,7 +13193,7 @@
 	};
 
 /***/ },
-/* 40 */
+/* 41 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -13279,7 +13362,7 @@
 	exports.default = { newInstance: newInstance, extend: extend };
 
 /***/ },
-/* 41 */
+/* 42 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -13297,7 +13380,7 @@
 
 	var macro = _interopRequireWildcard(_macro);
 
-	var _Plane = __webpack_require__(42);
+	var _Plane = __webpack_require__(43);
 
 	var _Plane2 = _interopRequireDefault(_Plane);
 
@@ -13725,7 +13808,7 @@
 	exports.default = Object.assign({ newInstance: newInstance, extend: extend }, STATIC);
 
 /***/ },
-/* 42 */
+/* 43 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -13797,7 +13880,7 @@
 	exports.default = Object.assign({ newInstance: newInstance, extend: extend }, STATIC);
 
 /***/ },
-/* 43 */
+/* 44 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -13813,11 +13896,11 @@
 
 	var macro = _interopRequireWildcard(_macro);
 
-	var _PolyData = __webpack_require__(44);
+	var _PolyData = __webpack_require__(45);
 
 	var _PolyData2 = _interopRequireDefault(_PolyData);
 
-	var _BoundingBox = __webpack_require__(41);
+	var _BoundingBox = __webpack_require__(42);
 
 	var _BoundingBox2 = _interopRequireDefault(_BoundingBox);
 
@@ -13980,7 +14063,7 @@
 	exports.default = { newInstance: newInstance, extend: extend };
 
 /***/ },
-/* 44 */
+/* 45 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -13995,11 +14078,11 @@
 
 	var macro = _interopRequireWildcard(_macro);
 
-	var _PointSet = __webpack_require__(45);
+	var _PointSet = __webpack_require__(46);
 
 	var _PointSet2 = _interopRequireDefault(_PointSet);
 
-	var _DataArray = __webpack_require__(48);
+	var _DataArray = __webpack_require__(49);
 
 	var _DataArray2 = _interopRequireDefault(_DataArray);
 
@@ -14095,7 +14178,7 @@
 	exports.default = Object.assign({ newInstance: newInstance, extend: extend }, STATIC);
 
 /***/ },
-/* 45 */
+/* 46 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -14110,11 +14193,11 @@
 
 	var macro = _interopRequireWildcard(_macro);
 
-	var _DataSet = __webpack_require__(46);
+	var _DataSet = __webpack_require__(47);
 
 	var _DataSet2 = _interopRequireDefault(_DataSet);
 
-	var _DataArray = __webpack_require__(48);
+	var _DataArray = __webpack_require__(49);
 
 	var _DataArray2 = _interopRequireDefault(_DataArray);
 
@@ -14184,7 +14267,7 @@
 	exports.default = Object.assign({ newInstance: newInstance, extend: extend }, STATIC);
 
 /***/ },
-/* 46 */
+/* 47 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -14199,11 +14282,11 @@
 
 	var macro = _interopRequireWildcard(_macro);
 
-	var _BoundingBox = __webpack_require__(41);
+	var _BoundingBox = __webpack_require__(42);
 
 	var _BoundingBox2 = _interopRequireDefault(_BoundingBox);
 
-	var _DataSetAttributes = __webpack_require__(47);
+	var _DataSetAttributes = __webpack_require__(48);
 
 	var _DataSetAttributes2 = _interopRequireDefault(_DataSetAttributes);
 
@@ -14302,7 +14385,7 @@
 	exports.default = Object.assign({ newInstance: newInstance, extend: extend }, STATIC);
 
 /***/ },
-/* 47 */
+/* 48 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -14317,7 +14400,7 @@
 
 	var macro = _interopRequireWildcard(_macro);
 
-	var _DataArray = __webpack_require__(48);
+	var _DataArray = __webpack_require__(49);
 
 	var _DataArray2 = _interopRequireDefault(_DataArray);
 
@@ -14462,7 +14545,7 @@
 	exports.default = { newInstance: newInstance, extend: extend };
 
 /***/ },
-/* 48 */
+/* 49 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -14477,7 +14560,7 @@
 
 	var macro = _interopRequireWildcard(_macro);
 
-	var _Constants = __webpack_require__(49);
+	var _Constants = __webpack_require__(50);
 
 	var _Constants2 = _interopRequireDefault(_Constants);
 
@@ -14732,7 +14815,7 @@
 	exports.default = Object.assign({ newInstance: newInstance, extend: extend }, STATIC);
 
 /***/ },
-/* 49 */
+/* 50 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -14752,15 +14835,28 @@
 	  Float64Array: 8
 	};
 
+	var DATATYPES = exports.DATATYPES = {
+	  VTK_CHAR: 'Int8Array',
+	  VTK_SIGNED_CHAR: 'Int8Array',
+	  VTK_UNSIGNED_CHAR: 'Uint8ClampedArray',
+	  VTK_SHORT: 'Int16Array',
+	  VTK_UNSIGNED_SHORT: 'Uint16Array',
+	  VTK_INT: 'Int32Array',
+	  VTK_UNSIGNED_INT: 'Uint32Array',
+	  VTK_FLOAT: 'Float32Array',
+	  VTK_DOUBLE: 'Float64Array'
+	};
+
 	var DEFAULT_DATATYPE = exports.DEFAULT_DATATYPE = 'Float32Array';
 
 	exports.default = {
 	  DEFAULT_DATATYPE: DEFAULT_DATATYPE,
-	  BYTE_SIZE: BYTE_SIZE
+	  BYTE_SIZE: BYTE_SIZE,
+	  DATATYPES: DATATYPES
 	};
 
 /***/ },
-/* 50 */
+/* 51 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -14775,11 +14871,11 @@
 
 	var macro = _interopRequireWildcard(_macro);
 
-	var _Prop3D = __webpack_require__(51);
+	var _Prop3D = __webpack_require__(52);
 
 	var _Prop3D2 = _interopRequireDefault(_Prop3D);
 
-	var _Property = __webpack_require__(53);
+	var _Property = __webpack_require__(54);
 
 	var _Property2 = _interopRequireDefault(_Property);
 
@@ -15079,7 +15175,7 @@
 	exports.default = { newInstance: newInstance, extend: extend };
 
 /***/ },
-/* 51 */
+/* 52 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -15094,11 +15190,11 @@
 
 	var macro = _interopRequireWildcard(_macro);
 
-	var _BoundingBox = __webpack_require__(41);
+	var _BoundingBox = __webpack_require__(42);
 
 	var _BoundingBox2 = _interopRequireDefault(_BoundingBox);
 
-	var _Prop = __webpack_require__(52);
+	var _Prop = __webpack_require__(53);
 
 	var _Prop2 = _interopRequireDefault(_Prop);
 
@@ -15259,7 +15355,7 @@
 	exports.default = { newInstance: newInstance, extend: extend };
 
 /***/ },
-/* 52 */
+/* 53 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -15390,7 +15486,7 @@
 	exports.default = { newInstance: newInstance, extend: extend };
 
 /***/ },
-/* 53 */
+/* 54 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -15559,7 +15655,7 @@
 	exports.default = { newInstance: newInstance, extend: extend };
 
 /***/ },
-/* 54 */
+/* 55 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -15570,7 +15666,7 @@
 	exports.newInstance = undefined;
 	exports.extend = extend;
 
-	var _CoincidentTopologyHelper = __webpack_require__(55);
+	var _CoincidentTopologyHelper = __webpack_require__(56);
 
 	var CoincidentTopologyHelper = _interopRequireWildcard(_CoincidentTopologyHelper);
 
@@ -15578,15 +15674,15 @@
 
 	var macro = _interopRequireWildcard(_macro);
 
-	var _Static = __webpack_require__(56);
+	var _Static = __webpack_require__(57);
 
 	var _Static2 = _interopRequireDefault(_Static);
 
-	var _DataSet = __webpack_require__(46);
+	var _DataSet = __webpack_require__(47);
 
 	var _DataSet2 = _interopRequireDefault(_DataSet);
 
-	var _LookupTable = __webpack_require__(57);
+	var _LookupTable = __webpack_require__(58);
 
 	var _LookupTable2 = _interopRequireDefault(_LookupTable);
 
@@ -15594,7 +15690,7 @@
 
 	var _Math2 = _interopRequireDefault(_Math);
 
-	var _Constants = __webpack_require__(58);
+	var _Constants = __webpack_require__(31);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -15652,7 +15748,6 @@
 	  };
 
 	  publicAPI.createDefaultLookupTable = function () {
-	    console.log('vtkMapper::createDefaultLookupTable - NOT IMPLEMENTED');
 	    model.lookupTable = _LookupTable2.default.newInstance();
 	  };
 
@@ -15741,13 +15836,14 @@
 	    };
 	  };
 
-	  publicAPI.mapScalars = notImplemented('mapScalars');
-	  // (input, alpha) => {
-	  //   console.log('vtkMapper::mapScalars - NOT IMPLEMENTED');
-	  //   const cellFlag = false;
-	  //   const rgba = new Uint8Array(10);
-	  //   return { rgba, cellFlag };
-	  // };
+	  publicAPI.mapScalars = function (input, alpha) {
+	    var lut = publicAPI.getLookupTable();
+	    if (lut) {
+	      // Ensure that the lookup table is built
+	      lut.build();
+	      model.colorMapColors = lut.mapScalars(input.getPointData().getScalars(), model.colorMode, 0);
+	    }
+	  };
 
 	  publicAPI.setScalarMaterialModeToDefault = function () {
 	    return publicAPI.setScalarMaterialMode(0);
@@ -15793,7 +15889,6 @@
 	    return model.lookupTable;
 	  };
 
-	  publicAPI.createDefaultLookupTable = notImplemented('createDefaultLookupTable');
 	  publicAPI.acquireInvertibleLookupTable = notImplemented('AcquireInvertibleLookupTable');
 	  publicAPI.valueToColor = notImplemented('ValueToColor');
 	  publicAPI.colorToValue = notImplemented('ColorToValue');
@@ -15872,7 +15967,7 @@
 	exports.default = Object.assign({ newInstance: newInstance, extend: extend }, staticOffsetAPI, _Static2.default);
 
 /***/ },
-/* 55 */
+/* 56 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -15895,7 +15990,7 @@
 	var CATEGORIES = exports.CATEGORIES = ['Polygon', 'Line', 'Point'];
 
 /***/ },
-/* 56 */
+/* 57 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -15961,34 +16056,313 @@
 	};
 
 /***/ },
-/* 57 */
-/***/ function(module, exports) {
+/* 58 */
+/***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	function newInstance() {
-	  console.log('LookupTable newInstance not implemented');
+	exports.newInstance = undefined;
+	exports.extend = extend;
+
+	var _macro = __webpack_require__(2);
+
+	var macro = _interopRequireWildcard(_macro);
+
+	var _ScalarsToColors = __webpack_require__(59);
+
+	var _ScalarsToColors2 = _interopRequireDefault(_ScalarsToColors);
+
+	var _Math = __webpack_require__(30);
+
+	var _Math2 = _interopRequireDefault(_Math);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	// ----------------------------------------------------------------------------
+	// Global methods
+	// ----------------------------------------------------------------------------
+
+	// Add module-level functions or api that you want to expose statically via
+	// the next section...
+
+	// ----------------------------------------------------------------------------
+	// Static API
+	// ----------------------------------------------------------------------------
+
+	var BELOW_RANGE_COLOR_INDEX = 0;
+	var ABOVE_RANGE_COLOR_INDEX = 1;
+	// const NUMBER_OF_SPECIAL_COLORS = ABOVE_RANGE_COLOR_INDEX + 1;
+
+	// ----------------------------------------------------------------------------
+	// vtkMyClass methods
+	// ----------------------------------------------------------------------------
+
+	function vtkLookupTable(publicAPI, model) {
+	  // Set our className
+	  model.classHierarchy.push('vtkLookupTable');
+
+	  //----------------------------------------------------------------------------
+	  // Description:
+	  // Return true if all of the values defining the mapping have an opacity
+	  // equal to 1. Default implementation return true.
+	  publicAPI.isOpaque = function () {
+	    if (model.opaqueFlagBuildTime.getMTime() < publicAPI.getMTime()) {
+	      var opaque = true;
+	      // if (model.NanColor[3] < 1.0) { opaque = 0; }
+	      // if (this->UseBelowRangeColor && this->BelowRangeColor[3] < 1.0) { opaque = 0; }
+	      // if (this->UseAboveRangeColor && this->AboveRangeColor[3] < 1.0) { opaque = 0; }
+	      for (var i = 3; i < model.table.length && opaque; i += 4) {
+	        if (model.table[i] < 255) {
+	          opaque = false;
+	        }
+	      }
+	      model.opaqueFlag = opaque;
+	      model.opaqueFlagBuildTime.modified();
+	    }
+
+	    return model.opaqueFlag;
+	  };
+
+	  //----------------------------------------------------------------------------
+	  // Apply shift/scale to the scalar value v and return the index.
+	  publicAPI.linearIndexLookup = function (v, p) {
+	    var dIndex = 0;
+
+	    if (v < p.range[0]) {
+	      dIndex = p.maxIndex + BELOW_RANGE_COLOR_INDEX + 1.5;
+	    } else if (v > p.range[1]) {
+	      dIndex = p.maxIndex + ABOVE_RANGE_COLOR_INDEX + 1.5;
+	    } else {
+	      dIndex = (v + p.shift) * p.scale;
+
+	      // This conditional is needed because when v is very close to
+	      // p.Range[1], it may map above p.MaxIndex in the linear mapping
+	      // above.
+	      dIndex = dIndex < p.maxIndex ? dIndex : p.maxIndex;
+	    }
+
+	    return Math.floor(dIndex);
+	  };
+
+	  publicAPI.linearLookup = function (v, table, p) {
+	    var index = publicAPI.linearIndexLookup(v, p);
+	    return [table[4 * index], table[4 * index + 1], table[4 * index + 2], table[4 * index + 3]];
+	  };
+
+	  //----------------------------------------------------------------------------
+	  publicAPI.lookupShiftAndScale = function (range, p) {
+	    p.shift = -range[0];
+	    p.scale = Number.MAX_VALUE;
+	    if (range[1] > range[0]) {
+	      p.scale = (p.maxIndex + 1) / (range[1] - range[0]);
+	    }
+	  };
+
+	  // Public API methods
+	  publicAPI.mapScalarsThroughTable = function (input, output, outFormat) {
+	    var trange = publicAPI.getTableRange();
+
+	    var p = {
+	      maxIndex: publicAPI.getNumberOfColors() - 1,
+	      range: trange,
+	      shift: 0.0,
+	      scale: 0.0
+	    };
+	    publicAPI.lookupShiftAndScale(trange, p);
+
+	    var alpha = publicAPI.getAlpha();
+	    var length = input.getNumberOfTuples();
+	    var inIncr = input.getNumberOfComponents();
+
+	    var outputV = output.getData();
+	    var inputV = input.getData();
+
+	    if (alpha >= 1.0) {
+	      if (outFormat === 'VTK_RGBA') {
+	        for (var i = 0; i < length; i++) {
+	          var cptr = publicAPI.linearLookup(inputV[i * inIncr], model.table, p);
+	          outputV[i * 4] = cptr[0];
+	          outputV[i * 4 + 1] = cptr[1];
+	          outputV[i * 4 + 2] = cptr[2];
+	          outputV[i * 4 + 3] = cptr[3];
+	        }
+	      }
+	    } else {
+	      if (outFormat === 'VTK_RGBA') {
+	        for (var _i = 0; _i < length; _i++) {
+	          var _cptr = publicAPI.linearLookup(inputV[_i * inIncr], model.table, p);
+	          outputV[_i * 4] = _cptr[0];
+	          outputV[_i * 4 + 1] = _cptr[1];
+	          outputV[_i * 4 + 2] = _cptr[2];
+	          outputV[_i * 4 + 3] = Math.floor(_cptr[3] * alpha + 0.5);
+	        }
+	      }
+	    } // alpha blending
+	  };
+
+	  publicAPI.forceBuild = function () {
+	    var hinc = 0.0;
+	    var sinc = 0.0;
+	    var vinc = 0.0;
+	    var ainc = 0.0;
+
+	    var maxIndex = model.numberOfColors - 1;
+
+	    if (maxIndex) {
+	      hinc = (model.hueRange[1] - model.hueRange[0]) / maxIndex;
+	      sinc = (model.saturationRange[1] - model.saturationRange[0]) / maxIndex;
+	      vinc = (model.valueRange[1] - model.valueRange[0]) / maxIndex;
+	      ainc = (model.alphaRange[1] - model.alphaRange[0]) / maxIndex;
+	    }
+
+	    var hsv = [];
+	    var rgba = [];
+	    for (var i = 0; i <= maxIndex; i++) {
+	      hsv[0] = model.hueRange[0] + i * hinc;
+	      hsv[1] = model.saturationRange[0] + i * sinc;
+	      hsv[2] = model.valueRange[0] + i * vinc;
+
+	      _Math2.default.hsv2rgb(hsv, rgba);
+	      rgba[3] = model.alphaRange[0] + i * ainc;
+
+	      //  case VTK_RAMP_LINEAR:
+	      model.table[i * 4] = rgba[0] * 255.0 + 0.5;
+	      model.table[i * 4 + 1] = rgba[1] * 255.0 + 0.5;
+	      model.table[i * 4 + 2] = rgba[2] * 255.0 + 0.5;
+	      model.table[i * 4 + 3] = rgba[3] * 255.0 + 0.5;
+	    }
+
+	    publicAPI.buildSpecialColors();
+
+	    model.buildTime.modified();
+	  };
+
+	  publicAPI.buildSpecialColors = function () {
+	    // // Add "special" colors (NaN, below range, above range) to table here.
+	    // const numberOfColors = model.table.length;
+
+	    // // Below range color
+	    // if (publicAPI.getUseBelowRangeColor() || numberOfColors === 0) {
+	    //   vtkLookupTable::GetColorAsUnsignedChars(this->GetBelowRangeColor(), color);
+	    //   tptr[0] = color[0];
+	    //   tptr[1] = color[1];
+	    //   tptr[2] = color[2];
+	    //   tptr[3] = color[3];
+	    //   }
+	    // else
+	    //   {
+	    //   // Duplicate the first color in the table.
+	    //   tptr[0] = table[0];
+	    //   tptr[1] = table[1];
+	    //   tptr[2] = table[2];
+	    //   tptr[3] = table[3];
+	    //   }
+
+	    // // Above range color
+	    // tptr = table + 4*(numberOfColors + vtkLookupTable::ABOVE_RANGE_COLOR_INDEX);
+	    // if (this->GetUseAboveRangeColor() || numberOfColors == 0)
+	    //   {
+	    //   vtkLookupTable::GetColorAsUnsignedChars(this->GetAboveRangeColor(), color);
+	    //   tptr[0] = color[0];
+	    //   tptr[1] = color[1];
+	    //   tptr[2] = color[2];
+	    //   tptr[3] = color[3];
+	    //   }
+	    // else
+	    //   {
+	    //   // Duplicate the last color in the table.
+	    //   tptr[0] = table[4*(numberOfColors-1) + 0];
+	    //   tptr[1] = table[4*(numberOfColors-1) + 1];
+	    //   tptr[2] = table[4*(numberOfColors-1) + 2];
+	    //   tptr[3] = table[4*(numberOfColors-1) + 3];
+	    //   }
+
+	    // // Always use NanColor
+	    // vtkLookupTable::GetColorAsUnsignedChars(this->GetNanColor(), color);
+	    // tptr = table + 4*(numberOfColors + vtkLookupTable::NAN_COLOR_INDEX);
+	    // tptr[0] = color[0];
+	    // tptr[1] = color[1];
+	    // tptr[2] = color[2];
+	    // tptr[3] = color[3];
+	  };
+
+	  publicAPI.build = function () {
+	    if (model.table.length < 1 || publicAPI.getMTime() > model.buildTime.getMTime()) {
+	      publicAPI.forceBuild();
+	    }
+	  };
 	}
 
-	exports.default = { newInstance: newInstance };
+	// ----------------------------------------------------------------------------
+	// Object factory
+	// ----------------------------------------------------------------------------
 
-/***/ },
-/* 58 */
-/***/ function(module, exports) {
+	var DEFAULT_VALUES = {
+	  numberOfColors: 256,
+	  table: null,
 
-	'use strict';
+	  hueRange: [0.0, 0.66667],
+	  saturationRange: [1.0, 1.0],
+	  valueRange: [1.0, 1.0],
+	  alphaRange: [1.0, 1.0],
+	  tableRange: [0.0, 1.0],
 
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	var COLOR_MODE = exports.COLOR_MODE = ['VTK_COLOR_MODE_DEFAULT', 'VTK_COLOR_MODE_MAP_SCALARS', 'VTK_COLOR_MODE_DIRECT_SCALARS'];
+	  alpha: 1.0,
+	  buildTime: null,
+	  opaqueFlagBuildTime: null
+	};
 
-	var SCALAR_MODE = exports.SCALAR_MODE = ['VTK_SCALAR_MODE_DEFAULT', 'VTK_SCALAR_MODE_USE_POINT_DATA', 'VTK_SCALAR_MODE_USE_CELL_DATA', 'VTK_SCALAR_MODE_USE_POINT_FIELD_DATA', 'VTK_SCALAR_MODE_USE_CELL_FIELD_DATA', 'VTK_SCALAR_MODE_USE_FIELD_DATA'];
+	// ----------------------------------------------------------------------------
 
-	var MATERIAL_MODE = exports.MATERIAL_MODE = ['VTK_MATERIALMODE_DEFAULT', 'VTK_MATERIALMODE_AMBIENT', 'VTK_MATERIALMODE_DIFFUSE', 'VTK_MATERIALMODE_AMBIENT_AND_DIFFUSE'];
+	function extend(publicAPI, model) {
+	  var initialValues = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+
+	  Object.assign(model, DEFAULT_VALUES, initialValues);
+
+	  // Inheritance
+	  _ScalarsToColors2.default.extend(publicAPI, model);
+
+	  // Internal objects initialization
+	  model.table = [];
+
+	  model.buildTime = {};
+	  macro.obj(model.buildTime);
+	  model.opaqueFlagBuildTime = {};
+	  macro.obj(model.opaqueFlagBuildTime);
+
+	  // Object methods
+	  macro.obj(publicAPI, model);
+
+	  // Create get-only macros
+	  macro.get(publicAPI, model, ['buildTime']);
+
+	  // Create get-set macros
+	  macro.setGet(publicAPI, model, ['numberOfColors']);
+
+	  // Create set macros for array (needs to know size)
+	  macro.setArray(publicAPI, model, ['alphaRange', 'hueRange', 'saturationRange', 'valueRange', 'tableRange'], 2);
+
+	  // Create get macros for array
+	  macro.getArray(publicAPI, model, ['hueRange', 'saturationRange', 'valueRange', 'tableRange', 'alphaRange']);
+
+	  // For more macro methods, see "Sources/macro.js"
+
+	  // Object specific methods
+	  vtkLookupTable(publicAPI, model);
+	}
+
+	// ----------------------------------------------------------------------------
+
+	var newInstance = exports.newInstance = macro.newInstance(extend);
+
+	// ----------------------------------------------------------------------------
+
+	exports.default = Object.assign({ newInstance: newInstance, extend: extend });
 
 /***/ },
 /* 59 */
@@ -16006,7 +16380,318 @@
 
 	var macro = _interopRequireWildcard(_macro);
 
-	var _InteractorStyleTrackballCamera = __webpack_require__(60);
+	var _Constants = __webpack_require__(60);
+
+	var _Constants2 = __webpack_require__(31);
+
+	var _Constants3 = __webpack_require__(50);
+
+	var _DataArray = __webpack_require__(49);
+
+	var _DataArray2 = _interopRequireDefault(_DataArray);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	// ----------------------------------------------------------------------------
+	// Global methods
+	// ----------------------------------------------------------------------------
+
+	// Add module-level functions or api that you want to expose statically via
+	// the next section...
+
+	// ----------------------------------------------------------------------------
+	// Static API
+	// ----------------------------------------------------------------------------
+
+	function intColorToUChar(c) {
+	  return c;
+	} // { ENUM_1: 0, ENUM_2: 1, ... }
+
+	function floatColorToUChar(c) {
+	  return Math.floor(c * 255.0 + 0.5);
+	}
+
+	// ----------------------------------------------------------------------------
+	// vtkMyClass methods
+	// ----------------------------------------------------------------------------
+
+	function vtkScalarsToColors(publicAPI, model) {
+	  // Set our className
+	  model.classHierarchy.push('vtkScalarsToColors');
+
+	  // Description:
+	  // Internal methods that map a data array into a 4-component,
+	  // unsigned char RGBA array. The color mode determines the behavior
+	  // of mapping. If VTK_COLOR_MODE_DEFAULT is set, then unsigned char
+	  // data arrays are treated as colors (and converted to RGBA if
+	  // necessary); If VTK_COLOR_MODE_DIRECT_SCALARS is set, then all arrays
+	  // are treated as colors (integer types are clamped in the range 0-255,
+	  // floating point arrays are clamped in the range 0.0-1.0. Note 'char' does
+	  // not have enough values to represent a color so mapping this type is
+	  // considered an error);
+	  // otherwise, the data is mapped through this instance
+	  // of ScalarsToColors. The component argument is used for data
+	  // arrays with more than one component; it indicates which component
+	  // to use to do the blending.  When the component argument is -1,
+	  // then the this object uses its own selected technique to change a
+	  // vector into a scalar to map.
+	  publicAPI.mapScalars = function (scalars, colorMode, componentIn) {
+	    var numberOfComponents = scalars.getNumberOfComponents();
+
+	    var newColors = null;
+
+	    // map scalars through lookup table only if needed
+	    if (colorMode === _Constants2.COLOR_MODE.VTK_COLOR_MODE_DEFAULT && scalars.getDataType() === _Constants3.DATATYPES.VTK_UNSIGNED_CHAR || colorMode === _Constants2.COLOR_MODE.VTK_COLOR_MODE_DIRECT_SCALARS && scalars) {
+	      newColors = publicAPI.convertToRGBA(scalars, numberOfComponents, scalars.getNumberOfTuples());
+	    } else {
+	      var newscalars = {
+	        type: 'vtkDataArray',
+	        name: 'temp',
+	        tuple: 4,
+	        dataType: 'Uint8ClampedArray'
+	      };
+
+	      var s = new window[newscalars.dataType](4 * scalars.getNumberOfTuples());
+	      for (var i = 0; i < s.length; i++) {
+	        s[i] = Math.random();
+	      }
+	      newscalars.values = s;
+	      newscalars.size = s.length;
+	      //      newColors = vtkDataArray.newInstance({ size: 4 * scalars.getNumberOfTuples(), dataType: DATATYPES.VTK_UNSIGNED_CHAR });
+	      newColors = _DataArray2.default.newInstance(newscalars);
+
+	      // let component = componentIn;
+
+	      // // If mapper did not specify a component, use the VectorMode
+	      // if (component < 0 && numberOfComponents > 1) {
+	      //   publicAPI.mapVectorsThroughTable(scalars,
+	      //                                newColors,
+	      //                                VTK_RGBA);
+	      // } else {
+	      //   if (component < 0) {
+	      //     component = 0;
+	      //   }
+	      //   if (component >= numberOfComponents) {
+	      //     component = numberOfComponents - 1;
+	      //   }
+
+	      // Map the scalars to colors
+	      publicAPI.mapScalarsThroughTable(scalars, newColors, 'VTK_RGBA');
+	      // }
+	    }
+
+	    return newColors;
+	  };
+
+	  publicAPI.luminanceToRGBA = function (newColors, colors, alpha, convtFun) {
+	    var a = convtFun(alpha);
+
+	    var values = colors.getData();
+	    var size = values.length;
+	    var component = 0;
+	    var tuple = 1;
+
+	    var count = 0;
+	    for (var i = component; i < size; i += tuple) {
+	      var l = convtFun(values[i]);
+	      newColors[count * 4] = l;
+	      newColors[count * 4 + 1] = l;
+	      newColors[count * 4 + 2] = l;
+	      newColors[count * 4 + 3] = a;
+	      count++;
+	    }
+	  };
+
+	  publicAPI.luminanceAlphaToRGBA = function (newColors, colors, alpha, convtFun) {
+	    var values = colors.getData();
+	    var size = values.length;
+	    var component = 0;
+	    var tuple = 2;
+
+	    var count = 0;
+	    for (var i = component; i < size; i += tuple) {
+	      var l = convtFun(values[i]);
+	      newColors[count] = l;
+	      newColors[count + 1] = l;
+	      newColors[count + 2] = l;
+	      newColors[count + 3] = convtFun(values[i + 1]);
+	      count += 4;
+	    }
+	  };
+
+	  publicAPI.rGBToRGBA = function (newColors, colors, alpha, convtFun) {
+	    var a = convtFun(alpha);
+
+	    var values = colors.getData();
+	    var size = values.length;
+	    var component = 0;
+	    var tuple = 3;
+
+	    var count = 0;
+	    for (var i = component; i < size; i += tuple) {
+	      newColors[count * 4] = convtFun(values[i]);
+	      newColors[count * 4 + 1] = convtFun(values[i + 1]);
+	      newColors[count * 4 + 2] = convtFun(values[i + 2]);
+	      newColors[count * 4 + 3] = a;
+	      count++;
+	    }
+	  };
+
+	  publicAPI.rGBAToRGBA = function (newColors, colors, alpha, convtFun) {
+	    var values = colors.getData();
+	    var size = values.length;
+	    var component = 0;
+	    var tuple = 4;
+
+	    var count = 0;
+	    for (var i = component; i < size; i += tuple) {
+	      newColors[count * 4] = convtFun(values[i]);
+	      newColors[count * 4 + 1] = convtFun(values[i + 1]);
+	      newColors[count * 4 + 2] = convtFun(values[i + 2]);
+	      newColors[count * 4 + 3] = convtFun(values[i + 3]) * alpha;
+	      count++;
+	    }
+	  };
+
+	  //----------------------------------------------------------------------------
+	  publicAPI.convertToRGBA = function (colors, numComp, numTuples) {
+	    if (numComp === 4 && model.alpha >= 1.0 && colors.getDataType() === _Constants3.DATATYPES.VTK_UNSIGNED_CHAR) {
+	      return colors;
+	    }
+
+	    var newColors = _DataArray2.default.newInstance({ dataType: _Constants3.DATATYPES.VTK_UNSIGNED_CHAR });
+	    newColors.setNumberOfComponents(4);
+	    newColors.setNumberOfTuples(numTuples);
+
+	    if (numTuples <= 0) {
+	      return newColors;
+	    }
+
+	    var alpha = model.alpha;
+	    alpha = alpha > 0 ? alpha : 0;
+	    alpha = alpha < 1 ? alpha : 1;
+
+	    var convtFun = intColorToUChar;
+	    if (colors.getDataType() === _Constants3.DATATYPES.VTK_FLOAT || colors.getDataType() === _Constants3.DATATYPES.VTK_DOUBLE) {
+	      convtFun = floatColorToUChar;
+	    }
+
+	    switch (numComp) {
+	      case 1:
+	        publicAPI.luminanceToRGBA(newColors, colors, alpha, convtFun);
+	        break;
+
+	      case 2:
+	        publicAPI.luminanceAlphaToRGBA(newColors, colors, convtFun);
+	        break;
+
+	      case 3:
+	        publicAPI.rGBToRGBA(newColors, colors, alpha, convtFun);
+	        break;
+
+	      case 4:
+	        publicAPI.rGBAToRGBA(newColors, colors, alpha, convtFun);
+	        break;
+
+	      default:
+	        console.error('Cannot convert colors');
+	        return null;
+	    }
+
+	    return newColors;
+	  };
+
+	  publicAPI.setRange = function (min, max) {
+	    return publicAPI.setInputRange(min, max);
+	  };
+	}
+
+	// ----------------------------------------------------------------------------
+	// Object factory
+	// ----------------------------------------------------------------------------
+
+	var DEFAULT_VALUES = {
+	  alpha: 1.0,
+	  vectorComponent: 0,
+	  vectorSize: -1,
+	  vectorMode: _Constants.VECTOR_MODE.COMPONENT,
+	  inputRange: [0, 255]
+	};
+
+	// ----------------------------------------------------------------------------
+
+	function extend(publicAPI, model) {
+	  var initialValues = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+
+	  Object.assign(model, DEFAULT_VALUES, initialValues);
+
+	  // Internal objects initialization
+	  // model.myProp2 = new Thing() || {};
+
+	  // Object methods
+	  macro.obj(publicAPI, model);
+
+	  // Create get-only macros
+	  // macro.get(publicAPI, model, ['myProp2', 'myProp4']);
+
+	  // Create get-set macros
+	  macro.setGet(publicAPI, model, ['vectorComponent', 'alpha']);
+
+	  // Create get-set macros for enum type
+	  // macro.setGet(publicAPI, model, [
+	  //   { name: 'vectorMode', enum: VECTOR_MODE, type: 'enum' },
+	  // ]);
+
+	  // For more macro methods, see "Sources/macro.js"
+
+	  // Object specific methods
+	  vtkScalarsToColors(publicAPI, model);
+	}
+
+	// ----------------------------------------------------------------------------
+
+	var newInstance = exports.newInstance = macro.newInstance(extend);
+
+	// ----------------------------------------------------------------------------
+
+	exports.default = Object.assign({ newInstance: newInstance, extend: extend });
+
+/***/ },
+/* 60 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	var VECTOR_MODE = exports.VECTOR_MODE = {
+	  MAGNITUDE: 0,
+	  COMPONENT: 1,
+	  RGBCOLORS: 2
+	};
+
+	exports.default = { VECTOR_MODE: VECTOR_MODE };
+
+/***/ },
+/* 61 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.newInstance = undefined;
+	exports.extend = extend;
+
+	var _macro = __webpack_require__(2);
+
+	var macro = _interopRequireWildcard(_macro);
+
+	var _InteractorStyleTrackballCamera = __webpack_require__(62);
 
 	var _InteractorStyleTrackballCamera2 = _interopRequireDefault(_InteractorStyleTrackballCamera);
 
@@ -16311,7 +16996,7 @@
 	exports.default = Object.assign({ newInstance: newInstance, extend: extend });
 
 /***/ },
-/* 60 */
+/* 62 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -16326,7 +17011,7 @@
 
 	var macro = _interopRequireWildcard(_macro);
 
-	var _InteractorStyle = __webpack_require__(61);
+	var _InteractorStyle = __webpack_require__(63);
 
 	var _InteractorStyle2 = _interopRequireDefault(_InteractorStyle);
 
@@ -16334,7 +17019,7 @@
 
 	var _Math2 = _interopRequireDefault(_Math);
 
-	var _Constants = __webpack_require__(63);
+	var _Constants = __webpack_require__(65);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -16665,7 +17350,7 @@
 	exports.default = Object.assign({ newInstance: newInstance, extend: extend });
 
 /***/ },
-/* 61 */
+/* 63 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -16680,11 +17365,11 @@
 
 	var macro = _interopRequireWildcard(_macro);
 
-	var _InteractorObserver = __webpack_require__(62);
+	var _InteractorObserver = __webpack_require__(64);
 
 	var _InteractorObserver2 = _interopRequireDefault(_InteractorObserver);
 
-	var _Constants = __webpack_require__(63);
+	var _Constants = __webpack_require__(65);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -16914,7 +17599,7 @@
 	exports.default = Object.assign({ newInstance: newInstance, extend: extend });
 
 /***/ },
-/* 62 */
+/* 64 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -17096,7 +17781,7 @@
 	exports.default = Object.assign({ newInstance: newInstance, extend: extend });
 
 /***/ },
-/* 63 */
+/* 65 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -17128,7 +17813,7 @@
 	};
 
 /***/ },
-/* 64 */
+/* 66 */
 /***/ function(module, exports) {
 
 	module.exports = "<select class='representations'>\n  <option value='0'>Points</option>\n  <option value='1'>Wireframe</option>\n  <option value='2' selected>Surface</option>\n</select>\n\n<input class='resolution' type='range' min='4' max='80' value='6'/>\n\n";

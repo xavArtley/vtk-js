@@ -50,11 +50,11 @@
 
 	var _RenderWindow2 = _interopRequireDefault(_RenderWindow);
 
-	var _RenderWindow3 = __webpack_require__(35);
+	var _RenderWindow3 = __webpack_require__(36);
 
 	var _RenderWindow4 = _interopRequireDefault(_RenderWindow3);
 
-	var _Renderer = __webpack_require__(36);
+	var _Renderer = __webpack_require__(37);
 
 	var _Renderer2 = _interopRequireDefault(_Renderer);
 
@@ -115,7 +115,7 @@
 
 	var _ViewNodeFactory2 = _interopRequireDefault(_ViewNodeFactory);
 
-	var _ShaderCache = __webpack_require__(33);
+	var _ShaderCache = __webpack_require__(34);
 
 	var _ShaderCache2 = _interopRequireDefault(_ShaderCache);
 
@@ -6739,11 +6739,13 @@
 
 	var _Constants = __webpack_require__(26);
 
-	var _vtkPolyDataVS = __webpack_require__(31);
+	var _Constants2 = __webpack_require__(31);
+
+	var _vtkPolyDataVS = __webpack_require__(32);
 
 	var _vtkPolyDataVS2 = _interopRequireDefault(_vtkPolyDataVS);
 
-	var _vtkPolyDataFS = __webpack_require__(32);
+	var _vtkPolyDataFS = __webpack_require__(33);
 
 	var _vtkPolyDataFS2 = _interopRequireDefault(_vtkPolyDataFS);
 
@@ -6799,6 +6801,8 @@
 	  };
 
 	  publicAPI.replaceShaderColor = function (shaders, ren, actor) {
+	    var VSSource = shaders.Vertex;
+	    var GSSource = shaders.Geometry;
 	    var FSSource = shaders.Fragment;
 
 	    var lastLightComplexity = model.lastLightComplexity.get(model.lastBoundBO);
@@ -6810,7 +6814,6 @@
 	    if (lastLightComplexity) {
 	      colorDec = colorDec.concat(['uniform vec3 specularColorUniform; // intensity weighted color', 'uniform float specularPowerUniform;']);
 	    }
-	    FSSource = _ShaderProgram2.default.substitute(FSSource, '//VTK::Color::Dec', colorDec).result;
 
 	    // now handle the more complex fragment shader implementation
 	    // the following are always defined variables.  We start
@@ -6824,8 +6827,33 @@
 	      colorImpl = colorImpl.concat(['  specularColor = specularColorUniform;', '  specularPower = specularPowerUniform;']);
 	    }
 
-	    FSSource = _ShaderProgram2.default.substitute(FSSource, '//VTK::Color::Impl', colorImpl).result;
+	    // add scalar vertex coloring
+	    if (model.lastBoundBO.getCABO().getColorComponents() !== 0) {
+	      colorDec = colorDec.concat(['varying vec4 vertexColorVSOutput;']);
+	      VSSource = _ShaderProgram2.default.substitute(VSSource, '//VTK::Color::Dec', ['attribute vec4 scalarColor;', 'varying vec4 vertexColorVSOutput;']).result;
+	      VSSource = _ShaderProgram2.default.substitute(VSSource, '//VTK::Color::Impl', ['vertexColorVSOutput =  scalarColor;']).result;
+	      GSSource = _ShaderProgram2.default.substitute(GSSource, '//VTK::Color::Dec', ['in vec4 vertexColorVSOutput[];', 'out vec4 vertexColorGSOutput;']).result;
+	      GSSource = _ShaderProgram2.default.substitute(GSSource, '//VTK::Color::Impl', ['vertexColorGSOutput = vertexColorVSOutput[i];']).result;
+	    }
 
+	    var scalarMatMode = model.renderable.getScalarMaterialMode();
+
+	    if (model.lastBoundBO.getCABO().getColorComponents() !== 0) {
+	      if (scalarMatMode === _Constants2.MATERIAL_MODE_VALUES.VTK_MATERIALMODE_AMBIENT || scalarMatMode === _Constants2.MATERIAL_MODE_VALUES.VTK_MATERIALMODE_DEFAULT && actor.getProperty().getAmbient() > actor.getProperty().getDiffuse()) {
+	        FSSource = _ShaderProgram2.default.substitute(FSSource, '//VTK::Color::Impl', colorImpl.concat(['  ambientColor = vertexColorVSOutput.rgb;', '  opacity = opacity*vertexColorVSOutput.a;'])).result;
+	      } else if (scalarMatMode === _Constants2.MATERIAL_MODE_VALUES.VTK_MATERIALMODE_DIFFUSE || scalarMatMode === _Constants2.MATERIAL_MODE_VALUES.VTK_MATERIALMODE_DEFAULT && actor.getProperty().getAmbient() <= actor.getProperty().getDiffuse()) {
+	        FSSource = _ShaderProgram2.default.substitute(FSSource, '//VTK::Color::Impl', colorImpl.concat(['  diffuseColor = vertexColorVSOutput.rgb;', '  opacity = opacity*vertexColorVSOutput.a;'])).result;
+	      } else {
+	        FSSource = _ShaderProgram2.default.substitute(FSSource, '//VTK::Color::Impl', colorImpl.concat(['  diffuseColor = vertexColorVSOutput.rgb;', '  ambientColor = vertexColorVSOutput.rgb;', '  opacity = opacity*vertexColorVSOutput.a;'])).result;
+	      }
+	    } else {
+	      FSSource = _ShaderProgram2.default.substitute(FSSource, '//VTK::Color::Impl', colorImpl).result;
+	    }
+
+	    FSSource = _ShaderProgram2.default.substitute(FSSource, '//VTK::Color::Dec', colorDec).result;
+
+	    shaders.Vertex = VSSource;
+	    shaders.Geometry = GSSource;
 	    shaders.Fragment = FSSource;
 	  };
 
@@ -7078,16 +7106,12 @@
 	      //       console.error(<< 'Error setting 'tcoordMC' in shader VAO.');
 	      //       }
 	      //     }
-	      //   if (model.VBO.ColorComponents != 0 && !model.DrawingEdges &&
-	      //       cellBO.Program.IsAttributeUsed('scalarColor'))
-	      //     {
-	      //     if (!cellBO.getVAO().AddAttributeArray(cellBO.Program, model.VBO,
-	      //                                     'scalarColor', model.VBO.ColorOffset,
-	      //                                     model.VBO.Stride, VTK_UNSIGNED_CHAR,
-	      //                                     model.VBO.ColorComponents, true))
-	      //       {
-	      //       console.error(<< 'Error setting 'scalarColor' in shader VAO.');
-	      //       }
+	      if (cellBO.getProgram().isAttributeUsed('scalarColor') && cellBO.getCABO().getColorComponents()) {
+	        if (!cellBO.getVAO().addAttributeArray(cellBO.getProgram(), cellBO.getCABO(), 'scalarColor', cellBO.getCABO().getColorOffset(), cellBO.getCABO().getStride(), model.context.FLOAT /* BYTE */
+	        , cellBO.getCABO().getColorComponents(), true)) {
+	          console.error('Error setting scalarColor in shader VAO.');
+	        }
+	      }
 	    }
 	  };
 
@@ -7403,6 +7427,9 @@
 	      return;
 	    }
 
+	    model.renderable.mapScalars(poly, 1.0);
+	    var c = model.renderable.getColorMapColors();
+
 	    // Do we have normals?
 	    var n = actor.getProperty().getInterpolation() !== _Constants.SHADINGS.VTK_FLAT ? poly.getPointData().getNormals() : null;
 
@@ -7413,10 +7440,9 @@
 	    // parameters in the mapper
 
 	    var representation = actor.getProperty().getRepresentation();
-	    var toString = poly.getMTime() + 'A' + representation + 'B' + poly.getMTime() + 'C' + (n ? n.getMTime() : 1) + 'C';
+	    var toString = poly.getMTime() + 'A' + representation + 'B' + poly.getMTime() + 'C' + (n ? n.getMTime() : 1) + 'C' + (model.colors ? model.colors.getMTime() : 1);
 
 	    var tcoords = null;
-	    var c = null;
 	    if (model.VBOBuildString !== toString) {
 	      // Build the VBOs
 	      var points = poly.getPoints();
@@ -7670,7 +7696,8 @@
 	    if (colors !== null) {
 	      model.colorComponents = colors.getNumberOfComponents();
 	      model.colorOffset = /* sizeof(float) */4 * model.blockSize;
-	      model.blockSize += 1;
+	      //      model.blockSize += 1;
+	      model.blockSize += model.colorComponents;
 	      colorData = colors.getData();
 	    }
 	    model.stride = /* sizeof(float) */4 * model.blockSize;
@@ -7680,7 +7707,7 @@
 	    var tcoordIdx = 0;
 	    var colorIdx = 0;
 
-	    var colorHolder = new Uint8Array(4);
+	    // const colorHolder = new Uint8Array(4);
 
 	    var addAPoint = function addAPoint(i) {
 	      // Vertices
@@ -7706,19 +7733,23 @@
 	      }
 
 	      if (colorData !== null) {
-	        colorHolder[0] = colorData[colorIdx++];
-	        colorHolder[1] = colorData[colorIdx++];
-	        colorHolder[2] = colorData[colorIdx++];
-
-	        if (colorComponents === 4) {
-	          colorHolder[3] = colorData[colorIdx++];
-	        } else {
-	          // must be 3 color components then
-	          colorHolder[3] = 255;
+	        for (var _j = 0; _j < colorComponents; ++_j) {
+	          packedVBO.push(colorData[colorIdx++] / 255.5);
 	        }
-
-	        packedVBO.push(new Float32Array(colorHolder.buffer)[0]);
 	      }
+	      // if (colorData !== null) {
+	      //   colorHolder[0] = colorData[colorIdx++];
+	      //   colorHolder[1] = colorData[colorIdx++];
+	      //   colorHolder[2] = colorData[colorIdx++];
+
+	      //   if (colorComponents === 4) {
+	      //     colorHolder[3] = colorData[colorIdx++];
+	      //   } else {  // must be 3 color components then
+	      //     colorHolder[3] = 255;
+	      //   }
+
+	      //   packedVBO.push(new Float32Array(colorHolder.buffer)[0]);
+	      // }
 	    };
 
 	    var cellBuilders = {
@@ -7824,7 +7855,7 @@
 	  tCoordOffset: 0,
 	  tCoordComponents: 0,
 	  colorOffset: 0,
-	  numColorComponents: 0
+	  colorComponents: 0
 	};
 
 	// ----------------------------------------------------------------------------
@@ -7837,7 +7868,7 @@
 	  // Inheritance
 	  _BufferObject2.default.extend(publicAPI, model);
 
-	  macro.get(publicAPI, model, ['elementCount', 'stride', 'vertexOffset', 'normalOffset', 'tCoordOffset', 'tCoordComponents', 'colorOffset', 'numColorComponents']);
+	  macro.get(publicAPI, model, ['elementCount', 'stride', 'vertexOffset', 'normalOffset', 'tCoordOffset', 'tCoordComponents', 'colorOffset', 'colorComponents']);
 
 	  // Object specific methods
 	  vtkOpenGLCellArrayBufferObject(publicAPI, model);
@@ -11021,16 +11052,40 @@
 /* 31 */
 /***/ function(module, exports) {
 
-	module.exports = "//VTK::System::Dec\n\n/*=========================================================================\n\n  Program:   Visualization Toolkit\n  Module:    vtkPolyDataVS.glsl\n\n  Copyright (c) Ken Martin, Will Schroeder, Bill Lorensen\n  All rights reserved.\n  See Copyright.txt or http://www.kitware.com/Copyright.htm for details.\n\n     This software is distributed WITHOUT ANY WARRANTY; without even\n     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR\n     PURPOSE.  See the above copyright notice for more information.\n\n=========================================================================*/\n\nattribute vec4 vertexMC;\n\n// frag position in VC\n//VTK::PositionVC::Dec\n\n// optional normal declaration\n//VTK::Normal::Dec\n\n// extra lighting parameters\n//VTK::Light::Dec\n\n// Texture coordinates\n//VTK::TCoord::Dec\n\n// material property values\n//VTK::Color::Dec\n\n// clipping plane vars\n//VTK::Clip::Dec\n\n// camera and actor matrix values\n//VTK::Camera::Dec\n\n// Apple Bug\n//VTK::PrimID::Dec\n\nvoid main()\n{\n  //VTK::Color::Impl\n\n  //VTK::Normal::Impl\n\n  //VTK::TCoord::Impl\n\n  //VTK::Clip::Impl\n\n  //VTK::PrimID::Impl\n\n  //VTK::PositionVC::Impl\n\n  //VTK::Light::Impl\n}\n"
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	var COLOR_MODE = exports.COLOR_MODE = ['VTK_COLOR_MODE_DEFAULT', 'VTK_COLOR_MODE_MAP_SCALARS', 'VTK_COLOR_MODE_DIRECT_SCALARS'];
+
+	var SCALAR_MODE = exports.SCALAR_MODE = ['VTK_SCALAR_MODE_DEFAULT', 'VTK_SCALAR_MODE_USE_POINT_DATA', 'VTK_SCALAR_MODE_USE_CELL_DATA', 'VTK_SCALAR_MODE_USE_POINT_FIELD_DATA', 'VTK_SCALAR_MODE_USE_CELL_FIELD_DATA', 'VTK_SCALAR_MODE_USE_FIELD_DATA'];
+
+	var MATERIAL_MODE = exports.MATERIAL_MODE = ['VTK_MATERIALMODE_DEFAULT', 'VTK_MATERIALMODE_AMBIENT', 'VTK_MATERIALMODE_DIFFUSE', 'VTK_MATERIALMODE_AMBIENT_AND_DIFFUSE'];
+
+	var MATERIAL_MODE_VALUES = exports.MATERIAL_MODE_VALUES = {
+	  VTK_MATERIALMODE_DEFAULT: 0,
+	  VTK_MATERIALMODE_AMBIENT: 1,
+	  VTK_MATERIALMODE_DIFFUSE: 2,
+	  VTK_MATERIALMODE_AMBIENT_AND_DIFFUSE: 3
+	};
+
+	exports.default = { MATERIAL_MODE_VALUES: MATERIAL_MODE_VALUES };
 
 /***/ },
 /* 32 */
 /***/ function(module, exports) {
 
-	module.exports = "//VTK::System::Dec\n\n/*=========================================================================\n\n  Program:   Visualization Toolkit\n  Module:    vtkPolyDataFS.glsl\n\n  Copyright (c) Ken Martin, Will Schroeder, Bill Lorensen\n  All rights reserved.\n  See Copyright.txt or http://www.kitware.com/Copyright.htm for details.\n\n     This software is distributed WITHOUT ANY WARRANTY; without even\n     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR\n     PURPOSE.  See the above copyright notice for more information.\n\n=========================================================================*/\n// Template for the polydata mappers fragment shader\n\nuniform int PrimitiveIDOffset;\n\n// VC position of this fragment\n//VTK::PositionVC::Dec\n\n// optional color passed in from the vertex shader, vertexColor\n//VTK::Color::Dec\n\n// optional surface normal declaration\n//VTK::Normal::Dec\n\n// extra lighting parameters\n//VTK::Light::Dec\n\n// Texture coordinates\n//VTK::TCoord::Dec\n\n// picking support\n//VTK::Picking::Dec\n\n// Depth Peeling Support\n//VTK::DepthPeeling::Dec\n\n// clipping plane vars\n//VTK::Clip::Dec\n\n// the output of this shader\n//VTK::Output::Dec\n\n// Apple Bug\n//VTK::PrimID::Dec\n\n// handle coincident offsets\n//VTK::Coincident::Dec\n\nvoid main()\n{\n  // VC position of this fragment. This should not branch/return/discard.\n  //VTK::PositionVC::Impl\n\n  // Place any calls that require uniform flow (e.g. dFdx) here.\n  //VTK::UniformFlow::Impl\n\n  // Early depth peeling abort:\n  //VTK::DepthPeeling::PreColor\n\n  // Apple Bug\n  //VTK::PrimID::Impl\n\n  //VTK::Clip::Impl\n\n  //VTK::Color::Impl\n\n  // Generate the normal if we are not passed in one\n  //VTK::Normal::Impl\n\n  //VTK::Light::Impl\n\n  //VTK::TCoord::Impl\n\n  if (gl_FragData[0].a <= 0.0)\n    {\n    discard;\n    }\n\n  //VTK::DepthPeeling::Impl\n\n  //VTK::Picking::Impl\n\n  // handle coincident offsets\n  //VTK::Coincident::Impl\n}\n"
+	module.exports = "//VTK::System::Dec\n\n/*=========================================================================\n\n  Program:   Visualization Toolkit\n  Module:    vtkPolyDataVS.glsl\n\n  Copyright (c) Ken Martin, Will Schroeder, Bill Lorensen\n  All rights reserved.\n  See Copyright.txt or http://www.kitware.com/Copyright.htm for details.\n\n     This software is distributed WITHOUT ANY WARRANTY; without even\n     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR\n     PURPOSE.  See the above copyright notice for more information.\n\n=========================================================================*/\n\nattribute vec4 vertexMC;\n\n// frag position in VC\n//VTK::PositionVC::Dec\n\n// optional normal declaration\n//VTK::Normal::Dec\n\n// extra lighting parameters\n//VTK::Light::Dec\n\n// Texture coordinates\n//VTK::TCoord::Dec\n\n// material property values\n//VTK::Color::Dec\n\n// clipping plane vars\n//VTK::Clip::Dec\n\n// camera and actor matrix values\n//VTK::Camera::Dec\n\n// Apple Bug\n//VTK::PrimID::Dec\n\nvoid main()\n{\n  //VTK::Color::Impl\n\n  //VTK::Normal::Impl\n\n  //VTK::TCoord::Impl\n\n  //VTK::Clip::Impl\n\n  //VTK::PrimID::Impl\n\n  //VTK::PositionVC::Impl\n\n  //VTK::Light::Impl\n}\n"
 
 /***/ },
 /* 33 */
+/***/ function(module, exports) {
+
+	module.exports = "//VTK::System::Dec\n\n/*=========================================================================\n\n  Program:   Visualization Toolkit\n  Module:    vtkPolyDataFS.glsl\n\n  Copyright (c) Ken Martin, Will Schroeder, Bill Lorensen\n  All rights reserved.\n  See Copyright.txt or http://www.kitware.com/Copyright.htm for details.\n\n     This software is distributed WITHOUT ANY WARRANTY; without even\n     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR\n     PURPOSE.  See the above copyright notice for more information.\n\n=========================================================================*/\n// Template for the polydata mappers fragment shader\n\nuniform int PrimitiveIDOffset;\n\n// VC position of this fragment\n//VTK::PositionVC::Dec\n\n// optional color passed in from the vertex shader, vertexColor\n//VTK::Color::Dec\n\n// optional surface normal declaration\n//VTK::Normal::Dec\n\n// extra lighting parameters\n//VTK::Light::Dec\n\n// Texture coordinates\n//VTK::TCoord::Dec\n\n// picking support\n//VTK::Picking::Dec\n\n// Depth Peeling Support\n//VTK::DepthPeeling::Dec\n\n// clipping plane vars\n//VTK::Clip::Dec\n\n// the output of this shader\n//VTK::Output::Dec\n\n// Apple Bug\n//VTK::PrimID::Dec\n\n// handle coincident offsets\n//VTK::Coincident::Dec\n\nvoid main()\n{\n  // VC position of this fragment. This should not branch/return/discard.\n  //VTK::PositionVC::Impl\n\n  // Place any calls that require uniform flow (e.g. dFdx) here.\n  //VTK::UniformFlow::Impl\n\n  // Early depth peeling abort:\n  //VTK::DepthPeeling::PreColor\n\n  // Apple Bug\n  //VTK::PrimID::Impl\n\n  //VTK::Clip::Impl\n\n  //VTK::Color::Impl\n\n  // Generate the normal if we are not passed in one\n  //VTK::Normal::Impl\n\n  //VTK::Light::Impl\n\n  //VTK::TCoord::Impl\n\n  if (gl_FragData[0].a <= 0.0)\n    {\n    discard;\n    }\n\n  //VTK::DepthPeeling::Impl\n\n  //VTK::Picking::Impl\n\n  // handle coincident offsets\n  //VTK::Coincident::Impl\n}\n"
+
+/***/ },
+/* 34 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -11049,7 +11104,7 @@
 
 	var _ShaderProgram2 = _interopRequireDefault(_ShaderProgram);
 
-	var _blueimpMd = __webpack_require__(34);
+	var _blueimpMd = __webpack_require__(35);
 
 	var _blueimpMd2 = _interopRequireDefault(_blueimpMd);
 
@@ -11228,7 +11283,7 @@
 	exports.default = { newInstance: newInstance, extend: extend };
 
 /***/ },
-/* 34 */
+/* 35 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;'use strict';
@@ -11516,7 +11571,7 @@
 	})(undefined);
 
 /***/ },
-/* 35 */
+/* 36 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -11640,7 +11695,7 @@
 	exports.default = { newInstance: newInstance, extend: extend };
 
 /***/ },
-/* 36 */
+/* 37 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -11655,11 +11710,11 @@
 
 	var macro = _interopRequireWildcard(_macro);
 
-	var _Camera = __webpack_require__(37);
+	var _Camera = __webpack_require__(38);
 
 	var _Camera2 = _interopRequireDefault(_Camera);
 
-	var _Light = __webpack_require__(38);
+	var _Light = __webpack_require__(39);
 
 	var _Light2 = _interopRequireDefault(_Light);
 
@@ -11667,15 +11722,15 @@
 
 	var _Math2 = _interopRequireDefault(_Math);
 
-	var _TimerLog = __webpack_require__(39);
+	var _TimerLog = __webpack_require__(40);
 
 	var _TimerLog2 = _interopRequireDefault(_TimerLog);
 
-	var _Viewport = __webpack_require__(40);
+	var _Viewport = __webpack_require__(41);
 
 	var _Viewport2 = _interopRequireDefault(_Viewport);
 
-	var _BoundingBox = __webpack_require__(41);
+	var _BoundingBox = __webpack_require__(42);
 
 	var _glMatrix = __webpack_require__(10);
 
@@ -12477,7 +12532,7 @@
 	exports.default = { newInstance: newInstance, extend: extend };
 
 /***/ },
-/* 37 */
+/* 38 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -12906,7 +12961,7 @@
 	exports.default = { newInstance: newInstance, extend: extend };
 
 /***/ },
-/* 38 */
+/* 39 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -13038,7 +13093,7 @@
 	exports.default = { newInstance: newInstance, extend: extend, LIGHT_TYPES: LIGHT_TYPES };
 
 /***/ },
-/* 39 */
+/* 40 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -13056,7 +13111,7 @@
 	};
 
 /***/ },
-/* 40 */
+/* 41 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -13225,7 +13280,7 @@
 	exports.default = { newInstance: newInstance, extend: extend };
 
 /***/ },
-/* 41 */
+/* 42 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -13243,7 +13298,7 @@
 
 	var macro = _interopRequireWildcard(_macro);
 
-	var _Plane = __webpack_require__(42);
+	var _Plane = __webpack_require__(43);
 
 	var _Plane2 = _interopRequireDefault(_Plane);
 
@@ -13671,7 +13726,7 @@
 	exports.default = Object.assign({ newInstance: newInstance, extend: extend }, STATIC);
 
 /***/ },
-/* 42 */
+/* 43 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
