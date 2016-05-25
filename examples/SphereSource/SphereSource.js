@@ -9782,7 +9782,7 @@
 	        if (Math.abs(startTheta - endTheta) < 2.0 * Math.PI) {
 	          ++thetaResolution;
 	        }
-	        var deltaTheta = (model.endTheta - model.startTheta) / thetaResolution * (Math.PI / 180.0);
+	        var deltaTheta = (endTheta - startTheta) / model.thetaResolution;
 
 	        var jStart = model.startPhi <= 0.0 ? 1 : 0;
 	        var jEnd = model.phiResolution + (model.endPhi >= 180.0 ? -1 : 0);
