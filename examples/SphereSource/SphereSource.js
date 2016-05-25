@@ -9789,7 +9789,7 @@
 
 	        // Create intermediate points
 	        for (var i = 0; i < thetaResolution; i++) {
-	          var theta = startTheta * Math.PI / 180.0 + i * deltaTheta;
+	          var theta = startTheta + i * deltaTheta;
 	          for (var j = jStart; j < jEnd; j++) {
 	            var phi = startPhi + j * deltaPhi;
 	            var radius = model.radius * Math.sin(phi);
@@ -16880,6 +16880,10 @@
 	    document.querySelector('body').addEventListener('keypress', publicAPI.handleKeyPress);
 	    canvas.addEventListener('mouseup', publicAPI.handleMouseUp);
 	    canvas.addEventListener('mousemove', publicAPI.handleMouseMove);
+	    // canvas.addEventListener('touchstart', publicAPI.handleTouchStart, false);
+	    // canvas.addEventListener('touchend', publicAPI.handleTouchEnd, false);
+	    // canvas.addEventListener('touchcancel', publicAPI.handleTouchEnd, false);
+	    // canvas.addEventListener('touchmove', publicAPI.handleTouchMove, false);
 	  };
 
 	  publicAPI.unbindEvents = function (canvas, document) {
@@ -16934,6 +16938,42 @@
 	      default:
 	        break;
 	    }
+	  };
+
+	  publicAPI.handleTouchStart = function (event) {
+	    event.stopPropagation();
+	    event.preventDefault();
+
+	    var touches = event.changedTouches;
+	    touches.forEach(function (touch) {
+	      publicAPI.setEventPosition(touch.clientX, model.canvas.clientHeight - touch.clientY + 1, 0, touch.identifier);
+	      publicAPI.setPointerIndex(touch.identifier);
+	      publicAPI.leftButtonPressEvent();
+	    });
+	  };
+
+	  publicAPI.handleTouchMove = function (event) {
+	    event.stopPropagation();
+	    event.preventDefault();
+
+	    var touches = event.changedTouches;
+	    touches.forEach(function (touch) {
+	      publicAPI.setEventPosition(touch.clientX, model.canvas.clientHeight - touch.clientY + 1, 0, touch.identifier);
+	      publicAPI.setPointerIndex(touch.identifier);
+	      publicAPI.mouseMoveEvent();
+	    });
+	  };
+
+	  publicAPI.handleTouchEnd = function (event) {
+	    event.stopPropagation();
+	    event.preventDefault();
+
+	    var touches = event.changedTouches;
+	    touches.forEach(function (touch) {
+	      publicAPI.setEventPosition(touch.clientX, model.canvas.clientHeight - touch.clientY + 1, 0, touch.identifier);
+	      publicAPI.setPointerIndex(touch.identifier);
+	      publicAPI.leftButtonReleaseEvent();
+	    });
 	  };
 
 	  publicAPI.findPokedRenderer = function (x, y) {

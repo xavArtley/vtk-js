@@ -16781,6 +16781,10 @@
 	    document.querySelector('body').addEventListener('keypress', publicAPI.handleKeyPress);
 	    canvas.addEventListener('mouseup', publicAPI.handleMouseUp);
 	    canvas.addEventListener('mousemove', publicAPI.handleMouseMove);
+	    // canvas.addEventListener('touchstart', publicAPI.handleTouchStart, false);
+	    // canvas.addEventListener('touchend', publicAPI.handleTouchEnd, false);
+	    // canvas.addEventListener('touchcancel', publicAPI.handleTouchEnd, false);
+	    // canvas.addEventListener('touchmove', publicAPI.handleTouchMove, false);
 	  };
 
 	  publicAPI.unbindEvents = function (canvas, document) {
@@ -16835,6 +16839,42 @@
 	      default:
 	        break;
 	    }
+	  };
+
+	  publicAPI.handleTouchStart = function (event) {
+	    event.stopPropagation();
+	    event.preventDefault();
+
+	    var touches = event.changedTouches;
+	    touches.forEach(function (touch) {
+	      publicAPI.setEventPosition(touch.clientX, model.canvas.clientHeight - touch.clientY + 1, 0, touch.identifier);
+	      publicAPI.setPointerIndex(touch.identifier);
+	      publicAPI.leftButtonPressEvent();
+	    });
+	  };
+
+	  publicAPI.handleTouchMove = function (event) {
+	    event.stopPropagation();
+	    event.preventDefault();
+
+	    var touches = event.changedTouches;
+	    touches.forEach(function (touch) {
+	      publicAPI.setEventPosition(touch.clientX, model.canvas.clientHeight - touch.clientY + 1, 0, touch.identifier);
+	      publicAPI.setPointerIndex(touch.identifier);
+	      publicAPI.mouseMoveEvent();
+	    });
+	  };
+
+	  publicAPI.handleTouchEnd = function (event) {
+	    event.stopPropagation();
+	    event.preventDefault();
+
+	    var touches = event.changedTouches;
+	    touches.forEach(function (touch) {
+	      publicAPI.setEventPosition(touch.clientX, model.canvas.clientHeight - touch.clientY + 1, 0, touch.identifier);
+	      publicAPI.setPointerIndex(touch.identifier);
+	      publicAPI.leftButtonReleaseEvent();
+	    });
 	  };
 
 	  publicAPI.findPokedRenderer = function (x, y) {
