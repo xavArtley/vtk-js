@@ -9717,7 +9717,31 @@
 
 	        // ----------------------------------------------------------------------
 	        var numPoles = 0;
-	        var numPts = model.phiResolution * model.thetaResolution + 2;
+
+	        // Check data, determine increments, and convert to radians
+	        var thetaResolution = model.thetaResolution;
+	        var startTheta = model.startTheta < model.endTheta ? model.startTheta : model.endTheta;
+	        startTheta *= Math.PI / 180.0;
+	        var endTheta = model.endTheta > model.startTheta ? model.endTheta : model.startTheta;
+	        endTheta *= Math.PI / 180.0;
+
+	        var startPhi = model.startPhi < model.endPhi ? model.startPhi : model.endPhi;
+	        startPhi *= Math.PI / 180.0;
+	        var endPhi = model.endPhi > model.startPhi ? model.endPhi : model.startPhi;
+	        endPhi *= Math.PI / 180.0;
+
+	        var phiResolution = model.phiResolution - numPoles;
+	        var deltaPhi = (endPhi - startPhi) / (model.phiResolution - 1);
+
+	        if (Math.abs(startTheta - endTheta) < 2.0 * Math.PI) {
+	          ++thetaResolution;
+	        }
+	        var deltaTheta = (endTheta - startTheta) / model.thetaResolution;
+
+	        var jStart = model.startPhi <= 0.0 ? 1 : 0;
+	        var jEnd = model.phiResolution + (model.endPhi >= 180.0 ? -1 : 0);
+
+	        var numPts = model.phiResolution * thetaResolution + 2;
 	        var numPolys = model.phiResolution * 2 * model.thetaResolution;
 
 	        // Points
@@ -9763,29 +9787,6 @@
 	          pointIdx++;
 	          numPoles++;
 	        }
-
-	        // Check data, determine increments, and convert to radians
-	        var thetaResolution = model.thetaResolution;
-	        var startTheta = model.startTheta < model.endTheta ? model.startTheta : model.endTheta;
-	        startTheta *= Math.PI / 180.0;
-	        var endTheta = model.endTheta > model.startTheta ? model.endTheta : model.startTheta;
-	        endTheta *= Math.PI / 180.0;
-
-	        var startPhi = model.startPhi < model.endPhi ? model.startPhi : model.endPhi;
-	        startPhi *= Math.PI / 180.0;
-	        var endPhi = model.endPhi > model.startPhi ? model.endPhi : model.startPhi;
-	        endPhi *= Math.PI / 180.0;
-
-	        var phiResolution = model.phiResolution - numPoles;
-	        var deltaPhi = (endPhi - startPhi) / (model.phiResolution - 1);
-
-	        if (Math.abs(startTheta - endTheta) < 2.0 * Math.PI) {
-	          ++thetaResolution;
-	        }
-	        var deltaTheta = (endTheta - startTheta) / model.thetaResolution;
-
-	        var jStart = model.startPhi <= 0.0 ? 1 : 0;
-	        var jEnd = model.phiResolution + (model.endPhi >= 180.0 ? -1 : 0);
 
 	        // Create intermediate points
 	        for (var i = 0; i < thetaResolution; i++) {
