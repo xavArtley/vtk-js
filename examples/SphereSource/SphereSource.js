@@ -10658,6 +10658,7 @@
 
 	  if (model.values) {
 	    model.size = model.values.length;
+	    model.dataType = getDataType(model.values);
 	  }
 
 	  if (!model.empty && (!model.values || !model.size) || model.type !== 'vtkDataArray') {
