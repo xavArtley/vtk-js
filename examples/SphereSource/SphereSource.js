@@ -9730,9 +9730,6 @@
 	        var endPhi = model.endPhi > model.startPhi ? model.endPhi : model.startPhi;
 	        endPhi *= Math.PI / 180.0;
 
-	        var phiResolution = model.phiResolution - numPoles;
-	        var deltaPhi = (endPhi - startPhi) / (model.phiResolution - 1);
-
 	        if (Math.abs(startTheta - endTheta) < 2.0 * Math.PI) {
 	          ++thetaResolution;
 	        }
@@ -9787,6 +9784,9 @@
 	          pointIdx++;
 	          numPoles++;
 	        }
+
+	        var phiResolution = model.phiResolution - numPoles;
+	        var deltaPhi = (endPhi - startPhi) / (model.phiResolution - 1);
 
 	        // Create intermediate points
 	        for (var i = 0; i < thetaResolution; i++) {
