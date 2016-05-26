@@ -128,21 +128,12 @@
 
 	var coneSource = _ConeSource2.default.newInstance({ height: 1.0 });
 
-	var scalars = {
-	  type: 'vtkDataArray',
-	  name: 'temp',
-	  tuple: 1,
-	  dataType: 'Float32Array'
-	};
-
-	var s = new window[scalars.dataType](coneSource.getResolution() + 1);
-	for (var i = 0; i < s.length; i++) {
-	  s[i] = Math.random();
+	var newArray = new Float32Array(coneSource.getResolution() + 1);
+	for (var i = 0; i < newArray.length; i++) {
+	  newArray[i] = Math.random();
 	}
-	scalars.values = s;
-	scalars.size = s.length;
 
-	var da = _DataArray2.default.newInstance(scalars);
+	var da = _DataArray2.default.newInstance({ values: newArray });
 	da.setName('temp');
 
 	var coneData = coneSource.getOutput();
