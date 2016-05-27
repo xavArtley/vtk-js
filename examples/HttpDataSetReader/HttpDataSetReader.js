@@ -123,7 +123,7 @@
 	// Server is not sending the .gz and whith the compress header
 	// Need to fetch the true file name and uncompress it locally
 	reader.setUrl(datasetToLoad).then(function () {
-	  reader.update().then(function () {
+	  reader.loadData().then(function () {
 	    renWin.render();
 	  });
 	});
@@ -9973,9 +9973,9 @@
 	  };
 
 	  // Fetch the actual data arrays
-	  publicAPI.requestData = function (inData, outData) {
+	  publicAPI.loadData = function () {
 	    var datasetStruct = model.dataset;
-	    var datasetObj = outData[0];
+	    var datasetObj = model.output[0];
 	    var arrayToFecth = [];
 	    var arrayMappingFunc = [];
 	    model.arrays.filter(function (array) {
@@ -10014,6 +10014,10 @@
 	      // Start processing queue
 	      processNext();
 	    });
+	  };
+
+	  publicAPI.requestData = function (inData, outData) {
+	    // do nothing loadData will eventually load up the data
 	  };
 
 	  // Toggle arrays to load
