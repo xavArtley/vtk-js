@@ -1788,8 +1788,6 @@
 /* 8 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
-
 	/**
 	 * @fileoverview gl-matrix - High performance matrix and vector operations
 	 * @author Brandon Jones
@@ -1832,8 +1830,6 @@
 /* 9 */
 /***/ function(module, exports) {
 
-	'use strict';
-
 	/* Copyright (c) 2015, Brandon Jones, Colin MacKenzie IV.
 
 	Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -1862,7 +1858,7 @@
 
 	// Constants
 	glMatrix.EPSILON = 0.000001;
-	glMatrix.ARRAY_TYPE = typeof Float32Array !== 'undefined' ? Float32Array : Array;
+	glMatrix.ARRAY_TYPE = (typeof Float32Array !== 'undefined') ? Float32Array : Array;
 	glMatrix.RANDOM = Math.random;
 
 	/**
@@ -1870,9 +1866,9 @@
 	 *
 	 * @param {Type} type Array type, such as Float32Array or Array
 	 */
-	glMatrix.setMatrixArrayType = function (type) {
-	  GLMAT_ARRAY_TYPE = type;
-	};
+	glMatrix.setMatrixArrayType = function(type) {
+	    GLMAT_ARRAY_TYPE = type;
+	}
 
 	var degree = Math.PI / 180;
 
@@ -1881,17 +1877,16 @@
 	*
 	* @param {Number} Angle in Degrees
 	*/
-	glMatrix.toRadian = function (a) {
-	  return a * degree;
-	};
+	glMatrix.toRadian = function(a){
+	     return a * degree;
+	}
 
 	module.exports = glMatrix;
+
 
 /***/ },
 /* 10 */
 /***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
 
 	/* Copyright (c) 2015, Brandon Jones, Colin MacKenzie IV.
 
@@ -1926,7 +1921,7 @@
 	 *
 	 * @returns {mat2} a new 2x2 matrix
 	 */
-	mat2.create = function () {
+	mat2.create = function() {
 	    var out = new glMatrix.ARRAY_TYPE(4);
 	    out[0] = 1;
 	    out[1] = 0;
@@ -1941,7 +1936,7 @@
 	 * @param {mat2} a matrix to clone
 	 * @returns {mat2} a new 2x2 matrix
 	 */
-	mat2.clone = function (a) {
+	mat2.clone = function(a) {
 	    var out = new glMatrix.ARRAY_TYPE(4);
 	    out[0] = a[0];
 	    out[1] = a[1];
@@ -1957,7 +1952,7 @@
 	 * @param {mat2} a the source matrix
 	 * @returns {mat2} out
 	 */
-	mat2.copy = function (out, a) {
+	mat2.copy = function(out, a) {
 	    out[0] = a[0];
 	    out[1] = a[1];
 	    out[2] = a[2];
@@ -1971,7 +1966,7 @@
 	 * @param {mat2} out the receiving matrix
 	 * @returns {mat2} out
 	 */
-	mat2.identity = function (out) {
+	mat2.identity = function(out) {
 	    out[0] = 1;
 	    out[1] = 0;
 	    out[2] = 0;
@@ -1986,7 +1981,7 @@
 	 * @param {mat2} a the source matrix
 	 * @returns {mat2} out
 	 */
-	mat2.transpose = function (out, a) {
+	mat2.transpose = function(out, a) {
 	    // If we are transposing ourselves we can skip a few steps but have to cache some values
 	    if (out === a) {
 	        var a1 = a[1];
@@ -1998,7 +1993,7 @@
 	        out[2] = a[1];
 	        out[3] = a[3];
 	    }
-
+	    
 	    return out;
 	};
 
@@ -2009,25 +2004,21 @@
 	 * @param {mat2} a the source matrix
 	 * @returns {mat2} out
 	 */
-	mat2.invert = function (out, a) {
-	    var a0 = a[0],
-	        a1 = a[1],
-	        a2 = a[2],
-	        a3 = a[3],
+	mat2.invert = function(out, a) {
+	    var a0 = a[0], a1 = a[1], a2 = a[2], a3 = a[3],
 
-
-	    // Calculate the determinant
-	    det = a0 * a3 - a2 * a1;
+	        // Calculate the determinant
+	        det = a0 * a3 - a2 * a1;
 
 	    if (!det) {
 	        return null;
 	    }
 	    det = 1.0 / det;
-
-	    out[0] = a3 * det;
+	    
+	    out[0] =  a3 * det;
 	    out[1] = -a1 * det;
 	    out[2] = -a2 * det;
-	    out[3] = a0 * det;
+	    out[3] =  a0 * det;
 
 	    return out;
 	};
@@ -2039,13 +2030,13 @@
 	 * @param {mat2} a the source matrix
 	 * @returns {mat2} out
 	 */
-	mat2.adjoint = function (out, a) {
+	mat2.adjoint = function(out, a) {
 	    // Caching this value is nessecary if out == a
 	    var a0 = a[0];
-	    out[0] = a[3];
+	    out[0] =  a[3];
 	    out[1] = -a[1];
 	    out[2] = -a[2];
-	    out[3] = a0;
+	    out[3] =  a0;
 
 	    return out;
 	};
@@ -2069,14 +2060,8 @@
 	 * @returns {mat2} out
 	 */
 	mat2.multiply = function (out, a, b) {
-	    var a0 = a[0],
-	        a1 = a[1],
-	        a2 = a[2],
-	        a3 = a[3];
-	    var b0 = b[0],
-	        b1 = b[1],
-	        b2 = b[2],
-	        b3 = b[3];
+	    var a0 = a[0], a1 = a[1], a2 = a[2], a3 = a[3];
+	    var b0 = b[0], b1 = b[1], b2 = b[2], b3 = b[3];
 	    out[0] = a0 * b0 + a2 * b1;
 	    out[1] = a1 * b0 + a3 * b1;
 	    out[2] = a0 * b2 + a2 * b3;
@@ -2099,14 +2084,11 @@
 	 * @returns {mat2} out
 	 */
 	mat2.rotate = function (out, a, rad) {
-	    var a0 = a[0],
-	        a1 = a[1],
-	        a2 = a[2],
-	        a3 = a[3],
+	    var a0 = a[0], a1 = a[1], a2 = a[2], a3 = a[3],
 	        s = Math.sin(rad),
 	        c = Math.cos(rad);
-	    out[0] = a0 * c + a2 * s;
-	    out[1] = a1 * c + a3 * s;
+	    out[0] = a0 *  c + a2 * s;
+	    out[1] = a1 *  c + a3 * s;
 	    out[2] = a0 * -s + a2 * c;
 	    out[3] = a1 * -s + a3 * c;
 	    return out;
@@ -2120,13 +2102,9 @@
 	 * @param {vec2} v the vec2 to scale the matrix by
 	 * @returns {mat2} out
 	 **/
-	mat2.scale = function (out, a, v) {
-	    var a0 = a[0],
-	        a1 = a[1],
-	        a2 = a[2],
-	        a3 = a[3],
-	        v0 = v[0],
-	        v1 = v[1];
+	mat2.scale = function(out, a, v) {
+	    var a0 = a[0], a1 = a[1], a2 = a[2], a3 = a[3],
+	        v0 = v[0], v1 = v[1];
 	    out[0] = a0 * v0;
 	    out[1] = a1 * v0;
 	    out[2] = a2 * v1;
@@ -2145,7 +2123,7 @@
 	 * @param {Number} rad the angle to rotate the matrix by
 	 * @returns {mat2} out
 	 */
-	mat2.fromRotation = function (out, rad) {
+	mat2.fromRotation = function(out, rad) {
 	    var s = Math.sin(rad),
 	        c = Math.cos(rad);
 	    out[0] = c;
@@ -2153,7 +2131,7 @@
 	    out[2] = -s;
 	    out[3] = c;
 	    return out;
-	};
+	}
 
 	/**
 	 * Creates a matrix from a vector scaling
@@ -2166,13 +2144,13 @@
 	 * @param {vec2} v Scaling vector
 	 * @returns {mat2} out
 	 */
-	mat2.fromScaling = function (out, v) {
+	mat2.fromScaling = function(out, v) {
 	    out[0] = v[0];
 	    out[1] = 0;
 	    out[2] = 0;
 	    out[3] = v[1];
 	    return out;
-	};
+	}
 
 	/**
 	 * Returns a string representation of a mat2
@@ -2191,7 +2169,7 @@
 	 * @returns {Number} Frobenius norm
 	 */
 	mat2.frob = function (a) {
-	    return Math.sqrt(Math.pow(a[0], 2) + Math.pow(a[1], 2) + Math.pow(a[2], 2) + Math.pow(a[3], 2));
+	    return(Math.sqrt(Math.pow(a[0], 2) + Math.pow(a[1], 2) + Math.pow(a[2], 2) + Math.pow(a[3], 2)))
 	};
 
 	/**
@@ -2202,21 +2180,21 @@
 	 * @param {mat2} a the input matrix to factorize
 	 */
 
-	mat2.LDU = function (L, D, U, a) {
-	    L[2] = a[2] / a[0];
-	    U[0] = a[0];
-	    U[1] = a[1];
-	    U[3] = a[3] - L[2] * U[1];
-	    return [L, D, U];
-	};
+	mat2.LDU = function (L, D, U, a) { 
+	    L[2] = a[2]/a[0]; 
+	    U[0] = a[0]; 
+	    U[1] = a[1]; 
+	    U[3] = a[3] - L[2] * U[1]; 
+	    return [L, D, U];       
+	}; 
+
 
 	module.exports = mat2;
+
 
 /***/ },
 /* 11 */
 /***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
 
 	/* Copyright (c) 2015, Brandon Jones, Colin MacKenzie IV.
 
@@ -2265,7 +2243,7 @@
 	 *
 	 * @returns {mat2d} a new 2x3 matrix
 	 */
-	mat2d.create = function () {
+	mat2d.create = function() {
 	    var out = new glMatrix.ARRAY_TYPE(6);
 	    out[0] = 1;
 	    out[1] = 0;
@@ -2282,7 +2260,7 @@
 	 * @param {mat2d} a matrix to clone
 	 * @returns {mat2d} a new 2x3 matrix
 	 */
-	mat2d.clone = function (a) {
+	mat2d.clone = function(a) {
 	    var out = new glMatrix.ARRAY_TYPE(6);
 	    out[0] = a[0];
 	    out[1] = a[1];
@@ -2300,7 +2278,7 @@
 	 * @param {mat2d} a the source matrix
 	 * @returns {mat2d} out
 	 */
-	mat2d.copy = function (out, a) {
+	mat2d.copy = function(out, a) {
 	    out[0] = a[0];
 	    out[1] = a[1];
 	    out[2] = a[2];
@@ -2316,7 +2294,7 @@
 	 * @param {mat2d} out the receiving matrix
 	 * @returns {mat2d} out
 	 */
-	mat2d.identity = function (out) {
+	mat2d.identity = function(out) {
 	    out[0] = 1;
 	    out[1] = 0;
 	    out[2] = 0;
@@ -2333,16 +2311,12 @@
 	 * @param {mat2d} a the source matrix
 	 * @returns {mat2d} out
 	 */
-	mat2d.invert = function (out, a) {
-	    var aa = a[0],
-	        ab = a[1],
-	        ac = a[2],
-	        ad = a[3],
-	        atx = a[4],
-	        aty = a[5];
+	mat2d.invert = function(out, a) {
+	    var aa = a[0], ab = a[1], ac = a[2], ad = a[3],
+	        atx = a[4], aty = a[5];
 
 	    var det = aa * ad - ab * ac;
-	    if (!det) {
+	    if(!det){
 	        return null;
 	    }
 	    det = 1.0 / det;
@@ -2375,18 +2349,8 @@
 	 * @returns {mat2d} out
 	 */
 	mat2d.multiply = function (out, a, b) {
-	    var a0 = a[0],
-	        a1 = a[1],
-	        a2 = a[2],
-	        a3 = a[3],
-	        a4 = a[4],
-	        a5 = a[5],
-	        b0 = b[0],
-	        b1 = b[1],
-	        b2 = b[2],
-	        b3 = b[3],
-	        b4 = b[4],
-	        b5 = b[5];
+	    var a0 = a[0], a1 = a[1], a2 = a[2], a3 = a[3], a4 = a[4], a5 = a[5],
+	        b0 = b[0], b1 = b[1], b2 = b[2], b3 = b[3], b4 = b[4], b5 = b[5];
 	    out[0] = a0 * b0 + a2 * b1;
 	    out[1] = a1 * b0 + a3 * b1;
 	    out[2] = a0 * b2 + a2 * b3;
@@ -2411,16 +2375,11 @@
 	 * @returns {mat2d} out
 	 */
 	mat2d.rotate = function (out, a, rad) {
-	    var a0 = a[0],
-	        a1 = a[1],
-	        a2 = a[2],
-	        a3 = a[3],
-	        a4 = a[4],
-	        a5 = a[5],
+	    var a0 = a[0], a1 = a[1], a2 = a[2], a3 = a[3], a4 = a[4], a5 = a[5],
 	        s = Math.sin(rad),
 	        c = Math.cos(rad);
-	    out[0] = a0 * c + a2 * s;
-	    out[1] = a1 * c + a3 * s;
+	    out[0] = a0 *  c + a2 * s;
+	    out[1] = a1 *  c + a3 * s;
 	    out[2] = a0 * -s + a2 * c;
 	    out[3] = a1 * -s + a3 * c;
 	    out[4] = a4;
@@ -2436,15 +2395,9 @@
 	 * @param {vec2} v the vec2 to scale the matrix by
 	 * @returns {mat2d} out
 	 **/
-	mat2d.scale = function (out, a, v) {
-	    var a0 = a[0],
-	        a1 = a[1],
-	        a2 = a[2],
-	        a3 = a[3],
-	        a4 = a[4],
-	        a5 = a[5],
-	        v0 = v[0],
-	        v1 = v[1];
+	mat2d.scale = function(out, a, v) {
+	    var a0 = a[0], a1 = a[1], a2 = a[2], a3 = a[3], a4 = a[4], a5 = a[5],
+	        v0 = v[0], v1 = v[1];
 	    out[0] = a0 * v0;
 	    out[1] = a1 * v0;
 	    out[2] = a2 * v1;
@@ -2462,15 +2415,9 @@
 	 * @param {vec2} v the vec2 to translate the matrix by
 	 * @returns {mat2d} out
 	 **/
-	mat2d.translate = function (out, a, v) {
-	    var a0 = a[0],
-	        a1 = a[1],
-	        a2 = a[2],
-	        a3 = a[3],
-	        a4 = a[4],
-	        a5 = a[5],
-	        v0 = v[0],
-	        v1 = v[1];
+	mat2d.translate = function(out, a, v) {
+	    var a0 = a[0], a1 = a[1], a2 = a[2], a3 = a[3], a4 = a[4], a5 = a[5],
+	        v0 = v[0], v1 = v[1];
 	    out[0] = a0;
 	    out[1] = a1;
 	    out[2] = a2;
@@ -2491,9 +2438,8 @@
 	 * @param {Number} rad the angle to rotate the matrix by
 	 * @returns {mat2d} out
 	 */
-	mat2d.fromRotation = function (out, rad) {
-	    var s = Math.sin(rad),
-	        c = Math.cos(rad);
+	mat2d.fromRotation = function(out, rad) {
+	    var s = Math.sin(rad), c = Math.cos(rad);
 	    out[0] = c;
 	    out[1] = s;
 	    out[2] = -s;
@@ -2501,7 +2447,7 @@
 	    out[4] = 0;
 	    out[5] = 0;
 	    return out;
-	};
+	}
 
 	/**
 	 * Creates a matrix from a vector scaling
@@ -2514,7 +2460,7 @@
 	 * @param {vec2} v Scaling vector
 	 * @returns {mat2d} out
 	 */
-	mat2d.fromScaling = function (out, v) {
+	mat2d.fromScaling = function(out, v) {
 	    out[0] = v[0];
 	    out[1] = 0;
 	    out[2] = 0;
@@ -2522,7 +2468,7 @@
 	    out[4] = 0;
 	    out[5] = 0;
 	    return out;
-	};
+	}
 
 	/**
 	 * Creates a matrix from a vector translation
@@ -2535,7 +2481,7 @@
 	 * @param {vec2} v Translation vector
 	 * @returns {mat2d} out
 	 */
-	mat2d.fromTranslation = function (out, v) {
+	mat2d.fromTranslation = function(out, v) {
 	    out[0] = 1;
 	    out[1] = 0;
 	    out[2] = 0;
@@ -2543,7 +2489,7 @@
 	    out[4] = v[0];
 	    out[5] = v[1];
 	    return out;
-	};
+	}
 
 	/**
 	 * Returns a string representation of a mat2d
@@ -2552,7 +2498,8 @@
 	 * @returns {String} string representation of the matrix
 	 */
 	mat2d.str = function (a) {
-	    return 'mat2d(' + a[0] + ', ' + a[1] + ', ' + a[2] + ', ' + a[3] + ', ' + a[4] + ', ' + a[5] + ')';
+	    return 'mat2d(' + a[0] + ', ' + a[1] + ', ' + a[2] + ', ' + 
+	                    a[3] + ', ' + a[4] + ', ' + a[5] + ')';
 	};
 
 	/**
@@ -2561,17 +2508,16 @@
 	 * @param {mat2d} a the matrix to calculate Frobenius norm of
 	 * @returns {Number} Frobenius norm
 	 */
-	mat2d.frob = function (a) {
-	    return Math.sqrt(Math.pow(a[0], 2) + Math.pow(a[1], 2) + Math.pow(a[2], 2) + Math.pow(a[3], 2) + Math.pow(a[4], 2) + Math.pow(a[5], 2) + 1);
-	};
+	mat2d.frob = function (a) { 
+	    return(Math.sqrt(Math.pow(a[0], 2) + Math.pow(a[1], 2) + Math.pow(a[2], 2) + Math.pow(a[3], 2) + Math.pow(a[4], 2) + Math.pow(a[5], 2) + 1))
+	}; 
 
 	module.exports = mat2d;
+
 
 /***/ },
 /* 12 */
 /***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
 
 	/* Copyright (c) 2015, Brandon Jones, Colin MacKenzie IV.
 
@@ -2606,7 +2552,7 @@
 	 *
 	 * @returns {mat3} a new 3x3 matrix
 	 */
-	mat3.create = function () {
+	mat3.create = function() {
 	    var out = new glMatrix.ARRAY_TYPE(9);
 	    out[0] = 1;
 	    out[1] = 0;
@@ -2627,7 +2573,7 @@
 	 * @param {mat4} a   the source 4x4 matrix
 	 * @returns {mat3} out
 	 */
-	mat3.fromMat4 = function (out, a) {
+	mat3.fromMat4 = function(out, a) {
 	    out[0] = a[0];
 	    out[1] = a[1];
 	    out[2] = a[2];
@@ -2646,7 +2592,7 @@
 	 * @param {mat3} a matrix to clone
 	 * @returns {mat3} a new 3x3 matrix
 	 */
-	mat3.clone = function (a) {
+	mat3.clone = function(a) {
 	    var out = new glMatrix.ARRAY_TYPE(9);
 	    out[0] = a[0];
 	    out[1] = a[1];
@@ -2667,7 +2613,7 @@
 	 * @param {mat3} a the source matrix
 	 * @returns {mat3} out
 	 */
-	mat3.copy = function (out, a) {
+	mat3.copy = function(out, a) {
 	    out[0] = a[0];
 	    out[1] = a[1];
 	    out[2] = a[2];
@@ -2686,7 +2632,7 @@
 	 * @param {mat3} out the receiving matrix
 	 * @returns {mat3} out
 	 */
-	mat3.identity = function (out) {
+	mat3.identity = function(out) {
 	    out[0] = 1;
 	    out[1] = 0;
 	    out[2] = 0;
@@ -2706,12 +2652,10 @@
 	 * @param {mat3} a the source matrix
 	 * @returns {mat3} out
 	 */
-	mat3.transpose = function (out, a) {
+	mat3.transpose = function(out, a) {
 	    // If we are transposing ourselves we can skip a few steps but have to cache some values
 	    if (out === a) {
-	        var a01 = a[1],
-	            a02 = a[2],
-	            a12 = a[5];
+	        var a01 = a[1], a02 = a[2], a12 = a[5];
 	        out[1] = a[3];
 	        out[2] = a[6];
 	        out[3] = a01;
@@ -2729,7 +2673,7 @@
 	        out[7] = a[5];
 	        out[8] = a[8];
 	    }
-
+	    
 	    return out;
 	};
 
@@ -2740,26 +2684,20 @@
 	 * @param {mat3} a the source matrix
 	 * @returns {mat3} out
 	 */
-	mat3.invert = function (out, a) {
-	    var a00 = a[0],
-	        a01 = a[1],
-	        a02 = a[2],
-	        a10 = a[3],
-	        a11 = a[4],
-	        a12 = a[5],
-	        a20 = a[6],
-	        a21 = a[7],
-	        a22 = a[8],
+	mat3.invert = function(out, a) {
+	    var a00 = a[0], a01 = a[1], a02 = a[2],
+	        a10 = a[3], a11 = a[4], a12 = a[5],
+	        a20 = a[6], a21 = a[7], a22 = a[8],
+
 	        b01 = a22 * a11 - a12 * a21,
 	        b11 = -a22 * a10 + a12 * a20,
 	        b21 = a21 * a10 - a11 * a20,
 
+	        // Calculate the determinant
+	        det = a00 * b01 + a01 * b11 + a02 * b21;
 
-	    // Calculate the determinant
-	    det = a00 * b01 + a01 * b11 + a02 * b21;
-
-	    if (!det) {
-	        return null;
+	    if (!det) { 
+	        return null; 
 	    }
 	    det = 1.0 / det;
 
@@ -2782,26 +2720,20 @@
 	 * @param {mat3} a the source matrix
 	 * @returns {mat3} out
 	 */
-	mat3.adjoint = function (out, a) {
-	    var a00 = a[0],
-	        a01 = a[1],
-	        a02 = a[2],
-	        a10 = a[3],
-	        a11 = a[4],
-	        a12 = a[5],
-	        a20 = a[6],
-	        a21 = a[7],
-	        a22 = a[8];
+	mat3.adjoint = function(out, a) {
+	    var a00 = a[0], a01 = a[1], a02 = a[2],
+	        a10 = a[3], a11 = a[4], a12 = a[5],
+	        a20 = a[6], a21 = a[7], a22 = a[8];
 
-	    out[0] = a11 * a22 - a12 * a21;
-	    out[1] = a02 * a21 - a01 * a22;
-	    out[2] = a01 * a12 - a02 * a11;
-	    out[3] = a12 * a20 - a10 * a22;
-	    out[4] = a00 * a22 - a02 * a20;
-	    out[5] = a02 * a10 - a00 * a12;
-	    out[6] = a10 * a21 - a11 * a20;
-	    out[7] = a01 * a20 - a00 * a21;
-	    out[8] = a00 * a11 - a01 * a10;
+	    out[0] = (a11 * a22 - a12 * a21);
+	    out[1] = (a02 * a21 - a01 * a22);
+	    out[2] = (a01 * a12 - a02 * a11);
+	    out[3] = (a12 * a20 - a10 * a22);
+	    out[4] = (a00 * a22 - a02 * a20);
+	    out[5] = (a02 * a10 - a00 * a12);
+	    out[6] = (a10 * a21 - a11 * a20);
+	    out[7] = (a01 * a20 - a00 * a21);
+	    out[8] = (a00 * a11 - a01 * a10);
 	    return out;
 	};
 
@@ -2812,15 +2744,9 @@
 	 * @returns {Number} determinant of a
 	 */
 	mat3.determinant = function (a) {
-	    var a00 = a[0],
-	        a01 = a[1],
-	        a02 = a[2],
-	        a10 = a[3],
-	        a11 = a[4],
-	        a12 = a[5],
-	        a20 = a[6],
-	        a21 = a[7],
-	        a22 = a[8];
+	    var a00 = a[0], a01 = a[1], a02 = a[2],
+	        a10 = a[3], a11 = a[4], a12 = a[5],
+	        a20 = a[6], a21 = a[7], a22 = a[8];
 
 	    return a00 * (a22 * a11 - a12 * a21) + a01 * (-a22 * a10 + a12 * a20) + a02 * (a21 * a10 - a11 * a20);
 	};
@@ -2834,24 +2760,13 @@
 	 * @returns {mat3} out
 	 */
 	mat3.multiply = function (out, a, b) {
-	    var a00 = a[0],
-	        a01 = a[1],
-	        a02 = a[2],
-	        a10 = a[3],
-	        a11 = a[4],
-	        a12 = a[5],
-	        a20 = a[6],
-	        a21 = a[7],
-	        a22 = a[8],
-	        b00 = b[0],
-	        b01 = b[1],
-	        b02 = b[2],
-	        b10 = b[3],
-	        b11 = b[4],
-	        b12 = b[5],
-	        b20 = b[6],
-	        b21 = b[7],
-	        b22 = b[8];
+	    var a00 = a[0], a01 = a[1], a02 = a[2],
+	        a10 = a[3], a11 = a[4], a12 = a[5],
+	        a20 = a[6], a21 = a[7], a22 = a[8],
+
+	        b00 = b[0], b01 = b[1], b02 = b[2],
+	        b10 = b[3], b11 = b[4], b12 = b[5],
+	        b20 = b[6], b21 = b[7], b22 = b[8];
 
 	    out[0] = b00 * a00 + b01 * a10 + b02 * a20;
 	    out[1] = b00 * a01 + b01 * a11 + b02 * a21;
@@ -2881,18 +2796,11 @@
 	 * @param {vec2} v vector to translate by
 	 * @returns {mat3} out
 	 */
-	mat3.translate = function (out, a, v) {
-	    var a00 = a[0],
-	        a01 = a[1],
-	        a02 = a[2],
-	        a10 = a[3],
-	        a11 = a[4],
-	        a12 = a[5],
-	        a20 = a[6],
-	        a21 = a[7],
-	        a22 = a[8],
-	        x = v[0],
-	        y = v[1];
+	mat3.translate = function(out, a, v) {
+	    var a00 = a[0], a01 = a[1], a02 = a[2],
+	        a10 = a[3], a11 = a[4], a12 = a[5],
+	        a20 = a[6], a21 = a[7], a22 = a[8],
+	        x = v[0], y = v[1];
 
 	    out[0] = a00;
 	    out[1] = a01;
@@ -2917,15 +2825,10 @@
 	 * @returns {mat3} out
 	 */
 	mat3.rotate = function (out, a, rad) {
-	    var a00 = a[0],
-	        a01 = a[1],
-	        a02 = a[2],
-	        a10 = a[3],
-	        a11 = a[4],
-	        a12 = a[5],
-	        a20 = a[6],
-	        a21 = a[7],
-	        a22 = a[8],
+	    var a00 = a[0], a01 = a[1], a02 = a[2],
+	        a10 = a[3], a11 = a[4], a12 = a[5],
+	        a20 = a[6], a21 = a[7], a22 = a[8],
+
 	        s = Math.sin(rad),
 	        c = Math.cos(rad);
 
@@ -2951,9 +2854,8 @@
 	 * @param {vec2} v the vec2 to scale the matrix by
 	 * @returns {mat3} out
 	 **/
-	mat3.scale = function (out, a, v) {
-	    var x = v[0],
-	        y = v[1];
+	mat3.scale = function(out, a, v) {
+	    var x = v[0], y = v[1];
 
 	    out[0] = x * a[0];
 	    out[1] = x * a[1];
@@ -2980,7 +2882,7 @@
 	 * @param {vec2} v Translation vector
 	 * @returns {mat3} out
 	 */
-	mat3.fromTranslation = function (out, v) {
+	mat3.fromTranslation = function(out, v) {
 	    out[0] = 1;
 	    out[1] = 0;
 	    out[2] = 0;
@@ -2991,7 +2893,7 @@
 	    out[7] = v[1];
 	    out[8] = 1;
 	    return out;
-	};
+	}
 
 	/**
 	 * Creates a matrix from a given angle
@@ -3004,9 +2906,8 @@
 	 * @param {Number} rad the angle to rotate the matrix by
 	 * @returns {mat3} out
 	 */
-	mat3.fromRotation = function (out, rad) {
-	    var s = Math.sin(rad),
-	        c = Math.cos(rad);
+	mat3.fromRotation = function(out, rad) {
+	    var s = Math.sin(rad), c = Math.cos(rad);
 
 	    out[0] = c;
 	    out[1] = s;
@@ -3020,7 +2921,7 @@
 	    out[7] = 0;
 	    out[8] = 1;
 	    return out;
-	};
+	}
 
 	/**
 	 * Creates a matrix from a vector scaling
@@ -3033,7 +2934,7 @@
 	 * @param {vec2} v Scaling vector
 	 * @returns {mat3} out
 	 */
-	mat3.fromScaling = function (out, v) {
+	mat3.fromScaling = function(out, v) {
 	    out[0] = v[0];
 	    out[1] = 0;
 	    out[2] = 0;
@@ -3046,7 +2947,7 @@
 	    out[7] = 0;
 	    out[8] = 1;
 	    return out;
-	};
+	}
 
 	/**
 	 * Copies the values from a mat2d into a mat3
@@ -3055,7 +2956,7 @@
 	 * @param {mat2d} a the matrix to copy
 	 * @returns {mat3} out
 	 **/
-	mat3.fromMat2d = function (out, a) {
+	mat3.fromMat2d = function(out, a) {
 	    out[0] = a[0];
 	    out[1] = a[1];
 	    out[2] = 0;
@@ -3079,13 +2980,11 @@
 	* @returns {mat3} out
 	*/
 	mat3.fromQuat = function (out, q) {
-	    var x = q[0],
-	        y = q[1],
-	        z = q[2],
-	        w = q[3],
+	    var x = q[0], y = q[1], z = q[2], w = q[3],
 	        x2 = x + x,
 	        y2 = y + y,
 	        z2 = z + z,
+
 	        xx = x * x2,
 	        yx = y * x2,
 	        yy = y * y2,
@@ -3120,22 +3019,11 @@
 	* @returns {mat3} out
 	*/
 	mat3.normalFromMat4 = function (out, a) {
-	    var a00 = a[0],
-	        a01 = a[1],
-	        a02 = a[2],
-	        a03 = a[3],
-	        a10 = a[4],
-	        a11 = a[5],
-	        a12 = a[6],
-	        a13 = a[7],
-	        a20 = a[8],
-	        a21 = a[9],
-	        a22 = a[10],
-	        a23 = a[11],
-	        a30 = a[12],
-	        a31 = a[13],
-	        a32 = a[14],
-	        a33 = a[15],
+	    var a00 = a[0], a01 = a[1], a02 = a[2], a03 = a[3],
+	        a10 = a[4], a11 = a[5], a12 = a[6], a13 = a[7],
+	        a20 = a[8], a21 = a[9], a22 = a[10], a23 = a[11],
+	        a30 = a[12], a31 = a[13], a32 = a[14], a33 = a[15],
+
 	        b00 = a00 * a11 - a01 * a10,
 	        b01 = a00 * a12 - a02 * a10,
 	        b02 = a00 * a13 - a03 * a10,
@@ -3149,12 +3037,11 @@
 	        b10 = a21 * a33 - a23 * a31,
 	        b11 = a22 * a33 - a23 * a32,
 
+	        // Calculate the determinant
+	        det = b00 * b11 - b01 * b10 + b02 * b09 + b03 * b08 - b04 * b07 + b05 * b06;
 
-	    // Calculate the determinant
-	    det = b00 * b11 - b01 * b10 + b02 * b09 + b03 * b08 - b04 * b07 + b05 * b06;
-
-	    if (!det) {
-	        return null;
+	    if (!det) { 
+	        return null; 
 	    }
 	    det = 1.0 / det;
 
@@ -3180,7 +3067,9 @@
 	 * @returns {String} string representation of the matrix
 	 */
 	mat3.str = function (a) {
-	    return 'mat3(' + a[0] + ', ' + a[1] + ', ' + a[2] + ', ' + a[3] + ', ' + a[4] + ', ' + a[5] + ', ' + a[6] + ', ' + a[7] + ', ' + a[8] + ')';
+	    return 'mat3(' + a[0] + ', ' + a[1] + ', ' + a[2] + ', ' + 
+	                    a[3] + ', ' + a[4] + ', ' + a[5] + ', ' + 
+	                    a[6] + ', ' + a[7] + ', ' + a[8] + ')';
 	};
 
 	/**
@@ -3190,16 +3079,16 @@
 	 * @returns {Number} Frobenius norm
 	 */
 	mat3.frob = function (a) {
-	    return Math.sqrt(Math.pow(a[0], 2) + Math.pow(a[1], 2) + Math.pow(a[2], 2) + Math.pow(a[3], 2) + Math.pow(a[4], 2) + Math.pow(a[5], 2) + Math.pow(a[6], 2) + Math.pow(a[7], 2) + Math.pow(a[8], 2));
+	    return(Math.sqrt(Math.pow(a[0], 2) + Math.pow(a[1], 2) + Math.pow(a[2], 2) + Math.pow(a[3], 2) + Math.pow(a[4], 2) + Math.pow(a[5], 2) + Math.pow(a[6], 2) + Math.pow(a[7], 2) + Math.pow(a[8], 2)))
 	};
 
+
 	module.exports = mat3;
+
 
 /***/ },
 /* 13 */
 /***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
 
 	/* Copyright (c) 2015, Brandon Jones, Colin MacKenzie IV.
 
@@ -3234,7 +3123,7 @@
 	 *
 	 * @returns {mat4} a new 4x4 matrix
 	 */
-	mat4.create = function () {
+	mat4.create = function() {
 	    var out = new glMatrix.ARRAY_TYPE(16);
 	    out[0] = 1;
 	    out[1] = 0;
@@ -3261,7 +3150,7 @@
 	 * @param {mat4} a matrix to clone
 	 * @returns {mat4} a new 4x4 matrix
 	 */
-	mat4.clone = function (a) {
+	mat4.clone = function(a) {
 	    var out = new glMatrix.ARRAY_TYPE(16);
 	    out[0] = a[0];
 	    out[1] = a[1];
@@ -3289,7 +3178,7 @@
 	 * @param {mat4} a the source matrix
 	 * @returns {mat4} out
 	 */
-	mat4.copy = function (out, a) {
+	mat4.copy = function(out, a) {
 	    out[0] = a[0];
 	    out[1] = a[1];
 	    out[2] = a[2];
@@ -3315,7 +3204,7 @@
 	 * @param {mat4} out the receiving matrix
 	 * @returns {mat4} out
 	 */
-	mat4.identity = function (out) {
+	mat4.identity = function(out) {
 	    out[0] = 1;
 	    out[1] = 0;
 	    out[2] = 0;
@@ -3342,14 +3231,11 @@
 	 * @param {mat4} a the source matrix
 	 * @returns {mat4} out
 	 */
-	mat4.transpose = function (out, a) {
+	mat4.transpose = function(out, a) {
 	    // If we are transposing ourselves we can skip a few steps but have to cache some values
 	    if (out === a) {
-	        var a01 = a[1],
-	            a02 = a[2],
-	            a03 = a[3],
-	            a12 = a[6],
-	            a13 = a[7],
+	        var a01 = a[1], a02 = a[2], a03 = a[3],
+	            a12 = a[6], a13 = a[7],
 	            a23 = a[11];
 
 	        out[1] = a[4];
@@ -3382,7 +3268,7 @@
 	        out[14] = a[11];
 	        out[15] = a[15];
 	    }
-
+	    
 	    return out;
 	};
 
@@ -3393,23 +3279,12 @@
 	 * @param {mat4} a the source matrix
 	 * @returns {mat4} out
 	 */
-	mat4.invert = function (out, a) {
-	    var a00 = a[0],
-	        a01 = a[1],
-	        a02 = a[2],
-	        a03 = a[3],
-	        a10 = a[4],
-	        a11 = a[5],
-	        a12 = a[6],
-	        a13 = a[7],
-	        a20 = a[8],
-	        a21 = a[9],
-	        a22 = a[10],
-	        a23 = a[11],
-	        a30 = a[12],
-	        a31 = a[13],
-	        a32 = a[14],
-	        a33 = a[15],
+	mat4.invert = function(out, a) {
+	    var a00 = a[0], a01 = a[1], a02 = a[2], a03 = a[3],
+	        a10 = a[4], a11 = a[5], a12 = a[6], a13 = a[7],
+	        a20 = a[8], a21 = a[9], a22 = a[10], a23 = a[11],
+	        a30 = a[12], a31 = a[13], a32 = a[14], a33 = a[15],
+
 	        b00 = a00 * a11 - a01 * a10,
 	        b01 = a00 * a12 - a02 * a10,
 	        b02 = a00 * a13 - a03 * a10,
@@ -3423,12 +3298,11 @@
 	        b10 = a21 * a33 - a23 * a31,
 	        b11 = a22 * a33 - a23 * a32,
 
+	        // Calculate the determinant
+	        det = b00 * b11 - b01 * b10 + b02 * b09 + b03 * b08 - b04 * b07 + b05 * b06;
 
-	    // Calculate the determinant
-	    det = b00 * b11 - b01 * b10 + b02 * b09 + b03 * b08 - b04 * b07 + b05 * b06;
-
-	    if (!det) {
-	        return null;
+	    if (!det) { 
+	        return null; 
 	    }
 	    det = 1.0 / det;
 
@@ -3459,40 +3333,28 @@
 	 * @param {mat4} a the source matrix
 	 * @returns {mat4} out
 	 */
-	mat4.adjoint = function (out, a) {
-	    var a00 = a[0],
-	        a01 = a[1],
-	        a02 = a[2],
-	        a03 = a[3],
-	        a10 = a[4],
-	        a11 = a[5],
-	        a12 = a[6],
-	        a13 = a[7],
-	        a20 = a[8],
-	        a21 = a[9],
-	        a22 = a[10],
-	        a23 = a[11],
-	        a30 = a[12],
-	        a31 = a[13],
-	        a32 = a[14],
-	        a33 = a[15];
+	mat4.adjoint = function(out, a) {
+	    var a00 = a[0], a01 = a[1], a02 = a[2], a03 = a[3],
+	        a10 = a[4], a11 = a[5], a12 = a[6], a13 = a[7],
+	        a20 = a[8], a21 = a[9], a22 = a[10], a23 = a[11],
+	        a30 = a[12], a31 = a[13], a32 = a[14], a33 = a[15];
 
-	    out[0] = a11 * (a22 * a33 - a23 * a32) - a21 * (a12 * a33 - a13 * a32) + a31 * (a12 * a23 - a13 * a22);
-	    out[1] = -(a01 * (a22 * a33 - a23 * a32) - a21 * (a02 * a33 - a03 * a32) + a31 * (a02 * a23 - a03 * a22));
-	    out[2] = a01 * (a12 * a33 - a13 * a32) - a11 * (a02 * a33 - a03 * a32) + a31 * (a02 * a13 - a03 * a12);
-	    out[3] = -(a01 * (a12 * a23 - a13 * a22) - a11 * (a02 * a23 - a03 * a22) + a21 * (a02 * a13 - a03 * a12));
-	    out[4] = -(a10 * (a22 * a33 - a23 * a32) - a20 * (a12 * a33 - a13 * a32) + a30 * (a12 * a23 - a13 * a22));
-	    out[5] = a00 * (a22 * a33 - a23 * a32) - a20 * (a02 * a33 - a03 * a32) + a30 * (a02 * a23 - a03 * a22);
-	    out[6] = -(a00 * (a12 * a33 - a13 * a32) - a10 * (a02 * a33 - a03 * a32) + a30 * (a02 * a13 - a03 * a12));
-	    out[7] = a00 * (a12 * a23 - a13 * a22) - a10 * (a02 * a23 - a03 * a22) + a20 * (a02 * a13 - a03 * a12);
-	    out[8] = a10 * (a21 * a33 - a23 * a31) - a20 * (a11 * a33 - a13 * a31) + a30 * (a11 * a23 - a13 * a21);
-	    out[9] = -(a00 * (a21 * a33 - a23 * a31) - a20 * (a01 * a33 - a03 * a31) + a30 * (a01 * a23 - a03 * a21));
-	    out[10] = a00 * (a11 * a33 - a13 * a31) - a10 * (a01 * a33 - a03 * a31) + a30 * (a01 * a13 - a03 * a11);
+	    out[0]  =  (a11 * (a22 * a33 - a23 * a32) - a21 * (a12 * a33 - a13 * a32) + a31 * (a12 * a23 - a13 * a22));
+	    out[1]  = -(a01 * (a22 * a33 - a23 * a32) - a21 * (a02 * a33 - a03 * a32) + a31 * (a02 * a23 - a03 * a22));
+	    out[2]  =  (a01 * (a12 * a33 - a13 * a32) - a11 * (a02 * a33 - a03 * a32) + a31 * (a02 * a13 - a03 * a12));
+	    out[3]  = -(a01 * (a12 * a23 - a13 * a22) - a11 * (a02 * a23 - a03 * a22) + a21 * (a02 * a13 - a03 * a12));
+	    out[4]  = -(a10 * (a22 * a33 - a23 * a32) - a20 * (a12 * a33 - a13 * a32) + a30 * (a12 * a23 - a13 * a22));
+	    out[5]  =  (a00 * (a22 * a33 - a23 * a32) - a20 * (a02 * a33 - a03 * a32) + a30 * (a02 * a23 - a03 * a22));
+	    out[6]  = -(a00 * (a12 * a33 - a13 * a32) - a10 * (a02 * a33 - a03 * a32) + a30 * (a02 * a13 - a03 * a12));
+	    out[7]  =  (a00 * (a12 * a23 - a13 * a22) - a10 * (a02 * a23 - a03 * a22) + a20 * (a02 * a13 - a03 * a12));
+	    out[8]  =  (a10 * (a21 * a33 - a23 * a31) - a20 * (a11 * a33 - a13 * a31) + a30 * (a11 * a23 - a13 * a21));
+	    out[9]  = -(a00 * (a21 * a33 - a23 * a31) - a20 * (a01 * a33 - a03 * a31) + a30 * (a01 * a23 - a03 * a21));
+	    out[10] =  (a00 * (a11 * a33 - a13 * a31) - a10 * (a01 * a33 - a03 * a31) + a30 * (a01 * a13 - a03 * a11));
 	    out[11] = -(a00 * (a11 * a23 - a13 * a21) - a10 * (a01 * a23 - a03 * a21) + a20 * (a01 * a13 - a03 * a11));
 	    out[12] = -(a10 * (a21 * a32 - a22 * a31) - a20 * (a11 * a32 - a12 * a31) + a30 * (a11 * a22 - a12 * a21));
-	    out[13] = a00 * (a21 * a32 - a22 * a31) - a20 * (a01 * a32 - a02 * a31) + a30 * (a01 * a22 - a02 * a21);
+	    out[13] =  (a00 * (a21 * a32 - a22 * a31) - a20 * (a01 * a32 - a02 * a31) + a30 * (a01 * a22 - a02 * a21));
 	    out[14] = -(a00 * (a11 * a32 - a12 * a31) - a10 * (a01 * a32 - a02 * a31) + a30 * (a01 * a12 - a02 * a11));
-	    out[15] = a00 * (a11 * a22 - a12 * a21) - a10 * (a01 * a22 - a02 * a21) + a20 * (a01 * a12 - a02 * a11);
+	    out[15] =  (a00 * (a11 * a22 - a12 * a21) - a10 * (a01 * a22 - a02 * a21) + a20 * (a01 * a12 - a02 * a11));
 	    return out;
 	};
 
@@ -3503,22 +3365,11 @@
 	 * @returns {Number} determinant of a
 	 */
 	mat4.determinant = function (a) {
-	    var a00 = a[0],
-	        a01 = a[1],
-	        a02 = a[2],
-	        a03 = a[3],
-	        a10 = a[4],
-	        a11 = a[5],
-	        a12 = a[6],
-	        a13 = a[7],
-	        a20 = a[8],
-	        a21 = a[9],
-	        a22 = a[10],
-	        a23 = a[11],
-	        a30 = a[12],
-	        a31 = a[13],
-	        a32 = a[14],
-	        a33 = a[15],
+	    var a00 = a[0], a01 = a[1], a02 = a[2], a03 = a[3],
+	        a10 = a[4], a11 = a[5], a12 = a[6], a13 = a[7],
+	        a20 = a[8], a21 = a[9], a22 = a[10], a23 = a[11],
+	        a30 = a[12], a31 = a[13], a32 = a[14], a33 = a[15],
+
 	        b00 = a00 * a11 - a01 * a10,
 	        b01 = a00 * a12 - a02 * a10,
 	        b02 = a00 * a13 - a03 * a10,
@@ -3545,50 +3396,35 @@
 	 * @returns {mat4} out
 	 */
 	mat4.multiply = function (out, a, b) {
-	    var a00 = a[0],
-	        a01 = a[1],
-	        a02 = a[2],
-	        a03 = a[3],
-	        a10 = a[4],
-	        a11 = a[5],
-	        a12 = a[6],
-	        a13 = a[7],
-	        a20 = a[8],
-	        a21 = a[9],
-	        a22 = a[10],
-	        a23 = a[11],
-	        a30 = a[12],
-	        a31 = a[13],
-	        a32 = a[14],
-	        a33 = a[15];
+	    var a00 = a[0], a01 = a[1], a02 = a[2], a03 = a[3],
+	        a10 = a[4], a11 = a[5], a12 = a[6], a13 = a[7],
+	        a20 = a[8], a21 = a[9], a22 = a[10], a23 = a[11],
+	        a30 = a[12], a31 = a[13], a32 = a[14], a33 = a[15];
 
 	    // Cache only the current line of the second matrix
-	    var b0 = b[0],
-	        b1 = b[1],
-	        b2 = b[2],
-	        b3 = b[3];
-	    out[0] = b0 * a00 + b1 * a10 + b2 * a20 + b3 * a30;
-	    out[1] = b0 * a01 + b1 * a11 + b2 * a21 + b3 * a31;
-	    out[2] = b0 * a02 + b1 * a12 + b2 * a22 + b3 * a32;
-	    out[3] = b0 * a03 + b1 * a13 + b2 * a23 + b3 * a33;
+	    var b0  = b[0], b1 = b[1], b2 = b[2], b3 = b[3];  
+	    out[0] = b0*a00 + b1*a10 + b2*a20 + b3*a30;
+	    out[1] = b0*a01 + b1*a11 + b2*a21 + b3*a31;
+	    out[2] = b0*a02 + b1*a12 + b2*a22 + b3*a32;
+	    out[3] = b0*a03 + b1*a13 + b2*a23 + b3*a33;
 
-	    b0 = b[4];b1 = b[5];b2 = b[6];b3 = b[7];
-	    out[4] = b0 * a00 + b1 * a10 + b2 * a20 + b3 * a30;
-	    out[5] = b0 * a01 + b1 * a11 + b2 * a21 + b3 * a31;
-	    out[6] = b0 * a02 + b1 * a12 + b2 * a22 + b3 * a32;
-	    out[7] = b0 * a03 + b1 * a13 + b2 * a23 + b3 * a33;
+	    b0 = b[4]; b1 = b[5]; b2 = b[6]; b3 = b[7];
+	    out[4] = b0*a00 + b1*a10 + b2*a20 + b3*a30;
+	    out[5] = b0*a01 + b1*a11 + b2*a21 + b3*a31;
+	    out[6] = b0*a02 + b1*a12 + b2*a22 + b3*a32;
+	    out[7] = b0*a03 + b1*a13 + b2*a23 + b3*a33;
 
-	    b0 = b[8];b1 = b[9];b2 = b[10];b3 = b[11];
-	    out[8] = b0 * a00 + b1 * a10 + b2 * a20 + b3 * a30;
-	    out[9] = b0 * a01 + b1 * a11 + b2 * a21 + b3 * a31;
-	    out[10] = b0 * a02 + b1 * a12 + b2 * a22 + b3 * a32;
-	    out[11] = b0 * a03 + b1 * a13 + b2 * a23 + b3 * a33;
+	    b0 = b[8]; b1 = b[9]; b2 = b[10]; b3 = b[11];
+	    out[8] = b0*a00 + b1*a10 + b2*a20 + b3*a30;
+	    out[9] = b0*a01 + b1*a11 + b2*a21 + b3*a31;
+	    out[10] = b0*a02 + b1*a12 + b2*a22 + b3*a32;
+	    out[11] = b0*a03 + b1*a13 + b2*a23 + b3*a33;
 
-	    b0 = b[12];b1 = b[13];b2 = b[14];b3 = b[15];
-	    out[12] = b0 * a00 + b1 * a10 + b2 * a20 + b3 * a30;
-	    out[13] = b0 * a01 + b1 * a11 + b2 * a21 + b3 * a31;
-	    out[14] = b0 * a02 + b1 * a12 + b2 * a22 + b3 * a32;
-	    out[15] = b0 * a03 + b1 * a13 + b2 * a23 + b3 * a33;
+	    b0 = b[12]; b1 = b[13]; b2 = b[14]; b3 = b[15];
+	    out[12] = b0*a00 + b1*a10 + b2*a20 + b3*a30;
+	    out[13] = b0*a01 + b1*a11 + b2*a21 + b3*a31;
+	    out[14] = b0*a02 + b1*a12 + b2*a22 + b3*a32;
+	    out[15] = b0*a03 + b1*a13 + b2*a23 + b3*a33;
 	    return out;
 	};
 
@@ -3607,21 +3443,10 @@
 	 * @returns {mat4} out
 	 */
 	mat4.translate = function (out, a, v) {
-	    var x = v[0],
-	        y = v[1],
-	        z = v[2],
-	        a00,
-	        a01,
-	        a02,
-	        a03,
-	        a10,
-	        a11,
-	        a12,
-	        a13,
-	        a20,
-	        a21,
-	        a22,
-	        a23;
+	    var x = v[0], y = v[1], z = v[2],
+	        a00, a01, a02, a03,
+	        a10, a11, a12, a13,
+	        a20, a21, a22, a23;
 
 	    if (a === out) {
 	        out[12] = a[0] * x + a[4] * y + a[8] * z + a[12];
@@ -3629,13 +3454,13 @@
 	        out[14] = a[2] * x + a[6] * y + a[10] * z + a[14];
 	        out[15] = a[3] * x + a[7] * y + a[11] * z + a[15];
 	    } else {
-	        a00 = a[0];a01 = a[1];a02 = a[2];a03 = a[3];
-	        a10 = a[4];a11 = a[5];a12 = a[6];a13 = a[7];
-	        a20 = a[8];a21 = a[9];a22 = a[10];a23 = a[11];
+	        a00 = a[0]; a01 = a[1]; a02 = a[2]; a03 = a[3];
+	        a10 = a[4]; a11 = a[5]; a12 = a[6]; a13 = a[7];
+	        a20 = a[8]; a21 = a[9]; a22 = a[10]; a23 = a[11];
 
-	        out[0] = a00;out[1] = a01;out[2] = a02;out[3] = a03;
-	        out[4] = a10;out[5] = a11;out[6] = a12;out[7] = a13;
-	        out[8] = a20;out[9] = a21;out[10] = a22;out[11] = a23;
+	        out[0] = a00; out[1] = a01; out[2] = a02; out[3] = a03;
+	        out[4] = a10; out[5] = a11; out[6] = a12; out[7] = a13;
+	        out[8] = a20; out[9] = a21; out[10] = a22; out[11] = a23;
 
 	        out[12] = a00 * x + a10 * y + a20 * z + a[12];
 	        out[13] = a01 * x + a11 * y + a21 * z + a[13];
@@ -3654,10 +3479,8 @@
 	 * @param {vec3} v the vec3 to scale the matrix by
 	 * @returns {mat4} out
 	 **/
-	mat4.scale = function (out, a, v) {
-	    var x = v[0],
-	        y = v[1],
-	        z = v[2];
+	mat4.scale = function(out, a, v) {
+	    var x = v[0], y = v[1], z = v[2];
 
 	    out[0] = a[0] * x;
 	    out[1] = a[1] * x;
@@ -3688,39 +3511,18 @@
 	 * @returns {mat4} out
 	 */
 	mat4.rotate = function (out, a, rad, axis) {
-	    var x = axis[0],
-	        y = axis[1],
-	        z = axis[2],
+	    var x = axis[0], y = axis[1], z = axis[2],
 	        len = Math.sqrt(x * x + y * y + z * z),
-	        s,
-	        c,
-	        t,
-	        a00,
-	        a01,
-	        a02,
-	        a03,
-	        a10,
-	        a11,
-	        a12,
-	        a13,
-	        a20,
-	        a21,
-	        a22,
-	        a23,
-	        b00,
-	        b01,
-	        b02,
-	        b10,
-	        b11,
-	        b12,
-	        b20,
-	        b21,
-	        b22;
+	        s, c, t,
+	        a00, a01, a02, a03,
+	        a10, a11, a12, a13,
+	        a20, a21, a22, a23,
+	        b00, b01, b02,
+	        b10, b11, b12,
+	        b20, b21, b22;
 
-	    if (Math.abs(len) < glMatrix.EPSILON) {
-	        return null;
-	    }
-
+	    if (Math.abs(len) < glMatrix.EPSILON) { return null; }
+	    
 	    len = 1 / len;
 	    x *= len;
 	    y *= len;
@@ -3730,14 +3532,14 @@
 	    c = Math.cos(rad);
 	    t = 1 - c;
 
-	    a00 = a[0];a01 = a[1];a02 = a[2];a03 = a[3];
-	    a10 = a[4];a11 = a[5];a12 = a[6];a13 = a[7];
-	    a20 = a[8];a21 = a[9];a22 = a[10];a23 = a[11];
+	    a00 = a[0]; a01 = a[1]; a02 = a[2]; a03 = a[3];
+	    a10 = a[4]; a11 = a[5]; a12 = a[6]; a13 = a[7];
+	    a20 = a[8]; a21 = a[9]; a22 = a[10]; a23 = a[11];
 
 	    // Construct the elements of the rotation matrix
-	    b00 = x * x * t + c;b01 = y * x * t + z * s;b02 = z * x * t - y * s;
-	    b10 = x * y * t - z * s;b11 = y * y * t + c;b12 = z * y * t + x * s;
-	    b20 = x * z * t + y * s;b21 = y * z * t - x * s;b22 = z * z * t + c;
+	    b00 = x * x * t + c; b01 = y * x * t + z * s; b02 = z * x * t - y * s;
+	    b10 = x * y * t - z * s; b11 = y * y * t + c; b12 = z * y * t + x * s;
+	    b20 = x * z * t + y * s; b21 = y * z * t - x * s; b22 = z * z * t + c;
 
 	    // Perform rotation-specific matrix multiplication
 	    out[0] = a00 * b00 + a10 * b01 + a20 * b02;
@@ -3753,8 +3555,7 @@
 	    out[10] = a02 * b20 + a12 * b21 + a22 * b22;
 	    out[11] = a03 * b20 + a13 * b21 + a23 * b22;
 
-	    if (a !== out) {
-	        // If the source and destination differ, copy the unchanged last row
+	    if (a !== out) { // If the source and destination differ, copy the unchanged last row
 	        out[12] = a[12];
 	        out[13] = a[13];
 	        out[14] = a[14];
@@ -3783,12 +3584,11 @@
 	        a22 = a[10],
 	        a23 = a[11];
 
-	    if (a !== out) {
-	        // If the source and destination differ, copy the unchanged rows
-	        out[0] = a[0];
-	        out[1] = a[1];
-	        out[2] = a[2];
-	        out[3] = a[3];
+	    if (a !== out) { // If the source and destination differ, copy the unchanged rows
+	        out[0]  = a[0];
+	        out[1]  = a[1];
+	        out[2]  = a[2];
+	        out[3]  = a[3];
 	        out[12] = a[12];
 	        out[13] = a[13];
 	        out[14] = a[14];
@@ -3827,12 +3627,11 @@
 	        a22 = a[10],
 	        a23 = a[11];
 
-	    if (a !== out) {
-	        // If the source and destination differ, copy the unchanged rows
-	        out[4] = a[4];
-	        out[5] = a[5];
-	        out[6] = a[6];
-	        out[7] = a[7];
+	    if (a !== out) { // If the source and destination differ, copy the unchanged rows
+	        out[4]  = a[4];
+	        out[5]  = a[5];
+	        out[6]  = a[6];
+	        out[7]  = a[7];
 	        out[12] = a[12];
 	        out[13] = a[13];
 	        out[14] = a[14];
@@ -3871,10 +3670,9 @@
 	        a12 = a[6],
 	        a13 = a[7];
 
-	    if (a !== out) {
-	        // If the source and destination differ, copy the unchanged last row
-	        out[8] = a[8];
-	        out[9] = a[9];
+	    if (a !== out) { // If the source and destination differ, copy the unchanged last row
+	        out[8]  = a[8];
+	        out[9]  = a[9];
 	        out[10] = a[10];
 	        out[11] = a[11];
 	        out[12] = a[12];
@@ -3906,7 +3704,7 @@
 	 * @param {vec3} v Translation vector
 	 * @returns {mat4} out
 	 */
-	mat4.fromTranslation = function (out, v) {
+	mat4.fromTranslation = function(out, v) {
 	    out[0] = 1;
 	    out[1] = 0;
 	    out[2] = 0;
@@ -3924,7 +3722,7 @@
 	    out[14] = v[2];
 	    out[15] = 1;
 	    return out;
-	};
+	}
 
 	/**
 	 * Creates a matrix from a vector scaling
@@ -3937,7 +3735,7 @@
 	 * @param {vec3} v Scaling vector
 	 * @returns {mat4} out
 	 */
-	mat4.fromScaling = function (out, v) {
+	mat4.fromScaling = function(out, v) {
 	    out[0] = v[0];
 	    out[1] = 0;
 	    out[2] = 0;
@@ -3955,7 +3753,7 @@
 	    out[14] = 0;
 	    out[15] = 1;
 	    return out;
-	};
+	}
 
 	/**
 	 * Creates a matrix from a given angle around a given axis
@@ -3969,28 +3767,22 @@
 	 * @param {vec3} axis the axis to rotate around
 	 * @returns {mat4} out
 	 */
-	mat4.fromRotation = function (out, rad, axis) {
-	    var x = axis[0],
-	        y = axis[1],
-	        z = axis[2],
+	mat4.fromRotation = function(out, rad, axis) {
+	    var x = axis[0], y = axis[1], z = axis[2],
 	        len = Math.sqrt(x * x + y * y + z * z),
-	        s,
-	        c,
-	        t;
-
-	    if (Math.abs(len) < glMatrix.EPSILON) {
-	        return null;
-	    }
-
+	        s, c, t;
+	    
+	    if (Math.abs(len) < glMatrix.EPSILON) { return null; }
+	    
 	    len = 1 / len;
 	    x *= len;
 	    y *= len;
 	    z *= len;
-
+	    
 	    s = Math.sin(rad);
 	    c = Math.cos(rad);
 	    t = 1 - c;
-
+	    
 	    // Perform rotation-specific matrix multiplication
 	    out[0] = x * x * t + c;
 	    out[1] = y * x * t + z * s;
@@ -4009,7 +3801,7 @@
 	    out[14] = 0;
 	    out[15] = 1;
 	    return out;
-	};
+	}
 
 	/**
 	 * Creates a matrix from the given angle around the X axis
@@ -4022,15 +3814,15 @@
 	 * @param {Number} rad the angle to rotate the matrix by
 	 * @returns {mat4} out
 	 */
-	mat4.fromXRotation = function (out, rad) {
+	mat4.fromXRotation = function(out, rad) {
 	    var s = Math.sin(rad),
 	        c = Math.cos(rad);
-
+	    
 	    // Perform axis-specific matrix multiplication
-	    out[0] = 1;
-	    out[1] = 0;
-	    out[2] = 0;
-	    out[3] = 0;
+	    out[0]  = 1;
+	    out[1]  = 0;
+	    out[2]  = 0;
+	    out[3]  = 0;
 	    out[4] = 0;
 	    out[5] = c;
 	    out[6] = s;
@@ -4044,7 +3836,7 @@
 	    out[14] = 0;
 	    out[15] = 1;
 	    return out;
-	};
+	}
 
 	/**
 	 * Creates a matrix from the given angle around the Y axis
@@ -4057,15 +3849,15 @@
 	 * @param {Number} rad the angle to rotate the matrix by
 	 * @returns {mat4} out
 	 */
-	mat4.fromYRotation = function (out, rad) {
+	mat4.fromYRotation = function(out, rad) {
 	    var s = Math.sin(rad),
 	        c = Math.cos(rad);
-
+	    
 	    // Perform axis-specific matrix multiplication
-	    out[0] = c;
-	    out[1] = 0;
-	    out[2] = -s;
-	    out[3] = 0;
+	    out[0]  = c;
+	    out[1]  = 0;
+	    out[2]  = -s;
+	    out[3]  = 0;
 	    out[4] = 0;
 	    out[5] = 1;
 	    out[6] = 0;
@@ -4079,7 +3871,7 @@
 	    out[14] = 0;
 	    out[15] = 1;
 	    return out;
-	};
+	}
 
 	/**
 	 * Creates a matrix from the given angle around the Z axis
@@ -4092,15 +3884,15 @@
 	 * @param {Number} rad the angle to rotate the matrix by
 	 * @returns {mat4} out
 	 */
-	mat4.fromZRotation = function (out, rad) {
+	mat4.fromZRotation = function(out, rad) {
 	    var s = Math.sin(rad),
 	        c = Math.cos(rad);
-
+	    
 	    // Perform axis-specific matrix multiplication
-	    out[0] = c;
-	    out[1] = s;
-	    out[2] = 0;
-	    out[3] = 0;
+	    out[0]  = c;
+	    out[1]  = s;
+	    out[2]  = 0;
+	    out[3]  = 0;
 	    out[4] = -s;
 	    out[5] = c;
 	    out[6] = 0;
@@ -4114,7 +3906,7 @@
 	    out[14] = 0;
 	    out[15] = 1;
 	    return out;
-	};
+	}
 
 	/**
 	 * Creates a matrix from a quaternion rotation and vector translation
@@ -4133,13 +3925,11 @@
 	 */
 	mat4.fromRotationTranslation = function (out, q, v) {
 	    // Quaternion math
-	    var x = q[0],
-	        y = q[1],
-	        z = q[2],
-	        w = q[3],
+	    var x = q[0], y = q[1], z = q[2], w = q[3],
 	        x2 = x + x,
 	        y2 = y + y,
 	        z2 = z + z,
+
 	        xx = x * x2,
 	        xy = x * y2,
 	        xz = x * z2,
@@ -4166,7 +3956,7 @@
 	    out[13] = v[1];
 	    out[14] = v[2];
 	    out[15] = 1;
-
+	    
 	    return out;
 	};
 
@@ -4189,13 +3979,11 @@
 	 */
 	mat4.fromRotationTranslationScale = function (out, q, v, s) {
 	    // Quaternion math
-	    var x = q[0],
-	        y = q[1],
-	        z = q[2],
-	        w = q[3],
+	    var x = q[0], y = q[1], z = q[2], w = q[3],
 	        x2 = x + x,
 	        y2 = y + y,
 	        z2 = z + z,
+
 	        xx = x * x2,
 	        xy = x * y2,
 	        xz = x * z2,
@@ -4225,7 +4013,7 @@
 	    out[13] = v[1];
 	    out[14] = v[2];
 	    out[15] = 1;
-
+	    
 	    return out;
 	};
 
@@ -4250,58 +4038,56 @@
 	 * @returns {mat4} out
 	 */
 	mat4.fromRotationTranslationScaleOrigin = function (out, q, v, s, o) {
-	    // Quaternion math
-	    var x = q[0],
-	        y = q[1],
-	        z = q[2],
-	        w = q[3],
-	        x2 = x + x,
-	        y2 = y + y,
-	        z2 = z + z,
-	        xx = x * x2,
-	        xy = x * y2,
-	        xz = x * z2,
-	        yy = y * y2,
-	        yz = y * z2,
-	        zz = z * z2,
-	        wx = w * x2,
-	        wy = w * y2,
-	        wz = w * z2,
-	        sx = s[0],
-	        sy = s[1],
-	        sz = s[2],
-	        ox = o[0],
-	        oy = o[1],
-	        oz = o[2];
+	  // Quaternion math
+	  var x = q[0], y = q[1], z = q[2], w = q[3],
+	      x2 = x + x,
+	      y2 = y + y,
+	      z2 = z + z,
 
-	    out[0] = (1 - (yy + zz)) * sx;
-	    out[1] = (xy + wz) * sx;
-	    out[2] = (xz - wy) * sx;
-	    out[3] = 0;
-	    out[4] = (xy - wz) * sy;
-	    out[5] = (1 - (xx + zz)) * sy;
-	    out[6] = (yz + wx) * sy;
-	    out[7] = 0;
-	    out[8] = (xz + wy) * sz;
-	    out[9] = (yz - wx) * sz;
-	    out[10] = (1 - (xx + yy)) * sz;
-	    out[11] = 0;
-	    out[12] = v[0] + ox - (out[0] * ox + out[4] * oy + out[8] * oz);
-	    out[13] = v[1] + oy - (out[1] * ox + out[5] * oy + out[9] * oz);
-	    out[14] = v[2] + oz - (out[2] * ox + out[6] * oy + out[10] * oz);
-	    out[15] = 1;
+	      xx = x * x2,
+	      xy = x * y2,
+	      xz = x * z2,
+	      yy = y * y2,
+	      yz = y * z2,
+	      zz = z * z2,
+	      wx = w * x2,
+	      wy = w * y2,
+	      wz = w * z2,
+	      
+	      sx = s[0],
+	      sy = s[1],
+	      sz = s[2],
 
-	    return out;
+	      ox = o[0],
+	      oy = o[1],
+	      oz = o[2];
+	      
+	  out[0] = (1 - (yy + zz)) * sx;
+	  out[1] = (xy + wz) * sx;
+	  out[2] = (xz - wy) * sx;
+	  out[3] = 0;
+	  out[4] = (xy - wz) * sy;
+	  out[5] = (1 - (xx + zz)) * sy;
+	  out[6] = (yz + wx) * sy;
+	  out[7] = 0;
+	  out[8] = (xz + wy) * sz;
+	  out[9] = (yz - wx) * sz;
+	  out[10] = (1 - (xx + yy)) * sz;
+	  out[11] = 0;
+	  out[12] = v[0] + ox - (out[0] * ox + out[4] * oy + out[8] * oz);
+	  out[13] = v[1] + oy - (out[1] * ox + out[5] * oy + out[9] * oz);
+	  out[14] = v[2] + oz - (out[2] * ox + out[6] * oy + out[10] * oz);
+	  out[15] = 1;
+	        
+	  return out;
 	};
 
 	mat4.fromQuat = function (out, q) {
-	    var x = q[0],
-	        y = q[1],
-	        z = q[2],
-	        w = q[3],
+	    var x = q[0], y = q[1], z = q[2], w = q[3],
 	        x2 = x + x,
 	        y2 = y + y,
 	        z2 = z + z,
+
 	        xx = x * x2,
 	        yx = y * x2,
 	        yy = y * y2,
@@ -4351,12 +4137,12 @@
 	    var rl = 1 / (right - left),
 	        tb = 1 / (top - bottom),
 	        nf = 1 / (near - far);
-	    out[0] = near * 2 * rl;
+	    out[0] = (near * 2) * rl;
 	    out[1] = 0;
 	    out[2] = 0;
 	    out[3] = 0;
 	    out[4] = 0;
-	    out[5] = near * 2 * tb;
+	    out[5] = (near * 2) * tb;
 	    out[6] = 0;
 	    out[7] = 0;
 	    out[8] = (right + left) * rl;
@@ -4365,7 +4151,7 @@
 	    out[11] = -1;
 	    out[12] = 0;
 	    out[13] = 0;
-	    out[14] = far * near * 2 * nf;
+	    out[14] = (far * near * 2) * nf;
 	    out[15] = 0;
 	    return out;
 	};
@@ -4397,7 +4183,7 @@
 	    out[11] = -1;
 	    out[12] = 0;
 	    out[13] = 0;
-	    out[14] = 2 * far * near * nf;
+	    out[14] = (2 * far * near) * nf;
 	    out[15] = 0;
 	    return out;
 	};
@@ -4414,10 +4200,10 @@
 	 * @returns {mat4} out
 	 */
 	mat4.perspectiveFromFieldOfView = function (out, fov, near, far) {
-	    var upTan = Math.tan(fov.upDegrees * Math.PI / 180.0),
-	        downTan = Math.tan(fov.downDegrees * Math.PI / 180.0),
-	        leftTan = Math.tan(fov.leftDegrees * Math.PI / 180.0),
-	        rightTan = Math.tan(fov.rightDegrees * Math.PI / 180.0),
+	    var upTan = Math.tan(fov.upDegrees * Math.PI/180.0),
+	        downTan = Math.tan(fov.downDegrees * Math.PI/180.0),
+	        leftTan = Math.tan(fov.leftDegrees * Math.PI/180.0),
+	        rightTan = Math.tan(fov.rightDegrees * Math.PI/180.0),
 	        xScale = 2.0 / (leftTan + rightTan),
 	        yScale = 2.0 / (upTan + downTan);
 
@@ -4430,15 +4216,15 @@
 	    out[6] = 0.0;
 	    out[7] = 0.0;
 	    out[8] = -((leftTan - rightTan) * xScale * 0.5);
-	    out[9] = (upTan - downTan) * yScale * 0.5;
+	    out[9] = ((upTan - downTan) * yScale * 0.5);
 	    out[10] = far / (near - far);
 	    out[11] = -1.0;
 	    out[12] = 0.0;
 	    out[13] = 0.0;
-	    out[14] = far * near / (near - far);
+	    out[14] = (far * near) / (near - far);
 	    out[15] = 0.0;
 	    return out;
-	};
+	}
 
 	/**
 	 * Generates a orthogonal projection matrix with the given bounds
@@ -4485,16 +4271,7 @@
 	 * @returns {mat4} out
 	 */
 	mat4.lookAt = function (out, eye, center, up) {
-	    var x0,
-	        x1,
-	        x2,
-	        y0,
-	        y1,
-	        y2,
-	        z0,
-	        z1,
-	        z2,
-	        len,
+	    var x0, x1, x2, y0, y1, y2, z0, z1, z2, len,
 	        eyex = eye[0],
 	        eyey = eye[1],
 	        eyez = eye[2],
@@ -4505,7 +4282,9 @@
 	        centery = center[1],
 	        centerz = center[2];
 
-	    if (Math.abs(eyex - centerx) < glMatrix.EPSILON && Math.abs(eyey - centery) < glMatrix.EPSILON && Math.abs(eyez - centerz) < glMatrix.EPSILON) {
+	    if (Math.abs(eyex - centerx) < glMatrix.EPSILON &&
+	        Math.abs(eyey - centery) < glMatrix.EPSILON &&
+	        Math.abs(eyez - centerz) < glMatrix.EPSILON) {
 	        return mat4.identity(out);
 	    }
 
@@ -4576,7 +4355,10 @@
 	 * @returns {String} string representation of the matrix
 	 */
 	mat4.str = function (a) {
-	    return 'mat4(' + a[0] + ', ' + a[1] + ', ' + a[2] + ', ' + a[3] + ', ' + a[4] + ', ' + a[5] + ', ' + a[6] + ', ' + a[7] + ', ' + a[8] + ', ' + a[9] + ', ' + a[10] + ', ' + a[11] + ', ' + a[12] + ', ' + a[13] + ', ' + a[14] + ', ' + a[15] + ')';
+	    return 'mat4(' + a[0] + ', ' + a[1] + ', ' + a[2] + ', ' + a[3] + ', ' +
+	                    a[4] + ', ' + a[5] + ', ' + a[6] + ', ' + a[7] + ', ' +
+	                    a[8] + ', ' + a[9] + ', ' + a[10] + ', ' + a[11] + ', ' + 
+	                    a[12] + ', ' + a[13] + ', ' + a[14] + ', ' + a[15] + ')';
 	};
 
 	/**
@@ -4586,16 +4368,16 @@
 	 * @returns {Number} Frobenius norm
 	 */
 	mat4.frob = function (a) {
-	    return Math.sqrt(Math.pow(a[0], 2) + Math.pow(a[1], 2) + Math.pow(a[2], 2) + Math.pow(a[3], 2) + Math.pow(a[4], 2) + Math.pow(a[5], 2) + Math.pow(a[6], 2) + Math.pow(a[7], 2) + Math.pow(a[8], 2) + Math.pow(a[9], 2) + Math.pow(a[10], 2) + Math.pow(a[11], 2) + Math.pow(a[12], 2) + Math.pow(a[13], 2) + Math.pow(a[14], 2) + Math.pow(a[15], 2));
+	    return(Math.sqrt(Math.pow(a[0], 2) + Math.pow(a[1], 2) + Math.pow(a[2], 2) + Math.pow(a[3], 2) + Math.pow(a[4], 2) + Math.pow(a[5], 2) + Math.pow(a[6], 2) + Math.pow(a[7], 2) + Math.pow(a[8], 2) + Math.pow(a[9], 2) + Math.pow(a[10], 2) + Math.pow(a[11], 2) + Math.pow(a[12], 2) + Math.pow(a[13], 2) + Math.pow(a[14], 2) + Math.pow(a[15], 2) ))
 	};
 
+
 	module.exports = mat4;
+
 
 /***/ },
 /* 14 */
 /***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
 
 	/* Copyright (c) 2015, Brandon Jones, Colin MacKenzie IV.
 
@@ -4633,7 +4415,7 @@
 	 *
 	 * @returns {quat} a new quaternion
 	 */
-	quat.create = function () {
+	quat.create = function() {
 	    var out = new glMatrix.ARRAY_TYPE(4);
 	    out[0] = 0;
 	    out[1] = 0;
@@ -4653,16 +4435,17 @@
 	 * @param {vec3} b the destination vector
 	 * @returns {quat} out
 	 */
-	quat.rotationTo = function () {
+	quat.rotationTo = (function() {
 	    var tmpvec3 = vec3.create();
-	    var xUnitVec3 = vec3.fromValues(1, 0, 0);
-	    var yUnitVec3 = vec3.fromValues(0, 1, 0);
+	    var xUnitVec3 = vec3.fromValues(1,0,0);
+	    var yUnitVec3 = vec3.fromValues(0,1,0);
 
-	    return function (out, a, b) {
+	    return function(out, a, b) {
 	        var dot = vec3.dot(a, b);
 	        if (dot < -0.999999) {
 	            vec3.cross(tmpvec3, xUnitVec3, a);
-	            if (vec3.length(tmpvec3) < 0.000001) vec3.cross(tmpvec3, yUnitVec3, a);
+	            if (vec3.length(tmpvec3) < 0.000001)
+	                vec3.cross(tmpvec3, yUnitVec3, a);
 	            vec3.normalize(tmpvec3, tmpvec3);
 	            quat.setAxisAngle(out, tmpvec3, Math.PI);
 	            return out;
@@ -4681,7 +4464,7 @@
 	            return quat.normalize(out, out);
 	        }
 	    };
-	}();
+	})();
 
 	/**
 	 * Sets the specified quaternion with values corresponding to the given
@@ -4693,10 +4476,10 @@
 	 * @param {vec3} up    the vector representing the local "up" direction
 	 * @returns {quat} out
 	 */
-	quat.setAxes = function () {
+	quat.setAxes = (function() {
 	    var matr = mat3.create();
 
-	    return function (out, view, right, up) {
+	    return function(out, view, right, up) {
 	        matr[0] = right[0];
 	        matr[3] = right[1];
 	        matr[6] = right[2];
@@ -4711,7 +4494,7 @@
 
 	        return quat.normalize(out, quat.fromMat3(out, matr));
 	    };
-	}();
+	})();
 
 	/**
 	 * Creates a new quat initialized with values from an existing quaternion
@@ -4763,7 +4546,7 @@
 	 * @param {quat} out the receiving quaternion
 	 * @returns {quat} out
 	 */
-	quat.identity = function (out) {
+	quat.identity = function(out) {
 	    out[0] = 0;
 	    out[1] = 0;
 	    out[2] = 0;
@@ -4780,7 +4563,7 @@
 	 * @param {Number} rad the angle in radians
 	 * @returns {quat} out
 	 **/
-	quat.setAxisAngle = function (out, axis, rad) {
+	quat.setAxisAngle = function(out, axis, rad) {
 	    rad = rad * 0.5;
 	    var s = Math.sin(rad);
 	    out[0] = s * axis[0];
@@ -4809,15 +4592,9 @@
 	 * @param {quat} b the second operand
 	 * @returns {quat} out
 	 */
-	quat.multiply = function (out, a, b) {
-	    var ax = a[0],
-	        ay = a[1],
-	        az = a[2],
-	        aw = a[3],
-	        bx = b[0],
-	        by = b[1],
-	        bz = b[2],
-	        bw = b[3];
+	quat.multiply = function(out, a, b) {
+	    var ax = a[0], ay = a[1], az = a[2], aw = a[3],
+	        bx = b[0], by = b[1], bz = b[2], bw = b[3];
 
 	    out[0] = ax * bw + aw * bx + ay * bz - az * by;
 	    out[1] = ay * bw + aw * by + az * bx - ax * bz;
@@ -4852,14 +4629,10 @@
 	 * @returns {quat} out
 	 */
 	quat.rotateX = function (out, a, rad) {
-	    rad *= 0.5;
+	    rad *= 0.5; 
 
-	    var ax = a[0],
-	        ay = a[1],
-	        az = a[2],
-	        aw = a[3],
-	        bx = Math.sin(rad),
-	        bw = Math.cos(rad);
+	    var ax = a[0], ay = a[1], az = a[2], aw = a[3],
+	        bx = Math.sin(rad), bw = Math.cos(rad);
 
 	    out[0] = ax * bw + aw * bx;
 	    out[1] = ay * bw + az * bx;
@@ -4877,14 +4650,10 @@
 	 * @returns {quat} out
 	 */
 	quat.rotateY = function (out, a, rad) {
-	    rad *= 0.5;
+	    rad *= 0.5; 
 
-	    var ax = a[0],
-	        ay = a[1],
-	        az = a[2],
-	        aw = a[3],
-	        by = Math.sin(rad),
-	        bw = Math.cos(rad);
+	    var ax = a[0], ay = a[1], az = a[2], aw = a[3],
+	        by = Math.sin(rad), bw = Math.cos(rad);
 
 	    out[0] = ax * bw - az * by;
 	    out[1] = ay * bw + aw * by;
@@ -4902,14 +4671,10 @@
 	 * @returns {quat} out
 	 */
 	quat.rotateZ = function (out, a, rad) {
-	    rad *= 0.5;
+	    rad *= 0.5; 
 
-	    var ax = a[0],
-	        ay = a[1],
-	        az = a[2],
-	        aw = a[3],
-	        bz = Math.sin(rad),
-	        bw = Math.cos(rad);
+	    var ax = a[0], ay = a[1], az = a[2], aw = a[3],
+	        bz = Math.sin(rad), bw = Math.cos(rad);
 
 	    out[0] = ax * bw + ay * bz;
 	    out[1] = ay * bw - ax * bz;
@@ -4928,9 +4693,7 @@
 	 * @returns {quat} out
 	 */
 	quat.calculateW = function (out, a) {
-	    var x = a[0],
-	        y = a[1],
-	        z = a[2];
+	    var x = a[0], y = a[1], z = a[2];
 
 	    out[0] = x;
 	    out[1] = y;
@@ -4974,36 +4737,30 @@
 	    // benchmarks:
 	    //    http://jsperf.com/quaternion-slerp-implementations
 
-	    var ax = a[0],
-	        ay = a[1],
-	        az = a[2],
-	        aw = a[3],
-	        bx = b[0],
-	        by = b[1],
-	        bz = b[2],
-	        bw = b[3];
+	    var ax = a[0], ay = a[1], az = a[2], aw = a[3],
+	        bx = b[0], by = b[1], bz = b[2], bw = b[3];
 
-	    var omega, cosom, sinom, scale0, scale1;
+	    var        omega, cosom, sinom, scale0, scale1;
 
 	    // calc cosine
 	    cosom = ax * bx + ay * by + az * bz + aw * bw;
 	    // adjust signs (if necessary)
-	    if (cosom < 0.0) {
+	    if ( cosom < 0.0 ) {
 	        cosom = -cosom;
-	        bx = -bx;
-	        by = -by;
-	        bz = -bz;
-	        bw = -bw;
+	        bx = - bx;
+	        by = - by;
+	        bz = - bz;
+	        bw = - bw;
 	    }
 	    // calculate coefficients
-	    if (1.0 - cosom > 0.000001) {
+	    if ( (1.0 - cosom) > 0.000001 ) {
 	        // standard case (slerp)
-	        omega = Math.acos(cosom);
-	        sinom = Math.sin(omega);
+	        omega  = Math.acos(cosom);
+	        sinom  = Math.sin(omega);
 	        scale0 = Math.sin((1.0 - t) * omega) / sinom;
 	        scale1 = Math.sin(t * omega) / sinom;
-	    } else {
-	        // "from" and "to" quaternions are very close
+	    } else {        
+	        // "from" and "to" quaternions are very close 
 	        //  ... so we can do a linear interpolation
 	        scale0 = 1.0 - t;
 	        scale1 = t;
@@ -5013,7 +4770,7 @@
 	    out[1] = scale0 * ay + scale1 * by;
 	    out[2] = scale0 * az + scale1 * bz;
 	    out[3] = scale0 * aw + scale1 * bw;
-
+	    
 	    return out;
 	};
 
@@ -5028,18 +4785,18 @@
 	 * @param {Number} t interpolation amount
 	 * @returns {quat} out
 	 */
-	quat.sqlerp = function () {
-	    var temp1 = quat.create();
-	    var temp2 = quat.create();
-
-	    return function (out, a, b, c, d, t) {
-	        quat.slerp(temp1, a, d, t);
-	        quat.slerp(temp2, b, c, t);
-	        quat.slerp(out, temp1, temp2, 2 * t * (1 - t));
-
-	        return out;
-	    };
-	}();
+	quat.sqlerp = (function () {
+	  var temp1 = quat.create();
+	  var temp2 = quat.create();
+	  
+	  return function (out, a, b, c, d, t) {
+	    quat.slerp(temp1, a, d, t);
+	    quat.slerp(temp2, b, c, t);
+	    quat.slerp(out, temp1, temp2, 2 * t * (1 - t));
+	    
+	    return out;
+	  };
+	}());
 
 	/**
 	 * Calculates the inverse of a quat
@@ -5048,20 +4805,17 @@
 	 * @param {quat} a quat to calculate inverse of
 	 * @returns {quat} out
 	 */
-	quat.invert = function (out, a) {
-	    var a0 = a[0],
-	        a1 = a[1],
-	        a2 = a[2],
-	        a3 = a[3],
-	        dot = a0 * a0 + a1 * a1 + a2 * a2 + a3 * a3,
-	        invDot = dot ? 1.0 / dot : 0;
-
+	quat.invert = function(out, a) {
+	    var a0 = a[0], a1 = a[1], a2 = a[2], a3 = a[3],
+	        dot = a0*a0 + a1*a1 + a2*a2 + a3*a3,
+	        invDot = dot ? 1.0/dot : 0;
+	    
 	    // TODO: Would be faster to return [0,0,0,0] immediately if dot == 0
 
-	    out[0] = -a0 * invDot;
-	    out[1] = -a1 * invDot;
-	    out[2] = -a2 * invDot;
-	    out[3] = a3 * invDot;
+	    out[0] = -a0*invDot;
+	    out[1] = -a1*invDot;
+	    out[2] = -a2*invDot;
+	    out[3] = a3*invDot;
 	    return out;
 	};
 
@@ -5132,36 +4886,38 @@
 	 * @returns {quat} out
 	 * @function
 	 */
-	quat.fromMat3 = function (out, m) {
+	quat.fromMat3 = function(out, m) {
 	    // Algorithm in Ken Shoemake's article in 1987 SIGGRAPH course notes
 	    // article "Quaternion Calculus and Fast Animation".
 	    var fTrace = m[0] + m[4] + m[8];
 	    var fRoot;
 
-	    if (fTrace > 0.0) {
+	    if ( fTrace > 0.0 ) {
 	        // |w| > 1/2, may as well choose w > 1/2
-	        fRoot = Math.sqrt(fTrace + 1.0); // 2w
+	        fRoot = Math.sqrt(fTrace + 1.0);  // 2w
 	        out[3] = 0.5 * fRoot;
-	        fRoot = 0.5 / fRoot; // 1/(4w)
-	        out[0] = (m[5] - m[7]) * fRoot;
-	        out[1] = (m[6] - m[2]) * fRoot;
-	        out[2] = (m[1] - m[3]) * fRoot;
+	        fRoot = 0.5/fRoot;  // 1/(4w)
+	        out[0] = (m[5]-m[7])*fRoot;
+	        out[1] = (m[6]-m[2])*fRoot;
+	        out[2] = (m[1]-m[3])*fRoot;
 	    } else {
 	        // |w| <= 1/2
 	        var i = 0;
-	        if (m[4] > m[0]) i = 1;
-	        if (m[8] > m[i * 3 + i]) i = 2;
-	        var j = (i + 1) % 3;
-	        var k = (i + 2) % 3;
-
-	        fRoot = Math.sqrt(m[i * 3 + i] - m[j * 3 + j] - m[k * 3 + k] + 1.0);
+	        if ( m[4] > m[0] )
+	          i = 1;
+	        if ( m[8] > m[i*3+i] )
+	          i = 2;
+	        var j = (i+1)%3;
+	        var k = (i+2)%3;
+	        
+	        fRoot = Math.sqrt(m[i*3+i]-m[j*3+j]-m[k*3+k] + 1.0);
 	        out[i] = 0.5 * fRoot;
 	        fRoot = 0.5 / fRoot;
-	        out[3] = (m[j * 3 + k] - m[k * 3 + j]) * fRoot;
-	        out[j] = (m[j * 3 + i] + m[i * 3 + j]) * fRoot;
-	        out[k] = (m[k * 3 + i] + m[i * 3 + k]) * fRoot;
+	        out[3] = (m[j*3+k] - m[k*3+j]) * fRoot;
+	        out[j] = (m[j*3+i] + m[i*3+j]) * fRoot;
+	        out[k] = (m[k*3+i] + m[i*3+k]) * fRoot;
 	    }
-
+	    
 	    return out;
 	};
 
@@ -5177,11 +4933,10 @@
 
 	module.exports = quat;
 
+
 /***/ },
 /* 15 */
 /***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
 
 	/* Copyright (c) 2015, Brandon Jones, Colin MacKenzie IV.
 
@@ -5216,7 +4971,7 @@
 	 *
 	 * @returns {vec3} a new 3D vector
 	 */
-	vec3.create = function () {
+	vec3.create = function() {
 	    var out = new glMatrix.ARRAY_TYPE(3);
 	    out[0] = 0;
 	    out[1] = 0;
@@ -5230,7 +4985,7 @@
 	 * @param {vec3} a vector to clone
 	 * @returns {vec3} a new 3D vector
 	 */
-	vec3.clone = function (a) {
+	vec3.clone = function(a) {
 	    var out = new glMatrix.ARRAY_TYPE(3);
 	    out[0] = a[0];
 	    out[1] = a[1];
@@ -5246,7 +5001,7 @@
 	 * @param {Number} z Z component
 	 * @returns {vec3} a new 3D vector
 	 */
-	vec3.fromValues = function (x, y, z) {
+	vec3.fromValues = function(x, y, z) {
 	    var out = new glMatrix.ARRAY_TYPE(3);
 	    out[0] = x;
 	    out[1] = y;
@@ -5261,7 +5016,7 @@
 	 * @param {vec3} a the source vector
 	 * @returns {vec3} out
 	 */
-	vec3.copy = function (out, a) {
+	vec3.copy = function(out, a) {
 	    out[0] = a[0];
 	    out[1] = a[1];
 	    out[2] = a[2];
@@ -5277,7 +5032,7 @@
 	 * @param {Number} z Z component
 	 * @returns {vec3} out
 	 */
-	vec3.set = function (out, x, y, z) {
+	vec3.set = function(out, x, y, z) {
 	    out[0] = x;
 	    out[1] = y;
 	    out[2] = z;
@@ -5292,7 +5047,7 @@
 	 * @param {vec3} b the second operand
 	 * @returns {vec3} out
 	 */
-	vec3.add = function (out, a, b) {
+	vec3.add = function(out, a, b) {
 	    out[0] = a[0] + b[0];
 	    out[1] = a[1] + b[1];
 	    out[2] = a[2] + b[2];
@@ -5307,7 +5062,7 @@
 	 * @param {vec3} b the second operand
 	 * @returns {vec3} out
 	 */
-	vec3.subtract = function (out, a, b) {
+	vec3.subtract = function(out, a, b) {
 	    out[0] = a[0] - b[0];
 	    out[1] = a[1] - b[1];
 	    out[2] = a[2] - b[2];
@@ -5328,7 +5083,7 @@
 	 * @param {vec3} b the second operand
 	 * @returns {vec3} out
 	 */
-	vec3.multiply = function (out, a, b) {
+	vec3.multiply = function(out, a, b) {
 	    out[0] = a[0] * b[0];
 	    out[1] = a[1] * b[1];
 	    out[2] = a[2] * b[2];
@@ -5349,7 +5104,7 @@
 	 * @param {vec3} b the second operand
 	 * @returns {vec3} out
 	 */
-	vec3.divide = function (out, a, b) {
+	vec3.divide = function(out, a, b) {
 	    out[0] = a[0] / b[0];
 	    out[1] = a[1] / b[1];
 	    out[2] = a[2] / b[2];
@@ -5370,7 +5125,7 @@
 	 * @param {vec3} b the second operand
 	 * @returns {vec3} out
 	 */
-	vec3.min = function (out, a, b) {
+	vec3.min = function(out, a, b) {
 	    out[0] = Math.min(a[0], b[0]);
 	    out[1] = Math.min(a[1], b[1]);
 	    out[2] = Math.min(a[2], b[2]);
@@ -5385,7 +5140,7 @@
 	 * @param {vec3} b the second operand
 	 * @returns {vec3} out
 	 */
-	vec3.max = function (out, a, b) {
+	vec3.max = function(out, a, b) {
 	    out[0] = Math.max(a[0], b[0]);
 	    out[1] = Math.max(a[1], b[1]);
 	    out[2] = Math.max(a[2], b[2]);
@@ -5400,7 +5155,7 @@
 	 * @param {Number} b amount to scale the vector by
 	 * @returns {vec3} out
 	 */
-	vec3.scale = function (out, a, b) {
+	vec3.scale = function(out, a, b) {
 	    out[0] = a[0] * b;
 	    out[1] = a[1] * b;
 	    out[2] = a[2] * b;
@@ -5416,10 +5171,10 @@
 	 * @param {Number} scale the amount to scale b by before adding
 	 * @returns {vec3} out
 	 */
-	vec3.scaleAndAdd = function (out, a, b, scale) {
-	    out[0] = a[0] + b[0] * scale;
-	    out[1] = a[1] + b[1] * scale;
-	    out[2] = a[2] + b[2] * scale;
+	vec3.scaleAndAdd = function(out, a, b, scale) {
+	    out[0] = a[0] + (b[0] * scale);
+	    out[1] = a[1] + (b[1] * scale);
+	    out[2] = a[2] + (b[2] * scale);
 	    return out;
 	};
 
@@ -5430,11 +5185,11 @@
 	 * @param {vec3} b the second operand
 	 * @returns {Number} distance between a and b
 	 */
-	vec3.distance = function (a, b) {
+	vec3.distance = function(a, b) {
 	    var x = b[0] - a[0],
 	        y = b[1] - a[1],
 	        z = b[2] - a[2];
-	    return Math.sqrt(x * x + y * y + z * z);
+	    return Math.sqrt(x*x + y*y + z*z);
 	};
 
 	/**
@@ -5450,11 +5205,11 @@
 	 * @param {vec3} b the second operand
 	 * @returns {Number} squared distance between a and b
 	 */
-	vec3.squaredDistance = function (a, b) {
+	vec3.squaredDistance = function(a, b) {
 	    var x = b[0] - a[0],
 	        y = b[1] - a[1],
 	        z = b[2] - a[2];
-	    return x * x + y * y + z * z;
+	    return x*x + y*y + z*z;
 	};
 
 	/**
@@ -5473,7 +5228,7 @@
 	    var x = a[0],
 	        y = a[1],
 	        z = a[2];
-	    return Math.sqrt(x * x + y * y + z * z);
+	    return Math.sqrt(x*x + y*y + z*z);
 	};
 
 	/**
@@ -5492,7 +5247,7 @@
 	    var x = a[0],
 	        y = a[1],
 	        z = a[2];
-	    return x * x + y * y + z * z;
+	    return x*x + y*y + z*z;
 	};
 
 	/**
@@ -5508,7 +5263,7 @@
 	 * @param {vec3} a vector to negate
 	 * @returns {vec3} out
 	 */
-	vec3.negate = function (out, a) {
+	vec3.negate = function(out, a) {
 	    out[0] = -a[0];
 	    out[1] = -a[1];
 	    out[2] = -a[2];
@@ -5522,11 +5277,11 @@
 	 * @param {vec3} a vector to invert
 	 * @returns {vec3} out
 	 */
-	vec3.inverse = function (out, a) {
-	    out[0] = 1.0 / a[0];
-	    out[1] = 1.0 / a[1];
-	    out[2] = 1.0 / a[2];
-	    return out;
+	vec3.inverse = function(out, a) {
+	  out[0] = 1.0 / a[0];
+	  out[1] = 1.0 / a[1];
+	  out[2] = 1.0 / a[2];
+	  return out;
 	};
 
 	/**
@@ -5536,11 +5291,11 @@
 	 * @param {vec3} a vector to normalize
 	 * @returns {vec3} out
 	 */
-	vec3.normalize = function (out, a) {
+	vec3.normalize = function(out, a) {
 	    var x = a[0],
 	        y = a[1],
 	        z = a[2];
-	    var len = x * x + y * y + z * z;
+	    var len = x*x + y*y + z*z;
 	    if (len > 0) {
 	        //TODO: evaluate use of glm_invsqrt here?
 	        len = 1 / Math.sqrt(len);
@@ -5570,13 +5325,9 @@
 	 * @param {vec3} b the second operand
 	 * @returns {vec3} out
 	 */
-	vec3.cross = function (out, a, b) {
-	    var ax = a[0],
-	        ay = a[1],
-	        az = a[2],
-	        bx = b[0],
-	        by = b[1],
-	        bz = b[2];
+	vec3.cross = function(out, a, b) {
+	    var ax = a[0], ay = a[1], az = a[2],
+	        bx = b[0], by = b[1], bz = b[2];
 
 	    out[0] = ay * bz - az * by;
 	    out[1] = az * bx - ax * bz;
@@ -5615,17 +5366,17 @@
 	 * @returns {vec3} out
 	 */
 	vec3.hermite = function (out, a, b, c, d, t) {
-	    var factorTimes2 = t * t,
-	        factor1 = factorTimes2 * (2 * t - 3) + 1,
-	        factor2 = factorTimes2 * (t - 2) + t,
-	        factor3 = factorTimes2 * (t - 1),
-	        factor4 = factorTimes2 * (3 - 2 * t);
-
-	    out[0] = a[0] * factor1 + b[0] * factor2 + c[0] * factor3 + d[0] * factor4;
-	    out[1] = a[1] * factor1 + b[1] * factor2 + c[1] * factor3 + d[1] * factor4;
-	    out[2] = a[2] * factor1 + b[2] * factor2 + c[2] * factor3 + d[2] * factor4;
-
-	    return out;
+	  var factorTimes2 = t * t,
+	      factor1 = factorTimes2 * (2 * t - 3) + 1,
+	      factor2 = factorTimes2 * (t - 2) + t,
+	      factor3 = factorTimes2 * (t - 1),
+	      factor4 = factorTimes2 * (3 - 2 * t);
+	  
+	  out[0] = a[0] * factor1 + b[0] * factor2 + c[0] * factor3 + d[0] * factor4;
+	  out[1] = a[1] * factor1 + b[1] * factor2 + c[1] * factor3 + d[1] * factor4;
+	  out[2] = a[2] * factor1 + b[2] * factor2 + c[2] * factor3 + d[2] * factor4;
+	  
+	  return out;
 	};
 
 	/**
@@ -5640,19 +5391,19 @@
 	 * @returns {vec3} out
 	 */
 	vec3.bezier = function (out, a, b, c, d, t) {
-	    var inverseFactor = 1 - t,
-	        inverseFactorTimesTwo = inverseFactor * inverseFactor,
-	        factorTimes2 = t * t,
-	        factor1 = inverseFactorTimesTwo * inverseFactor,
-	        factor2 = 3 * t * inverseFactorTimesTwo,
-	        factor3 = 3 * factorTimes2 * inverseFactor,
-	        factor4 = factorTimes2 * t;
-
-	    out[0] = a[0] * factor1 + b[0] * factor2 + c[0] * factor3 + d[0] * factor4;
-	    out[1] = a[1] * factor1 + b[1] * factor2 + c[1] * factor3 + d[1] * factor4;
-	    out[2] = a[2] * factor1 + b[2] * factor2 + c[2] * factor3 + d[2] * factor4;
-
-	    return out;
+	  var inverseFactor = 1 - t,
+	      inverseFactorTimesTwo = inverseFactor * inverseFactor,
+	      factorTimes2 = t * t,
+	      factor1 = inverseFactorTimesTwo * inverseFactor,
+	      factor2 = 3 * t * inverseFactorTimesTwo,
+	      factor3 = 3 * factorTimes2 * inverseFactor,
+	      factor4 = factorTimes2 * t;
+	  
+	  out[0] = a[0] * factor1 + b[0] * factor2 + c[0] * factor3 + d[0] * factor4;
+	  out[1] = a[1] * factor1 + b[1] * factor2 + c[1] * factor3 + d[1] * factor4;
+	  out[2] = a[2] * factor1 + b[2] * factor2 + c[2] * factor3 + d[2] * factor4;
+	  
+	  return out;
 	};
 
 	/**
@@ -5666,8 +5417,8 @@
 	    scale = scale || 1.0;
 
 	    var r = glMatrix.RANDOM() * 2.0 * Math.PI;
-	    var z = glMatrix.RANDOM() * 2.0 - 1.0;
-	    var zScale = Math.sqrt(1.0 - z * z) * scale;
+	    var z = (glMatrix.RANDOM() * 2.0) - 1.0;
+	    var zScale = Math.sqrt(1.0-z*z) * scale;
 
 	    out[0] = Math.cos(r) * zScale;
 	    out[1] = Math.sin(r) * zScale;
@@ -5684,10 +5435,8 @@
 	 * @param {mat4} m matrix to transform with
 	 * @returns {vec3} out
 	 */
-	vec3.transformMat4 = function (out, a, m) {
-	    var x = a[0],
-	        y = a[1],
-	        z = a[2],
+	vec3.transformMat4 = function(out, a, m) {
+	    var x = a[0], y = a[1], z = a[2],
 	        w = m[3] * x + m[7] * y + m[11] * z + m[15];
 	    w = w || 1.0;
 	    out[0] = (m[0] * x + m[4] * y + m[8] * z + m[12]) / w;
@@ -5704,10 +5453,8 @@
 	 * @param {mat4} m the 3x3 matrix to transform with
 	 * @returns {vec3} out
 	 */
-	vec3.transformMat3 = function (out, a, m) {
-	    var x = a[0],
-	        y = a[1],
-	        z = a[2];
+	vec3.transformMat3 = function(out, a, m) {
+	    var x = a[0], y = a[1], z = a[2];
 	    out[0] = x * m[0] + y * m[3] + z * m[6];
 	    out[1] = x * m[1] + y * m[4] + z * m[7];
 	    out[2] = x * m[2] + y * m[5] + z * m[8];
@@ -5722,20 +5469,14 @@
 	 * @param {quat} q quaternion to transform with
 	 * @returns {vec3} out
 	 */
-	vec3.transformQuat = function (out, a, q) {
+	vec3.transformQuat = function(out, a, q) {
 	    // benchmarks: http://jsperf.com/quaternion-transform-vec3-implementations
 
-	    var x = a[0],
-	        y = a[1],
-	        z = a[2],
-	        qx = q[0],
-	        qy = q[1],
-	        qz = q[2],
-	        qw = q[3],
+	    var x = a[0], y = a[1], z = a[2],
+	        qx = q[0], qy = q[1], qz = q[2], qw = q[3],
 
-
-	    // calculate quat * vec
-	    ix = qw * x + qy * z - qz * y,
+	        // calculate quat * vec
+	        ix = qw * x + qy * z - qz * y,
 	        iy = qw * y + qz * x - qx * z,
 	        iz = qw * z + qx * y - qy * x,
 	        iw = -qx * x - qy * y - qz * z;
@@ -5755,25 +5496,24 @@
 	 * @param {Number} c The angle of rotation
 	 * @returns {vec3} out
 	 */
-	vec3.rotateX = function (out, a, b, c) {
-	    var p = [],
-	        r = [];
-	    //Translate point to the origin
-	    p[0] = a[0] - b[0];
-	    p[1] = a[1] - b[1];
-	    p[2] = a[2] - b[2];
+	vec3.rotateX = function(out, a, b, c){
+	   var p = [], r=[];
+		  //Translate point to the origin
+		  p[0] = a[0] - b[0];
+		  p[1] = a[1] - b[1];
+	  	p[2] = a[2] - b[2];
 
-	    //perform rotation
-	    r[0] = p[0];
-	    r[1] = p[1] * Math.cos(c) - p[2] * Math.sin(c);
-	    r[2] = p[1] * Math.sin(c) + p[2] * Math.cos(c);
+		  //perform rotation
+		  r[0] = p[0];
+		  r[1] = p[1]*Math.cos(c) - p[2]*Math.sin(c);
+		  r[2] = p[1]*Math.sin(c) + p[2]*Math.cos(c);
 
-	    //translate to correct position
-	    out[0] = r[0] + b[0];
-	    out[1] = r[1] + b[1];
-	    out[2] = r[2] + b[2];
+		  //translate to correct position
+		  out[0] = r[0] + b[0];
+		  out[1] = r[1] + b[1];
+		  out[2] = r[2] + b[2];
 
-	    return out;
+	  	return out;
 	};
 
 	/**
@@ -5784,25 +5524,24 @@
 	 * @param {Number} c The angle of rotation
 	 * @returns {vec3} out
 	 */
-	vec3.rotateY = function (out, a, b, c) {
-	    var p = [],
-	        r = [];
-	    //Translate point to the origin
-	    p[0] = a[0] - b[0];
-	    p[1] = a[1] - b[1];
-	    p[2] = a[2] - b[2];
-
-	    //perform rotation
-	    r[0] = p[2] * Math.sin(c) + p[0] * Math.cos(c);
-	    r[1] = p[1];
-	    r[2] = p[2] * Math.cos(c) - p[0] * Math.sin(c);
-
-	    //translate to correct position
-	    out[0] = r[0] + b[0];
-	    out[1] = r[1] + b[1];
-	    out[2] = r[2] + b[2];
-
-	    return out;
+	vec3.rotateY = function(out, a, b, c){
+	  	var p = [], r=[];
+	  	//Translate point to the origin
+	  	p[0] = a[0] - b[0];
+	  	p[1] = a[1] - b[1];
+	  	p[2] = a[2] - b[2];
+	  
+	  	//perform rotation
+	  	r[0] = p[2]*Math.sin(c) + p[0]*Math.cos(c);
+	  	r[1] = p[1];
+	  	r[2] = p[2]*Math.cos(c) - p[0]*Math.sin(c);
+	  
+	  	//translate to correct position
+	  	out[0] = r[0] + b[0];
+	  	out[1] = r[1] + b[1];
+	  	out[2] = r[2] + b[2];
+	  
+	  	return out;
 	};
 
 	/**
@@ -5813,25 +5552,24 @@
 	 * @param {Number} c The angle of rotation
 	 * @returns {vec3} out
 	 */
-	vec3.rotateZ = function (out, a, b, c) {
-	    var p = [],
-	        r = [];
-	    //Translate point to the origin
-	    p[0] = a[0] - b[0];
-	    p[1] = a[1] - b[1];
-	    p[2] = a[2] - b[2];
-
-	    //perform rotation
-	    r[0] = p[0] * Math.cos(c) - p[1] * Math.sin(c);
-	    r[1] = p[0] * Math.sin(c) + p[1] * Math.cos(c);
-	    r[2] = p[2];
-
-	    //translate to correct position
-	    out[0] = r[0] + b[0];
-	    out[1] = r[1] + b[1];
-	    out[2] = r[2] + b[2];
-
-	    return out;
+	vec3.rotateZ = function(out, a, b, c){
+	  	var p = [], r=[];
+	  	//Translate point to the origin
+	  	p[0] = a[0] - b[0];
+	  	p[1] = a[1] - b[1];
+	  	p[2] = a[2] - b[2];
+	  
+	  	//perform rotation
+	  	r[0] = p[0]*Math.cos(c) - p[1]*Math.sin(c);
+	  	r[1] = p[0]*Math.sin(c) + p[1]*Math.cos(c);
+	  	r[2] = p[2];
+	  
+	  	//translate to correct position
+	  	out[0] = r[0] + b[0];
+	  	out[1] = r[1] + b[1];
+	  	out[2] = r[2] + b[2];
+	  
+	  	return out;
 	};
 
 	/**
@@ -5846,34 +5584,34 @@
 	 * @returns {Array} a
 	 * @function
 	 */
-	vec3.forEach = function () {
+	vec3.forEach = (function() {
 	    var vec = vec3.create();
 
-	    return function (a, stride, offset, count, fn, arg) {
+	    return function(a, stride, offset, count, fn, arg) {
 	        var i, l;
-	        if (!stride) {
+	        if(!stride) {
 	            stride = 3;
 	        }
 
-	        if (!offset) {
+	        if(!offset) {
 	            offset = 0;
 	        }
-
-	        if (count) {
-	            l = Math.min(count * stride + offset, a.length);
+	        
+	        if(count) {
+	            l = Math.min((count * stride) + offset, a.length);
 	        } else {
 	            l = a.length;
 	        }
 
-	        for (i = offset; i < l; i += stride) {
-	            vec[0] = a[i];vec[1] = a[i + 1];vec[2] = a[i + 2];
+	        for(i = offset; i < l; i += stride) {
+	            vec[0] = a[i]; vec[1] = a[i+1]; vec[2] = a[i+2];
 	            fn(vec, vec, arg);
-	            a[i] = vec[0];a[i + 1] = vec[1];a[i + 2] = vec[2];
+	            a[i] = vec[0]; a[i+1] = vec[1]; a[i+2] = vec[2];
 	        }
-
+	        
 	        return a;
 	    };
-	}();
+	})();
 
 	/**
 	 * Get the angle between two 3D vectors
@@ -5881,21 +5619,21 @@
 	 * @param {vec3} b The second operand
 	 * @returns {Number} The angle in radians
 	 */
-	vec3.angle = function (a, b) {
-
+	vec3.angle = function(a, b) {
+	   
 	    var tempA = vec3.fromValues(a[0], a[1], a[2]);
 	    var tempB = vec3.fromValues(b[0], b[1], b[2]);
-
+	 
 	    vec3.normalize(tempA, tempA);
 	    vec3.normalize(tempB, tempB);
-
+	 
 	    var cosine = vec3.dot(tempA, tempB);
 
-	    if (cosine > 1.0) {
+	    if(cosine > 1.0){
 	        return 0;
 	    } else {
 	        return Math.acos(cosine);
-	    }
+	    }     
 	};
 
 	/**
@@ -5910,11 +5648,10 @@
 
 	module.exports = vec3;
 
+
 /***/ },
 /* 16 */
 /***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
 
 	/* Copyright (c) 2015, Brandon Jones, Colin MacKenzie IV.
 
@@ -5949,7 +5686,7 @@
 	 *
 	 * @returns {vec4} a new 4D vector
 	 */
-	vec4.create = function () {
+	vec4.create = function() {
 	    var out = new glMatrix.ARRAY_TYPE(4);
 	    out[0] = 0;
 	    out[1] = 0;
@@ -5964,7 +5701,7 @@
 	 * @param {vec4} a vector to clone
 	 * @returns {vec4} a new 4D vector
 	 */
-	vec4.clone = function (a) {
+	vec4.clone = function(a) {
 	    var out = new glMatrix.ARRAY_TYPE(4);
 	    out[0] = a[0];
 	    out[1] = a[1];
@@ -5982,7 +5719,7 @@
 	 * @param {Number} w W component
 	 * @returns {vec4} a new 4D vector
 	 */
-	vec4.fromValues = function (x, y, z, w) {
+	vec4.fromValues = function(x, y, z, w) {
 	    var out = new glMatrix.ARRAY_TYPE(4);
 	    out[0] = x;
 	    out[1] = y;
@@ -5998,7 +5735,7 @@
 	 * @param {vec4} a the source vector
 	 * @returns {vec4} out
 	 */
-	vec4.copy = function (out, a) {
+	vec4.copy = function(out, a) {
 	    out[0] = a[0];
 	    out[1] = a[1];
 	    out[2] = a[2];
@@ -6016,7 +5753,7 @@
 	 * @param {Number} w W component
 	 * @returns {vec4} out
 	 */
-	vec4.set = function (out, x, y, z, w) {
+	vec4.set = function(out, x, y, z, w) {
 	    out[0] = x;
 	    out[1] = y;
 	    out[2] = z;
@@ -6032,7 +5769,7 @@
 	 * @param {vec4} b the second operand
 	 * @returns {vec4} out
 	 */
-	vec4.add = function (out, a, b) {
+	vec4.add = function(out, a, b) {
 	    out[0] = a[0] + b[0];
 	    out[1] = a[1] + b[1];
 	    out[2] = a[2] + b[2];
@@ -6048,7 +5785,7 @@
 	 * @param {vec4} b the second operand
 	 * @returns {vec4} out
 	 */
-	vec4.subtract = function (out, a, b) {
+	vec4.subtract = function(out, a, b) {
 	    out[0] = a[0] - b[0];
 	    out[1] = a[1] - b[1];
 	    out[2] = a[2] - b[2];
@@ -6070,7 +5807,7 @@
 	 * @param {vec4} b the second operand
 	 * @returns {vec4} out
 	 */
-	vec4.multiply = function (out, a, b) {
+	vec4.multiply = function(out, a, b) {
 	    out[0] = a[0] * b[0];
 	    out[1] = a[1] * b[1];
 	    out[2] = a[2] * b[2];
@@ -6092,7 +5829,7 @@
 	 * @param {vec4} b the second operand
 	 * @returns {vec4} out
 	 */
-	vec4.divide = function (out, a, b) {
+	vec4.divide = function(out, a, b) {
 	    out[0] = a[0] / b[0];
 	    out[1] = a[1] / b[1];
 	    out[2] = a[2] / b[2];
@@ -6114,7 +5851,7 @@
 	 * @param {vec4} b the second operand
 	 * @returns {vec4} out
 	 */
-	vec4.min = function (out, a, b) {
+	vec4.min = function(out, a, b) {
 	    out[0] = Math.min(a[0], b[0]);
 	    out[1] = Math.min(a[1], b[1]);
 	    out[2] = Math.min(a[2], b[2]);
@@ -6130,7 +5867,7 @@
 	 * @param {vec4} b the second operand
 	 * @returns {vec4} out
 	 */
-	vec4.max = function (out, a, b) {
+	vec4.max = function(out, a, b) {
 	    out[0] = Math.max(a[0], b[0]);
 	    out[1] = Math.max(a[1], b[1]);
 	    out[2] = Math.max(a[2], b[2]);
@@ -6146,7 +5883,7 @@
 	 * @param {Number} b amount to scale the vector by
 	 * @returns {vec4} out
 	 */
-	vec4.scale = function (out, a, b) {
+	vec4.scale = function(out, a, b) {
 	    out[0] = a[0] * b;
 	    out[1] = a[1] * b;
 	    out[2] = a[2] * b;
@@ -6163,11 +5900,11 @@
 	 * @param {Number} scale the amount to scale b by before adding
 	 * @returns {vec4} out
 	 */
-	vec4.scaleAndAdd = function (out, a, b, scale) {
-	    out[0] = a[0] + b[0] * scale;
-	    out[1] = a[1] + b[1] * scale;
-	    out[2] = a[2] + b[2] * scale;
-	    out[3] = a[3] + b[3] * scale;
+	vec4.scaleAndAdd = function(out, a, b, scale) {
+	    out[0] = a[0] + (b[0] * scale);
+	    out[1] = a[1] + (b[1] * scale);
+	    out[2] = a[2] + (b[2] * scale);
+	    out[3] = a[3] + (b[3] * scale);
 	    return out;
 	};
 
@@ -6178,12 +5915,12 @@
 	 * @param {vec4} b the second operand
 	 * @returns {Number} distance between a and b
 	 */
-	vec4.distance = function (a, b) {
+	vec4.distance = function(a, b) {
 	    var x = b[0] - a[0],
 	        y = b[1] - a[1],
 	        z = b[2] - a[2],
 	        w = b[3] - a[3];
-	    return Math.sqrt(x * x + y * y + z * z + w * w);
+	    return Math.sqrt(x*x + y*y + z*z + w*w);
 	};
 
 	/**
@@ -6199,12 +5936,12 @@
 	 * @param {vec4} b the second operand
 	 * @returns {Number} squared distance between a and b
 	 */
-	vec4.squaredDistance = function (a, b) {
+	vec4.squaredDistance = function(a, b) {
 	    var x = b[0] - a[0],
 	        y = b[1] - a[1],
 	        z = b[2] - a[2],
 	        w = b[3] - a[3];
-	    return x * x + y * y + z * z + w * w;
+	    return x*x + y*y + z*z + w*w;
 	};
 
 	/**
@@ -6224,7 +5961,7 @@
 	        y = a[1],
 	        z = a[2],
 	        w = a[3];
-	    return Math.sqrt(x * x + y * y + z * z + w * w);
+	    return Math.sqrt(x*x + y*y + z*z + w*w);
 	};
 
 	/**
@@ -6244,7 +5981,7 @@
 	        y = a[1],
 	        z = a[2],
 	        w = a[3];
-	    return x * x + y * y + z * z + w * w;
+	    return x*x + y*y + z*z + w*w;
 	};
 
 	/**
@@ -6260,7 +5997,7 @@
 	 * @param {vec4} a vector to negate
 	 * @returns {vec4} out
 	 */
-	vec4.negate = function (out, a) {
+	vec4.negate = function(out, a) {
 	    out[0] = -a[0];
 	    out[1] = -a[1];
 	    out[2] = -a[2];
@@ -6275,12 +6012,12 @@
 	 * @param {vec4} a vector to invert
 	 * @returns {vec4} out
 	 */
-	vec4.inverse = function (out, a) {
-	    out[0] = 1.0 / a[0];
-	    out[1] = 1.0 / a[1];
-	    out[2] = 1.0 / a[2];
-	    out[3] = 1.0 / a[3];
-	    return out;
+	vec4.inverse = function(out, a) {
+	  out[0] = 1.0 / a[0];
+	  out[1] = 1.0 / a[1];
+	  out[2] = 1.0 / a[2];
+	  out[3] = 1.0 / a[3];
+	  return out;
 	};
 
 	/**
@@ -6290,12 +6027,12 @@
 	 * @param {vec4} a vector to normalize
 	 * @returns {vec4} out
 	 */
-	vec4.normalize = function (out, a) {
+	vec4.normalize = function(out, a) {
 	    var x = a[0],
 	        y = a[1],
 	        z = a[2],
 	        w = a[3];
-	    var len = x * x + y * y + z * z + w * w;
+	    var len = x*x + y*y + z*z + w*w;
 	    if (len > 0) {
 	        len = 1 / Math.sqrt(len);
 	        out[0] = x * len;
@@ -6366,11 +6103,8 @@
 	 * @param {mat4} m matrix to transform with
 	 * @returns {vec4} out
 	 */
-	vec4.transformMat4 = function (out, a, m) {
-	    var x = a[0],
-	        y = a[1],
-	        z = a[2],
-	        w = a[3];
+	vec4.transformMat4 = function(out, a, m) {
+	    var x = a[0], y = a[1], z = a[2], w = a[3];
 	    out[0] = m[0] * x + m[4] * y + m[8] * z + m[12] * w;
 	    out[1] = m[1] * x + m[5] * y + m[9] * z + m[13] * w;
 	    out[2] = m[2] * x + m[6] * y + m[10] * z + m[14] * w;
@@ -6386,18 +6120,12 @@
 	 * @param {quat} q quaternion to transform with
 	 * @returns {vec4} out
 	 */
-	vec4.transformQuat = function (out, a, q) {
-	    var x = a[0],
-	        y = a[1],
-	        z = a[2],
-	        qx = q[0],
-	        qy = q[1],
-	        qz = q[2],
-	        qw = q[3],
+	vec4.transformQuat = function(out, a, q) {
+	    var x = a[0], y = a[1], z = a[2],
+	        qx = q[0], qy = q[1], qz = q[2], qw = q[3],
 
-
-	    // calculate quat * vec
-	    ix = qw * x + qy * z - qz * y,
+	        // calculate quat * vec
+	        ix = qw * x + qy * z - qz * y,
 	        iy = qw * y + qz * x - qx * z,
 	        iz = qw * z + qx * y - qy * x,
 	        iw = -qx * x - qy * y - qz * z;
@@ -6422,34 +6150,34 @@
 	 * @returns {Array} a
 	 * @function
 	 */
-	vec4.forEach = function () {
+	vec4.forEach = (function() {
 	    var vec = vec4.create();
 
-	    return function (a, stride, offset, count, fn, arg) {
+	    return function(a, stride, offset, count, fn, arg) {
 	        var i, l;
-	        if (!stride) {
+	        if(!stride) {
 	            stride = 4;
 	        }
 
-	        if (!offset) {
+	        if(!offset) {
 	            offset = 0;
 	        }
-
-	        if (count) {
-	            l = Math.min(count * stride + offset, a.length);
+	        
+	        if(count) {
+	            l = Math.min((count * stride) + offset, a.length);
 	        } else {
 	            l = a.length;
 	        }
 
-	        for (i = offset; i < l; i += stride) {
-	            vec[0] = a[i];vec[1] = a[i + 1];vec[2] = a[i + 2];vec[3] = a[i + 3];
+	        for(i = offset; i < l; i += stride) {
+	            vec[0] = a[i]; vec[1] = a[i+1]; vec[2] = a[i+2]; vec[3] = a[i+3];
 	            fn(vec, vec, arg);
-	            a[i] = vec[0];a[i + 1] = vec[1];a[i + 2] = vec[2];a[i + 3] = vec[3];
+	            a[i] = vec[0]; a[i+1] = vec[1]; a[i+2] = vec[2]; a[i+3] = vec[3];
 	        }
-
+	        
 	        return a;
 	    };
-	}();
+	})();
 
 	/**
 	 * Returns a string representation of a vector
@@ -6463,11 +6191,10 @@
 
 	module.exports = vec4;
 
+
 /***/ },
 /* 17 */
 /***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
 
 	/* Copyright (c) 2015, Brandon Jones, Colin MacKenzie IV.
 
@@ -6502,7 +6229,7 @@
 	 *
 	 * @returns {vec2} a new 2D vector
 	 */
-	vec2.create = function () {
+	vec2.create = function() {
 	    var out = new glMatrix.ARRAY_TYPE(2);
 	    out[0] = 0;
 	    out[1] = 0;
@@ -6515,7 +6242,7 @@
 	 * @param {vec2} a vector to clone
 	 * @returns {vec2} a new 2D vector
 	 */
-	vec2.clone = function (a) {
+	vec2.clone = function(a) {
 	    var out = new glMatrix.ARRAY_TYPE(2);
 	    out[0] = a[0];
 	    out[1] = a[1];
@@ -6529,7 +6256,7 @@
 	 * @param {Number} y Y component
 	 * @returns {vec2} a new 2D vector
 	 */
-	vec2.fromValues = function (x, y) {
+	vec2.fromValues = function(x, y) {
 	    var out = new glMatrix.ARRAY_TYPE(2);
 	    out[0] = x;
 	    out[1] = y;
@@ -6543,7 +6270,7 @@
 	 * @param {vec2} a the source vector
 	 * @returns {vec2} out
 	 */
-	vec2.copy = function (out, a) {
+	vec2.copy = function(out, a) {
 	    out[0] = a[0];
 	    out[1] = a[1];
 	    return out;
@@ -6557,7 +6284,7 @@
 	 * @param {Number} y Y component
 	 * @returns {vec2} out
 	 */
-	vec2.set = function (out, x, y) {
+	vec2.set = function(out, x, y) {
 	    out[0] = x;
 	    out[1] = y;
 	    return out;
@@ -6571,7 +6298,7 @@
 	 * @param {vec2} b the second operand
 	 * @returns {vec2} out
 	 */
-	vec2.add = function (out, a, b) {
+	vec2.add = function(out, a, b) {
 	    out[0] = a[0] + b[0];
 	    out[1] = a[1] + b[1];
 	    return out;
@@ -6585,7 +6312,7 @@
 	 * @param {vec2} b the second operand
 	 * @returns {vec2} out
 	 */
-	vec2.subtract = function (out, a, b) {
+	vec2.subtract = function(out, a, b) {
 	    out[0] = a[0] - b[0];
 	    out[1] = a[1] - b[1];
 	    return out;
@@ -6605,7 +6332,7 @@
 	 * @param {vec2} b the second operand
 	 * @returns {vec2} out
 	 */
-	vec2.multiply = function (out, a, b) {
+	vec2.multiply = function(out, a, b) {
 	    out[0] = a[0] * b[0];
 	    out[1] = a[1] * b[1];
 	    return out;
@@ -6625,7 +6352,7 @@
 	 * @param {vec2} b the second operand
 	 * @returns {vec2} out
 	 */
-	vec2.divide = function (out, a, b) {
+	vec2.divide = function(out, a, b) {
 	    out[0] = a[0] / b[0];
 	    out[1] = a[1] / b[1];
 	    return out;
@@ -6645,7 +6372,7 @@
 	 * @param {vec2} b the second operand
 	 * @returns {vec2} out
 	 */
-	vec2.min = function (out, a, b) {
+	vec2.min = function(out, a, b) {
 	    out[0] = Math.min(a[0], b[0]);
 	    out[1] = Math.min(a[1], b[1]);
 	    return out;
@@ -6659,7 +6386,7 @@
 	 * @param {vec2} b the second operand
 	 * @returns {vec2} out
 	 */
-	vec2.max = function (out, a, b) {
+	vec2.max = function(out, a, b) {
 	    out[0] = Math.max(a[0], b[0]);
 	    out[1] = Math.max(a[1], b[1]);
 	    return out;
@@ -6673,7 +6400,7 @@
 	 * @param {Number} b amount to scale the vector by
 	 * @returns {vec2} out
 	 */
-	vec2.scale = function (out, a, b) {
+	vec2.scale = function(out, a, b) {
 	    out[0] = a[0] * b;
 	    out[1] = a[1] * b;
 	    return out;
@@ -6688,9 +6415,9 @@
 	 * @param {Number} scale the amount to scale b by before adding
 	 * @returns {vec2} out
 	 */
-	vec2.scaleAndAdd = function (out, a, b, scale) {
-	    out[0] = a[0] + b[0] * scale;
-	    out[1] = a[1] + b[1] * scale;
+	vec2.scaleAndAdd = function(out, a, b, scale) {
+	    out[0] = a[0] + (b[0] * scale);
+	    out[1] = a[1] + (b[1] * scale);
 	    return out;
 	};
 
@@ -6701,10 +6428,10 @@
 	 * @param {vec2} b the second operand
 	 * @returns {Number} distance between a and b
 	 */
-	vec2.distance = function (a, b) {
+	vec2.distance = function(a, b) {
 	    var x = b[0] - a[0],
 	        y = b[1] - a[1];
-	    return Math.sqrt(x * x + y * y);
+	    return Math.sqrt(x*x + y*y);
 	};
 
 	/**
@@ -6720,10 +6447,10 @@
 	 * @param {vec2} b the second operand
 	 * @returns {Number} squared distance between a and b
 	 */
-	vec2.squaredDistance = function (a, b) {
+	vec2.squaredDistance = function(a, b) {
 	    var x = b[0] - a[0],
 	        y = b[1] - a[1];
-	    return x * x + y * y;
+	    return x*x + y*y;
 	};
 
 	/**
@@ -6741,7 +6468,7 @@
 	vec2.length = function (a) {
 	    var x = a[0],
 	        y = a[1];
-	    return Math.sqrt(x * x + y * y);
+	    return Math.sqrt(x*x + y*y);
 	};
 
 	/**
@@ -6759,7 +6486,7 @@
 	vec2.squaredLength = function (a) {
 	    var x = a[0],
 	        y = a[1];
-	    return x * x + y * y;
+	    return x*x + y*y;
 	};
 
 	/**
@@ -6775,7 +6502,7 @@
 	 * @param {vec2} a vector to negate
 	 * @returns {vec2} out
 	 */
-	vec2.negate = function (out, a) {
+	vec2.negate = function(out, a) {
 	    out[0] = -a[0];
 	    out[1] = -a[1];
 	    return out;
@@ -6788,10 +6515,10 @@
 	 * @param {vec2} a vector to invert
 	 * @returns {vec2} out
 	 */
-	vec2.inverse = function (out, a) {
-	    out[0] = 1.0 / a[0];
-	    out[1] = 1.0 / a[1];
-	    return out;
+	vec2.inverse = function(out, a) {
+	  out[0] = 1.0 / a[0];
+	  out[1] = 1.0 / a[1];
+	  return out;
 	};
 
 	/**
@@ -6801,10 +6528,10 @@
 	 * @param {vec2} a vector to normalize
 	 * @returns {vec2} out
 	 */
-	vec2.normalize = function (out, a) {
+	vec2.normalize = function(out, a) {
 	    var x = a[0],
 	        y = a[1];
-	    var len = x * x + y * y;
+	    var len = x*x + y*y;
 	    if (len > 0) {
 	        //TODO: evaluate use of glm_invsqrt here?
 	        len = 1 / Math.sqrt(len);
@@ -6834,7 +6561,7 @@
 	 * @param {vec2} b the second operand
 	 * @returns {vec3} out
 	 */
-	vec2.cross = function (out, a, b) {
+	vec2.cross = function(out, a, b) {
 	    var z = a[0] * b[1] - a[1] * b[0];
 	    out[0] = out[1] = 0;
 	    out[2] = z;
@@ -6881,7 +6608,7 @@
 	 * @param {mat2} m matrix to transform with
 	 * @returns {vec2} out
 	 */
-	vec2.transformMat2 = function (out, a, m) {
+	vec2.transformMat2 = function(out, a, m) {
 	    var x = a[0],
 	        y = a[1];
 	    out[0] = m[0] * x + m[2] * y;
@@ -6897,7 +6624,7 @@
 	 * @param {mat2d} m matrix to transform with
 	 * @returns {vec2} out
 	 */
-	vec2.transformMat2d = function (out, a, m) {
+	vec2.transformMat2d = function(out, a, m) {
 	    var x = a[0],
 	        y = a[1];
 	    out[0] = m[0] * x + m[2] * y + m[4];
@@ -6914,7 +6641,7 @@
 	 * @param {mat3} m matrix to transform with
 	 * @returns {vec2} out
 	 */
-	vec2.transformMat3 = function (out, a, m) {
+	vec2.transformMat3 = function(out, a, m) {
 	    var x = a[0],
 	        y = a[1];
 	    out[0] = m[0] * x + m[3] * y + m[6];
@@ -6932,8 +6659,8 @@
 	 * @param {mat4} m matrix to transform with
 	 * @returns {vec2} out
 	 */
-	vec2.transformMat4 = function (out, a, m) {
-	    var x = a[0],
+	vec2.transformMat4 = function(out, a, m) {
+	    var x = a[0], 
 	        y = a[1];
 	    out[0] = m[0] * x + m[4] * y + m[12];
 	    out[1] = m[1] * x + m[5] * y + m[13];
@@ -6952,34 +6679,34 @@
 	 * @returns {Array} a
 	 * @function
 	 */
-	vec2.forEach = function () {
+	vec2.forEach = (function() {
 	    var vec = vec2.create();
 
-	    return function (a, stride, offset, count, fn, arg) {
+	    return function(a, stride, offset, count, fn, arg) {
 	        var i, l;
-	        if (!stride) {
+	        if(!stride) {
 	            stride = 2;
 	        }
 
-	        if (!offset) {
+	        if(!offset) {
 	            offset = 0;
 	        }
-
-	        if (count) {
-	            l = Math.min(count * stride + offset, a.length);
+	        
+	        if(count) {
+	            l = Math.min((count * stride) + offset, a.length);
 	        } else {
 	            l = a.length;
 	        }
 
-	        for (i = offset; i < l; i += stride) {
-	            vec[0] = a[i];vec[1] = a[i + 1];
+	        for(i = offset; i < l; i += stride) {
+	            vec[0] = a[i]; vec[1] = a[i+1];
 	            fn(vec, vec, arg);
-	            a[i] = vec[0];a[i + 1] = vec[1];
+	            a[i] = vec[0]; a[i+1] = vec[1];
 	        }
-
+	        
 	        return a;
 	    };
-	}();
+	})();
 
 	/**
 	 * Returns a string representation of a vector
@@ -6992,6 +6719,7 @@
 	};
 
 	module.exports = vec2;
+
 
 /***/ },
 /* 18 */
@@ -10153,10 +9881,10 @@
 	// Top level file is just a mixin of submodules & constants
 	'use strict';
 
-	var assign = __webpack_require__(25).assign;
+	var assign    = __webpack_require__(25).assign;
 
-	var deflate = __webpack_require__(26);
-	var inflate = __webpack_require__(34);
+	var deflate   = __webpack_require__(26);
+	var inflate   = __webpack_require__(34);
 	var constants = __webpack_require__(38);
 
 	var pako = {};
@@ -10165,25 +9893,26 @@
 
 	module.exports = pako;
 
+
 /***/ },
 /* 25 */
 /***/ function(module, exports) {
 
 	'use strict';
 
-	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
-	var TYPED_OK = typeof Uint8Array !== 'undefined' && typeof Uint16Array !== 'undefined' && typeof Int32Array !== 'undefined';
+	var TYPED_OK =  (typeof Uint8Array !== 'undefined') &&
+	                (typeof Uint16Array !== 'undefined') &&
+	                (typeof Int32Array !== 'undefined');
+
 
 	exports.assign = function (obj /*from1, from2, from3, ...*/) {
 	  var sources = Array.prototype.slice.call(arguments, 1);
 	  while (sources.length) {
 	    var source = sources.shift();
-	    if (!source) {
-	      continue;
-	    }
+	    if (!source) { continue; }
 
-	    if ((typeof source === 'undefined' ? 'undefined' : _typeof(source)) !== 'object') {
+	    if (typeof source !== 'object') {
 	      throw new TypeError(source + 'must be non-object');
 	    }
 
@@ -10197,20 +9926,18 @@
 	  return obj;
 	};
 
+
 	// reduce buffer size, avoiding mem copy
 	exports.shrinkBuf = function (buf, size) {
-	  if (buf.length === size) {
-	    return buf;
-	  }
-	  if (buf.subarray) {
-	    return buf.subarray(0, size);
-	  }
+	  if (buf.length === size) { return buf; }
+	  if (buf.subarray) { return buf.subarray(0, size); }
 	  buf.length = size;
 	  return buf;
 	};
 
+
 	var fnTyped = {
-	  arraySet: function arraySet(dest, src, src_offs, len, dest_offs) {
+	  arraySet: function (dest, src, src_offs, len, dest_offs) {
 	    if (src.subarray && dest.subarray) {
 	      dest.set(src.subarray(src_offs, src_offs + len), dest_offs);
 	      return;
@@ -10221,7 +9948,7 @@
 	    }
 	  },
 	  // Join array of chunks to single array.
-	  flattenChunks: function flattenChunks(chunks) {
+	  flattenChunks: function (chunks) {
 	    var i, l, len, pos, chunk, result;
 
 	    // calculate data length
@@ -10244,27 +9971,28 @@
 	};
 
 	var fnUntyped = {
-	  arraySet: function arraySet(dest, src, src_offs, len, dest_offs) {
+	  arraySet: function (dest, src, src_offs, len, dest_offs) {
 	    for (var i = 0; i < len; i++) {
 	      dest[dest_offs + i] = src[src_offs + i];
 	    }
 	  },
 	  // Join array of chunks to single array.
-	  flattenChunks: function flattenChunks(chunks) {
+	  flattenChunks: function (chunks) {
 	    return [].concat.apply([], chunks);
 	  }
 	};
+
 
 	// Enable/Disable typed arrays use, for testing
 	//
 	exports.setTyped = function (on) {
 	  if (on) {
-	    exports.Buf8 = Uint8Array;
+	    exports.Buf8  = Uint8Array;
 	    exports.Buf16 = Uint16Array;
 	    exports.Buf32 = Int32Array;
 	    exports.assign(exports, fnTyped);
 	  } else {
-	    exports.Buf8 = Array;
+	    exports.Buf8  = Array;
 	    exports.Buf16 = Array;
 	    exports.Buf32 = Array;
 	    exports.assign(exports, fnUntyped);
@@ -10273,37 +10001,40 @@
 
 	exports.setTyped(TYPED_OK);
 
+
 /***/ },
 /* 26 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
+
 	var zlib_deflate = __webpack_require__(27);
-	var utils = __webpack_require__(25);
-	var strings = __webpack_require__(32);
-	var msg = __webpack_require__(31);
-	var ZStream = __webpack_require__(33);
+	var utils        = __webpack_require__(25);
+	var strings      = __webpack_require__(32);
+	var msg          = __webpack_require__(31);
+	var ZStream      = __webpack_require__(33);
 
 	var toString = Object.prototype.toString;
 
 	/* Public constants ==========================================================*/
 	/* ===========================================================================*/
 
-	var Z_NO_FLUSH = 0;
-	var Z_FINISH = 4;
+	var Z_NO_FLUSH      = 0;
+	var Z_FINISH        = 4;
 
-	var Z_OK = 0;
-	var Z_STREAM_END = 1;
-	var Z_SYNC_FLUSH = 2;
+	var Z_OK            = 0;
+	var Z_STREAM_END    = 1;
+	var Z_SYNC_FLUSH    = 2;
 
 	var Z_DEFAULT_COMPRESSION = -1;
 
-	var Z_DEFAULT_STRATEGY = 0;
+	var Z_DEFAULT_STRATEGY    = 0;
 
-	var Z_DEFLATED = 8;
+	var Z_DEFLATED  = 8;
 
 	/* ===========================================================================*/
+
 
 	/**
 	 * class Deflate
@@ -10343,6 +10074,7 @@
 	 *
 	 * Error message, if [[Deflate.err]] != 0
 	 **/
+
 
 	/**
 	 * new Deflate(options)
@@ -10408,21 +10140,30 @@
 
 	  var opt = this.options;
 
-	  if (opt.raw && opt.windowBits > 0) {
+	  if (opt.raw && (opt.windowBits > 0)) {
 	    opt.windowBits = -opt.windowBits;
-	  } else if (opt.gzip && opt.windowBits > 0 && opt.windowBits < 16) {
+	  }
+
+	  else if (opt.gzip && (opt.windowBits > 0) && (opt.windowBits < 16)) {
 	    opt.windowBits += 16;
 	  }
 
-	  this.err = 0; // error code, if happens (0 = Z_OK)
-	  this.msg = ''; // error message
-	  this.ended = false; // used to avoid multiple onEnd() calls
-	  this.chunks = []; // chunks of compressed data
+	  this.err    = 0;      // error code, if happens (0 = Z_OK)
+	  this.msg    = '';     // error message
+	  this.ended  = false;  // used to avoid multiple onEnd() calls
+	  this.chunks = [];     // chunks of compressed data
 
 	  this.strm = new ZStream();
 	  this.strm.avail_out = 0;
 
-	  var status = zlib_deflate.deflateInit2(this.strm, opt.level, opt.method, opt.windowBits, opt.memLevel, opt.strategy);
+	  var status = zlib_deflate.deflateInit2(
+	    this.strm,
+	    opt.level,
+	    opt.method,
+	    opt.windowBits,
+	    opt.memLevel,
+	    opt.strategy
+	  );
 
 	  if (status !== Z_OK) {
 	    throw new Error(msg[status]);
@@ -10488,11 +10229,9 @@
 	  var chunkSize = this.options.chunkSize;
 	  var status, _mode;
 
-	  if (this.ended) {
-	    return false;
-	  }
+	  if (this.ended) { return false; }
 
-	  _mode = mode === ~ ~mode ? mode : mode === true ? Z_FINISH : Z_NO_FLUSH;
+	  _mode = (mode === ~~mode) ? mode : ((mode === true) ? Z_FINISH : Z_NO_FLUSH);
 
 	  // Convert data if needed
 	  if (typeof data === 'string') {
@@ -10513,14 +10252,14 @@
 	      strm.next_out = 0;
 	      strm.avail_out = chunkSize;
 	    }
-	    status = zlib_deflate.deflate(strm, _mode); /* no bad return value */
+	    status = zlib_deflate.deflate(strm, _mode);    /* no bad return value */
 
 	    if (status !== Z_STREAM_END && status !== Z_OK) {
 	      this.onEnd(status);
 	      this.ended = true;
 	      return false;
 	    }
-	    if (strm.avail_out === 0 || strm.avail_in === 0 && (_mode === Z_FINISH || _mode === Z_SYNC_FLUSH)) {
+	    if (strm.avail_out === 0 || (strm.avail_in === 0 && (_mode === Z_FINISH || _mode === Z_SYNC_FLUSH))) {
 	      if (this.options.to === 'string') {
 	        this.onData(strings.buf2binstring(utils.shrinkBuf(strm.output, strm.next_out)));
 	      } else {
@@ -10547,6 +10286,7 @@
 	  return true;
 	};
 
+
 	/**
 	 * Deflate#onData(chunk) -> Void
 	 * - chunk (Uint8Array|Array|String): ouput data. Type of array depends
@@ -10559,6 +10299,7 @@
 	Deflate.prototype.onData = function (chunk) {
 	  this.chunks.push(chunk);
 	};
+
 
 	/**
 	 * Deflate#onEnd(status) -> Void
@@ -10583,6 +10324,7 @@
 	  this.err = status;
 	  this.msg = this.strm.msg;
 	};
+
 
 	/**
 	 * deflate(data[, options]) -> Uint8Array|Array|String
@@ -10624,12 +10366,11 @@
 	  deflator.push(input, true);
 
 	  // That will never happens, if you don't cheat with options :)
-	  if (deflator.err) {
-	    throw deflator.msg;
-	  }
+	  if (deflator.err) { throw deflator.msg; }
 
 	  return deflator.result;
 	}
+
 
 	/**
 	 * deflateRaw(data[, options]) -> Uint8Array|Array|String
@@ -10645,6 +10386,7 @@
 	  return deflate(input, options);
 	}
 
+
 	/**
 	 * gzip(data[, options]) -> Uint8Array|Array|String
 	 * - data (Uint8Array|Array|String): input data to compress.
@@ -10659,10 +10401,12 @@
 	  return deflate(input, options);
 	}
 
+
 	exports.Deflate = Deflate;
 	exports.deflate = deflate;
 	exports.deflateRaw = deflateRaw;
 	exports.gzip = gzip;
+
 
 /***/ },
 /* 27 */
@@ -10670,36 +10414,39 @@
 
 	'use strict';
 
-	var utils = __webpack_require__(25);
-	var trees = __webpack_require__(28);
+	var utils   = __webpack_require__(25);
+	var trees   = __webpack_require__(28);
 	var adler32 = __webpack_require__(29);
-	var crc32 = __webpack_require__(30);
-	var msg = __webpack_require__(31);
+	var crc32   = __webpack_require__(30);
+	var msg     = __webpack_require__(31);
 
 	/* Public constants ==========================================================*/
 	/* ===========================================================================*/
 
+
 	/* Allowed flush values; see deflate() and inflate() below for details */
-	var Z_NO_FLUSH = 0;
+	var Z_NO_FLUSH      = 0;
 	var Z_PARTIAL_FLUSH = 1;
 	//var Z_SYNC_FLUSH    = 2;
-	var Z_FULL_FLUSH = 3;
-	var Z_FINISH = 4;
-	var Z_BLOCK = 5;
+	var Z_FULL_FLUSH    = 3;
+	var Z_FINISH        = 4;
+	var Z_BLOCK         = 5;
 	//var Z_TREES         = 6;
+
 
 	/* Return codes for the compression/decompression functions. Negative values
 	 * are errors, positive values are used for special but normal events.
 	 */
-	var Z_OK = 0;
-	var Z_STREAM_END = 1;
+	var Z_OK            = 0;
+	var Z_STREAM_END    = 1;
 	//var Z_NEED_DICT     = 2;
 	//var Z_ERRNO         = -1;
-	var Z_STREAM_ERROR = -2;
-	var Z_DATA_ERROR = -3;
+	var Z_STREAM_ERROR  = -2;
+	var Z_DATA_ERROR    = -3;
 	//var Z_MEM_ERROR     = -4;
-	var Z_BUF_ERROR = -5;
+	var Z_BUF_ERROR     = -5;
 	//var Z_VERSION_ERROR = -6;
+
 
 	/* compression levels */
 	//var Z_NO_COMPRESSION      = 0;
@@ -10707,22 +10454,25 @@
 	//var Z_BEST_COMPRESSION    = 9;
 	var Z_DEFAULT_COMPRESSION = -1;
 
-	var Z_FILTERED = 1;
-	var Z_HUFFMAN_ONLY = 2;
-	var Z_RLE = 3;
-	var Z_FIXED = 4;
-	var Z_DEFAULT_STRATEGY = 0;
+
+	var Z_FILTERED            = 1;
+	var Z_HUFFMAN_ONLY        = 2;
+	var Z_RLE                 = 3;
+	var Z_FIXED               = 4;
+	var Z_DEFAULT_STRATEGY    = 0;
 
 	/* Possible values of the data_type field (though see inflate()) */
 	//var Z_BINARY              = 0;
 	//var Z_TEXT                = 1;
 	//var Z_ASCII               = 1; // = Z_TEXT
-	var Z_UNKNOWN = 2;
+	var Z_UNKNOWN             = 2;
+
 
 	/* The deflate compression method */
-	var Z_DEFLATED = 8;
+	var Z_DEFLATED  = 8;
 
 	/*============================================================================*/
+
 
 	var MAX_MEM_LEVEL = 9;
 	/* Maximum value for memLevel in deflateInit2 */
@@ -10730,24 +10480,25 @@
 	/* 32K LZ77 window */
 	var DEF_MEM_LEVEL = 8;
 
-	var LENGTH_CODES = 29;
+
+	var LENGTH_CODES  = 29;
 	/* number of length codes, not counting the special END_BLOCK code */
-	var LITERALS = 256;
+	var LITERALS      = 256;
 	/* number of literal bytes 0..255 */
-	var L_CODES = LITERALS + 1 + LENGTH_CODES;
+	var L_CODES       = LITERALS + 1 + LENGTH_CODES;
 	/* number of Literal or Length codes, including the END_BLOCK code */
-	var D_CODES = 30;
+	var D_CODES       = 30;
 	/* number of distance codes */
-	var BL_CODES = 19;
+	var BL_CODES      = 19;
 	/* number of codes used to transfer the bit lengths */
-	var HEAP_SIZE = 2 * L_CODES + 1;
+	var HEAP_SIZE     = 2 * L_CODES + 1;
 	/* maximum heap size */
-	var MAX_BITS = 15;
+	var MAX_BITS  = 15;
 	/* All codes must not exceed MAX_BITS bits */
 
 	var MIN_MATCH = 3;
 	var MAX_MATCH = 258;
-	var MIN_LOOKAHEAD = MAX_MATCH + MIN_MATCH + 1;
+	var MIN_LOOKAHEAD = (MAX_MATCH + MIN_MATCH + 1);
 
 	var PRESET_DICT = 0x20;
 
@@ -10759,10 +10510,10 @@
 	var BUSY_STATE = 113;
 	var FINISH_STATE = 666;
 
-	var BS_NEED_MORE = 1; /* block not completed, need more input or more output */
-	var BS_BLOCK_DONE = 2; /* block flush performed */
+	var BS_NEED_MORE      = 1; /* block not completed, need more input or more output */
+	var BS_BLOCK_DONE     = 2; /* block flush performed */
 	var BS_FINISH_STARTED = 3; /* finish started, need only more output at next deflate */
-	var BS_FINISH_DONE = 4; /* finish done, accept no more input or output */
+	var BS_FINISH_DONE    = 4; /* finish done, accept no more input or output */
 
 	var OS_CODE = 0x03; // Unix :) . Don't detect, use this default.
 
@@ -10772,14 +10523,11 @@
 	}
 
 	function rank(f) {
-	  return (f << 1) - (f > 4 ? 9 : 0);
+	  return ((f) << 1) - ((f) > 4 ? 9 : 0);
 	}
 
-	function zero(buf) {
-	  var len = buf.length;while (--len >= 0) {
-	    buf[len] = 0;
-	  }
-	}
+	function zero(buf) { var len = buf.length; while (--len >= 0) { buf[len] = 0; } }
+
 
 	/* =========================================================================
 	 * Flush as much pending output as possible. All deflate() output goes
@@ -10795,9 +10543,7 @@
 	  if (len > strm.avail_out) {
 	    len = strm.avail_out;
 	  }
-	  if (len === 0) {
-	    return;
-	  }
+	  if (len === 0) { return; }
 
 	  utils.arraySet(strm.output, s.pending_buf, s.pending_out, len, strm.next_out);
 	  strm.next_out += len;
@@ -10810,15 +10556,18 @@
 	  }
 	}
 
+
 	function flush_block_only(s, last) {
-	  trees._tr_flush_block(s, s.block_start >= 0 ? s.block_start : -1, s.strstart - s.block_start, last);
+	  trees._tr_flush_block(s, (s.block_start >= 0 ? s.block_start : -1), s.strstart - s.block_start, last);
 	  s.block_start = s.strstart;
 	  flush_pending(s.strm);
 	}
 
+
 	function put_byte(s, b) {
 	  s.pending_buf[s.pending++] = b;
 	}
+
 
 	/* =========================================================================
 	 * Put a short in the pending buffer. The 16-bit value is put in MSB order.
@@ -10826,11 +10575,12 @@
 	 * pending_buf.
 	 */
 	function putShortMSB(s, b) {
-	  //  put_byte(s, (Byte)(b >> 8));
-	  //  put_byte(s, (Byte)(b & 0xff));
-	  s.pending_buf[s.pending++] = b >>> 8 & 0xff;
+	//  put_byte(s, (Byte)(b >> 8));
+	//  put_byte(s, (Byte)(b & 0xff));
+	  s.pending_buf[s.pending++] = (b >>> 8) & 0xff;
 	  s.pending_buf[s.pending++] = b & 0xff;
 	}
+
 
 	/* ===========================================================================
 	 * Read a new buffer from the current input stream, update the adler32
@@ -10842,12 +10592,8 @@
 	function read_buf(strm, buf, start, size) {
 	  var len = strm.avail_in;
 
-	  if (len > size) {
-	    len = size;
-	  }
-	  if (len === 0) {
-	    return 0;
-	  }
+	  if (len > size) { len = size; }
+	  if (len === 0) { return 0; }
 
 	  strm.avail_in -= len;
 
@@ -10855,7 +10601,9 @@
 	  utils.arraySet(buf, strm.input, strm.next_in, len, start);
 	  if (strm.state.wrap === 1) {
 	    strm.adler = adler32(strm.adler, buf, len, start);
-	  } else if (strm.state.wrap === 2) {
+	  }
+
+	  else if (strm.state.wrap === 2) {
 	    strm.adler = crc32(strm.adler, buf, len, start);
 	  }
 
@@ -10864,6 +10612,7 @@
 
 	  return len;
 	}
+
 
 	/* ===========================================================================
 	 * Set match_start to the longest match starting at the given string and
@@ -10875,26 +10624,27 @@
 	 * OUT assertion: the match length is not greater than s->lookahead.
 	 */
 	function longest_match(s, cur_match) {
-	  var chain_length = s.max_chain_length; /* max hash chain length */
+	  var chain_length = s.max_chain_length;      /* max hash chain length */
 	  var scan = s.strstart; /* current string */
-	  var match; /* matched string */
-	  var len; /* length of current match */
-	  var best_len = s.prev_length; /* best match length so far */
-	  var nice_match = s.nice_match; /* stop if match long enough */
-	  var limit = s.strstart > s.w_size - MIN_LOOKAHEAD ? s.strstart - (s.w_size - MIN_LOOKAHEAD) : 0 /*NIL*/;
+	  var match;                       /* matched string */
+	  var len;                           /* length of current match */
+	  var best_len = s.prev_length;              /* best match length so far */
+	  var nice_match = s.nice_match;             /* stop if match long enough */
+	  var limit = (s.strstart > (s.w_size - MIN_LOOKAHEAD)) ?
+	      s.strstart - (s.w_size - MIN_LOOKAHEAD) : 0/*NIL*/;
 
 	  var _win = s.window; // shortcut
 
 	  var wmask = s.w_mask;
-	  var prev = s.prev;
+	  var prev  = s.prev;
 
 	  /* Stop when cur_match becomes <= limit. To simplify the code,
 	   * we prevent matches with the string of window index 0.
 	   */
 
 	  var strend = s.strstart + MAX_MATCH;
-	  var scan_end1 = _win[scan + best_len - 1];
-	  var scan_end = _win[scan + best_len];
+	  var scan_end1  = _win[scan + best_len - 1];
+	  var scan_end   = _win[scan + best_len];
 
 	  /* The code is optimized for HASH_BITS >= 8 and MAX_MATCH-2 multiple of 16.
 	   * It is easy to get rid of this optimization if necessary.
@@ -10908,9 +10658,7 @@
 	  /* Do not look for matches beyond the end of the input. This is necessary
 	   * to make deflate deterministic.
 	   */
-	  if (nice_match > s.lookahead) {
-	    nice_match = s.lookahead;
-	  }
+	  if (nice_match > s.lookahead) { nice_match = s.lookahead; }
 
 	  // Assert((ulg)s->strstart <= s->window_size-MIN_LOOKAHEAD, "need lookahead");
 
@@ -10927,7 +10675,10 @@
 	     * the output of deflate is not affected by the uninitialized values.
 	     */
 
-	    if (_win[match + best_len] !== scan_end || _win[match + best_len - 1] !== scan_end1 || _win[match] !== _win[scan] || _win[++match] !== _win[scan + 1]) {
+	    if (_win[match + best_len]     !== scan_end  ||
+	        _win[match + best_len - 1] !== scan_end1 ||
+	        _win[match]                !== _win[scan] ||
+	        _win[++match]              !== _win[scan + 1]) {
 	      continue;
 	    }
 
@@ -10946,7 +10697,11 @@
 	     */
 	    do {
 	      /*jshint noempty:false*/
-	    } while (_win[++scan] === _win[++match] && _win[++scan] === _win[++match] && _win[++scan] === _win[++match] && _win[++scan] === _win[++match] && _win[++scan] === _win[++match] && _win[++scan] === _win[++match] && _win[++scan] === _win[++match] && _win[++scan] === _win[++match] && scan < strend);
+	    } while (_win[++scan] === _win[++match] && _win[++scan] === _win[++match] &&
+	             _win[++scan] === _win[++match] && _win[++scan] === _win[++match] &&
+	             _win[++scan] === _win[++match] && _win[++scan] === _win[++match] &&
+	             _win[++scan] === _win[++match] && _win[++scan] === _win[++match] &&
+	             scan < strend);
 
 	    // Assert(scan <= s->window+(unsigned)(s->window_size-1), "wild scan");
 
@@ -10959,8 +10714,8 @@
 	      if (len >= nice_match) {
 	        break;
 	      }
-	      scan_end1 = _win[scan + best_len - 1];
-	      scan_end = _win[scan + best_len];
+	      scan_end1  = _win[scan + best_len - 1];
+	      scan_end   = _win[scan + best_len];
 	    }
 	  } while ((cur_match = prev[cur_match & wmask]) > limit && --chain_length !== 0);
 
@@ -10969,6 +10724,7 @@
 	  }
 	  return s.lookahead;
 	}
+
 
 	/* ===========================================================================
 	 * Fill the window when the lookahead becomes insufficient.
@@ -11003,6 +10759,7 @@
 	    //    }
 	    //}
 
+
 	    /* If the window is almost full and there is insufficient lookahead,
 	     * move the upper half to the lower one to make room in the upper half.
 	     */
@@ -11025,14 +10782,14 @@
 	      p = n;
 	      do {
 	        m = s.head[--p];
-	        s.head[p] = m >= _w_size ? m - _w_size : 0;
+	        s.head[p] = (m >= _w_size ? m - _w_size : 0);
 	      } while (--n);
 
 	      n = _w_size;
 	      p = n;
 	      do {
 	        m = s.prev[--p];
-	        s.prev[p] = m >= _w_size ? m - _w_size : 0;
+	        s.prev[p] = (m >= _w_size ? m - _w_size : 0);
 	        /* If n is not on any hash chain, prev[n] is garbage but
 	         * its value will never be used.
 	         */
@@ -11065,13 +10822,13 @@
 	      s.ins_h = s.window[str];
 
 	      /* UPDATE_HASH(s, s->ins_h, s->window[str + 1]); */
-	      s.ins_h = (s.ins_h << s.hash_shift ^ s.window[str + 1]) & s.hash_mask;
-	      //#if MIN_MATCH != 3
-	      //        Call update_hash() MIN_MATCH-3 more times
-	      //#endif
+	      s.ins_h = ((s.ins_h << s.hash_shift) ^ s.window[str + 1]) & s.hash_mask;
+	//#if MIN_MATCH != 3
+	//        Call update_hash() MIN_MATCH-3 more times
+	//#endif
 	      while (s.insert) {
 	        /* UPDATE_HASH(s, s->ins_h, s->window[str + MIN_MATCH-1]); */
-	        s.ins_h = (s.ins_h << s.hash_shift ^ s.window[str + MIN_MATCH - 1]) & s.hash_mask;
+	        s.ins_h = ((s.ins_h << s.hash_shift) ^ s.window[str + MIN_MATCH - 1]) & s.hash_mask;
 
 	        s.prev[str & s.w_mask] = s.head[s.ins_h];
 	        s.head[s.ins_h] = str;
@@ -11085,6 +10842,7 @@
 	    /* If the whole input has less than MIN_MATCH bytes, ins_h is garbage,
 	     * but this is not important since only literal bytes will be emitted.
 	     */
+
 	  } while (s.lookahead < MIN_LOOKAHEAD && s.strm.avail_in !== 0);
 
 	  /* If the WIN_INIT bytes after the end of the current data have never been
@@ -11094,35 +10852,35 @@
 	   * time through here.  WIN_INIT is set to MAX_MATCH since the longest match
 	   * routines allow scanning to strstart + MAX_MATCH, ignoring lookahead.
 	   */
-	  //  if (s.high_water < s.window_size) {
-	  //    var curr = s.strstart + s.lookahead;
-	  //    var init = 0;
-	  //
-	  //    if (s.high_water < curr) {
-	  //      /* Previous high water mark below current data -- zero WIN_INIT
-	  //       * bytes or up to end of window, whichever is less.
-	  //       */
-	  //      init = s.window_size - curr;
-	  //      if (init > WIN_INIT)
-	  //        init = WIN_INIT;
-	  //      zmemzero(s->window + curr, (unsigned)init);
-	  //      s->high_water = curr + init;
-	  //    }
-	  //    else if (s->high_water < (ulg)curr + WIN_INIT) {
-	  //      /* High water mark at or above current data, but below current data
-	  //       * plus WIN_INIT -- zero out to current data plus WIN_INIT, or up
-	  //       * to end of window, whichever is less.
-	  //       */
-	  //      init = (ulg)curr + WIN_INIT - s->high_water;
-	  //      if (init > s->window_size - s->high_water)
-	  //        init = s->window_size - s->high_water;
-	  //      zmemzero(s->window + s->high_water, (unsigned)init);
-	  //      s->high_water += init;
-	  //    }
-	  //  }
-	  //
-	  //  Assert((ulg)s->strstart <= s->window_size - MIN_LOOKAHEAD,
-	  //    "not enough room for search");
+	//  if (s.high_water < s.window_size) {
+	//    var curr = s.strstart + s.lookahead;
+	//    var init = 0;
+	//
+	//    if (s.high_water < curr) {
+	//      /* Previous high water mark below current data -- zero WIN_INIT
+	//       * bytes or up to end of window, whichever is less.
+	//       */
+	//      init = s.window_size - curr;
+	//      if (init > WIN_INIT)
+	//        init = WIN_INIT;
+	//      zmemzero(s->window + curr, (unsigned)init);
+	//      s->high_water = curr + init;
+	//    }
+	//    else if (s->high_water < (ulg)curr + WIN_INIT) {
+	//      /* High water mark at or above current data, but below current data
+	//       * plus WIN_INIT -- zero out to current data plus WIN_INIT, or up
+	//       * to end of window, whichever is less.
+	//       */
+	//      init = (ulg)curr + WIN_INIT - s->high_water;
+	//      if (init > s->window_size - s->high_water)
+	//        init = s->window_size - s->high_water;
+	//      zmemzero(s->window + s->high_water, (unsigned)init);
+	//      s->high_water += init;
+	//    }
+	//  }
+	//
+	//  Assert((ulg)s->strstart <= s->window_size - MIN_LOOKAHEAD,
+	//    "not enough room for search");
 	}
 
 	/* ===========================================================================
@@ -11151,10 +10909,10 @@
 
 	      //Assert(s->strstart < s->w_size+MAX_DIST(s) ||
 	      //  s->block_start >= (long)s->w_size, "slide too late");
-	      //      if (!(s.strstart < s.w_size + (s.w_size - MIN_LOOKAHEAD) ||
-	      //        s.block_start >= s.w_size)) {
-	      //        throw  new Error("slide too late");
-	      //      }
+	//      if (!(s.strstart < s.w_size + (s.w_size - MIN_LOOKAHEAD) ||
+	//        s.block_start >= s.w_size)) {
+	//        throw  new Error("slide too late");
+	//      }
 
 	      fill_window(s);
 	      if (s.lookahead === 0 && flush === Z_NO_FLUSH) {
@@ -11167,7 +10925,7 @@
 	      /* flush the current block */
 	    }
 	    //Assert(s->block_start >= 0L, "block gone");
-	    //    if (s.block_start < 0) throw new Error("block gone");
+	//    if (s.block_start < 0) throw new Error("block gone");
 
 	    s.strstart += s.lookahead;
 	    s.lookahead = 0;
@@ -11185,11 +10943,13 @@
 	        return BS_NEED_MORE;
 	      }
 	      /***/
+
+
 	    }
 	    /* Flush if we may have to slide, otherwise block_start may become
 	     * negative and the data will be gone:
 	     */
-	    if (s.strstart - s.block_start >= s.w_size - MIN_LOOKAHEAD) {
+	    if (s.strstart - s.block_start >= (s.w_size - MIN_LOOKAHEAD)) {
 	      /*** FLUSH_BLOCK(s, 0); ***/
 	      flush_block_only(s, false);
 	      if (s.strm.avail_out === 0) {
@@ -11231,8 +10991,8 @@
 	 * matches. It is used only for the fast compression options.
 	 */
 	function deflate_fast(s, flush) {
-	  var hash_head; /* head of the hash chain */
-	  var bflush; /* set if current block must be flushed */
+	  var hash_head;        /* head of the hash chain */
+	  var bflush;           /* set if current block must be flushed */
 
 	  for (;;) {
 	    /* Make sure that we always have enough lookahead, except
@@ -11253,10 +11013,10 @@
 	    /* Insert the string window[strstart .. strstart+2] in the
 	     * dictionary, and set hash_head to the head of the hash chain:
 	     */
-	    hash_head = 0 /*NIL*/;
+	    hash_head = 0/*NIL*/;
 	    if (s.lookahead >= MIN_MATCH) {
 	      /*** INSERT_STRING(s, s.strstart, hash_head); ***/
-	      s.ins_h = (s.ins_h << s.hash_shift ^ s.window[s.strstart + MIN_MATCH - 1]) & s.hash_mask;
+	      s.ins_h = ((s.ins_h << s.hash_shift) ^ s.window[s.strstart + MIN_MATCH - 1]) & s.hash_mask;
 	      hash_head = s.prev[s.strstart & s.w_mask] = s.head[s.ins_h];
 	      s.head[s.ins_h] = s.strstart;
 	      /***/
@@ -11265,7 +11025,7 @@
 	    /* Find the longest match, discarding those <= prev_length.
 	     * At this point we have always match_length < MIN_MATCH
 	     */
-	    if (hash_head !== 0 /*NIL*/ && s.strstart - hash_head <= s.w_size - MIN_LOOKAHEAD) {
+	    if (hash_head !== 0/*NIL*/ && ((s.strstart - hash_head) <= (s.w_size - MIN_LOOKAHEAD))) {
 	      /* To simplify the code, we prevent matches with the string
 	       * of window index 0 (in particular we have to avoid a match
 	       * of the string with itself at the start of the input file).
@@ -11285,12 +11045,12 @@
 	      /* Insert new strings in the hash table only if the match length
 	       * is not too large. This saves time but degrades compression.
 	       */
-	      if (s.match_length <= s.max_lazy_match /*max_insert_length*/ && s.lookahead >= MIN_MATCH) {
+	      if (s.match_length <= s.max_lazy_match/*max_insert_length*/ && s.lookahead >= MIN_MATCH) {
 	        s.match_length--; /* string at strstart already in table */
 	        do {
 	          s.strstart++;
 	          /*** INSERT_STRING(s, s.strstart, hash_head); ***/
-	          s.ins_h = (s.ins_h << s.hash_shift ^ s.window[s.strstart + MIN_MATCH - 1]) & s.hash_mask;
+	          s.ins_h = ((s.ins_h << s.hash_shift) ^ s.window[s.strstart + MIN_MATCH - 1]) & s.hash_mask;
 	          hash_head = s.prev[s.strstart & s.w_mask] = s.head[s.ins_h];
 	          s.head[s.ins_h] = s.strstart;
 	          /***/
@@ -11299,29 +11059,30 @@
 	           */
 	        } while (--s.match_length !== 0);
 	        s.strstart++;
-	      } else {
+	      } else
+	      {
 	        s.strstart += s.match_length;
 	        s.match_length = 0;
 	        s.ins_h = s.window[s.strstart];
 	        /* UPDATE_HASH(s, s.ins_h, s.window[s.strstart+1]); */
-	        s.ins_h = (s.ins_h << s.hash_shift ^ s.window[s.strstart + 1]) & s.hash_mask;
+	        s.ins_h = ((s.ins_h << s.hash_shift) ^ s.window[s.strstart + 1]) & s.hash_mask;
 
-	        //#if MIN_MATCH != 3
-	        //                Call UPDATE_HASH() MIN_MATCH-3 more times
-	        //#endif
+	//#if MIN_MATCH != 3
+	//                Call UPDATE_HASH() MIN_MATCH-3 more times
+	//#endif
 	        /* If lookahead < MIN_MATCH, ins_h is garbage, but it does not
 	         * matter since it will be recomputed at next deflate call.
 	         */
 	      }
 	    } else {
-	        /* No match, output a literal byte */
-	        //Tracevv((stderr,"%c", s.window[s.strstart]));
-	        /*** _tr_tally_lit(s, s.window[s.strstart], bflush); ***/
-	        bflush = trees._tr_tally(s, 0, s.window[s.strstart]);
+	      /* No match, output a literal byte */
+	      //Tracevv((stderr,"%c", s.window[s.strstart]));
+	      /*** _tr_tally_lit(s, s.window[s.strstart], bflush); ***/
+	      bflush = trees._tr_tally(s, 0, s.window[s.strstart]);
 
-	        s.lookahead--;
-	        s.strstart++;
-	      }
+	      s.lookahead--;
+	      s.strstart++;
+	    }
 	    if (bflush) {
 	      /*** FLUSH_BLOCK(s, 0); ***/
 	      flush_block_only(s, false);
@@ -11331,7 +11092,7 @@
 	      /***/
 	    }
 	  }
-	  s.insert = s.strstart < MIN_MATCH - 1 ? s.strstart : MIN_MATCH - 1;
+	  s.insert = ((s.strstart < (MIN_MATCH - 1)) ? s.strstart : MIN_MATCH - 1);
 	  if (flush === Z_FINISH) {
 	    /*** FLUSH_BLOCK(s, 1); ***/
 	    flush_block_only(s, true);
@@ -11358,8 +11119,8 @@
 	 * no better match at the next window position.
 	 */
 	function deflate_slow(s, flush) {
-	  var hash_head; /* head of hash chain */
-	  var bflush; /* set if current block must be flushed */
+	  var hash_head;          /* head of hash chain */
+	  var bflush;              /* set if current block must be flushed */
 
 	  var max_insert;
 
@@ -11375,18 +11136,16 @@
 	      if (s.lookahead < MIN_LOOKAHEAD && flush === Z_NO_FLUSH) {
 	        return BS_NEED_MORE;
 	      }
-	      if (s.lookahead === 0) {
-	        break;
-	      } /* flush the current block */
+	      if (s.lookahead === 0) { break; } /* flush the current block */
 	    }
 
 	    /* Insert the string window[strstart .. strstart+2] in the
 	     * dictionary, and set hash_head to the head of the hash chain:
 	     */
-	    hash_head = 0 /*NIL*/;
+	    hash_head = 0/*NIL*/;
 	    if (s.lookahead >= MIN_MATCH) {
 	      /*** INSERT_STRING(s, s.strstart, hash_head); ***/
-	      s.ins_h = (s.ins_h << s.hash_shift ^ s.window[s.strstart + MIN_MATCH - 1]) & s.hash_mask;
+	      s.ins_h = ((s.ins_h << s.hash_shift) ^ s.window[s.strstart + MIN_MATCH - 1]) & s.hash_mask;
 	      hash_head = s.prev[s.strstart & s.w_mask] = s.head[s.ins_h];
 	      s.head[s.ins_h] = s.strstart;
 	      /***/
@@ -11398,22 +11157,24 @@
 	    s.prev_match = s.match_start;
 	    s.match_length = MIN_MATCH - 1;
 
-	    if (hash_head !== 0 /*NIL*/ && s.prev_length < s.max_lazy_match && s.strstart - hash_head <= s.w_size - MIN_LOOKAHEAD /*MAX_DIST(s)*/) {
-	        /* To simplify the code, we prevent matches with the string
-	         * of window index 0 (in particular we have to avoid a match
-	         * of the string with itself at the start of the input file).
+	    if (hash_head !== 0/*NIL*/ && s.prev_length < s.max_lazy_match &&
+	        s.strstart - hash_head <= (s.w_size - MIN_LOOKAHEAD)/*MAX_DIST(s)*/) {
+	      /* To simplify the code, we prevent matches with the string
+	       * of window index 0 (in particular we have to avoid a match
+	       * of the string with itself at the start of the input file).
+	       */
+	      s.match_length = longest_match(s, hash_head);
+	      /* longest_match() sets match_start */
+
+	      if (s.match_length <= 5 &&
+	         (s.strategy === Z_FILTERED || (s.match_length === MIN_MATCH && s.strstart - s.match_start > 4096/*TOO_FAR*/))) {
+
+	        /* If prev_match is also MIN_MATCH, match_start is garbage
+	         * but we will ignore the current match anyway.
 	         */
-	        s.match_length = longest_match(s, hash_head);
-	        /* longest_match() sets match_start */
-
-	        if (s.match_length <= 5 && (s.strategy === Z_FILTERED || s.match_length === MIN_MATCH && s.strstart - s.match_start > 4096 /*TOO_FAR*/)) {
-
-	            /* If prev_match is also MIN_MATCH, match_start is garbage
-	             * but we will ignore the current match anyway.
-	             */
-	            s.match_length = MIN_MATCH - 1;
-	          }
+	        s.match_length = MIN_MATCH - 1;
 	      }
+	    }
 	    /* If there was a match at the previous step and the current
 	     * match is not better, output the previous match:
 	     */
@@ -11436,7 +11197,7 @@
 	      do {
 	        if (++s.strstart <= max_insert) {
 	          /*** INSERT_STRING(s, s.strstart, hash_head); ***/
-	          s.ins_h = (s.ins_h << s.hash_shift ^ s.window[s.strstart + MIN_MATCH - 1]) & s.hash_mask;
+	          s.ins_h = ((s.ins_h << s.hash_shift) ^ s.window[s.strstart + MIN_MATCH - 1]) & s.hash_mask;
 	          hash_head = s.prev[s.strstart & s.w_mask] = s.head[s.ins_h];
 	          s.head[s.ins_h] = s.strstart;
 	          /***/
@@ -11454,33 +11215,34 @@
 	        }
 	        /***/
 	      }
-	    } else if (s.match_available) {
-	        /* If there was no match at the previous position, output a
-	         * single literal. If there was a match but the current match
-	         * is longer, truncate the previous match to a single literal.
-	         */
-	        //Tracevv((stderr,"%c", s->window[s->strstart-1]));
-	        /*** _tr_tally_lit(s, s.window[s.strstart-1], bflush); ***/
-	        bflush = trees._tr_tally(s, 0, s.window[s.strstart - 1]);
 
-	        if (bflush) {
-	          /*** FLUSH_BLOCK_ONLY(s, 0) ***/
-	          flush_block_only(s, false);
-	          /***/
-	        }
-	        s.strstart++;
-	        s.lookahead--;
-	        if (s.strm.avail_out === 0) {
-	          return BS_NEED_MORE;
-	        }
-	      } else {
-	        /* There is no previous match to compare with, wait for
-	         * the next step to decide.
-	         */
-	        s.match_available = 1;
-	        s.strstart++;
-	        s.lookahead--;
+	    } else if (s.match_available) {
+	      /* If there was no match at the previous position, output a
+	       * single literal. If there was a match but the current match
+	       * is longer, truncate the previous match to a single literal.
+	       */
+	      //Tracevv((stderr,"%c", s->window[s->strstart-1]));
+	      /*** _tr_tally_lit(s, s.window[s.strstart-1], bflush); ***/
+	      bflush = trees._tr_tally(s, 0, s.window[s.strstart - 1]);
+
+	      if (bflush) {
+	        /*** FLUSH_BLOCK_ONLY(s, 0) ***/
+	        flush_block_only(s, false);
+	        /***/
 	      }
+	      s.strstart++;
+	      s.lookahead--;
+	      if (s.strm.avail_out === 0) {
+	        return BS_NEED_MORE;
+	      }
+	    } else {
+	      /* There is no previous match to compare with, wait for
+	       * the next step to decide.
+	       */
+	      s.match_available = 1;
+	      s.strstart++;
+	      s.lookahead--;
+	    }
 	  }
 	  //Assert (flush != Z_NO_FLUSH, "no flush?");
 	  if (s.match_available) {
@@ -11512,15 +11274,16 @@
 	  return BS_BLOCK_DONE;
 	}
 
+
 	/* ===========================================================================
 	 * For Z_RLE, simply look for runs of bytes, generate matches only of distance
 	 * one.  Do not maintain a hash table.  (It will be regenerated if this run of
 	 * deflate switches away from Z_RLE.)
 	 */
 	function deflate_rle(s, flush) {
-	  var bflush; /* set if current block must be flushed */
-	  var prev; /* byte at distance one to match */
-	  var scan, strend; /* scan goes up to strend for length of run */
+	  var bflush;            /* set if current block must be flushed */
+	  var prev;              /* byte at distance one to match */
+	  var scan, strend;      /* scan goes up to strend for length of run */
 
 	  var _win = s.window;
 
@@ -11534,9 +11297,7 @@
 	      if (s.lookahead <= MAX_MATCH && flush === Z_NO_FLUSH) {
 	        return BS_NEED_MORE;
 	      }
-	      if (s.lookahead === 0) {
-	        break;
-	      } /* flush the current block */
+	      if (s.lookahead === 0) { break; } /* flush the current block */
 	    }
 
 	    /* See how many times the previous byte repeats */
@@ -11548,7 +11309,11 @@
 	        strend = s.strstart + MAX_MATCH;
 	        do {
 	          /*jshint noempty:false*/
-	        } while (prev === _win[++scan] && prev === _win[++scan] && prev === _win[++scan] && prev === _win[++scan] && prev === _win[++scan] && prev === _win[++scan] && prev === _win[++scan] && prev === _win[++scan] && scan < strend);
+	        } while (prev === _win[++scan] && prev === _win[++scan] &&
+	                 prev === _win[++scan] && prev === _win[++scan] &&
+	                 prev === _win[++scan] && prev === _win[++scan] &&
+	                 prev === _win[++scan] && prev === _win[++scan] &&
+	                 scan < strend);
 	        s.match_length = MAX_MATCH - (strend - scan);
 	        if (s.match_length > s.lookahead) {
 	          s.match_length = s.lookahead;
@@ -11611,7 +11376,7 @@
 	 * (It will be regenerated if this run of deflate switches away from Huffman.)
 	 */
 	function deflate_huff(s, flush) {
-	  var bflush; /* set if current block must be flushed */
+	  var bflush;             /* set if current block must be flushed */
 
 	  for (;;) {
 	    /* Make sure that we have a literal to write. */
@@ -11621,7 +11386,7 @@
 	        if (flush === Z_NO_FLUSH) {
 	          return BS_NEED_MORE;
 	        }
-	        break; /* flush the current block */
+	        break;      /* flush the current block */
 	      }
 	    }
 
@@ -11678,19 +11443,20 @@
 	var configuration_table;
 
 	configuration_table = [
-	/*      good lazy nice chain */
-	new Config(0, 0, 0, 0, deflate_stored), /* 0 store only */
-	new Config(4, 4, 8, 4, deflate_fast), /* 1 max speed, no lazy matches */
-	new Config(4, 5, 16, 8, deflate_fast), /* 2 */
-	new Config(4, 6, 32, 32, deflate_fast), /* 3 */
+	  /*      good lazy nice chain */
+	  new Config(0, 0, 0, 0, deflate_stored),          /* 0 store only */
+	  new Config(4, 4, 8, 4, deflate_fast),            /* 1 max speed, no lazy matches */
+	  new Config(4, 5, 16, 8, deflate_fast),           /* 2 */
+	  new Config(4, 6, 32, 32, deflate_fast),          /* 3 */
 
-	new Config(4, 4, 16, 16, deflate_slow), /* 4 lazy matches */
-	new Config(8, 16, 32, 32, deflate_slow), /* 5 */
-	new Config(8, 16, 128, 128, deflate_slow), /* 6 */
-	new Config(8, 32, 128, 256, deflate_slow), /* 7 */
-	new Config(32, 128, 258, 1024, deflate_slow), /* 8 */
-	new Config(32, 258, 258, 4096, deflate_slow) /* 9 max compression */
+	  new Config(4, 4, 16, 16, deflate_slow),          /* 4 lazy matches */
+	  new Config(8, 16, 32, 32, deflate_slow),         /* 5 */
+	  new Config(8, 16, 128, 128, deflate_slow),       /* 6 */
+	  new Config(8, 32, 128, 256, deflate_slow),       /* 7 */
+	  new Config(32, 128, 258, 1024, deflate_slow),    /* 8 */
+	  new Config(32, 258, 258, 4096, deflate_slow)     /* 9 max compression */
 	];
+
 
 	/* ===========================================================================
 	 * Initialize the "longest match" routines for a new zlib stream
@@ -11717,22 +11483,23 @@
 	  s.ins_h = 0;
 	}
 
-	function DeflateState() {
-	  this.strm = null; /* pointer back to this zlib stream */
-	  this.status = 0; /* as the name implies */
-	  this.pending_buf = null; /* output still pending */
-	  this.pending_buf_size = 0; /* size of pending_buf */
-	  this.pending_out = 0; /* next pending byte to output to the stream */
-	  this.pending = 0; /* nb of bytes in the pending buffer */
-	  this.wrap = 0; /* bit 0 true for zlib, bit 1 true for gzip */
-	  this.gzhead = null; /* gzip header information to write */
-	  this.gzindex = 0; /* where in extra, name, or comment */
-	  this.method = Z_DEFLATED; /* can only be DEFLATED */
-	  this.last_flush = -1; /* value of flush param for previous deflate call */
 
-	  this.w_size = 0; /* LZ77 window size (32K by default) */
-	  this.w_bits = 0; /* log2(w_size)  (8..16) */
-	  this.w_mask = 0; /* w_size - 1 */
+	function DeflateState() {
+	  this.strm = null;            /* pointer back to this zlib stream */
+	  this.status = 0;            /* as the name implies */
+	  this.pending_buf = null;      /* output still pending */
+	  this.pending_buf_size = 0;  /* size of pending_buf */
+	  this.pending_out = 0;       /* next pending byte to output to the stream */
+	  this.pending = 0;           /* nb of bytes in the pending buffer */
+	  this.wrap = 0;              /* bit 0 true for zlib, bit 1 true for gzip */
+	  this.gzhead = null;         /* gzip header information to write */
+	  this.gzindex = 0;           /* where in extra, name, or comment */
+	  this.method = Z_DEFLATED; /* can only be DEFLATED */
+	  this.last_flush = -1;   /* value of flush param for previous deflate call */
+
+	  this.w_size = 0;  /* LZ77 window size (32K by default) */
+	  this.w_bits = 0;  /* log2(w_size)  (8..16) */
+	  this.w_mask = 0;  /* w_size - 1 */
 
 	  this.window = null;
 	  /* Sliding window. Input bytes are read into the second half of the window,
@@ -11753,12 +11520,12 @@
 	   * An index in this array is thus a window index modulo 32K.
 	   */
 
-	  this.head = null; /* Heads of the hash chains or NIL. */
+	  this.head = null;   /* Heads of the hash chains or NIL. */
 
-	  this.ins_h = 0; /* hash index of string to be inserted */
-	  this.hash_size = 0; /* number of elements in hash table */
-	  this.hash_bits = 0; /* log2(hash_size) */
-	  this.hash_mask = 0; /* hash_size-1 */
+	  this.ins_h = 0;       /* hash index of string to be inserted */
+	  this.hash_size = 0;   /* number of elements in hash table */
+	  this.hash_bits = 0;   /* log2(hash_size) */
+	  this.hash_mask = 0;   /* hash_size-1 */
 
 	  this.hash_shift = 0;
 	  /* Number of bits by which ins_h must be shifted at each input
@@ -11772,12 +11539,12 @@
 	   * negative when the window is moved backwards.
 	   */
 
-	  this.match_length = 0; /* length of best match */
-	  this.prev_match = 0; /* previous match */
-	  this.match_available = 0; /* set if previous match exists */
-	  this.strstart = 0; /* start of string to insert */
-	  this.match_start = 0; /* start of matching string */
-	  this.lookahead = 0; /* number of valid bytes ahead in window */
+	  this.match_length = 0;      /* length of best match */
+	  this.prev_match = 0;        /* previous match */
+	  this.match_available = 0;   /* set if previous match exists */
+	  this.strstart = 0;          /* start of string to insert */
+	  this.match_start = 0;       /* start of matching string */
+	  this.lookahead = 0;         /* number of valid bytes ahead in window */
 
 	  this.prev_length = 0;
 	  /* Length of the best match at previous step. Matches not greater than this
@@ -11802,15 +11569,15 @@
 	   * max_insert_length is used only for compression levels <= 3.
 	   */
 
-	  this.level = 0; /* compression level (1..9) */
-	  this.strategy = 0; /* favor or force Huffman coding*/
+	  this.level = 0;     /* compression level (1..9) */
+	  this.strategy = 0;  /* favor or force Huffman coding*/
 
 	  this.good_match = 0;
 	  /* Use a faster search when the previous match is longer than this */
 
 	  this.nice_match = 0; /* Stop searching when current match exceeds this */
 
-	  /* used by trees.c: */
+	              /* used by trees.c: */
 
 	  /* Didn't use ct_data typedef below to suppress compiler warning */
 
@@ -11820,27 +11587,27 @@
 
 	  // Use flat array of DOUBLE size, with interleaved fata,
 	  // because JS does not support effective
-	  this.dyn_ltree = new utils.Buf16(HEAP_SIZE * 2);
-	  this.dyn_dtree = new utils.Buf16((2 * D_CODES + 1) * 2);
-	  this.bl_tree = new utils.Buf16((2 * BL_CODES + 1) * 2);
+	  this.dyn_ltree  = new utils.Buf16(HEAP_SIZE * 2);
+	  this.dyn_dtree  = new utils.Buf16((2 * D_CODES + 1) * 2);
+	  this.bl_tree    = new utils.Buf16((2 * BL_CODES + 1) * 2);
 	  zero(this.dyn_ltree);
 	  zero(this.dyn_dtree);
 	  zero(this.bl_tree);
 
-	  this.l_desc = null; /* desc. for literal tree */
-	  this.d_desc = null; /* desc. for distance tree */
-	  this.bl_desc = null; /* desc. for bit length tree */
+	  this.l_desc   = null;         /* desc. for literal tree */
+	  this.d_desc   = null;         /* desc. for distance tree */
+	  this.bl_desc  = null;         /* desc. for bit length tree */
 
 	  //ush bl_count[MAX_BITS+1];
 	  this.bl_count = new utils.Buf16(MAX_BITS + 1);
 	  /* number of codes at each bit length for an optimal tree */
 
 	  //int heap[2*L_CODES+1];      /* heap used to build the Huffman trees */
-	  this.heap = new utils.Buf16(2 * L_CODES + 1); /* heap used to build the Huffman trees */
+	  this.heap = new utils.Buf16(2 * L_CODES + 1);  /* heap used to build the Huffman trees */
 	  zero(this.heap);
 
-	  this.heap_len = 0; /* number of elements in the heap */
-	  this.heap_max = 0; /* element of largest frequency */
+	  this.heap_len = 0;               /* number of elements in the heap */
+	  this.heap_max = 0;               /* element of largest frequency */
 	  /* The sons of heap[n] are heap[2*n] and heap[2*n+1]. heap[0] is not used.
 	   * The same heap array is used to build all trees.
 	   */
@@ -11850,7 +11617,7 @@
 	  /* Depth of each subtree used as tie breaker for trees of equal frequency
 	   */
 
-	  this.l_buf = 0; /* buffer index for literals or lengths */
+	  this.l_buf = 0;          /* buffer index for literals or lengths */
 
 	  this.lit_bufsize = 0;
 	  /* Size of match buffer for literals/lengths.  There are 4 reasons for
@@ -11872,7 +11639,7 @@
 	   *   - I can't count above 4
 	   */
 
-	  this.last_lit = 0; /* running index in l_buf */
+	  this.last_lit = 0;      /* running index in l_buf */
 
 	  this.d_buf = 0;
 	  /* Buffer index for distances. To simplify the code, d_buf and l_buf have
@@ -11880,10 +11647,11 @@
 	   * array would be necessary.
 	   */
 
-	  this.opt_len = 0; /* bit length of current block with optimal trees */
-	  this.static_len = 0; /* bit length of current block with static trees */
-	  this.matches = 0; /* number of string matches in current block */
-	  this.insert = 0; /* bytes at end of window left to insert */
+	  this.opt_len = 0;       /* bit length of current block with optimal trees */
+	  this.static_len = 0;    /* bit length of current block with static trees */
+	  this.matches = 0;       /* number of string matches in current block */
+	  this.insert = 0;        /* bytes at end of window left to insert */
+
 
 	  this.bi_buf = 0;
 	  /* Output buffer. bits are inserted starting at the bottom (least
@@ -11904,6 +11672,7 @@
 	   */
 	}
 
+
 	function deflateResetKeep(strm) {
 	  var s;
 
@@ -11922,13 +11691,16 @@
 	    s.wrap = -s.wrap;
 	    /* was made negative by deflate(..., Z_FINISH); */
 	  }
-	  s.status = s.wrap ? INIT_STATE : BUSY_STATE;
-	  strm.adler = s.wrap === 2 ? 0 // crc32(0, Z_NULL, 0)
-	  : 1; // adler32(0, Z_NULL, 0)
+	  s.status = (s.wrap ? INIT_STATE : BUSY_STATE);
+	  strm.adler = (s.wrap === 2) ?
+	    0  // crc32(0, Z_NULL, 0)
+	  :
+	    1; // adler32(0, Z_NULL, 0)
 	  s.last_flush = Z_NO_FLUSH;
 	  trees._tr_init(s);
 	  return Z_OK;
 	}
+
 
 	function deflateReset(strm) {
 	  var ret = deflateResetKeep(strm);
@@ -11938,20 +11710,17 @@
 	  return ret;
 	}
 
+
 	function deflateSetHeader(strm, head) {
-	  if (!strm || !strm.state) {
-	    return Z_STREAM_ERROR;
-	  }
-	  if (strm.state.wrap !== 2) {
-	    return Z_STREAM_ERROR;
-	  }
+	  if (!strm || !strm.state) { return Z_STREAM_ERROR; }
+	  if (strm.state.wrap !== 2) { return Z_STREAM_ERROR; }
 	  strm.state.gzhead = head;
 	  return Z_OK;
 	}
 
+
 	function deflateInit2(strm, level, method, windowBits, memLevel, strategy) {
-	  if (!strm) {
-	    // === Z_NULL
+	  if (!strm) { // === Z_NULL
 	    return Z_STREAM_ERROR;
 	  }
 	  var wrap = 1;
@@ -11960,18 +11729,23 @@
 	    level = 6;
 	  }
 
-	  if (windowBits < 0) {
-	    /* suppress zlib wrapper */
+	  if (windowBits < 0) { /* suppress zlib wrapper */
 	    wrap = 0;
 	    windowBits = -windowBits;
-	  } else if (windowBits > 15) {
-	    wrap = 2; /* write gzip wrapper instead */
+	  }
+
+	  else if (windowBits > 15) {
+	    wrap = 2;           /* write gzip wrapper instead */
 	    windowBits -= 16;
 	  }
 
-	  if (memLevel < 1 || memLevel > MAX_MEM_LEVEL || method !== Z_DEFLATED || windowBits < 8 || windowBits > 15 || level < 0 || level > 9 || strategy < 0 || strategy > Z_FIXED) {
+
+	  if (memLevel < 1 || memLevel > MAX_MEM_LEVEL || method !== Z_DEFLATED ||
+	    windowBits < 8 || windowBits > 15 || level < 0 || level > 9 ||
+	    strategy < 0 || strategy > Z_FIXED) {
 	    return err(strm, Z_STREAM_ERROR);
 	  }
+
 
 	  if (windowBits === 8) {
 	    windowBits = 9;
@@ -11992,7 +11766,7 @@
 	  s.hash_bits = memLevel + 7;
 	  s.hash_size = 1 << s.hash_bits;
 	  s.hash_mask = s.hash_size - 1;
-	  s.hash_shift = ~ ~((s.hash_bits + MIN_MATCH - 1) / MIN_MATCH);
+	  s.hash_shift = ~~((s.hash_bits + MIN_MATCH - 1) / MIN_MATCH);
 
 	  s.window = new utils.Buf8(s.w_size * 2);
 	  s.head = new utils.Buf16(s.hash_size);
@@ -12001,7 +11775,7 @@
 	  // Don't need mem init magic for JS.
 	  //s.high_water = 0;  /* nothing written to s->window yet */
 
-	  s.lit_bufsize = 1 << memLevel + 6; /* 16K elements by default */
+	  s.lit_bufsize = 1 << (memLevel + 6); /* 16K elements by default */
 
 	  s.pending_buf_size = s.lit_bufsize * 4;
 	  s.pending_buf = new utils.Buf8(s.pending_buf_size);
@@ -12020,18 +11794,22 @@
 	  return deflateInit2(strm, level, Z_DEFLATED, MAX_WBITS, DEF_MEM_LEVEL, Z_DEFAULT_STRATEGY);
 	}
 
+
 	function deflate(strm, flush) {
 	  var old_flush, s;
 	  var beg, val; // for gzip header write only
 
-	  if (!strm || !strm.state || flush > Z_BLOCK || flush < 0) {
+	  if (!strm || !strm.state ||
+	    flush > Z_BLOCK || flush < 0) {
 	    return strm ? err(strm, Z_STREAM_ERROR) : Z_STREAM_ERROR;
 	  }
 
 	  s = strm.state;
 
-	  if (!strm.output || !strm.input && strm.avail_in !== 0 || s.status === FINISH_STATE && flush !== Z_FINISH) {
-	    return err(strm, strm.avail_out === 0 ? Z_BUF_ERROR : Z_STREAM_ERROR);
+	  if (!strm.output ||
+	      (!strm.input && strm.avail_in !== 0) ||
+	      (s.status === FINISH_STATE && flush !== Z_FINISH)) {
+	    return err(strm, (strm.avail_out === 0) ? Z_BUF_ERROR : Z_STREAM_ERROR);
 	  }
 
 	  s.strm = strm; /* just in case */
@@ -12041,33 +11819,41 @@
 	  /* Write the header */
 	  if (s.status === INIT_STATE) {
 
-	    if (s.wrap === 2) {
-	      // GZIP header
-	      strm.adler = 0; //crc32(0L, Z_NULL, 0);
+	    if (s.wrap === 2) { // GZIP header
+	      strm.adler = 0;  //crc32(0L, Z_NULL, 0);
 	      put_byte(s, 31);
 	      put_byte(s, 139);
 	      put_byte(s, 8);
-	      if (!s.gzhead) {
-	        // s->gzhead == Z_NULL
+	      if (!s.gzhead) { // s->gzhead == Z_NULL
 	        put_byte(s, 0);
 	        put_byte(s, 0);
 	        put_byte(s, 0);
 	        put_byte(s, 0);
 	        put_byte(s, 0);
-	        put_byte(s, s.level === 9 ? 2 : s.strategy >= Z_HUFFMAN_ONLY || s.level < 2 ? 4 : 0);
+	        put_byte(s, s.level === 9 ? 2 :
+	                    (s.strategy >= Z_HUFFMAN_ONLY || s.level < 2 ?
+	                     4 : 0));
 	        put_byte(s, OS_CODE);
 	        s.status = BUSY_STATE;
-	      } else {
-	        put_byte(s, (s.gzhead.text ? 1 : 0) + (s.gzhead.hcrc ? 2 : 0) + (!s.gzhead.extra ? 0 : 4) + (!s.gzhead.name ? 0 : 8) + (!s.gzhead.comment ? 0 : 16));
+	      }
+	      else {
+	        put_byte(s, (s.gzhead.text ? 1 : 0) +
+	                    (s.gzhead.hcrc ? 2 : 0) +
+	                    (!s.gzhead.extra ? 0 : 4) +
+	                    (!s.gzhead.name ? 0 : 8) +
+	                    (!s.gzhead.comment ? 0 : 16)
+	                );
 	        put_byte(s, s.gzhead.time & 0xff);
-	        put_byte(s, s.gzhead.time >> 8 & 0xff);
-	        put_byte(s, s.gzhead.time >> 16 & 0xff);
-	        put_byte(s, s.gzhead.time >> 24 & 0xff);
-	        put_byte(s, s.level === 9 ? 2 : s.strategy >= Z_HUFFMAN_ONLY || s.level < 2 ? 4 : 0);
+	        put_byte(s, (s.gzhead.time >> 8) & 0xff);
+	        put_byte(s, (s.gzhead.time >> 16) & 0xff);
+	        put_byte(s, (s.gzhead.time >> 24) & 0xff);
+	        put_byte(s, s.level === 9 ? 2 :
+	                    (s.strategy >= Z_HUFFMAN_ONLY || s.level < 2 ?
+	                     4 : 0));
 	        put_byte(s, s.gzhead.os & 0xff);
 	        if (s.gzhead.extra && s.gzhead.extra.length) {
 	          put_byte(s, s.gzhead.extra.length & 0xff);
-	          put_byte(s, s.gzhead.extra.length >> 8 & 0xff);
+	          put_byte(s, (s.gzhead.extra.length >> 8) & 0xff);
 	        }
 	        if (s.gzhead.hcrc) {
 	          strm.adler = crc32(strm.adler, s.pending_buf, s.pending, 0);
@@ -12075,138 +11861,140 @@
 	        s.gzindex = 0;
 	        s.status = EXTRA_STATE;
 	      }
-	    } else // DEFLATE header
-	      {
-	        var header = Z_DEFLATED + (s.w_bits - 8 << 4) << 8;
-	        var level_flags = -1;
+	    }
+	    else // DEFLATE header
+	    {
+	      var header = (Z_DEFLATED + ((s.w_bits - 8) << 4)) << 8;
+	      var level_flags = -1;
 
-	        if (s.strategy >= Z_HUFFMAN_ONLY || s.level < 2) {
-	          level_flags = 0;
-	        } else if (s.level < 6) {
-	          level_flags = 1;
-	        } else if (s.level === 6) {
-	          level_flags = 2;
-	        } else {
-	          level_flags = 3;
-	        }
-	        header |= level_flags << 6;
-	        if (s.strstart !== 0) {
-	          header |= PRESET_DICT;
-	        }
-	        header += 31 - header % 31;
-
-	        s.status = BUSY_STATE;
-	        putShortMSB(s, header);
-
-	        /* Save the adler32 of the preset dictionary: */
-	        if (s.strstart !== 0) {
-	          putShortMSB(s, strm.adler >>> 16);
-	          putShortMSB(s, strm.adler & 0xffff);
-	        }
-	        strm.adler = 1; // adler32(0L, Z_NULL, 0);
+	      if (s.strategy >= Z_HUFFMAN_ONLY || s.level < 2) {
+	        level_flags = 0;
+	      } else if (s.level < 6) {
+	        level_flags = 1;
+	      } else if (s.level === 6) {
+	        level_flags = 2;
+	      } else {
+	        level_flags = 3;
 	      }
+	      header |= (level_flags << 6);
+	      if (s.strstart !== 0) { header |= PRESET_DICT; }
+	      header += 31 - (header % 31);
+
+	      s.status = BUSY_STATE;
+	      putShortMSB(s, header);
+
+	      /* Save the adler32 of the preset dictionary: */
+	      if (s.strstart !== 0) {
+	        putShortMSB(s, strm.adler >>> 16);
+	        putShortMSB(s, strm.adler & 0xffff);
+	      }
+	      strm.adler = 1; // adler32(0L, Z_NULL, 0);
+	    }
 	  }
 
-	  //#ifdef GZIP
+	//#ifdef GZIP
 	  if (s.status === EXTRA_STATE) {
-	    if (s.gzhead.extra /* != Z_NULL*/) {
-	        beg = s.pending; /* start of bytes to update crc */
+	    if (s.gzhead.extra/* != Z_NULL*/) {
+	      beg = s.pending;  /* start of bytes to update crc */
 
-	        while (s.gzindex < (s.gzhead.extra.length & 0xffff)) {
-	          if (s.pending === s.pending_buf_size) {
-	            if (s.gzhead.hcrc && s.pending > beg) {
-	              strm.adler = crc32(strm.adler, s.pending_buf, s.pending - beg, beg);
-	            }
-	            flush_pending(strm);
-	            beg = s.pending;
-	            if (s.pending === s.pending_buf_size) {
-	              break;
-	            }
+	      while (s.gzindex < (s.gzhead.extra.length & 0xffff)) {
+	        if (s.pending === s.pending_buf_size) {
+	          if (s.gzhead.hcrc && s.pending > beg) {
+	            strm.adler = crc32(strm.adler, s.pending_buf, s.pending - beg, beg);
 	          }
-	          put_byte(s, s.gzhead.extra[s.gzindex] & 0xff);
-	          s.gzindex++;
+	          flush_pending(strm);
+	          beg = s.pending;
+	          if (s.pending === s.pending_buf_size) {
+	            break;
+	          }
 	        }
-	        if (s.gzhead.hcrc && s.pending > beg) {
-	          strm.adler = crc32(strm.adler, s.pending_buf, s.pending - beg, beg);
-	        }
-	        if (s.gzindex === s.gzhead.extra.length) {
-	          s.gzindex = 0;
-	          s.status = NAME_STATE;
-	        }
-	      } else {
+	        put_byte(s, s.gzhead.extra[s.gzindex] & 0xff);
+	        s.gzindex++;
+	      }
+	      if (s.gzhead.hcrc && s.pending > beg) {
+	        strm.adler = crc32(strm.adler, s.pending_buf, s.pending - beg, beg);
+	      }
+	      if (s.gzindex === s.gzhead.extra.length) {
+	        s.gzindex = 0;
+	        s.status = NAME_STATE;
+	      }
+	    }
+	    else {
 	      s.status = NAME_STATE;
 	    }
 	  }
 	  if (s.status === NAME_STATE) {
-	    if (s.gzhead.name /* != Z_NULL*/) {
-	        beg = s.pending; /* start of bytes to update crc */
-	        //int val;
+	    if (s.gzhead.name/* != Z_NULL*/) {
+	      beg = s.pending;  /* start of bytes to update crc */
+	      //int val;
 
-	        do {
+	      do {
+	        if (s.pending === s.pending_buf_size) {
+	          if (s.gzhead.hcrc && s.pending > beg) {
+	            strm.adler = crc32(strm.adler, s.pending_buf, s.pending - beg, beg);
+	          }
+	          flush_pending(strm);
+	          beg = s.pending;
 	          if (s.pending === s.pending_buf_size) {
-	            if (s.gzhead.hcrc && s.pending > beg) {
-	              strm.adler = crc32(strm.adler, s.pending_buf, s.pending - beg, beg);
-	            }
-	            flush_pending(strm);
-	            beg = s.pending;
-	            if (s.pending === s.pending_buf_size) {
-	              val = 1;
-	              break;
-	            }
+	            val = 1;
+	            break;
 	          }
-	          // JS specific: little magic to add zero terminator to end of string
-	          if (s.gzindex < s.gzhead.name.length) {
-	            val = s.gzhead.name.charCodeAt(s.gzindex++) & 0xff;
-	          } else {
-	            val = 0;
-	          }
-	          put_byte(s, val);
-	        } while (val !== 0);
+	        }
+	        // JS specific: little magic to add zero terminator to end of string
+	        if (s.gzindex < s.gzhead.name.length) {
+	          val = s.gzhead.name.charCodeAt(s.gzindex++) & 0xff;
+	        } else {
+	          val = 0;
+	        }
+	        put_byte(s, val);
+	      } while (val !== 0);
 
-	        if (s.gzhead.hcrc && s.pending > beg) {
-	          strm.adler = crc32(strm.adler, s.pending_buf, s.pending - beg, beg);
-	        }
-	        if (val === 0) {
-	          s.gzindex = 0;
-	          s.status = COMMENT_STATE;
-	        }
-	      } else {
+	      if (s.gzhead.hcrc && s.pending > beg) {
+	        strm.adler = crc32(strm.adler, s.pending_buf, s.pending - beg, beg);
+	      }
+	      if (val === 0) {
+	        s.gzindex = 0;
+	        s.status = COMMENT_STATE;
+	      }
+	    }
+	    else {
 	      s.status = COMMENT_STATE;
 	    }
 	  }
 	  if (s.status === COMMENT_STATE) {
-	    if (s.gzhead.comment /* != Z_NULL*/) {
-	        beg = s.pending; /* start of bytes to update crc */
-	        //int val;
+	    if (s.gzhead.comment/* != Z_NULL*/) {
+	      beg = s.pending;  /* start of bytes to update crc */
+	      //int val;
 
-	        do {
+	      do {
+	        if (s.pending === s.pending_buf_size) {
+	          if (s.gzhead.hcrc && s.pending > beg) {
+	            strm.adler = crc32(strm.adler, s.pending_buf, s.pending - beg, beg);
+	          }
+	          flush_pending(strm);
+	          beg = s.pending;
 	          if (s.pending === s.pending_buf_size) {
-	            if (s.gzhead.hcrc && s.pending > beg) {
-	              strm.adler = crc32(strm.adler, s.pending_buf, s.pending - beg, beg);
-	            }
-	            flush_pending(strm);
-	            beg = s.pending;
-	            if (s.pending === s.pending_buf_size) {
-	              val = 1;
-	              break;
-	            }
+	            val = 1;
+	            break;
 	          }
-	          // JS specific: little magic to add zero terminator to end of string
-	          if (s.gzindex < s.gzhead.comment.length) {
-	            val = s.gzhead.comment.charCodeAt(s.gzindex++) & 0xff;
-	          } else {
-	            val = 0;
-	          }
-	          put_byte(s, val);
-	        } while (val !== 0);
+	        }
+	        // JS specific: little magic to add zero terminator to end of string
+	        if (s.gzindex < s.gzhead.comment.length) {
+	          val = s.gzhead.comment.charCodeAt(s.gzindex++) & 0xff;
+	        } else {
+	          val = 0;
+	        }
+	        put_byte(s, val);
+	      } while (val !== 0);
 
-	        if (s.gzhead.hcrc && s.pending > beg) {
-	          strm.adler = crc32(strm.adler, s.pending_buf, s.pending - beg, beg);
-	        }
-	        if (val === 0) {
-	          s.status = HCRC_STATE;
-	        }
-	      } else {
+	      if (s.gzhead.hcrc && s.pending > beg) {
+	        strm.adler = crc32(strm.adler, s.pending_buf, s.pending - beg, beg);
+	      }
+	      if (val === 0) {
+	        s.status = HCRC_STATE;
+	      }
+	    }
+	    else {
 	      s.status = HCRC_STATE;
 	    }
 	  }
@@ -12217,15 +12005,16 @@
 	      }
 	      if (s.pending + 2 <= s.pending_buf_size) {
 	        put_byte(s, strm.adler & 0xff);
-	        put_byte(s, strm.adler >> 8 & 0xff);
+	        put_byte(s, (strm.adler >> 8) & 0xff);
 	        strm.adler = 0; //crc32(0L, Z_NULL, 0);
 	        s.status = BUSY_STATE;
 	      }
-	    } else {
+	    }
+	    else {
 	      s.status = BUSY_STATE;
 	    }
 	  }
-	  //#endif
+	//#endif
 
 	  /* Flush as much pending output as possible */
 	  if (s.pending !== 0) {
@@ -12245,9 +12034,10 @@
 	     * flushes. For repeated and useless calls with Z_FINISH, we keep
 	     * returning Z_STREAM_END instead of Z_BUF_ERROR.
 	     */
-	  } else if (strm.avail_in === 0 && rank(flush) <= rank(old_flush) && flush !== Z_FINISH) {
-	      return err(strm, Z_BUF_ERROR);
-	    }
+	  } else if (strm.avail_in === 0 && rank(flush) <= rank(old_flush) &&
+	    flush !== Z_FINISH) {
+	    return err(strm, Z_BUF_ERROR);
+	  }
 
 	  /* User must not provide more input after the first FINISH: */
 	  if (s.status === FINISH_STATE && strm.avail_in !== 0) {
@@ -12256,8 +12046,11 @@
 
 	  /* Start a new block or continue the current one.
 	   */
-	  if (strm.avail_in !== 0 || s.lookahead !== 0 || flush !== Z_NO_FLUSH && s.status !== FINISH_STATE) {
-	    var bstate = s.strategy === Z_HUFFMAN_ONLY ? deflate_huff(s, flush) : s.strategy === Z_RLE ? deflate_rle(s, flush) : configuration_table[s.level].func(s, flush);
+	  if (strm.avail_in !== 0 || s.lookahead !== 0 ||
+	    (flush !== Z_NO_FLUSH && s.status !== FINISH_STATE)) {
+	    var bstate = (s.strategy === Z_HUFFMAN_ONLY) ? deflate_huff(s, flush) :
+	      (s.strategy === Z_RLE ? deflate_rle(s, flush) :
+	        configuration_table[s.level].func(s, flush));
 
 	    if (bstate === BS_FINISH_STARTED || bstate === BS_FINISH_DONE) {
 	      s.status = FINISH_STATE;
@@ -12279,15 +12072,15 @@
 	    if (bstate === BS_BLOCK_DONE) {
 	      if (flush === Z_PARTIAL_FLUSH) {
 	        trees._tr_align(s);
-	      } else if (flush !== Z_BLOCK) {
-	        /* FULL_FLUSH or SYNC_FLUSH */
+	      }
+	      else if (flush !== Z_BLOCK) { /* FULL_FLUSH or SYNC_FLUSH */
 
 	        trees._tr_stored_block(s, 0, 0, false);
 	        /* For a full flush, this empty block will be recognized
 	         * as a special marker by inflate_sync().
 	         */
 	        if (flush === Z_FULL_FLUSH) {
-	          /*** CLEAR_HASH(s); ***/ /* forget history */
+	          /*** CLEAR_HASH(s); ***/             /* forget history */
 	          zero(s.head); // Fill with NIL (= 0);
 
 	          if (s.lookahead === 0) {
@@ -12307,24 +12100,22 @@
 	  //Assert(strm->avail_out > 0, "bug2");
 	  //if (strm.avail_out <= 0) { throw new Error("bug2");}
 
-	  if (flush !== Z_FINISH) {
-	    return Z_OK;
-	  }
-	  if (s.wrap <= 0) {
-	    return Z_STREAM_END;
-	  }
+	  if (flush !== Z_FINISH) { return Z_OK; }
+	  if (s.wrap <= 0) { return Z_STREAM_END; }
 
 	  /* Write the trailer */
 	  if (s.wrap === 2) {
 	    put_byte(s, strm.adler & 0xff);
-	    put_byte(s, strm.adler >> 8 & 0xff);
-	    put_byte(s, strm.adler >> 16 & 0xff);
-	    put_byte(s, strm.adler >> 24 & 0xff);
+	    put_byte(s, (strm.adler >> 8) & 0xff);
+	    put_byte(s, (strm.adler >> 16) & 0xff);
+	    put_byte(s, (strm.adler >> 24) & 0xff);
 	    put_byte(s, strm.total_in & 0xff);
-	    put_byte(s, strm.total_in >> 8 & 0xff);
-	    put_byte(s, strm.total_in >> 16 & 0xff);
-	    put_byte(s, strm.total_in >> 24 & 0xff);
-	  } else {
+	    put_byte(s, (strm.total_in >> 8) & 0xff);
+	    put_byte(s, (strm.total_in >> 16) & 0xff);
+	    put_byte(s, (strm.total_in >> 24) & 0xff);
+	  }
+	  else
+	  {
 	    putShortMSB(s, strm.adler >>> 16);
 	    putShortMSB(s, strm.adler & 0xffff);
 	  }
@@ -12333,9 +12124,7 @@
 	  /* If avail_out is zero, the application will call deflate again
 	   * to flush the rest.
 	   */
-	  if (s.wrap > 0) {
-	    s.wrap = -s.wrap;
-	  }
+	  if (s.wrap > 0) { s.wrap = -s.wrap; }
 	  /* write the trailer only once! */
 	  return s.pending !== 0 ? Z_OK : Z_STREAM_END;
 	}
@@ -12343,12 +12132,19 @@
 	function deflateEnd(strm) {
 	  var status;
 
-	  if (!strm /*== Z_NULL*/ || !strm.state /*== Z_NULL*/) {
-	      return Z_STREAM_ERROR;
-	    }
+	  if (!strm/*== Z_NULL*/ || !strm.state/*== Z_NULL*/) {
+	    return Z_STREAM_ERROR;
+	  }
 
 	  status = strm.state.status;
-	  if (status !== INIT_STATE && status !== EXTRA_STATE && status !== NAME_STATE && status !== COMMENT_STATE && status !== HCRC_STATE && status !== BUSY_STATE && status !== FINISH_STATE) {
+	  if (status !== INIT_STATE &&
+	    status !== EXTRA_STATE &&
+	    status !== NAME_STATE &&
+	    status !== COMMENT_STATE &&
+	    status !== HCRC_STATE &&
+	    status !== BUSY_STATE &&
+	    status !== FINISH_STATE
+	  ) {
 	    return err(strm, Z_STREAM_ERROR);
 	  }
 
@@ -12356,6 +12152,7 @@
 
 	  return status === BUSY_STATE ? err(strm, Z_DATA_ERROR) : Z_OK;
 	}
+
 
 	/* =========================================================================
 	 * Initializes the compression dictionary from the given byte
@@ -12372,14 +12169,14 @@
 	  var input;
 	  var tmpDict;
 
-	  if (!strm /*== Z_NULL*/ || !strm.state /*== Z_NULL*/) {
-	      return Z_STREAM_ERROR;
-	    }
+	  if (!strm/*== Z_NULL*/ || !strm.state/*== Z_NULL*/) {
+	    return Z_STREAM_ERROR;
+	  }
 
 	  s = strm.state;
 	  wrap = s.wrap;
 
-	  if (wrap === 2 || wrap === 1 && s.status !== INIT_STATE || s.lookahead) {
+	  if (wrap === 2 || (wrap === 1 && s.status !== INIT_STATE) || s.lookahead) {
 	    return Z_STREAM_ERROR;
 	  }
 
@@ -12389,12 +12186,11 @@
 	    strm.adler = adler32(strm.adler, dictionary, dictLength, 0);
 	  }
 
-	  s.wrap = 0; /* avoid computing Adler-32 in read_buf */
+	  s.wrap = 0;   /* avoid computing Adler-32 in read_buf */
 
 	  /* if dictionary would fill window, just replace the history */
 	  if (dictLength >= s.w_size) {
-	    if (wrap === 0) {
-	      /* already empty otherwise */
+	    if (wrap === 0) {            /* already empty otherwise */
 	      /*** CLEAR_HASH(s); ***/
 	      zero(s.head); // Fill with NIL (= 0);
 	      s.strstart = 0;
@@ -12421,7 +12217,7 @@
 	    n = s.lookahead - (MIN_MATCH - 1);
 	    do {
 	      /* UPDATE_HASH(s, s->ins_h, s->window[str + MIN_MATCH-1]); */
-	      s.ins_h = (s.ins_h << s.hash_shift ^ s.window[str + MIN_MATCH - 1]) & s.hash_mask;
+	      s.ins_h = ((s.ins_h << s.hash_shift) ^ s.window[str + MIN_MATCH - 1]) & s.hash_mask;
 
 	      s.prev[str & s.w_mask] = s.head[s.ins_h];
 
@@ -12445,6 +12241,7 @@
 	  return Z_OK;
 	}
 
+
 	exports.deflateInit = deflateInit;
 	exports.deflateInit2 = deflateInit2;
 	exports.deflateReset = deflateReset;
@@ -12464,46 +12261,46 @@
 	exports.deflateTune = deflateTune;
 	*/
 
+
 /***/ },
 /* 28 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
+
 	var utils = __webpack_require__(25);
 
 	/* Public constants ==========================================================*/
 	/* ===========================================================================*/
 
+
 	//var Z_FILTERED          = 1;
 	//var Z_HUFFMAN_ONLY      = 2;
 	//var Z_RLE               = 3;
-	var Z_FIXED = 4;
+	var Z_FIXED               = 4;
 	//var Z_DEFAULT_STRATEGY  = 0;
 
 	/* Possible values of the data_type field (though see inflate()) */
-	var Z_BINARY = 0;
-	var Z_TEXT = 1;
+	var Z_BINARY              = 0;
+	var Z_TEXT                = 1;
 	//var Z_ASCII             = 1; // = Z_TEXT
-	var Z_UNKNOWN = 2;
+	var Z_UNKNOWN             = 2;
 
 	/*============================================================================*/
 
-	function zero(buf) {
-	  var len = buf.length;while (--len >= 0) {
-	    buf[len] = 0;
-	  }
-	}
+
+	function zero(buf) { var len = buf.length; while (--len >= 0) { buf[len] = 0; } }
 
 	// From zutil.h
 
 	var STORED_BLOCK = 0;
 	var STATIC_TREES = 1;
-	var DYN_TREES = 2;
+	var DYN_TREES    = 2;
 	/* The three kinds of block type */
 
-	var MIN_MATCH = 3;
-	var MAX_MATCH = 258;
+	var MIN_MATCH    = 3;
+	var MAX_MATCH    = 258;
 	/* The minimum and maximum match lengths */
 
 	// From deflate.h
@@ -12511,29 +12308,30 @@
 	 * Internal compression state.
 	 */
 
-	var LENGTH_CODES = 29;
+	var LENGTH_CODES  = 29;
 	/* number of length codes, not counting the special END_BLOCK code */
 
-	var LITERALS = 256;
+	var LITERALS      = 256;
 	/* number of literal bytes 0..255 */
 
-	var L_CODES = LITERALS + 1 + LENGTH_CODES;
+	var L_CODES       = LITERALS + 1 + LENGTH_CODES;
 	/* number of Literal or Length codes, including the END_BLOCK code */
 
-	var D_CODES = 30;
+	var D_CODES       = 30;
 	/* number of distance codes */
 
-	var BL_CODES = 19;
+	var BL_CODES      = 19;
 	/* number of codes used to transfer the bit lengths */
 
-	var HEAP_SIZE = 2 * L_CODES + 1;
+	var HEAP_SIZE     = 2 * L_CODES + 1;
 	/* maximum heap size */
 
-	var MAX_BITS = 15;
+	var MAX_BITS      = 15;
 	/* All codes must not exceed MAX_BITS bits */
 
-	var Buf_size = 16;
+	var Buf_size      = 16;
 	/* size of bit buffer in bi_buf */
+
 
 	/* ===========================================================================
 	 * Constants
@@ -12542,29 +12340,30 @@
 	var MAX_BL_BITS = 7;
 	/* Bit length codes must not exceed MAX_BL_BITS bits */
 
-	var END_BLOCK = 256;
+	var END_BLOCK   = 256;
 	/* end of block literal code */
 
-	var REP_3_6 = 16;
+	var REP_3_6     = 16;
 	/* repeat previous bit length 3-6 times (2 bits of repeat count) */
 
-	var REPZ_3_10 = 17;
+	var REPZ_3_10   = 17;
 	/* repeat a zero length 3-10 times  (3 bits of repeat count) */
 
 	var REPZ_11_138 = 18;
 	/* repeat a zero length 11-138 times  (7 bits of repeat count) */
 
 	/* eslint-disable comma-spacing,array-bracket-spacing */
-	var extra_lbits = /* extra bits for each length code */
-	[0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 0];
+	var extra_lbits =   /* extra bits for each length code */
+	  [0,0,0,0,0,0,0,0,1,1,1,1,2,2,2,2,3,3,3,3,4,4,4,4,5,5,5,5,0];
 
-	var extra_dbits = /* extra bits for each distance code */
-	[0, 0, 0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 10, 10, 11, 11, 12, 12, 13, 13];
+	var extra_dbits =   /* extra bits for each distance code */
+	  [0,0,0,0,1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11,12,12,13,13];
 
-	var extra_blbits = /* extra bits for each bit length code */
-	[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 3, 7];
+	var extra_blbits =  /* extra bits for each bit length code */
+	  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,3,7];
 
-	var bl_order = [16, 17, 18, 0, 8, 7, 9, 6, 10, 5, 11, 4, 12, 3, 13, 2, 14, 1, 15];
+	var bl_order =
+	  [16,17,18,0,8,7,9,6,10,5,11,4,12,3,13,2,14,1,15];
 	/* eslint-enable comma-spacing,array-bracket-spacing */
 
 	/* The lengths of the bit length codes are sent in order of decreasing
@@ -12580,7 +12379,7 @@
 	var DIST_CODE_LEN = 512; /* see definition of array dist_code below */
 
 	// !!!! Use flat array insdead of structure, Freq = i*2, Len = i*2+1
-	var static_ltree = new Array((L_CODES + 2) * 2);
+	var static_ltree  = new Array((L_CODES + 2) * 2);
 	zero(static_ltree);
 	/* The static literal tree. Since the bit lengths are imposed, there is no
 	 * need for the L_CODES extra codes used during heap construction. However
@@ -12588,87 +12387,96 @@
 	 * below).
 	 */
 
-	var static_dtree = new Array(D_CODES * 2);
+	var static_dtree  = new Array(D_CODES * 2);
 	zero(static_dtree);
 	/* The static distance tree. (Actually a trivial tree since all codes use
 	 * 5 bits.)
 	 */
 
-	var _dist_code = new Array(DIST_CODE_LEN);
+	var _dist_code    = new Array(DIST_CODE_LEN);
 	zero(_dist_code);
 	/* Distance codes. The first 256 values correspond to the distances
 	 * 3 .. 258, the last 256 values correspond to the top 8 bits of
 	 * the 15 bit distances.
 	 */
 
-	var _length_code = new Array(MAX_MATCH - MIN_MATCH + 1);
+	var _length_code  = new Array(MAX_MATCH - MIN_MATCH + 1);
 	zero(_length_code);
 	/* length code for each normalized match length (0 == MIN_MATCH) */
 
-	var base_length = new Array(LENGTH_CODES);
+	var base_length   = new Array(LENGTH_CODES);
 	zero(base_length);
 	/* First normalized length for each code (0 = MIN_MATCH) */
 
-	var base_dist = new Array(D_CODES);
+	var base_dist     = new Array(D_CODES);
 	zero(base_dist);
 	/* First normalized distance for each code (0 = distance of 1) */
 
+
 	function StaticTreeDesc(static_tree, extra_bits, extra_base, elems, max_length) {
 
-	  this.static_tree = static_tree; /* static tree or NULL */
-	  this.extra_bits = extra_bits; /* extra bits for each code or NULL */
-	  this.extra_base = extra_base; /* base index for extra_bits */
-	  this.elems = elems; /* max number of elements in the tree */
-	  this.max_length = max_length; /* max bit length for the codes */
+	  this.static_tree  = static_tree;  /* static tree or NULL */
+	  this.extra_bits   = extra_bits;   /* extra bits for each code or NULL */
+	  this.extra_base   = extra_base;   /* base index for extra_bits */
+	  this.elems        = elems;        /* max number of elements in the tree */
+	  this.max_length   = max_length;   /* max bit length for the codes */
 
 	  // show if `static_tree` has data or dummy - needed for monomorphic objects
-	  this.has_stree = static_tree && static_tree.length;
+	  this.has_stree    = static_tree && static_tree.length;
 	}
+
 
 	var static_l_desc;
 	var static_d_desc;
 	var static_bl_desc;
 
+
 	function TreeDesc(dyn_tree, stat_desc) {
-	  this.dyn_tree = dyn_tree; /* the dynamic tree */
-	  this.max_code = 0; /* largest code with non zero frequency */
-	  this.stat_desc = stat_desc; /* the corresponding static tree */
+	  this.dyn_tree = dyn_tree;     /* the dynamic tree */
+	  this.max_code = 0;            /* largest code with non zero frequency */
+	  this.stat_desc = stat_desc;   /* the corresponding static tree */
 	}
+
+
 
 	function d_code(dist) {
 	  return dist < 256 ? _dist_code[dist] : _dist_code[256 + (dist >>> 7)];
 	}
+
 
 	/* ===========================================================================
 	 * Output a short LSB first on the stream.
 	 * IN assertion: there is enough room in pendingBuf.
 	 */
 	function put_short(s, w) {
-	  //    put_byte(s, (uch)((w) & 0xff));
-	  //    put_byte(s, (uch)((ush)(w) >> 8));
-	  s.pending_buf[s.pending++] = w & 0xff;
-	  s.pending_buf[s.pending++] = w >>> 8 & 0xff;
+	//    put_byte(s, (uch)((w) & 0xff));
+	//    put_byte(s, (uch)((ush)(w) >> 8));
+	  s.pending_buf[s.pending++] = (w) & 0xff;
+	  s.pending_buf[s.pending++] = (w >>> 8) & 0xff;
 	}
+
 
 	/* ===========================================================================
 	 * Send a value on a given number of bits.
 	 * IN assertion: length <= 16 and value fits in length bits.
 	 */
 	function send_bits(s, value, length) {
-	  if (s.bi_valid > Buf_size - length) {
-	    s.bi_buf |= value << s.bi_valid & 0xffff;
+	  if (s.bi_valid > (Buf_size - length)) {
+	    s.bi_buf |= (value << s.bi_valid) & 0xffff;
 	    put_short(s, s.bi_buf);
-	    s.bi_buf = value >> Buf_size - s.bi_valid;
+	    s.bi_buf = value >> (Buf_size - s.bi_valid);
 	    s.bi_valid += length - Buf_size;
 	  } else {
-	    s.bi_buf |= value << s.bi_valid & 0xffff;
+	    s.bi_buf |= (value << s.bi_valid) & 0xffff;
 	    s.bi_valid += length;
 	  }
 	}
 
+
 	function send_code(s, c, tree) {
-	  send_bits(s, tree[c * 2] /*.Code*/, tree[c * 2 + 1] /*.Len*/);
+	  send_bits(s, tree[c * 2]/*.Code*/, tree[c * 2 + 1]/*.Len*/);
 	}
+
 
 	/* ===========================================================================
 	 * Reverse the first len bits of a code, using straightforward code (a faster
@@ -12685,6 +12493,7 @@
 	  return res >>> 1;
 	}
 
+
 	/* ===========================================================================
 	 * Flush the bit buffer, keeping at most 7 bits in it.
 	 */
@@ -12693,12 +12502,14 @@
 	    put_short(s, s.bi_buf);
 	    s.bi_buf = 0;
 	    s.bi_valid = 0;
+
 	  } else if (s.bi_valid >= 8) {
 	    s.pending_buf[s.pending++] = s.bi_buf & 0xff;
 	    s.bi_buf >>= 8;
 	    s.bi_valid -= 8;
 	  }
 	}
+
 
 	/* ===========================================================================
 	 * Compute the optimal bit lengths for a tree and update the total bit length
@@ -12714,19 +12525,19 @@
 	//    deflate_state *s;
 	//    tree_desc *desc;    /* the tree descriptor */
 	{
-	  var tree = desc.dyn_tree;
-	  var max_code = desc.max_code;
-	  var stree = desc.stat_desc.static_tree;
-	  var has_stree = desc.stat_desc.has_stree;
-	  var extra = desc.stat_desc.extra_bits;
-	  var base = desc.stat_desc.extra_base;
-	  var max_length = desc.stat_desc.max_length;
-	  var h; /* heap index */
-	  var n, m; /* iterate over the tree elements */
-	  var bits; /* bit length */
-	  var xbits; /* extra bits */
-	  var f; /* frequency */
-	  var overflow = 0; /* number of elements with bit length too large */
+	  var tree            = desc.dyn_tree;
+	  var max_code        = desc.max_code;
+	  var stree           = desc.stat_desc.static_tree;
+	  var has_stree       = desc.stat_desc.has_stree;
+	  var extra           = desc.stat_desc.extra_bits;
+	  var base            = desc.stat_desc.extra_base;
+	  var max_length      = desc.stat_desc.max_length;
+	  var h;              /* heap index */
+	  var n, m;           /* iterate over the tree elements */
+	  var bits;           /* bit length */
+	  var xbits;          /* extra bits */
+	  var f;              /* frequency */
+	  var overflow = 0;   /* number of elements with bit length too large */
 
 	  for (bits = 0; bits <= MAX_BITS; bits++) {
 	    s.bl_count[bits] = 0;
@@ -12735,36 +12546,32 @@
 	  /* In a first pass, compute the optimal bit lengths (which may
 	   * overflow in the case of the bit length tree).
 	   */
-	  tree[s.heap[s.heap_max] * 2 + 1] /*.Len*/ = 0; /* root of the heap */
+	  tree[s.heap[s.heap_max] * 2 + 1]/*.Len*/ = 0; /* root of the heap */
 
 	  for (h = s.heap_max + 1; h < HEAP_SIZE; h++) {
 	    n = s.heap[h];
-	    bits = tree[tree[n * 2 + 1] /*.Dad*/ * 2 + 1] /*.Len*/ + 1;
+	    bits = tree[tree[n * 2 + 1]/*.Dad*/ * 2 + 1]/*.Len*/ + 1;
 	    if (bits > max_length) {
 	      bits = max_length;
 	      overflow++;
 	    }
-	    tree[n * 2 + 1] /*.Len*/ = bits;
+	    tree[n * 2 + 1]/*.Len*/ = bits;
 	    /* We overwrite tree[n].Dad which is no longer needed */
 
-	    if (n > max_code) {
-	      continue;
-	    } /* not a leaf node */
+	    if (n > max_code) { continue; } /* not a leaf node */
 
 	    s.bl_count[bits]++;
 	    xbits = 0;
 	    if (n >= base) {
 	      xbits = extra[n - base];
 	    }
-	    f = tree[n * 2] /*.Freq*/;
+	    f = tree[n * 2]/*.Freq*/;
 	    s.opt_len += f * (bits + xbits);
 	    if (has_stree) {
-	      s.static_len += f * (stree[n * 2 + 1] /*.Len*/ + xbits);
+	      s.static_len += f * (stree[n * 2 + 1]/*.Len*/ + xbits);
 	    }
 	  }
-	  if (overflow === 0) {
-	    return;
-	  }
+	  if (overflow === 0) { return; }
 
 	  // Trace((stderr,"\nbit length overflow\n"));
 	  /* This happens for example on obj2 and pic of the Calgary corpus */
@@ -12772,10 +12579,8 @@
 	  /* Find the first bit length which could increase: */
 	  do {
 	    bits = max_length - 1;
-	    while (s.bl_count[bits] === 0) {
-	      bits--;
-	    }
-	    s.bl_count[bits]--; /* move one leaf down the tree */
+	    while (s.bl_count[bits] === 0) { bits--; }
+	    s.bl_count[bits]--;      /* move one leaf down the tree */
 	    s.bl_count[bits + 1] += 2; /* move one overflow item as its brother */
 	    s.bl_count[max_length]--;
 	    /* The brother of the overflow item also moves one step up,
@@ -12793,18 +12598,17 @@
 	    n = s.bl_count[bits];
 	    while (n !== 0) {
 	      m = s.heap[--h];
-	      if (m > max_code) {
-	        continue;
-	      }
-	      if (tree[m * 2 + 1] /*.Len*/ !== bits) {
+	      if (m > max_code) { continue; }
+	      if (tree[m * 2 + 1]/*.Len*/ !== bits) {
 	        // Trace((stderr,"code %d bits %d->%d\n", m, tree[m].Len, bits));
-	        s.opt_len += (bits - tree[m * 2 + 1] /*.Len*/) * tree[m * 2] /*.Freq*/;
-	        tree[m * 2 + 1] /*.Len*/ = bits;
+	        s.opt_len += (bits - tree[m * 2 + 1]/*.Len*/) * tree[m * 2]/*.Freq*/;
+	        tree[m * 2 + 1]/*.Len*/ = bits;
 	      }
 	      n--;
 	    }
 	  }
 	}
+
 
 	/* ===========================================================================
 	 * Generate the codes for a given tree and bit counts (which need not be
@@ -12820,15 +12624,15 @@
 	//    ushf *bl_count;            /* number of codes at each bit length */
 	{
 	  var next_code = new Array(MAX_BITS + 1); /* next code value for each bit length */
-	  var code = 0; /* running code value */
-	  var bits; /* bit index */
-	  var n; /* code index */
+	  var code = 0;              /* running code value */
+	  var bits;                  /* bit index */
+	  var n;                     /* code index */
 
 	  /* The distribution counts are first used to generate the code values
 	   * without bit reversal.
 	   */
 	  for (bits = 1; bits <= MAX_BITS; bits++) {
-	    next_code[bits] = code = code + bl_count[bits - 1] << 1;
+	    next_code[bits] = code = (code + bl_count[bits - 1]) << 1;
 	  }
 	  /* Check that the bit counts in bl_count are consistent. The last code
 	   * must be all ones.
@@ -12837,28 +12641,27 @@
 	  //        "inconsistent bit counts");
 	  //Tracev((stderr,"\ngen_codes: max_code %d ", max_code));
 
-	  for (n = 0; n <= max_code; n++) {
-	    var len = tree[n * 2 + 1] /*.Len*/;
-	    if (len === 0) {
-	      continue;
-	    }
+	  for (n = 0;  n <= max_code; n++) {
+	    var len = tree[n * 2 + 1]/*.Len*/;
+	    if (len === 0) { continue; }
 	    /* Now reverse the bits */
-	    tree[n * 2] /*.Code*/ = bi_reverse(next_code[len]++, len);
+	    tree[n * 2]/*.Code*/ = bi_reverse(next_code[len]++, len);
 
 	    //Tracecv(tree != static_ltree, (stderr,"\nn %3d %c l %2d c %4x (%x) ",
 	    //     n, (isgraph(n) ? n : ' '), len, tree[n].Code, next_code[len]-1));
 	  }
 	}
 
+
 	/* ===========================================================================
 	 * Initialize the various 'constant' tables.
 	 */
 	function tr_static_init() {
-	  var n; /* iterates over tree elements */
-	  var bits; /* bit counter */
-	  var length; /* length value */
-	  var code; /* code value */
-	  var dist; /* distance index */
+	  var n;        /* iterates over tree elements */
+	  var bits;     /* bit counter */
+	  var length;   /* length value */
+	  var code;     /* code value */
+	  var dist;     /* distance index */
 	  var bl_count = new Array(MAX_BITS + 1);
 	  /* number of codes at each bit length for an optimal tree */
 
@@ -12866,19 +12669,19 @@
 	  //if (static_init_done) return;
 
 	  /* For some embedded targets, global variables are not initialized: */
-	  /*#ifdef NO_INIT_GLOBAL_POINTERS
-	    static_l_desc.static_tree = static_ltree;
-	    static_l_desc.extra_bits = extra_lbits;
-	    static_d_desc.static_tree = static_dtree;
-	    static_d_desc.extra_bits = extra_dbits;
-	    static_bl_desc.extra_bits = extra_blbits;
-	  #endif*/
+	/*#ifdef NO_INIT_GLOBAL_POINTERS
+	  static_l_desc.static_tree = static_ltree;
+	  static_l_desc.extra_bits = extra_lbits;
+	  static_d_desc.static_tree = static_dtree;
+	  static_d_desc.extra_bits = extra_dbits;
+	  static_bl_desc.extra_bits = extra_blbits;
+	#endif*/
 
 	  /* Initialize the mapping length (0..255) -> length code (0..28) */
 	  length = 0;
 	  for (code = 0; code < LENGTH_CODES - 1; code++) {
 	    base_length[code] = length;
-	    for (n = 0; n < 1 << extra_lbits[code]; n++) {
+	    for (n = 0; n < (1 << extra_lbits[code]); n++) {
 	      _length_code[length++] = code;
 	    }
 	  }
@@ -12893,7 +12696,7 @@
 	  dist = 0;
 	  for (code = 0; code < 16; code++) {
 	    base_dist[code] = dist;
-	    for (n = 0; n < 1 << extra_dbits[code]; n++) {
+	    for (n = 0; n < (1 << extra_dbits[code]); n++) {
 	      _dist_code[dist++] = code;
 	    }
 	  }
@@ -12901,7 +12704,7 @@
 	  dist >>= 7; /* from now on, all distances are divided by 128 */
 	  for (; code < D_CODES; code++) {
 	    base_dist[code] = dist << 7;
-	    for (n = 0; n < 1 << extra_dbits[code] - 7; n++) {
+	    for (n = 0; n < (1 << (extra_dbits[code] - 7)); n++) {
 	      _dist_code[256 + dist++] = code;
 	    }
 	  }
@@ -12914,22 +12717,22 @@
 
 	  n = 0;
 	  while (n <= 143) {
-	    static_ltree[n * 2 + 1] /*.Len*/ = 8;
+	    static_ltree[n * 2 + 1]/*.Len*/ = 8;
 	    n++;
 	    bl_count[8]++;
 	  }
 	  while (n <= 255) {
-	    static_ltree[n * 2 + 1] /*.Len*/ = 9;
+	    static_ltree[n * 2 + 1]/*.Len*/ = 9;
 	    n++;
 	    bl_count[9]++;
 	  }
 	  while (n <= 279) {
-	    static_ltree[n * 2 + 1] /*.Len*/ = 7;
+	    static_ltree[n * 2 + 1]/*.Len*/ = 7;
 	    n++;
 	    bl_count[7]++;
 	  }
 	  while (n <= 287) {
-	    static_ltree[n * 2 + 1] /*.Len*/ = 8;
+	    static_ltree[n * 2 + 1]/*.Len*/ = 8;
 	    n++;
 	    bl_count[8]++;
 	  }
@@ -12941,17 +12744,18 @@
 
 	  /* The static distance tree is trivial: */
 	  for (n = 0; n < D_CODES; n++) {
-	    static_dtree[n * 2 + 1] /*.Len*/ = 5;
-	    static_dtree[n * 2] /*.Code*/ = bi_reverse(n, 5);
+	    static_dtree[n * 2 + 1]/*.Len*/ = 5;
+	    static_dtree[n * 2]/*.Code*/ = bi_reverse(n, 5);
 	  }
 
 	  // Now data ready and we can init static trees
 	  static_l_desc = new StaticTreeDesc(static_ltree, extra_lbits, LITERALS + 1, L_CODES, MAX_BITS);
-	  static_d_desc = new StaticTreeDesc(static_dtree, extra_dbits, 0, D_CODES, MAX_BITS);
-	  static_bl_desc = new StaticTreeDesc(new Array(0), extra_blbits, 0, BL_CODES, MAX_BL_BITS);
+	  static_d_desc = new StaticTreeDesc(static_dtree, extra_dbits, 0,          D_CODES, MAX_BITS);
+	  static_bl_desc = new StaticTreeDesc(new Array(0), extra_blbits, 0,         BL_CODES, MAX_BL_BITS);
 
 	  //static_init_done = true;
 	}
+
 
 	/* ===========================================================================
 	 * Initialize a new block.
@@ -12960,25 +12764,21 @@
 	  var n; /* iterates over tree elements */
 
 	  /* Initialize the trees. */
-	  for (n = 0; n < L_CODES; n++) {
-	    s.dyn_ltree[n * 2] /*.Freq*/ = 0;
-	  }
-	  for (n = 0; n < D_CODES; n++) {
-	    s.dyn_dtree[n * 2] /*.Freq*/ = 0;
-	  }
-	  for (n = 0; n < BL_CODES; n++) {
-	    s.bl_tree[n * 2] /*.Freq*/ = 0;
-	  }
+	  for (n = 0; n < L_CODES;  n++) { s.dyn_ltree[n * 2]/*.Freq*/ = 0; }
+	  for (n = 0; n < D_CODES;  n++) { s.dyn_dtree[n * 2]/*.Freq*/ = 0; }
+	  for (n = 0; n < BL_CODES; n++) { s.bl_tree[n * 2]/*.Freq*/ = 0; }
 
-	  s.dyn_ltree[END_BLOCK * 2] /*.Freq*/ = 1;
+	  s.dyn_ltree[END_BLOCK * 2]/*.Freq*/ = 1;
 	  s.opt_len = s.static_len = 0;
 	  s.last_lit = s.matches = 0;
 	}
 
+
 	/* ===========================================================================
 	 * Flush the bit buffer and align the output on a byte boundary
 	 */
-	function bi_windup(s) {
+	function bi_windup(s)
+	{
 	  if (s.bi_valid > 8) {
 	    put_short(s, s.bi_buf);
 	  } else if (s.bi_valid > 0) {
@@ -12999,15 +12799,15 @@
 	//unsigned len;     /* its length */
 	//int      header;  /* true if block header must be written */
 	{
-	  bi_windup(s); /* align on byte boundary */
+	  bi_windup(s);        /* align on byte boundary */
 
 	  if (header) {
 	    put_short(s, len);
 	    put_short(s, ~len);
 	  }
-	  //  while (len--) {
-	  //    put_byte(s, *buf++);
-	  //  }
+	//  while (len--) {
+	//    put_byte(s, *buf++);
+	//  }
 	  utils.arraySet(s.pending_buf, s.window, buf, len, s.pending);
 	  s.pending += len;
 	}
@@ -13019,7 +12819,8 @@
 	function smaller(tree, n, m, depth) {
 	  var _n2 = n * 2;
 	  var _m2 = m * 2;
-	  return tree[_n2] /*.Freq*/ < tree[_m2] /*.Freq*/ || tree[_n2] /*.Freq*/ === tree[_m2] /*.Freq*/ && depth[n] <= depth[m];
+	  return (tree[_n2]/*.Freq*/ < tree[_m2]/*.Freq*/ ||
+	         (tree[_n2]/*.Freq*/ === tree[_m2]/*.Freq*/ && depth[n] <= depth[m]));
 	}
 
 	/* ===========================================================================
@@ -13034,16 +12835,15 @@
 	//    int k;               /* node to move down */
 	{
 	  var v = s.heap[k];
-	  var j = k << 1; /* left son of k */
+	  var j = k << 1;  /* left son of k */
 	  while (j <= s.heap_len) {
 	    /* Set j to the smallest of the two sons: */
-	    if (j < s.heap_len && smaller(tree, s.heap[j + 1], s.heap[j], s.depth)) {
+	    if (j < s.heap_len &&
+	      smaller(tree, s.heap[j + 1], s.heap[j], s.depth)) {
 	      j++;
 	    }
 	    /* Exit if v is smaller than both sons */
-	    if (smaller(tree, v, s.heap[j], s.depth)) {
-	      break;
-	    }
+	    if (smaller(tree, v, s.heap[j], s.depth)) { break; }
 
 	    /* Exchange v with the smallest son */
 	    s.heap[k] = s.heap[j];
@@ -13054,6 +12854,7 @@
 	  }
 	  s.heap[k] = v;
 	}
+
 
 	// inlined manually
 	// var SMALLEST = 1;
@@ -13066,15 +12867,15 @@
 	//    const ct_data *ltree; /* literal tree */
 	//    const ct_data *dtree; /* distance tree */
 	{
-	  var dist; /* distance of matched string */
-	  var lc; /* match length or unmatched char (if dist == 0) */
-	  var lx = 0; /* running index in l_buf */
-	  var code; /* the code to send */
-	  var extra; /* number of extra bits to send */
+	  var dist;           /* distance of matched string */
+	  var lc;             /* match length or unmatched char (if dist == 0) */
+	  var lx = 0;         /* running index in l_buf */
+	  var code;           /* the code to send */
+	  var extra;          /* number of extra bits to send */
 
 	  if (s.last_lit !== 0) {
 	    do {
-	      dist = s.pending_buf[s.d_buf + lx * 2] << 8 | s.pending_buf[s.d_buf + lx * 2 + 1];
+	      dist = (s.pending_buf[s.d_buf + lx * 2] << 8) | (s.pending_buf[s.d_buf + lx * 2 + 1]);
 	      lc = s.pending_buf[s.l_buf + lx];
 	      lx++;
 
@@ -13082,34 +12883,36 @@
 	        send_code(s, lc, ltree); /* send a literal byte */
 	        //Tracecv(isgraph(lc), (stderr," '%c' ", lc));
 	      } else {
-	          /* Here, lc is the match length - MIN_MATCH */
-	          code = _length_code[lc];
-	          send_code(s, code + LITERALS + 1, ltree); /* send the length code */
-	          extra = extra_lbits[code];
-	          if (extra !== 0) {
-	            lc -= base_length[code];
-	            send_bits(s, lc, extra); /* send the extra length bits */
-	          }
-	          dist--; /* dist is now the match distance - 1 */
-	          code = d_code(dist);
-	          //Assert (code < D_CODES, "bad d_code");
+	        /* Here, lc is the match length - MIN_MATCH */
+	        code = _length_code[lc];
+	        send_code(s, code + LITERALS + 1, ltree); /* send the length code */
+	        extra = extra_lbits[code];
+	        if (extra !== 0) {
+	          lc -= base_length[code];
+	          send_bits(s, lc, extra);       /* send the extra length bits */
+	        }
+	        dist--; /* dist is now the match distance - 1 */
+	        code = d_code(dist);
+	        //Assert (code < D_CODES, "bad d_code");
 
-	          send_code(s, code, dtree); /* send the distance code */
-	          extra = extra_dbits[code];
-	          if (extra !== 0) {
-	            dist -= base_dist[code];
-	            send_bits(s, dist, extra); /* send the extra distance bits */
-	          }
-	        } /* literal or match pair ? */
+	        send_code(s, code, dtree);       /* send the distance code */
+	        extra = extra_dbits[code];
+	        if (extra !== 0) {
+	          dist -= base_dist[code];
+	          send_bits(s, dist, extra);   /* send the extra distance bits */
+	        }
+	      } /* literal or match pair ? */
 
 	      /* Check that the overlay between pending_buf and d_buf+l_buf is ok: */
 	      //Assert((uInt)(s->pending) < s->lit_bufsize + 2*lx,
 	      //       "pendingBuf overflow");
+
 	    } while (lx < s.last_lit);
 	  }
 
 	  send_code(s, END_BLOCK, ltree);
 	}
+
 
 	/* ===========================================================================
 	 * Construct one Huffman tree and assigns the code bit strings and lengths.
@@ -13123,13 +12926,13 @@
 	//    deflate_state *s;
 	//    tree_desc *desc; /* the tree descriptor */
 	{
-	  var tree = desc.dyn_tree;
-	  var stree = desc.stat_desc.static_tree;
+	  var tree     = desc.dyn_tree;
+	  var stree    = desc.stat_desc.static_tree;
 	  var has_stree = desc.stat_desc.has_stree;
-	  var elems = desc.stat_desc.elems;
-	  var n, m; /* iterate over heap elements */
+	  var elems    = desc.stat_desc.elems;
+	  var n, m;          /* iterate over heap elements */
 	  var max_code = -1; /* largest code with non zero frequency */
-	  var node; /* new node being created */
+	  var node;          /* new node being created */
 
 	  /* Construct the initial heap, with least frequent element in
 	   * heap[SMALLEST]. The sons of heap[n] are heap[2*n] and heap[2*n+1].
@@ -13139,11 +12942,12 @@
 	  s.heap_max = HEAP_SIZE;
 
 	  for (n = 0; n < elems; n++) {
-	    if (tree[n * 2] /*.Freq*/ !== 0) {
+	    if (tree[n * 2]/*.Freq*/ !== 0) {
 	      s.heap[++s.heap_len] = max_code = n;
 	      s.depth[n] = 0;
+
 	    } else {
-	      tree[n * 2 + 1] /*.Len*/ = 0;
+	      tree[n * 2 + 1]/*.Len*/ = 0;
 	    }
 	  }
 
@@ -13153,13 +12957,13 @@
 	   * two codes of non zero frequency.
 	   */
 	  while (s.heap_len < 2) {
-	    node = s.heap[++s.heap_len] = max_code < 2 ? ++max_code : 0;
-	    tree[node * 2] /*.Freq*/ = 1;
+	    node = s.heap[++s.heap_len] = (max_code < 2 ? ++max_code : 0);
+	    tree[node * 2]/*.Freq*/ = 1;
 	    s.depth[node] = 0;
 	    s.opt_len--;
 
 	    if (has_stree) {
-	      s.static_len -= stree[node * 2 + 1] /*.Len*/;
+	      s.static_len -= stree[node * 2 + 1]/*.Len*/;
 	    }
 	    /* node is 0 or 1 so it does not have extra bits */
 	  }
@@ -13168,38 +12972,37 @@
 	  /* The elements heap[heap_len/2+1 .. heap_len] are leaves of the tree,
 	   * establish sub-heaps of increasing lengths:
 	   */
-	  for (n = s.heap_len >> 1 /*int /2*/; n >= 1; n--) {
-	    pqdownheap(s, tree, n);
-	  }
+	  for (n = (s.heap_len >> 1/*int /2*/); n >= 1; n--) { pqdownheap(s, tree, n); }
 
 	  /* Construct the Huffman tree by repeatedly combining the least two
 	   * frequent nodes.
 	   */
-	  node = elems; /* next internal node of the tree */
+	  node = elems;              /* next internal node of the tree */
 	  do {
 	    //pqremove(s, tree, n);  /* n = node of least frequency */
 	    /*** pqremove ***/
-	    n = s.heap[1 /*SMALLEST*/];
-	    s.heap[1 /*SMALLEST*/] = s.heap[s.heap_len--];
-	    pqdownheap(s, tree, 1 /*SMALLEST*/);
+	    n = s.heap[1/*SMALLEST*/];
+	    s.heap[1/*SMALLEST*/] = s.heap[s.heap_len--];
+	    pqdownheap(s, tree, 1/*SMALLEST*/);
 	    /***/
 
-	    m = s.heap[1 /*SMALLEST*/]; /* m = node of next least frequency */
+	    m = s.heap[1/*SMALLEST*/]; /* m = node of next least frequency */
 
 	    s.heap[--s.heap_max] = n; /* keep the nodes sorted by frequency */
 	    s.heap[--s.heap_max] = m;
 
 	    /* Create a new node father of n and m */
-	    tree[node * 2] /*.Freq*/ = tree[n * 2] /*.Freq*/ + tree[m * 2] /*.Freq*/;
+	    tree[node * 2]/*.Freq*/ = tree[n * 2]/*.Freq*/ + tree[m * 2]/*.Freq*/;
 	    s.depth[node] = (s.depth[n] >= s.depth[m] ? s.depth[n] : s.depth[m]) + 1;
-	    tree[n * 2 + 1] /*.Dad*/ = tree[m * 2 + 1] /*.Dad*/ = node;
+	    tree[n * 2 + 1]/*.Dad*/ = tree[m * 2 + 1]/*.Dad*/ = node;
 
 	    /* and insert the new node in the heap */
-	    s.heap[1 /*SMALLEST*/] = node++;
-	    pqdownheap(s, tree, 1 /*SMALLEST*/);
+	    s.heap[1/*SMALLEST*/] = node++;
+	    pqdownheap(s, tree, 1/*SMALLEST*/);
+
 	  } while (s.heap_len >= 2);
 
-	  s.heap[--s.heap_max] = s.heap[1 /*SMALLEST*/];
+	  s.heap[--s.heap_max] = s.heap[1/*SMALLEST*/];
 
 	  /* At this point, the fields freq and dad are set. We can now
 	   * generate the bit lengths.
@@ -13210,6 +13013,7 @@
 	  gen_codes(tree, max_code, s.bl_count);
 	}
 
+
 	/* ===========================================================================
 	 * Scan a literal or distance tree to determine the frequencies of the codes
 	 * in the bit length tree.
@@ -13219,41 +13023,43 @@
 	//    ct_data *tree;   /* the tree to be scanned */
 	//    int max_code;    /* and its largest code of non zero frequency */
 	{
-	  var n; /* iterates over all tree elements */
-	  var prevlen = -1; /* last emitted length */
-	  var curlen; /* length of current code */
+	  var n;                     /* iterates over all tree elements */
+	  var prevlen = -1;          /* last emitted length */
+	  var curlen;                /* length of current code */
 
-	  var nextlen = tree[0 * 2 + 1] /*.Len*/; /* length of next code */
+	  var nextlen = tree[0 * 2 + 1]/*.Len*/; /* length of next code */
 
-	  var count = 0; /* repeat count of the current code */
-	  var max_count = 7; /* max repeat count */
-	  var min_count = 4; /* min repeat count */
+	  var count = 0;             /* repeat count of the current code */
+	  var max_count = 7;         /* max repeat count */
+	  var min_count = 4;         /* min repeat count */
 
 	  if (nextlen === 0) {
 	    max_count = 138;
 	    min_count = 3;
 	  }
-	  tree[(max_code + 1) * 2 + 1] /*.Len*/ = 0xffff; /* guard */
+	  tree[(max_code + 1) * 2 + 1]/*.Len*/ = 0xffff; /* guard */
 
 	  for (n = 0; n <= max_code; n++) {
 	    curlen = nextlen;
-	    nextlen = tree[(n + 1) * 2 + 1] /*.Len*/;
+	    nextlen = tree[(n + 1) * 2 + 1]/*.Len*/;
 
 	    if (++count < max_count && curlen === nextlen) {
 	      continue;
+
 	    } else if (count < min_count) {
-	      s.bl_tree[curlen * 2] /*.Freq*/ += count;
+	      s.bl_tree[curlen * 2]/*.Freq*/ += count;
+
 	    } else if (curlen !== 0) {
 
-	      if (curlen !== prevlen) {
-	        s.bl_tree[curlen * 2] /*.Freq*/++;
-	      }
-	      s.bl_tree[REP_3_6 * 2] /*.Freq*/++;
+	      if (curlen !== prevlen) { s.bl_tree[curlen * 2]/*.Freq*/++; }
+	      s.bl_tree[REP_3_6 * 2]/*.Freq*/++;
+
 	    } else if (count <= 10) {
-	        s.bl_tree[REPZ_3_10 * 2] /*.Freq*/++;
-	      } else {
-	          s.bl_tree[REPZ_11_138 * 2] /*.Freq*/++;
-	        }
+	      s.bl_tree[REPZ_3_10 * 2]/*.Freq*/++;
+
+	    } else {
+	      s.bl_tree[REPZ_11_138 * 2]/*.Freq*/++;
+	    }
 
 	    count = 0;
 	    prevlen = curlen;
@@ -13261,15 +13067,18 @@
 	    if (nextlen === 0) {
 	      max_count = 138;
 	      min_count = 3;
+
 	    } else if (curlen === nextlen) {
 	      max_count = 6;
 	      min_count = 3;
+
 	    } else {
 	      max_count = 7;
 	      min_count = 4;
 	    }
 	  }
 	}
+
 
 	/* ===========================================================================
 	 * Send a literal or distance tree in compressed form, using the codes in
@@ -13280,17 +13089,17 @@
 	//    ct_data *tree; /* the tree to be scanned */
 	//    int max_code;       /* and its largest code of non zero frequency */
 	{
-	  var n; /* iterates over all tree elements */
-	  var prevlen = -1; /* last emitted length */
-	  var curlen; /* length of current code */
+	  var n;                     /* iterates over all tree elements */
+	  var prevlen = -1;          /* last emitted length */
+	  var curlen;                /* length of current code */
 
-	  var nextlen = tree[0 * 2 + 1] /*.Len*/; /* length of next code */
+	  var nextlen = tree[0 * 2 + 1]/*.Len*/; /* length of next code */
 
-	  var count = 0; /* repeat count of the current code */
-	  var max_count = 7; /* max repeat count */
-	  var min_count = 4; /* min repeat count */
+	  var count = 0;             /* repeat count of the current code */
+	  var max_count = 7;         /* max repeat count */
+	  var min_count = 4;         /* min repeat count */
 
-	  /* tree[max_code+1].Len = -1; */ /* guard already set */
+	  /* tree[max_code+1].Len = -1; */  /* guard already set */
 	  if (nextlen === 0) {
 	    max_count = 138;
 	    min_count = 3;
@@ -13298,14 +13107,14 @@
 
 	  for (n = 0; n <= max_code; n++) {
 	    curlen = nextlen;
-	    nextlen = tree[(n + 1) * 2 + 1] /*.Len*/;
+	    nextlen = tree[(n + 1) * 2 + 1]/*.Len*/;
 
 	    if (++count < max_count && curlen === nextlen) {
 	      continue;
+
 	    } else if (count < min_count) {
-	      do {
-	        send_code(s, curlen, s.bl_tree);
-	      } while (--count !== 0);
+	      do { send_code(s, curlen, s.bl_tree); } while (--count !== 0);
+
 	    } else if (curlen !== 0) {
 	      if (curlen !== prevlen) {
 	        send_code(s, curlen, s.bl_tree);
@@ -13314,9 +13123,11 @@
 	      //Assert(count >= 3 && count <= 6, " 3_6?");
 	      send_code(s, REP_3_6, s.bl_tree);
 	      send_bits(s, count - 3, 2);
+
 	    } else if (count <= 10) {
 	      send_code(s, REPZ_3_10, s.bl_tree);
 	      send_bits(s, count - 3, 3);
+
 	    } else {
 	      send_code(s, REPZ_11_138, s.bl_tree);
 	      send_bits(s, count - 11, 7);
@@ -13327,9 +13138,11 @@
 	    if (nextlen === 0) {
 	      max_count = 138;
 	      min_count = 3;
+
 	    } else if (curlen === nextlen) {
 	      max_count = 6;
 	      min_count = 3;
+
 	    } else {
 	      max_count = 7;
 	      min_count = 4;
@@ -13337,12 +13150,13 @@
 	  }
 	}
 
+
 	/* ===========================================================================
 	 * Construct the Huffman tree for the bit lengths and return the index in
 	 * bl_order of the last bit length code to send.
 	 */
 	function build_bl_tree(s) {
-	  var max_blindex; /* index of last bit length code of non zero freq */
+	  var max_blindex;  /* index of last bit length code of non zero freq */
 
 	  /* Determine the bit length frequencies for literal and distance trees */
 	  scan_tree(s, s.dyn_ltree, s.l_desc.max_code);
@@ -13359,7 +13173,7 @@
 	   * 3 but the actual value used is 4.)
 	   */
 	  for (max_blindex = BL_CODES - 1; max_blindex >= 3; max_blindex--) {
-	    if (s.bl_tree[bl_order[max_blindex] * 2 + 1] /*.Len*/ !== 0) {
+	    if (s.bl_tree[bl_order[max_blindex] * 2 + 1]/*.Len*/ !== 0) {
 	      break;
 	    }
 	  }
@@ -13371,6 +13185,7 @@
 	  return max_blindex;
 	}
 
+
 	/* ===========================================================================
 	 * Send the header for a block using dynamic Huffman trees: the counts, the
 	 * lengths of the bit length codes, the literal tree and the distance tree.
@@ -13380,18 +13195,18 @@
 	//    deflate_state *s;
 	//    int lcodes, dcodes, blcodes; /* number of codes for each tree */
 	{
-	  var rank; /* index in bl_order */
+	  var rank;                    /* index in bl_order */
 
 	  //Assert (lcodes >= 257 && dcodes >= 1 && blcodes >= 4, "not enough codes");
 	  //Assert (lcodes <= L_CODES && dcodes <= D_CODES && blcodes <= BL_CODES,
 	  //        "too many codes");
 	  //Tracev((stderr, "\nbl counts: "));
 	  send_bits(s, lcodes - 257, 5); /* not +255 as stated in appnote.txt */
-	  send_bits(s, dcodes - 1, 5);
-	  send_bits(s, blcodes - 4, 4); /* not -3 as stated in appnote.txt */
+	  send_bits(s, dcodes - 1,   5);
+	  send_bits(s, blcodes - 4,  4); /* not -3 as stated in appnote.txt */
 	  for (rank = 0; rank < blcodes; rank++) {
 	    //Tracev((stderr, "\nbl code %2d ", bl_order[rank]));
-	    send_bits(s, s.bl_tree[bl_order[rank] * 2 + 1] /*.Len*/, 3);
+	    send_bits(s, s.bl_tree[bl_order[rank] * 2 + 1]/*.Len*/, 3);
 	  }
 	  //Tracev((stderr, "\nbl tree: sent %ld", s->bits_sent));
 
@@ -13401,6 +13216,7 @@
 	  send_tree(s, s.dyn_dtree, dcodes - 1); /* distance tree */
 	  //Tracev((stderr, "\ndist tree: sent %ld", s->bits_sent));
 	}
+
 
 	/* ===========================================================================
 	 * Check if the data type is TEXT or BINARY, using the following algorithm:
@@ -13425,17 +13241,18 @@
 
 	  /* Check for non-textual ("black-listed") bytes. */
 	  for (n = 0; n <= 31; n++, black_mask >>>= 1) {
-	    if (black_mask & 1 && s.dyn_ltree[n * 2] /*.Freq*/ !== 0) {
+	    if ((black_mask & 1) && (s.dyn_ltree[n * 2]/*.Freq*/ !== 0)) {
 	      return Z_BINARY;
 	    }
 	  }
 
 	  /* Check for textual ("white-listed") bytes. */
-	  if (s.dyn_ltree[9 * 2] /*.Freq*/ !== 0 || s.dyn_ltree[10 * 2] /*.Freq*/ !== 0 || s.dyn_ltree[13 * 2] /*.Freq*/ !== 0) {
+	  if (s.dyn_ltree[9 * 2]/*.Freq*/ !== 0 || s.dyn_ltree[10 * 2]/*.Freq*/ !== 0 ||
+	      s.dyn_ltree[13 * 2]/*.Freq*/ !== 0) {
 	    return Z_TEXT;
 	  }
 	  for (n = 32; n < LITERALS; n++) {
-	    if (s.dyn_ltree[n * 2] /*.Freq*/ !== 0) {
+	    if (s.dyn_ltree[n * 2]/*.Freq*/ !== 0) {
 	      return Z_TEXT;
 	    }
 	  }
@@ -13446,20 +13263,22 @@
 	  return Z_BINARY;
 	}
 
+
 	var static_init_done = false;
 
 	/* ===========================================================================
 	 * Initialize the tree data structures for a new zlib stream.
 	 */
-	function _tr_init(s) {
+	function _tr_init(s)
+	{
 
 	  if (!static_init_done) {
 	    tr_static_init();
 	    static_init_done = true;
 	  }
 
-	  s.l_desc = new TreeDesc(s.dyn_ltree, static_l_desc);
-	  s.d_desc = new TreeDesc(s.dyn_dtree, static_d_desc);
+	  s.l_desc  = new TreeDesc(s.dyn_ltree, static_l_desc);
+	  s.d_desc  = new TreeDesc(s.dyn_dtree, static_d_desc);
 	  s.bl_desc = new TreeDesc(s.bl_tree, static_bl_desc);
 
 	  s.bi_buf = 0;
@@ -13468,6 +13287,7 @@
 	  /* Initialize the first block of the first file: */
 	  init_block(s);
 	}
+
 
 	/* ===========================================================================
 	 * Send a stored block
@@ -13478,9 +13298,10 @@
 	//ulg stored_len;   /* length of input block */
 	//int last;         /* one if this is the last block for a file */
 	{
-	  send_bits(s, (STORED_BLOCK << 1) + (last ? 1 : 0), 3); /* send block type */
+	  send_bits(s, (STORED_BLOCK << 1) + (last ? 1 : 0), 3);    /* send block type */
 	  copy_block(s, buf, stored_len, true); /* with header */
 	}
+
 
 	/* ===========================================================================
 	 * Send one empty static block to give enough lookahead for inflate.
@@ -13492,6 +13313,7 @@
 	  bi_flush(s);
 	}
 
+
 	/* ===========================================================================
 	 * Determine the best encoding for the current block: dynamic trees, static
 	 * trees or store, and output the encoded block to the zip file.
@@ -13502,8 +13324,8 @@
 	//ulg stored_len;   /* length of input block */
 	//int last;         /* one if this is the last block for a file */
 	{
-	  var opt_lenb, static_lenb; /* opt_len and static_len in bytes */
-	  var max_blindex = 0; /* index of last bit length code of non zero freq */
+	  var opt_lenb, static_lenb;  /* opt_len and static_len in bytes */
+	  var max_blindex = 0;        /* index of last bit length code of non zero freq */
 
 	  /* Build the Huffman trees unless a stored block is forced */
 	  if (s.level > 0) {
@@ -13531,22 +13353,21 @@
 	    max_blindex = build_bl_tree(s);
 
 	    /* Determine the best encoding. Compute the block lengths in bytes. */
-	    opt_lenb = s.opt_len + 3 + 7 >>> 3;
-	    static_lenb = s.static_len + 3 + 7 >>> 3;
+	    opt_lenb = (s.opt_len + 3 + 7) >>> 3;
+	    static_lenb = (s.static_len + 3 + 7) >>> 3;
 
 	    // Tracev((stderr, "\nopt %lu(%lu) stat %lu(%lu) stored %lu lit %u ",
 	    //        opt_lenb, s->opt_len, static_lenb, s->static_len, stored_len,
 	    //        s->last_lit));
 
-	    if (static_lenb <= opt_lenb) {
-	      opt_lenb = static_lenb;
-	    }
+	    if (static_lenb <= opt_lenb) { opt_lenb = static_lenb; }
+
 	  } else {
 	    // Assert(buf != (char*)0, "lost buf");
 	    opt_lenb = static_lenb = stored_len + 5; /* force a stored block */
 	  }
 
-	  if (stored_len + 4 <= opt_lenb && buf !== -1) {
+	  if ((stored_len + 4 <= opt_lenb) && (buf !== -1)) {
 	    /* 4: two words for the lengths */
 
 	    /* The test buf != NULL is only necessary if LIT_BUFSIZE > WSIZE.
@@ -13556,10 +13377,12 @@
 	     * transform a block into a stored block.
 	     */
 	    _tr_stored_block(s, buf, stored_len, last);
+
 	  } else if (s.strategy === Z_FIXED || static_lenb === opt_lenb) {
 
 	    send_bits(s, (STATIC_TREES << 1) + (last ? 1 : 0), 3);
 	    compress_block(s, static_ltree, static_dtree);
+
 	  } else {
 	    send_bits(s, (DYN_TREES << 1) + (last ? 1 : 0), 3);
 	    send_all_trees(s, s.l_desc.max_code + 1, s.d_desc.max_code + 1, max_blindex + 1);
@@ -13589,7 +13412,7 @@
 	{
 	  //var out_length, in_length, dcode;
 
-	  s.pending_buf[s.d_buf + s.last_lit * 2] = dist >>> 8 & 0xff;
+	  s.pending_buf[s.d_buf + s.last_lit * 2]     = (dist >>> 8) & 0xff;
 	  s.pending_buf[s.d_buf + s.last_lit * 2 + 1] = dist & 0xff;
 
 	  s.pending_buf[s.l_buf + s.last_lit] = lc & 0xff;
@@ -13597,54 +13420,55 @@
 
 	  if (dist === 0) {
 	    /* lc is the unmatched char */
-	    s.dyn_ltree[lc * 2] /*.Freq*/++;
+	    s.dyn_ltree[lc * 2]/*.Freq*/++;
 	  } else {
-	      s.matches++;
-	      /* Here, lc is the match length - MIN_MATCH */
-	      dist--; /* dist = match distance - 1 */
-	      //Assert((ush)dist < (ush)MAX_DIST(s) &&
-	      //       (ush)lc <= (ush)(MAX_MATCH-MIN_MATCH) &&
-	      //       (ush)d_code(dist) < (ush)D_CODES,  "_tr_tally: bad match");
+	    s.matches++;
+	    /* Here, lc is the match length - MIN_MATCH */
+	    dist--;             /* dist = match distance - 1 */
+	    //Assert((ush)dist < (ush)MAX_DIST(s) &&
+	    //       (ush)lc <= (ush)(MAX_MATCH-MIN_MATCH) &&
+	    //       (ush)d_code(dist) < (ush)D_CODES,  "_tr_tally: bad match");
 
-	      s.dyn_ltree[(_length_code[lc] + LITERALS + 1) * 2] /*.Freq*/++;
-	      s.dyn_dtree[d_code(dist) * 2] /*.Freq*/++;
-	    }
+	    s.dyn_ltree[(_length_code[lc] + LITERALS + 1) * 2]/*.Freq*/++;
+	    s.dyn_dtree[d_code(dist) * 2]/*.Freq*/++;
+	  }
 
-	  // (!) This block is disabled in zlib defailts,
-	  // don't enable it for binary compatibility
+	// (!) This block is disabled in zlib defailts,
+	// don't enable it for binary compatibility
 
-	  //#ifdef TRUNCATE_BLOCK
-	  //  /* Try to guess if it is profitable to stop the current block here */
-	  //  if ((s.last_lit & 0x1fff) === 0 && s.level > 2) {
-	  //    /* Compute an upper bound for the compressed length */
-	  //    out_length = s.last_lit*8;
-	  //    in_length = s.strstart - s.block_start;
-	  //
-	  //    for (dcode = 0; dcode < D_CODES; dcode++) {
-	  //      out_length += s.dyn_dtree[dcode*2]/*.Freq*/ * (5 + extra_dbits[dcode]);
-	  //    }
-	  //    out_length >>>= 3;
-	  //    //Tracev((stderr,"\nlast_lit %u, in %ld, out ~%ld(%ld%%) ",
-	  //    //       s->last_lit, in_length, out_length,
-	  //    //       100L - out_length*100L/in_length));
-	  //    if (s.matches < (s.last_lit>>1)/*int /2*/ && out_length < (in_length>>1)/*int /2*/) {
-	  //      return true;
-	  //    }
-	  //  }
-	  //#endif
+	//#ifdef TRUNCATE_BLOCK
+	//  /* Try to guess if it is profitable to stop the current block here */
+	//  if ((s.last_lit & 0x1fff) === 0 && s.level > 2) {
+	//    /* Compute an upper bound for the compressed length */
+	//    out_length = s.last_lit*8;
+	//    in_length = s.strstart - s.block_start;
+	//
+	//    for (dcode = 0; dcode < D_CODES; dcode++) {
+	//      out_length += s.dyn_dtree[dcode*2]/*.Freq*/ * (5 + extra_dbits[dcode]);
+	//    }
+	//    out_length >>>= 3;
+	//    //Tracev((stderr,"\nlast_lit %u, in %ld, out ~%ld(%ld%%) ",
+	//    //       s->last_lit, in_length, out_length,
+	//    //       100L - out_length*100L/in_length));
+	//    if (s.matches < (s.last_lit>>1)/*int /2*/ && out_length < (in_length>>1)/*int /2*/) {
+	//      return true;
+	//    }
+	//  }
+	//#endif
 
-	  return s.last_lit === s.lit_bufsize - 1;
+	  return (s.last_lit === s.lit_bufsize - 1);
 	  /* We avoid equality with lit_bufsize because of wraparound at 64K
 	   * on 16 bit machines and because stored blocks are restricted to
 	   * 64K-1 bytes.
 	   */
 	}
 
-	exports._tr_init = _tr_init;
+	exports._tr_init  = _tr_init;
 	exports._tr_stored_block = _tr_stored_block;
-	exports._tr_flush_block = _tr_flush_block;
+	exports._tr_flush_block  = _tr_flush_block;
 	exports._tr_tally = _tr_tally;
 	exports._tr_align = _tr_align;
+
 
 /***/ },
 /* 29 */
@@ -13657,8 +13481,8 @@
 	// Small size is preferable.
 
 	function adler32(adler, buf, len, pos) {
-	  var s1 = adler & 0xffff | 0,
-	      s2 = adler >>> 16 & 0xffff | 0,
+	  var s1 = (adler & 0xffff) |0,
+	      s2 = ((adler >>> 16) & 0xffff) |0,
 	      n = 0;
 
 	  while (len !== 0) {
@@ -13669,18 +13493,20 @@
 	    len -= n;
 
 	    do {
-	      s1 = s1 + buf[pos++] | 0;
-	      s2 = s2 + s1 | 0;
+	      s1 = (s1 + buf[pos++]) |0;
+	      s2 = (s2 + s1) |0;
 	    } while (--n);
 
 	    s1 %= 65521;
 	    s2 %= 65521;
 	  }
 
-	  return s1 | s2 << 16 | 0;
+	  return (s1 | (s2 << 16)) |0;
 	}
 
+
 	module.exports = adler32;
+
 
 /***/ },
 /* 30 */
@@ -13692,16 +13518,15 @@
 	// So write code to minimize size - no pregenerated tables
 	// and array tools dependencies.
 
-	// Use ordinary array, since untyped makes no boost here
 
+	// Use ordinary array, since untyped makes no boost here
 	function makeTable() {
-	  var c,
-	      table = [];
+	  var c, table = [];
 
 	  for (var n = 0; n < 256; n++) {
 	    c = n;
 	    for (var k = 0; k < 8; k++) {
-	      c = c & 1 ? 0xEDB88320 ^ c >>> 1 : c >>> 1;
+	      c = ((c & 1) ? (0xEDB88320 ^ (c >>> 1)) : (c >>> 1));
 	    }
 	    table[n] = c;
 	  }
@@ -13712,6 +13537,7 @@
 	// Create table on load. Just 255 signed longs. Not a problem.
 	var crcTable = makeTable();
 
+
 	function crc32(crc, buf, len, pos) {
 	  var t = crcTable,
 	      end = pos + len;
@@ -13719,13 +13545,15 @@
 	  crc ^= -1;
 
 	  for (var i = pos; i < end; i++) {
-	    crc = crc >>> 8 ^ t[(crc ^ buf[i]) & 0xFF];
+	    crc = (crc >>> 8) ^ t[(crc ^ buf[i]) & 0xFF];
 	  }
 
-	  return crc ^ -1; // >>> 0;
+	  return (crc ^ (-1)); // >>> 0;
 	}
 
+
 	module.exports = crc32;
+
 
 /***/ },
 /* 31 */
@@ -13734,16 +13562,17 @@
 	'use strict';
 
 	module.exports = {
-	  2: 'need dictionary', /* Z_NEED_DICT       2  */
-	  1: 'stream end', /* Z_STREAM_END      1  */
-	  0: '', /* Z_OK              0  */
-	  '-1': 'file error', /* Z_ERRNO         (-1) */
-	  '-2': 'stream error', /* Z_STREAM_ERROR  (-2) */
-	  '-3': 'data error', /* Z_DATA_ERROR    (-3) */
-	  '-4': 'insufficient memory', /* Z_MEM_ERROR     (-4) */
-	  '-5': 'buffer error', /* Z_BUF_ERROR     (-5) */
-	  '-6': 'incompatible version' /* Z_VERSION_ERROR (-6) */
+	  2:      'need dictionary',     /* Z_NEED_DICT       2  */
+	  1:      'stream end',          /* Z_STREAM_END      1  */
+	  0:      '',                    /* Z_OK              0  */
+	  '-1':   'file error',          /* Z_ERRNO         (-1) */
+	  '-2':   'stream error',        /* Z_STREAM_ERROR  (-2) */
+	  '-3':   'data error',          /* Z_DATA_ERROR    (-3) */
+	  '-4':   'insufficient memory', /* Z_MEM_ERROR     (-4) */
+	  '-5':   'buffer error',        /* Z_BUF_ERROR     (-5) */
+	  '-6':   'incompatible version' /* Z_VERSION_ERROR (-6) */
 	};
+
 
 /***/ },
 /* 32 */
@@ -13752,7 +13581,9 @@
 	// String encode/decode helpers
 	'use strict';
 
+
 	var utils = __webpack_require__(25);
+
 
 	// Quick check if we can use fast array to bin string conversion
 	//
@@ -13762,43 +13593,31 @@
 	var STR_APPLY_OK = true;
 	var STR_APPLY_UIA_OK = true;
 
-	try {
-	  String.fromCharCode.apply(null, [0]);
-	} catch (__) {
-	  STR_APPLY_OK = false;
-	}
-	try {
-	  String.fromCharCode.apply(null, new Uint8Array(1));
-	} catch (__) {
-	  STR_APPLY_UIA_OK = false;
-	}
+	try { String.fromCharCode.apply(null, [ 0 ]); } catch (__) { STR_APPLY_OK = false; }
+	try { String.fromCharCode.apply(null, new Uint8Array(1)); } catch (__) { STR_APPLY_UIA_OK = false; }
+
 
 	// Table with utf8 lengths (calculated by first byte of sequence)
 	// Note, that 5 & 6-byte values and some 4-byte values can not be represented in JS,
 	// because max possible codepoint is 0x10ffff
 	var _utf8len = new utils.Buf8(256);
 	for (var q = 0; q < 256; q++) {
-	  _utf8len[q] = q >= 252 ? 6 : q >= 248 ? 5 : q >= 240 ? 4 : q >= 224 ? 3 : q >= 192 ? 2 : 1;
+	  _utf8len[q] = (q >= 252 ? 6 : q >= 248 ? 5 : q >= 240 ? 4 : q >= 224 ? 3 : q >= 192 ? 2 : 1);
 	}
 	_utf8len[254] = _utf8len[254] = 1; // Invalid sequence start
 
+
 	// convert string to array (typed, when possible)
 	exports.string2buf = function (str) {
-	  var buf,
-	      c,
-	      c2,
-	      m_pos,
-	      i,
-	      str_len = str.length,
-	      buf_len = 0;
+	  var buf, c, c2, m_pos, i, str_len = str.length, buf_len = 0;
 
 	  // count binary size
 	  for (m_pos = 0; m_pos < str_len; m_pos++) {
 	    c = str.charCodeAt(m_pos);
-	    if ((c & 0xfc00) === 0xd800 && m_pos + 1 < str_len) {
+	    if ((c & 0xfc00) === 0xd800 && (m_pos + 1 < str_len)) {
 	      c2 = str.charCodeAt(m_pos + 1);
 	      if ((c2 & 0xfc00) === 0xdc00) {
-	        c = 0x10000 + (c - 0xd800 << 10) + (c2 - 0xdc00);
+	        c = 0x10000 + ((c - 0xd800) << 10) + (c2 - 0xdc00);
 	        m_pos++;
 	      }
 	    }
@@ -13811,10 +13630,10 @@
 	  // convert
 	  for (i = 0, m_pos = 0; i < buf_len; m_pos++) {
 	    c = str.charCodeAt(m_pos);
-	    if ((c & 0xfc00) === 0xd800 && m_pos + 1 < str_len) {
+	    if ((c & 0xfc00) === 0xd800 && (m_pos + 1 < str_len)) {
 	      c2 = str.charCodeAt(m_pos + 1);
 	      if ((c2 & 0xfc00) === 0xdc00) {
-	        c = 0x10000 + (c - 0xd800 << 10) + (c2 - 0xdc00);
+	        c = 0x10000 + ((c - 0xd800) << 10) + (c2 - 0xdc00);
 	        m_pos++;
 	      }
 	    }
@@ -13823,19 +13642,19 @@
 	      buf[i++] = c;
 	    } else if (c < 0x800) {
 	      /* two bytes */
-	      buf[i++] = 0xC0 | c >>> 6;
-	      buf[i++] = 0x80 | c & 0x3f;
+	      buf[i++] = 0xC0 | (c >>> 6);
+	      buf[i++] = 0x80 | (c & 0x3f);
 	    } else if (c < 0x10000) {
 	      /* three bytes */
-	      buf[i++] = 0xE0 | c >>> 12;
-	      buf[i++] = 0x80 | c >>> 6 & 0x3f;
-	      buf[i++] = 0x80 | c & 0x3f;
+	      buf[i++] = 0xE0 | (c >>> 12);
+	      buf[i++] = 0x80 | (c >>> 6 & 0x3f);
+	      buf[i++] = 0x80 | (c & 0x3f);
 	    } else {
 	      /* four bytes */
-	      buf[i++] = 0xf0 | c >>> 18;
-	      buf[i++] = 0x80 | c >>> 12 & 0x3f;
-	      buf[i++] = 0x80 | c >>> 6 & 0x3f;
-	      buf[i++] = 0x80 | c & 0x3f;
+	      buf[i++] = 0xf0 | (c >>> 18);
+	      buf[i++] = 0x80 | (c >>> 12 & 0x3f);
+	      buf[i++] = 0x80 | (c >>> 6 & 0x3f);
+	      buf[i++] = 0x80 | (c & 0x3f);
 	    }
 	  }
 
@@ -13846,7 +13665,7 @@
 	function buf2binstring(buf, len) {
 	  // use fallback for big arrays to avoid stack overflow
 	  if (len < 65537) {
-	    if (buf.subarray && STR_APPLY_UIA_OK || !buf.subarray && STR_APPLY_OK) {
+	    if ((buf.subarray && STR_APPLY_UIA_OK) || (!buf.subarray && STR_APPLY_OK)) {
 	      return String.fromCharCode.apply(null, utils.shrinkBuf(buf, len));
 	    }
 	  }
@@ -13858,10 +13677,12 @@
 	  return result;
 	}
 
+
 	// Convert byte array to binary string
 	exports.buf2binstring = function (buf) {
 	  return buf2binstring(buf, buf.length);
 	};
+
 
 	// Convert binary string (typed, when possible)
 	exports.binstring2buf = function (str) {
@@ -13871,6 +13692,7 @@
 	  }
 	  return buf;
 	};
+
 
 	// convert array to string
 	exports.buf2string = function (buf, max) {
@@ -13885,40 +13707,35 @@
 	  for (out = 0, i = 0; i < len;) {
 	    c = buf[i++];
 	    // quick process ascii
-	    if (c < 0x80) {
-	      utf16buf[out++] = c;continue;
-	    }
+	    if (c < 0x80) { utf16buf[out++] = c; continue; }
 
 	    c_len = _utf8len[c];
 	    // skip 5 & 6 byte codes
-	    if (c_len > 4) {
-	      utf16buf[out++] = 0xfffd;i += c_len - 1;continue;
-	    }
+	    if (c_len > 4) { utf16buf[out++] = 0xfffd; i += c_len - 1; continue; }
 
 	    // apply mask on first byte
 	    c &= c_len === 2 ? 0x1f : c_len === 3 ? 0x0f : 0x07;
 	    // join the rest
 	    while (c_len > 1 && i < len) {
-	      c = c << 6 | buf[i++] & 0x3f;
+	      c = (c << 6) | (buf[i++] & 0x3f);
 	      c_len--;
 	    }
 
 	    // terminated by end of string?
-	    if (c_len > 1) {
-	      utf16buf[out++] = 0xfffd;continue;
-	    }
+	    if (c_len > 1) { utf16buf[out++] = 0xfffd; continue; }
 
 	    if (c < 0x10000) {
 	      utf16buf[out++] = c;
 	    } else {
 	      c -= 0x10000;
-	      utf16buf[out++] = 0xd800 | c >> 10 & 0x3ff;
-	      utf16buf[out++] = 0xdc00 | c & 0x3ff;
+	      utf16buf[out++] = 0xd800 | ((c >> 10) & 0x3ff);
+	      utf16buf[out++] = 0xdc00 | (c & 0x3ff);
 	    }
 	  }
 
 	  return buf2binstring(utf16buf, out);
 	};
+
 
 	// Calculate max possible position in utf8 buffer,
 	// that will not break sequence. If that's not possible
@@ -13930,36 +13747,30 @@
 	  var pos;
 
 	  max = max || buf.length;
-	  if (max > buf.length) {
-	    max = buf.length;
-	  }
+	  if (max > buf.length) { max = buf.length; }
 
 	  // go back from last position, until start of sequence found
 	  pos = max - 1;
-	  while (pos >= 0 && (buf[pos] & 0xC0) === 0x80) {
-	    pos--;
-	  }
+	  while (pos >= 0 && (buf[pos] & 0xC0) === 0x80) { pos--; }
 
 	  // Fuckup - very small and broken sequence,
 	  // return max, because we should return something anyway.
-	  if (pos < 0) {
-	    return max;
-	  }
+	  if (pos < 0) { return max; }
 
 	  // If we came to start of buffer - that means vuffer is too small,
 	  // return max too.
-	  if (pos === 0) {
-	    return max;
-	  }
+	  if (pos === 0) { return max; }
 
-	  return pos + _utf8len[buf[pos]] > max ? pos : max;
+	  return (pos + _utf8len[buf[pos]] > max) ? pos : max;
 	};
+
 
 /***/ },
 /* 33 */
 /***/ function(module, exports) {
 
 	'use strict';
+
 
 	function ZStream() {
 	  /* next input byte */
@@ -13977,16 +13788,17 @@
 	  /* total number of bytes output so far */
 	  this.total_out = 0;
 	  /* last error message, NULL if no error */
-	  this.msg = '' /*Z_NULL*/;
+	  this.msg = ''/*Z_NULL*/;
 	  /* not visible by applications */
 	  this.state = null;
 	  /* best guess about the data type: binary or text */
-	  this.data_type = 2 /*Z_UNKNOWN*/;
+	  this.data_type = 2/*Z_UNKNOWN*/;
 	  /* adler32 value of the uncompressed data */
 	  this.adler = 0;
 	}
 
 	module.exports = ZStream;
+
 
 /***/ },
 /* 34 */
@@ -13994,13 +13806,14 @@
 
 	'use strict';
 
+
 	var zlib_inflate = __webpack_require__(35);
-	var utils = __webpack_require__(25);
-	var strings = __webpack_require__(32);
-	var c = __webpack_require__(38);
-	var msg = __webpack_require__(31);
-	var ZStream = __webpack_require__(33);
-	var GZheader = __webpack_require__(39);
+	var utils        = __webpack_require__(25);
+	var strings      = __webpack_require__(32);
+	var c            = __webpack_require__(38);
+	var msg          = __webpack_require__(31);
+	var ZStream      = __webpack_require__(33);
+	var GZheader     = __webpack_require__(39);
 
 	var toString = Object.prototype.toString;
 
@@ -14040,6 +13853,7 @@
 	 *
 	 * Error message, if [[Inflate.err]] != 0
 	 **/
+
 
 	/**
 	 * new Inflate(options)
@@ -14095,21 +13909,20 @@
 
 	  // Force window size for `raw` data, if not set directly,
 	  // because we have no header for autodetect.
-	  if (opt.raw && opt.windowBits >= 0 && opt.windowBits < 16) {
+	  if (opt.raw && (opt.windowBits >= 0) && (opt.windowBits < 16)) {
 	    opt.windowBits = -opt.windowBits;
-	    if (opt.windowBits === 0) {
-	      opt.windowBits = -15;
-	    }
+	    if (opt.windowBits === 0) { opt.windowBits = -15; }
 	  }
 
 	  // If `windowBits` not defined (and mode not raw) - set autodetect flag for gzip/deflate
-	  if (opt.windowBits >= 0 && opt.windowBits < 16 && !(options && options.windowBits)) {
+	  if ((opt.windowBits >= 0) && (opt.windowBits < 16) &&
+	      !(options && options.windowBits)) {
 	    opt.windowBits += 32;
 	  }
 
 	  // Gzip header has no info about windows size, we can do autodetect only
 	  // for deflate. So, if window size not set, force it to max when gzip possible
-	  if (opt.windowBits > 15 && opt.windowBits < 48) {
+	  if ((opt.windowBits > 15) && (opt.windowBits < 48)) {
 	    // bit 3 (16) -> gzipped data
 	    // bit 4 (32) -> autodetect gzip/deflate
 	    if ((opt.windowBits & 15) === 0) {
@@ -14117,15 +13930,18 @@
 	    }
 	  }
 
-	  this.err = 0; // error code, if happens (0 = Z_OK)
-	  this.msg = ''; // error message
-	  this.ended = false; // used to avoid multiple onEnd() calls
-	  this.chunks = []; // chunks of compressed data
+	  this.err    = 0;      // error code, if happens (0 = Z_OK)
+	  this.msg    = '';     // error message
+	  this.ended  = false;  // used to avoid multiple onEnd() calls
+	  this.chunks = [];     // chunks of compressed data
 
-	  this.strm = new ZStream();
+	  this.strm   = new ZStream();
 	  this.strm.avail_out = 0;
 
-	  var status = zlib_inflate.inflateInit2(this.strm, opt.windowBits);
+	  var status  = zlib_inflate.inflateInit2(
+	    this.strm,
+	    opt.windowBits
+	  );
 
 	  if (status !== c.Z_OK) {
 	    throw new Error(msg[status]);
@@ -14176,10 +13992,8 @@
 	  // when we check that all output data was flushed.
 	  var allowBufError = false;
 
-	  if (this.ended) {
-	    return false;
-	  }
-	  _mode = mode === ~ ~mode ? mode : mode === true ? c.Z_FINISH : c.Z_NO_FLUSH;
+	  if (this.ended) { return false; }
+	  _mode = (mode === ~~mode) ? mode : ((mode === true) ? c.Z_FINISH : c.Z_NO_FLUSH);
 
 	  // Convert data if needed
 	  if (typeof data === 'string') {
@@ -14201,7 +14015,7 @@
 	      strm.avail_out = chunkSize;
 	    }
 
-	    status = zlib_inflate.inflate(strm, c.Z_NO_FLUSH); /* no bad return value */
+	    status = zlib_inflate.inflate(strm, c.Z_NO_FLUSH);    /* no bad return value */
 
 	    if (status === c.Z_NEED_DICT && dictionary) {
 	      // Convert data if needed
@@ -14214,6 +14028,7 @@
 	      }
 
 	      status = zlib_inflate.inflateSetDictionary(this.strm, dict);
+
 	    }
 
 	    if (status === c.Z_BUF_ERROR && allowBufError === true) {
@@ -14228,7 +14043,7 @@
 	    }
 
 	    if (strm.next_out) {
-	      if (strm.avail_out === 0 || status === c.Z_STREAM_END || strm.avail_in === 0 && (_mode === c.Z_FINISH || _mode === c.Z_SYNC_FLUSH)) {
+	      if (strm.avail_out === 0 || status === c.Z_STREAM_END || (strm.avail_in === 0 && (_mode === c.Z_FINISH || _mode === c.Z_SYNC_FLUSH))) {
 
 	        if (this.options.to === 'string') {
 
@@ -14240,11 +14055,10 @@
 	          // move tail
 	          strm.next_out = tail;
 	          strm.avail_out = chunkSize - tail;
-	          if (tail) {
-	            utils.arraySet(strm.output, strm.output, next_out_utf8, tail, 0);
-	          }
+	          if (tail) { utils.arraySet(strm.output, strm.output, next_out_utf8, tail, 0); }
 
 	          this.onData(utf8str);
+
 	        } else {
 	          this.onData(utils.shrinkBuf(strm.output, strm.next_out));
 	        }
@@ -14261,6 +14075,7 @@
 	    if (strm.avail_in === 0 && strm.avail_out === 0) {
 	      allowBufError = true;
 	    }
+
 	  } while ((strm.avail_in > 0 || strm.avail_out === 0) && status !== c.Z_STREAM_END);
 
 	  if (status === c.Z_STREAM_END) {
@@ -14285,6 +14100,7 @@
 	  return true;
 	};
 
+
 	/**
 	 * Inflate#onData(chunk) -> Void
 	 * - chunk (Uint8Array|Array|String): ouput data. Type of array depends
@@ -14297,6 +14113,7 @@
 	Inflate.prototype.onData = function (chunk) {
 	  this.chunks.push(chunk);
 	};
+
 
 	/**
 	 * Inflate#onEnd(status) -> Void
@@ -14323,6 +14140,7 @@
 	  this.err = status;
 	  this.msg = this.strm.msg;
 	};
+
 
 	/**
 	 * inflate(data[, options]) -> Uint8Array|Array|String
@@ -14369,12 +14187,11 @@
 	  inflator.push(input, true);
 
 	  // That will never happens, if you don't cheat with options :)
-	  if (inflator.err) {
-	    throw inflator.msg;
-	  }
+	  if (inflator.err) { throw inflator.msg; }
 
 	  return inflator.result;
 	}
+
 
 	/**
 	 * inflateRaw(data[, options]) -> Uint8Array|Array|String
@@ -14390,6 +14207,7 @@
 	  return inflate(input, options);
 	}
 
+
 	/**
 	 * ungzip(data[, options]) -> Uint8Array|Array|String
 	 * - data (Uint8Array|Array|String): input data to decompress.
@@ -14399,10 +14217,12 @@
 	 * by header.content. Done for convenience.
 	 **/
 
+
 	exports.Inflate = Inflate;
 	exports.inflate = inflate;
 	exports.inflateRaw = inflateRaw;
-	exports.ungzip = inflate;
+	exports.ungzip  = inflate;
+
 
 /***/ },
 /* 35 */
@@ -14410,10 +14230,11 @@
 
 	'use strict';
 
-	var utils = __webpack_require__(25);
-	var adler32 = __webpack_require__(29);
-	var crc32 = __webpack_require__(30);
-	var inflate_fast = __webpack_require__(36);
+
+	var utils         = __webpack_require__(25);
+	var adler32       = __webpack_require__(29);
+	var crc32         = __webpack_require__(30);
+	var inflate_fast  = __webpack_require__(36);
 	var inflate_table = __webpack_require__(37);
 
 	var CODES = 0;
@@ -14423,68 +14244,74 @@
 	/* Public constants ==========================================================*/
 	/* ===========================================================================*/
 
+
 	/* Allowed flush values; see deflate() and inflate() below for details */
 	//var Z_NO_FLUSH      = 0;
 	//var Z_PARTIAL_FLUSH = 1;
 	//var Z_SYNC_FLUSH    = 2;
 	//var Z_FULL_FLUSH    = 3;
-	var Z_FINISH = 4;
-	var Z_BLOCK = 5;
-	var Z_TREES = 6;
+	var Z_FINISH        = 4;
+	var Z_BLOCK         = 5;
+	var Z_TREES         = 6;
+
 
 	/* Return codes for the compression/decompression functions. Negative values
 	 * are errors, positive values are used for special but normal events.
 	 */
-	var Z_OK = 0;
-	var Z_STREAM_END = 1;
-	var Z_NEED_DICT = 2;
+	var Z_OK            = 0;
+	var Z_STREAM_END    = 1;
+	var Z_NEED_DICT     = 2;
 	//var Z_ERRNO         = -1;
-	var Z_STREAM_ERROR = -2;
-	var Z_DATA_ERROR = -3;
-	var Z_MEM_ERROR = -4;
-	var Z_BUF_ERROR = -5;
+	var Z_STREAM_ERROR  = -2;
+	var Z_DATA_ERROR    = -3;
+	var Z_MEM_ERROR     = -4;
+	var Z_BUF_ERROR     = -5;
 	//var Z_VERSION_ERROR = -6;
 
 	/* The deflate compression method */
-	var Z_DEFLATED = 8;
+	var Z_DEFLATED  = 8;
+
 
 	/* STATES ====================================================================*/
 	/* ===========================================================================*/
 
-	var HEAD = 1; /* i: waiting for magic header */
-	var FLAGS = 2; /* i: waiting for method and flags (gzip) */
-	var TIME = 3; /* i: waiting for modification time (gzip) */
-	var OS = 4; /* i: waiting for extra flags and operating system (gzip) */
-	var EXLEN = 5; /* i: waiting for extra length (gzip) */
-	var EXTRA = 6; /* i: waiting for extra bytes (gzip) */
-	var NAME = 7; /* i: waiting for end of file name (gzip) */
-	var COMMENT = 8; /* i: waiting for end of comment (gzip) */
-	var HCRC = 9; /* i: waiting for header crc (gzip) */
-	var DICTID = 10; /* i: waiting for dictionary check value */
-	var DICT = 11; /* waiting for inflateSetDictionary() call */
-	var TYPE = 12; /* i: waiting for type bits, including last-flag bit */
-	var TYPEDO = 13; /* i: same, but skip check to exit inflate on new block */
-	var STORED = 14; /* i: waiting for stored size (length and complement) */
-	var COPY_ = 15; /* i/o: same as COPY below, but only first time in */
-	var COPY = 16; /* i/o: waiting for input or output to copy stored block */
-	var TABLE = 17; /* i: waiting for dynamic block table lengths */
-	var LENLENS = 18; /* i: waiting for code length code lengths */
-	var CODELENS = 19; /* i: waiting for length/lit and distance code lengths */
-	var LEN_ = 20; /* i: same as LEN below, but only first time in */
-	var LEN = 21; /* i: waiting for length/lit/eob code */
-	var LENEXT = 22; /* i: waiting for length extra bits */
-	var DIST = 23; /* i: waiting for distance code */
-	var DISTEXT = 24; /* i: waiting for distance extra bits */
-	var MATCH = 25; /* o: waiting for output space to copy string */
-	var LIT = 26; /* o: waiting for output space to write literal */
-	var CHECK = 27; /* i: waiting for 32-bit check value */
-	var LENGTH = 28; /* i: waiting for 32-bit length (gzip) */
-	var DONE = 29; /* finished check, done -- remain here until reset */
-	var BAD = 30; /* got a data error -- remain here until reset */
-	var MEM = 31; /* got an inflate() memory error -- remain here until reset */
-	var SYNC = 32; /* looking for synchronization bytes to restart inflate() */
+
+	var    HEAD = 1;       /* i: waiting for magic header */
+	var    FLAGS = 2;      /* i: waiting for method and flags (gzip) */
+	var    TIME = 3;       /* i: waiting for modification time (gzip) */
+	var    OS = 4;         /* i: waiting for extra flags and operating system (gzip) */
+	var    EXLEN = 5;      /* i: waiting for extra length (gzip) */
+	var    EXTRA = 6;      /* i: waiting for extra bytes (gzip) */
+	var    NAME = 7;       /* i: waiting for end of file name (gzip) */
+	var    COMMENT = 8;    /* i: waiting for end of comment (gzip) */
+	var    HCRC = 9;       /* i: waiting for header crc (gzip) */
+	var    DICTID = 10;    /* i: waiting for dictionary check value */
+	var    DICT = 11;      /* waiting for inflateSetDictionary() call */
+	var        TYPE = 12;      /* i: waiting for type bits, including last-flag bit */
+	var        TYPEDO = 13;    /* i: same, but skip check to exit inflate on new block */
+	var        STORED = 14;    /* i: waiting for stored size (length and complement) */
+	var        COPY_ = 15;     /* i/o: same as COPY below, but only first time in */
+	var        COPY = 16;      /* i/o: waiting for input or output to copy stored block */
+	var        TABLE = 17;     /* i: waiting for dynamic block table lengths */
+	var        LENLENS = 18;   /* i: waiting for code length code lengths */
+	var        CODELENS = 19;  /* i: waiting for length/lit and distance code lengths */
+	var            LEN_ = 20;      /* i: same as LEN below, but only first time in */
+	var            LEN = 21;       /* i: waiting for length/lit/eob code */
+	var            LENEXT = 22;    /* i: waiting for length extra bits */
+	var            DIST = 23;      /* i: waiting for distance code */
+	var            DISTEXT = 24;   /* i: waiting for distance extra bits */
+	var            MATCH = 25;     /* o: waiting for output space to copy string */
+	var            LIT = 26;       /* o: waiting for output space to write literal */
+	var    CHECK = 27;     /* i: waiting for 32-bit check value */
+	var    LENGTH = 28;    /* i: waiting for 32-bit length (gzip) */
+	var    DONE = 29;      /* finished check, done -- remain here until reset */
+	var    BAD = 30;       /* got a data error -- remain here until reset */
+	var    MEM = 31;       /* got an inflate() memory error -- remain here until reset */
+	var    SYNC = 32;      /* looking for synchronization bytes to restart inflate() */
 
 	/* ===========================================================================*/
+
+
 
 	var ENOUGH_LENS = 852;
 	var ENOUGH_DISTS = 592;
@@ -14494,52 +14321,57 @@
 	/* 32K LZ77 window */
 	var DEF_WBITS = MAX_WBITS;
 
+
 	function zswap32(q) {
-	  return (q >>> 24 & 0xff) + (q >>> 8 & 0xff00) + ((q & 0xff00) << 8) + ((q & 0xff) << 24);
+	  return  (((q >>> 24) & 0xff) +
+	          ((q >>> 8) & 0xff00) +
+	          ((q & 0xff00) << 8) +
+	          ((q & 0xff) << 24));
 	}
 
+
 	function InflateState() {
-	  this.mode = 0; /* current inflate mode */
-	  this.last = false; /* true if processing last block */
-	  this.wrap = 0; /* bit 0 true for zlib, bit 1 true for gzip */
-	  this.havedict = false; /* true if dictionary provided */
-	  this.flags = 0; /* gzip header method and flags (0 if zlib) */
-	  this.dmax = 0; /* zlib header max distance (INFLATE_STRICT) */
-	  this.check = 0; /* protected copy of check value */
-	  this.total = 0; /* protected copy of output count */
+	  this.mode = 0;             /* current inflate mode */
+	  this.last = false;          /* true if processing last block */
+	  this.wrap = 0;              /* bit 0 true for zlib, bit 1 true for gzip */
+	  this.havedict = false;      /* true if dictionary provided */
+	  this.flags = 0;             /* gzip header method and flags (0 if zlib) */
+	  this.dmax = 0;              /* zlib header max distance (INFLATE_STRICT) */
+	  this.check = 0;             /* protected copy of check value */
+	  this.total = 0;             /* protected copy of output count */
 	  // TODO: may be {}
-	  this.head = null; /* where to save gzip header information */
+	  this.head = null;           /* where to save gzip header information */
 
 	  /* sliding window */
-	  this.wbits = 0; /* log base 2 of requested window size */
-	  this.wsize = 0; /* window size or zero if not using window */
-	  this.whave = 0; /* valid bytes in the window */
-	  this.wnext = 0; /* window write index */
-	  this.window = null; /* allocated sliding window, if needed */
+	  this.wbits = 0;             /* log base 2 of requested window size */
+	  this.wsize = 0;             /* window size or zero if not using window */
+	  this.whave = 0;             /* valid bytes in the window */
+	  this.wnext = 0;             /* window write index */
+	  this.window = null;         /* allocated sliding window, if needed */
 
 	  /* bit accumulator */
-	  this.hold = 0; /* input bit accumulator */
-	  this.bits = 0; /* number of bits in "in" */
+	  this.hold = 0;              /* input bit accumulator */
+	  this.bits = 0;              /* number of bits in "in" */
 
 	  /* for string and stored block copying */
-	  this.length = 0; /* literal or length of data to copy */
-	  this.offset = 0; /* distance back to copy string from */
+	  this.length = 0;            /* literal or length of data to copy */
+	  this.offset = 0;            /* distance back to copy string from */
 
 	  /* for table and code decoding */
-	  this.extra = 0; /* extra bits needed */
+	  this.extra = 0;             /* extra bits needed */
 
 	  /* fixed and dynamic code tables */
-	  this.lencode = null; /* starting table for length/literal codes */
-	  this.distcode = null; /* starting table for distance codes */
-	  this.lenbits = 0; /* index bits for lencode */
-	  this.distbits = 0; /* index bits for distcode */
+	  this.lencode = null;          /* starting table for length/literal codes */
+	  this.distcode = null;         /* starting table for distance codes */
+	  this.lenbits = 0;           /* index bits for lencode */
+	  this.distbits = 0;          /* index bits for distcode */
 
 	  /* dynamic table building */
-	  this.ncode = 0; /* number of code length code lengths */
-	  this.nlen = 0; /* number of length code lengths */
-	  this.ndist = 0; /* number of distance code lengths */
-	  this.have = 0; /* number of code lengths in lens[] */
-	  this.next = null; /* next available space in codes[] */
+	  this.ncode = 0;             /* number of code length code lengths */
+	  this.nlen = 0;              /* number of length code lengths */
+	  this.ndist = 0;             /* number of distance code lengths */
+	  this.have = 0;              /* number of code lengths in lens[] */
+	  this.next = null;              /* next available space in codes[] */
 
 	  this.lens = new utils.Buf16(320); /* temporary storage for code lengths */
 	  this.work = new utils.Buf16(288); /* work area for code table building */
@@ -14549,31 +14381,28 @@
 	   as buffers so we don't need codes
 	  */
 	  //this.codes = new utils.Buf32(ENOUGH);       /* space for code tables */
-	  this.lendyn = null; /* dynamic table for length/literal codes (JS specific) */
-	  this.distdyn = null; /* dynamic table for distance codes (JS specific) */
-	  this.sane = 0; /* if false, allow invalid distance too far */
-	  this.back = 0; /* bits back of last unprocessed length/lit */
-	  this.was = 0; /* initial length of match */
+	  this.lendyn = null;              /* dynamic table for length/literal codes (JS specific) */
+	  this.distdyn = null;             /* dynamic table for distance codes (JS specific) */
+	  this.sane = 0;                   /* if false, allow invalid distance too far */
+	  this.back = 0;                   /* bits back of last unprocessed length/lit */
+	  this.was = 0;                    /* initial length of match */
 	}
 
 	function inflateResetKeep(strm) {
 	  var state;
 
-	  if (!strm || !strm.state) {
-	    return Z_STREAM_ERROR;
-	  }
+	  if (!strm || !strm.state) { return Z_STREAM_ERROR; }
 	  state = strm.state;
 	  strm.total_in = strm.total_out = state.total = 0;
 	  strm.msg = ''; /*Z_NULL*/
-	  if (state.wrap) {
-	    /* to support ill-conceived Java test suite */
+	  if (state.wrap) {       /* to support ill-conceived Java test suite */
 	    strm.adler = state.wrap & 1;
 	  }
 	  state.mode = HEAD;
 	  state.last = 0;
 	  state.havedict = 0;
 	  state.dmax = 32768;
-	  state.head = null /*Z_NULL*/;
+	  state.head = null/*Z_NULL*/;
 	  state.hold = 0;
 	  state.bits = 0;
 	  //state.lencode = state.distcode = state.next = state.codes;
@@ -14589,14 +14418,13 @@
 	function inflateReset(strm) {
 	  var state;
 
-	  if (!strm || !strm.state) {
-	    return Z_STREAM_ERROR;
-	  }
+	  if (!strm || !strm.state) { return Z_STREAM_ERROR; }
 	  state = strm.state;
 	  state.wsize = 0;
 	  state.whave = 0;
 	  state.wnext = 0;
 	  return inflateResetKeep(strm);
+
 	}
 
 	function inflateReset2(strm, windowBits) {
@@ -14604,16 +14432,15 @@
 	  var state;
 
 	  /* get the state */
-	  if (!strm || !strm.state) {
-	    return Z_STREAM_ERROR;
-	  }
+	  if (!strm || !strm.state) { return Z_STREAM_ERROR; }
 	  state = strm.state;
 
 	  /* extract wrap request from windowBits parameter */
 	  if (windowBits < 0) {
 	    wrap = 0;
 	    windowBits = -windowBits;
-	  } else {
+	  }
+	  else {
 	    wrap = (windowBits >> 4) + 1;
 	    if (windowBits < 48) {
 	      windowBits &= 15;
@@ -14638,9 +14465,7 @@
 	  var ret;
 	  var state;
 
-	  if (!strm) {
-	    return Z_STREAM_ERROR;
-	  }
+	  if (!strm) { return Z_STREAM_ERROR; }
 	  //strm.msg = Z_NULL;                 /* in case we return an error */
 
 	  state = new InflateState();
@@ -14648,10 +14473,10 @@
 	  //if (state === Z_NULL) return Z_MEM_ERROR;
 	  //Tracev((stderr, "inflate: allocated\n"));
 	  strm.state = state;
-	  state.window = null /*Z_NULL*/;
+	  state.window = null/*Z_NULL*/;
 	  ret = inflateReset2(strm, windowBits);
 	  if (ret !== Z_OK) {
-	    strm.state = null /*Z_NULL*/;
+	    strm.state = null/*Z_NULL*/;
 	  }
 	  return ret;
 	}
@@ -14659,6 +14484,7 @@
 	function inflateInit(strm) {
 	  return inflateInit2(strm, DEF_WBITS);
 	}
+
 
 	/*
 	 Return state with length and distance decoding tables and index sizes set to
@@ -14684,28 +14510,18 @@
 
 	    /* literal/length table */
 	    sym = 0;
-	    while (sym < 144) {
-	      state.lens[sym++] = 8;
-	    }
-	    while (sym < 256) {
-	      state.lens[sym++] = 9;
-	    }
-	    while (sym < 280) {
-	      state.lens[sym++] = 7;
-	    }
-	    while (sym < 288) {
-	      state.lens[sym++] = 8;
-	    }
+	    while (sym < 144) { state.lens[sym++] = 8; }
+	    while (sym < 256) { state.lens[sym++] = 9; }
+	    while (sym < 280) { state.lens[sym++] = 7; }
+	    while (sym < 288) { state.lens[sym++] = 8; }
 
-	    inflate_table(LENS, state.lens, 0, 288, lenfix, 0, state.work, { bits: 9 });
+	    inflate_table(LENS,  state.lens, 0, 288, lenfix,   0, state.work, { bits: 9 });
 
 	    /* distance table */
 	    sym = 0;
-	    while (sym < 32) {
-	      state.lens[sym++] = 5;
-	    }
+	    while (sym < 32) { state.lens[sym++] = 5; }
 
-	    inflate_table(DISTS, state.lens, 0, 32, distfix, 0, state.work, { bits: 5 });
+	    inflate_table(DISTS, state.lens, 0, 32,   distfix, 0, state.work, { bits: 5 });
 
 	    /* do this just once */
 	    virgin = false;
@@ -14716,6 +14532,7 @@
 	  state.distcode = distfix;
 	  state.distbits = 5;
 	}
+
 
 	/*
 	 Update the window with the last wsize (normally 32K) bytes written before
@@ -14749,7 +14566,8 @@
 	    utils.arraySet(state.window, src, end - state.wsize, state.wsize, 0);
 	    state.wnext = 0;
 	    state.whave = state.wsize;
-	  } else {
+	  }
+	  else {
 	    dist = state.wsize - state.wnext;
 	    if (dist > copy) {
 	      dist = copy;
@@ -14762,14 +14580,11 @@
 	      utils.arraySet(state.window, src, end - copy, copy, 0);
 	      state.wnext = copy;
 	      state.whave = state.wsize;
-	    } else {
+	    }
+	    else {
 	      state.wnext += dist;
-	      if (state.wnext === state.wsize) {
-	        state.wnext = 0;
-	      }
-	      if (state.whave < state.wsize) {
-	        state.whave += dist;
-	      }
+	      if (state.wnext === state.wsize) { state.wnext = 0; }
+	      if (state.whave < state.wsize) { state.whave += dist; }
 	    }
 	  }
 	  return 0;
@@ -14777,38 +14592,39 @@
 
 	function inflate(strm, flush) {
 	  var state;
-	  var input, output; // input/output buffers
-	  var next; /* next input INDEX */
-	  var put; /* next output INDEX */
-	  var have, left; /* available input and output */
-	  var hold; /* bit buffer */
-	  var bits; /* bits in bit buffer */
-	  var _in, _out; /* save starting available input and output */
-	  var copy; /* number of stored or match bytes to copy */
-	  var from; /* where to copy match bytes from */
+	  var input, output;          // input/output buffers
+	  var next;                   /* next input INDEX */
+	  var put;                    /* next output INDEX */
+	  var have, left;             /* available input and output */
+	  var hold;                   /* bit buffer */
+	  var bits;                   /* bits in bit buffer */
+	  var _in, _out;              /* save starting available input and output */
+	  var copy;                   /* number of stored or match bytes to copy */
+	  var from;                   /* where to copy match bytes from */
 	  var from_source;
-	  var here = 0; /* current decoding table entry */
+	  var here = 0;               /* current decoding table entry */
 	  var here_bits, here_op, here_val; // paked "here" denormalized (JS specific)
 	  //var last;                   /* parent table entry */
 	  var last_bits, last_op, last_val; // paked "last" denormalized (JS specific)
-	  var len; /* length to copy for repeats, bits to drop */
-	  var ret; /* return code */
-	  var hbuf = new utils.Buf8(4); /* buffer for gzip header crc calculation */
+	  var len;                    /* length to copy for repeats, bits to drop */
+	  var ret;                    /* return code */
+	  var hbuf = new utils.Buf8(4);    /* buffer for gzip header crc calculation */
 	  var opts;
 
 	  var n; // temporary var for NEED_BITS
 
 	  var order = /* permutation of code lengths */
-	  [16, 17, 18, 0, 8, 7, 9, 6, 10, 5, 11, 4, 12, 3, 13, 2, 14, 1, 15];
+	    [ 16, 17, 18, 0, 8, 7, 9, 6, 10, 5, 11, 4, 12, 3, 13, 2, 14, 1, 15 ];
 
-	  if (!strm || !strm.state || !strm.output || !strm.input && strm.avail_in !== 0) {
+
+	  if (!strm || !strm.state || !strm.output ||
+	      (!strm.input && strm.avail_in !== 0)) {
 	    return Z_STREAM_ERROR;
 	  }
 
 	  state = strm.state;
-	  if (state.mode === TYPE) {
-	    state.mode = TYPEDO;
-	  } /* skip check */
+	  if (state.mode === TYPE) { state.mode = TYPEDO; }    /* skip check */
+
 
 	  //--- LOAD() ---
 	  put = strm.next_out;
@@ -14828,102 +14644,178 @@
 	  inf_leave: // goto emulation
 	  for (;;) {
 	    switch (state.mode) {
-	      case HEAD:
-	        if (state.wrap === 0) {
-	          state.mode = TYPEDO;
-	          break;
-	        }
-	        //=== NEEDBITS(16);
-	        while (bits < 16) {
-	          if (have === 0) {
-	            break inf_leave;
-	          }
-	          have--;
-	          hold += input[next++] << bits;
-	          bits += 8;
-	        }
-	        //===//
-	        if (state.wrap & 2 && hold === 0x8b1f) {
-	          /* gzip header */
-	          state.check = 0 /*crc32(0L, Z_NULL, 0)*/;
-	          //=== CRC2(state.check, hold);
-	          hbuf[0] = hold & 0xff;
-	          hbuf[1] = hold >>> 8 & 0xff;
-	          state.check = crc32(state.check, hbuf, 2, 0);
-	          //===//
-
-	          //=== INITBITS();
-	          hold = 0;
-	          bits = 0;
-	          //===//
-	          state.mode = FLAGS;
-	          break;
-	        }
-	        state.flags = 0; /* expect zlib header */
-	        if (state.head) {
-	          state.head.done = false;
-	        }
-	        if (!(state.wrap & 1) || /* check if zlib header allowed */
-	        (((hold & 0xff) << /*BITS(8)*/8) + (hold >> 8)) % 31) {
-	          strm.msg = 'incorrect header check';
-	          state.mode = BAD;
-	          break;
-	        }
-	        if ((hold & 0x0f) !== /*BITS(4)*/Z_DEFLATED) {
-	          strm.msg = 'unknown compression method';
-	          state.mode = BAD;
-	          break;
-	        }
-	        //--- DROPBITS(4) ---//
-	        hold >>>= 4;
-	        bits -= 4;
-	        //---//
-	        len = (hold & 0x0f) + /*BITS(4)*/8;
-	        if (state.wbits === 0) {
-	          state.wbits = len;
-	        } else if (len > state.wbits) {
-	          strm.msg = 'invalid window size';
-	          state.mode = BAD;
-	          break;
-	        }
-	        state.dmax = 1 << len;
-	        //Tracev((stderr, "inflate:   zlib header ok\n"));
-	        strm.adler = state.check = 1 /*adler32(0L, Z_NULL, 0)*/;
-	        state.mode = hold & 0x200 ? DICTID : TYPE;
-	        //=== INITBITS();
-	        hold = 0;
-	        bits = 0;
-	        //===//
+	    case HEAD:
+	      if (state.wrap === 0) {
+	        state.mode = TYPEDO;
 	        break;
-	      case FLAGS:
+	      }
+	      //=== NEEDBITS(16);
+	      while (bits < 16) {
+	        if (have === 0) { break inf_leave; }
+	        have--;
+	        hold += input[next++] << bits;
+	        bits += 8;
+	      }
+	      //===//
+	      if ((state.wrap & 2) && hold === 0x8b1f) {  /* gzip header */
+	        state.check = 0/*crc32(0L, Z_NULL, 0)*/;
+	        //=== CRC2(state.check, hold);
+	        hbuf[0] = hold & 0xff;
+	        hbuf[1] = (hold >>> 8) & 0xff;
+	        state.check = crc32(state.check, hbuf, 2, 0);
+	        //===//
+
+	        //=== INITBITS();
+	        hold = 0;
+	        bits = 0;
+	        //===//
+	        state.mode = FLAGS;
+	        break;
+	      }
+	      state.flags = 0;           /* expect zlib header */
+	      if (state.head) {
+	        state.head.done = false;
+	      }
+	      if (!(state.wrap & 1) ||   /* check if zlib header allowed */
+	        (((hold & 0xff)/*BITS(8)*/ << 8) + (hold >> 8)) % 31) {
+	        strm.msg = 'incorrect header check';
+	        state.mode = BAD;
+	        break;
+	      }
+	      if ((hold & 0x0f)/*BITS(4)*/ !== Z_DEFLATED) {
+	        strm.msg = 'unknown compression method';
+	        state.mode = BAD;
+	        break;
+	      }
+	      //--- DROPBITS(4) ---//
+	      hold >>>= 4;
+	      bits -= 4;
+	      //---//
+	      len = (hold & 0x0f)/*BITS(4)*/ + 8;
+	      if (state.wbits === 0) {
+	        state.wbits = len;
+	      }
+	      else if (len > state.wbits) {
+	        strm.msg = 'invalid window size';
+	        state.mode = BAD;
+	        break;
+	      }
+	      state.dmax = 1 << len;
+	      //Tracev((stderr, "inflate:   zlib header ok\n"));
+	      strm.adler = state.check = 1/*adler32(0L, Z_NULL, 0)*/;
+	      state.mode = hold & 0x200 ? DICTID : TYPE;
+	      //=== INITBITS();
+	      hold = 0;
+	      bits = 0;
+	      //===//
+	      break;
+	    case FLAGS:
+	      //=== NEEDBITS(16); */
+	      while (bits < 16) {
+	        if (have === 0) { break inf_leave; }
+	        have--;
+	        hold += input[next++] << bits;
+	        bits += 8;
+	      }
+	      //===//
+	      state.flags = hold;
+	      if ((state.flags & 0xff) !== Z_DEFLATED) {
+	        strm.msg = 'unknown compression method';
+	        state.mode = BAD;
+	        break;
+	      }
+	      if (state.flags & 0xe000) {
+	        strm.msg = 'unknown header flags set';
+	        state.mode = BAD;
+	        break;
+	      }
+	      if (state.head) {
+	        state.head.text = ((hold >> 8) & 1);
+	      }
+	      if (state.flags & 0x0200) {
+	        //=== CRC2(state.check, hold);
+	        hbuf[0] = hold & 0xff;
+	        hbuf[1] = (hold >>> 8) & 0xff;
+	        state.check = crc32(state.check, hbuf, 2, 0);
+	        //===//
+	      }
+	      //=== INITBITS();
+	      hold = 0;
+	      bits = 0;
+	      //===//
+	      state.mode = TIME;
+	      /* falls through */
+	    case TIME:
+	      //=== NEEDBITS(32); */
+	      while (bits < 32) {
+	        if (have === 0) { break inf_leave; }
+	        have--;
+	        hold += input[next++] << bits;
+	        bits += 8;
+	      }
+	      //===//
+	      if (state.head) {
+	        state.head.time = hold;
+	      }
+	      if (state.flags & 0x0200) {
+	        //=== CRC4(state.check, hold)
+	        hbuf[0] = hold & 0xff;
+	        hbuf[1] = (hold >>> 8) & 0xff;
+	        hbuf[2] = (hold >>> 16) & 0xff;
+	        hbuf[3] = (hold >>> 24) & 0xff;
+	        state.check = crc32(state.check, hbuf, 4, 0);
+	        //===
+	      }
+	      //=== INITBITS();
+	      hold = 0;
+	      bits = 0;
+	      //===//
+	      state.mode = OS;
+	      /* falls through */
+	    case OS:
+	      //=== NEEDBITS(16); */
+	      while (bits < 16) {
+	        if (have === 0) { break inf_leave; }
+	        have--;
+	        hold += input[next++] << bits;
+	        bits += 8;
+	      }
+	      //===//
+	      if (state.head) {
+	        state.head.xflags = (hold & 0xff);
+	        state.head.os = (hold >> 8);
+	      }
+	      if (state.flags & 0x0200) {
+	        //=== CRC2(state.check, hold);
+	        hbuf[0] = hold & 0xff;
+	        hbuf[1] = (hold >>> 8) & 0xff;
+	        state.check = crc32(state.check, hbuf, 2, 0);
+	        //===//
+	      }
+	      //=== INITBITS();
+	      hold = 0;
+	      bits = 0;
+	      //===//
+	      state.mode = EXLEN;
+	      /* falls through */
+	    case EXLEN:
+	      if (state.flags & 0x0400) {
 	        //=== NEEDBITS(16); */
 	        while (bits < 16) {
-	          if (have === 0) {
-	            break inf_leave;
-	          }
+	          if (have === 0) { break inf_leave; }
 	          have--;
 	          hold += input[next++] << bits;
 	          bits += 8;
 	        }
 	        //===//
-	        state.flags = hold;
-	        if ((state.flags & 0xff) !== Z_DEFLATED) {
-	          strm.msg = 'unknown compression method';
-	          state.mode = BAD;
-	          break;
-	        }
-	        if (state.flags & 0xe000) {
-	          strm.msg = 'unknown header flags set';
-	          state.mode = BAD;
-	          break;
-	        }
+	        state.length = hold;
 	        if (state.head) {
-	          state.head.text = hold >> 8 & 1;
+	          state.head.extra_len = hold;
 	        }
 	        if (state.flags & 0x0200) {
 	          //=== CRC2(state.check, hold);
 	          hbuf[0] = hold & 0xff;
-	          hbuf[1] = hold >>> 8 & 0xff;
+	          hbuf[1] = (hold >>> 8) & 0xff;
 	          state.check = crc32(state.check, hbuf, 2, 0);
 	          //===//
 	        }
@@ -14931,975 +14823,819 @@
 	        hold = 0;
 	        bits = 0;
 	        //===//
-	        state.mode = TIME;
+	      }
+	      else if (state.head) {
+	        state.head.extra = null/*Z_NULL*/;
+	      }
+	      state.mode = EXTRA;
 	      /* falls through */
-	      case TIME:
-	        //=== NEEDBITS(32); */
-	        while (bits < 32) {
-	          if (have === 0) {
-	            break inf_leave;
-	          }
-	          have--;
-	          hold += input[next++] << bits;
-	          bits += 8;
-	        }
-	        //===//
-	        if (state.head) {
-	          state.head.time = hold;
-	        }
-	        if (state.flags & 0x0200) {
-	          //=== CRC4(state.check, hold)
-	          hbuf[0] = hold & 0xff;
-	          hbuf[1] = hold >>> 8 & 0xff;
-	          hbuf[2] = hold >>> 16 & 0xff;
-	          hbuf[3] = hold >>> 24 & 0xff;
-	          state.check = crc32(state.check, hbuf, 4, 0);
-	          //===
-	        }
-	        //=== INITBITS();
-	        hold = 0;
-	        bits = 0;
-	        //===//
-	        state.mode = OS;
-	      /* falls through */
-	      case OS:
-	        //=== NEEDBITS(16); */
-	        while (bits < 16) {
-	          if (have === 0) {
-	            break inf_leave;
-	          }
-	          have--;
-	          hold += input[next++] << bits;
-	          bits += 8;
-	        }
-	        //===//
-	        if (state.head) {
-	          state.head.xflags = hold & 0xff;
-	          state.head.os = hold >> 8;
-	        }
-	        if (state.flags & 0x0200) {
-	          //=== CRC2(state.check, hold);
-	          hbuf[0] = hold & 0xff;
-	          hbuf[1] = hold >>> 8 & 0xff;
-	          state.check = crc32(state.check, hbuf, 2, 0);
-	          //===//
-	        }
-	        //=== INITBITS();
-	        hold = 0;
-	        bits = 0;
-	        //===//
-	        state.mode = EXLEN;
-	      /* falls through */
-	      case EXLEN:
-	        if (state.flags & 0x0400) {
-	          //=== NEEDBITS(16); */
-	          while (bits < 16) {
-	            if (have === 0) {
-	              break inf_leave;
-	            }
-	            have--;
-	            hold += input[next++] << bits;
-	            bits += 8;
-	          }
-	          //===//
-	          state.length = hold;
+	    case EXTRA:
+	      if (state.flags & 0x0400) {
+	        copy = state.length;
+	        if (copy > have) { copy = have; }
+	        if (copy) {
 	          if (state.head) {
-	            state.head.extra_len = hold;
-	          }
-	          if (state.flags & 0x0200) {
-	            //=== CRC2(state.check, hold);
-	            hbuf[0] = hold & 0xff;
-	            hbuf[1] = hold >>> 8 & 0xff;
-	            state.check = crc32(state.check, hbuf, 2, 0);
-	            //===//
-	          }
-	          //=== INITBITS();
-	          hold = 0;
-	          bits = 0;
-	          //===//
-	        } else if (state.head) {
-	            state.head.extra = null /*Z_NULL*/;
-	          }
-	        state.mode = EXTRA;
-	      /* falls through */
-	      case EXTRA:
-	        if (state.flags & 0x0400) {
-	          copy = state.length;
-	          if (copy > have) {
-	            copy = have;
-	          }
-	          if (copy) {
-	            if (state.head) {
-	              len = state.head.extra_len - state.length;
-	              if (!state.head.extra) {
-	                // Use untyped array for more conveniend processing later
-	                state.head.extra = new Array(state.head.extra_len);
-	              }
-	              utils.arraySet(state.head.extra, input, next,
+	            len = state.head.extra_len - state.length;
+	            if (!state.head.extra) {
+	              // Use untyped array for more conveniend processing later
+	              state.head.extra = new Array(state.head.extra_len);
+	            }
+	            utils.arraySet(
+	              state.head.extra,
+	              input,
+	              next,
 	              // extra field is limited to 65536 bytes
 	              // - no need for additional size check
 	              copy,
 	              /*len + copy > state.head.extra_max - len ? state.head.extra_max : copy,*/
-	              len);
-	              //zmemcpy(state.head.extra + len, next,
-	              //        len + copy > state.head.extra_max ?
-	              //        state.head.extra_max - len : copy);
-	            }
-	            if (state.flags & 0x0200) {
-	              state.check = crc32(state.check, input, copy, next);
-	            }
-	            have -= copy;
-	            next += copy;
-	            state.length -= copy;
+	              len
+	            );
+	            //zmemcpy(state.head.extra + len, next,
+	            //        len + copy > state.head.extra_max ?
+	            //        state.head.extra_max - len : copy);
 	          }
-	          if (state.length) {
-	            break inf_leave;
+	          if (state.flags & 0x0200) {
+	            state.check = crc32(state.check, input, copy, next);
 	          }
+	          have -= copy;
+	          next += copy;
+	          state.length -= copy;
 	        }
-	        state.length = 0;
-	        state.mode = NAME;
+	        if (state.length) { break inf_leave; }
+	      }
+	      state.length = 0;
+	      state.mode = NAME;
 	      /* falls through */
-	      case NAME:
-	        if (state.flags & 0x0800) {
-	          if (have === 0) {
-	            break inf_leave;
+	    case NAME:
+	      if (state.flags & 0x0800) {
+	        if (have === 0) { break inf_leave; }
+	        copy = 0;
+	        do {
+	          // TODO: 2 or 1 bytes?
+	          len = input[next + copy++];
+	          /* use constant limit because in js we should not preallocate memory */
+	          if (state.head && len &&
+	              (state.length < 65536 /*state.head.name_max*/)) {
+	            state.head.name += String.fromCharCode(len);
 	          }
-	          copy = 0;
-	          do {
-	            // TODO: 2 or 1 bytes?
-	            len = input[next + copy++];
-	            /* use constant limit because in js we should not preallocate memory */
-	            if (state.head && len && state.length < 65536 /*state.head.name_max*/) {
-	                state.head.name += String.fromCharCode(len);
-	              }
-	          } while (len && copy < have);
+	        } while (len && copy < have);
 
-	          if (state.flags & 0x0200) {
-	            state.check = crc32(state.check, input, copy, next);
-	          }
-	          have -= copy;
-	          next += copy;
-	          if (len) {
-	            break inf_leave;
-	          }
-	        } else if (state.head) {
-	          state.head.name = null;
-	        }
-	        state.length = 0;
-	        state.mode = COMMENT;
-	      /* falls through */
-	      case COMMENT:
-	        if (state.flags & 0x1000) {
-	          if (have === 0) {
-	            break inf_leave;
-	          }
-	          copy = 0;
-	          do {
-	            len = input[next + copy++];
-	            /* use constant limit because in js we should not preallocate memory */
-	            if (state.head && len && state.length < 65536 /*state.head.comm_max*/) {
-	                state.head.comment += String.fromCharCode(len);
-	              }
-	          } while (len && copy < have);
-	          if (state.flags & 0x0200) {
-	            state.check = crc32(state.check, input, copy, next);
-	          }
-	          have -= copy;
-	          next += copy;
-	          if (len) {
-	            break inf_leave;
-	          }
-	        } else if (state.head) {
-	          state.head.comment = null;
-	        }
-	        state.mode = HCRC;
-	      /* falls through */
-	      case HCRC:
 	        if (state.flags & 0x0200) {
-	          //=== NEEDBITS(16); */
-	          while (bits < 16) {
-	            if (have === 0) {
-	              break inf_leave;
-	            }
-	            have--;
-	            hold += input[next++] << bits;
-	            bits += 8;
-	          }
-	          //===//
-	          if (hold !== (state.check & 0xffff)) {
-	            strm.msg = 'header crc mismatch';
-	            state.mode = BAD;
-	            break;
-	          }
-	          //=== INITBITS();
-	          hold = 0;
-	          bits = 0;
-	          //===//
+	          state.check = crc32(state.check, input, copy, next);
 	        }
-	        if (state.head) {
-	          state.head.hcrc = state.flags >> 9 & 1;
-	          state.head.done = true;
-	        }
-	        strm.adler = state.check = 0;
-	        state.mode = TYPE;
-	        break;
-	      case DICTID:
-	        //=== NEEDBITS(32); */
-	        while (bits < 32) {
-	          if (have === 0) {
-	            break inf_leave;
+	        have -= copy;
+	        next += copy;
+	        if (len) { break inf_leave; }
+	      }
+	      else if (state.head) {
+	        state.head.name = null;
+	      }
+	      state.length = 0;
+	      state.mode = COMMENT;
+	      /* falls through */
+	    case COMMENT:
+	      if (state.flags & 0x1000) {
+	        if (have === 0) { break inf_leave; }
+	        copy = 0;
+	        do {
+	          len = input[next + copy++];
+	          /* use constant limit because in js we should not preallocate memory */
+	          if (state.head && len &&
+	              (state.length < 65536 /*state.head.comm_max*/)) {
+	            state.head.comment += String.fromCharCode(len);
 	          }
+	        } while (len && copy < have);
+	        if (state.flags & 0x0200) {
+	          state.check = crc32(state.check, input, copy, next);
+	        }
+	        have -= copy;
+	        next += copy;
+	        if (len) { break inf_leave; }
+	      }
+	      else if (state.head) {
+	        state.head.comment = null;
+	      }
+	      state.mode = HCRC;
+	      /* falls through */
+	    case HCRC:
+	      if (state.flags & 0x0200) {
+	        //=== NEEDBITS(16); */
+	        while (bits < 16) {
+	          if (have === 0) { break inf_leave; }
 	          have--;
 	          hold += input[next++] << bits;
 	          bits += 8;
 	        }
 	        //===//
-	        strm.adler = state.check = zswap32(hold);
+	        if (hold !== (state.check & 0xffff)) {
+	          strm.msg = 'header crc mismatch';
+	          state.mode = BAD;
+	          break;
+	        }
 	        //=== INITBITS();
 	        hold = 0;
 	        bits = 0;
 	        //===//
-	        state.mode = DICT;
+	      }
+	      if (state.head) {
+	        state.head.hcrc = ((state.flags >> 9) & 1);
+	        state.head.done = true;
+	      }
+	      strm.adler = state.check = 0;
+	      state.mode = TYPE;
+	      break;
+	    case DICTID:
+	      //=== NEEDBITS(32); */
+	      while (bits < 32) {
+	        if (have === 0) { break inf_leave; }
+	        have--;
+	        hold += input[next++] << bits;
+	        bits += 8;
+	      }
+	      //===//
+	      strm.adler = state.check = zswap32(hold);
+	      //=== INITBITS();
+	      hold = 0;
+	      bits = 0;
+	      //===//
+	      state.mode = DICT;
 	      /* falls through */
-	      case DICT:
-	        if (state.havedict === 0) {
-	          //--- RESTORE() ---
-	          strm.next_out = put;
-	          strm.avail_out = left;
-	          strm.next_in = next;
-	          strm.avail_in = have;
-	          state.hold = hold;
-	          state.bits = bits;
-	          //---
-	          return Z_NEED_DICT;
-	        }
-	        strm.adler = state.check = 1 /*adler32(0L, Z_NULL, 0)*/;
-	        state.mode = TYPE;
+	    case DICT:
+	      if (state.havedict === 0) {
+	        //--- RESTORE() ---
+	        strm.next_out = put;
+	        strm.avail_out = left;
+	        strm.next_in = next;
+	        strm.avail_in = have;
+	        state.hold = hold;
+	        state.bits = bits;
+	        //---
+	        return Z_NEED_DICT;
+	      }
+	      strm.adler = state.check = 1/*adler32(0L, Z_NULL, 0)*/;
+	      state.mode = TYPE;
 	      /* falls through */
-	      case TYPE:
-	        if (flush === Z_BLOCK || flush === Z_TREES) {
-	          break inf_leave;
-	        }
+	    case TYPE:
+	      if (flush === Z_BLOCK || flush === Z_TREES) { break inf_leave; }
 	      /* falls through */
-	      case TYPEDO:
-	        if (state.last) {
-	          //--- BYTEBITS() ---//
-	          hold >>>= bits & 7;
-	          bits -= bits & 7;
-	          //---//
-	          state.mode = CHECK;
-	          break;
-	        }
-	        //=== NEEDBITS(3); */
-	        while (bits < 3) {
-	          if (have === 0) {
-	            break inf_leave;
-	          }
-	          have--;
-	          hold += input[next++] << bits;
-	          bits += 8;
-	        }
-	        //===//
-	        state.last = hold & 0x01 /*BITS(1)*/;
-	        //--- DROPBITS(1) ---//
-	        hold >>>= 1;
-	        bits -= 1;
-	        //---//
-
-	        switch (hold & 0x03) {/*BITS(2)*/
-	          case 0:
-	            /* stored block */
-	            //Tracev((stderr, "inflate:     stored block%s\n",
-	            //        state.last ? " (last)" : ""));
-	            state.mode = STORED;
-	            break;
-	          case 1:
-	            /* fixed block */
-	            fixedtables(state);
-	            //Tracev((stderr, "inflate:     fixed codes block%s\n",
-	            //        state.last ? " (last)" : ""));
-	            state.mode = LEN_; /* decode codes */
-	            if (flush === Z_TREES) {
-	              //--- DROPBITS(2) ---//
-	              hold >>>= 2;
-	              bits -= 2;
-	              //---//
-	              break inf_leave;
-	            }
-	            break;
-	          case 2:
-	            /* dynamic block */
-	            //Tracev((stderr, "inflate:     dynamic codes block%s\n",
-	            //        state.last ? " (last)" : ""));
-	            state.mode = TABLE;
-	            break;
-	          case 3:
-	            strm.msg = 'invalid block type';
-	            state.mode = BAD;
-	        }
-	        //--- DROPBITS(2) ---//
-	        hold >>>= 2;
-	        bits -= 2;
-	        //---//
-	        break;
-	      case STORED:
-	        //--- BYTEBITS() ---// /* go to byte boundary */
+	    case TYPEDO:
+	      if (state.last) {
+	        //--- BYTEBITS() ---//
 	        hold >>>= bits & 7;
 	        bits -= bits & 7;
 	        //---//
-	        //=== NEEDBITS(32); */
-	        while (bits < 32) {
-	          if (have === 0) {
-	            break inf_leave;
-	          }
-	          have--;
-	          hold += input[next++] << bits;
-	          bits += 8;
-	        }
-	        //===//
-	        if ((hold & 0xffff) !== (hold >>> 16 ^ 0xffff)) {
-	          strm.msg = 'invalid stored block lengths';
-	          state.mode = BAD;
-	          break;
-	        }
-	        state.length = hold & 0xffff;
-	        //Tracev((stderr, "inflate:       stored length %u\n",
-	        //        state.length));
-	        //=== INITBITS();
-	        hold = 0;
-	        bits = 0;
-	        //===//
-	        state.mode = COPY_;
+	        state.mode = CHECK;
+	        break;
+	      }
+	      //=== NEEDBITS(3); */
+	      while (bits < 3) {
+	        if (have === 0) { break inf_leave; }
+	        have--;
+	        hold += input[next++] << bits;
+	        bits += 8;
+	      }
+	      //===//
+	      state.last = (hold & 0x01)/*BITS(1)*/;
+	      //--- DROPBITS(1) ---//
+	      hold >>>= 1;
+	      bits -= 1;
+	      //---//
+
+	      switch ((hold & 0x03)/*BITS(2)*/) {
+	      case 0:                             /* stored block */
+	        //Tracev((stderr, "inflate:     stored block%s\n",
+	        //        state.last ? " (last)" : ""));
+	        state.mode = STORED;
+	        break;
+	      case 1:                             /* fixed block */
+	        fixedtables(state);
+	        //Tracev((stderr, "inflate:     fixed codes block%s\n",
+	        //        state.last ? " (last)" : ""));
+	        state.mode = LEN_;             /* decode codes */
 	        if (flush === Z_TREES) {
+	          //--- DROPBITS(2) ---//
+	          hold >>>= 2;
+	          bits -= 2;
+	          //---//
 	          break inf_leave;
 	        }
-	      /* falls through */
-	      case COPY_:
-	        state.mode = COPY;
-	      /* falls through */
-	      case COPY:
-	        copy = state.length;
-	        if (copy) {
-	          if (copy > have) {
-	            copy = have;
-	          }
-	          if (copy > left) {
-	            copy = left;
-	          }
-	          if (copy === 0) {
-	            break inf_leave;
-	          }
-	          //--- zmemcpy(put, next, copy); ---
-	          utils.arraySet(output, input, next, copy, put);
-	          //---//
-	          have -= copy;
-	          next += copy;
-	          left -= copy;
-	          put += copy;
-	          state.length -= copy;
-	          break;
-	        }
-	        //Tracev((stderr, "inflate:       stored end\n"));
-	        state.mode = TYPE;
 	        break;
-	      case TABLE:
-	        //=== NEEDBITS(14); */
-	        while (bits < 14) {
-	          if (have === 0) {
-	            break inf_leave;
-	          }
+	      case 2:                             /* dynamic block */
+	        //Tracev((stderr, "inflate:     dynamic codes block%s\n",
+	        //        state.last ? " (last)" : ""));
+	        state.mode = TABLE;
+	        break;
+	      case 3:
+	        strm.msg = 'invalid block type';
+	        state.mode = BAD;
+	      }
+	      //--- DROPBITS(2) ---//
+	      hold >>>= 2;
+	      bits -= 2;
+	      //---//
+	      break;
+	    case STORED:
+	      //--- BYTEBITS() ---// /* go to byte boundary */
+	      hold >>>= bits & 7;
+	      bits -= bits & 7;
+	      //---//
+	      //=== NEEDBITS(32); */
+	      while (bits < 32) {
+	        if (have === 0) { break inf_leave; }
+	        have--;
+	        hold += input[next++] << bits;
+	        bits += 8;
+	      }
+	      //===//
+	      if ((hold & 0xffff) !== ((hold >>> 16) ^ 0xffff)) {
+	        strm.msg = 'invalid stored block lengths';
+	        state.mode = BAD;
+	        break;
+	      }
+	      state.length = hold & 0xffff;
+	      //Tracev((stderr, "inflate:       stored length %u\n",
+	      //        state.length));
+	      //=== INITBITS();
+	      hold = 0;
+	      bits = 0;
+	      //===//
+	      state.mode = COPY_;
+	      if (flush === Z_TREES) { break inf_leave; }
+	      /* falls through */
+	    case COPY_:
+	      state.mode = COPY;
+	      /* falls through */
+	    case COPY:
+	      copy = state.length;
+	      if (copy) {
+	        if (copy > have) { copy = have; }
+	        if (copy > left) { copy = left; }
+	        if (copy === 0) { break inf_leave; }
+	        //--- zmemcpy(put, next, copy); ---
+	        utils.arraySet(output, input, next, copy, put);
+	        //---//
+	        have -= copy;
+	        next += copy;
+	        left -= copy;
+	        put += copy;
+	        state.length -= copy;
+	        break;
+	      }
+	      //Tracev((stderr, "inflate:       stored end\n"));
+	      state.mode = TYPE;
+	      break;
+	    case TABLE:
+	      //=== NEEDBITS(14); */
+	      while (bits < 14) {
+	        if (have === 0) { break inf_leave; }
+	        have--;
+	        hold += input[next++] << bits;
+	        bits += 8;
+	      }
+	      //===//
+	      state.nlen = (hold & 0x1f)/*BITS(5)*/ + 257;
+	      //--- DROPBITS(5) ---//
+	      hold >>>= 5;
+	      bits -= 5;
+	      //---//
+	      state.ndist = (hold & 0x1f)/*BITS(5)*/ + 1;
+	      //--- DROPBITS(5) ---//
+	      hold >>>= 5;
+	      bits -= 5;
+	      //---//
+	      state.ncode = (hold & 0x0f)/*BITS(4)*/ + 4;
+	      //--- DROPBITS(4) ---//
+	      hold >>>= 4;
+	      bits -= 4;
+	      //---//
+	//#ifndef PKZIP_BUG_WORKAROUND
+	      if (state.nlen > 286 || state.ndist > 30) {
+	        strm.msg = 'too many length or distance symbols';
+	        state.mode = BAD;
+	        break;
+	      }
+	//#endif
+	      //Tracev((stderr, "inflate:       table sizes ok\n"));
+	      state.have = 0;
+	      state.mode = LENLENS;
+	      /* falls through */
+	    case LENLENS:
+	      while (state.have < state.ncode) {
+	        //=== NEEDBITS(3);
+	        while (bits < 3) {
+	          if (have === 0) { break inf_leave; }
 	          have--;
 	          hold += input[next++] << bits;
 	          bits += 8;
 	        }
 	        //===//
-	        state.nlen = (hold & 0x1f) + /*BITS(5)*/257;
-	        //--- DROPBITS(5) ---//
-	        hold >>>= 5;
-	        bits -= 5;
+	        state.lens[order[state.have++]] = (hold & 0x07);//BITS(3);
+	        //--- DROPBITS(3) ---//
+	        hold >>>= 3;
+	        bits -= 3;
 	        //---//
-	        state.ndist = (hold & 0x1f) + /*BITS(5)*/1;
-	        //--- DROPBITS(5) ---//
-	        hold >>>= 5;
-	        bits -= 5;
-	        //---//
-	        state.ncode = (hold & 0x0f) + /*BITS(4)*/4;
-	        //--- DROPBITS(4) ---//
-	        hold >>>= 4;
-	        bits -= 4;
-	        //---//
-	        //#ifndef PKZIP_BUG_WORKAROUND
-	        if (state.nlen > 286 || state.ndist > 30) {
-	          strm.msg = 'too many length or distance symbols';
-	          state.mode = BAD;
-	          break;
-	        }
-	        //#endif
-	        //Tracev((stderr, "inflate:       table sizes ok\n"));
-	        state.have = 0;
-	        state.mode = LENLENS;
+	      }
+	      while (state.have < 19) {
+	        state.lens[order[state.have++]] = 0;
+	      }
+	      // We have separate tables & no pointers. 2 commented lines below not needed.
+	      //state.next = state.codes;
+	      //state.lencode = state.next;
+	      // Switch to use dynamic table
+	      state.lencode = state.lendyn;
+	      state.lenbits = 7;
+
+	      opts = { bits: state.lenbits };
+	      ret = inflate_table(CODES, state.lens, 0, 19, state.lencode, 0, state.work, opts);
+	      state.lenbits = opts.bits;
+
+	      if (ret) {
+	        strm.msg = 'invalid code lengths set';
+	        state.mode = BAD;
+	        break;
+	      }
+	      //Tracev((stderr, "inflate:       code lengths ok\n"));
+	      state.have = 0;
+	      state.mode = CODELENS;
 	      /* falls through */
-	      case LENLENS:
-	        while (state.have < state.ncode) {
-	          //=== NEEDBITS(3);
-	          while (bits < 3) {
-	            if (have === 0) {
-	              break inf_leave;
-	            }
-	            have--;
-	            hold += input[next++] << bits;
-	            bits += 8;
-	          }
-	          //===//
-	          state.lens[order[state.have++]] = hold & 0x07; //BITS(3);
-	          //--- DROPBITS(3) ---//
-	          hold >>>= 3;
-	          bits -= 3;
+	    case CODELENS:
+	      while (state.have < state.nlen + state.ndist) {
+	        for (;;) {
+	          here = state.lencode[hold & ((1 << state.lenbits) - 1)];/*BITS(state.lenbits)*/
+	          here_bits = here >>> 24;
+	          here_op = (here >>> 16) & 0xff;
+	          here_val = here & 0xffff;
+
+	          if ((here_bits) <= bits) { break; }
+	          //--- PULLBYTE() ---//
+	          if (have === 0) { break inf_leave; }
+	          have--;
+	          hold += input[next++] << bits;
+	          bits += 8;
 	          //---//
 	        }
-	        while (state.have < 19) {
-	          state.lens[order[state.have++]] = 0;
+	        if (here_val < 16) {
+	          //--- DROPBITS(here.bits) ---//
+	          hold >>>= here_bits;
+	          bits -= here_bits;
+	          //---//
+	          state.lens[state.have++] = here_val;
 	        }
-	        // We have separate tables & no pointers. 2 commented lines below not needed.
-	        //state.next = state.codes;
-	        //state.lencode = state.next;
-	        // Switch to use dynamic table
-	        state.lencode = state.lendyn;
-	        state.lenbits = 7;
-
-	        opts = { bits: state.lenbits };
-	        ret = inflate_table(CODES, state.lens, 0, 19, state.lencode, 0, state.work, opts);
-	        state.lenbits = opts.bits;
-
-	        if (ret) {
-	          strm.msg = 'invalid code lengths set';
-	          state.mode = BAD;
-	          break;
-	        }
-	        //Tracev((stderr, "inflate:       code lengths ok\n"));
-	        state.have = 0;
-	        state.mode = CODELENS;
-	      /* falls through */
-	      case CODELENS:
-	        while (state.have < state.nlen + state.ndist) {
-	          for (;;) {
-	            here = state.lencode[hold & (1 << state.lenbits) - 1]; /*BITS(state.lenbits)*/
-	            here_bits = here >>> 24;
-	            here_op = here >>> 16 & 0xff;
-	            here_val = here & 0xffff;
-
-	            if (here_bits <= bits) {
-	              break;
+	        else {
+	          if (here_val === 16) {
+	            //=== NEEDBITS(here.bits + 2);
+	            n = here_bits + 2;
+	            while (bits < n) {
+	              if (have === 0) { break inf_leave; }
+	              have--;
+	              hold += input[next++] << bits;
+	              bits += 8;
 	            }
-	            //--- PULLBYTE() ---//
-	            if (have === 0) {
-	              break inf_leave;
-	            }
-	            have--;
-	            hold += input[next++] << bits;
-	            bits += 8;
-	            //---//
-	          }
-	          if (here_val < 16) {
+	            //===//
 	            //--- DROPBITS(here.bits) ---//
 	            hold >>>= here_bits;
 	            bits -= here_bits;
 	            //---//
-	            state.lens[state.have++] = here_val;
-	          } else {
-	            if (here_val === 16) {
-	              //=== NEEDBITS(here.bits + 2);
-	              n = here_bits + 2;
-	              while (bits < n) {
-	                if (have === 0) {
-	                  break inf_leave;
-	                }
-	                have--;
-	                hold += input[next++] << bits;
-	                bits += 8;
-	              }
-	              //===//
-	              //--- DROPBITS(here.bits) ---//
-	              hold >>>= here_bits;
-	              bits -= here_bits;
-	              //---//
-	              if (state.have === 0) {
-	                strm.msg = 'invalid bit length repeat';
-	                state.mode = BAD;
-	                break;
-	              }
-	              len = state.lens[state.have - 1];
-	              copy = 3 + (hold & 0x03); //BITS(2);
-	              //--- DROPBITS(2) ---//
-	              hold >>>= 2;
-	              bits -= 2;
-	              //---//
-	            } else if (here_val === 17) {
-	                //=== NEEDBITS(here.bits + 3);
-	                n = here_bits + 3;
-	                while (bits < n) {
-	                  if (have === 0) {
-	                    break inf_leave;
-	                  }
-	                  have--;
-	                  hold += input[next++] << bits;
-	                  bits += 8;
-	                }
-	                //===//
-	                //--- DROPBITS(here.bits) ---//
-	                hold >>>= here_bits;
-	                bits -= here_bits;
-	                //---//
-	                len = 0;
-	                copy = 3 + (hold & 0x07); //BITS(3);
-	                //--- DROPBITS(3) ---//
-	                hold >>>= 3;
-	                bits -= 3;
-	                //---//
-	              } else {
-	                  //=== NEEDBITS(here.bits + 7);
-	                  n = here_bits + 7;
-	                  while (bits < n) {
-	                    if (have === 0) {
-	                      break inf_leave;
-	                    }
-	                    have--;
-	                    hold += input[next++] << bits;
-	                    bits += 8;
-	                  }
-	                  //===//
-	                  //--- DROPBITS(here.bits) ---//
-	                  hold >>>= here_bits;
-	                  bits -= here_bits;
-	                  //---//
-	                  len = 0;
-	                  copy = 11 + (hold & 0x7f); //BITS(7);
-	                  //--- DROPBITS(7) ---//
-	                  hold >>>= 7;
-	                  bits -= 7;
-	                  //---//
-	                }
-	            if (state.have + copy > state.nlen + state.ndist) {
+	            if (state.have === 0) {
 	              strm.msg = 'invalid bit length repeat';
 	              state.mode = BAD;
 	              break;
 	            }
-	            while (copy--) {
-	              state.lens[state.have++] = len;
-	            }
-	          }
-	        }
-
-	        /* handle error breaks in while */
-	        if (state.mode === BAD) {
-	          break;
-	        }
-
-	        /* check for end-of-block code (better have one) */
-	        if (state.lens[256] === 0) {
-	          strm.msg = 'invalid code -- missing end-of-block';
-	          state.mode = BAD;
-	          break;
-	        }
-
-	        /* build code tables -- note: do not change the lenbits or distbits
-	           values here (9 and 6) without reading the comments in inftrees.h
-	           concerning the ENOUGH constants, which depend on those values */
-	        state.lenbits = 9;
-
-	        opts = { bits: state.lenbits };
-	        ret = inflate_table(LENS, state.lens, 0, state.nlen, state.lencode, 0, state.work, opts);
-	        // We have separate tables & no pointers. 2 commented lines below not needed.
-	        // state.next_index = opts.table_index;
-	        state.lenbits = opts.bits;
-	        // state.lencode = state.next;
-
-	        if (ret) {
-	          strm.msg = 'invalid literal/lengths set';
-	          state.mode = BAD;
-	          break;
-	        }
-
-	        state.distbits = 6;
-	        //state.distcode.copy(state.codes);
-	        // Switch to use dynamic table
-	        state.distcode = state.distdyn;
-	        opts = { bits: state.distbits };
-	        ret = inflate_table(DISTS, state.lens, state.nlen, state.ndist, state.distcode, 0, state.work, opts);
-	        // We have separate tables & no pointers. 2 commented lines below not needed.
-	        // state.next_index = opts.table_index;
-	        state.distbits = opts.bits;
-	        // state.distcode = state.next;
-
-	        if (ret) {
-	          strm.msg = 'invalid distances set';
-	          state.mode = BAD;
-	          break;
-	        }
-	        //Tracev((stderr, 'inflate:       codes ok\n'));
-	        state.mode = LEN_;
-	        if (flush === Z_TREES) {
-	          break inf_leave;
-	        }
-	      /* falls through */
-	      case LEN_:
-	        state.mode = LEN;
-	      /* falls through */
-	      case LEN:
-	        if (have >= 6 && left >= 258) {
-	          //--- RESTORE() ---
-	          strm.next_out = put;
-	          strm.avail_out = left;
-	          strm.next_in = next;
-	          strm.avail_in = have;
-	          state.hold = hold;
-	          state.bits = bits;
-	          //---
-	          inflate_fast(strm, _out);
-	          //--- LOAD() ---
-	          put = strm.next_out;
-	          output = strm.output;
-	          left = strm.avail_out;
-	          next = strm.next_in;
-	          input = strm.input;
-	          have = strm.avail_in;
-	          hold = state.hold;
-	          bits = state.bits;
-	          //---
-
-	          if (state.mode === TYPE) {
-	            state.back = -1;
-	          }
-	          break;
-	        }
-	        state.back = 0;
-	        for (;;) {
-	          here = state.lencode[hold & (1 << state.lenbits) - 1]; /*BITS(state.lenbits)*/
-	          here_bits = here >>> 24;
-	          here_op = here >>> 16 & 0xff;
-	          here_val = here & 0xffff;
-
-	          if (here_bits <= bits) {
-	            break;
-	          }
-	          //--- PULLBYTE() ---//
-	          if (have === 0) {
-	            break inf_leave;
-	          }
-	          have--;
-	          hold += input[next++] << bits;
-	          bits += 8;
-	          //---//
-	        }
-	        if (here_op && (here_op & 0xf0) === 0) {
-	          last_bits = here_bits;
-	          last_op = here_op;
-	          last_val = here_val;
-	          for (;;) {
-	            here = state.lencode[last_val + ((hold & (1 << last_bits + last_op) - 1) >> /*BITS(last.bits + last.op)*/last_bits)];
-	            here_bits = here >>> 24;
-	            here_op = here >>> 16 & 0xff;
-	            here_val = here & 0xffff;
-
-	            if (last_bits + here_bits <= bits) {
-	              break;
-	            }
-	            //--- PULLBYTE() ---//
-	            if (have === 0) {
-	              break inf_leave;
-	            }
-	            have--;
-	            hold += input[next++] << bits;
-	            bits += 8;
+	            len = state.lens[state.have - 1];
+	            copy = 3 + (hold & 0x03);//BITS(2);
+	            //--- DROPBITS(2) ---//
+	            hold >>>= 2;
+	            bits -= 2;
 	            //---//
 	          }
-	          //--- DROPBITS(last.bits) ---//
-	          hold >>>= last_bits;
-	          bits -= last_bits;
-	          //---//
-	          state.back += last_bits;
+	          else if (here_val === 17) {
+	            //=== NEEDBITS(here.bits + 3);
+	            n = here_bits + 3;
+	            while (bits < n) {
+	              if (have === 0) { break inf_leave; }
+	              have--;
+	              hold += input[next++] << bits;
+	              bits += 8;
+	            }
+	            //===//
+	            //--- DROPBITS(here.bits) ---//
+	            hold >>>= here_bits;
+	            bits -= here_bits;
+	            //---//
+	            len = 0;
+	            copy = 3 + (hold & 0x07);//BITS(3);
+	            //--- DROPBITS(3) ---//
+	            hold >>>= 3;
+	            bits -= 3;
+	            //---//
+	          }
+	          else {
+	            //=== NEEDBITS(here.bits + 7);
+	            n = here_bits + 7;
+	            while (bits < n) {
+	              if (have === 0) { break inf_leave; }
+	              have--;
+	              hold += input[next++] << bits;
+	              bits += 8;
+	            }
+	            //===//
+	            //--- DROPBITS(here.bits) ---//
+	            hold >>>= here_bits;
+	            bits -= here_bits;
+	            //---//
+	            len = 0;
+	            copy = 11 + (hold & 0x7f);//BITS(7);
+	            //--- DROPBITS(7) ---//
+	            hold >>>= 7;
+	            bits -= 7;
+	            //---//
+	          }
+	          if (state.have + copy > state.nlen + state.ndist) {
+	            strm.msg = 'invalid bit length repeat';
+	            state.mode = BAD;
+	            break;
+	          }
+	          while (copy--) {
+	            state.lens[state.have++] = len;
+	          }
 	        }
-	        //--- DROPBITS(here.bits) ---//
-	        hold >>>= here_bits;
-	        bits -= here_bits;
-	        //---//
-	        state.back += here_bits;
-	        state.length = here_val;
-	        if (here_op === 0) {
-	          //Tracevv((stderr, here.val >= 0x20 && here.val < 0x7f ?
-	          //        "inflate:         literal '%c'\n" :
-	          //        "inflate:         literal 0x%02x\n", here.val));
-	          state.mode = LIT;
-	          break;
-	        }
-	        if (here_op & 32) {
-	          //Tracevv((stderr, "inflate:         end of block\n"));
+	      }
+
+	      /* handle error breaks in while */
+	      if (state.mode === BAD) { break; }
+
+	      /* check for end-of-block code (better have one) */
+	      if (state.lens[256] === 0) {
+	        strm.msg = 'invalid code -- missing end-of-block';
+	        state.mode = BAD;
+	        break;
+	      }
+
+	      /* build code tables -- note: do not change the lenbits or distbits
+	         values here (9 and 6) without reading the comments in inftrees.h
+	         concerning the ENOUGH constants, which depend on those values */
+	      state.lenbits = 9;
+
+	      opts = { bits: state.lenbits };
+	      ret = inflate_table(LENS, state.lens, 0, state.nlen, state.lencode, 0, state.work, opts);
+	      // We have separate tables & no pointers. 2 commented lines below not needed.
+	      // state.next_index = opts.table_index;
+	      state.lenbits = opts.bits;
+	      // state.lencode = state.next;
+
+	      if (ret) {
+	        strm.msg = 'invalid literal/lengths set';
+	        state.mode = BAD;
+	        break;
+	      }
+
+	      state.distbits = 6;
+	      //state.distcode.copy(state.codes);
+	      // Switch to use dynamic table
+	      state.distcode = state.distdyn;
+	      opts = { bits: state.distbits };
+	      ret = inflate_table(DISTS, state.lens, state.nlen, state.ndist, state.distcode, 0, state.work, opts);
+	      // We have separate tables & no pointers. 2 commented lines below not needed.
+	      // state.next_index = opts.table_index;
+	      state.distbits = opts.bits;
+	      // state.distcode = state.next;
+
+	      if (ret) {
+	        strm.msg = 'invalid distances set';
+	        state.mode = BAD;
+	        break;
+	      }
+	      //Tracev((stderr, 'inflate:       codes ok\n'));
+	      state.mode = LEN_;
+	      if (flush === Z_TREES) { break inf_leave; }
+	      /* falls through */
+	    case LEN_:
+	      state.mode = LEN;
+	      /* falls through */
+	    case LEN:
+	      if (have >= 6 && left >= 258) {
+	        //--- RESTORE() ---
+	        strm.next_out = put;
+	        strm.avail_out = left;
+	        strm.next_in = next;
+	        strm.avail_in = have;
+	        state.hold = hold;
+	        state.bits = bits;
+	        //---
+	        inflate_fast(strm, _out);
+	        //--- LOAD() ---
+	        put = strm.next_out;
+	        output = strm.output;
+	        left = strm.avail_out;
+	        next = strm.next_in;
+	        input = strm.input;
+	        have = strm.avail_in;
+	        hold = state.hold;
+	        bits = state.bits;
+	        //---
+
+	        if (state.mode === TYPE) {
 	          state.back = -1;
-	          state.mode = TYPE;
-	          break;
 	        }
-	        if (here_op & 64) {
-	          strm.msg = 'invalid literal/length code';
-	          state.mode = BAD;
-	          break;
-	        }
-	        state.extra = here_op & 15;
-	        state.mode = LENEXT;
-	      /* falls through */
-	      case LENEXT:
-	        if (state.extra) {
-	          //=== NEEDBITS(state.extra);
-	          n = state.extra;
-	          while (bits < n) {
-	            if (have === 0) {
-	              break inf_leave;
-	            }
-	            have--;
-	            hold += input[next++] << bits;
-	            bits += 8;
-	          }
-	          //===//
-	          state.length += hold & (1 << state.extra) - 1 /*BITS(state.extra)*/;
-	          //--- DROPBITS(state.extra) ---//
-	          hold >>>= state.extra;
-	          bits -= state.extra;
-	          //---//
-	          state.back += state.extra;
-	        }
-	        //Tracevv((stderr, "inflate:         length %u\n", state.length));
-	        state.was = state.length;
-	        state.mode = DIST;
-	      /* falls through */
-	      case DIST:
+	        break;
+	      }
+	      state.back = 0;
+	      for (;;) {
+	        here = state.lencode[hold & ((1 << state.lenbits) - 1)];  /*BITS(state.lenbits)*/
+	        here_bits = here >>> 24;
+	        here_op = (here >>> 16) & 0xff;
+	        here_val = here & 0xffff;
+
+	        if (here_bits <= bits) { break; }
+	        //--- PULLBYTE() ---//
+	        if (have === 0) { break inf_leave; }
+	        have--;
+	        hold += input[next++] << bits;
+	        bits += 8;
+	        //---//
+	      }
+	      if (here_op && (here_op & 0xf0) === 0) {
+	        last_bits = here_bits;
+	        last_op = here_op;
+	        last_val = here_val;
 	        for (;;) {
-	          here = state.distcode[hold & (1 << state.distbits) - 1]; /*BITS(state.distbits)*/
+	          here = state.lencode[last_val +
+	                  ((hold & ((1 << (last_bits + last_op)) - 1))/*BITS(last.bits + last.op)*/ >> last_bits)];
 	          here_bits = here >>> 24;
-	          here_op = here >>> 16 & 0xff;
+	          here_op = (here >>> 16) & 0xff;
 	          here_val = here & 0xffff;
 
-	          if (here_bits <= bits) {
-	            break;
-	          }
+	          if ((last_bits + here_bits) <= bits) { break; }
 	          //--- PULLBYTE() ---//
-	          if (have === 0) {
-	            break inf_leave;
-	          }
+	          if (have === 0) { break inf_leave; }
 	          have--;
 	          hold += input[next++] << bits;
 	          bits += 8;
 	          //---//
 	        }
-	        if ((here_op & 0xf0) === 0) {
-	          last_bits = here_bits;
-	          last_op = here_op;
-	          last_val = here_val;
-	          for (;;) {
-	            here = state.distcode[last_val + ((hold & (1 << last_bits + last_op) - 1) >> /*BITS(last.bits + last.op)*/last_bits)];
-	            here_bits = here >>> 24;
-	            here_op = here >>> 16 & 0xff;
-	            here_val = here & 0xffff;
-
-	            if (last_bits + here_bits <= bits) {
-	              break;
-	            }
-	            //--- PULLBYTE() ---//
-	            if (have === 0) {
-	              break inf_leave;
-	            }
-	            have--;
-	            hold += input[next++] << bits;
-	            bits += 8;
-	            //---//
-	          }
-	          //--- DROPBITS(last.bits) ---//
-	          hold >>>= last_bits;
-	          bits -= last_bits;
-	          //---//
-	          state.back += last_bits;
-	        }
-	        //--- DROPBITS(here.bits) ---//
-	        hold >>>= here_bits;
-	        bits -= here_bits;
+	        //--- DROPBITS(last.bits) ---//
+	        hold >>>= last_bits;
+	        bits -= last_bits;
 	        //---//
-	        state.back += here_bits;
-	        if (here_op & 64) {
-	          strm.msg = 'invalid distance code';
-	          state.mode = BAD;
-	          break;
-	        }
-	        state.offset = here_val;
-	        state.extra = here_op & 15;
-	        state.mode = DISTEXT;
+	        state.back += last_bits;
+	      }
+	      //--- DROPBITS(here.bits) ---//
+	      hold >>>= here_bits;
+	      bits -= here_bits;
+	      //---//
+	      state.back += here_bits;
+	      state.length = here_val;
+	      if (here_op === 0) {
+	        //Tracevv((stderr, here.val >= 0x20 && here.val < 0x7f ?
+	        //        "inflate:         literal '%c'\n" :
+	        //        "inflate:         literal 0x%02x\n", here.val));
+	        state.mode = LIT;
+	        break;
+	      }
+	      if (here_op & 32) {
+	        //Tracevv((stderr, "inflate:         end of block\n"));
+	        state.back = -1;
+	        state.mode = TYPE;
+	        break;
+	      }
+	      if (here_op & 64) {
+	        strm.msg = 'invalid literal/length code';
+	        state.mode = BAD;
+	        break;
+	      }
+	      state.extra = here_op & 15;
+	      state.mode = LENEXT;
 	      /* falls through */
-	      case DISTEXT:
-	        if (state.extra) {
-	          //=== NEEDBITS(state.extra);
-	          n = state.extra;
-	          while (bits < n) {
-	            if (have === 0) {
-	              break inf_leave;
-	            }
-	            have--;
-	            hold += input[next++] << bits;
-	            bits += 8;
-	          }
-	          //===//
-	          state.offset += hold & (1 << state.extra) - 1 /*BITS(state.extra)*/;
-	          //--- DROPBITS(state.extra) ---//
-	          hold >>>= state.extra;
-	          bits -= state.extra;
+	    case LENEXT:
+	      if (state.extra) {
+	        //=== NEEDBITS(state.extra);
+	        n = state.extra;
+	        while (bits < n) {
+	          if (have === 0) { break inf_leave; }
+	          have--;
+	          hold += input[next++] << bits;
+	          bits += 8;
+	        }
+	        //===//
+	        state.length += hold & ((1 << state.extra) - 1)/*BITS(state.extra)*/;
+	        //--- DROPBITS(state.extra) ---//
+	        hold >>>= state.extra;
+	        bits -= state.extra;
+	        //---//
+	        state.back += state.extra;
+	      }
+	      //Tracevv((stderr, "inflate:         length %u\n", state.length));
+	      state.was = state.length;
+	      state.mode = DIST;
+	      /* falls through */
+	    case DIST:
+	      for (;;) {
+	        here = state.distcode[hold & ((1 << state.distbits) - 1)];/*BITS(state.distbits)*/
+	        here_bits = here >>> 24;
+	        here_op = (here >>> 16) & 0xff;
+	        here_val = here & 0xffff;
+
+	        if ((here_bits) <= bits) { break; }
+	        //--- PULLBYTE() ---//
+	        if (have === 0) { break inf_leave; }
+	        have--;
+	        hold += input[next++] << bits;
+	        bits += 8;
+	        //---//
+	      }
+	      if ((here_op & 0xf0) === 0) {
+	        last_bits = here_bits;
+	        last_op = here_op;
+	        last_val = here_val;
+	        for (;;) {
+	          here = state.distcode[last_val +
+	                  ((hold & ((1 << (last_bits + last_op)) - 1))/*BITS(last.bits + last.op)*/ >> last_bits)];
+	          here_bits = here >>> 24;
+	          here_op = (here >>> 16) & 0xff;
+	          here_val = here & 0xffff;
+
+	          if ((last_bits + here_bits) <= bits) { break; }
+	          //--- PULLBYTE() ---//
+	          if (have === 0) { break inf_leave; }
+	          have--;
+	          hold += input[next++] << bits;
+	          bits += 8;
 	          //---//
-	          state.back += state.extra;
 	        }
-	        //#ifdef INFLATE_STRICT
-	        if (state.offset > state.dmax) {
-	          strm.msg = 'invalid distance too far back';
+	        //--- DROPBITS(last.bits) ---//
+	        hold >>>= last_bits;
+	        bits -= last_bits;
+	        //---//
+	        state.back += last_bits;
+	      }
+	      //--- DROPBITS(here.bits) ---//
+	      hold >>>= here_bits;
+	      bits -= here_bits;
+	      //---//
+	      state.back += here_bits;
+	      if (here_op & 64) {
+	        strm.msg = 'invalid distance code';
+	        state.mode = BAD;
+	        break;
+	      }
+	      state.offset = here_val;
+	      state.extra = (here_op) & 15;
+	      state.mode = DISTEXT;
+	      /* falls through */
+	    case DISTEXT:
+	      if (state.extra) {
+	        //=== NEEDBITS(state.extra);
+	        n = state.extra;
+	        while (bits < n) {
+	          if (have === 0) { break inf_leave; }
+	          have--;
+	          hold += input[next++] << bits;
+	          bits += 8;
+	        }
+	        //===//
+	        state.offset += hold & ((1 << state.extra) - 1)/*BITS(state.extra)*/;
+	        //--- DROPBITS(state.extra) ---//
+	        hold >>>= state.extra;
+	        bits -= state.extra;
+	        //---//
+	        state.back += state.extra;
+	      }
+	//#ifdef INFLATE_STRICT
+	      if (state.offset > state.dmax) {
+	        strm.msg = 'invalid distance too far back';
+	        state.mode = BAD;
+	        break;
+	      }
+	//#endif
+	      //Tracevv((stderr, "inflate:         distance %u\n", state.offset));
+	      state.mode = MATCH;
+	      /* falls through */
+	    case MATCH:
+	      if (left === 0) { break inf_leave; }
+	      copy = _out - left;
+	      if (state.offset > copy) {         /* copy from window */
+	        copy = state.offset - copy;
+	        if (copy > state.whave) {
+	          if (state.sane) {
+	            strm.msg = 'invalid distance too far back';
+	            state.mode = BAD;
+	            break;
+	          }
+	// (!) This block is disabled in zlib defailts,
+	// don't enable it for binary compatibility
+	//#ifdef INFLATE_ALLOW_INVALID_DISTANCE_TOOFAR_ARRR
+	//          Trace((stderr, "inflate.c too far\n"));
+	//          copy -= state.whave;
+	//          if (copy > state.length) { copy = state.length; }
+	//          if (copy > left) { copy = left; }
+	//          left -= copy;
+	//          state.length -= copy;
+	//          do {
+	//            output[put++] = 0;
+	//          } while (--copy);
+	//          if (state.length === 0) { state.mode = LEN; }
+	//          break;
+	//#endif
+	        }
+	        if (copy > state.wnext) {
+	          copy -= state.wnext;
+	          from = state.wsize - copy;
+	        }
+	        else {
+	          from = state.wnext - copy;
+	        }
+	        if (copy > state.length) { copy = state.length; }
+	        from_source = state.window;
+	      }
+	      else {                              /* copy from output */
+	        from_source = output;
+	        from = put - state.offset;
+	        copy = state.length;
+	      }
+	      if (copy > left) { copy = left; }
+	      left -= copy;
+	      state.length -= copy;
+	      do {
+	        output[put++] = from_source[from++];
+	      } while (--copy);
+	      if (state.length === 0) { state.mode = LEN; }
+	      break;
+	    case LIT:
+	      if (left === 0) { break inf_leave; }
+	      output[put++] = state.length;
+	      left--;
+	      state.mode = LEN;
+	      break;
+	    case CHECK:
+	      if (state.wrap) {
+	        //=== NEEDBITS(32);
+	        while (bits < 32) {
+	          if (have === 0) { break inf_leave; }
+	          have--;
+	          // Use '|' insdead of '+' to make sure that result is signed
+	          hold |= input[next++] << bits;
+	          bits += 8;
+	        }
+	        //===//
+	        _out -= left;
+	        strm.total_out += _out;
+	        state.total += _out;
+	        if (_out) {
+	          strm.adler = state.check =
+	              /*UPDATE(state.check, put - _out, _out);*/
+	              (state.flags ? crc32(state.check, output, _out, put - _out) : adler32(state.check, output, _out, put - _out));
+
+	        }
+	        _out = left;
+	        // NB: crc32 stored as signed 32-bit int, zswap32 returns signed too
+	        if ((state.flags ? hold : zswap32(hold)) !== state.check) {
+	          strm.msg = 'incorrect data check';
 	          state.mode = BAD;
 	          break;
 	        }
-	        //#endif
-	        //Tracevv((stderr, "inflate:         distance %u\n", state.offset));
-	        state.mode = MATCH;
+	        //=== INITBITS();
+	        hold = 0;
+	        bits = 0;
+	        //===//
+	        //Tracev((stderr, "inflate:   check matches trailer\n"));
+	      }
+	      state.mode = LENGTH;
 	      /* falls through */
-	      case MATCH:
-	        if (left === 0) {
-	          break inf_leave;
+	    case LENGTH:
+	      if (state.wrap && state.flags) {
+	        //=== NEEDBITS(32);
+	        while (bits < 32) {
+	          if (have === 0) { break inf_leave; }
+	          have--;
+	          hold += input[next++] << bits;
+	          bits += 8;
 	        }
-	        copy = _out - left;
-	        if (state.offset > copy) {
-	          /* copy from window */
-	          copy = state.offset - copy;
-	          if (copy > state.whave) {
-	            if (state.sane) {
-	              strm.msg = 'invalid distance too far back';
-	              state.mode = BAD;
-	              break;
-	            }
-	            // (!) This block is disabled in zlib defailts,
-	            // don't enable it for binary compatibility
-	            //#ifdef INFLATE_ALLOW_INVALID_DISTANCE_TOOFAR_ARRR
-	            //          Trace((stderr, "inflate.c too far\n"));
-	            //          copy -= state.whave;
-	            //          if (copy > state.length) { copy = state.length; }
-	            //          if (copy > left) { copy = left; }
-	            //          left -= copy;
-	            //          state.length -= copy;
-	            //          do {
-	            //            output[put++] = 0;
-	            //          } while (--copy);
-	            //          if (state.length === 0) { state.mode = LEN; }
-	            //          break;
-	            //#endif
-	          }
-	          if (copy > state.wnext) {
-	            copy -= state.wnext;
-	            from = state.wsize - copy;
-	          } else {
-	            from = state.wnext - copy;
-	          }
-	          if (copy > state.length) {
-	            copy = state.length;
-	          }
-	          from_source = state.window;
-	        } else {
-	          /* copy from output */
-	          from_source = output;
-	          from = put - state.offset;
-	          copy = state.length;
+	        //===//
+	        if (hold !== (state.total & 0xffffffff)) {
+	          strm.msg = 'incorrect length check';
+	          state.mode = BAD;
+	          break;
 	        }
-	        if (copy > left) {
-	          copy = left;
-	        }
-	        left -= copy;
-	        state.length -= copy;
-	        do {
-	          output[put++] = from_source[from++];
-	        } while (--copy);
-	        if (state.length === 0) {
-	          state.mode = LEN;
-	        }
-	        break;
-	      case LIT:
-	        if (left === 0) {
-	          break inf_leave;
-	        }
-	        output[put++] = state.length;
-	        left--;
-	        state.mode = LEN;
-	        break;
-	      case CHECK:
-	        if (state.wrap) {
-	          //=== NEEDBITS(32);
-	          while (bits < 32) {
-	            if (have === 0) {
-	              break inf_leave;
-	            }
-	            have--;
-	            // Use '|' insdead of '+' to make sure that result is signed
-	            hold |= input[next++] << bits;
-	            bits += 8;
-	          }
-	          //===//
-	          _out -= left;
-	          strm.total_out += _out;
-	          state.total += _out;
-	          if (_out) {
-	            strm.adler = state.check =
-	            /*UPDATE(state.check, put - _out, _out);*/
-	            state.flags ? crc32(state.check, output, _out, put - _out) : adler32(state.check, output, _out, put - _out);
-	          }
-	          _out = left;
-	          // NB: crc32 stored as signed 32-bit int, zswap32 returns signed too
-	          if ((state.flags ? hold : zswap32(hold)) !== state.check) {
-	            strm.msg = 'incorrect data check';
-	            state.mode = BAD;
-	            break;
-	          }
-	          //=== INITBITS();
-	          hold = 0;
-	          bits = 0;
-	          //===//
-	          //Tracev((stderr, "inflate:   check matches trailer\n"));
-	        }
-	        state.mode = LENGTH;
+	        //=== INITBITS();
+	        hold = 0;
+	        bits = 0;
+	        //===//
+	        //Tracev((stderr, "inflate:   length matches trailer\n"));
+	      }
+	      state.mode = DONE;
 	      /* falls through */
-	      case LENGTH:
-	        if (state.wrap && state.flags) {
-	          //=== NEEDBITS(32);
-	          while (bits < 32) {
-	            if (have === 0) {
-	              break inf_leave;
-	            }
-	            have--;
-	            hold += input[next++] << bits;
-	            bits += 8;
-	          }
-	          //===//
-	          if (hold !== (state.total & 0xffffffff)) {
-	            strm.msg = 'incorrect length check';
-	            state.mode = BAD;
-	            break;
-	          }
-	          //=== INITBITS();
-	          hold = 0;
-	          bits = 0;
-	          //===//
-	          //Tracev((stderr, "inflate:   length matches trailer\n"));
-	        }
-	        state.mode = DONE;
+	    case DONE:
+	      ret = Z_STREAM_END;
+	      break inf_leave;
+	    case BAD:
+	      ret = Z_DATA_ERROR;
+	      break inf_leave;
+	    case MEM:
+	      return Z_MEM_ERROR;
+	    case SYNC:
 	      /* falls through */
-	      case DONE:
-	        ret = Z_STREAM_END;
-	        break inf_leave;
-	      case BAD:
-	        ret = Z_DATA_ERROR;
-	        break inf_leave;
-	      case MEM:
-	        return Z_MEM_ERROR;
-	      case SYNC:
-	      /* falls through */
-	      default:
-	        return Z_STREAM_ERROR;
+	    default:
+	      return Z_STREAM_ERROR;
 	    }
 	  }
 
@@ -15921,7 +15657,8 @@
 	  state.bits = bits;
 	  //---
 
-	  if (state.wsize || _out !== strm.avail_out && state.mode < BAD && (state.mode < CHECK || flush !== Z_FINISH)) {
+	  if (state.wsize || (_out !== strm.avail_out && state.mode < BAD &&
+	                      (state.mode < CHECK || flush !== Z_FINISH))) {
 	    if (updatewindow(strm, strm.output, strm.next_out, _out - strm.avail_out)) {
 	      state.mode = MEM;
 	      return Z_MEM_ERROR;
@@ -15934,10 +15671,12 @@
 	  state.total += _out;
 	  if (state.wrap && _out) {
 	    strm.adler = state.check = /*UPDATE(state.check, strm.next_out - _out, _out);*/
-	    state.flags ? crc32(state.check, output, _out, strm.next_out - _out) : adler32(state.check, output, _out, strm.next_out - _out);
+	      (state.flags ? crc32(state.check, output, _out, strm.next_out - _out) : adler32(state.check, output, _out, strm.next_out - _out));
 	  }
-	  strm.data_type = state.bits + (state.last ? 64 : 0) + (state.mode === TYPE ? 128 : 0) + (state.mode === LEN_ || state.mode === COPY_ ? 256 : 0);
-	  if ((_in === 0 && _out === 0 || flush === Z_FINISH) && ret === Z_OK) {
+	  strm.data_type = state.bits + (state.last ? 64 : 0) +
+	                    (state.mode === TYPE ? 128 : 0) +
+	                    (state.mode === LEN_ || state.mode === COPY_ ? 256 : 0);
+	  if (((_in === 0 && _out === 0) || flush === Z_FINISH) && ret === Z_OK) {
 	    ret = Z_BUF_ERROR;
 	  }
 	  return ret;
@@ -15946,8 +15685,8 @@
 	function inflateEnd(strm) {
 
 	  if (!strm || !strm.state /*|| strm->zfree == (free_func)0*/) {
-	      return Z_STREAM_ERROR;
-	    }
+	    return Z_STREAM_ERROR;
+	  }
 
 	  var state = strm.state;
 	  if (state.window) {
@@ -15961,13 +15700,9 @@
 	  var state;
 
 	  /* check state */
-	  if (!strm || !strm.state) {
-	    return Z_STREAM_ERROR;
-	  }
+	  if (!strm || !strm.state) { return Z_STREAM_ERROR; }
 	  state = strm.state;
-	  if ((state.wrap & 2) === 0) {
-	    return Z_STREAM_ERROR;
-	  }
+	  if ((state.wrap & 2) === 0) { return Z_STREAM_ERROR; }
 
 	  /* save header structure */
 	  state.head = head;
@@ -15983,9 +15718,7 @@
 	  var ret;
 
 	  /* check state */
-	  if (!strm /* == Z_NULL */ || !strm.state /* == Z_NULL */) {
-	      return Z_STREAM_ERROR;
-	    }
+	  if (!strm /* == Z_NULL */ || !strm.state /* == Z_NULL */) { return Z_STREAM_ERROR; }
 	  state = strm.state;
 
 	  if (state.wrap !== 0 && state.mode !== DICT) {
@@ -16034,6 +15767,7 @@
 	exports.inflateUndermine = inflateUndermine;
 	*/
 
+
 /***/ },
 /* 36 */
 /***/ function(module, exports) {
@@ -16041,9 +15775,8 @@
 	'use strict';
 
 	// See state defs from inflate.js
-
-	var BAD = 30; /* got a data error -- remain here until reset */
-	var TYPE = 12; /* i: waiting for type bits, including last-flag bit */
+	var BAD = 30;       /* got a data error -- remain here until reset */
+	var TYPE = 12;      /* i: waiting for type bits, including last-flag bit */
 
 	/*
 	   Decode literal, length, and distance codes and write out the resulting
@@ -16082,32 +15815,33 @@
 	 */
 	module.exports = function inflate_fast(strm, start) {
 	  var state;
-	  var _in; /* local strm.input */
-	  var last; /* have enough input while in < last */
-	  var _out; /* local strm.output */
-	  var beg; /* inflate()'s initial strm.output */
-	  var end; /* while out < end, enough space available */
-	  //#ifdef INFLATE_STRICT
-	  var dmax; /* maximum distance from zlib header */
-	  //#endif
-	  var wsize; /* window size or zero if not using window */
-	  var whave; /* valid bytes in the window */
-	  var wnext; /* window write index */
+	  var _in;                    /* local strm.input */
+	  var last;                   /* have enough input while in < last */
+	  var _out;                   /* local strm.output */
+	  var beg;                    /* inflate()'s initial strm.output */
+	  var end;                    /* while out < end, enough space available */
+	//#ifdef INFLATE_STRICT
+	  var dmax;                   /* maximum distance from zlib header */
+	//#endif
+	  var wsize;                  /* window size or zero if not using window */
+	  var whave;                  /* valid bytes in the window */
+	  var wnext;                  /* window write index */
 	  // Use `s_window` instead `window`, avoid conflict with instrumentation tools
-	  var s_window; /* allocated sliding window, if wsize != 0 */
-	  var hold; /* local strm.hold */
-	  var bits; /* local strm.bits */
-	  var lcode; /* local strm.lencode */
-	  var dcode; /* local strm.distcode */
-	  var lmask; /* mask for first level of length codes */
-	  var dmask; /* mask for first level of distance codes */
-	  var here; /* retrieved table entry */
-	  var op; /* code bits, operation, extra bits, or */
-	  /*  window position, window bytes to copy */
-	  var len; /* match length, unused bytes */
-	  var dist; /* match distance */
-	  var from; /* where to copy match from */
+	  var s_window;               /* allocated sliding window, if wsize != 0 */
+	  var hold;                   /* local strm.hold */
+	  var bits;                   /* local strm.bits */
+	  var lcode;                  /* local strm.lencode */
+	  var dcode;                  /* local strm.distcode */
+	  var lmask;                  /* mask for first level of length codes */
+	  var dmask;                  /* mask for first level of distance codes */
+	  var here;                   /* retrieved table entry */
+	  var op;                     /* code bits, operation, extra bits, or */
+	                              /*  window position, window bytes to copy */
+	  var len;                    /* match length, unused bytes */
+	  var dist;                   /* match distance */
+	  var from;                   /* where to copy match from */
 	  var from_source;
+
 
 	  var input, output; // JS specific, because we have no pointers
 
@@ -16121,9 +15855,9 @@
 	  output = strm.output;
 	  beg = _out - (start - strm.avail_out);
 	  end = _out + (strm.avail_out - 257);
-	  //#ifdef INFLATE_STRICT
+	//#ifdef INFLATE_STRICT
 	  dmax = state.dmax;
-	  //#endif
+	//#endif
 	  wsize = state.wsize;
 	  whave = state.whave;
 	  wnext = state.wnext;
@@ -16135,10 +15869,12 @@
 	  lmask = (1 << state.lenbits) - 1;
 	  dmask = (1 << state.distbits) - 1;
 
+
 	  /* decode literals and length/distances until end-of-block or not enough
 	     input data or output space */
 
-	  top: do {
+	  top:
+	  do {
 	    if (bits < 15) {
 	      hold += input[_in++] << bits;
 	      bits += 8;
@@ -16148,206 +15884,200 @@
 
 	    here = lcode[hold & lmask];
 
-	    dolen: for (;;) {
-	      // Goto emulation
-	      op = here >>> 24 /*here.bits*/;
+	    dolen:
+	    for (;;) { // Goto emulation
+	      op = here >>> 24/*here.bits*/;
 	      hold >>>= op;
 	      bits -= op;
-	      op = here >>> 16 & 0xff /*here.op*/;
-	      if (op === 0) {
-	        /* literal */
+	      op = (here >>> 16) & 0xff/*here.op*/;
+	      if (op === 0) {                          /* literal */
 	        //Tracevv((stderr, here.val >= 0x20 && here.val < 0x7f ?
 	        //        "inflate:         literal '%c'\n" :
 	        //        "inflate:         literal 0x%02x\n", here.val));
-	        output[_out++] = here & 0xffff /*here.val*/;
-	      } else if (op & 16) {
-	          /* length base */
-	          len = here & 0xffff /*here.val*/;
-	          op &= 15; /* number of extra bits */
-	          if (op) {
+	        output[_out++] = here & 0xffff/*here.val*/;
+	      }
+	      else if (op & 16) {                     /* length base */
+	        len = here & 0xffff/*here.val*/;
+	        op &= 15;                           /* number of extra bits */
+	        if (op) {
+	          if (bits < op) {
+	            hold += input[_in++] << bits;
+	            bits += 8;
+	          }
+	          len += hold & ((1 << op) - 1);
+	          hold >>>= op;
+	          bits -= op;
+	        }
+	        //Tracevv((stderr, "inflate:         length %u\n", len));
+	        if (bits < 15) {
+	          hold += input[_in++] << bits;
+	          bits += 8;
+	          hold += input[_in++] << bits;
+	          bits += 8;
+	        }
+	        here = dcode[hold & dmask];
+
+	        dodist:
+	        for (;;) { // goto emulation
+	          op = here >>> 24/*here.bits*/;
+	          hold >>>= op;
+	          bits -= op;
+	          op = (here >>> 16) & 0xff/*here.op*/;
+
+	          if (op & 16) {                      /* distance base */
+	            dist = here & 0xffff/*here.val*/;
+	            op &= 15;                       /* number of extra bits */
 	            if (bits < op) {
 	              hold += input[_in++] << bits;
 	              bits += 8;
-	            }
-	            len += hold & (1 << op) - 1;
-	            hold >>>= op;
-	            bits -= op;
-	          }
-	          //Tracevv((stderr, "inflate:         length %u\n", len));
-	          if (bits < 15) {
-	            hold += input[_in++] << bits;
-	            bits += 8;
-	            hold += input[_in++] << bits;
-	            bits += 8;
-	          }
-	          here = dcode[hold & dmask];
-
-	          dodist: for (;;) {
-	            // goto emulation
-	            op = here >>> 24 /*here.bits*/;
-	            hold >>>= op;
-	            bits -= op;
-	            op = here >>> 16 & 0xff /*here.op*/;
-
-	            if (op & 16) {
-	              /* distance base */
-	              dist = here & 0xffff /*here.val*/;
-	              op &= 15; /* number of extra bits */
 	              if (bits < op) {
 	                hold += input[_in++] << bits;
 	                bits += 8;
-	                if (bits < op) {
-	                  hold += input[_in++] << bits;
-	                  bits += 8;
-	                }
 	              }
-	              dist += hold & (1 << op) - 1;
-	              //#ifdef INFLATE_STRICT
-	              if (dist > dmax) {
-	                strm.msg = 'invalid distance too far back';
-	                state.mode = BAD;
-	                break top;
-	              }
-	              //#endif
-	              hold >>>= op;
-	              bits -= op;
-	              //Tracevv((stderr, "inflate:         distance %u\n", dist));
-	              op = _out - beg; /* max distance in output */
-	              if (dist > op) {
-	                /* see if copy from window */
-	                op = dist - op; /* distance back in window */
-	                if (op > whave) {
-	                  if (state.sane) {
-	                    strm.msg = 'invalid distance too far back';
-	                    state.mode = BAD;
-	                    break top;
-	                  }
-
-	                  // (!) This block is disabled in zlib defailts,
-	                  // don't enable it for binary compatibility
-	                  //#ifdef INFLATE_ALLOW_INVALID_DISTANCE_TOOFAR_ARRR
-	                  //                if (len <= op - whave) {
-	                  //                  do {
-	                  //                    output[_out++] = 0;
-	                  //                  } while (--len);
-	                  //                  continue top;
-	                  //                }
-	                  //                len -= op - whave;
-	                  //                do {
-	                  //                  output[_out++] = 0;
-	                  //                } while (--op > whave);
-	                  //                if (op === 0) {
-	                  //                  from = _out - dist;
-	                  //                  do {
-	                  //                    output[_out++] = output[from++];
-	                  //                  } while (--len);
-	                  //                  continue top;
-	                  //                }
-	                  //#endif
-	                }
-	                from = 0; // window index
-	                from_source = s_window;
-	                if (wnext === 0) {
-	                  /* very common case */
-	                  from += wsize - op;
-	                  if (op < len) {
-	                    /* some from window */
-	                    len -= op;
-	                    do {
-	                      output[_out++] = s_window[from++];
-	                    } while (--op);
-	                    from = _out - dist; /* rest from output */
-	                    from_source = output;
-	                  }
-	                } else if (wnext < op) {
-	                  /* wrap around window */
-	                  from += wsize + wnext - op;
-	                  op -= wnext;
-	                  if (op < len) {
-	                    /* some from end of window */
-	                    len -= op;
-	                    do {
-	                      output[_out++] = s_window[from++];
-	                    } while (--op);
-	                    from = 0;
-	                    if (wnext < len) {
-	                      /* some from start of window */
-	                      op = wnext;
-	                      len -= op;
-	                      do {
-	                        output[_out++] = s_window[from++];
-	                      } while (--op);
-	                      from = _out - dist; /* rest from output */
-	                      from_source = output;
-	                    }
-	                  }
-	                } else {
-	                  /* contiguous in window */
-	                  from += wnext - op;
-	                  if (op < len) {
-	                    /* some from window */
-	                    len -= op;
-	                    do {
-	                      output[_out++] = s_window[from++];
-	                    } while (--op);
-	                    from = _out - dist; /* rest from output */
-	                    from_source = output;
-	                  }
-	                }
-	                while (len > 2) {
-	                  output[_out++] = from_source[from++];
-	                  output[_out++] = from_source[from++];
-	                  output[_out++] = from_source[from++];
-	                  len -= 3;
-	                }
-	                if (len) {
-	                  output[_out++] = from_source[from++];
-	                  if (len > 1) {
-	                    output[_out++] = from_source[from++];
-	                  }
-	                }
-	              } else {
-	                from = _out - dist; /* copy direct from output */
-	                do {
-	                  /* minimum length is three */
-	                  output[_out++] = output[from++];
-	                  output[_out++] = output[from++];
-	                  output[_out++] = output[from++];
-	                  len -= 3;
-	                } while (len > 2);
-	                if (len) {
-	                  output[_out++] = output[from++];
-	                  if (len > 1) {
-	                    output[_out++] = output[from++];
-	                  }
-	                }
-	              }
-	            } else if ((op & 64) === 0) {
-	              /* 2nd level distance code */
-	              here = dcode[(here & 0xffff) + ( /*here.val*/hold & (1 << op) - 1)];
-	              continue dodist;
-	            } else {
-	              strm.msg = 'invalid distance code';
+	            }
+	            dist += hold & ((1 << op) - 1);
+	//#ifdef INFLATE_STRICT
+	            if (dist > dmax) {
+	              strm.msg = 'invalid distance too far back';
 	              state.mode = BAD;
 	              break top;
 	            }
+	//#endif
+	            hold >>>= op;
+	            bits -= op;
+	            //Tracevv((stderr, "inflate:         distance %u\n", dist));
+	            op = _out - beg;                /* max distance in output */
+	            if (dist > op) {                /* see if copy from window */
+	              op = dist - op;               /* distance back in window */
+	              if (op > whave) {
+	                if (state.sane) {
+	                  strm.msg = 'invalid distance too far back';
+	                  state.mode = BAD;
+	                  break top;
+	                }
 
-	            break; // need to emulate goto via "continue"
+	// (!) This block is disabled in zlib defailts,
+	// don't enable it for binary compatibility
+	//#ifdef INFLATE_ALLOW_INVALID_DISTANCE_TOOFAR_ARRR
+	//                if (len <= op - whave) {
+	//                  do {
+	//                    output[_out++] = 0;
+	//                  } while (--len);
+	//                  continue top;
+	//                }
+	//                len -= op - whave;
+	//                do {
+	//                  output[_out++] = 0;
+	//                } while (--op > whave);
+	//                if (op === 0) {
+	//                  from = _out - dist;
+	//                  do {
+	//                    output[_out++] = output[from++];
+	//                  } while (--len);
+	//                  continue top;
+	//                }
+	//#endif
+	              }
+	              from = 0; // window index
+	              from_source = s_window;
+	              if (wnext === 0) {           /* very common case */
+	                from += wsize - op;
+	                if (op < len) {         /* some from window */
+	                  len -= op;
+	                  do {
+	                    output[_out++] = s_window[from++];
+	                  } while (--op);
+	                  from = _out - dist;  /* rest from output */
+	                  from_source = output;
+	                }
+	              }
+	              else if (wnext < op) {      /* wrap around window */
+	                from += wsize + wnext - op;
+	                op -= wnext;
+	                if (op < len) {         /* some from end of window */
+	                  len -= op;
+	                  do {
+	                    output[_out++] = s_window[from++];
+	                  } while (--op);
+	                  from = 0;
+	                  if (wnext < len) {  /* some from start of window */
+	                    op = wnext;
+	                    len -= op;
+	                    do {
+	                      output[_out++] = s_window[from++];
+	                    } while (--op);
+	                    from = _out - dist;      /* rest from output */
+	                    from_source = output;
+	                  }
+	                }
+	              }
+	              else {                      /* contiguous in window */
+	                from += wnext - op;
+	                if (op < len) {         /* some from window */
+	                  len -= op;
+	                  do {
+	                    output[_out++] = s_window[from++];
+	                  } while (--op);
+	                  from = _out - dist;  /* rest from output */
+	                  from_source = output;
+	                }
+	              }
+	              while (len > 2) {
+	                output[_out++] = from_source[from++];
+	                output[_out++] = from_source[from++];
+	                output[_out++] = from_source[from++];
+	                len -= 3;
+	              }
+	              if (len) {
+	                output[_out++] = from_source[from++];
+	                if (len > 1) {
+	                  output[_out++] = from_source[from++];
+	                }
+	              }
+	            }
+	            else {
+	              from = _out - dist;          /* copy direct from output */
+	              do {                        /* minimum length is three */
+	                output[_out++] = output[from++];
+	                output[_out++] = output[from++];
+	                output[_out++] = output[from++];
+	                len -= 3;
+	              } while (len > 2);
+	              if (len) {
+	                output[_out++] = output[from++];
+	                if (len > 1) {
+	                  output[_out++] = output[from++];
+	                }
+	              }
+	            }
 	          }
-	        } else if ((op & 64) === 0) {
-	            /* 2nd level length code */
-	            here = lcode[(here & 0xffff) + ( /*here.val*/hold & (1 << op) - 1)];
-	            continue dolen;
-	          } else if (op & 32) {
-	            /* end-of-block */
-	            //Tracevv((stderr, "inflate:         end of block\n"));
-	            state.mode = TYPE;
-	            break top;
-	          } else {
-	            strm.msg = 'invalid literal/length code';
+	          else if ((op & 64) === 0) {          /* 2nd level distance code */
+	            here = dcode[(here & 0xffff)/*here.val*/ + (hold & ((1 << op) - 1))];
+	            continue dodist;
+	          }
+	          else {
+	            strm.msg = 'invalid distance code';
 	            state.mode = BAD;
 	            break top;
 	          }
+
+	          break; // need to emulate goto via "continue"
+	        }
+	      }
+	      else if ((op & 64) === 0) {              /* 2nd level length code */
+	        here = lcode[(here & 0xffff)/*here.val*/ + (hold & ((1 << op) - 1))];
+	        continue dolen;
+	      }
+	      else if (op & 32) {                     /* end-of-block */
+	        //Tracevv((stderr, "inflate:         end of block\n"));
+	        state.mode = TYPE;
+	        break top;
+	      }
+	      else {
+	        strm.msg = 'invalid literal/length code';
+	        state.mode = BAD;
+	        break top;
+	      }
 
 	      break; // need to emulate goto via "continue"
 	    }
@@ -16362,18 +16092,20 @@
 	  /* update state and return */
 	  strm.next_in = _in;
 	  strm.next_out = _out;
-	  strm.avail_in = _in < last ? 5 + (last - _in) : 5 - (_in - last);
-	  strm.avail_out = _out < end ? 257 + (end - _out) : 257 - (_out - end);
+	  strm.avail_in = (_in < last ? 5 + (last - _in) : 5 - (_in - last));
+	  strm.avail_out = (_out < end ? 257 + (end - _out) : 257 - (_out - end));
 	  state.hold = hold;
 	  state.bits = bits;
 	  return;
 	};
+
 
 /***/ },
 /* 37 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
+
 
 	var utils = __webpack_require__(25);
 
@@ -16386,41 +16118,51 @@
 	var LENS = 1;
 	var DISTS = 2;
 
-	var lbase = [/* Length codes 257..285 base */
-	3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 15, 17, 19, 23, 27, 31, 35, 43, 51, 59, 67, 83, 99, 115, 131, 163, 195, 227, 258, 0, 0];
+	var lbase = [ /* Length codes 257..285 base */
+	  3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 15, 17, 19, 23, 27, 31,
+	  35, 43, 51, 59, 67, 83, 99, 115, 131, 163, 195, 227, 258, 0, 0
+	];
 
-	var lext = [/* Length codes 257..285 extra */
-	16, 16, 16, 16, 16, 16, 16, 16, 17, 17, 17, 17, 18, 18, 18, 18, 19, 19, 19, 19, 20, 20, 20, 20, 21, 21, 21, 21, 16, 72, 78];
+	var lext = [ /* Length codes 257..285 extra */
+	  16, 16, 16, 16, 16, 16, 16, 16, 17, 17, 17, 17, 18, 18, 18, 18,
+	  19, 19, 19, 19, 20, 20, 20, 20, 21, 21, 21, 21, 16, 72, 78
+	];
 
-	var dbase = [/* Distance codes 0..29 base */
-	1, 2, 3, 4, 5, 7, 9, 13, 17, 25, 33, 49, 65, 97, 129, 193, 257, 385, 513, 769, 1025, 1537, 2049, 3073, 4097, 6145, 8193, 12289, 16385, 24577, 0, 0];
+	var dbase = [ /* Distance codes 0..29 base */
+	  1, 2, 3, 4, 5, 7, 9, 13, 17, 25, 33, 49, 65, 97, 129, 193,
+	  257, 385, 513, 769, 1025, 1537, 2049, 3073, 4097, 6145,
+	  8193, 12289, 16385, 24577, 0, 0
+	];
 
-	var dext = [/* Distance codes 0..29 extra */
-	16, 16, 16, 16, 17, 17, 18, 18, 19, 19, 20, 20, 21, 21, 22, 22, 23, 23, 24, 24, 25, 25, 26, 26, 27, 27, 28, 28, 29, 29, 64, 64];
+	var dext = [ /* Distance codes 0..29 extra */
+	  16, 16, 16, 16, 17, 17, 18, 18, 19, 19, 20, 20, 21, 21, 22, 22,
+	  23, 23, 24, 24, 25, 25, 26, 26, 27, 27,
+	  28, 28, 29, 29, 64, 64
+	];
 
-	module.exports = function inflate_table(type, lens, lens_index, codes, table, table_index, work, opts) {
+	module.exports = function inflate_table(type, lens, lens_index, codes, table, table_index, work, opts)
+	{
 	  var bits = opts.bits;
-	  //here = opts.here; /* table entry for duplication */
+	      //here = opts.here; /* table entry for duplication */
 
-	  var len = 0; /* a code's length in bits */
-	  var sym = 0; /* index of code symbols */
-	  var min = 0,
-	      max = 0; /* minimum and maximum code lengths */
-	  var root = 0; /* number of index bits for root table */
-	  var curr = 0; /* number of index bits for current table */
-	  var drop = 0; /* code bits to drop for sub-table */
-	  var left = 0; /* number of prefix codes available */
-	  var used = 0; /* code entries in table used */
-	  var huff = 0; /* Huffman code */
-	  var incr; /* for incrementing code, index */
-	  var fill; /* index for replicating entries */
-	  var low; /* low bits for current root entry */
-	  var mask; /* mask for low root bits */
-	  var next; /* next available space in table */
-	  var base = null; /* base value table to use */
+	  var len = 0;               /* a code's length in bits */
+	  var sym = 0;               /* index of code symbols */
+	  var min = 0, max = 0;          /* minimum and maximum code lengths */
+	  var root = 0;              /* number of index bits for root table */
+	  var curr = 0;              /* number of index bits for current table */
+	  var drop = 0;              /* code bits to drop for sub-table */
+	  var left = 0;                   /* number of prefix codes available */
+	  var used = 0;              /* code entries in table used */
+	  var huff = 0;              /* Huffman code */
+	  var incr;              /* for incrementing code, index */
+	  var fill;              /* index for replicating entries */
+	  var low;               /* low bits for current root entry */
+	  var mask;              /* mask for low root bits */
+	  var next;             /* next available space in table */
+	  var base = null;     /* base value table to use */
 	  var base_index = 0;
-	  //  var shoextra;    /* extra bits table to use */
-	  var end; /* use base and extra for symbol > end */
+	//  var shoextra;    /* extra bits table to use */
+	  var end;                    /* use base and extra for symbol > end */
 	  var count = new utils.Buf16(MAXBITS + 1); //[MAXBITS+1];    /* number of codes of each length */
 	  var offs = new utils.Buf16(MAXBITS + 1); //[MAXBITS+1];     /* offsets in table for each length */
 	  var extra = null;
@@ -16440,16 +16182,19 @@
 	   from their more natural integer increment ordering, and so when the
 	   decoding tables are built in the large loop below, the integer codes
 	   are incremented backwards.
-	    This routine assumes, but does not check, that all of the entries in
+
+	   This routine assumes, but does not check, that all of the entries in
 	   lens[] are in the range 0..MAXBITS.  The caller must assure this.
 	   1..MAXBITS is interpreted as that code length.  zero means that that
 	   symbol does not occur in this code.
-	    The codes are sorted by computing a count of codes for each length,
+
+	   The codes are sorted by computing a count of codes for each length,
 	   creating from that a table of starting indices for each length in the
 	   sorted table, and then entering the symbols in order in the sorted
 	   table.  The sorted table is work[], with that space being provided by
 	   the caller.
-	    The length counts are used for other purposes as well, i.e. finding
+
+	   The length counts are used for other purposes as well, i.e. finding
 	   the minimum and maximum length codes, determining if there are any
 	   codes at all, checking for a valid set of lengths, and looking ahead
 	   at length counts to determine sub-table sizes when building the
@@ -16467,32 +16212,28 @@
 	  /* bound code lengths, force root to be within code lengths */
 	  root = bits;
 	  for (max = MAXBITS; max >= 1; max--) {
-	    if (count[max] !== 0) {
-	      break;
-	    }
+	    if (count[max] !== 0) { break; }
 	  }
 	  if (root > max) {
 	    root = max;
 	  }
-	  if (max === 0) {
-	    /* no symbols to code at all */
+	  if (max === 0) {                     /* no symbols to code at all */
 	    //table.op[opts.table_index] = 64;  //here.op = (var char)64;    /* invalid code marker */
 	    //table.bits[opts.table_index] = 1;   //here.bits = (var char)1;
 	    //table.val[opts.table_index++] = 0;   //here.val = (var short)0;
-	    table[table_index++] = 1 << 24 | 64 << 16 | 0;
+	    table[table_index++] = (1 << 24) | (64 << 16) | 0;
+
 
 	    //table.op[opts.table_index] = 64;
 	    //table.bits[opts.table_index] = 1;
 	    //table.val[opts.table_index++] = 0;
-	    table[table_index++] = 1 << 24 | 64 << 16 | 0;
+	    table[table_index++] = (1 << 24) | (64 << 16) | 0;
 
 	    opts.bits = 1;
-	    return 0; /* no symbols, but wait for decoding to report error */
+	    return 0;     /* no symbols, but wait for decoding to report error */
 	  }
 	  for (min = 1; min < max; min++) {
-	    if (count[min] !== 0) {
-	      break;
-	    }
+	    if (count[min] !== 0) { break; }
 	  }
 	  if (root < min) {
 	    root = min;
@@ -16505,10 +16246,10 @@
 	    left -= count[len];
 	    if (left < 0) {
 	      return -1;
-	    } /* over-subscribed */
+	    }        /* over-subscribed */
 	  }
 	  if (left > 0 && (type === CODES || max !== 1)) {
-	    return -1; /* incomplete set */
+	    return -1;                      /* incomplete set */
 	  }
 
 	  /* generate offsets into symbol table for each length for sorting */
@@ -16531,21 +16272,25 @@
 	   bits off of the bottom.  For codes where len is less than drop + curr,
 	   those top drop + curr - len bits are incremented through all values to
 	   fill the table with replicated entries.
-	    root is the number of index bits for the root table.  When len exceeds
+
+	   root is the number of index bits for the root table.  When len exceeds
 	   root, sub-tables are created pointed to by the root entry with an index
 	   of the low root bits of huff.  This is saved in low to check for when a
 	   new sub-table should be started.  drop is zero when the root table is
 	   being filled, and drop is root when sub-tables are being filled.
-	    When a new sub-table is needed, it is necessary to look ahead in the
+
+	   When a new sub-table is needed, it is necessary to look ahead in the
 	   code lengths to determine what size sub-table is needed.  The length
 	   counts are used for this, and so count[] is decremented as codes are
 	   entered in the tables.
-	    used keeps track of how many table entries have been allocated from the
+
+	   used keeps track of how many table entries have been allocated from the
 	   provided *table space.  It is checked for LENS and DIST tables against
 	   the constants ENOUGH_LENS and ENOUGH_DISTS to guard against changes in
 	   the initial root table size constants.  See the comments in inftrees.h
 	   for more information.
-	    sym increments through all symbols, and the loop terminates when
+
+	   sym increments through all symbols, and the loop terminates when
 	   all codes of length max, i.e. all codes, have been processed.  This
 	   routine permits incomplete codes, so another loop after this one fills
 	   in the rest of the decoding tables with invalid code markers.
@@ -16555,34 +16300,36 @@
 	  // poor man optimization - use if-else instead of switch,
 	  // to avoid deopts in old v8
 	  if (type === CODES) {
-	    base = extra = work; /* dummy value--not used */
+	    base = extra = work;    /* dummy value--not used */
 	    end = 19;
+
 	  } else if (type === LENS) {
 	    base = lbase;
 	    base_index -= 257;
 	    extra = lext;
 	    extra_index -= 257;
 	    end = 256;
-	  } else {
-	    /* DISTS */
+
+	  } else {                    /* DISTS */
 	    base = dbase;
 	    extra = dext;
 	    end = -1;
 	  }
 
 	  /* initialize opts for loop */
-	  huff = 0; /* starting code */
-	  sym = 0; /* starting code symbol */
-	  len = min; /* starting code length */
-	  next = table_index; /* current table to fill in */
-	  curr = root; /* current table index bits */
-	  drop = 0; /* current bits to drop from code for index */
-	  low = -1; /* trigger new sub-table when len > root */
-	  used = 1 << root; /* use root table entries */
-	  mask = used - 1; /* mask for comparing low */
+	  huff = 0;                   /* starting code */
+	  sym = 0;                    /* starting code symbol */
+	  len = min;                  /* starting code length */
+	  next = table_index;              /* current table to fill in */
+	  curr = root;                /* current table index bits */
+	  drop = 0;                   /* current bits to drop from code for index */
+	  low = -1;                   /* trigger new sub-table when len > root */
+	  used = 1 << root;          /* use root table entries */
+	  mask = used - 1;            /* mask for comparing low */
 
 	  /* check available table space */
-	  if (type === LENS && used > ENOUGH_LENS || type === DISTS && used > ENOUGH_DISTS) {
+	  if ((type === LENS && used > ENOUGH_LENS) ||
+	    (type === DISTS && used > ENOUGH_DISTS)) {
 	    return 1;
 	  }
 
@@ -16595,25 +16342,27 @@
 	    if (work[sym] < end) {
 	      here_op = 0;
 	      here_val = work[sym];
-	    } else if (work[sym] > end) {
+	    }
+	    else if (work[sym] > end) {
 	      here_op = extra[extra_index + work[sym]];
 	      here_val = base[base_index + work[sym]];
-	    } else {
-	      here_op = 32 + 64; /* end of block */
+	    }
+	    else {
+	      here_op = 32 + 64;         /* end of block */
 	      here_val = 0;
 	    }
 
 	    /* replicate for those indices with low len bits equal to huff */
-	    incr = 1 << len - drop;
+	    incr = 1 << (len - drop);
 	    fill = 1 << curr;
-	    min = fill; /* save offset to next table */
+	    min = fill;                 /* save offset to next table */
 	    do {
 	      fill -= incr;
-	      table[next + (huff >> drop) + fill] = here_bits << 24 | here_op << 16 | here_val | 0;
+	      table[next + (huff >> drop) + fill] = (here_bits << 24) | (here_op << 16) | here_val |0;
 	    } while (fill !== 0);
 
 	    /* backwards increment the len-bit code huff */
-	    incr = 1 << len - 1;
+	    incr = 1 << (len - 1);
 	    while (huff & incr) {
 	      incr >>= 1;
 	    }
@@ -16627,9 +16376,7 @@
 	    /* go to next symbol, update count, len */
 	    sym++;
 	    if (--count[len] === 0) {
-	      if (len === max) {
-	        break;
-	      }
+	      if (len === max) { break; }
 	      len = lens[lens_index + work[sym]];
 	    }
 
@@ -16641,23 +16388,22 @@
 	      }
 
 	      /* increment past last table */
-	      next += min; /* here min is 1 << curr */
+	      next += min;            /* here min is 1 << curr */
 
 	      /* determine length of next table */
 	      curr = len - drop;
 	      left = 1 << curr;
 	      while (curr + drop < max) {
 	        left -= count[curr + drop];
-	        if (left <= 0) {
-	          break;
-	        }
+	        if (left <= 0) { break; }
 	        curr++;
 	        left <<= 1;
 	      }
 
 	      /* check for enough space */
 	      used += 1 << curr;
-	      if (type === LENS && used > ENOUGH_LENS || type === DISTS && used > ENOUGH_DISTS) {
+	      if ((type === LENS && used > ENOUGH_LENS) ||
+	        (type === DISTS && used > ENOUGH_DISTS)) {
 	        return 1;
 	      }
 
@@ -16666,7 +16412,7 @@
 	      /*table.op[low] = curr;
 	      table.bits[low] = root;
 	      table.val[low] = next - opts.table_index;*/
-	      table[low] = root << 24 | curr << 16 | next - table_index | 0;
+	      table[low] = (root << 24) | (curr << 16) | (next - table_index) |0;
 	    }
 	  }
 
@@ -16677,7 +16423,7 @@
 	    //table.op[next + huff] = 64;            /* invalid code marker */
 	    //table.bits[next + huff] = len - drop;
 	    //table.val[next + huff] = 0;
-	    table[next + huff] = len - drop << 24 | 64 << 16 | 0;
+	    table[next + huff] = ((len - drop) << 24) | (64 << 16) |0;
 	  }
 
 	  /* set return parameters */
@@ -16686,58 +16432,62 @@
 	  return 0;
 	};
 
+
 /***/ },
 /* 38 */
 /***/ function(module, exports) {
 
 	'use strict';
 
+
 	module.exports = {
 
 	  /* Allowed flush values; see deflate() and inflate() below for details */
-	  Z_NO_FLUSH: 0,
-	  Z_PARTIAL_FLUSH: 1,
-	  Z_SYNC_FLUSH: 2,
-	  Z_FULL_FLUSH: 3,
-	  Z_FINISH: 4,
-	  Z_BLOCK: 5,
-	  Z_TREES: 6,
+	  Z_NO_FLUSH:         0,
+	  Z_PARTIAL_FLUSH:    1,
+	  Z_SYNC_FLUSH:       2,
+	  Z_FULL_FLUSH:       3,
+	  Z_FINISH:           4,
+	  Z_BLOCK:            5,
+	  Z_TREES:            6,
 
 	  /* Return codes for the compression/decompression functions. Negative values
 	  * are errors, positive values are used for special but normal events.
 	  */
-	  Z_OK: 0,
-	  Z_STREAM_END: 1,
-	  Z_NEED_DICT: 2,
-	  Z_ERRNO: -1,
-	  Z_STREAM_ERROR: -2,
-	  Z_DATA_ERROR: -3,
+	  Z_OK:               0,
+	  Z_STREAM_END:       1,
+	  Z_NEED_DICT:        2,
+	  Z_ERRNO:           -1,
+	  Z_STREAM_ERROR:    -2,
+	  Z_DATA_ERROR:      -3,
 	  //Z_MEM_ERROR:     -4,
-	  Z_BUF_ERROR: -5,
+	  Z_BUF_ERROR:       -5,
 	  //Z_VERSION_ERROR: -6,
 
 	  /* compression levels */
-	  Z_NO_COMPRESSION: 0,
-	  Z_BEST_SPEED: 1,
-	  Z_BEST_COMPRESSION: 9,
-	  Z_DEFAULT_COMPRESSION: -1,
+	  Z_NO_COMPRESSION:         0,
+	  Z_BEST_SPEED:             1,
+	  Z_BEST_COMPRESSION:       9,
+	  Z_DEFAULT_COMPRESSION:   -1,
 
-	  Z_FILTERED: 1,
-	  Z_HUFFMAN_ONLY: 2,
-	  Z_RLE: 3,
-	  Z_FIXED: 4,
-	  Z_DEFAULT_STRATEGY: 0,
+
+	  Z_FILTERED:               1,
+	  Z_HUFFMAN_ONLY:           2,
+	  Z_RLE:                    3,
+	  Z_FIXED:                  4,
+	  Z_DEFAULT_STRATEGY:       0,
 
 	  /* Possible values of the data_type field (though see inflate()) */
-	  Z_BINARY: 0,
-	  Z_TEXT: 1,
+	  Z_BINARY:                 0,
+	  Z_TEXT:                   1,
 	  //Z_ASCII:                1, // = Z_TEXT (deprecated)
-	  Z_UNKNOWN: 2,
+	  Z_UNKNOWN:                2,
 
 	  /* The deflate compression method */
-	  Z_DEFLATED: 8
+	  Z_DEFLATED:               8
 	  //Z_NULL:                 null // Use -1 or null inline, depending on var type
 	};
+
 
 /***/ },
 /* 39 */
@@ -16745,20 +16495,21 @@
 
 	'use strict';
 
+
 	function GZheader() {
 	  /* true if compressed data believed to be text */
-	  this.text = 0;
+	  this.text       = 0;
 	  /* modification time */
-	  this.time = 0;
+	  this.time       = 0;
 	  /* extra flags (not used when writing a gzip file) */
-	  this.xflags = 0;
+	  this.xflags     = 0;
 	  /* operating system */
-	  this.os = 0;
+	  this.os         = 0;
 	  /* pointer to extra field or Z_NULL if none */
-	  this.extra = null;
+	  this.extra      = null;
 	  /* extra field length (valid if extra != Z_NULL) */
-	  this.extra_len = 0; // Actually, we don't need it in JS,
-	  // but leave for few code modifications
+	  this.extra_len  = 0; // Actually, we don't need it in JS,
+	                       // but leave for few code modifications
 
 	  //
 	  // Setup limits is not necessary because in js we should not preallocate memory
@@ -16768,20 +16519,21 @@
 	  /* space at extra (only when reading header) */
 	  // this.extra_max  = 0;
 	  /* pointer to zero-terminated file name or Z_NULL */
-	  this.name = '';
+	  this.name       = '';
 	  /* space at name (only when reading header) */
 	  // this.name_max   = 0;
 	  /* pointer to zero-terminated comment or Z_NULL */
-	  this.comment = '';
+	  this.comment    = '';
 	  /* space at comment (only when reading header) */
 	  // this.comm_max   = 0;
 	  /* true if there was or will be a header crc */
-	  this.hcrc = 0;
+	  this.hcrc       = 0;
 	  /* true when done reading gzip header (not used when writing a gzip file) */
-	  this.done = false;
+	  this.done       = false;
 	}
 
 	module.exports = GZheader;
+
 
 /***/ },
 /* 40 */
@@ -22055,11 +21807,7 @@
 /* 73 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var __WEBPACK_AMD_DEFINE_RESULT__;'use strict';
-
-	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
-
-	/*
+	var __WEBPACK_AMD_DEFINE_RESULT__;/*
 	 * JavaScript MD5
 	 * https://github.com/blueimp/JavaScript-MD5
 	 *
@@ -22081,263 +21829,264 @@
 	/*global unescape, define, module */
 
 	;(function ($) {
-	  'use strict';
+	  'use strict'
 
 	  /*
 	  * Add integers, wrapping at 2^32. This uses 16-bit operations internally
 	  * to work around bugs in some JS interpreters.
 	  */
-
-	  function safe_add(x, y) {
-	    var lsw = (x & 0xFFFF) + (y & 0xFFFF);
-	    var msw = (x >> 16) + (y >> 16) + (lsw >> 16);
-	    return msw << 16 | lsw & 0xFFFF;
+	  function safe_add (x, y) {
+	    var lsw = (x & 0xFFFF) + (y & 0xFFFF)
+	    var msw = (x >> 16) + (y >> 16) + (lsw >> 16)
+	    return (msw << 16) | (lsw & 0xFFFF)
 	  }
 
 	  /*
 	  * Bitwise rotate a 32-bit number to the left.
 	  */
-	  function bit_rol(num, cnt) {
-	    return num << cnt | num >>> 32 - cnt;
+	  function bit_rol (num, cnt) {
+	    return (num << cnt) | (num >>> (32 - cnt))
 	  }
 
 	  /*
 	  * These functions implement the four basic operations the algorithm uses.
 	  */
-	  function md5_cmn(q, a, b, x, s, t) {
-	    return safe_add(bit_rol(safe_add(safe_add(a, q), safe_add(x, t)), s), b);
+	  function md5_cmn (q, a, b, x, s, t) {
+	    return safe_add(bit_rol(safe_add(safe_add(a, q), safe_add(x, t)), s), b)
 	  }
-	  function md5_ff(a, b, c, d, x, s, t) {
-	    return md5_cmn(b & c | ~b & d, a, b, x, s, t);
+	  function md5_ff (a, b, c, d, x, s, t) {
+	    return md5_cmn((b & c) | ((~b) & d), a, b, x, s, t)
 	  }
-	  function md5_gg(a, b, c, d, x, s, t) {
-	    return md5_cmn(b & d | c & ~d, a, b, x, s, t);
+	  function md5_gg (a, b, c, d, x, s, t) {
+	    return md5_cmn((b & d) | (c & (~d)), a, b, x, s, t)
 	  }
-	  function md5_hh(a, b, c, d, x, s, t) {
-	    return md5_cmn(b ^ c ^ d, a, b, x, s, t);
+	  function md5_hh (a, b, c, d, x, s, t) {
+	    return md5_cmn(b ^ c ^ d, a, b, x, s, t)
 	  }
-	  function md5_ii(a, b, c, d, x, s, t) {
-	    return md5_cmn(c ^ (b | ~d), a, b, x, s, t);
+	  function md5_ii (a, b, c, d, x, s, t) {
+	    return md5_cmn(c ^ (b | (~d)), a, b, x, s, t)
 	  }
 
 	  /*
 	  * Calculate the MD5 of an array of little-endian words, and a bit length.
 	  */
-	  function binl_md5(x, len) {
+	  function binl_md5 (x, len) {
 	    /* append padding */
-	    x[len >> 5] |= 0x80 << len % 32;
-	    x[(len + 64 >>> 9 << 4) + 14] = len;
+	    x[len >> 5] |= 0x80 << (len % 32)
+	    x[(((len + 64) >>> 9) << 4) + 14] = len
 
-	    var i;
-	    var olda;
-	    var oldb;
-	    var oldc;
-	    var oldd;
-	    var a = 1732584193;
-	    var b = -271733879;
-	    var c = -1732584194;
-	    var d = 271733878;
+	    var i
+	    var olda
+	    var oldb
+	    var oldc
+	    var oldd
+	    var a = 1732584193
+	    var b = -271733879
+	    var c = -1732584194
+	    var d = 271733878
 
 	    for (i = 0; i < x.length; i += 16) {
-	      olda = a;
-	      oldb = b;
-	      oldc = c;
-	      oldd = d;
+	      olda = a
+	      oldb = b
+	      oldc = c
+	      oldd = d
 
-	      a = md5_ff(a, b, c, d, x[i], 7, -680876936);
-	      d = md5_ff(d, a, b, c, x[i + 1], 12, -389564586);
-	      c = md5_ff(c, d, a, b, x[i + 2], 17, 606105819);
-	      b = md5_ff(b, c, d, a, x[i + 3], 22, -1044525330);
-	      a = md5_ff(a, b, c, d, x[i + 4], 7, -176418897);
-	      d = md5_ff(d, a, b, c, x[i + 5], 12, 1200080426);
-	      c = md5_ff(c, d, a, b, x[i + 6], 17, -1473231341);
-	      b = md5_ff(b, c, d, a, x[i + 7], 22, -45705983);
-	      a = md5_ff(a, b, c, d, x[i + 8], 7, 1770035416);
-	      d = md5_ff(d, a, b, c, x[i + 9], 12, -1958414417);
-	      c = md5_ff(c, d, a, b, x[i + 10], 17, -42063);
-	      b = md5_ff(b, c, d, a, x[i + 11], 22, -1990404162);
-	      a = md5_ff(a, b, c, d, x[i + 12], 7, 1804603682);
-	      d = md5_ff(d, a, b, c, x[i + 13], 12, -40341101);
-	      c = md5_ff(c, d, a, b, x[i + 14], 17, -1502002290);
-	      b = md5_ff(b, c, d, a, x[i + 15], 22, 1236535329);
+	      a = md5_ff(a, b, c, d, x[i], 7, -680876936)
+	      d = md5_ff(d, a, b, c, x[i + 1], 12, -389564586)
+	      c = md5_ff(c, d, a, b, x[i + 2], 17, 606105819)
+	      b = md5_ff(b, c, d, a, x[i + 3], 22, -1044525330)
+	      a = md5_ff(a, b, c, d, x[i + 4], 7, -176418897)
+	      d = md5_ff(d, a, b, c, x[i + 5], 12, 1200080426)
+	      c = md5_ff(c, d, a, b, x[i + 6], 17, -1473231341)
+	      b = md5_ff(b, c, d, a, x[i + 7], 22, -45705983)
+	      a = md5_ff(a, b, c, d, x[i + 8], 7, 1770035416)
+	      d = md5_ff(d, a, b, c, x[i + 9], 12, -1958414417)
+	      c = md5_ff(c, d, a, b, x[i + 10], 17, -42063)
+	      b = md5_ff(b, c, d, a, x[i + 11], 22, -1990404162)
+	      a = md5_ff(a, b, c, d, x[i + 12], 7, 1804603682)
+	      d = md5_ff(d, a, b, c, x[i + 13], 12, -40341101)
+	      c = md5_ff(c, d, a, b, x[i + 14], 17, -1502002290)
+	      b = md5_ff(b, c, d, a, x[i + 15], 22, 1236535329)
 
-	      a = md5_gg(a, b, c, d, x[i + 1], 5, -165796510);
-	      d = md5_gg(d, a, b, c, x[i + 6], 9, -1069501632);
-	      c = md5_gg(c, d, a, b, x[i + 11], 14, 643717713);
-	      b = md5_gg(b, c, d, a, x[i], 20, -373897302);
-	      a = md5_gg(a, b, c, d, x[i + 5], 5, -701558691);
-	      d = md5_gg(d, a, b, c, x[i + 10], 9, 38016083);
-	      c = md5_gg(c, d, a, b, x[i + 15], 14, -660478335);
-	      b = md5_gg(b, c, d, a, x[i + 4], 20, -405537848);
-	      a = md5_gg(a, b, c, d, x[i + 9], 5, 568446438);
-	      d = md5_gg(d, a, b, c, x[i + 14], 9, -1019803690);
-	      c = md5_gg(c, d, a, b, x[i + 3], 14, -187363961);
-	      b = md5_gg(b, c, d, a, x[i + 8], 20, 1163531501);
-	      a = md5_gg(a, b, c, d, x[i + 13], 5, -1444681467);
-	      d = md5_gg(d, a, b, c, x[i + 2], 9, -51403784);
-	      c = md5_gg(c, d, a, b, x[i + 7], 14, 1735328473);
-	      b = md5_gg(b, c, d, a, x[i + 12], 20, -1926607734);
+	      a = md5_gg(a, b, c, d, x[i + 1], 5, -165796510)
+	      d = md5_gg(d, a, b, c, x[i + 6], 9, -1069501632)
+	      c = md5_gg(c, d, a, b, x[i + 11], 14, 643717713)
+	      b = md5_gg(b, c, d, a, x[i], 20, -373897302)
+	      a = md5_gg(a, b, c, d, x[i + 5], 5, -701558691)
+	      d = md5_gg(d, a, b, c, x[i + 10], 9, 38016083)
+	      c = md5_gg(c, d, a, b, x[i + 15], 14, -660478335)
+	      b = md5_gg(b, c, d, a, x[i + 4], 20, -405537848)
+	      a = md5_gg(a, b, c, d, x[i + 9], 5, 568446438)
+	      d = md5_gg(d, a, b, c, x[i + 14], 9, -1019803690)
+	      c = md5_gg(c, d, a, b, x[i + 3], 14, -187363961)
+	      b = md5_gg(b, c, d, a, x[i + 8], 20, 1163531501)
+	      a = md5_gg(a, b, c, d, x[i + 13], 5, -1444681467)
+	      d = md5_gg(d, a, b, c, x[i + 2], 9, -51403784)
+	      c = md5_gg(c, d, a, b, x[i + 7], 14, 1735328473)
+	      b = md5_gg(b, c, d, a, x[i + 12], 20, -1926607734)
 
-	      a = md5_hh(a, b, c, d, x[i + 5], 4, -378558);
-	      d = md5_hh(d, a, b, c, x[i + 8], 11, -2022574463);
-	      c = md5_hh(c, d, a, b, x[i + 11], 16, 1839030562);
-	      b = md5_hh(b, c, d, a, x[i + 14], 23, -35309556);
-	      a = md5_hh(a, b, c, d, x[i + 1], 4, -1530992060);
-	      d = md5_hh(d, a, b, c, x[i + 4], 11, 1272893353);
-	      c = md5_hh(c, d, a, b, x[i + 7], 16, -155497632);
-	      b = md5_hh(b, c, d, a, x[i + 10], 23, -1094730640);
-	      a = md5_hh(a, b, c, d, x[i + 13], 4, 681279174);
-	      d = md5_hh(d, a, b, c, x[i], 11, -358537222);
-	      c = md5_hh(c, d, a, b, x[i + 3], 16, -722521979);
-	      b = md5_hh(b, c, d, a, x[i + 6], 23, 76029189);
-	      a = md5_hh(a, b, c, d, x[i + 9], 4, -640364487);
-	      d = md5_hh(d, a, b, c, x[i + 12], 11, -421815835);
-	      c = md5_hh(c, d, a, b, x[i + 15], 16, 530742520);
-	      b = md5_hh(b, c, d, a, x[i + 2], 23, -995338651);
+	      a = md5_hh(a, b, c, d, x[i + 5], 4, -378558)
+	      d = md5_hh(d, a, b, c, x[i + 8], 11, -2022574463)
+	      c = md5_hh(c, d, a, b, x[i + 11], 16, 1839030562)
+	      b = md5_hh(b, c, d, a, x[i + 14], 23, -35309556)
+	      a = md5_hh(a, b, c, d, x[i + 1], 4, -1530992060)
+	      d = md5_hh(d, a, b, c, x[i + 4], 11, 1272893353)
+	      c = md5_hh(c, d, a, b, x[i + 7], 16, -155497632)
+	      b = md5_hh(b, c, d, a, x[i + 10], 23, -1094730640)
+	      a = md5_hh(a, b, c, d, x[i + 13], 4, 681279174)
+	      d = md5_hh(d, a, b, c, x[i], 11, -358537222)
+	      c = md5_hh(c, d, a, b, x[i + 3], 16, -722521979)
+	      b = md5_hh(b, c, d, a, x[i + 6], 23, 76029189)
+	      a = md5_hh(a, b, c, d, x[i + 9], 4, -640364487)
+	      d = md5_hh(d, a, b, c, x[i + 12], 11, -421815835)
+	      c = md5_hh(c, d, a, b, x[i + 15], 16, 530742520)
+	      b = md5_hh(b, c, d, a, x[i + 2], 23, -995338651)
 
-	      a = md5_ii(a, b, c, d, x[i], 6, -198630844);
-	      d = md5_ii(d, a, b, c, x[i + 7], 10, 1126891415);
-	      c = md5_ii(c, d, a, b, x[i + 14], 15, -1416354905);
-	      b = md5_ii(b, c, d, a, x[i + 5], 21, -57434055);
-	      a = md5_ii(a, b, c, d, x[i + 12], 6, 1700485571);
-	      d = md5_ii(d, a, b, c, x[i + 3], 10, -1894986606);
-	      c = md5_ii(c, d, a, b, x[i + 10], 15, -1051523);
-	      b = md5_ii(b, c, d, a, x[i + 1], 21, -2054922799);
-	      a = md5_ii(a, b, c, d, x[i + 8], 6, 1873313359);
-	      d = md5_ii(d, a, b, c, x[i + 15], 10, -30611744);
-	      c = md5_ii(c, d, a, b, x[i + 6], 15, -1560198380);
-	      b = md5_ii(b, c, d, a, x[i + 13], 21, 1309151649);
-	      a = md5_ii(a, b, c, d, x[i + 4], 6, -145523070);
-	      d = md5_ii(d, a, b, c, x[i + 11], 10, -1120210379);
-	      c = md5_ii(c, d, a, b, x[i + 2], 15, 718787259);
-	      b = md5_ii(b, c, d, a, x[i + 9], 21, -343485551);
+	      a = md5_ii(a, b, c, d, x[i], 6, -198630844)
+	      d = md5_ii(d, a, b, c, x[i + 7], 10, 1126891415)
+	      c = md5_ii(c, d, a, b, x[i + 14], 15, -1416354905)
+	      b = md5_ii(b, c, d, a, x[i + 5], 21, -57434055)
+	      a = md5_ii(a, b, c, d, x[i + 12], 6, 1700485571)
+	      d = md5_ii(d, a, b, c, x[i + 3], 10, -1894986606)
+	      c = md5_ii(c, d, a, b, x[i + 10], 15, -1051523)
+	      b = md5_ii(b, c, d, a, x[i + 1], 21, -2054922799)
+	      a = md5_ii(a, b, c, d, x[i + 8], 6, 1873313359)
+	      d = md5_ii(d, a, b, c, x[i + 15], 10, -30611744)
+	      c = md5_ii(c, d, a, b, x[i + 6], 15, -1560198380)
+	      b = md5_ii(b, c, d, a, x[i + 13], 21, 1309151649)
+	      a = md5_ii(a, b, c, d, x[i + 4], 6, -145523070)
+	      d = md5_ii(d, a, b, c, x[i + 11], 10, -1120210379)
+	      c = md5_ii(c, d, a, b, x[i + 2], 15, 718787259)
+	      b = md5_ii(b, c, d, a, x[i + 9], 21, -343485551)
 
-	      a = safe_add(a, olda);
-	      b = safe_add(b, oldb);
-	      c = safe_add(c, oldc);
-	      d = safe_add(d, oldd);
+	      a = safe_add(a, olda)
+	      b = safe_add(b, oldb)
+	      c = safe_add(c, oldc)
+	      d = safe_add(d, oldd)
 	    }
-	    return [a, b, c, d];
+	    return [a, b, c, d]
 	  }
 
 	  /*
 	  * Convert an array of little-endian words to a string
 	  */
-	  function binl2rstr(input) {
-	    var i;
-	    var output = '';
+	  function binl2rstr (input) {
+	    var i
+	    var output = ''
 	    for (i = 0; i < input.length * 32; i += 8) {
-	      output += String.fromCharCode(input[i >> 5] >>> i % 32 & 0xFF);
+	      output += String.fromCharCode((input[i >> 5] >>> (i % 32)) & 0xFF)
 	    }
-	    return output;
+	    return output
 	  }
 
 	  /*
 	  * Convert a raw string to an array of little-endian words
 	  * Characters >255 have their high-byte silently ignored.
 	  */
-	  function rstr2binl(input) {
-	    var i;
-	    var output = [];
-	    output[(input.length >> 2) - 1] = undefined;
+	  function rstr2binl (input) {
+	    var i
+	    var output = []
+	    output[(input.length >> 2) - 1] = undefined
 	    for (i = 0; i < output.length; i += 1) {
-	      output[i] = 0;
+	      output[i] = 0
 	    }
 	    for (i = 0; i < input.length * 8; i += 8) {
-	      output[i >> 5] |= (input.charCodeAt(i / 8) & 0xFF) << i % 32;
+	      output[i >> 5] |= (input.charCodeAt(i / 8) & 0xFF) << (i % 32)
 	    }
-	    return output;
+	    return output
 	  }
 
 	  /*
 	  * Calculate the MD5 of a raw string
 	  */
-	  function rstr_md5(s) {
-	    return binl2rstr(binl_md5(rstr2binl(s), s.length * 8));
+	  function rstr_md5 (s) {
+	    return binl2rstr(binl_md5(rstr2binl(s), s.length * 8))
 	  }
 
 	  /*
 	  * Calculate the HMAC-MD5, of a key and some data (raw strings)
 	  */
-	  function rstr_hmac_md5(key, data) {
-	    var i;
-	    var bkey = rstr2binl(key);
-	    var ipad = [];
-	    var opad = [];
-	    var hash;
-	    ipad[15] = opad[15] = undefined;
+	  function rstr_hmac_md5 (key, data) {
+	    var i
+	    var bkey = rstr2binl(key)
+	    var ipad = []
+	    var opad = []
+	    var hash
+	    ipad[15] = opad[15] = undefined
 	    if (bkey.length > 16) {
-	      bkey = binl_md5(bkey, key.length * 8);
+	      bkey = binl_md5(bkey, key.length * 8)
 	    }
 	    for (i = 0; i < 16; i += 1) {
-	      ipad[i] = bkey[i] ^ 0x36363636;
-	      opad[i] = bkey[i] ^ 0x5C5C5C5C;
+	      ipad[i] = bkey[i] ^ 0x36363636
+	      opad[i] = bkey[i] ^ 0x5C5C5C5C
 	    }
-	    hash = binl_md5(ipad.concat(rstr2binl(data)), 512 + data.length * 8);
-	    return binl2rstr(binl_md5(opad.concat(hash), 512 + 128));
+	    hash = binl_md5(ipad.concat(rstr2binl(data)), 512 + data.length * 8)
+	    return binl2rstr(binl_md5(opad.concat(hash), 512 + 128))
 	  }
 
 	  /*
 	  * Convert a raw string to a hex string
 	  */
-	  function rstr2hex(input) {
-	    var hex_tab = '0123456789abcdef';
-	    var output = '';
-	    var x;
-	    var i;
+	  function rstr2hex (input) {
+	    var hex_tab = '0123456789abcdef'
+	    var output = ''
+	    var x
+	    var i
 	    for (i = 0; i < input.length; i += 1) {
-	      x = input.charCodeAt(i);
-	      output += hex_tab.charAt(x >>> 4 & 0x0F) + hex_tab.charAt(x & 0x0F);
+	      x = input.charCodeAt(i)
+	      output += hex_tab.charAt((x >>> 4) & 0x0F) +
+	      hex_tab.charAt(x & 0x0F)
 	    }
-	    return output;
+	    return output
 	  }
 
 	  /*
 	  * Encode a string as utf-8
 	  */
-	  function str2rstr_utf8(input) {
-	    return unescape(encodeURIComponent(input));
+	  function str2rstr_utf8 (input) {
+	    return unescape(encodeURIComponent(input))
 	  }
 
 	  /*
 	  * Take string arguments and return either raw or hex encoded strings
 	  */
-	  function raw_md5(s) {
-	    return rstr_md5(str2rstr_utf8(s));
+	  function raw_md5 (s) {
+	    return rstr_md5(str2rstr_utf8(s))
 	  }
-	  function hex_md5(s) {
-	    return rstr2hex(raw_md5(s));
+	  function hex_md5 (s) {
+	    return rstr2hex(raw_md5(s))
 	  }
-	  function raw_hmac_md5(k, d) {
-	    return rstr_hmac_md5(str2rstr_utf8(k), str2rstr_utf8(d));
+	  function raw_hmac_md5 (k, d) {
+	    return rstr_hmac_md5(str2rstr_utf8(k), str2rstr_utf8(d))
 	  }
-	  function hex_hmac_md5(k, d) {
-	    return rstr2hex(raw_hmac_md5(k, d));
+	  function hex_hmac_md5 (k, d) {
+	    return rstr2hex(raw_hmac_md5(k, d))
 	  }
 
-	  function md5(string, key, raw) {
+	  function md5 (string, key, raw) {
 	    if (!key) {
 	      if (!raw) {
-	        return hex_md5(string);
+	        return hex_md5(string)
 	      }
-	      return raw_md5(string);
+	      return raw_md5(string)
 	    }
 	    if (!raw) {
-	      return hex_hmac_md5(key, string);
+	      return hex_hmac_md5(key, string)
 	    }
-	    return raw_hmac_md5(key, string);
+	    return raw_hmac_md5(key, string)
 	  }
 
 	  if (true) {
 	    !(__WEBPACK_AMD_DEFINE_RESULT__ = function () {
-	      return md5;
-	    }.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-	  } else if ((typeof module === 'undefined' ? 'undefined' : _typeof(module)) === 'object' && module.exports) {
-	    module.exports = md5;
+	      return md5
+	    }.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__))
+	  } else if (typeof module === 'object' && module.exports) {
+	    module.exports = md5
 	  } else {
-	    $.md5 = md5;
+	    $.md5 = md5
 	  }
-	})(undefined);
+	}(this))
+
 
 /***/ },
 /* 74 */
