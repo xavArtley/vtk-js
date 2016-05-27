@@ -775,7 +775,10 @@
 	  function getInputData() {
 	    var port = arguments.length <= 0 || arguments[0] === undefined ? 0 : arguments[0];
 
-	    return model.inputData[port] || model.inputConnection[port]();
+	    if (!model.inputData[port]) {
+	      model.inputData[port] = model.inputConnection[port]();
+	    }
+	    return model.inputData[port];
 	  }
 
 	  function setInputConnection(outputPort) {
@@ -789,7 +792,7 @@
 	    model.inputConnection[port] = outputPort;
 	  }
 
-	  function getOutput() {
+	  function getOutputData() {
 	    var port = arguments.length <= 0 || arguments[0] === undefined ? 0 : arguments[0];
 
 	    if (model.deleted) {
@@ -804,7 +807,7 @@
 	    var port = arguments.length <= 0 || arguments[0] === undefined ? 0 : arguments[0];
 
 	    return function () {
-	      return getOutput(port);
+	      return getOutputData(port);
 	    };
 	  }
 
@@ -824,9 +827,23 @@
 	  }
 
 	  if (numberOfOutputs) {
-	    publicAPI.getOutput = getOutput;
+	    publicAPI.getOutputData = getOutputData;
 	    publicAPI.getOutputPort = getOutputPort;
 	  }
+
+	  publicAPI.update = function () {
+	    var ins = [];
+	    if (numberOfInputs) {
+	      var _count = 0;
+	      while (_count < numberOfInputs) {
+	        // for static you would not set the input to null first
+	        model.inputData[_count] = null;
+	        ins[_count] = publicAPI.getInputData(_count);
+	        _count++;
+	      }
+	    }
+	    publicAPI.requestData(ins, model.output);
+	  };
 	}
 
 	// ----------------------------------------------------------------------------
@@ -9667,12 +9684,12 @@
 	  // Set our className
 	  model.classHierarchy.push('vtkSphereSource');
 
-	  function update() {
+	  function requestData(inData, outData) {
 	    if (model.deleted) {
 	      return;
 	    }
 
-	    var dataset = model.output[0];
+	    var dataset = outData[0];
 	    if (!dataset || dataset.mtime !== model.mtime) {
 	      (function () {
 	        var state = {};
@@ -9883,13 +9900,13 @@
 	        dataset.vtkPolyData.Polys.size = cellLocation;
 
 	        // Update output
-	        model.output[0] = _PolyData2.default.newInstance(dataset);
+	        outData[0] = _PolyData2.default.newInstance(dataset);
 	      })();
 	    }
 	  }
 
 	  // Expose methods
-	  publicAPI.update = update;
+	  publicAPI.requestData = requestData;
 	}
 
 	// ----------------------------------------------------------------------------
@@ -9983,33 +10000,22 @@
 	    model.points = _DataArray2.default.newInstance(model.vtkPolyData.Points);
 	  }
 
-	  // Concreate Verts
-	  if (model.vtkPolyData && model.vtkPolyData.Verts) {
-	    model.verts = _DataArray2.default.newInstance(model.vtkPolyData.Verts);
-	  } else {
-	    model.verts = _DataArray2.default.newInstance({ empty: true });
-	  }
-
-	  // Concreate Lines
-	  if (model.vtkPolyData && model.vtkPolyData.Lines) {
-	    model.lines = _DataArray2.default.newInstance(model.vtkPolyData.Lines);
-	  } else {
-	    model.lines = _DataArray2.default.newInstance({ empty: true });
-	  }
-
-	  // Concreate Polys
-	  if (model.vtkPolyData && model.vtkPolyData.Polys) {
-	    model.polys = _DataArray2.default.newInstance(model.vtkPolyData.Polys);
-	  } else {
-	    model.polys = _DataArray2.default.newInstance({ empty: true });
-	  }
-
-	  // Concreate Strips
-	  if (model.vtkPolyData && model.vtkPolyData.Strips) {
-	    model.strips = _DataArray2.default.newInstance(model.vtkPolyData.Strips);
-	  } else {
-	    model.strips = _DataArray2.default.newInstance({ empty: true });
-	  }
+	  // build empty cell arrays and set methods
+	  ['Verts', 'Lines', 'Polys', 'Strips'].forEach(function (type) {
+	    var lowerType = type.toLowerCase();
+	    if (model.vtkPolyData && model.vtkPolyData[type]) {
+	      model[lowerType] = _DataArray2.default.newInstance(model.vtkPolyData[type]);
+	    } else {
+	      model[lowerType] = _DataArray2.default.newInstance({ empty: true });
+	    }
+	    // publicAPI[`set${type}`] = obj => {
+	    //   if (model[lowerType] === obj) {
+	    //     return;
+	    //   }
+	    //   model[lowerType] = obj;
+	    //   publicAPI.modified();
+	    // };
+	  });
 	}
 
 	// ----------------------------------------------------------------------------
@@ -10033,7 +10039,7 @@
 
 	  // Inheritance
 	  _PointSet2.default.extend(publicAPI, model);
-	  macro.get(publicAPI, model, ['verts', 'lines', 'polys', 'strips']);
+	  macro.setGet(publicAPI, model, ['verts', 'lines', 'polys', 'strips']);
 
 	  // Object specific methods
 	  vtkPolyData(publicAPI, model);
@@ -10122,7 +10128,7 @@
 
 	  // Inheritance
 	  _DataSet2.default.extend(publicAPI, model);
-	  macro.get(publicAPI, model, ['points']);
+	  macro.setGet(publicAPI, model, ['points']);
 
 	  // Object specific methods
 	  vtkPointSet(publicAPI, model);
@@ -10797,21 +10803,23 @@
 	  model.classHierarchy.push('vtkMapper');
 
 	  publicAPI.getBounds = function () {
-	    var input = publicAPI.getInput();
+	    var input = publicAPI.getInputData();
 	    if (!input) {
 	      model.bounds = _Math2.default.createUninitializedBouds();
 	    } else {
 	      if (!model.static) {
-	        // publicAPI.update();
-	        console.log('implement update');
+	        publicAPI.update();
 	      }
 	      model.bounds = _DataSet2.default.getBounds(input);
 	    }
 	    return model.bounds;
 	  };
 
-	  publicAPI.getInput = function () {
-	    return publicAPI.getInputData();
+	  publicAPI.update = function () {
+	    if (!model.static) {
+	      model.inputData[0] = null;
+	    }
+	    publicAPI.getInputData();
 	  };
 
 	  publicAPI.setForceCompileOnly = function (v) {
@@ -13357,18 +13365,18 @@
 	    //   return;
 	    // }
 
+	    publicAPI.invokeEvent({ type: 'StartEvent' });
 	    model.currentInput = model.renderable.getInputData();
+	    if (!model.renderable.getStatic()) {
+	      model.renderable.update();
+	      model.currentInput = model.renderable.getInputData();
+	    }
+	    publicAPI.invokeEvent({ type: 'EndEvent' });
 
 	    if (model.currentInput === null) {
 	      console.error('No input!');
 	      return;
 	    }
-
-	    publicAPI.invokeEvent({ type: 'StartEvent' });
-	    // if (!model.Static) {
-	    //   this.getInputAlgorithm().update();
-	    // }
-	    publicAPI.invokeEvent({ type: 'EndEvent' });
 
 	    // if there are no points then we are done
 	    if (!model.currentInput.getPoints || !model.currentInput.getPoints().getNumberOfValues()) {
@@ -16770,6 +16778,10 @@
 
 	var macro = _interopRequireWildcard(_macro);
 
+	var _Math = __webpack_require__(21);
+
+	var _Math2 = _interopRequireDefault(_Math);
+
 	var _InteractorStyleTrackballCamera = __webpack_require__(62);
 
 	var _InteractorStyleTrackballCamera2 = _interopRequireDefault(_InteractorStyleTrackballCamera);
@@ -16782,7 +16794,7 @@
 	// Global methods
 	// ----------------------------------------------------------------------------
 
-	var eventsWeHandle = ['Enter', 'Leave', 'MouseMove', 'LeftButtonPress', 'LeftButtonRelease', 'MiddleButtonPress', 'MiddleButtonRelease', 'RightButtonPress', 'RightButtonRelease', 'MouseWheelForward', 'MouseWheelBackward', 'Expose', 'Configure', 'Timer', 'KeyPress', 'KeyRelease', 'Char', 'Delete', 'Pinch', 'Pan', 'Rotate', 'Tap', 'LongTap', 'Swipe'];
+	var eventsWeHandle = ['Enter', 'Leave', 'MouseMove', 'LeftButtonPress', 'LeftButtonRelease', 'MiddleButtonPress', 'MiddleButtonRelease', 'RightButtonPress', 'RightButtonRelease', 'MouseWheelForward', 'MouseWheelBackward', 'Expose', 'Configure', 'Timer', 'KeyPress', 'KeyRelease', 'Char', 'Delete', 'StartPinch', 'Pinch', 'EndPinch', 'StartPan', 'Pan', 'EndPan', 'StartRotate', 'Rotate', 'EndRotate', 'Tap', 'LongTap', 'Swipe'];
 
 	// ----------------------------------------------------------------------------
 	// Static API
@@ -16882,10 +16894,10 @@
 	    document.querySelector('body').addEventListener('keypress', publicAPI.handleKeyPress);
 	    canvas.addEventListener('mouseup', publicAPI.handleMouseUp);
 	    canvas.addEventListener('mousemove', publicAPI.handleMouseMove);
-	    // canvas.addEventListener('touchstart', publicAPI.handleTouchStart, false);
-	    // canvas.addEventListener('touchend', publicAPI.handleTouchEnd, false);
-	    // canvas.addEventListener('touchcancel', publicAPI.handleTouchEnd, false);
-	    // canvas.addEventListener('touchmove', publicAPI.handleTouchMove, false);
+	    canvas.addEventListener('touchstart', publicAPI.handleTouchStart, false);
+	    canvas.addEventListener('touchend', publicAPI.handleTouchEnd, false);
+	    canvas.addEventListener('touchcancel', publicAPI.handleTouchEnd, false);
+	    canvas.addEventListener('touchmove', publicAPI.handleTouchMove, false);
 	  };
 
 	  publicAPI.unbindEvents = function (canvas, document) {
@@ -16893,6 +16905,10 @@
 	    document.querySelector('body').removeEventListener('keypress', publicAPI.handleKeyPress);
 	    canvas.removeEventListener('mouseup', publicAPI.handleMouseUp);
 	    canvas.removeEventListener('mousemove', publicAPI.handleMouseMove);
+	    canvas.removeEventListener('touchstart', publicAPI.handleTouchStart);
+	    canvas.removeEventListener('touchend', publicAPI.handleTouchEnd);
+	    canvas.removeEventListener('touchcancel', publicAPI.handleTouchEnd);
+	    canvas.removeEventListener('touchmove', publicAPI.handleTouchMove);
 	  };
 
 	  publicAPI.handleKeyPress = function (event) {
@@ -16945,13 +16961,15 @@
 	  publicAPI.handleTouchStart = function (event) {
 	    event.stopPropagation();
 	    event.preventDefault();
+	    console.log('touch down');
 
 	    var touches = event.changedTouches;
-	    touches.forEach(function (touch) {
+	    for (var i = 0; i < touches.length; i++) {
+	      var touch = touches[i];
 	      publicAPI.setEventPosition(touch.clientX, model.canvas.clientHeight - touch.clientY + 1, 0, touch.identifier);
 	      publicAPI.setPointerIndex(touch.identifier);
-	      publicAPI.leftButtonPressEvent();
-	    });
+	      publicAPI.startTouchEvent();
+	    }
 	  };
 
 	  publicAPI.handleTouchMove = function (event) {
@@ -16959,11 +16977,12 @@
 	    event.preventDefault();
 
 	    var touches = event.changedTouches;
-	    touches.forEach(function (touch) {
+	    for (var i = 0; i < touches.length; i++) {
+	      var touch = touches[i];
 	      publicAPI.setEventPosition(touch.clientX, model.canvas.clientHeight - touch.clientY + 1, 0, touch.identifier);
 	      publicAPI.setPointerIndex(touch.identifier);
 	      publicAPI.mouseMoveEvent();
-	    });
+	    }
 	  };
 
 	  publicAPI.handleTouchEnd = function (event) {
@@ -16971,11 +16990,12 @@
 	    event.preventDefault();
 
 	    var touches = event.changedTouches;
-	    touches.forEach(function (touch) {
+	    for (var i = 0; i < touches.length; i++) {
+	      var touch = touches[i];
 	      publicAPI.setEventPosition(touch.clientX, model.canvas.clientHeight - touch.clientY + 1, 0, touch.identifier);
 	      publicAPI.setPointerIndex(touch.identifier);
-	      publicAPI.leftButtonReleaseEvent();
-	    });
+	      publicAPI.endTouchEvent();
+	    }
 	  };
 
 	  publicAPI.findPokedRenderer = function (x, y) {
@@ -17045,6 +17065,225 @@
 	      publicAPI['invoke' + eventName]({ type: eventName });
 	    };
 	  });
+
+	  //------------------------------------------------------------------
+	  publicAPI.mouseMoveEvent = function () {
+	    if (!model.enabled) {
+	      return;
+	    }
+
+	    // are we translating multitouch into gestures?
+	    if (model.recognizeGestures && model.pointersDownCount > 1) {
+	      publicAPI.recognizeGesture('MouseMove');
+	    } else {
+	      publicAPI.invokeMouseMove({ type: 'MouseMove' });
+	    }
+	  };
+
+	  // we know we are in multitouch now, so start recognizing
+	  publicAPI.recognizeGesture = function (event) {
+	    // more than two pointers we ignore
+	    if (model.pointersDownCount > 2) {
+	      return;
+	    }
+
+	    // store the initial positions
+	    if (event === 'LeftButtonPress') {
+	      Object.keys(model.pointersDown).forEach(function (key) {
+	        model.startingEventPositions[key] = model.eventPositions[key];
+	      });
+	      // we do not know what the gesture is yet
+	      model.currentGesture = 'Start';
+	      return;
+	    }
+
+	    // end the gesture if needed
+	    if (event === 'LeftButtonRelease') {
+	      if (model.currentGesture === 'Pinch') {
+	        publicAPI.endPinchEvent();
+	      }
+	      if (model.currentGesture === 'Rotate') {
+	        publicAPI.endRotateEvent();
+	      }
+	      if (model.currentGesture === 'Pan') {
+	        publicAPI.endPanEvent();
+	      }
+	      model.currentGesture = 'Start';
+	      return;
+	    }
+
+	    // what are the two pointers we are working with
+	    var count = 0;
+	    var posVals = [];
+	    var startVals = [];
+	    Object.keys(model.pointersDown).forEach(function (key) {
+	      posVals[count] = model.eventPositions[key];
+	      startVals[count] = model.startingEventPositions[key];
+	      count++;
+	    });
+
+	    // The meat of the algorithm
+	    // on move events we analyze them to determine what type
+	    // of movement it is and then deal with it.
+	    if (event === 'MouseMove') {
+	      // calculate the distances
+	      var originalDistance = Math.sqrt((startVals[0].x - startVals[1].x) * (startVals[0].x - startVals[1].x) + (startVals[0].y - startVals[1].y) * (startVals[0].y - startVals[1].y));
+	      var newDistance = Math.sqrt((posVals[0].x - posVals[1].x) * (posVals[0].x - posVals[1].x) + (posVals[0].y - posVals[1].y) * (posVals[0].y - posVals[1].y));
+
+	      // calculate rotations
+	      var originalAngle = _Math2.default.degreesFromRadians(Math.atan2(startVals[1].y - startVals[0].y, startVals[1].x - startVals[0].x));
+	      var newAngle = _Math2.default.degreesFromRadians(Math.atan2(posVals[1].y - posVals[0].y, posVals[1].x - posVals[0].x));
+
+	      // angles are cyclic so watch for that, 1 and 359 are only 2 apart :)
+	      var angleDeviation = newAngle - originalAngle;
+	      newAngle = newAngle + 180.0 >= 360.0 ? newAngle - 180.0 : newAngle + 180.0;
+	      originalAngle = originalAngle + 180.0 >= 360.0 ? originalAngle - 180.0 : originalAngle + 180.0;
+	      if (Math.abs(newAngle - originalAngle) < Math.abs(angleDeviation)) {
+	        angleDeviation = newAngle - originalAngle;
+	      }
+
+	      // calculate the translations
+	      var trans = [];
+	      trans[0] = (posVals[0].x - startVals[0].x + posVals[1].x - startVals[1].x) / 2.0;
+	      trans[1] = (posVals[0].y - startVals[0].y + posVals[1].y - startVals[1].y) / 2.0;
+
+	      // OK we want to
+	      // - immediately respond to the user
+	      // - allow the user to zoom without panning (saves focal point)
+	      // - allow the user to rotate without panning (saves focal point)
+
+	      // do we know what gesture we are doing yet? If not
+	      // see if we can figure it out
+	      if (model.currentGesture === 'Start') {
+	        // pinch is a move to/from the center point
+	        // rotate is a move along the circumference
+	        // pan is a move of the center point
+	        // compute the distance along each of these axes in pixels
+	        // the first to break thresh wins
+	        var thresh = 0.01 * Math.sqrt(model.canvas.clientWidth * model.canvas.clientWidth + model.canvas.clientHeight * model.canvas.clientHeight);
+	        if (thresh < 15.0) {
+	          thresh = 15.0;
+	        }
+	        var pinchDistance = Math.abs(newDistance - originalDistance);
+	        var rotateDistance = newDistance * 3.1415926 * Math.abs(angleDeviation) / 360.0;
+	        var panDistance = Math.sqrt(trans[0] * trans[0] + trans[1] * trans[1]);
+	        if (pinchDistance > thresh && pinchDistance > rotateDistance && pinchDistance > panDistance) {
+	          model.currentGesture = 'Pinch';
+	          model.scale = 1.0;
+	          publicAPI.startPinchEvent();
+	        } else if (rotateDistance > thresh && rotateDistance > panDistance) {
+	          model.currentGesture = 'Rotate';
+	          model.rotation = 0.0;
+	          publicAPI.startRotateEvent();
+	        } else if (panDistance > thresh) {
+	          model.currentGesture = 'Pan';
+	          model.translation[0] = 0.0;
+	          model.translation[1] = 0.0;
+	          publicAPI.startPanEvent();
+	        }
+	      }
+
+	      // if we have found a specific type of movement then
+	      // handle it
+	      if (model.currentGesture === 'Rotate') {
+	        publicAPI.setRotation(angleDeviation);
+	        publicAPI.rotateEvent();
+	      }
+
+	      if (model.currentGesture === 'Pinch') {
+	        publicAPI.setScale(newDistance / originalDistance);
+	        publicAPI.pinchEvent();
+	      }
+
+	      if (model.currentGesture === 'Pan') {
+	        publicAPI.setTranslation(trans);
+	        publicAPI.panEvent();
+	      }
+	    }
+	  };
+
+	  publicAPI.setScale = function (scale) {
+	    model.lastScale = model.scale;
+	    if (model.scale !== scale) {
+	      model.scale = scale;
+	      publicAPI.modified();
+	    }
+	  };
+
+	  publicAPI.setRotation = function (rot) {
+	    model.lastRotation = model.rotation;
+	    if (model.rotation !== rot) {
+	      model.rotation = rot;
+	      publicAPI.modified();
+	    }
+	  };
+
+	  publicAPI.setTranslation = function (trans) {
+	    model.lastTranslation = model.translation;
+	    if (model.translation !== trans) {
+	      model.translation = trans;
+	      publicAPI.modified();
+	    }
+	  };
+
+	  //------------------------------------------------------------------
+	  publicAPI.startTouchEvent = function () {
+	    if (!model.enabled) {
+	      return;
+	    }
+
+	    // are we translating multitouch into gestures?
+	    if (model.recognizeGestures) {
+	      if (!model.pointersDown[model.pointerIndex]) {
+	        model.pointersDown[model.pointerIndex] = 1;
+	        model.pointersDownCount++;
+	      }
+	      // do we have multitouch
+	      if (model.pointersDownCount > 1) {
+	        // did we just transition to multitouch?
+	        if (model.pointersDownCount === 2) {
+	          publicAPI.invokeLeftButtonRelease({ type: 'LeftButtonRelease' });
+	        }
+	        // handle the gesture
+	        publicAPI.recognizeGesture('LeftButtonPress');
+	        return;
+	      }
+	    }
+
+	    publicAPI.invokeLeftButtonPress({ type: 'LeftButtonPress' });
+	  };
+
+	  //------------------------------------------------------------------
+	  publicAPI.endTouchEvent = function () {
+	    if (!model.enabled) {
+	      return;
+	    }
+
+	    // are we translating multitouch into gestures?
+	    if (model.recognizeGestures) {
+	      if (model.pointersDown[model.pointerIndex]) {
+	        // do we have multitouch
+	        if (model.pointersDownCount > 1) {
+	          // handle the gesture
+	          publicAPI.recognizeGesture('LeftButtonRelease');
+	        }
+	        delete model.pointersDown[model.pointerIndex];
+	        if (model.startingEventPositions[model.pointerIndex]) {
+	          delete model.startingEventPositions[model.pointerIndex];
+	        }
+	        if (model.eventPositions[model.pointerIndex]) {
+	          delete model.eventPositions[model.pointerIndex];
+	        }
+	        if (model.lastEventPositions[model.pointerIndex]) {
+	          delete model.lastEventPositions[model.pointerIndex];
+	        }
+	        model.pointersDownCount--;
+	        publicAPI.invokeLeftButtonRelease({ type: 'LeftButtonRelease' });
+	      }
+	    } else {
+	      publicAPI.invokeLeftButtonRelease({ type: 'LeftButtonRelease' });
+	    }
+	  };
 	}
 
 	// ----------------------------------------------------------------------------
@@ -17054,6 +17293,9 @@
 	var DEFAULT_VALUES = {
 	  eventPositions: null,
 	  lastEventPositions: null,
+	  startingEventPositions: null,
+	  pointersDown: null,
+	  pointersDownCount: 0,
 	  pointerIndex: 0,
 	  renderWindow: null,
 	  interactorStyle: null,
@@ -17070,7 +17312,15 @@
 	  controlKey: false,
 	  keyCode: 0,
 	  canvas: null,
-	  view: null
+	  view: null,
+	  recognizeGestures: true,
+	  currentGesture: 'Start',
+	  scale: 1.0,
+	  lastScale: 1.0,
+	  translation: [],
+	  lastTranslation: [],
+	  rotation: 0.0,
+	  lastRotation: 0.0
 	};
 
 	// ----------------------------------------------------------------------------
@@ -17083,6 +17333,8 @@
 	  // Internal objects initialization
 	  model.eventPositions = {};
 	  model.lastEventPositions = {};
+	  model.pointersDown = {};
+	  model.startingEventPositions = {};
 
 	  // Object methods
 	  macro.obj(publicAPI, model);
@@ -17093,10 +17345,12 @@
 	  });
 
 	  // Create get-only macros
-	  macro.get(publicAPI, model, ['initialized', 'enabled', 'enableRender']);
+	  macro.get(publicAPI, model, ['initialized', 'enabled', 'enableRender', 'scale', 'lastScale', 'rotation', 'lastRotation']);
 
 	  // Create get-set macros
-	  macro.setGet(publicAPI, model, ['pointerIndex', 'lightFollowCamera', 'enabled', 'shiftKey', 'controlKey', 'altKey', 'keyCode', 'view']);
+	  macro.setGet(publicAPI, model, ['pointerIndex', 'lightFollowCamera', 'enabled', 'shiftKey', 'controlKey', 'altKey', 'keyCode', 'view', 'recognizeGestures']);
+
+	  macro.getArray(publicAPI, model, ['translation', 'lastTranslation']);
 
 	  // For more macro methods, see "Sources/macro.js"
 
@@ -17274,6 +17528,95 @@
 	    if (model.interactor) {
 	      publicAPI.releaseFocus();
 	    }
+	  };
+
+	  //----------------------------------------------------------------------------
+	  publicAPI.handlePinch = function () {
+	    var pos = model.interactor.getEventPosition(model.interactor.getPointerIndex());
+	    publicAPI.findPokedRenderer(pos.x, pos.y);
+	    if (model.currentRenderer === null) {
+	      return;
+	    }
+
+	    var camera = model.currentRenderer.getActiveCamera();
+
+	    var dyf = model.interactor.getScale() / model.interactor.getLastScale();
+	    if (camera.getParallelProjection()) {
+	      camera.setParallelScale(camera.getParallelScale() / dyf);
+	    } else {
+	      camera.dolly(dyf);
+	      if (model.autoAdjustCameraClippingRange) {
+	        model.currentRenderer.resetCameraClippingRange();
+	      }
+	    }
+
+	    if (model.interactor.getLightFollowCamera()) {
+	      model.currentRenderer.updateLightsGeometryToFollowCamera();
+	    }
+	    model.interactor.render();
+	  };
+
+	  //----------------------------------------------------------------------------
+	  publicAPI.handlePan = function () {
+	    var pos = model.interactor.getEventPosition(model.interactor.getPointerIndex());
+	    publicAPI.findPokedRenderer(pos.x, pos.y);
+	    if (model.currentRenderer === null) {
+	      return;
+	    }
+
+	    var camera = model.currentRenderer.getActiveCamera();
+
+	    var rwi = model.interactor;
+
+	    // Calculate the focal depth since we'll be using it a lot
+	    var viewFocus = camera.getFocalPoint();
+
+	    viewFocus = publicAPI.computeWorldToDisplay(viewFocus[0], viewFocus[1], viewFocus[2]);
+	    var focalDepth = viewFocus[2];
+
+	    var newPickPoint = publicAPI.computeDisplayToWorld(pos.x, pos.y, focalDepth);
+
+	    var trans = rwi.getTranslation();
+	    var lastTrans = rwi.getLastTranslation();
+	    newPickPoint = publicAPI.computeDisplayToWorld(viewFocus[0] + trans[0] - lastTrans[0], viewFocus[1] + trans[1] - lastTrans[1], focalDepth);
+
+	    // Has to recalc old mouse point since the viewport has moved,
+	    // so can't move it outside the loop
+	    var oldPickPoint = publicAPI.computeDisplayToWorld(viewFocus[0], viewFocus[1], focalDepth);
+
+	    // Camera motion is reversed
+	    var motionVector = [];
+	    motionVector[0] = oldPickPoint[0] - newPickPoint[0];
+	    motionVector[1] = oldPickPoint[1] - newPickPoint[1];
+	    motionVector[2] = oldPickPoint[2] - newPickPoint[2];
+
+	    viewFocus = camera.getFocalPoint();
+	    var viewPoint = camera.getPosition();
+	    camera.setFocalPoint(motionVector[0] + viewFocus[0], motionVector[1] + viewFocus[1], motionVector[2] + viewFocus[2]);
+
+	    camera.setPosition(motionVector[0] + viewPoint[0], motionVector[1] + viewPoint[1], motionVector[2] + viewPoint[2]);
+
+	    if (model.interactor.getLightFollowCamera()) {
+	      model.currentRenderer.updateLightsGeometryToFollowCamera();
+	    }
+
+	    camera.orthogonalizeViewUp();
+	    model.interactor.render();
+	  };
+
+	  publicAPI.handleRotate = function () {
+	    var pos = model.interactor.getEventPosition(model.interactor.getPointerIndex());
+	    publicAPI.findPokedRenderer(pos.x, pos.y);
+	    if (model.currentRenderer === null) {
+	      return;
+	    }
+
+	    var camera = model.currentRenderer.getActiveCamera();
+
+	    camera.roll(model.interactor.getRotation() - model.interactor.getLastRotation());
+
+	    camera.orthogonalizeViewUp();
+	    model.interactor.render();
 	  };
 
 	  //--------------------------------------------------------------------------

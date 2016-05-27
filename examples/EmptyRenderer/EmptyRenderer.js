@@ -618,7 +618,10 @@
 	  function getInputData() {
 	    var port = arguments.length <= 0 || arguments[0] === undefined ? 0 : arguments[0];
 
-	    return model.inputData[port] || model.inputConnection[port]();
+	    if (!model.inputData[port]) {
+	      model.inputData[port] = model.inputConnection[port]();
+	    }
+	    return model.inputData[port];
 	  }
 
 	  function setInputConnection(outputPort) {
@@ -632,7 +635,7 @@
 	    model.inputConnection[port] = outputPort;
 	  }
 
-	  function getOutput() {
+	  function getOutputData() {
 	    var port = arguments.length <= 0 || arguments[0] === undefined ? 0 : arguments[0];
 
 	    if (model.deleted) {
@@ -647,7 +650,7 @@
 	    var port = arguments.length <= 0 || arguments[0] === undefined ? 0 : arguments[0];
 
 	    return function () {
-	      return getOutput(port);
+	      return getOutputData(port);
 	    };
 	  }
 
@@ -667,9 +670,23 @@
 	  }
 
 	  if (numberOfOutputs) {
-	    publicAPI.getOutput = getOutput;
+	    publicAPI.getOutputData = getOutputData;
 	    publicAPI.getOutputPort = getOutputPort;
 	  }
+
+	  publicAPI.update = function () {
+	    var ins = [];
+	    if (numberOfInputs) {
+	      var _count = 0;
+	      while (_count < numberOfInputs) {
+	        // for static you would not set the input to null first
+	        model.inputData[_count] = null;
+	        ins[_count] = publicAPI.getInputData(_count);
+	        _count++;
+	      }
+	    }
+	    publicAPI.requestData(ins, model.output);
+	  };
 	}
 
 	// ----------------------------------------------------------------------------
@@ -7373,18 +7390,18 @@
 	    //   return;
 	    // }
 
+	    publicAPI.invokeEvent({ type: 'StartEvent' });
 	    model.currentInput = model.renderable.getInputData();
+	    if (!model.renderable.getStatic()) {
+	      model.renderable.update();
+	      model.currentInput = model.renderable.getInputData();
+	    }
+	    publicAPI.invokeEvent({ type: 'EndEvent' });
 
 	    if (model.currentInput === null) {
 	      console.error('No input!');
 	      return;
 	    }
-
-	    publicAPI.invokeEvent({ type: 'StartEvent' });
-	    // if (!model.Static) {
-	    //   this.getInputAlgorithm().update();
-	    // }
-	    publicAPI.invokeEvent({ type: 'EndEvent' });
 
 	    // if there are no points then we are done
 	    if (!model.currentInput.getPoints || !model.currentInput.getPoints().getNumberOfValues()) {
