@@ -18034,6 +18034,10 @@
 
 	var _PolyData2 = _interopRequireDefault(_PolyData);
 
+	var _DataArray = __webpack_require__(49);
+
+	var _DataArray2 = _interopRequireDefault(_DataArray);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
@@ -18054,137 +18058,159 @@
 	  // Set our className
 	  model.classHierarchy.push('vtkWarpScalar');
 
+	  var inputArrayName = null;
+	  var shouldAbort = false;
+
+	  /** *************************************************************
+	   * FIXME: Some functions needed by vtkAlgorithm instances could
+	   * be moved to a higher level
+	   * *************************************************************/
+	  publicAPI.setInputArrayToProcess = function (arrayName) {
+	    inputArrayName = arrayName;
+	  };
+
+	  publicAPI.getInputArrayToProcess = function (idx, inputVector) {
+	    var input = inputVector[0];
+	    var pointData = input.getPointData();
+	    return pointData.getArray(inputArrayName);
+	  };
+
+	  publicAPI.updateProgress = function (completeRatio) {
+	    console.log('vtkWarpScalars is ' + completeRatio + ' percent complete');
+	  };
+
+	  publicAPI.setAbortExecute = function (abort) {
+	    shouldAbort = abort;
+	  };
+
+	  publicAPI.getAbortExecute = function () {
+	    return shouldAbort;
+	  };
+
 	  publicAPI.requestData = function (inData, outData) {
 	    // implement requestData
 	    if (!outData[0] || inData[0].getMTime() > outData[0].getMTime()) {
-	      var pd = _PolyData2.default.newInstance();
-	      pd.setPolys(inData[0].getPolys());
-	      pd.setPoints(inData[0].getPoints());
-	      outData[0] = pd;
+	      var input = inData[0];
+
+	      // if (!input)
+	      // {
+	      // Try converting image data.
+	      // vtkImageData *inImage = vtkImageData::GetData(inputVector[0]);
+	      // if (inImage)
+	      // {
+	      // vtkNew<vtkImageDataToPointSet> image2points;
+	      // image2points->SetInputData(inImage);
+	      // image2points->Update();
+	      // input = image2points->GetOutput();
+	      // }
+	      // }
+
+	      // if (!input)
+	      // {
+	      // Try converting rectilinear grid.
+	      // vtkRectilinearGrid *inRect = vtkRectilinearGrid::GetData(inputVector[0]);
+	      // if (inRect)
+	      // {
+	      // vtkNew<vtkRectilinearGridToPointSet> rect2points;
+	      // rect2points->SetInputData(inRect);
+	      // rect2points->Update();
+	      // input = rect2points->GetOutput();
+	      // }
+	      // }
+
+	      if (!input) {
+	        console.error('Invalid or missing input');
+	        return 1;
+	      }
+
+	      // First, copy the input to the output as a starting point
+	      // output->CopyStructure( input );
+
+	      var inPts = input.getPoints();
+	      var pd = input.getPointData();
+	      var inNormals = pd.getNormals();
+
+	      var inScalars = publicAPI.getInputArrayToProcess(0, inData);
+	      if (!inPts || !inScalars) {
+	        console.debug('No data to warp');
+	        outData[0] = inData[0];
+	        return 1;
+	      }
+
+	      var numPts = inPts.getNumberOfValues();
+
+	      var pointNormal = null;
+
+	      if (inNormals && !model.getUseNormal()) {
+	        pointNormal = function pointNormal(id, normals) {
+	          return normals.getTuple(id);
+	        };
+	        console.debug('Using data normals');
+	      } else if (model.getXyPlane()) {
+	        (function () {
+	          var normal = [0, 0, 1];
+	          pointNormal = function pointNormal(id, array) {
+	            return normal;
+	          };
+	          console.debug('Using x-y plane normal');
+	        })();
+	      } else {
+	        pointNormal = function pointNormal(id, array) {
+	          return model.getNormal();
+	        };
+	        console.debug('Using Normal instance variable');
+	      }
+
+	      // newPts = vtkPoints::New();
+	      // newPts->SetNumberOfPoints(numPts);
+	      var newPtsData = new Float32Array(numPts * 3);
+	      var inPoints = inPts.getData();
+	      var ptOffset = 0;
+	      var n = [0, 0, 1];
+	      var s = 1;
+
+	      // Loop over all points, adjusting locations
+	      for (var ptId = 0; ptId < numPts; ++ptId) {
+	        if (!(ptId % 10000)) {
+	          publicAPI.updateProgress(ptId / numPts);
+	          if (publicAPI.getAbortExecute()) {
+	            break;
+	          }
+	        }
+
+	        ptOffset = ptId * 3;
+	        n = pointNormal(ptId, inNormals);
+
+	        if (model.getXyPlane()) {
+	          s = inPoints[ptOffset + 2];
+	        } else {
+	          s = inScalars.getComponent(ptId, 0);
+	        }
+
+	        newPtsData[ptOffset] = inPoints[ptOffset] + model.getScaleFactor() * s * n[0];
+	        newPtsData[ptOffset + 1] = inPoints[ptOffset + 1] + model.getScaleFactor() * s * n[1];
+	        newPtsData[ptOffset + 2] = inPoints[ptOffset + 2] + model.getScaleFactor() * s * n[2];
+	      }
+
+	      var newPts = _DataArray2.default.newInstance();
+	      newPts.setData(newPtsData);
+
+	      // Update ourselves and release memory
+
+	      // output->GetPointData()->CopyNormalsOff(); // distorted geometry
+	      // output->GetPointData()->PassData(input->GetPointData());
+	      // output->GetCellData()->CopyNormalsOff(); // distorted geometry
+	      // output->GetCellData()->PassData(input->GetCellData());
+
+	      var newPolyData = _PolyData2.default.newInstance();
+	      newPolyData.setPoints(newPts);
+	      newPolyData.setPolys(inData[0].getPolys());
+	      outData[0] = newPolyData;
+
+	      // newPts->Delete();
 	    }
 
-	    // vtkSmartPointer<vtkPointSet> input = vtkPointSet::GetData(inputVector[0]);
-	    // vtkPointSet *output = vtkPointSet::GetData(outputVector);
-
-	    // if (!input)
-	    //   {
-	    //   // Try converting image data.
-	    //   vtkImageData *inImage = vtkImageData::GetData(inputVector[0]);
-	    //   if (inImage)
-	    //     {
-	    //     vtkNew<vtkImageDataToPointSet> image2points;
-	    //     image2points->SetInputData(inImage);
-	    //     image2points->Update();
-	    //     input = image2points->GetOutput();
-	    //     }
-	    //   }
-
-	    // if (!input)
-	    //   {
-	    //   // Try converting rectilinear grid.
-	    //   vtkRectilinearGrid *inRect = vtkRectilinearGrid::GetData(inputVector[0]);
-	    //   if (inRect)
-	    //     {
-	    //     vtkNew<vtkRectilinearGridToPointSet> rect2points;
-	    //     rect2points->SetInputData(inRect);
-	    //     rect2points->Update();
-	    //     input = rect2points->GetOutput();
-	    //     }
-	    //   }
-
-	    // if (!input)
-	    //   {
-	    //   console.error(<< "Invalid or missing input");
-	    //   return 0;
-	    //   }
-
-	    // vtkPoints *inPts;
-	    // vtkDataArray *inNormals;
-	    // vtkDataArray *inScalars;
-	    // vtkPoints *newPts;
-	    // vtkPointData *pd;
-	    // int i;
-	    // vtkIdType ptId, numPts;
-	    // double x[3], *n, s, newX[3];
-
-	    // console.debug(<<"Warping data with scalars");
-
-	    // // First, copy the input to the output as a starting point
-	    // output->CopyStructure( input );
-
-	    // inPts = input->GetPoints();
-	    // pd = input->GetPointData();
-	    // inNormals = pd->GetNormals();
-
-	    // inScalars = this->GetInputArrayToProcess(0,inputVector);
-	    // if ( !inPts || !inScalars )
-	    //   {
-	    //   console.debug(<<"No data to warp");
-	    //   return 1;
-	    //   }
-
-	    // numPts = inPts->GetNumberOfPoints();
-
-	    // if ( inNormals && !this->UseNormal )
-	    //   {
-	    //   this->PointNormal = &vtkWarpScalar::DataNormal;
-	    //   console.debug(<<"Using data normals");
-	    //   }
-	    // else if ( this->XYPlane )
-	    //   {
-	    //   this->PointNormal = &vtkWarpScalar::ZNormal;
-	    //   console.debug(<<"Using x-y plane normal");
-	    //   }
-	    // else
-	    //   {
-	    //   this->PointNormal = &vtkWarpScalar::InstanceNormal;
-	    //   console.debug(<<"Using Normal instance variable");
-	    //   }
-
-	    // newPts = vtkPoints::New();
-	    // newPts->SetNumberOfPoints(numPts);
-
-	    // // Loop over all points, adjusting locations
-	    // //
-	    // for (ptId=0; ptId < numPts; ptId++)
-	    //   {
-	    //   if ( ! (ptId % 10000) )
-	    //     {
-	    //     this->UpdateProgress ((double)ptId/numPts);
-	    //     if (this->GetAbortExecute())
-	    //       {
-	    //       break;
-	    //       }
-	    //     }
-
-	    //   inPts->GetPoint(ptId, x);
-	    //   n = (this->*(this->PointNormal))(ptId,inNormals);
-	    //   if ( this->XYPlane )
-	    //     {
-	    //     s = x[2];
-	    //     }
-	    //   else
-	    //     {
-	    //     s = inScalars->GetComponent(ptId,0);
-	    //     }
-	    //   for (i=0; i<3; i++)
-	    //     {
-	    //     newX[i] = x[i] + this->ScaleFactor * s * n[i];
-	    //     }
-	    //   newPts->SetPoint(ptId, newX);
-	    //   }
-
-	    // // Update ourselves and release memory
-	    // //
-	    // output->GetPointData()->CopyNormalsOff(); // distorted geometry
-	    // output->GetPointData()->PassData(input->GetPointData());
-	    // output->GetCellData()->CopyNormalsOff(); // distorted geometry
-	    // output->GetCellData()->PassData(input->GetCellData());
-
-	    // output->SetPoints(newPts);
-	    // newPts->Delete();
-
-	    // return 1;
+	    return 1;
 	  };
 	}
 
