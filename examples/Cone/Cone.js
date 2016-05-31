@@ -7289,6 +7289,10 @@
 
 	    // Do we have normals?
 	    var n = actor.getProperty().getInterpolation() !== _Constants.SHADINGS.VTK_FLAT ? poly.getPointData().getNormals() : null;
+	    if (n === null && poly.getCellData().getNormals()) {
+	      model.haveCellNormals = true;
+	      n = poly.getCelData().getNormals();
+	    }
 
 	    // rebuild the VBO if the data has changed we create a string for the VBO what
 	    // can change the VBO? points normals tcoords colors so what can change those?
@@ -7305,10 +7309,14 @@
 	      var points = poly.getPoints();
 
 	      var cellOffset = 0;
-	      cellOffset += model.points.getCABO().createVBO(poly.getVerts(), 'verts', representation, { points: points, normals: n, tcoords: tcoords, colors: c, cellOffset: cellOffset, haveCellScalars: model.haveCellScalars });
-	      cellOffset += model.lines.getCABO().createVBO(poly.getLines(), 'lines', representation, { points: points, normals: n, tcoords: tcoords, colors: c, cellOffset: cellOffset, haveCellScalars: model.haveCellScalars });
-	      cellOffset += model.tris.getCABO().createVBO(poly.getPolys(), 'polys', representation, { points: points, normals: n, tcoords: tcoords, colors: c, cellOffset: cellOffset, haveCellScalars: model.haveCellScalars });
-	      cellOffset += model.triStrips.getCABO().createVBO(poly.getStrips(), 'strips', representation, { points: points, normals: n, tcoords: tcoords, colors: c, cellOffset: cellOffset, haveCellScalars: model.haveCellScalars });
+	      cellOffset += model.points.getCABO().createVBO(poly.getVerts(), 'verts', representation, { points: points, normals: n, tcoords: tcoords, colors: c, cellOffset: cellOffset,
+	        haveCellScalars: model.haveCellScalars, haveCellNormals: model.haveCellNormals });
+	      cellOffset += model.lines.getCABO().createVBO(poly.getLines(), 'lines', representation, { points: points, normals: n, tcoords: tcoords, colors: c, cellOffset: cellOffset,
+	        haveCellScalars: model.haveCellScalars, haveCellNormals: model.haveCellNormals });
+	      cellOffset += model.tris.getCABO().createVBO(poly.getPolys(), 'polys', representation, { points: points, normals: n, tcoords: tcoords, colors: c, cellOffset: cellOffset,
+	        haveCellScalars: model.haveCellScalars, haveCellNormals: model.haveCellNormals });
+	      cellOffset += model.triStrips.getCABO().createVBO(poly.getStrips(), 'strips', representation, { points: points, normals: n, tcoords: tcoords, colors: c, cellOffset: cellOffset,
+	        haveCellScalars: model.haveCellScalars, haveCellNormals: model.haveCellNormals });
 
 	      model.VBOBuildTime.modified();
 	      model.VBOBuildString = toString;
@@ -7571,20 +7579,18 @@
 	    var addAPoint = function addAPoint(i) {
 	      // Vertices
 	      pointIdx = i * 3;
-	      normalIdx = i * 3;
 	      tcoordIdx = i * textureComponents;
-
-	      if (options.haveCellScalars) {
-	        colorIdx = (cellCount + options.cellOffset) * colorComponents;
-	      } else {
-	        colorIdx = i * colorComponents;
-	      }
 
 	      packedVBO.push(pointData[pointIdx++]);
 	      packedVBO.push(pointData[pointIdx++]);
 	      packedVBO.push(pointData[pointIdx++]);
 
 	      if (normalData !== null) {
+	        if (options.haveCellNormals) {
+	          normalIdx = (cellCount + options.cellOffset) * 3;
+	        } else {
+	          normalIdx = i * 3;
+	        }
 	        packedVBO.push(normalData[normalIdx++]);
 	        packedVBO.push(normalData[normalIdx++]);
 	        packedVBO.push(normalData[normalIdx++]);
@@ -7597,6 +7603,12 @@
 	      }
 
 	      if (colorData !== null) {
+	        if (options.haveCellScalars) {
+	          colorIdx = (cellCount + options.cellOffset) * colorComponents;
+	        } else {
+	          colorIdx = i * colorComponents;
+	        }
+
 	        for (var _j = 0; _j < colorComponents; ++_j) {
 	          packedVBO.push(colorData[colorIdx++] / 255.5);
 	        }
