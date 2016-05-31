@@ -309,6 +309,7 @@
 	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
 	exports.capitalize = capitalize;
+	exports.enumToString = enumToString;
 	exports.obj = obj;
 	exports.get = get;
 	exports.set = set;
@@ -335,6 +336,12 @@
 
 	function capitalize(str) {
 	  return str.charAt(0).toUpperCase() + str.slice(1);
+	}
+
+	function enumToString(e, value) {
+	  return Object.keys(e).find(function (key) {
+	    return e[key] === value;
+	  });
 	}
 
 	// ----------------------------------------------------------------------------
@@ -6584,9 +6591,9 @@
 	    var scalarMatMode = model.renderable.getScalarMaterialMode();
 
 	    if (model.lastBoundBO.getCABO().getColorComponents() !== 0) {
-	      if (scalarMatMode === _Constants2.MATERIAL_MODE_VALUES.VTK_MATERIALMODE_AMBIENT || scalarMatMode === _Constants2.MATERIAL_MODE_VALUES.VTK_MATERIALMODE_DEFAULT && actor.getProperty().getAmbient() > actor.getProperty().getDiffuse()) {
+	      if (scalarMatMode === _Constants2.VTK_MATERIALMODE.AMBIENT || scalarMatMode === _Constants2.VTK_MATERIALMODE.DEFAULT && actor.getProperty().getAmbient() > actor.getProperty().getDiffuse()) {
 	        FSSource = _ShaderProgram2.default.substitute(FSSource, '//VTK::Color::Impl', colorImpl.concat(['  ambientColor = vertexColorVSOutput.rgb;', '  opacity = opacity*vertexColorVSOutput.a;'])).result;
-	      } else if (scalarMatMode === _Constants2.MATERIAL_MODE_VALUES.VTK_MATERIALMODE_DIFFUSE || scalarMatMode === _Constants2.MATERIAL_MODE_VALUES.VTK_MATERIALMODE_DEFAULT && actor.getProperty().getAmbient() <= actor.getProperty().getDiffuse()) {
+	      } else if (scalarMatMode === _Constants2.VTK_MATERIALMODE.DIFFUSE || scalarMatMode === _Constants2.VTK_MATERIALMODE.DEFAULT && actor.getProperty().getAmbient() <= actor.getProperty().getDiffuse()) {
 	        FSSource = _ShaderProgram2.default.substitute(FSSource, '//VTK::Color::Impl', colorImpl.concat(['  diffuseColor = vertexColorVSOutput.rgb;', '  opacity = opacity*vertexColorVSOutput.a;'])).result;
 	      } else {
 	        FSSource = _ShaderProgram2.default.substitute(FSSource, '//VTK::Color::Impl', colorImpl.concat(['  diffuseColor = vertexColorVSOutput.rgb;', '  ambientColor = vertexColorVSOutput.rgb;', '  opacity = opacity*vertexColorVSOutput.a;'])).result;
@@ -7175,6 +7182,15 @@
 	    model.renderable.mapScalars(poly, 1.0);
 	    var c = model.renderable.getColorMapColors();
 
+	    model.haveCellScalars = false;
+	    var scalarMode = model.renderable.getScalarMode();
+	    if (model.renderable.getScalarVisibility()) {
+	      // We must figure out how the scalars should be mapped to the polydata.
+	      if ((scalarMode === _Constants2.VTK_SCALAR_MODE.USE_CELL_DATA || scalarMode === _Constants2.VTK_SCALAR_MODE.USE_CELL_FIELD_DATA || scalarMode === _Constants2.VTK_SCALAR_MODE.USE_FIELD_DATA || !poly.getPointData().getScalars()) && scalarMode !== _Constants2.VTK_SCALAR_MODE.USE_POINT_FIELD_DATA && c) {
+	        model.haveCellScalars = true;
+	      }
+	    }
+
 	    // Do we have normals?
 	    var n = actor.getProperty().getInterpolation() !== _Constants.SHADINGS.VTK_FLAT ? poly.getPointData().getNormals() : null;
 
@@ -7192,10 +7208,11 @@
 	      // Build the VBOs
 	      var points = poly.getPoints();
 
-	      model.points.getCABO().createVBO(poly.getVerts(), 'verts', representation, points, n, tcoords, c);
-	      model.lines.getCABO().createVBO(poly.getLines(), 'lines', representation, points, n, tcoords, c);
-	      model.tris.getCABO().createVBO(poly.getPolys(), 'polys', representation, points, n, tcoords, c);
-	      model.triStrips.getCABO().createVBO(poly.getStrips(), 'strips', representation, points, n, tcoords, c);
+	      var cellOffset = 0;
+	      cellOffset += model.points.getCABO().createVBO(poly.getVerts(), 'verts', representation, { points: points, normals: n, tcoords: tcoords, colors: c, cellOffset: cellOffset, haveCellScalars: model.haveCellScalars });
+	      cellOffset += model.lines.getCABO().createVBO(poly.getLines(), 'lines', representation, { points: points, normals: n, tcoords: tcoords, colors: c, cellOffset: cellOffset, haveCellScalars: model.haveCellScalars });
+	      cellOffset += model.tris.getCABO().createVBO(poly.getPolys(), 'polys', representation, { points: points, normals: n, tcoords: tcoords, colors: c, cellOffset: cellOffset, haveCellScalars: model.haveCellScalars });
+	      cellOffset += model.triStrips.getCABO().createVBO(poly.getStrips(), 'strips', representation, { points: points, normals: n, tcoords: tcoords, colors: c, cellOffset: cellOffset, haveCellScalars: model.haveCellScalars });
 
 	      model.VBOBuildTime.modified();
 	      model.VBOBuildString = toString;
@@ -7402,10 +7419,10 @@
 
 	  publicAPI.setType(_Constants.OBJECT_TYPE.ARRAY_BUFFER);
 
-	  publicAPI.createVBO = function (cellArray, inRep, outRep, points, normals, tcoords, colors) {
+	  publicAPI.createVBO = function (cellArray, inRep, outRep, options) {
 	    if (!cellArray.getData() || !cellArray.getData().length) {
 	      model.elementCount = 0;
-	      return;
+	      return 0;
 	    }
 
 	    // Figure out how big each block will be, currently 6 or 7 floats.
@@ -7417,33 +7434,33 @@
 	    model.colorComponents = 0;
 	    model.colorOffset = 0;
 
-	    var pointData = points.getData();
+	    var pointData = options.points.getData();
 	    var normalData = null;
 	    var tcoordData = null;
 	    var colorData = null;
 
-	    var colorComponents = colors ? colors.getNumberOfComponents() : 0;
-	    var textureComponents = tcoords ? tcoords.getNumberOfComponents() : 0;
+	    var colorComponents = options.colors ? options.colors.getNumberOfComponents() : 0;
+	    var textureComponents = options.tcoords ? options.tcoords.getNumberOfComponents() : 0;
 
-	    if (normals !== null) {
+	    if (options.normals !== null) {
 	      model.normalOffset = /* sizeof(float) */4 * model.blockSize;
 	      model.blockSize += 3;
-	      normalData = normals.getData();
+	      normalData = options.normals.getData();
 	    }
 
-	    if (tcoords !== null) {
+	    if (options.tcoords !== null) {
 	      model.tCoordOffset = /* sizeof(float) */4 * model.blockSize;
 	      model.tCoordComponents = textureComponents;
 	      model.blockSize += textureComponents;
-	      tcoordData = tcoords.getData();
+	      tcoordData = options.tcoords.getData();
 	    }
 
-	    if (colors !== null) {
-	      model.colorComponents = colors.getNumberOfComponents();
+	    if (options.colors !== null) {
+	      model.colorComponents = options.colors.getNumberOfComponents();
 	      model.colorOffset = /* sizeof(float) */4 * model.blockSize;
 	      //      model.blockSize += 1;
 	      model.blockSize += model.colorComponents;
-	      colorData = colors.getData();
+	      colorData = options.colors.getData();
 	    }
 	    model.stride = /* sizeof(float) */4 * model.blockSize;
 
@@ -7451,6 +7468,7 @@
 	    var normalIdx = 0;
 	    var tcoordIdx = 0;
 	    var colorIdx = 0;
+	    var cellCount = 0;
 
 	    // const colorHolder = new Uint8Array(4);
 
@@ -7459,7 +7477,12 @@
 	      pointIdx = i * 3;
 	      normalIdx = i * 3;
 	      tcoordIdx = i * textureComponents;
-	      colorIdx = i * colorComponents;
+
+	      if (options.haveCellScalars) {
+	        colorIdx = (cellCount + options.cellOffset) * colorComponents;
+	      } else {
+	        colorIdx = i * colorComponents;
+	      }
 
 	      packedVBO.push(pointData[pointIdx++]);
 	      packedVBO.push(pointData[pointIdx++]);
@@ -7567,12 +7590,14 @@
 	      if (index === currentIndex) {
 	        func(array[index], array, currentIndex + 1);
 	        currentIndex += array[index] + 1;
+	        cellCount++;
 	      }
 	    }
 	    model.elementCount = packedVBO.getNumberOfElements() / model.blockSize;
 	    var vboArray = packedVBO.getFrozenArray();
 	    publicAPI.upload(vboArray, _Constants.OBJECT_TYPE.ARRAY_BUFFER);
 	    packedVBO.reset();
+	    return cellCount;
 	  };
 
 	  publicAPI.setCoordShiftAndScaleMethod = function (shiftScaleMethod) {
@@ -10798,25 +10823,39 @@
 /* 31 */
 /***/ function(module, exports) {
 
-	'use strict';
+	"use strict";
 
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	var COLOR_MODE = exports.COLOR_MODE = ['VTK_COLOR_MODE_DEFAULT', 'VTK_COLOR_MODE_MAP_SCALARS', 'VTK_COLOR_MODE_DIRECT_SCALARS'];
-
-	var SCALAR_MODE = exports.SCALAR_MODE = ['VTK_SCALAR_MODE_DEFAULT', 'VTK_SCALAR_MODE_USE_POINT_DATA', 'VTK_SCALAR_MODE_USE_CELL_DATA', 'VTK_SCALAR_MODE_USE_POINT_FIELD_DATA', 'VTK_SCALAR_MODE_USE_CELL_FIELD_DATA', 'VTK_SCALAR_MODE_USE_FIELD_DATA'];
-
-	var MATERIAL_MODE = exports.MATERIAL_MODE = ['VTK_MATERIALMODE_DEFAULT', 'VTK_MATERIALMODE_AMBIENT', 'VTK_MATERIALMODE_DIFFUSE', 'VTK_MATERIALMODE_AMBIENT_AND_DIFFUSE'];
-
-	var MATERIAL_MODE_VALUES = exports.MATERIAL_MODE_VALUES = {
-	  VTK_MATERIALMODE_DEFAULT: 0,
-	  VTK_MATERIALMODE_AMBIENT: 1,
-	  VTK_MATERIALMODE_DIFFUSE: 2,
-	  VTK_MATERIALMODE_AMBIENT_AND_DIFFUSE: 3
+	var VTK_COLOR_MODE = exports.VTK_COLOR_MODE = {
+	  DEFAULT: 0,
+	  MAP_SCALARS: 1,
+	  DIRECT_SCALARS: 2
 	};
 
-	exports.default = { MATERIAL_MODE_VALUES: MATERIAL_MODE_VALUES };
+	var VTK_SCALAR_MODE = exports.VTK_SCALAR_MODE = {
+	  DEFAULT: 0,
+	  USE_POINT_DATA: 1,
+	  USE_CELL_DATA: 2,
+	  USE_POINT_FIELD_DATA: 3,
+	  USE_CELL_FIELD_DATA: 4,
+	  USE_FIELD_DATA: 5
+	};
+
+	var VTK_MATERIALMODE = exports.VTK_MATERIALMODE = {
+	  DEFAULT: 0,
+	  AMBIENT: 1,
+	  DIFFUSE: 2,
+	  AMBIENT_AND_DIFFUSE: 3
+	};
+
+	var VTK_GET_ARRAY = exports.VTK_GET_ARRAY = {
+	  BY_ID: 0,
+	  BY_NAME: 1
+	};
+
+	exports.default = { VTK_COLOR_MODE: VTK_COLOR_MODE, VTK_MATERIALMODE: VTK_MATERIALMODE, VTK_GET_ARRAY: VTK_GET_ARRAY, VTK_SCALAR_MODE: VTK_SCALAR_MODE };
 
 /***/ },
 /* 32 */
@@ -12110,12 +12149,6 @@
 	    // close depends on the resolution of the depth buffer
 	    if (!model.nearClippingPlaneTolerance) {
 	      model.nearClippingPlaneTolerance = 0.01;
-	      if (model.renderWindow) {
-	        var ZBufferDepth = model.renderWindow.getDepthBufferSize();
-	        if (ZBufferDepth > 16) {
-	          model.nearClippingPlaneTolerance = 0.001;
-	        }
-	      }
 	    }
 
 	    // make sure the front clipping range is not too far from the far clippnig
@@ -12124,7 +12157,7 @@
 	    if (range[0] < model.nearClippingPlaneTolerance * range[1]) {
 	      range[0] = model.nearClippingPlaneTolerance * range[1];
 	    }
-	    model.activeCamera.setClippingRange(range);
+	    model.activeCamera.setClippingRange(range[0], range[1]);
 
 	    // Here to let parallel/distributed compositing intercept
 	    // and do the right thing.
@@ -12226,7 +12259,7 @@
 	  interactive: true,
 
 	  nearClippingPlaneTolerance: 0,
-	  clippingRangeExpansion: 0.5,
+	  clippingRangeExpansion: 0.05,
 
 	  erase: true,
 	  draw: true,
