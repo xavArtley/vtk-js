@@ -6675,7 +6675,7 @@
 	          FSSource = _ShaderProgram2.default.substitute(FSSource, '//VTK::Normal::Dec', ['uniform mat3 normalMatrix;', 'uniform samplerBuffer textureN;']).result;
 	          FSSource = _ShaderProgram2.default.substitute(FSSource, '//VTK::Normal::Impl', ['vec3 normalVCVSOutput = normalize(normalMatrix *', '    texelFetchBuffer(textureN, gl_PrimitiveID + PrimitiveIDOffset).xyz);', '  if (gl_FrontFacing == false) { normalVCVSOutput = -normalVCVSOutput; }']).result;
 	        } else {
-	          if (actor.getProperty().getRepresentation() === _Constants.REPRESENTATIONS.VTK_WIREFRAME) {
+	          if (actor.getProperty().getRepresentation() === _Constants.VTK_REPRESENTATION.WIREFRAME) {
 	            // generate a normal for lines, it will be perpendicular to the line
 	            // and maximally aligned with the camera view direction
 	            // no clue if this is the best way to do this.
@@ -6750,11 +6750,11 @@
 	    // and having normals or not.
 	    var needLighting = false;
 	    var haveNormals = false; // (model.currentInput.getPointData().getNormals() != null);
-	    if (actor.getProperty().getRepresentation() === _Constants.REPRESENTATIONS.VTK_POINTS) {
-	      needLighting = actor.getProperty().getInterpolation() !== _Constants.SHADINGS.VTK_FLAT && haveNormals;
+	    if (actor.getProperty().getRepresentation() === _Constants.VTK_REPRESENTATION.POINTS) {
+	      needLighting = actor.getProperty().getInterpolation() !== _Constants.VTK_SHADING.FLAT && haveNormals;
 	    } else {
 	      var isTrisOrStrips = cellBO === model.tris || cellBO === model.triStrips;
-	      needLighting = isTrisOrStrips || !isTrisOrStrips && actor.getProperty().getInterpolation() !== _Constants.SHADINGS.VTK_FLAT && haveNormals;
+	      needLighting = isTrisOrStrips || !isTrisOrStrips && actor.getProperty().getInterpolation() !== _Constants.VTK_SHADING.FLAT && haveNormals;
 	    }
 
 	    // do we need lighting?
@@ -7072,7 +7072,7 @@
 	    // draw lines
 	    if (model.lines.getCABO().getElementCount()) {
 	      publicAPI.updateShaders(model.lines, ren, actor);
-	      if (representation === _Constants.REPRESENTATIONS.VTK_POINTS) {
+	      if (representation === _Constants.VTK_REPRESENTATION.POINTS) {
 	        gl.drawArrays(gl.POINTS, 0, model.Lines.getCABO().getElementCount());
 	      } else {
 	        gl.drawArrays(gl.LINES, 0, model.Lines.getCABO().getElementCount());
@@ -7085,10 +7085,10 @@
 	      // First we do the triangles, update the shader, set uniforms, etc.
 	      publicAPI.updateShaders(model.tris, ren, actor);
 	      var mode = gl.POINTS;
-	      if (representation === _Constants.REPRESENTATIONS.VTK_WIREFRAME) {
+	      if (representation === _Constants.VTK_REPRESENTATION.WIREFRAME) {
 	        mode = gl.LINES;
 	      }
-	      if (representation === _Constants.REPRESENTATIONS.VTK_SURFACE) {
+	      if (representation === _Constants.VTK_REPRESENTATION.SURFACE) {
 	        mode = gl.TRIANGLES;
 	      }
 	      gl.drawArrays(mode, 0, model.tris.getCABO().getElementCount());
@@ -7099,13 +7099,13 @@
 	    if (model.triStrips.getCABO().getElementCount()) {
 	      // Use the tris shader program/VAO, but triStrips ibo.
 	      model.updateShaders(model.triStrips, ren, actor);
-	      if (representation === _Constants.REPRESENTATIONS.VTK_POINTS) {
+	      if (representation === _Constants.VTK_REPRESENTATION.POINTS) {
 	        gl.drawArrays(gl.POINTS, 0, model.triStrips.getCABO().getElementCount());
 	      }
-	      if (representation === _Constants.REPRESENTATIONS.VTK_WIREFRAME) {
+	      if (representation === _Constants.VTK_REPRESENTATION.WIREFRAME) {
 	        gl.drawArays(gl.LINES, 0, model.triStrips.getCABO().getElementCount());
 	      }
-	      if (representation === _Constants.REPRESENTATIONS.VTK_SURFACE) {
+	      if (representation === _Constants.VTK_REPRESENTATION.SURFACE) {
 	        gl.drawArrays(gl.TRIANGLES, 0, model.triStrips.getCABO().getElementCount());
 	      }
 	      // just be safe and divide by 3
@@ -7192,7 +7192,7 @@
 	    }
 
 	    // Do we have normals?
-	    var n = actor.getProperty().getInterpolation() !== _Constants.SHADINGS.VTK_FLAT ? poly.getPointData().getNormals() : null;
+	    var n = actor.getProperty().getInterpolation() !== _Constants.VTK_SHADING.FLAT ? poly.getPointData().getNormals() : null;
 	    if (n === null && poly.getCellData().getNormals()) {
 	      model.haveCellNormals = true;
 	      n = poly.getCelData().getNormals();
@@ -7587,9 +7587,9 @@
 	    };
 
 	    var func = null;
-	    if (outRep === _Constants2.REPRESENTATIONS.VTK_POINTS || inRep === 'Verts') {
+	    if (outRep === _Constants2.VTK_REPRESENTATION.POINTS || inRep === 'Verts') {
 	      func = cellBuilders.anythingToPoints;
-	    } else if (outRep === _Constants2.REPRESENTATIONS.VTK_WIREFRAME || inRep === 'Lines') {
+	    } else if (outRep === _Constants2.VTK_REPRESENTATION.WIREFRAME || inRep === 'Lines') {
 	      func = cellBuilders[inRep + 'ToWireframe'];
 	    } else {
 	      func = cellBuilders[inRep + 'ToSurface'];
@@ -7924,45 +7924,33 @@
 /* 26 */
 /***/ function(module, exports) {
 
-	'use strict';
+	"use strict";
 
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	var SHADING_MODEL = exports.SHADING_MODEL = ['VTK_FLAT', // 0
-	'VTK_GOURAUD', // 1
-	'VTK_PHONG'];
-
-	// 2
-	var SHADINGS = exports.SHADINGS = {
-	  VTK_FLAT: 0,
-	  VTK_GOURAUD: 1,
-	  VTK_PHONG: 2
+	var VTK_SHADING = exports.VTK_SHADING = {
+	  FLAT: 0,
+	  GOURAUD: 1,
+	  PHONG: 2
 	};
 
-	var REPRESENTATION_MODEL = exports.REPRESENTATION_MODEL = ['VTK_POINTS', // 0
-	'VTK_WIREFRAME', // 1
-	'VTK_SURFACE'];
-
-	// 2
-	var REPRESENTATIONS = exports.REPRESENTATIONS = {
-	  VTK_POINTS: 0,
-	  VTK_WIREFRAME: 1,
-	  VTK_SURFACE: 2
+	var VTK_REPRESENTATION = exports.VTK_REPRESENTATION = {
+	  POINTS: 0,
+	  WIREFRAME: 1,
+	  SURFACE: 2
 	};
 
-	var INTERPOLATIONS = exports.INTERPOLATIONS = {
-	  VTK_FLAT: 0,
-	  VTK_GOURAUD: 1,
-	  VTK_PHONG: 2
+	var VTK_INTERPOLATION = exports.VTK_INTERPOLATION = {
+	  FLAT: 0,
+	  GOURAUD: 1,
+	  PHONG: 2
 	};
 
 	exports.default = {
-	  SHADINGS: SHADINGS,
-	  SHADING_MODEL: SHADING_MODEL,
-	  REPRESENTATIONS: REPRESENTATIONS,
-	  INTERPOLATIONS: INTERPOLATIONS,
-	  REPRESENTATION_MODEL: REPRESENTATION_MODEL
+	  VTK_SHADING: VTK_SHADING,
+	  VTK_REPRESENTATION: VTK_REPRESENTATION,
+	  VTK_INTERPOLATION: VTK_INTERPOLATION
 	};
 
 /***/ },
