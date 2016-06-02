@@ -70,10 +70,6 @@
 
 	var _Mapper2 = _interopRequireDefault(_Mapper);
 
-	var _Camera = __webpack_require__(38);
-
-	var _Camera2 = _interopRequireDefault(_Camera);
-
 	var _RenderWindowInteractor = __webpack_require__(61);
 
 	var _RenderWindowInteractor2 = _interopRequireDefault(_RenderWindowInteractor);
@@ -109,18 +105,11 @@
 	var representationSelector = document.querySelector('.representations');
 	var resolutionChange = document.querySelector('.resolution');
 
+	// create what we will view
 	var renWin = _RenderWindow4.default.newInstance();
 	var ren = _Renderer2.default.newInstance();
 	renWin.addRenderer(ren);
 	ren.setBackground(0.32, 0.34, 0.43);
-
-	var glwindow = _RenderWindow2.default.newInstance();
-	glwindow.setSize(500, 500);
-	glwindow.setContainer(renderWindowContainer);
-	renWin.addView(glwindow);
-
-	var iren = _RenderWindowInteractor2.default.newInstance();
-	iren.setView(glwindow);
 
 	var actor = _Actor2.default.newInstance();
 	ren.addActor(actor);
@@ -128,16 +117,11 @@
 	var mapper = _Mapper2.default.newInstance();
 	actor.setMapper(mapper);
 
-	var cam = _Camera2.default.newInstance();
-	ren.setActiveCamera(cam);
-	cam.setFocalPoint(0, 0, 0);
-	cam.setPosition(0, 0, 3);
-	cam.setClippingRange(0.1, 50.0);
-
 	var coneSource = _ConeSource2.default.newInstance({ height: 1.0 });
 
 	// create a filter on the fly, sort of cool, this is a random scalars
-	// filter we create inline
+	// filter we create inline, for a simple cone you would not need
+	// this
 	var randFilter = macro.newInstance(function (publicAPI, model) {
 	  macro.obj(publicAPI, model); // make it an object
 	  macro.algo(publicAPI, model, 1, 1); // mixin algorithm code 1 in, 1 out
@@ -167,9 +151,20 @@
 	randFilter.setInputConnection(coneSource.getOutputPort());
 	mapper.setInputConnection(randFilter.getOutputPort());
 
+	// now create something to view it, in this case webgl
+	// with mouse/touch interaction
+	var glwindow = _RenderWindow2.default.newInstance();
+	glwindow.setSize(500, 400);
+	glwindow.setContainer(renderWindowContainer);
+	renWin.addView(glwindow);
+
+	var iren = _RenderWindowInteractor2.default.newInstance();
+	iren.setView(glwindow);
+
+	// initialize the interaction and bind event handlers
+	// to the HTML elements
 	iren.initialize();
 	iren.bindEvents(renderWindowContainer, document);
-	iren.start();
 
 	// ----------------
 
@@ -1142,6 +1137,12 @@
 	    }
 	  };
 
+	  publicAPI.getAspectRatio = function () {
+	    var size = model.parent.getSize();
+	    var viewport = model.renderable.getViewport();
+	    return size[0] * (viewport[2] - viewport[0]) / ((viewport[3] - viewport[1]) * size[1]);
+	  };
+
 	  publicAPI.clear = function () {
 	    var clearMask = 0;
 	    var gl = model.context;
@@ -1542,25 +1543,11 @@
 	      _glMatrix.mat3.invert(model.normalMatrix, model.normalMatrix);
 	      _glMatrix.mat4.transpose(model.WCVCMatrix, model.WCVCMatrix);
 
-	      // double aspect[2];
-	      // int  lowerLeft[2];
-	      // let usize;
-	      // let vsize;
-	      //  ren.getTiledSizeAndOrigin(&usize, &vsize, lowerLeft, lowerLeft+1);
+	      var oglren = publicAPI.getFirstAncestorOfType('vtkOpenGLRenderer');
+	      var aspectRatio = oglren.getAspectRatio();
 
-	      // ren->ComputeAspect();
-	      // ren->GetAspect(aspect);
-	      // double aspect2[2];
-	      // ren->vtkViewport::ComputeAspect();
-	      // ren->vtkViewport::GetAspect(aspect2);
-	      // double aspectModification = aspect[0] * aspect2[1] / (aspect[1] * aspect2[0]);
-
-	      //  if (usize && vsize) {
-	      model.VCDCMatrix = model.renderable.getProjectionTransformMatrix(
-	      //                           aspectModification * usize / vsize, -1, 1);
-	      1.0, -1, 1);
+	      model.VCDCMatrix = model.renderable.getProjectionTransformMatrix(aspectRatio, -1, 1);
 	      _glMatrix.mat4.transpose(model.VCDCMatrix, model.VCDCMatrix);
-	      //  }
 
 	      model.WCDCMatrix = _glMatrix.mat4.create();
 	      _glMatrix.mat4.multiply(model.WCDCMatrix, model.VCDCMatrix, model.WCVCMatrix);
@@ -12124,20 +12111,9 @@
 	    var angle = _Math2.default.radiansFromDegrees(model.activeCamera.getViewAngle());
 	    var parallelScale = radius;
 
-	    publicAPI.computeAspect();
-	    var aspect = publicAPI.getAspect();
-
-	    if (aspect[0] >= 1.0) {
-	      // horizontal window, deal with vertical angle|scale
-	      if (model.activeCamera.getUseHorizontalViewAngle()) {
-	        angle = 2.0 * Math.atan(Math.tan(angle * 0.5) / aspect[0]);
-	      }
-	    } else {
-	      // vertical window, deal with horizontal angle|scale
-	      if (!model.activeCamera.getUseHorizontalViewAngle()) {
-	        angle = 2.0 * Math.atan(Math.tan(angle * 0.5) * aspect[0]);
-	      }
-	      parallelScale = parallelScale / aspect[0];
+	    // horizontal window, deal with vertical angle|scale
+	    if (model.activeCamera.getUseHorizontalViewAngle()) {
+	      angle = 2.0 * Math.atan(Math.tan(angle * 0.5) / aspect[0]);
 	    }
 
 	    var distance = radius / Math.sin(angle * 0.5);
@@ -13103,7 +13079,6 @@
 	    return [(x + 1.0) * 0.5, (y + 1.0) * 0.5, (z + 1.0) * 0.5];
 	  };
 
-	  publicAPI.ComputeAspect = notImplemented('ComputeAspect');
 	  publicAPI.PickPropFrom = notImplemented('PickPropFrom');
 	  publicAPI.GetTiledSize = notImplemented('GetTiledSize');
 	  publicAPI.GetTiledSizeAndOrigin = notImplemented('GetTiledSizeAndOrigin');

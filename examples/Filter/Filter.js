@@ -1101,6 +1101,12 @@
 	    }
 	  };
 
+	  publicAPI.getAspectRatio = function () {
+	    var size = model.parent.getSize();
+	    var viewport = model.renderable.getViewport();
+	    return size[0] * (viewport[2] - viewport[0]) / ((viewport[3] - viewport[1]) * size[1]);
+	  };
+
 	  publicAPI.clear = function () {
 	    var clearMask = 0;
 	    var gl = model.context;
@@ -1501,25 +1507,11 @@
 	      _glMatrix.mat3.invert(model.normalMatrix, model.normalMatrix);
 	      _glMatrix.mat4.transpose(model.WCVCMatrix, model.WCVCMatrix);
 
-	      // double aspect[2];
-	      // int  lowerLeft[2];
-	      // let usize;
-	      // let vsize;
-	      //  ren.getTiledSizeAndOrigin(&usize, &vsize, lowerLeft, lowerLeft+1);
+	      var oglren = publicAPI.getFirstAncestorOfType('vtkOpenGLRenderer');
+	      var aspectRatio = oglren.getAspectRatio();
 
-	      // ren->ComputeAspect();
-	      // ren->GetAspect(aspect);
-	      // double aspect2[2];
-	      // ren->vtkViewport::ComputeAspect();
-	      // ren->vtkViewport::GetAspect(aspect2);
-	      // double aspectModification = aspect[0] * aspect2[1] / (aspect[1] * aspect2[0]);
-
-	      //  if (usize && vsize) {
-	      model.VCDCMatrix = model.renderable.getProjectionTransformMatrix(
-	      //                           aspectModification * usize / vsize, -1, 1);
-	      1.0, -1, 1);
+	      model.VCDCMatrix = model.renderable.getProjectionTransformMatrix(aspectRatio, -1, 1);
 	      _glMatrix.mat4.transpose(model.VCDCMatrix, model.VCDCMatrix);
-	      //  }
 
 	      model.WCDCMatrix = _glMatrix.mat4.create();
 	      _glMatrix.mat4.multiply(model.WCDCMatrix, model.VCDCMatrix, model.WCVCMatrix);
@@ -12083,20 +12075,9 @@
 	    var angle = _Math2.default.radiansFromDegrees(model.activeCamera.getViewAngle());
 	    var parallelScale = radius;
 
-	    publicAPI.computeAspect();
-	    var aspect = publicAPI.getAspect();
-
-	    if (aspect[0] >= 1.0) {
-	      // horizontal window, deal with vertical angle|scale
-	      if (model.activeCamera.getUseHorizontalViewAngle()) {
-	        angle = 2.0 * Math.atan(Math.tan(angle * 0.5) / aspect[0]);
-	      }
-	    } else {
-	      // vertical window, deal with horizontal angle|scale
-	      if (!model.activeCamera.getUseHorizontalViewAngle()) {
-	        angle = 2.0 * Math.atan(Math.tan(angle * 0.5) * aspect[0]);
-	      }
-	      parallelScale = parallelScale / aspect[0];
+	    // horizontal window, deal with vertical angle|scale
+	    if (model.activeCamera.getUseHorizontalViewAngle()) {
+	      angle = 2.0 * Math.atan(Math.tan(angle * 0.5) / aspect[0]);
 	    }
 
 	    var distance = radius / Math.sin(angle * 0.5);
@@ -13062,7 +13043,6 @@
 	    return [(x + 1.0) * 0.5, (y + 1.0) * 0.5, (z + 1.0) * 0.5];
 	  };
 
-	  publicAPI.ComputeAspect = notImplemented('ComputeAspect');
 	  publicAPI.PickPropFrom = notImplemented('PickPropFrom');
 	  publicAPI.GetTiledSize = notImplemented('GetTiledSize');
 	  publicAPI.GetTiledSizeAndOrigin = notImplemented('GetTiledSizeAndOrigin');
