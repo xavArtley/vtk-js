@@ -174,7 +174,7 @@
 	  renWin.render();
 	});
 
-	resolutionChange.addEventListener('change', function (e) {
+	resolutionChange.addEventListener('input', function (e) {
 	  var resolution = Number(e.target.value);
 	  coneSource.setResolution(resolution);
 	  renWin.render();
