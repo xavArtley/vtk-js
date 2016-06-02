@@ -10078,10 +10078,6 @@
 
 	var _Constants = __webpack_require__(28);
 
-	var _Constants2 = _interopRequireDefault(_Constants);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 	// ----------------------------------------------------------------------------
@@ -10290,7 +10286,7 @@
 	  name: '',
 	  tuple: 1,
 	  size: 0,
-	  dataType: _Constants2.default.DEFAULT_DATATYPE,
+	  dataType: _Constants.VTK_DEFAULT_DATATYPE,
 	  values: null,
 	  ranges: null
 	};
@@ -10340,7 +10336,7 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	var BYTE_SIZE = exports.BYTE_SIZE = {
+	var VTK_BYTE_SIZE = exports.VTK_BYTE_SIZE = {
 	  Int8Array: 1,
 	  Uint8Array: 1,
 	  Uint8ClampedArray: 1,
@@ -10352,24 +10348,24 @@
 	  Float64Array: 8
 	};
 
-	var DATATYPES = exports.DATATYPES = {
-	  VTK_CHAR: 'Int8Array',
-	  VTK_SIGNED_CHAR: 'Int8Array',
-	  VTK_UNSIGNED_CHAR: 'Uint8ClampedArray',
-	  VTK_SHORT: 'Int16Array',
-	  VTK_UNSIGNED_SHORT: 'Uint16Array',
-	  VTK_INT: 'Int32Array',
-	  VTK_UNSIGNED_INT: 'Uint32Array',
-	  VTK_FLOAT: 'Float32Array',
-	  VTK_DOUBLE: 'Float64Array'
+	var VTK_DATATYPES = exports.VTK_DATATYPES = {
+	  CHAR: 'Int8Array',
+	  SIGNED_CHAR: 'Int8Array',
+	  UNSIGNED_CHAR: 'Uint8ClampedArray',
+	  SHORT: 'Int16Array',
+	  UNSIGNED_SHORT: 'Uint16Array',
+	  INT: 'Int32Array',
+	  UNSIGNED_INT: 'Uint32Array',
+	  FLOAT: 'Float32Array',
+	  DOUBLE: 'Float64Array'
 	};
 
-	var DEFAULT_DATATYPE = exports.DEFAULT_DATATYPE = 'Float32Array';
+	var VTK_DEFAULT_DATATYPE = exports.VTK_DEFAULT_DATATYPE = 'Float32Array';
 
 	exports.default = {
-	  DEFAULT_DATATYPE: DEFAULT_DATATYPE,
-	  BYTE_SIZE: BYTE_SIZE,
-	  DATATYPES: DATATYPES
+	  VTK_DEFAULT_DATATYPE: VTK_DEFAULT_DATATYPE,
+	  VTK_BYTE_SIZE: VTK_BYTE_SIZE,
+	  VTK_DATATYPES: VTK_DATATYPES
 	};
 
 /***/ },
@@ -11209,7 +11205,7 @@
 	    var newColors = null;
 
 	    // map scalars through lookup table only if needed
-	    if (colorMode === _Constants2.VTK_COLOR_MODE.DEFAULT && scalars.getDataType() === _Constants3.DATATYPES.VTK_UNSIGNED_CHAR || colorMode === _Constants2.VTK_COLOR_MODE.DIRECT_SCALARS && scalars) {
+	    if (colorMode === _Constants2.VTK_COLOR_MODE.DEFAULT && scalars.getDataType() === _Constants3.VTK_DATATYPES.UNSIGNED_CHAR || colorMode === _Constants2.VTK_COLOR_MODE.DIRECT_SCALARS && scalars) {
 	      newColors = publicAPI.convertToRGBA(scalars, numberOfComponents, scalars.getNumberOfTuples());
 	    } else {
 	      var newscalars = {
@@ -11225,7 +11221,6 @@
 	      }
 	      newscalars.values = s;
 	      newscalars.size = s.length;
-	      //      newColors = vtkDataArray.newInstance({ size: 4 * scalars.getNumberOfTuples(), dataType: DATATYPES.VTK_UNSIGNED_CHAR });
 	      newColors = _DataArray2.default.newInstance(newscalars);
 
 	      // let component = componentIn;
@@ -11323,11 +11318,11 @@
 
 	  //----------------------------------------------------------------------------
 	  publicAPI.convertToRGBA = function (colors, numComp, numTuples) {
-	    if (numComp === 4 && model.alpha >= 1.0 && colors.getDataType() === _Constants3.DATATYPES.VTK_UNSIGNED_CHAR) {
+	    if (numComp === 4 && model.alpha >= 1.0 && colors.getDataType() === _Constants3.VTK_DATATYPES.UNSIGNED_CHAR) {
 	      return colors;
 	    }
 
-	    var newColors = _DataArray2.default.newInstance({ dataType: _Constants3.DATATYPES.VTK_UNSIGNED_CHAR });
+	    var newColors = _DataArray2.default.newInstance({ dataType: _Constants3.VTK_DATATYPES.UNSIGNED_CHAR });
 	    newColors.setNumberOfComponents(4);
 	    newColors.setNumberOfTuples(numTuples);
 
@@ -11340,7 +11335,7 @@
 	    alpha = alpha < 1 ? alpha : 1;
 
 	    var convtFun = intColorToUChar;
-	    if (colors.getDataType() === _Constants3.DATATYPES.VTK_FLOAT || colors.getDataType() === _Constants3.DATATYPES.VTK_DOUBLE) {
+	    if (colors.getDataType() === _Constants3.VTK_DATATYPES.FLOAT || colors.getDataType() === _Constants3.VTK_DATATYPES.DOUBLE) {
 	      convtFun = floatColorToUChar;
 	    }
 
