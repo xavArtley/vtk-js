@@ -896,7 +896,7 @@
 
 	var _Actor2 = _interopRequireDefault(_Actor);
 
-	var _Camera = __webpack_require__(9);
+	var _Camera = __webpack_require__(19);
 
 	var _Camera2 = _interopRequireDefault(_Camera);
 
@@ -1358,6 +1358,8 @@
 
 	var _ViewNode2 = _interopRequireDefault(_ViewNode);
 
+	var _glMatrix = __webpack_require__(9);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
@@ -1405,6 +1407,25 @@
 	      model.context.depthMask(false);
 	    }
 	  };
+
+	  publicAPI.getKeyMatrices = function () {
+	    // has the actor changed?
+	    if (model.renderable.getMTime() > model.keyMatrixTime.getMTime()) {
+	      model.renderable.computeMatrix();
+	      _glMatrix.mat4.copy(model.MCWCMatrix, model.renderable.getMatrix());
+	      _glMatrix.mat4.transpose(model.MCWCMatrix, model.MCWCMatrix);
+
+	      if (model.renderable.getIsIdentity()) {
+	        _glMatrix.mat3.identity(model.normalMatrix);
+	      } else {
+	        _glMatrix.mat3.fromMat4(model.normalMatrix, model.MCWCMatrix);
+	        _glMatrix.mat3.invert(model.normalMatrix, model.normalMatrix);
+	      }
+	      model.keyMatrixTime.modified();
+	    }
+
+	    return { mcwc: model.MCWCMatrix, normalMatrix: model.normalMatrix };
+	  };
 	}
 
 	// ----------------------------------------------------------------------------
@@ -1412,7 +1433,10 @@
 	// ----------------------------------------------------------------------------
 
 	var DEFAULT_VALUES = {
-	  context: null
+	  context: null,
+	  keyMatrixTime: null,
+	  normalMatrix: null,
+	  MCWCMatrix: null
 	};
 
 	// ----------------------------------------------------------------------------
@@ -1424,6 +1448,11 @@
 
 	  // Inheritance
 	  _ViewNode2.default.extend(publicAPI, model);
+
+	  model.keyMatrixTime = {};
+	  macro.obj(model.keyMatrixTime);
+	  model.normalMatrix = _glMatrix.mat3.create();
+	  model.MCWCMatrix = _glMatrix.mat4.create();
 
 	  // Build VTK API
 	  macro.setGet(publicAPI, model, ['context']);
@@ -1442,132 +1471,6 @@
 
 /***/ },
 /* 9 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.newInstance = undefined;
-	exports.extend = extend;
-
-	var _macro = __webpack_require__(2);
-
-	var macro = _interopRequireWildcard(_macro);
-
-	var _ViewNode = __webpack_require__(7);
-
-	var _ViewNode2 = _interopRequireDefault(_ViewNode);
-
-	var _glMatrix = __webpack_require__(10);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-	// ----------------------------------------------------------------------------
-	// vtkOpenGLCamera methods
-	// ----------------------------------------------------------------------------
-
-	function vtkOpenGLCamera(publicAPI, model) {
-	  // Set our className
-	  model.classHierarchy.push('vtkOpenGLCamera');
-
-	  // Builds myself.
-	  publicAPI.build = function (prepass) {
-	    if (prepass) {
-	      if (!model.renderable) {
-	        return;
-	      }
-	    }
-	  };
-
-	  // Renders myself
-	  publicAPI.render = function (prepass) {
-	    if (prepass) {
-	      model.context = publicAPI.getFirstAncestorOfType('vtkOpenGLRenderWindow').getContext();
-	      var ren = publicAPI.getFirstAncestorOfType('vtkOpenGLRenderer');
-	      publicAPI.preRender(ren);
-	    }
-	  };
-
-	  publicAPI.preRender = function (ren) {
-	    // ren.getTiledSizeAndOrigin(&usize, &vsize, lowerLeft, lowerLeft+1);
-	    // sconst gl = model.context;
-	    // gl.viewport(lowerLeft[0], lowerLeft[1], usize, vsize);
-	  };
-
-	  publicAPI.getKeyMatrices = function (ren) {
-	    // has the camera changed?
-	    if (ren !== model.lastRenderer || publicAPI.getMTime() > model.keyMatrixTime.getMTime() || ren.getMTime() > model.keyMatrixTime.getMTime()) {
-	      model.WCVCMatrix = model.renderable.getViewTransformMatrix();
-
-	      _glMatrix.mat3.fromMat4(model.normalMatrix, model.WCVCMatrix);
-	      _glMatrix.mat3.invert(model.normalMatrix, model.normalMatrix);
-	      _glMatrix.mat4.transpose(model.WCVCMatrix, model.WCVCMatrix);
-
-	      var oglren = publicAPI.getFirstAncestorOfType('vtkOpenGLRenderer');
-	      var aspectRatio = oglren.getAspectRatio();
-
-	      model.VCDCMatrix = model.renderable.getProjectionTransformMatrix(aspectRatio, -1, 1);
-	      _glMatrix.mat4.transpose(model.VCDCMatrix, model.VCDCMatrix);
-
-	      model.WCDCMatrix = _glMatrix.mat4.create();
-	      _glMatrix.mat4.multiply(model.WCDCMatrix, model.VCDCMatrix, model.WCVCMatrix);
-	      //      mat4.multiply(model.WCDCMatrix, model.WCVCMatrix, model.VCDCMatrix);
-
-	      model.keyMatrixTime.modified();
-	      model.lastRenderer = ren;
-	    }
-
-	    return { wcvc: model.WCVCMatrix, normalMatrix: model.normalMatrix, vcdc: model.VCDCMatrix, wcdc: model.WCDCMatrix };
-	  };
-	}
-
-	// ----------------------------------------------------------------------------
-	// Object factory
-	// ----------------------------------------------------------------------------
-
-	var DEFAULT_VALUES = {
-	  context: null,
-	  lastRenderer: null,
-	  keyMatrixTime: null,
-	  normalMatrix: null
-	};
-
-	// ----------------------------------------------------------------------------
-
-	function extend(publicAPI, model) {
-	  var initialValues = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
-
-	  Object.assign(model, DEFAULT_VALUES, initialValues);
-
-	  // Inheritance
-	  _ViewNode2.default.extend(publicAPI, model);
-
-	  model.keyMatrixTime = {};
-	  model.normalMatrix = _glMatrix.mat3.create();
-
-	  macro.obj(model.keyMatrixTime);
-
-	  // Build VTK API
-	  macro.setGet(publicAPI, model, ['context', 'keyMatrixTime']);
-
-	  // Object methods
-	  vtkOpenGLCamera(publicAPI, model);
-	}
-
-	// ----------------------------------------------------------------------------
-
-	var newInstance = exports.newInstance = macro.newInstance(extend);
-
-	// ----------------------------------------------------------------------------
-
-	exports.default = { newInstance: newInstance, extend: extend };
-
-/***/ },
-/* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -1598,18 +1501,18 @@
 	THE SOFTWARE. */
 	// END HEADER
 
-	exports.glMatrix = __webpack_require__(11);
-	exports.mat2 = __webpack_require__(12);
-	exports.mat2d = __webpack_require__(13);
-	exports.mat3 = __webpack_require__(14);
-	exports.mat4 = __webpack_require__(15);
-	exports.quat = __webpack_require__(16);
-	exports.vec2 = __webpack_require__(19);
-	exports.vec3 = __webpack_require__(17);
-	exports.vec4 = __webpack_require__(18);
+	exports.glMatrix = __webpack_require__(10);
+	exports.mat2 = __webpack_require__(11);
+	exports.mat2d = __webpack_require__(12);
+	exports.mat3 = __webpack_require__(13);
+	exports.mat4 = __webpack_require__(14);
+	exports.quat = __webpack_require__(15);
+	exports.vec2 = __webpack_require__(18);
+	exports.vec3 = __webpack_require__(16);
+	exports.vec4 = __webpack_require__(17);
 
 /***/ },
-/* 11 */
+/* 10 */
 /***/ function(module, exports) {
 
 	/* Copyright (c) 2015, Brandon Jones, Colin MacKenzie IV.
@@ -1667,7 +1570,7 @@
 
 
 /***/ },
-/* 12 */
+/* 11 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* Copyright (c) 2015, Brandon Jones, Colin MacKenzie IV.
@@ -1690,7 +1593,7 @@
 	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 	THE SOFTWARE. */
 
-	var glMatrix = __webpack_require__(11);
+	var glMatrix = __webpack_require__(10);
 
 	/**
 	 * @class 2x2 Matrix
@@ -1975,7 +1878,7 @@
 
 
 /***/ },
-/* 13 */
+/* 12 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* Copyright (c) 2015, Brandon Jones, Colin MacKenzie IV.
@@ -1998,7 +1901,7 @@
 	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 	THE SOFTWARE. */
 
-	var glMatrix = __webpack_require__(11);
+	var glMatrix = __webpack_require__(10);
 
 	/**
 	 * @class 2x3 Matrix
@@ -2298,7 +2201,7 @@
 
 
 /***/ },
-/* 14 */
+/* 13 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* Copyright (c) 2015, Brandon Jones, Colin MacKenzie IV.
@@ -2321,7 +2224,7 @@
 	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 	THE SOFTWARE. */
 
-	var glMatrix = __webpack_require__(11);
+	var glMatrix = __webpack_require__(10);
 
 	/**
 	 * @class 3x3 Matrix
@@ -2869,7 +2772,7 @@
 
 
 /***/ },
-/* 15 */
+/* 14 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* Copyright (c) 2015, Brandon Jones, Colin MacKenzie IV.
@@ -2892,7 +2795,7 @@
 	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 	THE SOFTWARE. */
 
-	var glMatrix = __webpack_require__(11);
+	var glMatrix = __webpack_require__(10);
 
 	/**
 	 * @class 4x4 Matrix
@@ -4158,7 +4061,7 @@
 
 
 /***/ },
-/* 16 */
+/* 15 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* Copyright (c) 2015, Brandon Jones, Colin MacKenzie IV.
@@ -4181,10 +4084,10 @@
 	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 	THE SOFTWARE. */
 
-	var glMatrix = __webpack_require__(11);
-	var mat3 = __webpack_require__(14);
-	var vec3 = __webpack_require__(17);
-	var vec4 = __webpack_require__(18);
+	var glMatrix = __webpack_require__(10);
+	var mat3 = __webpack_require__(13);
+	var vec3 = __webpack_require__(16);
+	var vec4 = __webpack_require__(17);
 
 	/**
 	 * @class Quaternion
@@ -4717,7 +4620,7 @@
 
 
 /***/ },
-/* 17 */
+/* 16 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* Copyright (c) 2015, Brandon Jones, Colin MacKenzie IV.
@@ -4740,7 +4643,7 @@
 	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 	THE SOFTWARE. */
 
-	var glMatrix = __webpack_require__(11);
+	var glMatrix = __webpack_require__(10);
 
 	/**
 	 * @class 3 Dimensional Vector
@@ -5432,7 +5335,7 @@
 
 
 /***/ },
-/* 18 */
+/* 17 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* Copyright (c) 2015, Brandon Jones, Colin MacKenzie IV.
@@ -5455,7 +5358,7 @@
 	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 	THE SOFTWARE. */
 
-	var glMatrix = __webpack_require__(11);
+	var glMatrix = __webpack_require__(10);
 
 	/**
 	 * @class 4 Dimensional Vector
@@ -5975,7 +5878,7 @@
 
 
 /***/ },
-/* 19 */
+/* 18 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* Copyright (c) 2015, Brandon Jones, Colin MacKenzie IV.
@@ -5998,7 +5901,7 @@
 	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 	THE SOFTWARE. */
 
-	var glMatrix = __webpack_require__(11);
+	var glMatrix = __webpack_require__(10);
 
 	/**
 	 * @class 2 Dimensional Vector
@@ -6504,6 +6407,131 @@
 
 
 /***/ },
+/* 19 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.newInstance = undefined;
+	exports.extend = extend;
+
+	var _macro = __webpack_require__(2);
+
+	var macro = _interopRequireWildcard(_macro);
+
+	var _ViewNode = __webpack_require__(7);
+
+	var _ViewNode2 = _interopRequireDefault(_ViewNode);
+
+	var _glMatrix = __webpack_require__(9);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	// ----------------------------------------------------------------------------
+	// vtkOpenGLCamera methods
+	// ----------------------------------------------------------------------------
+
+	function vtkOpenGLCamera(publicAPI, model) {
+	  // Set our className
+	  model.classHierarchy.push('vtkOpenGLCamera');
+
+	  // Builds myself.
+	  publicAPI.build = function (prepass) {
+	    if (prepass) {
+	      if (!model.renderable) {
+	        return;
+	      }
+	    }
+	  };
+
+	  // Renders myself
+	  publicAPI.render = function (prepass) {
+	    if (prepass) {
+	      model.context = publicAPI.getFirstAncestorOfType('vtkOpenGLRenderWindow').getContext();
+	      var ren = publicAPI.getFirstAncestorOfType('vtkOpenGLRenderer');
+	      publicAPI.preRender(ren);
+	    }
+	  };
+
+	  publicAPI.preRender = function (ren) {
+	    // ren.getTiledSizeAndOrigin(&usize, &vsize, lowerLeft, lowerLeft+1);
+	    // sconst gl = model.context;
+	    // gl.viewport(lowerLeft[0], lowerLeft[1], usize, vsize);
+	  };
+
+	  publicAPI.getKeyMatrices = function (ren) {
+	    // has the camera changed?
+	    if (ren !== model.lastRenderer || publicAPI.getMTime() > model.keyMatrixTime.getMTime() || ren.getMTime() > model.keyMatrixTime.getMTime()) {
+	      model.WCVCMatrix = model.renderable.getViewTransformMatrix();
+
+	      _glMatrix.mat3.fromMat4(model.normalMatrix, model.WCVCMatrix);
+	      _glMatrix.mat3.invert(model.normalMatrix, model.normalMatrix);
+	      _glMatrix.mat4.transpose(model.WCVCMatrix, model.WCVCMatrix);
+
+	      var oglren = publicAPI.getFirstAncestorOfType('vtkOpenGLRenderer');
+	      var aspectRatio = oglren.getAspectRatio();
+
+	      model.VCDCMatrix = model.renderable.getProjectionTransformMatrix(aspectRatio, -1, 1);
+	      _glMatrix.mat4.transpose(model.VCDCMatrix, model.VCDCMatrix);
+
+	      model.WCDCMatrix = _glMatrix.mat4.create();
+	      _glMatrix.mat4.multiply(model.WCDCMatrix, model.VCDCMatrix, model.WCVCMatrix);
+	      //      mat4.multiply(model.WCDCMatrix, model.WCVCMatrix, model.VCDCMatrix);
+
+	      model.keyMatrixTime.modified();
+	      model.lastRenderer = ren;
+	    }
+
+	    return { wcvc: model.WCVCMatrix, normalMatrix: model.normalMatrix, vcdc: model.VCDCMatrix, wcdc: model.WCDCMatrix };
+	  };
+	}
+
+	// ----------------------------------------------------------------------------
+	// Object factory
+	// ----------------------------------------------------------------------------
+
+	var DEFAULT_VALUES = {
+	  context: null,
+	  lastRenderer: null,
+	  keyMatrixTime: null,
+	  normalMatrix: null
+	};
+
+	// ----------------------------------------------------------------------------
+
+	function extend(publicAPI, model) {
+	  var initialValues = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+
+	  Object.assign(model, DEFAULT_VALUES, initialValues);
+
+	  // Inheritance
+	  _ViewNode2.default.extend(publicAPI, model);
+
+	  model.keyMatrixTime = {};
+	  model.normalMatrix = _glMatrix.mat3.create();
+	  macro.obj(model.keyMatrixTime);
+
+	  // Build VTK API
+	  macro.setGet(publicAPI, model, ['context', 'keyMatrixTime']);
+
+	  // Object methods
+	  vtkOpenGLCamera(publicAPI, model);
+	}
+
+	// ----------------------------------------------------------------------------
+
+	var newInstance = exports.newInstance = macro.newInstance(extend);
+
+	// ----------------------------------------------------------------------------
+
+	exports.default = { newInstance: newInstance, extend: extend };
+
+/***/ },
 /* 20 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -6539,6 +6567,8 @@
 	var _Constants = __webpack_require__(26);
 
 	var _Constants2 = __webpack_require__(31);
+
+	var _glMatrix = __webpack_require__(9);
 
 	var _vtkPolyDataVS = __webpack_require__(32);
 
@@ -6578,7 +6608,8 @@
 	      model.lines.setContext(model.context);
 	      model.tris.setContext(model.context);
 	      model.triStrips.setContext(model.context);
-	      var actor = publicAPI.getFirstAncestorOfType('vtkOpenGLActor').getRenderable();
+	      model.openglActor = publicAPI.getFirstAncestorOfType('vtkOpenGLActor');
+	      var actor = model.openglActor.getRenderable();
 	      var openglRenderer = publicAPI.getFirstAncestorOfType('vtkOpenGLRenderer');
 	      var ren = openglRenderer.getRenderable();
 	      model.openglCamera = openglRenderer.getViewNodeFor(ren.getActiveCamera());
@@ -7012,17 +7043,33 @@
 	  publicAPI.setCameraShaderParameters = function (cellBO, ren, actor) {
 	    var program = cellBO.getProgram();
 
+	    // // [WMVD]C == {world, model, view, display} coordinates
+	    // // E.g., WCDC == world to display coordinate transformation
 	    var keyMats = model.openglCamera.getKeyMatrices(ren);
 	    var cam = ren.getActiveCamera();
 
-	    // // [WMVD]C == {world, model, view, display} coordinates
-	    // // E.g., WCDC == world to display coordinate transformation
-	    program.setUniformMatrix('MCDCMatrix', keyMats.wcdc);
-	    if (program.isUniformUsed('MCVCMatrix')) {
-	      program.setUniformMatrix('MCVCMatrix', keyMats.wcvc);
-	    }
-	    if (program.isUniformUsed('normalMatrix')) {
-	      program.setUniformMatrix3x3('normalMatrix', keyMats.normalMatrix);
+	    if (actor.getIsIdentity()) {
+	      program.setUniformMatrix('MCDCMatrix', keyMats.wcdc);
+	      if (program.isUniformUsed('MCVCMatrix')) {
+	        program.setUniformMatrix('MCVCMatrix', keyMats.wcvc);
+	      }
+	      if (program.isUniformUsed('normalMatrix')) {
+	        program.setUniformMatrix3x3('normalMatrix', keyMats.normalMatrix);
+	      }
+	    } else {
+	      var actMats = model.openglActor.getKeyMatrices();
+	      if (program.isUniformUsed('normalMatrix')) {
+	        var anorms = _glMatrix.mat3.create();
+	        _glMatrix.mat3.multiply(anorms, keyMats.normalMatrix, actMats.normalMatrix);
+	        program.setUniformMatrix3x3('normalMatrix', anorms);
+	      }
+	      var tmp4 = _glMatrix.mat4.create();
+	      _glMatrix.mat4.multiply(tmp4, keyMats.wcdc, actMats.mcwc);
+	      program.setUniformMatrix('MCDCMatrix', tmp4);
+	      if (program.isUniformUsed('MCVCMatrix')) {
+	        _glMatrix.mat4.multiply(tmp4, keyMats.wcvc, actMats.mcwc);
+	        program.setUniformMatrix('MCVCMatrix', tmp4);
+	      }
 	    }
 
 	    if (program.isUniformUsed('cameraParallel')) {
@@ -11561,7 +11608,7 @@
 
 	var _BoundingBox = __webpack_require__(42);
 
-	var _glMatrix = __webpack_require__(10);
+	var _glMatrix = __webpack_require__(9);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -12363,7 +12410,7 @@
 
 	var _Math2 = _interopRequireDefault(_Math);
 
-	var _glMatrix = __webpack_require__(10);
+	var _glMatrix = __webpack_require__(9);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -14713,7 +14760,7 @@
 
 	var _Property2 = _interopRequireDefault(_Property);
 
-	var _glMatrix = __webpack_require__(10);
+	var _glMatrix = __webpack_require__(9);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -14903,8 +14950,10 @@
 	        var bbox = [_glMatrix.vec3.fromValues(bds[1], bds[3], bds[5]), _glMatrix.vec3.fromValues(bds[1], bds[2], bds[5]), _glMatrix.vec3.fromValues(bds[0], bds[2], bds[5]), _glMatrix.vec3.fromValues(bds[0], bds[3], bds[5]), _glMatrix.vec3.fromValues(bds[1], bds[3], bds[4]), _glMatrix.vec3.fromValues(bds[1], bds[2], bds[4]), _glMatrix.vec3.fromValues(bds[0], bds[2], bds[4]), _glMatrix.vec3.fromValues(bds[0], bds[3], bds[4])];
 
 	        publicAPI.computeMatrix();
+	        var tmp4 = _glMatrix.mat4.create();
+	        _glMatrix.mat4.transpose(tmp4, model.matrix);
 	        bbox.forEach(function (pt) {
-	          return _glMatrix.vec3.transformMat4(pt, pt, model.matrix);
+	          return _glMatrix.vec3.transformMat4(pt, pt, tmp4);
 	        });
 
 	        model.bounds[0] = model.bounds[2] = model.bounds[4] = Number.MAX_VALUE;
@@ -15032,7 +15081,7 @@
 
 	var _Prop2 = _interopRequireDefault(_Prop);
 
-	var _glMatrix = __webpack_require__(10);
+	var _glMatrix = __webpack_require__(9);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -15091,11 +15140,16 @@
 
 	    // check whether or not need to rebuild the matrix
 	    if (publicAPI.getMTime() > model.matrixMTime.getMTime()) {
+	      _glMatrix.mat4.identity(model.matrix);
+	      _glMatrix.mat4.translate(model.matrix, model.matrix, [-model.origin[0], -model.origin[1], -model.origin[2]]);
+	      _glMatrix.mat4.scale(model.matrix, model.matrix, model.scale);
+	      _glMatrix.mat4.translate(model.matrix, model.matrix, model.position);
+	      _glMatrix.mat4.translate(model.matrix, model.matrix, model.origin);
+	      _glMatrix.mat4.transpose(model.matrix, model.matrix);
+
 	      model.matrixMTime.modified();
 	    }
 	  };
-
-	  // getBounds (macro)
 
 	  publicAPI.getCenter = function () {
 	    return _BoundingBox2.default.getCenter(model.bounds);
@@ -15117,14 +15171,7 @@
 	  publicAPI.getUserMatrix = notImplemented('GetUserMatrix');
 
 	  function updateIdentityFlag() {
-	    if (!model.isIdentity) {
-	      return;
-	    }
-
 	    [model.origin, model.position, model.orientation].forEach(function (array) {
-	      if (model.isIdentity) {
-	        return;
-	      }
 	      if (array.filter(function (v) {
 	        return v !== 0;
 	      }).length) {

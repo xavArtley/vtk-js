@@ -345,8 +345,10 @@
 	        var bbox = [_glMatrix.vec3.fromValues(bds[1], bds[3], bds[5]), _glMatrix.vec3.fromValues(bds[1], bds[2], bds[5]), _glMatrix.vec3.fromValues(bds[0], bds[2], bds[5]), _glMatrix.vec3.fromValues(bds[0], bds[3], bds[5]), _glMatrix.vec3.fromValues(bds[1], bds[3], bds[4]), _glMatrix.vec3.fromValues(bds[1], bds[2], bds[4]), _glMatrix.vec3.fromValues(bds[0], bds[2], bds[4]), _glMatrix.vec3.fromValues(bds[0], bds[3], bds[4])];
 
 	        publicAPI.computeMatrix();
+	        var tmp4 = _glMatrix.mat4.create();
+	        _glMatrix.mat4.transpose(tmp4, model.matrix);
 	        bbox.forEach(function (pt) {
-	          return _glMatrix.vec3.transformMat4(pt, pt, model.matrix);
+	          return _glMatrix.vec3.transformMat4(pt, pt, tmp4);
 	        });
 
 	        model.bounds[0] = model.bounds[2] = model.bounds[4] = Number.MAX_VALUE;
@@ -1045,11 +1047,16 @@
 
 	    // check whether or not need to rebuild the matrix
 	    if (publicAPI.getMTime() > model.matrixMTime.getMTime()) {
+	      _glMatrix.mat4.identity(model.matrix);
+	      _glMatrix.mat4.translate(model.matrix, model.matrix, [-model.origin[0], -model.origin[1], -model.origin[2]]);
+	      _glMatrix.mat4.scale(model.matrix, model.matrix, model.scale);
+	      _glMatrix.mat4.translate(model.matrix, model.matrix, model.position);
+	      _glMatrix.mat4.translate(model.matrix, model.matrix, model.origin);
+	      _glMatrix.mat4.transpose(model.matrix, model.matrix);
+
 	      model.matrixMTime.modified();
 	    }
 	  };
-
-	  // getBounds (macro)
 
 	  publicAPI.getCenter = function () {
 	    return _BoundingBox2.default.getCenter(model.bounds);
@@ -1071,14 +1078,7 @@
 	  publicAPI.getUserMatrix = notImplemented('GetUserMatrix');
 
 	  function updateIdentityFlag() {
-	    if (!model.isIdentity) {
-	      return;
-	    }
-
 	    [model.origin, model.position, model.orientation].forEach(function (array) {
-	      if (model.isIdentity) {
-	        return;
-	      }
 	      if (array.filter(function (v) {
 	        return v !== 0;
 	      }).length) {
@@ -19152,6 +19152,8 @@
 
 	var _ViewNode2 = _interopRequireDefault(_ViewNode);
 
+	var _glMatrix = __webpack_require__(8);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
@@ -19199,6 +19201,25 @@
 	      model.context.depthMask(false);
 	    }
 	  };
+
+	  publicAPI.getKeyMatrices = function () {
+	    // has the actor changed?
+	    if (model.renderable.getMTime() > model.keyMatrixTime.getMTime()) {
+	      model.renderable.computeMatrix();
+	      _glMatrix.mat4.copy(model.MCWCMatrix, model.renderable.getMatrix());
+	      _glMatrix.mat4.transpose(model.MCWCMatrix, model.MCWCMatrix);
+
+	      if (model.renderable.getIsIdentity()) {
+	        _glMatrix.mat3.identity(model.normalMatrix);
+	      } else {
+	        _glMatrix.mat3.fromMat4(model.normalMatrix, model.MCWCMatrix);
+	        _glMatrix.mat3.invert(model.normalMatrix, model.normalMatrix);
+	      }
+	      model.keyMatrixTime.modified();
+	    }
+
+	    return { mcwc: model.MCWCMatrix, normalMatrix: model.normalMatrix };
+	  };
 	}
 
 	// ----------------------------------------------------------------------------
@@ -19206,7 +19227,10 @@
 	// ----------------------------------------------------------------------------
 
 	var DEFAULT_VALUES = {
-	  context: null
+	  context: null,
+	  keyMatrixTime: null,
+	  normalMatrix: null,
+	  MCWCMatrix: null
 	};
 
 	// ----------------------------------------------------------------------------
@@ -19218,6 +19242,11 @@
 
 	  // Inheritance
 	  _ViewNode2.default.extend(publicAPI, model);
+
+	  model.keyMatrixTime = {};
+	  macro.obj(model.keyMatrixTime);
+	  model.normalMatrix = _glMatrix.mat3.create();
+	  model.MCWCMatrix = _glMatrix.mat4.create();
 
 	  // Build VTK API
 	  macro.setGet(publicAPI, model, ['context']);
@@ -19342,7 +19371,6 @@
 
 	  model.keyMatrixTime = {};
 	  model.normalMatrix = _glMatrix.mat3.create();
-
 	  macro.obj(model.keyMatrixTime);
 
 	  // Build VTK API
@@ -19397,6 +19425,8 @@
 
 	var _Constants2 = __webpack_require__(53);
 
+	var _glMatrix = __webpack_require__(8);
+
 	var _vtkPolyDataVS = __webpack_require__(70);
 
 	var _vtkPolyDataVS2 = _interopRequireDefault(_vtkPolyDataVS);
@@ -19435,7 +19465,8 @@
 	      model.lines.setContext(model.context);
 	      model.tris.setContext(model.context);
 	      model.triStrips.setContext(model.context);
-	      var actor = publicAPI.getFirstAncestorOfType('vtkOpenGLActor').getRenderable();
+	      model.openglActor = publicAPI.getFirstAncestorOfType('vtkOpenGLActor');
+	      var actor = model.openglActor.getRenderable();
 	      var openglRenderer = publicAPI.getFirstAncestorOfType('vtkOpenGLRenderer');
 	      var ren = openglRenderer.getRenderable();
 	      model.openglCamera = openglRenderer.getViewNodeFor(ren.getActiveCamera());
@@ -19869,17 +19900,33 @@
 	  publicAPI.setCameraShaderParameters = function (cellBO, ren, actor) {
 	    var program = cellBO.getProgram();
 
+	    // // [WMVD]C == {world, model, view, display} coordinates
+	    // // E.g., WCDC == world to display coordinate transformation
 	    var keyMats = model.openglCamera.getKeyMatrices(ren);
 	    var cam = ren.getActiveCamera();
 
-	    // // [WMVD]C == {world, model, view, display} coordinates
-	    // // E.g., WCDC == world to display coordinate transformation
-	    program.setUniformMatrix('MCDCMatrix', keyMats.wcdc);
-	    if (program.isUniformUsed('MCVCMatrix')) {
-	      program.setUniformMatrix('MCVCMatrix', keyMats.wcvc);
-	    }
-	    if (program.isUniformUsed('normalMatrix')) {
-	      program.setUniformMatrix3x3('normalMatrix', keyMats.normalMatrix);
+	    if (actor.getIsIdentity()) {
+	      program.setUniformMatrix('MCDCMatrix', keyMats.wcdc);
+	      if (program.isUniformUsed('MCVCMatrix')) {
+	        program.setUniformMatrix('MCVCMatrix', keyMats.wcvc);
+	      }
+	      if (program.isUniformUsed('normalMatrix')) {
+	        program.setUniformMatrix3x3('normalMatrix', keyMats.normalMatrix);
+	      }
+	    } else {
+	      var actMats = model.openglActor.getKeyMatrices();
+	      if (program.isUniformUsed('normalMatrix')) {
+	        var anorms = _glMatrix.mat3.create();
+	        _glMatrix.mat3.multiply(anorms, keyMats.normalMatrix, actMats.normalMatrix);
+	        program.setUniformMatrix3x3('normalMatrix', anorms);
+	      }
+	      var tmp4 = _glMatrix.mat4.create();
+	      _glMatrix.mat4.multiply(tmp4, keyMats.wcdc, actMats.mcwc);
+	      program.setUniformMatrix('MCDCMatrix', tmp4);
+	      if (program.isUniformUsed('MCVCMatrix')) {
+	        _glMatrix.mat4.multiply(tmp4, keyMats.wcvc, actMats.mcwc);
+	        program.setUniformMatrix('MCVCMatrix', tmp4);
+	      }
 	    }
 
 	    if (program.isUniformUsed('cameraParallel')) {
