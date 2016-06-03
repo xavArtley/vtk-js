@@ -448,7 +448,7 @@
 	  var model = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
 
 	  var callbacks = [];
-	  model.mtime = globalMTime;
+	  model.mtime = model.mtime || globalMTime;
 	  model.classHierarchy = ['vtkObject'];
 
 	  function off(index) {
@@ -503,8 +503,14 @@
 	    Object.keys(map).forEach(function (name) {
 	      if (Array.isArray(map[name])) {
 	        publicAPI['set' + capitalize(name)].apply(publicAPI, _toConsumableArray(map[name]));
-	      } else {
+	      } else if (publicAPI['set' + capitalize(name)]) {
 	        publicAPI['set' + capitalize(name)](map[name]);
+	      } else {
+	        // Set data on model directly
+	        if (['mtime'].indexOf(name) === -1) {
+	          console.log('Warning: Set value to model directly', name, map[name]);
+	        }
+	        model[name] = map[name];
 	      }
 	    });
 	  };
@@ -705,6 +711,7 @@
 	  model.inputData = [];
 	  model.inputConnection = [];
 	  model.output = [];
+	  model.inputArrayToProcess = [];
 
 	  // Methods
 	  function setInputData(dataset) {
@@ -789,6 +796,30 @@
 	      }
 	    }
 	    publicAPI.requestData(ins, model.output);
+	  };
+
+	  publicAPI.getNumberOfInputPorts = function () {
+	    return numberOfInputs;
+	  };
+	  publicAPI.getNumberOfOutputPorts = function () {
+	    return numberOfOutputs;
+	  };
+
+	  publicAPI.getInputArrayToProcess = function (inputPort) {
+	    var arrayDesc = model.inputArrayToProcess[inputPort];
+	    var ds = model.inputData[inputPort];
+	    if (arrayDesc && ds) {
+	      return ds['get' + arrayDesc.fieldAssociation]().getArray(arrayDesc.arrayName);
+	    }
+	    return null;
+	  };
+	  publicAPI.setInputArrayToProcess = function (inputPort, arrayName, fieldAssociation) {
+	    var attributeType = arguments.length <= 3 || arguments[3] === undefined ? 'Scalars' : arguments[3];
+
+	    while (model.inputArrayToProcess.length < inputPort) {
+	      model.inputArrayToProcess.push(null);
+	    }
+	    model.inputArrayToProcess[inputPort] = { arrayName: arrayName, fieldAssociation: fieldAssociation, attributeType: attributeType };
 	  };
 	}
 
@@ -12162,7 +12193,6 @@
 	    // a sin.
 	    var angle = _Math2.default.radiansFromDegrees(model.activeCamera.getViewAngle());
 	    var parallelScale = radius;
-
 	    var distance = radius / Math.sin(angle * 0.5);
 
 	    // check view-up vector against view plane normal
@@ -12406,7 +12436,7 @@
 	  Object.assign(model, DEFAULT_VALUES, initialValues);
 
 	  // Inheritance
-	  _Viewport2.default.extend(publicAPI, model);
+	  _Viewport2.default.extend(publicAPI, model, initialValues);
 
 	  // Build VTK API
 	  macro.get(publicAPI, model, ['renderWindow', 'allocatedRenderTime', 'timeFactor', 'lastRenderTimeInSeconds', 'numberOfPropsRendered', 'lastRenderingUsedDepthPeeling', 'selector']);
@@ -13928,19 +13958,39 @@
 	  // build empty cell arrays and set methods
 	  ['Verts', 'Lines', 'Polys', 'Strips'].forEach(function (type) {
 	    var lowerType = type.toLowerCase();
+	    // Don't create array if already available
+	    if (model[lowerType]) {
+	      return;
+	    }
 	    if (model.vtkPolyData && model.vtkPolyData[type]) {
 	      model[lowerType] = _DataArray2.default.newInstance(model.vtkPolyData[type]);
 	    } else {
 	      model[lowerType] = _DataArray2.default.newInstance({ empty: true });
 	    }
-	    // publicAPI[`set${type}`] = obj => {
-	    //   if (model[lowerType] === obj) {
-	    //     return;
-	    //   }
-	    //   model[lowerType] = obj;
-	    //   publicAPI.modified();
-	    // };
 	  });
+
+	  /* eslint-disable no-use-before-define */
+	  publicAPI.shallowCopy = function () {
+	    var modelInstance = {};
+	    var fieldList = ['pointData', 'cellData', 'fieldData', // Dataset
+	    'points', // PointSet
+	    'verts', 'lines', 'polys', 'strips'];
+
+	    // Start to shallow copy each piece
+	    // PolyData
+	    fieldList.forEach(function (field) {
+	      modelInstance[field] = model[field].shallowCopy();
+	    });
+
+	    // Create instance
+	    var newPoly = newInstance(modelInstance);
+
+	    // Reset mtime to original value
+	    newPoly.set({ mtime: model.mtime });
+
+	    return newPoly;
+	  };
+	  /* eslint-enable no-use-before-define */
 	}
 
 	// ----------------------------------------------------------------------------
@@ -13963,7 +14013,7 @@
 	  Object.assign(model, DEFAULT_VALUES, initialValues);
 
 	  // Inheritance
-	  _PointSet2.default.extend(publicAPI, model);
+	  _PointSet2.default.extend(publicAPI, model, initialValues);
 	  macro.setGet(publicAPI, model, ['verts', 'lines', 'polys', 'strips']);
 
 	  // Object specific methods
@@ -14025,7 +14075,9 @@
 	  model.classHierarchy.push('vtkPointSet');
 
 	  // Create empty points
-	  model.points = _DataArray2.default.newInstance({ empty: true });
+	  if (!model.points) {
+	    model.points = _DataArray2.default.newInstance({ empty: true });
+	  }
 
 	  publicAPI.getBounds = function () {
 	    return model.points.getBounds();
@@ -14052,7 +14104,7 @@
 	  Object.assign(model, DEFAULT_VALUES, initialValues);
 
 	  // Inheritance
-	  _DataSet2.default.extend(publicAPI, model);
+	  _DataSet2.default.extend(publicAPI, model, initialValues);
 	  macro.setGet(publicAPI, model, ['points']);
 
 	  // Object specific methods
@@ -14151,13 +14203,15 @@
 	  var dataset = model.type ? model[model.type] || {} : {};
 	  publicAPI.dataset = dataset;
 
-	  model.pointData = _DataSetAttributes2.default.newInstance({ dataArrays: dataset.PointData });
-	  model.cellData = _DataSetAttributes2.default.newInstance({ dataArrays: dataset.CellData });
-	  model.fieldData = _DataSetAttributes2.default.newInstance({ dataArrays: dataset.FieldData });
-
-	  publicAPI.getBounds = function () {
-	    return getBounds(publicAPI.dataset);
-	  };
+	  if (!model.pointData) {
+	    model.pointData = _DataSetAttributes2.default.newInstance({ dataArrays: dataset.PointData });
+	  }
+	  if (!model.cellData) {
+	    model.cellData = _DataSetAttributes2.default.newInstance({ dataArrays: dataset.CellData });
+	  }
+	  if (!model.fieldData) {
+	    model.fieldData = _DataSetAttributes2.default.newInstance({ dataArrays: dataset.FieldData });
+	  }
 	}
 
 	// ----------------------------------------------------------------------------
@@ -14300,11 +14354,28 @@
 	  // Process dataArrays if any
 	  if (model.dataArrays && Object.keys(model.dataArrays).length) {
 	    Object.keys(model.dataArrays).forEach(function (name) {
-	      if (!model.dataArrays[name].ref && model.dataArrays[name].dataType === 'vtkDataArray') {
+	      if (!model.dataArrays[name].ref && model.dataArrays[name].type === 'vtkDataArray') {
 	        publicAPI.addArray(_DataArray2.default.newInstance(model.dataArrays[name]));
 	      }
 	    });
 	  }
+
+	  /* eslint-disable no-use-before-define */
+	  publicAPI.shallowCopy = function () {
+	    var newIntsanceModel = Object.assign({}, model, { arrays: null, dataArrays: null });
+	    var copyInst = newInstance(newIntsanceModel);
+
+	    // Shallow copy each array
+	    publicAPI.getArrayNames().forEach(function (name) {
+	      copyInst.addArray(publicAPI.getArray(name).shallowCopy());
+	    });
+
+	    // Reset mtime to original value
+	    copyInst.set({ mtime: model.mtime });
+
+	    return copyInst;
+	  };
+	  /* eslint-enable no-use-before-define */
 	}
 
 	// ----------------------------------------------------------------------------
@@ -14564,6 +14635,12 @@
 	    }
 	    dataChange();
 	  };
+
+	  /* eslint-disable no-use-before-define */
+	  publicAPI.shallowCopy = function () {
+	    return newInstance(Object.assign({}, model));
+	  };
+	  /* eslint-enable no-use-before-define */
 	}
 
 	// ----------------------------------------------------------------------------

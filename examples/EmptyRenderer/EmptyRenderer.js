@@ -352,7 +352,7 @@
 	  var model = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
 
 	  var callbacks = [];
-	  model.mtime = globalMTime;
+	  model.mtime = model.mtime || globalMTime;
 	  model.classHierarchy = ['vtkObject'];
 
 	  function off(index) {
@@ -407,8 +407,14 @@
 	    Object.keys(map).forEach(function (name) {
 	      if (Array.isArray(map[name])) {
 	        publicAPI['set' + capitalize(name)].apply(publicAPI, _toConsumableArray(map[name]));
-	      } else {
+	      } else if (publicAPI['set' + capitalize(name)]) {
 	        publicAPI['set' + capitalize(name)](map[name]);
+	      } else {
+	        // Set data on model directly
+	        if (['mtime'].indexOf(name) === -1) {
+	          console.log('Warning: Set value to model directly', name, map[name]);
+	        }
+	        model[name] = map[name];
 	      }
 	    });
 	  };
@@ -609,6 +615,7 @@
 	  model.inputData = [];
 	  model.inputConnection = [];
 	  model.output = [];
+	  model.inputArrayToProcess = [];
 
 	  // Methods
 	  function setInputData(dataset) {
@@ -693,6 +700,30 @@
 	      }
 	    }
 	    publicAPI.requestData(ins, model.output);
+	  };
+
+	  publicAPI.getNumberOfInputPorts = function () {
+	    return numberOfInputs;
+	  };
+	  publicAPI.getNumberOfOutputPorts = function () {
+	    return numberOfOutputs;
+	  };
+
+	  publicAPI.getInputArrayToProcess = function (inputPort) {
+	    var arrayDesc = model.inputArrayToProcess[inputPort];
+	    var ds = model.inputData[inputPort];
+	    if (arrayDesc && ds) {
+	      return ds['get' + arrayDesc.fieldAssociation]().getArray(arrayDesc.arrayName);
+	    }
+	    return null;
+	  };
+	  publicAPI.setInputArrayToProcess = function (inputPort, arrayName, fieldAssociation) {
+	    var attributeType = arguments.length <= 3 || arguments[3] === undefined ? 'Scalars' : arguments[3];
+
+	    while (model.inputArrayToProcess.length < inputPort) {
+	      model.inputArrayToProcess.push(null);
+	    }
+	    model.inputArrayToProcess[inputPort] = { arrayName: arrayName, fieldAssociation: fieldAssociation, attributeType: attributeType };
 	  };
 	}
 
@@ -12066,7 +12097,6 @@
 	    // a sin.
 	    var angle = _Math2.default.radiansFromDegrees(model.activeCamera.getViewAngle());
 	    var parallelScale = radius;
-
 	    var distance = radius / Math.sin(angle * 0.5);
 
 	    // check view-up vector against view plane normal
@@ -12310,7 +12340,7 @@
 	  Object.assign(model, DEFAULT_VALUES, initialValues);
 
 	  // Inheritance
-	  _Viewport2.default.extend(publicAPI, model);
+	  _Viewport2.default.extend(publicAPI, model, initialValues);
 
 	  // Build VTK API
 	  macro.get(publicAPI, model, ['renderWindow', 'allocatedRenderTime', 'timeFactor', 'lastRenderTimeInSeconds', 'numberOfPropsRendered', 'lastRenderingUsedDepthPeeling', 'selector']);
