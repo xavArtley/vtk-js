@@ -12163,11 +12163,6 @@
 	    var angle = _Math2.default.radiansFromDegrees(model.activeCamera.getViewAngle());
 	    var parallelScale = radius;
 
-	    // horizontal window, deal with vertical angle|scale
-	    if (model.activeCamera.getUseHorizontalViewAngle()) {
-	      angle = 2.0 * Math.atan(Math.tan(angle * 0.5) / aspect[0]);
-	    }
-
 	    var distance = radius / Math.sin(angle * 0.5);
 
 	    // check view-up vector against view plane normal
