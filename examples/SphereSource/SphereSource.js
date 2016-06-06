@@ -12848,6 +12848,11 @@
 	    var GSSource = shaders.Geometry;
 	    var FSSource = shaders.Fragment;
 
+	    // for points make sure to add in the point size
+	    if (actor.getProperty().getRepresentation() === _Constants.VTK_REPRESENTATION.POINTS) {
+	      VSSource = _ShaderProgram2.default.substitute(VSSource, '//VTK::PositionVC::Impl', ['//VTK::PositionVC::Impl', '  gl_PointSize = ' + actor.getProperty().getPointSize().toFixed(1) + ';'], false).result;
+	    }
+
 	    // do we need the vertex in the shader in View Coordinates
 	    if (model.lastLightComplexity.get(model.lastBoundBO) > 0) {
 	      VSSource = _ShaderProgram2.default.substitute(VSSource, '//VTK::PositionVC::Dec', ['varying vec4 vertexVCVSOutput;']).result;
@@ -13213,17 +13218,17 @@
 	    if (model.points.getCABO().getElementCount()) {
 	      // Update/build/etc the shader.
 	      publicAPI.updateShaders(model.points, ren, actor);
-	      gl.drawArrays(gl.POINTS, 0, model.Points.getCABO().getElementCount());
-	      model.primitiveIDOffset += model.Points.getCABO().getElementCount();
+	      gl.drawArrays(gl.POINTS, 0, model.points.getCABO().getElementCount());
+	      model.primitiveIDOffset += model.points.getCABO().getElementCount();
 	    }
 
 	    // draw lines
 	    if (model.lines.getCABO().getElementCount()) {
 	      publicAPI.updateShaders(model.lines, ren, actor);
 	      if (representation === _Constants.VTK_REPRESENTATION.POINTS) {
-	        gl.drawArrays(gl.POINTS, 0, model.Lines.getCABO().getElementCount());
+	        gl.drawArrays(gl.POINTS, 0, model.lines.getCABO().getElementCount());
 	      } else {
-	        gl.drawArrays(gl.LINES, 0, model.Lines.getCABO().getElementCount());
+	        gl.drawArrays(gl.LINES, 0, model.lines.getCABO().getElementCount());
 	      }
 	      model.primitiveIDOffset += model.lines.getCABO().getElementCount() / 2;
 	    }
