@@ -44,7 +44,7 @@
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(global) {'use strict';
+	'use strict';
 
 	var _RenderWindow = __webpack_require__(1);
 
@@ -58,19 +58,27 @@
 
 	var _Renderer2 = _interopRequireDefault(_Renderer);
 
-	var _ConeSource = __webpack_require__(48);
+	var _SphereSource = __webpack_require__(48);
 
-	var _ConeSource2 = _interopRequireDefault(_ConeSource);
+	var _SphereSource2 = _interopRequireDefault(_SphereSource);
 
-	var _Actor = __webpack_require__(54);
+	var _ImageGridSource = __webpack_require__(54);
+
+	var _ImageGridSource2 = _interopRequireDefault(_ImageGridSource);
+
+	var _Actor = __webpack_require__(56);
 
 	var _Actor2 = _interopRequireDefault(_Actor);
 
-	var _Mapper = __webpack_require__(58);
+	var _Texture = __webpack_require__(60);
+
+	var _Texture2 = _interopRequireDefault(_Texture);
+
+	var _Mapper = __webpack_require__(61);
 
 	var _Mapper2 = _interopRequireDefault(_Mapper);
 
-	var _RenderWindowInteractor = __webpack_require__(64);
+	var _RenderWindowInteractor = __webpack_require__(67);
 
 	var _RenderWindowInteractor2 = _interopRequireDefault(_RenderWindowInteractor);
 
@@ -86,7 +94,7 @@
 
 	var macro = _interopRequireWildcard(_macro);
 
-	var _controller = __webpack_require__(69);
+	var _controller = __webpack_require__(72);
 
 	var _controller2 = _interopRequireDefault(_controller);
 
@@ -102,9 +110,6 @@
 	container.appendChild(renderWindowContainer);
 	controlContainer.innerHTML = _controller2.default;
 
-	var representationSelector = document.querySelector('.representations');
-	var resolutionChange = document.querySelector('.resolution');
-
 	// create what we will view
 	var renWin = _RenderWindow4.default.newInstance();
 	var ren = _Renderer2.default.newInstance();
@@ -117,39 +122,52 @@
 	var mapper = _Mapper2.default.newInstance();
 	actor.setMapper(mapper);
 
-	var coneSource = _ConeSource2.default.newInstance({ height: 1.0 });
+	var sphereSource = _SphereSource2.default.newInstance();
+	sphereSource.setThetaResolution(64);
+	sphereSource.setPhiResolution(32);
 
-	// create a filter on the fly, sort of cool, this is a random scalars
-	// filter we create inline, for a simple cone you would not need
-	// this
-	var randFilter = macro.newInstance(function (publicAPI, model) {
+	// create a filter on the fly to generate tcoords from normals
+	var tcoordFilter = macro.newInstance(function (publicAPI, model) {
 	  macro.obj(publicAPI, model); // make it an object
 	  macro.algo(publicAPI, model, 1, 1); // mixin algorithm code 1 in, 1 out
 	  publicAPI.requestData = function (inData, outData) {
 	    // implement requestData
 	    if (!outData[0] || inData[0].getMTime() > outData[0].getMTime()) {
-	      var newArray = new Float32Array(coneSource.getResolution() + 1);
-	      for (var i = 0; i < newArray.length; i++) {
-	        newArray[i] = Math.random();
+	      // use the normals to generate tcoords :-)
+	      var norms = inData[0].getPointData().getNormals();
+
+	      var newArray = new Float32Array(norms.getNumberOfTuples() * 2);
+	      var ndata = norms.getData();
+	      for (var i = 0; i < newArray.length; i += 2) {
+	        newArray[i] = Math.abs(Math.atan2(ndata[i / 2 * 3], ndata[i / 2 * 3 + 1])) / 3.1415927;
+	        newArray[i + 1] = Math.asin(ndata[i / 2 * 3 + 2]) / 3.1415927 + 0.5;
 	      }
 
-	      var da = _DataArray2.default.newInstance({ values: newArray });
-	      da.setName('temp');
+	      var da = _DataArray2.default.newInstance({ tuple: 2, values: newArray });
+	      da.setName('tcoord');
 
 	      var pd = _PolyData2.default.newInstance();
 	      pd.setPolys(inData[0].getPolys());
 	      pd.setPoints(inData[0].getPoints());
-	      // const cpd = pd.getPointData();
-	      var cpd = pd.getCellData();
+	      var cpd = pd.getPointData();
 	      cpd.addArray(da);
-	      cpd.setActiveScalars(da.getName());
+	      cpd.setActiveTCoords(da.getName());
 	      outData[0] = pd;
 	    }
 	  };
 	})();
 
-	randFilter.setInputConnection(coneSource.getOutputPort());
-	mapper.setInputConnection(randFilter.getOutputPort());
+	tcoordFilter.setInputConnection(sphereSource.getOutputPort());
+	mapper.setInputConnection(tcoordFilter.getOutputPort());
+
+	var gridSource = _ImageGridSource2.default.newInstance();
+	gridSource.setDataExtent(0, 511, 0, 511, 0, 0);
+	gridSource.setGridSpacing(16, 16, 0);
+	gridSource.setGridOrigin(8, 8, 0);
+	var texture = _Texture2.default.newInstance();
+	texture.setInterpolate(true);
+	texture.setInputConnection(gridSource.getOutputPort());
+	actor.addTexture(texture);
 
 	// now create something to view it, in this case webgl
 	// with mouse/touch interaction
@@ -165,25 +183,6 @@
 	// to the HTML elements
 	iren.initialize();
 	iren.bindEvents(renderWindowContainer, document);
-
-	// ----------------
-
-	representationSelector.addEventListener('change', function (e) {
-	  var newRepValue = Number(e.target.value);
-	  actor.getProperty().setRepresentation(newRepValue);
-	  renWin.render();
-	});
-
-	resolutionChange.addEventListener('input', function (e) {
-	  var resolution = Number(e.target.value);
-	  coneSource.setResolution(resolution);
-	  renWin.render();
-	});
-
-	global.source = coneSource;
-	global.mapper = mapper;
-	global.actor = actor;
-	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
 /* 1 */
@@ -14541,7 +14540,7 @@
 	  value: true
 	});
 	exports.newInstance = undefined;
-	exports.vtkConeSource = vtkConeSource;
+	exports.vtkSphereSource = vtkSphereSource;
 	exports.extend = extend;
 
 	var _macro = __webpack_require__(2);
@@ -14552,21 +14551,17 @@
 
 	var _PolyData2 = _interopRequireDefault(_PolyData);
 
-	var _BoundingBox = __webpack_require__(46);
-
-	var _BoundingBox2 = _interopRequireDefault(_BoundingBox);
-
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 	// ----------------------------------------------------------------------------
-	// vtkConeSource methods
+	// vtkSphereSource methods
 	// ----------------------------------------------------------------------------
 
-	function vtkConeSource(publicAPI, model) {
+	function vtkSphereSource(publicAPI, model) {
 	  // Set our className
-	  model.classHierarchy.push('vtkConeSource');
+	  model.classHierarchy.push('vtkSphereSource');
 
 	  function requestData(inData, outData) {
 	    if (model.deleted) {
@@ -14574,14 +14569,14 @@
 	    }
 
 	    var dataset = outData[0];
-	    if (!dataset || dataset.getMTime() < model.mtime) {
+	    if (!dataset || dataset.mtime !== model.mtime) {
 	      (function () {
 	        var state = {};
 	        dataset = {
 	          type: 'vtkPolyData',
 	          mtime: model.mtime,
 	          metadata: {
-	            source: 'ConeSource',
+	            source: 'SphereSource',
 	            state: state
 	          },
 	          vtkPolyData: {
@@ -14596,79 +14591,196 @@
 	              name: '_polys',
 	              tuple: 1,
 	              dataType: 'Uint32Array'
+	            },
+	            PointData: {
+	              Normals: {
+	                type: 'vtkDataArray',
+	                name: 'Normals',
+	                tuple: 3,
+	                dataType: 'Float32Array'
+	              }
 	            }
 	          }
 	        };
 
 	        // Add parameter used to create dataset as metadata.state[*]
-	        ['height', 'radius', 'resolution', 'capping'].forEach(function (field) {
+	        ['radius', 'latLongTessellation', 'thetaResolution', 'startTheta', 'endTheta', 'phiResolution', 'startPhi', 'endPhi'].forEach(function (field) {
 	          state[field] = model[field];
 	        });
-	        ['center', 'direction'].forEach(function (field) {
+	        ['center'].forEach(function (field) {
 	          state[field] = [].concat(model[field]);
 	        });
 
 	        // ----------------------------------------------------------------------
-	        var angle = 2 * Math.PI / model.resolution;
-	        var xbot = -model.height / 2.0;
-	        var numberOfPoints = model.resolution + 1;
-	        var cellArraySize = 4 * model.resolution + 1 + model.resolution;
+	        var numPoles = 0;
+
+	        // Check data, determine increments, and convert to radians
+	        var thetaResolution = model.thetaResolution;
+	        var startTheta = model.startTheta < model.endTheta ? model.startTheta : model.endTheta;
+	        startTheta *= Math.PI / 180.0;
+	        var endTheta = model.endTheta > model.startTheta ? model.endTheta : model.startTheta;
+	        endTheta *= Math.PI / 180.0;
+
+	        var startPhi = model.startPhi < model.endPhi ? model.startPhi : model.endPhi;
+	        startPhi *= Math.PI / 180.0;
+	        var endPhi = model.endPhi > model.startPhi ? model.endPhi : model.startPhi;
+	        endPhi *= Math.PI / 180.0;
+
+	        if (Math.abs(startTheta - endTheta) < 2.0 * Math.PI) {
+	          ++thetaResolution;
+	        }
+	        var deltaTheta = (endTheta - startTheta) / model.thetaResolution;
+
+	        var jStart = model.startPhi <= 0.0 ? 1 : 0;
+	        var jEnd = model.phiResolution + (model.endPhi >= 180.0 ? -1 : 0);
+
+	        var numPts = model.phiResolution * thetaResolution + 2;
+	        var numPolys = model.phiResolution * 2 * model.thetaResolution;
 
 	        // Points
 	        var pointIdx = 0;
-	        var points = new window[dataset.vtkPolyData.Points.dataType](numberOfPoints * 3);
+	        var points = new window[dataset.vtkPolyData.Points.dataType](numPts * 3);
 	        dataset.vtkPolyData.Points.values = points;
+	        dataset.vtkPolyData.Points.size = numPts * 3;
+
+	        // Normals
+	        var normals = new Float32Array(numPts * 3);
+	        dataset.vtkPolyData.PointData.Normals.values = normals;
+	        dataset.vtkPolyData.PointData.Normals.size = numPts * 3;
 
 	        // Cells
 	        var cellLocation = 0;
-	        var polys = new window[dataset.vtkPolyData.Polys.dataType](cellArraySize);
+	        var polys = new window[dataset.vtkPolyData.Polys.dataType](numPolys * 5); // FIXME array size
 	        dataset.vtkPolyData.Polys.values = polys;
 
-	        var bbox = _BoundingBox2.default.newInstance();
+	        // Create north pole if needed
+	        if (model.startPhi <= 0.0) {
+	          points[pointIdx * 3 + 0] = model.center[0];
+	          points[pointIdx * 3 + 1] = model.center[1];
+	          points[pointIdx * 3 + 2] = model.center[2] + model.radius;
 
-	        // Add summit point
-	        points[0] = model.height / 2.0;
-	        points[1] = 0.0;
-	        points[2] = 0.0;
+	          normals[pointIdx * 3 + 0] = 0;
+	          normals[pointIdx * 3 + 1] = 0;
+	          normals[pointIdx * 3 + 2] = 1;
 
-	        bbox.addPoint(points[0], points[1], points[2]);
-
-	        // Create bottom cell
-	        if (model.capping) {
-	          polys[cellLocation++] = model.resolution;
+	          pointIdx++;
+	          numPoles++;
 	        }
 
-	        // Add all points
-	        for (var i = 0; i < model.resolution; i++) {
+	        // Create south pole if needed
+	        if (model.endPhi >= 180.0) {
+	          points[pointIdx * 3 + 0] = model.center[0];
+	          points[pointIdx * 3 + 1] = model.center[1];
+	          points[pointIdx * 3 + 2] = model.center[2] - model.radius;
+
+	          normals[pointIdx * 3 + 0] = 0;
+	          normals[pointIdx * 3 + 1] = 0;
+	          normals[pointIdx * 3 + 2] = -1;
+
 	          pointIdx++;
-	          points[pointIdx * 3 + 0] = xbot;
-	          points[pointIdx * 3 + 1] = model.radius * Math.cos(i * angle);
-	          points[pointIdx * 3 + 2] = model.radius * Math.sin(i * angle);
+	          numPoles++;
+	        }
 
-	          bbox.addPoint(points[pointIdx * 3 + 0], points[pointIdx * 3 + 1], points[pointIdx * 3 + 2]);
+	        var phiResolution = model.phiResolution - numPoles;
+	        var deltaPhi = (endPhi - startPhi) / (model.phiResolution - 1);
 
-	          // Add points to bottom cell in reverse order
-	          if (model.capping) {
-	            polys[model.resolution - cellLocation++ + 1] = pointIdx;
+	        // Create intermediate points
+	        for (var i = 0; i < thetaResolution; i++) {
+	          var theta = startTheta + i * deltaTheta;
+	          for (var j = jStart; j < jEnd; j++) {
+	            var phi = startPhi + j * deltaPhi;
+	            var radius = model.radius * Math.sin(phi);
+
+	            normals[pointIdx * 3 + 0] = radius * Math.cos(theta);
+	            normals[pointIdx * 3 + 1] = radius * Math.sin(theta);
+	            normals[pointIdx * 3 + 2] = model.radius * Math.cos(phi);
+
+	            points[pointIdx * 3 + 0] = normals[pointIdx * 3 + 0] + model.center[0];
+	            points[pointIdx * 3 + 1] = normals[pointIdx * 3 + 1] + model.center[1];
+	            points[pointIdx * 3 + 2] = normals[pointIdx * 3 + 2] + model.center[2];
+
+	            var norm = Math.sqrt(normals[pointIdx * 3 + 0] * normals[pointIdx * 3 + 0] + normals[pointIdx * 3 + 1] * normals[pointIdx * 3 + 1] + normals[pointIdx * 3 + 2] * normals[pointIdx * 3 + 2]);
+
+	            norm = norm === 0 ? 1 : norm;
+	            normals[pointIdx * 3 + 0] /= norm;
+	            normals[pointIdx * 3 + 1] /= norm;
+	            normals[pointIdx * 3 + 2] /= norm;
+
+	            pointIdx++;
 	          }
 	        }
 
-	        // Add all triangle cells
-	        for (var _i = 0; _i < model.resolution; _i++) {
-	          polys[cellLocation++] = 3;
-	          polys[cellLocation++] = 0;
-	          polys[cellLocation++] = _i + 1;
-	          polys[cellLocation++] = _i + 2 > model.resolution ? 1 : _i + 2;
+	        // Generate mesh connectivity
+	        var base = phiResolution * thetaResolution;
+
+	        if (Math.abs(startTheta - endTheta) < 2.0 * Math.PI) {
+	          --thetaResolution;
 	        }
 
-	        console.log('setting the bounding box');
-	        dataset.vtkPolyData.Points.bounds = bbox.getBounds();
-	        bbox.delete();
+	        // around north pole
+	        if (model.startPhi <= 0.0) {
+	          for (var _i = 0; _i < thetaResolution; _i++) {
+	            polys[cellLocation++] = 3;
+	            polys[cellLocation++] = phiResolution * _i + numPoles;
+	            polys[cellLocation++] = phiResolution * (_i + 1) % base + numPoles;
+	            polys[cellLocation++] = 0;
+	          }
+	        }
 
-	        // FIXME apply tranform
+	        // around south pole
+	        if (model.endPhi >= 180.0) {
+	          var numOffset = phiResolution - 1 + numPoles;
+
+	          for (var _i2 = 0; _i2 < thetaResolution; _i2++) {
+	            polys[cellLocation++] = 3;
+	            polys[cellLocation++] = phiResolution * _i2 + numOffset;
+	            polys[cellLocation++] = numPoles - 1;
+	            polys[cellLocation++] = phiResolution * (_i2 + 1) % base + numOffset;
+	          }
+	        }
+
+	        // bands in-between poles
+	        for (var _i3 = 0; _i3 < thetaResolution; _i3++) {
+	          for (var _j = 0; _j < phiResolution - 1; _j++) {
+	            var a = phiResolution * _i3 + _j + numPoles;
+	            var b = a + 1;
+	            var c = (phiResolution * (_i3 + 1) + _j) % base + numPoles + 1;
+
+	            if (!model.latLongTessellation) {
+	              polys[cellLocation++] = 3;
+	              polys[cellLocation++] = a;
+	              polys[cellLocation++] = b;
+	              polys[cellLocation++] = c;
+	              polys[cellLocation++] = 3;
+	              polys[cellLocation++] = a;
+	              polys[cellLocation++] = c;
+	              polys[cellLocation++] = c - 1;
+	            } else {
+	              polys[cellLocation++] = 4;
+	              polys[cellLocation++] = a;
+	              polys[cellLocation++] = b;
+	              polys[cellLocation++] = c;
+	              polys[cellLocation++] = c - 1;
+	            }
+	          }
+	        }
+
+	        // Squeeze
+	        points = points.subarray(0, pointIdx * 3);
+	        dataset.vtkPolyData.Points.values = points;
+	        dataset.vtkPolyData.Points.size = pointIdx * 3;
+
+	        normals = normals.subarray(0, pointIdx * 3);
+	        dataset.vtkPolyData.PointData.Normals.values = normals;
+	        dataset.vtkPolyData.PointData.Normals.size = pointIdx * 3;
+
+	        polys = polys.subarray(0, cellLocation);
+	        dataset.vtkPolyData.Polys.values = polys;
+	        dataset.vtkPolyData.Polys.size = cellLocation;
 
 	        // Update output
 	        outData[0] = _PolyData2.default.newInstance(dataset);
+	        outData[0].getPointData().setActiveNormals('Normals');
 	      })();
 	    }
 	  }
@@ -14682,12 +14794,15 @@
 	// ----------------------------------------------------------------------------
 
 	var DEFAULT_VALUES = {
-	  height: 1.0,
 	  radius: 0.5,
-	  resolution: 6,
+	  latLongTessellation: false,
+	  thetaResolution: 8,
+	  startTheta: 0.0,
+	  endTheta: 360.0,
+	  phiResolution: 8,
+	  startPhi: 0.0,
+	  endPhi: 180.0,
 	  center: [0, 0, 0],
-	  direction: [1.0, 0.0, 0.0],
-	  capping: true,
 	  pointType: 'Float32Array'
 	};
 
@@ -14700,10 +14815,10 @@
 
 	  // Build VTK API
 	  macro.obj(publicAPI, model);
-	  macro.setGet(publicAPI, model, ['height', 'radius', 'resolution', 'capping']);
-	  macro.setGetArray(publicAPI, model, ['center', 'direction'], 3);
+	  macro.setGet(publicAPI, model, ['radius', 'latLongTessellation', 'thetaResolution', 'startTheta', 'endTheta', 'phiResolution', 'startPhi', 'endPhi']);
+	  macro.setGetArray(publicAPI, model, ['center'], 3);
 	  macro.algo(publicAPI, model, 0, 1);
-	  vtkConeSource(publicAPI, model);
+	  vtkSphereSource(publicAPI, model);
 	}
 
 	// ----------------------------------------------------------------------------
@@ -15515,17 +15630,280 @@
 	  value: true
 	});
 	exports.newInstance = undefined;
+	exports.vtkImageGridSource = vtkImageGridSource;
 	exports.extend = extend;
 
 	var _macro = __webpack_require__(2);
 
 	var macro = _interopRequireWildcard(_macro);
 
-	var _Prop3D = __webpack_require__(55);
+	var _ImageData = __webpack_require__(55);
+
+	var _ImageData2 = _interopRequireDefault(_ImageData);
+
+	var _DataArray = __webpack_require__(53);
+
+	var _DataArray2 = _interopRequireDefault(_DataArray);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	// ----------------------------------------------------------------------------
+	// ----------------------------------------------------------------------------
+
+	function vtkImageGridSource(publicAPI, model) {
+	  // Set our className
+	  model.classHierarchy.push('vtkImageGridSource');
+
+	  function requestData(inData, outData) {
+	    var _this = this;
+
+	    if (model.deleted) {
+	      return;
+	    }
+
+	    var dataset = outData[0];
+	    if (!dataset || dataset.getMTime() < model.mtime) {
+	      (function () {
+	        var state = {};
+	        dataset = {
+	          type: 'vtkImageData',
+	          mtime: model.mtime,
+	          metadata: {
+	            source: 'vtkImageGridSource',
+	            state: state
+	          }
+	        };
+
+	        // Add parameter used to create dataset as metadata.state[*]
+	        ['gridSpacing', 'gridOrigin', 'dataSpacing', 'dataOrigin'].forEach(function (field) {
+	          state[field] = [].concat(model[field]);
+	        });
+
+	        var id = _ImageData2.default.newInstance(dataset);
+	        id.setOrigin(model.dataOrigin[0], model.dataOrigin[1], model.dataOrigin[2]);
+	        id.setSpacing(model.dataSpacing[0], model.dataSpacing[1], model.dataSpacing[2]);
+	        id.setExtent.apply(_this, model.dataExtent);
+
+	        var dims = [0, 0, 0];
+	        dims = dims.map(function (_, i) {
+	          return model.dataExtent[i * 2 + 1] - model.dataExtent[i * 2] + 1;
+	        });
+
+	        var newArray = new Uint8Array(dims[0] * dims[1] * dims[2]);
+
+	        var xval = 0;
+	        var yval = 0;
+	        var zval = 0;
+	        var i = 0;
+	        for (var z = model.dataExtent[4]; z <= model.dataExtent[5]; z++) {
+	          if (model.gridSpacing[2]) {
+	            zval = z % model.gridSpacing[2] === model.gridOrigin[2];
+	          } else {
+	            zval = 0;
+	          }
+	          for (var y = model.dataExtent[2]; y <= model.dataExtent[3]; y++) {
+	            if (model.gridSpacing[1]) {
+	              yval = y % model.gridSpacing[1] === model.gridOrigin[1];
+	            } else {
+	              yval = 0;
+	            }
+	            for (var x = model.dataExtent[0]; x <= model.dataExtent[1]; x++) {
+	              if (model.gridSpacing[0]) {
+	                xval = x % model.gridSpacing[0] === model.gridOrigin[0];
+	              } else {
+	                xval = 0;
+	              }
+	              newArray[i] = zval || yval || xval ? model.lineValue : model.fillValue;
+	              i++;
+	            }
+	          }
+	        }
+
+	        var da = _DataArray2.default.newInstance({ tuple: 1, values: newArray });
+	        da.setName('scalars');
+
+	        var cpd = id.getPointData();
+	        cpd.addArray(da);
+	        cpd.setActiveScalars(da.getName());
+
+	        // Update output
+	        outData[0] = id;
+	      })();
+	    }
+	  }
+
+	  // Expose methods
+	  publicAPI.requestData = requestData;
+	}
+
+	// ----------------------------------------------------------------------------
+	// Object factory
+	// ----------------------------------------------------------------------------
+
+	var DEFAULT_VALUES = {
+	  lineValue: 0,
+	  fillValue: 255,
+	  gridSpacing: [10, 10, 0],
+	  gridOrigin: [0, 0, 0],
+	  dataSpacing: [1.0, 1.0, 1.0],
+	  dataOrigin: [0.0, 0.0, 0.0],
+	  dataExtent: [0, 255, 0, 255, 0, 0]
+	};
+
+	// ----------------------------------------------------------------------------
+
+	function extend(publicAPI, model) {
+	  var initialValues = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+
+	  Object.assign(model, DEFAULT_VALUES, initialValues);
+
+	  // Build VTK API
+	  macro.obj(publicAPI, model);
+
+	  macro.setGet(publicAPI, model, ['lineValue', 'fillValue']);
+
+	  macro.setGetArray(publicAPI, model, ['gridOrigin', 'gridSpacing', 'dataOrigin', 'dataSpacing'], 3);
+
+	  macro.setGetArray(publicAPI, model, ['dataExtent'], 6);
+
+	  macro.algo(publicAPI, model, 0, 1);
+	  vtkImageGridSource(publicAPI, model);
+	}
+
+	// ----------------------------------------------------------------------------
+
+	var newInstance = exports.newInstance = macro.newInstance(extend);
+
+	// ----------------------------------------------------------------------------
+
+	exports.default = { newInstance: newInstance, extend: extend };
+
+/***/ },
+/* 55 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.newInstance = exports.STATIC = undefined;
+	exports.extend = extend;
+
+	var _macro = __webpack_require__(2);
+
+	var macro = _interopRequireWildcard(_macro);
+
+	var _DataSet = __webpack_require__(51);
+
+	var _DataSet2 = _interopRequireDefault(_DataSet);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	// ----------------------------------------------------------------------------
+	// Global methods
+	// ----------------------------------------------------------------------------
+
+	// ----------------------------------------------------------------------------
+	// Static API
+	// ----------------------------------------------------------------------------
+
+	var STATIC = exports.STATIC = {};
+
+	// ----------------------------------------------------------------------------
+	// vtkPolyData methods
+	// ----------------------------------------------------------------------------
+
+	function vtkImageData(publicAPI, model) {
+	  // Set our className
+	  model.classHierarchy.push('vtkImageData');
+
+	  /* eslint-disable no-use-before-define */
+	  publicAPI.shallowCopy = function () {
+	    var modelInstance = {};
+	    var fieldList = ['pointData', 'cellData', 'fieldData'];
+
+	    // Start to shallow copy each piece
+	    // Dataset
+	    fieldList.forEach(function (field) {
+	      modelInstance[field] = model[field].shallowCopy();
+	    });
+
+	    // Create instance
+	    var newImage = newInstance(modelInstance);
+
+	    // Reset mtime to original value
+	    newImage.set({ mtime: model.mtime });
+
+	    return newImage;
+	  };
+	  /* eslint-enable no-use-before-define */
+	}
+
+	// ----------------------------------------------------------------------------
+	// Object factory
+	// ----------------------------------------------------------------------------
+
+	var DEFAULT_VALUES = {
+	  ImageData: null,
+	  spacing: [1.0, 1.0, 1.0],
+	  origin: [0.0, 0.0, 0.0],
+	  extent: [0, -1, 0, -1, 0, -1]
+	};
+
+	// ----------------------------------------------------------------------------
+
+	function extend(publicAPI, model) {
+	  var initialValues = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+
+	  Object.assign(model, DEFAULT_VALUES, initialValues);
+
+	  // Inheritance
+	  _DataSet2.default.extend(publicAPI, model, initialValues);
+
+	  macro.setGet(publicAPI, model, ['verts', 'lines', 'polys', 'strips']);
+
+	  macro.setGetArray(publicAPI, model, ['origin', 'spacing'], 3);
+
+	  macro.setGetArray(publicAPI, model, ['extent'], 6);
+
+	  // Object specific methods
+	  vtkImageData(publicAPI, model);
+	}
+
+	// ----------------------------------------------------------------------------
+
+	var newInstance = exports.newInstance = macro.newInstance(extend, 'vtkPolyData');
+
+	// ----------------------------------------------------------------------------
+
+	exports.default = Object.assign({ newInstance: newInstance, extend: extend }, STATIC);
+
+/***/ },
+/* 56 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.newInstance = undefined;
+	exports.extend = extend;
+
+	var _macro = __webpack_require__(2);
+
+	var macro = _interopRequireWildcard(_macro);
+
+	var _Prop3D = __webpack_require__(57);
 
 	var _Prop3D2 = _interopRequireDefault(_Prop3D);
 
-	var _Property = __webpack_require__(57);
+	var _Property = __webpack_require__(59);
 
 	var _Property2 = _interopRequireDefault(_Property);
 
@@ -15827,7 +16205,7 @@
 	exports.default = { newInstance: newInstance, extend: extend };
 
 /***/ },
-/* 55 */
+/* 57 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -15846,7 +16224,7 @@
 
 	var _BoundingBox2 = _interopRequireDefault(_BoundingBox);
 
-	var _Prop = __webpack_require__(56);
+	var _Prop = __webpack_require__(58);
 
 	var _Prop2 = _interopRequireDefault(_Prop);
 
@@ -16018,7 +16396,7 @@
 	exports.default = { newInstance: newInstance, extend: extend };
 
 /***/ },
-/* 56 */
+/* 58 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -16181,7 +16559,7 @@
 	exports.default = { newInstance: newInstance, extend: extend };
 
 /***/ },
-/* 57 */
+/* 59 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -16350,7 +16728,7 @@
 	exports.default = { newInstance: newInstance, extend: extend };
 
 /***/ },
-/* 58 */
+/* 60 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -16361,7 +16739,68 @@
 	exports.newInstance = undefined;
 	exports.extend = extend;
 
-	var _CoincidentTopologyHelper = __webpack_require__(59);
+	var _macro = __webpack_require__(2);
+
+	var macro = _interopRequireWildcard(_macro);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	// ----------------------------------------------------------------------------
+	// vtkTexture methods
+	// ----------------------------------------------------------------------------
+
+	function vtkTexture(publicAPI, model) {
+	  // Set our className
+	  model.classHierarchy.push('vtkTexture');
+	}
+
+	// ----------------------------------------------------------------------------
+	// Object factory
+	// ----------------------------------------------------------------------------
+
+	var DEFAULT_VALUES = {
+	  repeat: true,
+	  interpolate: false,
+	  edgeClamp: false
+	};
+
+	// ----------------------------------------------------------------------------
+
+	function extend(publicAPI, model) {
+	  var initialValues = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+
+	  Object.assign(model, DEFAULT_VALUES, initialValues);
+
+	  // Build VTK API
+	  macro.obj(publicAPI, model);
+	  macro.algo(publicAPI, model, 1, 0);
+
+	  macro.setGet(publicAPI, model, ['repeat', 'edgeClamp', 'interpolate']);
+
+	  vtkTexture(publicAPI, model);
+	}
+
+	// ----------------------------------------------------------------------------
+
+	var newInstance = exports.newInstance = macro.newInstance(extend);
+
+	// ----------------------------------------------------------------------------
+
+	exports.default = { newInstance: newInstance, extend: extend };
+
+/***/ },
+/* 61 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.newInstance = undefined;
+	exports.extend = extend;
+
+	var _CoincidentTopologyHelper = __webpack_require__(62);
 
 	var CoincidentTopologyHelper = _interopRequireWildcard(_CoincidentTopologyHelper);
 
@@ -16369,11 +16808,11 @@
 
 	var macro = _interopRequireWildcard(_macro);
 
-	var _Static = __webpack_require__(60);
+	var _Static = __webpack_require__(63);
 
 	var _Static2 = _interopRequireDefault(_Static);
 
-	var _LookupTable = __webpack_require__(61);
+	var _LookupTable = __webpack_require__(64);
 
 	var _LookupTable2 = _interopRequireDefault(_LookupTable);
 
@@ -16710,7 +17149,7 @@
 	exports.default = Object.assign({ newInstance: newInstance, extend: extend }, staticOffsetAPI, _Static2.default);
 
 /***/ },
-/* 59 */
+/* 62 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -16733,7 +17172,7 @@
 	var CATEGORIES = exports.CATEGORIES = ['Polygon', 'Line', 'Point'];
 
 /***/ },
-/* 60 */
+/* 63 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -16799,7 +17238,7 @@
 	};
 
 /***/ },
-/* 61 */
+/* 64 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -16814,7 +17253,7 @@
 
 	var macro = _interopRequireWildcard(_macro);
 
-	var _ScalarsToColors = __webpack_require__(62);
+	var _ScalarsToColors = __webpack_require__(65);
 
 	var _ScalarsToColors2 = _interopRequireDefault(_ScalarsToColors);
 
@@ -17108,7 +17547,7 @@
 	exports.default = Object.assign({ newInstance: newInstance, extend: extend });
 
 /***/ },
-/* 62 */
+/* 65 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -17123,7 +17562,7 @@
 
 	var macro = _interopRequireWildcard(_macro);
 
-	var _Constants = __webpack_require__(63);
+	var _Constants = __webpack_require__(66);
 
 	var _Constants2 = __webpack_require__(30);
 
@@ -17401,7 +17840,7 @@
 	exports.default = Object.assign({ newInstance: newInstance, extend: extend });
 
 /***/ },
-/* 63 */
+/* 66 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -17418,7 +17857,7 @@
 	exports.default = { VECTOR_MODE: VECTOR_MODE };
 
 /***/ },
-/* 64 */
+/* 67 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -17437,7 +17876,7 @@
 
 	var _Math2 = _interopRequireDefault(_Math);
 
-	var _InteractorStyleTrackballCamera = __webpack_require__(65);
+	var _InteractorStyleTrackballCamera = __webpack_require__(68);
 
 	var _InteractorStyleTrackballCamera2 = _interopRequireDefault(_InteractorStyleTrackballCamera);
 
@@ -18024,7 +18463,7 @@
 	exports.default = Object.assign({ newInstance: newInstance, extend: extend });
 
 /***/ },
-/* 65 */
+/* 68 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -18039,7 +18478,7 @@
 
 	var macro = _interopRequireWildcard(_macro);
 
-	var _InteractorStyle = __webpack_require__(66);
+	var _InteractorStyle = __webpack_require__(69);
 
 	var _InteractorStyle2 = _interopRequireDefault(_InteractorStyle);
 
@@ -18047,7 +18486,7 @@
 
 	var _Math2 = _interopRequireDefault(_Math);
 
-	var _Constants = __webpack_require__(68);
+	var _Constants = __webpack_require__(71);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -18467,7 +18906,7 @@
 	exports.default = Object.assign({ newInstance: newInstance, extend: extend });
 
 /***/ },
-/* 66 */
+/* 69 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -18482,11 +18921,11 @@
 
 	var macro = _interopRequireWildcard(_macro);
 
-	var _InteractorObserver = __webpack_require__(67);
+	var _InteractorObserver = __webpack_require__(70);
 
 	var _InteractorObserver2 = _interopRequireDefault(_InteractorObserver);
 
-	var _Constants = __webpack_require__(68);
+	var _Constants = __webpack_require__(71);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -18716,7 +19155,7 @@
 	exports.default = Object.assign({ newInstance: newInstance, extend: extend });
 
 /***/ },
-/* 67 */
+/* 70 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -18898,7 +19337,7 @@
 	exports.default = Object.assign({ newInstance: newInstance, extend: extend });
 
 /***/ },
-/* 68 */
+/* 71 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -18930,10 +19369,10 @@
 	};
 
 /***/ },
-/* 69 */
+/* 72 */
 /***/ function(module, exports) {
 
-	module.exports = "<select class='representations'>\n  <option value='0'>Points</option>\n  <option value='1'>Wireframe</option>\n  <option value='2' selected>Surface</option>\n</select>\n\n<input class='resolution' type='range' min='4' max='80' value='6'/>\n\n";
+	module.exports = "";
 
 /***/ }
 /******/ ]);
