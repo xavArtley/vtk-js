@@ -7116,6 +7116,9 @@
 	  publicAPI.renderPieceStart = function (ren, actor) {
 	    model.primitiveIDOffset = 0;
 
+	    // Line Width setting (FIXME Ken)
+	    model.context.lineWidth(actor.getProperty().getLineWidth());
+
 	    // make sure the BOs are up to date
 	    publicAPI.updateBufferObjects(ren, actor);
 
@@ -7658,9 +7661,9 @@
 	    };
 
 	    var func = null;
-	    if (outRep === _Constants2.VTK_REPRESENTATION.POINTS || inRep === 'Verts') {
+	    if (outRep === _Constants2.VTK_REPRESENTATION.POINTS || inRep === 'verts') {
 	      func = cellBuilders.anythingToPoints;
-	    } else if (outRep === _Constants2.VTK_REPRESENTATION.WIREFRAME || inRep === 'Lines') {
+	    } else if (outRep === _Constants2.VTK_REPRESENTATION.WIREFRAME || inRep === 'lines') {
 	      func = cellBuilders[inRep + 'ToWireframe'];
 	    } else {
 	      func = cellBuilders[inRep + 'ToSurface'];

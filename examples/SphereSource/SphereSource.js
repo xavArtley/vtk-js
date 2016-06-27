@@ -10192,6 +10192,9 @@
 	  publicAPI.getArrayNames = function () {
 	    return Object.keys(model.arrays);
 	  };
+	  publicAPI.getAbstractArray = function (name) {
+	    return model.arrays[name];
+	  };
 	  publicAPI.getArray = function (name) {
 	    return model.arrays[name];
 	  };
@@ -10925,8 +10928,8 @@
 	  // Build VTK API
 	  macro.obj(publicAPI, model); // FIXME parent is not vtkObject
 	  macro.algo(publicAPI, model, 1, 0);
-	  macro.get(publicAPI, model, ['colorMapColors', 'colorCoordinates', 'colorTextureMap', 'scalarMode']);
-	  macro.setGet(publicAPI, model, ['lookupTable', 'scalarVisibility', 'static', 'colorMode', 'interpolateScalarsBeforeMapping', 'useLookupTableScalarRange', 'fieldDataTupleId', 'renderTime', 'colorByArrayName', 'colorByArrayComponent', 'scalarMaterialMode']);
+	  macro.get(publicAPI, model, ['colorCoordinates', 'colorMapColors', 'colorTextureMap']);
+	  macro.setGet(publicAPI, model, ['colorByArrayComponent', 'colorByArrayName', 'colorMode', 'fieldDataTupleId', 'interpolateScalarsBeforeMapping', 'lookupTable', 'renderTime', 'scalarMaterialMode', 'scalarMode', 'scalarVisibility', 'static', 'useLookupTableScalarRange']);
 	  macro.setGetArray(publicAPI, model, ['scalarRange'], 2);
 
 	  // Object methods
@@ -13229,6 +13232,9 @@
 	  publicAPI.renderPieceStart = function (ren, actor) {
 	    model.primitiveIDOffset = 0;
 
+	    // Line Width setting (FIXME Ken)
+	    model.context.lineWidth(actor.getProperty().getLineWidth());
+
 	    // make sure the BOs are up to date
 	    publicAPI.updateBufferObjects(ren, actor);
 
@@ -13771,9 +13777,9 @@
 	    };
 
 	    var func = null;
-	    if (outRep === _Constants2.VTK_REPRESENTATION.POINTS || inRep === 'Verts') {
+	    if (outRep === _Constants2.VTK_REPRESENTATION.POINTS || inRep === 'verts') {
 	      func = cellBuilders.anythingToPoints;
-	    } else if (outRep === _Constants2.VTK_REPRESENTATION.WIREFRAME || inRep === 'Lines') {
+	    } else if (outRep === _Constants2.VTK_REPRESENTATION.WIREFRAME || inRep === 'lines') {
 	      func = cellBuilders[inRep + 'ToWireframe'];
 	    } else {
 	      func = cellBuilders[inRep + 'ToSurface'];
