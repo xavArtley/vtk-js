@@ -11236,7 +11236,11 @@
 	  publicAPI.preRender = function (ren) {
 	    // sync renderable properties
 	    if (model.renderable.getInterpolate()) {
-	      publicAPI.setMinificationFilter(_Constants.VTK_FILTER.LINEAR);
+	      if (model.generateMipmap) {
+	        publicAPI.setMinificationFilter(_Constants.VTK_FILTER.LINEAR_MIPMAP_LINEAR);
+	      } else {
+	        publicAPI.setMinificationFilter(_Constants.VTK_FILTER.LINEAR);
+	      }
 	      publicAPI.setMagnificationFilter(_Constants.VTK_FILTER.LINEAR);
 	    } else {
 	      publicAPI.setMinificationFilter(_Constants.VTK_FILTER.NEAREST);
@@ -11247,9 +11251,16 @@
 	      var input = model.renderable.getInputData();
 	      var ext = input.getExtent();
 	      var inScalars = input.getPointData().getScalars();
+	      if (model.renderable.getInterpolate()) {
+	        model.generateMipmap = true;
+	        publicAPI.setMinificationFilter(_Constants.VTK_FILTER.LINEAR_MIPMAP_LINEAR);
+	      }
 	      publicAPI.create2DFromRaw(ext[1] - ext[0] + 1, ext[3] - ext[2] + 1, inScalars.getNumberOfComponents(), inScalars.getDataType(), inScalars.getData());
+	      publicAPI.activate();
+	      publicAPI.sendParameters();
+	    } else {
+	      publicAPI.activate();
 	    }
-	    publicAPI.activate();
 	  };
 
 	  //----------------------------------------------------------------------------
@@ -11562,6 +11573,10 @@
 	    model.context.pixelStorei(model.context.UNPACK_ALIGNMENT, 1);
 
 	    model.context.texImage2D(model.target, 0, model.internalFormat, model.width, model.height, 0, model.format, model.openGLDataType, data);
+
+	    if (model.generateMipmap) {
+	      model.context.generateMipmap(model.target);
+	    }
 
 	    publicAPI.deactivate();
 	    return true;
