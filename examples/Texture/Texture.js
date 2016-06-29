@@ -10888,7 +10888,6 @@
 	// Only Static API
 	// ----------------------------------------------------------------------------
 
-	// Z
 	exports.default = {
 	  Pi: Pi,
 	  radiansFromDegrees: radiansFromDegrees,
@@ -12702,14 +12701,14 @@
 	        // may have set a custom matrix. Only reset the transform matrix in
 	        // vtkLight::SetLightTypeToSceneLight()
 	      } else if (light.lightTypeIsHeadLight()) {
-	          // update position and orientation of light to match camera.
-	          light.setPosition(camera.getPosition());
-	          light.setFocalPoint(camera.getFocalPoint());
-	        } else if (light.lightTypeIsCameraLight()) {
-	          light.setTransformMatrix(lightMatrix);
-	        } else {
-	          console.error('light has unknown light type', light);
-	        }
+	        // update position and orientation of light to match camera.
+	        light.setPosition(camera.getPosition());
+	        light.setFocalPoint(camera.getFocalPoint());
+	      } else if (light.lightTypeIsCameraLight()) {
+	        light.setTransformMatrix(lightMatrix);
+	      } else {
+	        console.error('light has unknown light type', light);
+	      }
 	    });
 	  };
 
@@ -14067,7 +14066,6 @@
 	// Global methods
 	// ----------------------------------------------------------------------------
 
-	// Z
 	function isValid(bounds) {
 	  return bounds[0] <= bounds[1] && bounds[2] <= bounds[3] && bounds[4] <= bounds[5];
 	}
@@ -14920,7 +14918,6 @@
 	    'verts', 'lines', 'polys', 'strips'];
 
 	    // Start to shallow copy each piece
-	    // PolyData
 	    fieldList.forEach(function (field) {
 	      modelInstance[field] = model[field].shallowCopy();
 	    });
@@ -15849,7 +15846,6 @@
 	    var fieldList = ['pointData', 'cellData', 'fieldData'];
 
 	    // Start to shallow copy each piece
-	    // Dataset
 	    fieldList.forEach(function (field) {
 	      modelInstance[field] = model[field].shallowCopy();
 	    });
@@ -16209,8 +16205,6 @@
 	  // Build VTK API
 	  macro.set(publicAPI, model, ['property']);
 	  macro.setGet(publicAPI, model, ['backfaceProperty', 'forceOpaque', 'forceTranslucent', 'mapper']);
-
-	  // 'texture', // Actor should have an array of textures
 	  macro.getArray(publicAPI, model, ['bounds'], 6);
 
 	  // Object methods

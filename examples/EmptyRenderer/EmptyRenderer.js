@@ -10798,7 +10798,6 @@
 	// Only Static API
 	// ----------------------------------------------------------------------------
 
-	// Z
 	exports.default = {
 	  Pi: Pi,
 	  radiansFromDegrees: radiansFromDegrees,
@@ -12612,14 +12611,14 @@
 	        // may have set a custom matrix. Only reset the transform matrix in
 	        // vtkLight::SetLightTypeToSceneLight()
 	      } else if (light.lightTypeIsHeadLight()) {
-	          // update position and orientation of light to match camera.
-	          light.setPosition(camera.getPosition());
-	          light.setFocalPoint(camera.getFocalPoint());
-	        } else if (light.lightTypeIsCameraLight()) {
-	          light.setTransformMatrix(lightMatrix);
-	        } else {
-	          console.error('light has unknown light type', light);
-	        }
+	        // update position and orientation of light to match camera.
+	        light.setPosition(camera.getPosition());
+	        light.setFocalPoint(camera.getFocalPoint());
+	      } else if (light.lightTypeIsCameraLight()) {
+	        light.setTransformMatrix(lightMatrix);
+	      } else {
+	        console.error('light has unknown light type', light);
+	      }
 	    });
 	  };
 
@@ -13977,7 +13976,6 @@
 	// Global methods
 	// ----------------------------------------------------------------------------
 
-	// Z
 	function isValid(bounds) {
 	  return bounds[0] <= bounds[1] && bounds[2] <= bounds[3] && bounds[4] <= bounds[5];
 	}
