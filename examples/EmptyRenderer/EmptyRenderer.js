@@ -50,11 +50,11 @@
 
 	var _RenderWindow2 = _interopRequireDefault(_RenderWindow);
 
-	var _RenderWindow3 = __webpack_require__(40);
+	var _RenderWindow3 = __webpack_require__(45);
 
 	var _RenderWindow4 = _interopRequireDefault(_RenderWindow3);
 
-	var _Renderer = __webpack_require__(41);
+	var _Renderer = __webpack_require__(46);
 
 	var _Renderer2 = _interopRequireDefault(_Renderer);
 
@@ -115,7 +115,7 @@
 
 	var _ViewNodeFactory2 = _interopRequireDefault(_ViewNodeFactory);
 
-	var _ShaderCache = __webpack_require__(37);
+	var _ShaderCache = __webpack_require__(42);
 
 	var _ShaderCache2 = _interopRequireDefault(_ShaderCache);
 
@@ -123,7 +123,7 @@
 
 	var _ViewNode2 = _interopRequireDefault(_ViewNode);
 
-	var _TextureUnitManager = __webpack_require__(39);
+	var _TextureUnitManager = __webpack_require__(44);
 
 	var _TextureUnitManager2 = _interopRequireDefault(_TextureUnitManager);
 
@@ -925,11 +925,23 @@
 
 	var _Actor2 = _interopRequireDefault(_Actor);
 
-	var _Camera = __webpack_require__(18);
+	var _Actor2D = __webpack_require__(18);
+
+	var _Actor2D2 = _interopRequireDefault(_Actor2D);
+
+	var _Camera = __webpack_require__(19);
 
 	var _Camera2 = _interopRequireDefault(_Camera);
 
-	var _PolyDataMapper = __webpack_require__(19);
+	var _ImageMapper = __webpack_require__(20);
+
+	var _ImageMapper2 = _interopRequireDefault(_ImageMapper);
+
+	var _ImageSlice = __webpack_require__(38);
+
+	var _ImageSlice2 = _interopRequireDefault(_ImageSlice);
+
+	var _PolyDataMapper = __webpack_require__(39);
 
 	var _PolyDataMapper2 = _interopRequireDefault(_PolyDataMapper);
 
@@ -937,11 +949,11 @@
 
 	var _RenderWindow2 = _interopRequireDefault(_RenderWindow);
 
-	var _Renderer = __webpack_require__(33);
+	var _Renderer = __webpack_require__(41);
 
 	var _Renderer2 = _interopRequireDefault(_Renderer);
 
-	var _Texture = __webpack_require__(34);
+	var _Texture = __webpack_require__(33);
 
 	var _Texture2 = _interopRequireDefault(_Texture);
 
@@ -978,11 +990,14 @@
 	  vtkOpenGLViewNodeFactory(publicAPI, model);
 
 	  // Initialization
+	  publicAPI.registerOverride('vtkActor', _Actor2.default.newInstance);
+	  publicAPI.registerOverride('vtkActor2D', _Actor2D2.default.newInstance);
+	  publicAPI.registerOverride('vtkCamera', _Camera2.default.newInstance);
+	  publicAPI.registerOverride('vtkImageMapper', _ImageMapper2.default.newInstance);
+	  publicAPI.registerOverride('vtkImageSlice', _ImageSlice2.default.newInstance);
+	  publicAPI.registerOverride('vtkMapper', _PolyDataMapper2.default.newInstance);
 	  publicAPI.registerOverride('vtkRenderWindow', _RenderWindow2.default.newInstance);
 	  publicAPI.registerOverride('vtkRenderer', _Renderer2.default.newInstance);
-	  publicAPI.registerOverride('vtkActor', _Actor2.default.newInstance);
-	  publicAPI.registerOverride('vtkMapper', _PolyDataMapper2.default.newInstance);
-	  publicAPI.registerOverride('vtkCamera', _Camera2.default.newInstance);
 	  publicAPI.registerOverride('vtkTexture', _Texture2.default.newInstance);
 	}
 
@@ -1308,10 +1323,15 @@
 	  };
 
 	  publicAPI.addMissingNode = function (dataObj) {
-	    publicAPI.addMissingNodes([dataObj]);
+	    if (dataObj) {
+	      publicAPI.addMissingNodes([dataObj]);
+	    }
 	  };
 
 	  publicAPI.addMissingNodes = function (dataObjs) {
+	    if (!dataObjs || !dataObjs.length) {
+	      return;
+	    }
 	    model.preparedNodes = model.preparedNodes.concat(dataObjs);
 
 	    // if any dataObj is not a renderable of a child
@@ -1323,7 +1343,7 @@
 	    });
 
 	    var newNodes = dataObjs.filter(function (node) {
-	      return childDOs.indexOf(node) === -1;
+	      return node && childDOs.indexOf(node) === -1;
 	    }).map(function (node) {
 	      var newNode = publicAPI.createViewNode(node);
 	      if (newNode) {
@@ -6354,6 +6374,131 @@
 
 	var _ViewNode2 = _interopRequireDefault(_ViewNode);
 
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	// ----------------------------------------------------------------------------
+	// vtkOpenGLActor methods
+	// ----------------------------------------------------------------------------
+
+	function vtkOpenGLActor2D(publicAPI, model) {
+	  // Set our className
+	  model.classHierarchy.push('vtkOpenGLActor2D');
+
+	  // Builds myself.
+	  publicAPI.build = function (prepass) {
+	    if (prepass) {
+	      if (!model.renderable) {
+	        return;
+	      }
+
+	      publicAPI.prepareNodes();
+	      publicAPI.addMissingNodes(model.renderable.getTextures());
+	      publicAPI.addMissingNode(model.renderable.getMapper());
+	      publicAPI.removeUnusedNodes();
+	    }
+	  };
+
+	  // we draw textures, then mapper, then post pass textures
+	  publicAPI.traverse = function (operation) {
+	    publicAPI.apply(operation, true);
+
+	    model.activeTextures = [];
+	    model.children.forEach(function (child) {
+	      child.apply(operation, true);
+	      if (child.isA('vtkOpenGLTexture') && operation === 'Render') {
+	        model.activeTextures.push(child);
+	      }
+	    });
+
+	    model.children.forEach(function (child) {
+	      child.apply(operation, false);
+	    });
+
+	    publicAPI.apply(operation, false);
+	  };
+
+	  // Renders myself
+	  publicAPI.render = function (prepass) {
+	    if (prepass) {
+	      model.context = publicAPI.getFirstAncestorOfType('vtkOpenGLRenderWindow').getContext();
+	      publicAPI.preRender();
+	    } else {
+	      // deactivate textures
+	      model.children.forEach(function (child) {
+	        if (child.isA('vtkOpenGLTexture')) {
+	          child.deactivate();
+	        }
+	      });
+	      var opaque = model.renderable.getIsOpaque() !== 0;
+	      if (!opaque) {
+	        model.context.depthMask(true);
+	      }
+	    }
+	  };
+
+	  publicAPI.preRender = function () {
+	    model.context.depthMask(false);
+	  };
+	}
+
+	// ----------------------------------------------------------------------------
+	// Object factory
+	// ----------------------------------------------------------------------------
+
+	var DEFAULT_VALUES = {
+	  context: null,
+	  activeTextures: []
+	};
+
+	// ----------------------------------------------------------------------------
+
+	function extend(publicAPI, model) {
+	  var initialValues = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+
+	  Object.assign(model, DEFAULT_VALUES, initialValues);
+
+	  // Inheritance
+	  _ViewNode2.default.extend(publicAPI, model);
+
+	  // Build VTK API
+	  macro.setGet(publicAPI, model, ['context']);
+
+	  macro.get(publicAPI, model, ['activeTextures']);
+
+	  // Object methods
+	  vtkOpenGLActor2D(publicAPI, model);
+	}
+
+	// ----------------------------------------------------------------------------
+
+	var newInstance = exports.newInstance = macro.newInstance(extend);
+
+	// ----------------------------------------------------------------------------
+
+	exports.default = { newInstance: newInstance, extend: extend };
+
+/***/ },
+/* 19 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.newInstance = undefined;
+	exports.extend = extend;
+
+	var _macro = __webpack_require__(2);
+
+	var macro = _interopRequireWildcard(_macro);
+
+	var _ViewNode = __webpack_require__(7);
+
+	var _ViewNode2 = _interopRequireDefault(_ViewNode);
+
 	var _glMatrix = __webpack_require__(8);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -6460,7 +6605,7 @@
 	exports.default = { newInstance: newInstance, extend: extend };
 
 /***/ },
-/* 19 */
+/* 20 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -6469,40 +6614,48 @@
 	  value: true
 	});
 	exports.newInstance = undefined;
-	exports.vtkOpenGLPolyDataMapper = vtkOpenGLPolyDataMapper;
+	exports.vtkOpenGLImageMapper = vtkOpenGLImageMapper;
 	exports.extend = extend;
 
 	var _macro = __webpack_require__(2);
 
 	var macro = _interopRequireWildcard(_macro);
 
-	var _Helper = __webpack_require__(20);
+	var _Helper = __webpack_require__(21);
 
 	var _Helper2 = _interopRequireDefault(_Helper);
 
-	var _Math = __webpack_require__(29);
+	var _Math = __webpack_require__(30);
 
 	var _Math2 = _interopRequireDefault(_Math);
 
-	var _ShaderProgram = __webpack_require__(26);
+	var _DataArray = __webpack_require__(31);
+
+	var _DataArray2 = _interopRequireDefault(_DataArray);
+
+	var _Texture = __webpack_require__(33);
+
+	var _Texture2 = _interopRequireDefault(_Texture);
+
+	var _ShaderProgram = __webpack_require__(27);
 
 	var _ShaderProgram2 = _interopRequireDefault(_ShaderProgram);
+
+	var _Texture3 = __webpack_require__(35);
+
+	var _Texture4 = _interopRequireDefault(_Texture3);
 
 	var _ViewNode = __webpack_require__(7);
 
 	var _ViewNode2 = _interopRequireDefault(_ViewNode);
 
-	var _Constants = __webpack_require__(25);
+	var _Constants = __webpack_require__(26);
 
-	var _Constants2 = __webpack_require__(30);
-
-	var _glMatrix = __webpack_require__(8);
-
-	var _vtkPolyDataVS = __webpack_require__(31);
+	var _vtkPolyDataVS = __webpack_require__(36);
 
 	var _vtkPolyDataVS2 = _interopRequireDefault(_vtkPolyDataVS);
 
-	var _vtkPolyDataFS = __webpack_require__(32);
+	var _vtkPolyDataFS = __webpack_require__(37);
 
 	var _vtkPolyDataFS2 = _interopRequireDefault(_vtkPolyDataFS);
 
@@ -6511,12 +6664,14 @@
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 	// ----------------------------------------------------------------------------
-	// vtkOpenGLPolyDataMapper methods
+	// vtkOpenGLImageMapper methods
 	// ----------------------------------------------------------------------------
 
-	function vtkOpenGLPolyDataMapper(publicAPI, model) {
+	// import { mat4 } from 'gl-matrix';
+
+	function vtkOpenGLImageMapper(publicAPI, model) {
 	  // Set our className
-	  model.classHierarchy.push('vtkOpenGLPolyDataMapper');
+	  model.classHierarchy.push('vtkOpenGLImageMapper');
 
 	  // Builds myself.
 	  publicAPI.build = function (prepass) {
@@ -6532,15 +6687,12 @@
 	    if (prepass) {
 	      model.openGLRenderWindow = publicAPI.getFirstAncestorOfType('vtkOpenGLRenderWindow');
 	      model.context = model.openGLRenderWindow.getContext();
-	      model.points.setContext(model.context);
-	      model.lines.setContext(model.context);
 	      model.tris.setContext(model.context);
-	      model.triStrips.setContext(model.context);
-	      model.openGLActor = publicAPI.getFirstAncestorOfType('vtkOpenGLActor');
-	      var actor = model.openGLActor.getRenderable();
-	      var openGLRenderer = publicAPI.getFirstAncestorOfType('vtkOpenGLRenderer');
-	      var ren = openGLRenderer.getRenderable();
-	      model.openGLCamera = openGLRenderer.getViewNodeFor(ren.getActiveCamera());
+	      model.openGLImageSlice = publicAPI.getFirstAncestorOfType('vtkOpenGLImageSlice');
+	      var actor = model.openGLImageSlice.getRenderable();
+	      model.openGLRenderer = publicAPI.getFirstAncestorOfType('vtkOpenGLRenderer');
+	      var ren = model.openGLRenderer.getRenderable();
+	      model.openGLCamera = model.openGLRenderer.getViewNodeFor(ren.getActiveCamera());
 	      publicAPI.renderPiece(ren, actor);
 	    } else {
 	      // something
@@ -6558,290 +6710,40 @@
 	    shaders.Geometry = '';
 	  };
 
-	  publicAPI.replaceShaderColor = function (shaders, ren, actor) {
+	  publicAPI.replaceShaderValues = function (shaders, ren, actor) {
 	    var VSSource = shaders.Vertex;
-	    var GSSource = shaders.Geometry;
 	    var FSSource = shaders.Fragment;
 
-	    var lastLightComplexity = model.lastLightComplexity.get(model.lastBoundBO);
+	    VSSource = _ShaderProgram2.default.substitute(VSSource, '//VTK::Camera::Dec', ['uniform mat4 MCDCMatrix;']).result;
+	    VSSource = _ShaderProgram2.default.substitute(VSSource, '//VTK::PositionVC::Impl', ['  gl_Position = MCDCMatrix * vertexMC;']).result;
 
-	    // create the material/color property declarations, and VS implementation
-	    // these are always defined
-	    var colorDec = ['uniform float opacityUniform; // the fragment opacity', 'uniform vec3 ambientColorUniform; // intensity weighted color', 'uniform vec3 diffuseColorUniform; // intensity weighted color'];
-	    // add more for specular
-	    if (lastLightComplexity) {
-	      colorDec = colorDec.concat(['uniform vec3 specularColorUniform; // intensity weighted color', 'uniform float specularPowerUniform;']);
-	    }
+	    VSSource = _ShaderProgram2.default.substitute(VSSource, '//VTK::TCoord::Impl', 'tcoordVCVSOutput = tcoordMC;').result;
 
-	    // now handle the more complex fragment shader implementation
-	    // the following are always defined variables.  We start
-	    // by assiging a default value from the uniform
-	    var colorImpl = ['vec3 ambientColor;', '  vec3 diffuseColor;', '  float opacity;'];
-	    if (lastLightComplexity) {
-	      colorImpl = colorImpl.concat(['  vec3 specularColor;', '  float specularPower;']);
-	    }
-	    colorImpl = colorImpl.concat(['  ambientColor = ambientColorUniform;', '  diffuseColor = diffuseColorUniform;', '  opacity = opacityUniform;']);
-	    if (lastLightComplexity) {
-	      colorImpl = colorImpl.concat(['  specularColor = specularColorUniform;', '  specularPower = specularPowerUniform;']);
-	    }
+	    var tNumComp = model.openGLTexture.getComponents();
 
-	    // add scalar vertex coloring
-	    if (model.lastBoundBO.getCABO().getColorComponents() !== 0) {
-	      colorDec = colorDec.concat(['varying vec4 vertexColorVSOutput;']);
-	      VSSource = _ShaderProgram2.default.substitute(VSSource, '//VTK::Color::Dec', ['attribute vec4 scalarColor;', 'varying vec4 vertexColorVSOutput;']).result;
-	      VSSource = _ShaderProgram2.default.substitute(VSSource, '//VTK::Color::Impl', ['vertexColorVSOutput =  scalarColor;']).result;
-	      GSSource = _ShaderProgram2.default.substitute(GSSource, '//VTK::Color::Dec', ['in vec4 vertexColorVSOutput[];', 'out vec4 vertexColorGSOutput;']).result;
-	      GSSource = _ShaderProgram2.default.substitute(GSSource, '//VTK::Color::Impl', ['vertexColorGSOutput = vertexColorVSOutput[i];']).result;
-	    }
-
-	    var scalarMatMode = model.renderable.getScalarMaterialMode();
-
-	    if (model.lastBoundBO.getCABO().getColorComponents() !== 0) {
-	      if (scalarMatMode === _Constants2.VTK_MATERIALMODE.AMBIENT || scalarMatMode === _Constants2.VTK_MATERIALMODE.DEFAULT && actor.getProperty().getAmbient() > actor.getProperty().getDiffuse()) {
-	        FSSource = _ShaderProgram2.default.substitute(FSSource, '//VTK::Color::Impl', colorImpl.concat(['  ambientColor = vertexColorVSOutput.rgb;', '  opacity = opacity*vertexColorVSOutput.a;'])).result;
-	      } else if (scalarMatMode === _Constants2.VTK_MATERIALMODE.DIFFUSE || scalarMatMode === _Constants2.VTK_MATERIALMODE.DEFAULT && actor.getProperty().getAmbient() <= actor.getProperty().getDiffuse()) {
-	        FSSource = _ShaderProgram2.default.substitute(FSSource, '//VTK::Color::Impl', colorImpl.concat(['  diffuseColor = vertexColorVSOutput.rgb;', '  opacity = opacity*vertexColorVSOutput.a;'])).result;
-	      } else {
-	        FSSource = _ShaderProgram2.default.substitute(FSSource, '//VTK::Color::Impl', colorImpl.concat(['  diffuseColor = vertexColorVSOutput.rgb;', '  ambientColor = vertexColorVSOutput.rgb;', '  opacity = opacity*vertexColorVSOutput.a;'])).result;
-	      }
-	    } else {
-	      FSSource = _ShaderProgram2.default.substitute(FSSource, '//VTK::Color::Impl', colorImpl).result;
-	    }
-
-	    FSSource = _ShaderProgram2.default.substitute(FSSource, '//VTK::Color::Dec', colorDec).result;
-
-	    shaders.Vertex = VSSource;
-	    shaders.Geometry = GSSource;
-	    shaders.Fragment = FSSource;
-	  };
-
-	  publicAPI.replaceShaderLight = function (shaders, ren, actor) {
-	    var FSSource = shaders.Fragment;
-
-	    // check for shadow maps
-	    var shadowFactor = '';
-
-	    var lastLightComplexity = model.lastLightComplexity.get(model.lastBoundBO);
-
-	    switch (lastLightComplexity) {
-	      case 0:
-	        // no lighting or RENDER_VALUES
-	        FSSource = _ShaderProgram2.default.substitute(FSSource, '//VTK::Light::Impl', ['  gl_FragData[0] = vec4(ambientColor + diffuseColor, opacity);', '  //VTK::Light::Impl'], false).result;
-	        break;
-
+	    VSSource = _ShaderProgram2.default.substitute(VSSource, '//VTK::TCoord::Dec', 'attribute vec2 tcoordMC; varying vec2 tcoordVCVSOutput;').result;
+	    FSSource = _ShaderProgram2.default.substitute(FSSource, '//VTK::TCoord::Dec', ['varying vec2 tcoordVCVSOutput;', 'uniform float shift;', 'uniform float scale;', 'uniform sampler2D texture1;']).result;
+	    switch (tNumComp) {
 	      case 1:
-	        // headlight
-	        FSSource = _ShaderProgram2.default.substitute(FSSource, '//VTK::Light::Impl', ['  float df = max(0.0, normalVCVSOutput.z);', '  float sf = pow(df, specularPower);', '  vec3 diffuse = df * diffuseColor;', '  vec3 specular = sf * specularColor;', '  gl_FragData[0] = vec4(ambientColor + diffuse + specular, opacity);', '  //VTK::Light::Impl'], false).result;
+	        FSSource = _ShaderProgram2.default.substitute(FSSource, '//VTK::TCoord::Impl', ['float intensity = texture2D(texture1, tcoordVCVSOutput).r*scale + shift;', 'gl_FragData[0] = vec4(intensity,intensity,intensity,1.0);']).result;
 	        break;
-
 	      case 2:
-	        // light kit
-	        FSSource = _ShaderProgram2.default.substitute(FSSource, '//VTK::Light::Dec', [
-	        // only allow for up to 6 active lights
-	        'uniform int numberOfLights;',
-	        // intensity weighted color
-	        'uniform vec3 lightColor[6];', 'uniform vec3 lightDirectionVC[6]; // normalized', 'uniform vec3 lightHalfAngleVC[6]; // normalized']).result;
-	        FSSource = _ShaderProgram2.default.substitute(FSSource, '//VTK::Light::Impl', ['vec3 diffuse = vec3(0,0,0);', '  vec3 specular = vec3(0,0,0);', '  for (int lightNum = 0; lightNum < numberOfLights; lightNum++)', '    {', '    float df = max(0.0, dot(normalVCVSOutput, -lightDirectionVC[lightNum]));', '    diffuse += ((df' + shadowFactor + ') * lightColor[lightNum]);', '    if (dot(normalVCVSOutput, lightDirectionVC[lightNum]) < 0.0)', '      {', '      float sf = pow( max(0.0, dot(lightHalfAngleVC[lightNum],normalVCVSOutput)), specularPower);', '      specular += ((sf' + shadowFactor + ') * lightColor[lightNum]);', '      }', '    }', '  diffuse = diffuse * diffuseColor;', '  specular = specular * specularColor;', '  gl_FragData[0] = vec4(ambientColor + diffuse + specular, opacity);', '  //VTK::Light::Impl'], false).result;
-	        break;
-
-	      case 3:
-	        // positional
-	        FSSource = _ShaderProgram2.default.substitute(FSSource, '//VTK::Light::Dec', [
-	        // only allow for up to 6 active lights
-	        'uniform int numberOfLights;',
-	        // intensity weighted color
-	        'uniform vec3 lightColor[6];', 'uniform vec3 lightDirectionVC[6]; // normalized', 'uniform vec3 lightHalfAngleVC[6]; // normalized', 'uniform vec3 lightPositionVC[6];', 'uniform vec3 lightAttenuation[6];', 'uniform float lightConeAngle[6];', 'uniform float lightExponent[6];', 'uniform int lightPositional[6];']).result;
-	        FSSource = _ShaderProgram2.default.substitute(FSSource, '//VTK::Light::Impl', ['  vec3 diffuse = vec3(0,0,0);', '  vec3 specular = vec3(0,0,0);', '  vec3 vertLightDirectionVC;', '  for (int lightNum = 0; lightNum < numberOfLights; lightNum++)', '    {', '    float attenuation = 1.0;', '    if (lightPositional[lightNum] == 0)', '      {', '      vertLightDirectionVC = lightDirectionVC[lightNum];', '      }', '    else', '      {', '      vertLightDirectionVC = vertexVC.xyz - lightPositionVC[lightNum];', '      float distanceVC = length(vertLightDirectionVC);', '      vertLightDirectionVC = normalize(vertLightDirectionVC);', '      attenuation = 1.0 /', '        (lightAttenuation[lightNum].x', '         + lightAttenuation[lightNum].y * distanceVC', '         + lightAttenuation[lightNum].z * distanceVC * distanceVC);', '      // per OpenGL standard cone angle is 90 or less for a spot light', '      if (lightConeAngle[lightNum] <= 90.0)', '        {', '        float coneDot = dot(vertLightDirectionVC, lightDirectionVC[lightNum]);', '        // if inside the cone', '        if (coneDot >= cos(radians(lightConeAngle[lightNum])))', '          {', '          attenuation = attenuation * pow(coneDot, lightExponent[lightNum]);', '          }', '        else', '          {', '          attenuation = 0.0;', '          }', '        }', '      }', '    float df = max(0.0, attenuation*dot(normalVCVSOutput, -vertLightDirectionVC));', '    diffuse += ((df' + shadowFactor + ') * lightColor[lightNum]);', '    if (dot(normalVCVSOutput, vertLightDirectionVC) < 0.0)', '      {', '      float sf = attenuation*pow( max(0.0, dot(lightHalfAngleVC[lightNum],normalVCVSOutput)), specularPower);', '      specular += ((sf' + shadowFactor + ') * lightColor[lightNum]);', '      }', '    }', '  diffuse = diffuse * diffuseColor;', '  specular = specular * specularColor;', '  gl_FragData[0] = vec4(ambientColor + diffuse + specular, opacity);', '  //VTK::Light::Impl'], false).result;
+	        FSSource = _ShaderProgram2.default.substitute(FSSource, '//VTK::TCoord::Impl', ['vec4 tcolor = texture2D(texture1, tcoordVCVSOutput);', 'float intensity = tcolor.r*scale + shift;', 'gl_FragData[0] = vec4(intensity, intensity, intensity, scale*tcolor.g + shift);']).result;
 	        break;
 	      default:
-	        console.error('bad light complexity');
-	    }
-
-	    shaders.Fragment = FSSource;
-	  };
-
-	  publicAPI.replaceShaderNormal = function (shaders, ren, actor) {
-	    if (model.lastLightComplexity.get(model.lastBoundBO) > 0) {
-	      var VSSource = shaders.Vertex;
-	      var GSSource = shaders.Geometry;
-	      var FSSource = shaders.Fragment;
-
-	      if (model.lastBoundBO.getCABO().getNormalOffset()) {
-	        VSSource = _ShaderProgram2.default.substitute(VSSource, '//VTK::Normal::Dec', ['attribute vec3 normalMC;', 'uniform mat3 normalMatrix;', 'varying vec3 normalVCVSOutput;']).result;
-	        VSSource = _ShaderProgram2.default.substitute(VSSource, '//VTK::Normal::Impl', ['normalVCVSOutput = normalMatrix * normalMC;']).result;
-	        GSSource = _ShaderProgram2.default.substitute(GSSource, '//VTK::Normal::Dec', ['in vec3 normalVCVSOutput[];', 'out vec3 normalVCGSOutput;']).result;
-	        GSSource = _ShaderProgram2.default.substitute(GSSource, '//VTK::Normal::Impl', ['normalVCGSOutput = normalVCVSOutput[i];']).result;
-	        FSSource = _ShaderProgram2.default.substitute(FSSource, '//VTK::Normal::Dec', ['varying vec3 normalVCVSOutput;']).result;
-	        FSSource = _ShaderProgram2.default.substitute(FSSource, '//VTK::Normal::Impl', ['vec3 normalVCVSOutput = normalize(normalVCVSOutput);',
-	        //  if (!gl_FrontFacing) does not work in intel hd4000 mac
-	        //  if (int(gl_FrontFacing) == 0) does not work on mesa
-	        '  if (gl_FrontFacing == false) { normalVCVSOutput = -normalVCVSOutput; }']).result;
-	      } else {
-	        if (model.haveCellNormals) {
-	          FSSource = _ShaderProgram2.default.substitute(FSSource, '//VTK::Normal::Dec', ['uniform mat3 normalMatrix;', 'uniform samplerBuffer textureN;']).result;
-	          FSSource = _ShaderProgram2.default.substitute(FSSource, '//VTK::Normal::Impl', ['vec3 normalVCVSOutput = normalize(normalMatrix *', '    texelFetchBuffer(textureN, gl_PrimitiveID + PrimitiveIDOffset).xyz);', '  if (gl_FrontFacing == false) { normalVCVSOutput = -normalVCVSOutput; }']).result;
-	        } else {
-	          if (actor.getProperty().getRepresentation() === _Constants.VTK_REPRESENTATION.WIREFRAME) {
-	            // generate a normal for lines, it will be perpendicular to the line
-	            // and maximally aligned with the camera view direction
-	            // no clue if this is the best way to do this.
-	            // the code below has been optimized a bit so what follows is
-	            // an explanation of the basic approach. Compute the gradient of the line
-	            // with respect to x and y, the the larger of the two
-	            // cross that with the camera view direction. That gives a vector
-	            // orthogonal to the camera view and the line. Note that the line and the camera
-	            // view are probably not orthogonal. Which is why when we cross result that with
-	            // the line gradient again we get a reasonable normal. It will be othogonal to
-	            // the line (which is a plane but maximally aligned with the camera view.
-	            FSSource = _ShaderProgram2.default.substitute(FSSource, '//VTK::UniformFlow::Impl', ['  vec3 fdx = vec3(dFdx(vertexVC.x),dFdx(vertexVC.y),dFdx(vertexVC.z));', '  vec3 fdy = vec3(dFdy(vertexVC.x),dFdy(vertexVC.y),dFdy(vertexVC.z));', '  //VTK::UniformFlow::Impl'] // For further replacements
-	            ).result;
-	            FSSource = _ShaderProgram2.default.substitute(FSSource, '//VTK::Normal::Impl', ['vec3 normalVCVSOutput;', '  fdx = normalize(fdx);', '  fdy = normalize(fdy);', '  if (abs(fdx.x) > 0.0)', '    { normalVCVSOutput = normalize(cross(vec3(fdx.y, -fdx.x, 0.0), fdx)); }', '  else { normalVCVSOutput = normalize(cross(vec3(fdy.y, -fdy.x, 0.0), fdy));}']).result;
-	          } else {
-	            FSSource = _ShaderProgram2.default.substitute(FSSource, '//VTK::Normal::Dec', ['uniform int cameraParallel;']).result;
-
-	            FSSource = _ShaderProgram2.default.substitute(FSSource, '//VTK::UniformFlow::Impl', [
-	            // '  vec3 fdx = vec3(dFdx(vertexVC.x),dFdx(vertexVC.y),dFdx(vertexVC.z));',
-	            // '  vec3 fdy = vec3(dFdy(vertexVC.x),dFdy(vertexVC.y),dFdy(vertexVC.z));',
-	            '  vec3 fdx = dFdx(vertexVC.xyz);', '  vec3 fdy = dFdy(vertexVC.xyz);', '  //VTK::UniformFlow::Impl'] // For further replacements
-	            ).result;
-	            FSSource = _ShaderProgram2.default.substitute(FSSource, '//VTK::Normal::Impl', ['  fdx = normalize(fdx);', '  fdy = normalize(fdy);', '  vec3 normalVCVSOutput = normalize(cross(fdx,fdy));',
-	            // the code below is faster, but does not work on some devices
-	            // 'vec3 normalVC = normalize(cross(dFdx(vertexVC.xyz), dFdy(vertexVC.xyz)));',
-	            '  if (cameraParallel == 1 && normalVCVSOutput.z < 0.0) { normalVCVSOutput = -1.0*normalVCVSOutput; }', '  if (cameraParallel == 0 && dot(normalVCVSOutput,vertexVC.xyz) > 0.0) { normalVCVSOutput = -1.0*normalVCVSOutput; }']).result;
-	          }
-	        }
-	      }
-	      shaders.Vertex = VSSource;
-	      shaders.Geometry = GSSource;
-	      shaders.Fragment = FSSource;
-	    }
-	  };
-
-	  publicAPI.replaceShaderPositionVC = function (shaders, ren, actor) {
-	    var VSSource = shaders.Vertex;
-	    var GSSource = shaders.Geometry;
-	    var FSSource = shaders.Fragment;
-
-	    // for points make sure to add in the point size
-	    if (actor.getProperty().getRepresentation() === _Constants.VTK_REPRESENTATION.POINTS) {
-	      VSSource = _ShaderProgram2.default.substitute(VSSource, '//VTK::PositionVC::Impl', ['//VTK::PositionVC::Impl', '  gl_PointSize = ' + actor.getProperty().getPointSize().toFixed(1) + ';'], false).result;
-	    }
-
-	    // do we need the vertex in the shader in View Coordinates
-	    if (model.lastLightComplexity.get(model.lastBoundBO) > 0) {
-	      VSSource = _ShaderProgram2.default.substitute(VSSource, '//VTK::PositionVC::Dec', ['varying vec4 vertexVCVSOutput;']).result;
-	      VSSource = _ShaderProgram2.default.substitute(VSSource, '//VTK::PositionVC::Impl', ['vertexVCVSOutput = MCVCMatrix * vertexMC;', '  gl_Position = MCDCMatrix * vertexMC;']).result;
-	      VSSource = _ShaderProgram2.default.substitute(VSSource, '//VTK::Camera::Dec', ['uniform mat4 MCDCMatrix;', 'uniform mat4 MCVCMatrix;']).result;
-	      GSSource = _ShaderProgram2.default.substitute(GSSource, '//VTK::PositionVC::Dec', ['in vec4 vertexVCVSOutput[];', 'out vec4 vertexVCGSOutput;']).result;
-	      GSSource = _ShaderProgram2.default.substitute(GSSource, '//VTK::PositionVC::Impl', ['vertexVCGSOutput = vertexVCVSOutput[i];']).result;
-	      FSSource = _ShaderProgram2.default.substitute(FSSource, '//VTK::PositionVC::Dec', ['varying vec4 vertexVCVSOutput;']).result;
-	      FSSource = _ShaderProgram2.default.substitute(FSSource, '//VTK::PositionVC::Impl', ['vec4 vertexVC = vertexVCVSOutput;']).result;
-	    } else {
-	      VSSource = _ShaderProgram2.default.substitute(VSSource, '//VTK::Camera::Dec', ['uniform mat4 MCDCMatrix;']).result;
-	      VSSource = _ShaderProgram2.default.substitute(VSSource, '//VTK::PositionVC::Impl', ['  gl_Position = MCDCMatrix * vertexMC;']).result;
+	        FSSource = _ShaderProgram2.default.substitute(FSSource, '//VTK::TCoord::Impl', 'gl_FragData[0] = scale*texture2D(texture1, tcoordVCVSOutput.st) + shift;').result;
 	    }
 	    shaders.Vertex = VSSource;
-	    shaders.Geometry = GSSource;
 	    shaders.Fragment = FSSource;
-	  };
-
-	  publicAPI.replaceShaderTCoord = function (shaders, ren, actor) {
-	    if (model.lastBoundBO.getCABO().getTCoordOffset()) {
-	      var VSSource = shaders.Vertex;
-	      var GSSource = shaders.Geometry;
-	      var FSSource = shaders.Fragment;
-
-	      VSSource = _ShaderProgram2.default.substitute(VSSource, '//VTK::TCoord::Impl', 'tcoordVCVSOutput = tcoordMC;').result;
-
-	      // we only handle the first texture by default
-	      // additional textures are activated and we set the uniform
-	      // for the texture unit they are assigned to, but you have to
-	      // add in the shader code to do something with them
-	      var tus = model.openGLActor.getActiveTextures();
-	      var tNumComp = tus[0].getComponents();
-
-	      VSSource = _ShaderProgram2.default.substitute(VSSource, '//VTK::TCoord::Dec', 'attribute vec2 tcoordMC; varying vec2 tcoordVCVSOutput;').result;
-	      GSSource = _ShaderProgram2.default.substitute(GSSource, '//VTK::TCoord::Dec', ['in vec2 tcoordVCVSOutput[];', 'out vec2 tcoordVCGSOutput;']).result;
-	      GSSource = _ShaderProgram2.default.substitute(GSSource, '//VTK::TCoord::Impl', 'tcoordVCGSOutput = tcoordVCVSOutput[i];').result;
-	      FSSource = _ShaderProgram2.default.substitute(FSSource, '//VTK::TCoord::Dec', ['varying vec2 tcoordVCVSOutput;', 'uniform sampler2D texture1;']).result;
-	      switch (tNumComp) {
-	        case 1:
-	          FSSource = _ShaderProgram2.default.substitute(FSSource, '//VTK::TCoord::Impl', ['vec4 tcolor = texture2D(texture1, tcoordVCVSOutput);', 'gl_FragData[0] = clamp(gl_FragData[0],0.0,1.0)*', '  vec4(tcolor.r,tcolor.r,tcolor.r,1.0);']).result;
-	          break;
-	        case 2:
-	          FSSource = _ShaderProgram2.default.substitute(FSSource, '//VTK::TCoord::Impl', ['vec4 tcolor = texture2D(texture1, tcoordVCVSOutput);', 'gl_FragData[0] = clamp(gl_FragData[0],0.0,1.0)*', '  vec4(tcolor.r,tcolor.r,tcolor.r,tcolor.g);']).result;
-	          break;
-	        default:
-	          FSSource = _ShaderProgram2.default.substitute(FSSource, '//VTK::TCoord::Impl', 'gl_FragData[0] = clamp(gl_FragData[0],0.0,1.0)*texture2D(texture1, tcoordVCVSOutput.st);').result;
-	      }
-	      shaders.Vertex = VSSource;
-	      shaders.Geometry = GSSource;
-	      shaders.Fragment = FSSource;
-	    }
-	  };
-
-	  publicAPI.replaceShaderValues = function (shaders, ren, actor) {
-	    publicAPI.replaceShaderColor(shaders, ren, actor);
-	    publicAPI.replaceShaderNormal(shaders, ren, actor);
-	    publicAPI.replaceShaderLight(shaders, ren, actor);
-	    publicAPI.replaceShaderTCoord(shaders, ren, actor);
-	    publicAPI.replaceShaderPositionVC(shaders, ren, actor);
 	  };
 
 	  publicAPI.getNeedToRebuildShaders = function (cellBO, ren, actor) {
-	    var lightComplexity = 0;
-
-	    // wacky backwards compatibility with old VTK lighting
-	    // soooo there are many factors that determine if a primative is lit or not.
-	    // three that mix in a complex way are representation POINT, Interpolation FLAT
-	    // and having normals or not.
-	    var needLighting = false;
-	    var haveNormals = false; // (model.currentInput.getPointData().getNormals() != null);
-	    if (actor.getProperty().getRepresentation() === _Constants.VTK_REPRESENTATION.POINTS) {
-	      needLighting = actor.getProperty().getInterpolation() !== _Constants.VTK_SHADING.FLAT && haveNormals;
-	    } else {
-	      var isTrisOrStrips = cellBO === model.tris || cellBO === model.triStrips;
-	      needLighting = isTrisOrStrips || !isTrisOrStrips && actor.getProperty().getInterpolation() !== _Constants.VTK_SHADING.FLAT && haveNormals;
-	    }
-
-	    // do we need lighting?
-	    if (actor.getProperty().getLighting() && needLighting) {
-	      (function () {
-	        // consider the lighting complexity to determine which case applies
-	        // simple headlight, Light Kit, the whole feature set of VTK
-	        lightComplexity = 0;
-	        var numberOfLights = 0;
-
-	        ren.getLights().forEach(function (light) {
-	          var status = light.getSwitch();
-	          if (status > 0) {
-	            numberOfLights++;
-	            if (lightComplexity === 0) {
-	              lightComplexity = 1;
-	            }
-	          }
-
-	          if (lightComplexity === 1 && (numberOfLights > 1 || light.getIntensity() !== 1.0 || !light.lightTypeIsHeadLight())) {
-	            lightComplexity = 2;
-	          }
-	          if (lightComplexity < 3 && light.getPositional()) {
-	            lightComplexity = 3;
-	          }
-	        });
-	      })();
-	    }
-
-	    if (model.lastLightComplexity.get(cellBO) !== lightComplexity) {
-	      model.lightComplexityChanged.get(cellBO).modified();
-	      model.lastLightComplexity.set(cellBO, lightComplexity);
-	    }
-
 	    // has something changed that would require us to recreate the shader?
 	    // candidates are
 	    // property modified (representation interpolation and lighting)
 	    // input modified
 	    // light complexity changed
-	    if (cellBO.getProgram() === 0 || cellBO.getShaderSourceTime().getMTime() < publicAPI.getMTime() || cellBO.getShaderSourceTime().getMTime() < actor.getMTime() || cellBO.getShaderSourceTime().getMTime() < model.currentInput.getMTime() || cellBO.getShaderSourceTime().getMTime() < model.lightComplexityChanged.get(cellBO).getMTime()) {
+	    if (cellBO.getProgram() === 0 || cellBO.getShaderSourceTime().getMTime() < publicAPI.getMTime() || cellBO.getShaderSourceTime().getMTime() < actor.getMTime() || cellBO.getShaderSourceTime().getMTime() < model.currentInput.getMTime()) {
 	      return true;
 	    }
 
@@ -6874,14 +6776,12 @@
 	    }
 
 	    publicAPI.setMapperShaderParameters(cellBO, ren, actor);
-	    publicAPI.setPropertyShaderParameters(cellBO, ren, actor);
 	    publicAPI.setCameraShaderParameters(cellBO, ren, actor);
-	    publicAPI.setLightingShaderParameters(cellBO, ren, actor);
+	    publicAPI.setPropertyShaderParameters(cellBO, ren, actor);
 	  };
 
 	  publicAPI.setMapperShaderParameters = function (cellBO, ren, actor) {
 	    // Now to update the VAO too, if necessary.
-	    cellBO.getProgram().setUniformi('PrimitiveIDOffset', model.primitiveIDOffset);
 
 	    if (cellBO.getCABO().getElementCount() && (model.VBOBuildTime > cellBO.getAttributeUpdateTime().getMTime() || cellBO.getShaderSourceTime().getMTime() > cellBO.getAttributeUpdateTime().getMTime())) {
 	      cellBO.getCABO().bind();
@@ -6890,164 +6790,55 @@
 	          console.error('Error setting vertexMC in shader VAO.');
 	        }
 	      }
-	      if (cellBO.getProgram().isAttributeUsed('normalMC') && cellBO.getCABO().getNormalOffset() && model.lastLightComplexity.get(cellBO) > 0) {
-	        if (!cellBO.getVAO().addAttributeArray(cellBO.getProgram(), cellBO.getCABO(), 'normalMC', cellBO.getCABO().getNormalOffset(), cellBO.getCABO().getStride(), model.context.FLOAT, 3, model.context.FALSE)) {
-	          console.error('Error setting normalMC in shader VAO.');
-	        }
-	      }
 	      if (cellBO.getProgram().isAttributeUsed('tcoordMC') && cellBO.getCABO().getTCoordOffset()) {
 	        if (!cellBO.getVAO().addAttributeArray(cellBO.getProgram(), cellBO.getCABO(), 'tcoordMC', cellBO.getCABO().getTCoordOffset(), cellBO.getCABO().getStride(), model.context.FLOAT, cellBO.getCABO().getTCoordComponents(), model.context.FALSE)) {
 	          console.error('Error setting tcoordMC in shader VAO.');
 	        }
 	      }
-	      if (cellBO.getProgram().isAttributeUsed('scalarColor') && cellBO.getCABO().getColorComponents()) {
-	        if (!cellBO.getVAO().addAttributeArray(cellBO.getProgram(), cellBO.getCABO(), 'scalarColor', cellBO.getCABO().getColorOffset(), cellBO.getCABO().getStride(), model.context.FLOAT /* BYTE */
-	        , cellBO.getCABO().getColorComponents(), true)) {
-	          console.error('Error setting scalarColor in shader VAO.');
-	        }
-	      }
 	    }
 
-	    var tus = model.openGLActor.getActiveTextures();
-	    tus.forEach(function (tex) {
-	      var texUnit = tex.getTextureUnit();
-	      var tname = 'texture' + (texUnit + 1);
-	      if (cellBO.getProgram().isUniformUsed(tname)) {
-	        cellBO.getProgram().setUniformi(tname, texUnit);
-	      }
-	    });
-	  };
+	    var texUnit = model.openGLTexture.getTextureUnit();
+	    cellBO.getProgram().setUniformi('texture1', texUnit);
 
-	  publicAPI.setLightingShaderParameters = function (cellBO, ren, actor) {
-	    // for unlit and headlight there are no lighting parameters
-	    if (model.lastLightComplexity.get(cellBO) < 2) {
-	      return;
-	    }
+	    var cw = actor.getProperty().getColorWindow();
+	    var cl = actor.getProperty().getColorLevel();
+	    var oglShiftScale = model.openGLTexture.getShiftAndScale();
 
-	    var program = cellBO.getProgram();
+	    var scale = oglShiftScale.scale / cw;
+	    var shift = (oglShiftScale.shift - cl) / cw + 0.5;
 
-	    // for lightkit case there are some parameters to set
-	    // const cam = ren.getActiveCamera();
-	    // const viewTF = cam.getModelViewTransformObject();
-
-	    // bind some light settings
-	    var numberOfLights = 0;
-
-	    var lightColor = [];
-	    // const lightDirection = [];
-	    // const lightHalfAngle = [];
-	    var lights = ren.getLights();
-	    Object.keys(lights).map(function (key) {
-	      return lights[key];
-	    }).forEach(function (light) {
-	      var status = light.getSwitch();
-	      if (status > 0.0) {
-	        var dColor = light.getDiffuseColor();
-	        var intensity = light.getIntensity();
-	        lightColor[numberOfLights][0] = dColor[0] * intensity;
-	        lightColor[numberOfLights][1] = dColor[1] * intensity;
-	        lightColor[numberOfLights][2] = dColor[2] * intensity;
-	        // get required info from light
-	        // double *lfp = light.getTransformedFocalPoint();
-	        // double *lp = light.getTransformedPosition();
-	        // double lightDir[3];
-	        // vtkMath::Subtract(lfp,lp,lightDir);
-	        // vtkMath::Normalize(lightDir);
-	        // double *tDir = viewTF.TransformNormal(lightDir);
-	        // lightDirection[numberOfLights][0] = tDir[0];
-	        // lightDirection[numberOfLights][1] = tDir[1];
-	        // lightDirection[numberOfLights][2] = tDir[2];
-	        // lightDir[0] = -tDir[0];
-	        // lightDir[1] = -tDir[1];
-	        // lightDir[2] = -tDir[2]+1.0;
-	        // vtkMath::Normalize(lightDir);
-	        // lightHalfAngle[numberOfLights][0] = lightDir[0];
-	        // lightHalfAngle[numberOfLights][1] = lightDir[1];
-	        // lightHalfAngle[numberOfLights][2] = lightDir[2];
-	        numberOfLights++;
-	      }
-	    });
-
-	    program.setUniform3fv('lightColor', numberOfLights, lightColor);
-	    // program.setUniform3fv('lightDirectionVC', numberOfLights, lightDirection);
-	    // program.setUniform3fv('lightHalfAngleVC', numberOfLights, lightHalfAngle);
-	    program.setUniformi('numberOfLights', numberOfLights);
-
-	    // // we are done unless we have positional lights
-	    if (model.lastLightComplexity.get(cellBO) < 3) {
-	      return;
-	    }
-
-	    // // if positional lights pass down more parameters
-	    // let lightAttenuation[6][3];
-	    // let lightPosition[6][3];
-	    // let lightConeAngle[6];
-	    // let lightExponent[6];
-	    // int lightPositional[6];
-	    // numberOfLights = 0;
-	    // for(lc.InitTraversal(sit);
-	    //     (light = lc.getNextLight(sit)); )
-	    //   {
-	    //   let status = light.getSwitch();
-	    //   if (status > 0.0)
-	    //     {
-	    //     double *attn = light.getAttenuationValues();
-	    //     lightAttenuation[numberOfLights][0] = attn[0];
-	    //     lightAttenuation[numberOfLights][1] = attn[1];
-	    //     lightAttenuation[numberOfLights][2] = attn[2];
-	    //     lightExponent[numberOfLights] = light.getExponent();
-	    //     lightConeAngle[numberOfLights] = light.getConeAngle();
-	    //     double *lp = light.getTransformedPosition();
-	    //     double *tlp = viewTF.TransformPoint(lp);
-	    //     lightPosition[numberOfLights][0] = tlp[0];
-	    //     lightPosition[numberOfLights][1] = tlp[1];
-	    //     lightPosition[numberOfLights][2] = tlp[2];
-	    //     lightPositional[numberOfLights] = light.getPositional();
-	    //     numberOfLights++;
-	    //     }
-	    //   }
-	    // program.SetUniform3fv('lightAttenuation', numberOfLights, lightAttenuation);
-	    // program.SetUniform1iv('lightPositional', numberOfLights, lightPositional);
-	    // program.SetUniform3fv('lightPositionVC', numberOfLights, lightPosition);
-	    // program.SetUniform1fv('lightExponent', numberOfLights, lightExponent);
-	    // program.SetUniform1fv('lightConeAngle', numberOfLights, lightConeAngle);
+	    cellBO.getProgram().setUniformf('shift', shift);
+	    cellBO.getProgram().setUniformf('scale', scale);
 	  };
 
 	  publicAPI.setCameraShaderParameters = function (cellBO, ren, actor) {
 	    var program = cellBO.getProgram();
 
+	    // if (model.renderable.getRenderToRectangle()) {
+	    //   let xscale = 1.0;
+	    //   let yscale = 1.0;
+	    //   const actorPos =
+	    //     actor.getActualPositionCoordinate().getComputedViewValue(ren);
+	    //   const actorPos2 =
+	    //     actor.getActualPosition2Coordinate().getComputedViewValue(ren);
+
+	    //   const rectwidth  = (actorPos2[0] - actorPos[0]) + 1;
+	    //   const rectheight = (actorPos2[1] - actorPos[1]) + 1;
+	    //   const xscale = rectwidth / width;
+	    //   const yscale = rectheight / height;
+	    // }
+
+	    // points->SetPoint(0, 0.0, 0.0, 0);
+	    // points->SetPoint(1, width*xscale, 0.0, 0);
+	    // points->SetPoint(2, width*xscale, height*yscale, 0);
+	    // points->SetPoint(3, 0.0, height*yscale, 0);
+
 	    // // [WMVD]C == {world, model, view, display} coordinates
 	    // // E.g., WCDC == world to display coordinate transformation
 	    var keyMats = model.openGLCamera.getKeyMatrices(ren);
-	    var cam = ren.getActiveCamera();
-
-	    if (actor.getIsIdentity()) {
-	      program.setUniformMatrix('MCDCMatrix', keyMats.wcdc);
-	      if (program.isUniformUsed('MCVCMatrix')) {
-	        program.setUniformMatrix('MCVCMatrix', keyMats.wcvc);
-	      }
-	      if (program.isUniformUsed('normalMatrix')) {
-	        program.setUniformMatrix3x3('normalMatrix', keyMats.normalMatrix);
-	      }
-	    } else {
-	      var actMats = model.openGLActor.getKeyMatrices();
-	      if (program.isUniformUsed('normalMatrix')) {
-	        var anorms = _glMatrix.mat3.create();
-	        _glMatrix.mat3.multiply(anorms, keyMats.normalMatrix, actMats.normalMatrix);
-	        program.setUniformMatrix3x3('normalMatrix', anorms);
-	      }
-	      var tmp4 = _glMatrix.mat4.create();
-	      _glMatrix.mat4.multiply(tmp4, keyMats.wcdc, actMats.mcwc);
-	      program.setUniformMatrix('MCDCMatrix', tmp4);
-	      if (program.isUniformUsed('MCVCMatrix')) {
-	        _glMatrix.mat4.multiply(tmp4, keyMats.wcvc, actMats.mcwc);
-	        program.setUniformMatrix('MCVCMatrix', tmp4);
-	      }
-	    }
-
-	    if (program.isUniformUsed('cameraParallel')) {
-	      program.setUniformi('cameraParallel', cam.getParallelProjection());
-	    }
+	    program.setUniformMatrix('MCDCMatrix', keyMats.wcdc);
+	    // program.setUniformf4('p1', );
+	    // program.setUniformf4('p2',);
 	  };
 
 	  publicAPI.setPropertyShaderParameters = function (cellBO, ren, actor) {
@@ -7056,69 +6847,10 @@
 	    var ppty = actor.getProperty();
 
 	    var opacity = ppty.getOpacity();
-	    var aColor = ppty.getAmbientColor();
-	    var aIntensity = ppty.getAmbient();
-	    var ambientColor = [aColor[0] * aIntensity, aColor[1] * aIntensity, aColor[2] * aIntensity];
-	    var dColor = ppty.getDiffuseColor();
-	    var dIntensity = ppty.getDiffuse();
-	    var diffuseColor = [dColor[0] * dIntensity, dColor[1] * dIntensity, dColor[2] * dIntensity];
-
 	    program.setUniformf('opacityUniform', opacity);
-	    program.setUniform3f('ambientColorUniform', ambientColor);
-	    program.setUniform3f('diffuseColorUniform', diffuseColor);
-	    // we are done unless we have lighting
-	    if (model.lastLightComplexity.get(cellBO) < 1) {
-	      return;
-	    }
-	    var sColor = ppty.getSpecularColor();
-	    var sIntensity = ppty.getSpecular();
-	    var specularColor = [sColor[0] * sIntensity, sColor[1] * sIntensity, sColor[2] * sIntensity];
-	    program.setUniform3f('specularColorUniform', specularColor);
-	    var specularPower = ppty.getSpecularPower();
-	    program.setUniformf('specularPowerUniform', specularPower);
-
-	    // // now set the backface properties if we have them
-	    // if (actor.getBackfaceProperty() && !model.DrawingEdges)
-	    //   {
-	    //   ppty = actor.getBackfaceProperty();
-
-	    //   let opacity = static_cast<float>(ppty.getOpacity());
-	    //   double *aColor = ppty.getAmbientColor();
-	    //   double aIntensity = ppty.getAmbient();  // ignoring renderer ambient
-	    //   let ambientColor[3] = {static_cast<float>(aColor[0] * aIntensity),
-	    //     static_cast<float>(aColor[1] * aIntensity),
-	    //     static_cast<float>(aColor[2] * aIntensity)};
-	    //   double *dColor = ppty.getDiffuseColor();
-	    //   double dIntensity = ppty.getDiffuse();
-	    //   let diffuseColor[3] = {static_cast<float>(dColor[0] * dIntensity),
-	    //     static_cast<float>(dColor[1] * dIntensity),
-	    //     static_cast<float>(dColor[2] * dIntensity)};
-	    //   double *sColor = ppty.getSpecularColor();
-	    //   double sIntensity = ppty.getSpecular();
-	    //   let specularColor[3] = {static_cast<float>(sColor[0] * sIntensity),
-	    //     static_cast<float>(sColor[1] * sIntensity),
-	    //     static_cast<float>(sColor[2] * sIntensity)};
-	    //   double specularPower = ppty.getSpecularPower();
-
-	    //   program.SetUniformf('opacityUniformBF', opacity);
-	    //   program.SetUniform3f('ambientColorUniformBF', ambientColor);
-	    //   program.SetUniform3f('diffuseColorUniformBF', diffuseColor);
-	    //   // we are done unless we have lighting
-	    //   if (model.LastLightComplexity[&cellBO] < 1)
-	    //     {
-	    //     return;
-	    //     }
-	    //   program.SetUniform3f('specularColorUniformBF', specularColor);
-	    //   program.SetUniformf('specularPowerUniformBF', specularPower);
-	    //   }
 	  };
 
 	  publicAPI.renderPieceStart = function (ren, actor) {
-	    model.primitiveIDOffset = 0;
-
-	    // Line Width setting (FIXME Ken)
-	    model.context.lineWidth(actor.getProperty().getLineWidth());
-
 	    // make sure the BOs are up to date
 	    publicAPI.updateBufferObjects(ren, actor);
 
@@ -7127,60 +6859,19 @@
 	  };
 
 	  publicAPI.renderPieceDraw = function (ren, actor) {
-	    var representation = actor.getProperty().getRepresentation();
-
 	    var gl = model.context;
 
-	    // draw points
-	    if (model.points.getCABO().getElementCount()) {
-	      // Update/build/etc the shader.
-	      publicAPI.updateShaders(model.points, ren, actor);
-	      gl.drawArrays(gl.POINTS, 0, model.points.getCABO().getElementCount());
-	      model.primitiveIDOffset += model.points.getCABO().getElementCount();
-	    }
-
-	    // draw lines
-	    if (model.lines.getCABO().getElementCount()) {
-	      publicAPI.updateShaders(model.lines, ren, actor);
-	      if (representation === _Constants.VTK_REPRESENTATION.POINTS) {
-	        gl.drawArrays(gl.POINTS, 0, model.lines.getCABO().getElementCount());
-	      } else {
-	        gl.drawArrays(gl.LINES, 0, model.lines.getCABO().getElementCount());
-	      }
-	      model.primitiveIDOffset += model.lines.getCABO().getElementCount() / 2;
-	    }
+	    // render the texture
+	    model.openGLTexture.preRender(model.openGLRenderer);
 
 	    // draw polygons
 	    if (model.tris.getCABO().getElementCount()) {
 	      // First we do the triangles, update the shader, set uniforms, etc.
 	      publicAPI.updateShaders(model.tris, ren, actor);
-	      var mode = gl.POINTS;
-	      if (representation === _Constants.VTK_REPRESENTATION.WIREFRAME) {
-	        mode = gl.LINES;
-	      }
-	      if (representation === _Constants.VTK_REPRESENTATION.SURFACE) {
-	        mode = gl.TRIANGLES;
-	      }
-	      gl.drawArrays(mode, 0, model.tris.getCABO().getElementCount());
-	      model.primitiveIDOffset += model.tris.getCABO().getElementCount() / 3;
+	      gl.drawArrays(gl.TRIANGLES, 0, model.tris.getCABO().getElementCount());
 	    }
 
-	    // draw strips
-	    if (model.triStrips.getCABO().getElementCount()) {
-	      // Use the tris shader program/VAO, but triStrips ibo.
-	      model.updateShaders(model.triStrips, ren, actor);
-	      if (representation === _Constants.VTK_REPRESENTATION.POINTS) {
-	        gl.drawArrays(gl.POINTS, 0, model.triStrips.getCABO().getElementCount());
-	      }
-	      if (representation === _Constants.VTK_REPRESENTATION.WIREFRAME) {
-	        gl.drawArays(gl.LINES, 0, model.triStrips.getCABO().getElementCount());
-	      }
-	      if (representation === _Constants.VTK_REPRESENTATION.SURFACE) {
-	        gl.drawArrays(gl.TRIANGLES, 0, model.triStrips.getCABO().getElementCount());
-	      }
-	      // just be safe and divide by 3
-	      model.primitiveIDOffset += model.triStrips.getCABO().getElementCount() / 3;
-	    }
+	    model.openGLTexture.deactivate();
 	  };
 
 	  publicAPI.renderPieceFinish = function (ren, actor) {
@@ -7196,11 +6887,8 @@
 	    // }
 
 	    publicAPI.invokeEvent({ type: 'StartEvent' });
+	    model.renderable.update();
 	    model.currentInput = model.renderable.getInputData();
-	    if (!model.renderable.getStatic()) {
-	      model.renderable.update();
-	      model.currentInput = model.renderable.getInputData();
-	    }
 	    publicAPI.invokeEvent({ type: 'EndEvent' });
 
 	    if (model.currentInput === null) {
@@ -7208,14 +6896,8 @@
 	      return;
 	    }
 
-	    // if there are no points then we are done
-	    if (!model.currentInput.getPoints || !model.currentInput.getPoints().getNumberOfValues()) {
-	      return;
-	    }
-
 	    publicAPI.renderPieceStart(ren, actor);
 	    publicAPI.renderPieceDraw(ren, actor);
-	    // publicAPI.renderEdges(ren, actor);
 	    publicAPI.renderPieceFinish(ren, actor);
 	  };
 
@@ -7243,59 +6925,49 @@
 	  };
 
 	  publicAPI.buildBufferObjects = function (ren, actor) {
-	    var poly = model.currentInput;
+	    var image = model.currentInput;
 
-	    if (poly === null) {
+	    if (image === null) {
 	      return;
 	    }
 
-	    model.renderable.mapScalars(poly, 1.0);
-	    var c = model.renderable.getColorMapColors();
-
-	    model.haveCellScalars = false;
-	    var scalarMode = model.renderable.getScalarMode();
-	    if (model.renderable.getScalarVisibility()) {
-	      // We must figure out how the scalars should be mapped to the polydata.
-	      if ((scalarMode === _Constants2.VTK_SCALAR_MODE.USE_CELL_DATA || scalarMode === _Constants2.VTK_SCALAR_MODE.USE_CELL_FIELD_DATA || scalarMode === _Constants2.VTK_SCALAR_MODE.USE_FIELD_DATA || !poly.getPointData().getScalars()) && scalarMode !== _Constants2.VTK_SCALAR_MODE.USE_POINT_FIELD_DATA && c) {
-	        model.haveCellScalars = true;
-	      }
-	    }
-
-	    // Do we have normals?
-	    var n = actor.getProperty().getInterpolation() !== _Constants.VTK_SHADING.FLAT ? poly.getPointData().getNormals() : null;
-	    if (n === null && poly.getCellData().getNormals()) {
-	      model.haveCellNormals = true;
-	      n = poly.getCelData().getNormals();
-	    }
-
-	    // rebuild the VBO if the data has changed we create a string for the VBO what
-	    // can change the VBO? points normals tcoords colors so what can change those?
-	    // the input data is clearly one as it can change all four items tcoords may
-	    // haveTextures or not colors may change based on quite a few mapping
-	    // parameters in the mapper
-
-	    var representation = actor.getProperty().getRepresentation();
-	    var toString = poly.getMTime() + 'A' + representation + 'B' + poly.getMTime() + 'C' + (n ? n.getMTime() : 1) + 'C' + (model.colors ? model.colors.getMTime() : 1);
-
-	    var tcoords = poly.getPointData().getTCoords();
-	    if (!model.openGLActor.getActiveTextures().length) {
-	      tcoords = null;
-	    }
+	    // rebuild the VBO if the data has changed
+	    var toString = image.getMTime() + 'A' + image.getPointData().getScalars().getMTime() + 'B' + publicAPI.getMTime();
 
 	    if (model.VBOBuildString !== toString) {
 	      // Build the VBOs
-	      var points = poly.getPoints();
+	      model.texture.setInputData(image);
+
+	      var bounds = model.renderable.getBounds();
+
+	      var ptsArray = new Float32Array(12);
+	      var tcoordArray = new Float32Array(8);
+	      for (var i = 0; i < 4; i++) {
+	        ptsArray[i * 3] = bounds[i % 2];
+	        ptsArray[i * 3 + 1] = bounds[(i > 1 ? 1 : 0) + 2];
+	        ptsArray[i * 3 + 2] = bounds[4];
+	        tcoordArray[i * 2] = i % 2 ? 1.0 : 0.0;
+	        tcoordArray[i * 2 + 1] = i > 1 ? 1.0 : 0.0;
+	      }
+
+	      var points = _DataArray2.default.newInstance({ tuple: 3, values: ptsArray });
+	      points.setName('points');
+	      var tcoords = _DataArray2.default.newInstance({ tuple: 2, values: tcoordArray });
+	      tcoords.setName('tcoords');
+
+	      var cellArray = new Uint16Array(8);
+	      cellArray[0] = 3;
+	      cellArray[1] = 0;
+	      cellArray[2] = 1;
+	      cellArray[3] = 3;
+	      cellArray[4] = 3;
+	      cellArray[5] = 0;
+	      cellArray[6] = 3;
+	      cellArray[7] = 2;
+	      var cells = _DataArray2.default.newInstance({ tuple: 1, values: cellArray });
 
 	      var cellOffset = 0;
-	      cellOffset += model.points.getCABO().createVBO(poly.getVerts(), 'verts', representation, { points: points, normals: n, tcoords: tcoords, colors: c, cellOffset: cellOffset,
-	        haveCellScalars: model.haveCellScalars, haveCellNormals: model.haveCellNormals });
-	      cellOffset += model.lines.getCABO().createVBO(poly.getLines(), 'lines', representation, { points: points, normals: n, tcoords: tcoords, colors: c, cellOffset: cellOffset,
-	        haveCellScalars: model.haveCellScalars, haveCellNormals: model.haveCellNormals });
-	      cellOffset += model.tris.getCABO().createVBO(poly.getPolys(), 'polys', representation, { points: points, normals: n, tcoords: tcoords, colors: c, cellOffset: cellOffset,
-	        haveCellScalars: model.haveCellScalars, haveCellNormals: model.haveCellNormals });
-	      cellOffset += model.triStrips.getCABO().createVBO(poly.getStrips(), 'strips', representation, { points: points, normals: n, tcoords: tcoords, colors: c, cellOffset: cellOffset,
-	        haveCellScalars: model.haveCellScalars, haveCellNormals: model.haveCellNormals });
-
+	      cellOffset += model.tris.getCABO().createVBO(cells, 'polys', _Constants.VTK_REPRESENTATION.SURFACE, { points: points, tcoords: tcoords, cellOffset: cellOffset });
 	      model.VBOBuildTime.modified();
 	      model.VBOBuildString = toString;
 	    }
@@ -7310,8 +6982,9 @@
 	  context: null,
 	  VBOBuildTime: 0,
 	  VBOBuildString: null,
-	  lightComplexityChanged: null,
-	  lastLightComplexity: null
+	  texture: null,
+	  openGLTexture: null,
+	  tris: null
 	};
 
 	// ----------------------------------------------------------------------------
@@ -7324,36 +6997,19 @@
 	  // Inheritance
 	  _ViewNode2.default.extend(publicAPI, model);
 
-	  model.points = _Helper2.default.newInstance();
-	  model.lines = _Helper2.default.newInstance();
 	  model.tris = _Helper2.default.newInstance();
-	  model.triStrips = _Helper2.default.newInstance();
+	  model.texture = _Texture4.default.newInstance();
+	  model.openGLTexture = _Texture2.default.newInstance();
+	  model.openGLTexture.setRenderable(model.texture);
 
 	  // Build VTK API
-	  macro.get(publicAPI, model, ['shaderCache']);
 	  macro.setGet(publicAPI, model, ['context']);
 
 	  model.VBOBuildTime = {};
 	  macro.obj(model.VBOBuildTime);
 
-	  model.lightComplexityChanged = new Map();
-	  model.lightComplexityChanged.set(model.points, {});
-	  macro.obj(model.lightComplexityChanged.get(model.points));
-	  model.lightComplexityChanged.set(model.lines, {});
-	  macro.obj(model.lightComplexityChanged.get(model.lines));
-	  model.lightComplexityChanged.set(model.tris, {});
-	  macro.obj(model.lightComplexityChanged.get(model.tris));
-	  model.lightComplexityChanged.set(model.triStrips, {});
-	  macro.obj(model.lightComplexityChanged.get(model.triStrips));
-
-	  model.lastLightComplexity = new Map();
-	  model.lastLightComplexity.set(model.points, 0);
-	  model.lastLightComplexity.set(model.lines, 0);
-	  model.lastLightComplexity.set(model.tris, 0);
-	  model.lastLightComplexity.set(model.triStrips, 0);
-
 	  // Object methods
-	  vtkOpenGLPolyDataMapper(publicAPI, model);
+	  vtkOpenGLImageMapper(publicAPI, model);
 	}
 
 	// ----------------------------------------------------------------------------
@@ -7365,7 +7021,7 @@
 	exports.default = { newInstance: newInstance, extend: extend };
 
 /***/ },
-/* 20 */
+/* 21 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -7381,15 +7037,15 @@
 
 	var macro = _interopRequireWildcard(_macro);
 
-	var _CellArrayBufferObject = __webpack_require__(21);
+	var _CellArrayBufferObject = __webpack_require__(22);
 
 	var _CellArrayBufferObject2 = _interopRequireDefault(_CellArrayBufferObject);
 
-	var _ShaderProgram = __webpack_require__(26);
+	var _ShaderProgram = __webpack_require__(27);
 
 	var _ShaderProgram2 = _interopRequireDefault(_ShaderProgram);
 
-	var _VertexArrayObject = __webpack_require__(28);
+	var _VertexArrayObject = __webpack_require__(29);
 
 	var _VertexArrayObject2 = _interopRequireDefault(_VertexArrayObject);
 
@@ -7460,7 +7116,7 @@
 	exports.default = { newInstance: newInstance, extend: extend };
 
 /***/ },
-/* 21 */
+/* 22 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -7475,15 +7131,15 @@
 
 	var macro = _interopRequireWildcard(_macro);
 
-	var _BufferObject = __webpack_require__(22);
+	var _BufferObject = __webpack_require__(23);
 
 	var _BufferObject2 = _interopRequireDefault(_BufferObject);
 
-	var _DynamicTypedArray = __webpack_require__(24);
+	var _DynamicTypedArray = __webpack_require__(25);
 
-	var _Constants = __webpack_require__(23);
+	var _Constants = __webpack_require__(24);
 
-	var _Constants2 = __webpack_require__(25);
+	var _Constants2 = __webpack_require__(26);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -7524,20 +7180,20 @@
 	    var colorComponents = options.colors ? options.colors.getNumberOfComponents() : 0;
 	    var textureComponents = options.tcoords ? options.tcoords.getNumberOfComponents() : 0;
 
-	    if (options.normals !== null) {
+	    if (options.normals) {
 	      model.normalOffset = /* sizeof(float) */4 * model.blockSize;
 	      model.blockSize += 3;
 	      normalData = options.normals.getData();
 	    }
 
-	    if (options.tcoords !== null) {
+	    if (options.tcoords) {
 	      model.tCoordOffset = /* sizeof(float) */4 * model.blockSize;
 	      model.tCoordComponents = textureComponents;
 	      model.blockSize += textureComponents;
 	      tcoordData = options.tcoords.getData();
 	    }
 
-	    if (options.colors !== null) {
+	    if (options.colors) {
 	      model.colorComponents = options.colors.getNumberOfComponents();
 	      model.colorOffset = /* sizeof(float) */4 * model.blockSize;
 	      //      model.blockSize += 1;
@@ -7739,7 +7395,7 @@
 	exports.default = { newInstance: newInstance, extend: extend };
 
 /***/ },
-/* 22 */
+/* 23 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -7754,7 +7410,7 @@
 
 	var macro = _interopRequireWildcard(_macro);
 
-	var _Constants = __webpack_require__(23);
+	var _Constants = __webpack_require__(24);
 
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -7899,7 +7555,7 @@
 	exports.default = Object.assign({ newInstance: newInstance, extend: extend }, STATIC);
 
 /***/ },
-/* 23 */
+/* 24 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -7916,7 +7572,7 @@
 	exports.default = { OBJECT_TYPE: OBJECT_TYPE };
 
 /***/ },
-/* 24 */
+/* 25 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -7995,7 +7651,7 @@
 	}();
 
 /***/ },
-/* 25 */
+/* 26 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -8028,7 +7684,7 @@
 	};
 
 /***/ },
-/* 26 */
+/* 27 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -8045,7 +7701,7 @@
 
 	var macro = _interopRequireWildcard(_macro);
 
-	var _Shader = __webpack_require__(27);
+	var _Shader = __webpack_require__(28);
 
 	var _Shader2 = _interopRequireDefault(_Shader);
 
@@ -8467,7 +8123,7 @@
 	exports.default = { newInstance: newInstance, extend: extend, substitute: substitute };
 
 /***/ },
-/* 27 */
+/* 28 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -8585,7 +8241,7 @@
 	exports.default = { newInstance: newInstance, extend: extend };
 
 /***/ },
-/* 28 */
+/* 29 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -8600,7 +8256,7 @@
 
 	var macro = _interopRequireWildcard(_macro);
 
-	var _Constants = __webpack_require__(23);
+	var _Constants = __webpack_require__(24);
 
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -8882,7 +8538,7 @@
 	exports.default = { newInstance: newInstance, extend: extend };
 
 /***/ },
-/* 29 */
+/* 30 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -10893,54 +10549,318 @@
 	};
 
 /***/ },
-/* 30 */
-/***/ function(module, exports) {
+/* 31 */
+/***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	var VTK_COLOR_MODE = exports.VTK_COLOR_MODE = {
-	  DEFAULT: 0,
-	  MAP_SCALARS: 1,
-	  DIRECT_SCALARS: 2
+	exports.newInstance = exports.STATIC = undefined;
+	exports.extend = extend;
+
+	var _macro = __webpack_require__(2);
+
+	var macro = _interopRequireWildcard(_macro);
+
+	var _Constants = __webpack_require__(32);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	// ----------------------------------------------------------------------------
+	// Global methods
+	// ----------------------------------------------------------------------------
+
+	function computeRange(values) {
+	  var component = arguments.length <= 1 || arguments[1] === undefined ? 0 : arguments[1];
+	  var tuple = arguments.length <= 2 || arguments[2] === undefined ? 1 : arguments[2];
+
+	  var range = { min: Number.MAX_VALUE, max: Number.MIN_VALUE };
+
+	  if (component < 0) {
+	    // Compute magnitude
+	    console.log('vtkDataArray: Compute magnitude - NOT IMPLEMENTED');
+	    return range;
+	  }
+
+	  var size = values.length;
+	  for (var i = component; i < size; i += tuple) {
+	    var value = values[i];
+	    if (range.min > value) {
+	      range.min = value;
+	    }
+	    if (range.max < value) {
+	      range.max = value;
+	    }
+	  }
+
+	  return range;
+	}
+
+	function insureRangeSize(rangeArray) {
+	  var size = arguments.length <= 1 || arguments[1] === undefined ? 0 : arguments[1];
+
+	  var ranges = rangeArray || [];
+	  // Pad ranges with null value to get the
+	  while (ranges.length <= size) {
+	    ranges.push(null);
+	  }
+	  return ranges;
+	}
+
+	function extractCellSizes(cellArray) {
+	  var currentIdx = 0;
+	  return cellArray.filter(function (value, index) {
+	    if (index === currentIdx) {
+	      currentIdx += value + 1;
+	      return true;
+	    }
+	    return false;
+	  });
+	}
+
+	function getNumberOfCells(cellArray) {
+	  return extractCellSizes(cellArray).length;
+	}
+
+	function getDataType(typedArray) {
+	  return Object.prototype.toString.call(typedArray).split(' ')[1].slice(0, -1);
+	}
+
+	// ----------------------------------------------------------------------------
+	// Static API
+	// ----------------------------------------------------------------------------
+
+	var STATIC = exports.STATIC = {
+	  computeRange: computeRange,
+	  extractCellSizes: extractCellSizes,
+	  getNumberOfCells: getNumberOfCells,
+	  getDataType: getDataType
 	};
 
-	var VTK_SCALAR_MODE = exports.VTK_SCALAR_MODE = {
-	  DEFAULT: 0,
-	  USE_POINT_DATA: 1,
-	  USE_CELL_DATA: 2,
-	  USE_POINT_FIELD_DATA: 3,
-	  USE_CELL_FIELD_DATA: 4,
-	  USE_FIELD_DATA: 5
+	// ----------------------------------------------------------------------------
+	// vtkDataArray methods
+	// ----------------------------------------------------------------------------
+
+	function vtkDataArray(publicAPI, model) {
+	  // Set our className
+	  model.classHierarchy.push('vtkDataArray');
+
+	  function dataChange() {
+	    model.ranges = null;
+	    publicAPI.modified();
+	  }
+
+	  publicAPI.getElementComponentSize = function () {
+	    return model.values.BYTES_PER_ELEMENT;
+	  };
+
+	  // Description:
+	  // Return the data component at the location specified by tupleIdx and
+	  // compIdx.
+	  publicAPI.getComponent = function (tupleIdx) {
+	    var compIdx = arguments.length <= 1 || arguments[1] === undefined ? 0 : arguments[1];
+	    return model.values[tupleIdx * model.tuple + compIdx];
+	  };
+
+	  // Description:
+	  // Set the data component at the location specified by tupleIdx and compIdx
+	  // to value.
+	  // Note that i is less than NumberOfTuples and j is less than
+	  //  NumberOfComponents. Make sure enough memory has been allocated
+	  // (use SetNumberOfTuples() and SetNumberOfComponents()).
+	  publicAPI.setComponent = function (tupleIdx, compIdx, value) {
+	    if (value !== model.values[tupleIdx * model.tuple + compIdx]) {
+	      model.values[tupleIdx * model.tuple + compIdx] = value;
+	      dataChange();
+	    }
+	  };
+
+	  publicAPI.getData = function () {
+	    return model.values;
+	  };
+
+	  publicAPI.getRange = function () {
+	    var componentIndex = arguments.length <= 0 || arguments[0] === undefined ? 0 : arguments[0];
+
+	    var rangeIdx = componentIndex < 0 ? model.tuple : componentIndex;
+	    var range = null;
+
+	    if (!model.ranges) {
+	      model.ranges = insureRangeSize(model.ranges, model.tuple);
+	    }
+	    range = model.ranges[rangeIdx];
+
+	    if (range) {
+	      return [range.min, range.max];
+	    }
+
+	    // Need to compute ranges...
+	    range = model.ranges[rangeIdx] = computeRange(model.values, componentIndex);
+	    return [range.min, range.max];
+	  };
+
+	  publicAPI.getTupleLocation = function () {
+	    var idx = arguments.length <= 0 || arguments[0] === undefined ? 1 : arguments[0];
+	    return idx * model.tuple;
+	  };
+
+	  publicAPI.getBounds = function () {
+	    if (model.tuple === 3) {
+	      return [].concat(publicAPI.getRange(0), publicAPI.getRange(1), publicAPI.getRange(2));
+	    }
+
+	    if (model.tuple !== 2) {
+	      console.error('getBounds called on an array of tuple size', model.tuple, model);
+	      return [1, -1, 1, -1, 1, -1];
+	    }
+
+	    return [].concat(publicAPI.getRange(0), publicAPI.getRange(1));
+	  };
+
+	  publicAPI.getNumberOfComponents = function () {
+	    return model.tuple;
+	  };
+	  publicAPI.getNumberOfValues = function () {
+	    return model.values.length;
+	  };
+	  publicAPI.getNumberOfTuples = function () {
+	    return model.values.length / model.tuple;
+	  };
+	  publicAPI.getDataType = function () {
+	    return model.dataType;
+	  };
+
+	  publicAPI.getNumberOfCells = function () {
+	    if (model.numberOfCells !== undefined) {
+	      return model.numberOfCells;
+	    }
+
+	    model.cellSizes = extractCellSizes(model.values);
+	    model.numberOfCells = model.cellSizes.length;
+	    return model.numberOfCells;
+	  };
+
+	  publicAPI.getCellSizes = function () {
+	    if (model.cellSizes !== undefined) {
+	      return model.cellSizes;
+	    }
+
+	    model.cellSizes = extractCellSizes(model.values);
+	    return model.cellSizes;
+	  };
+
+	  publicAPI.setData = function (typedArray, numberOfComponents) {
+	    model.values = typedArray;
+	    model.size = typedArray.length;
+	    model.dataType = getDataType(typedArray);
+	    if (numberOfComponents) {
+	      model.tuple = numberOfComponents;
+	    }
+	    if (model.size % model.tuple !== 0) {
+	      model.tuple = 1;
+	    }
+	    dataChange();
+	  };
+
+	  /* eslint-disable no-use-before-define */
+	  publicAPI.shallowCopy = function () {
+	    return newInstance(Object.assign({}, model));
+	  };
+	  /* eslint-enable no-use-before-define */
+	}
+
+	// ----------------------------------------------------------------------------
+	// Object factory
+	// ----------------------------------------------------------------------------
+
+	var DEFAULT_VALUES = {
+	  type: 'vtkDataArray',
+	  name: '',
+	  tuple: 1,
+	  size: 0,
+	  dataType: _Constants.VTK_DEFAULT_DATATYPE,
+	  values: null,
+	  ranges: null
 	};
 
-	var VTK_MATERIALMODE = exports.VTK_MATERIALMODE = {
-	  DEFAULT: 0,
-	  AMBIENT: 1,
-	  DIFFUSE: 2,
-	  AMBIENT_AND_DIFFUSE: 3
-	};
+	// ----------------------------------------------------------------------------
 
-	var VTK_GET_ARRAY = exports.VTK_GET_ARRAY = {
-	  BY_ID: 0,
-	  BY_NAME: 1
-	};
+	function extend(publicAPI, model) {
+	  var initialValues = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
 
-	exports.default = { VTK_COLOR_MODE: VTK_COLOR_MODE, VTK_MATERIALMODE: VTK_MATERIALMODE, VTK_GET_ARRAY: VTK_GET_ARRAY, VTK_SCALAR_MODE: VTK_SCALAR_MODE };
+	  Object.assign(model, DEFAULT_VALUES, initialValues);
 
-/***/ },
-/* 31 */
-/***/ function(module, exports) {
+	  if (model.values) {
+	    model.size = model.values.length;
+	    model.dataType = getDataType(model.values);
+	  }
 
-	module.exports = "//VTK::System::Dec\n\n/*=========================================================================\n\n  Program:   Visualization Toolkit\n  Module:    vtkPolyDataVS.glsl\n\n  Copyright (c) Ken Martin, Will Schroeder, Bill Lorensen\n  All rights reserved.\n  See Copyright.txt or http://www.kitware.com/Copyright.htm for details.\n\n     This software is distributed WITHOUT ANY WARRANTY; without even\n     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR\n     PURPOSE.  See the above copyright notice for more information.\n\n=========================================================================*/\n\nattribute vec4 vertexMC;\n\n// frag position in VC\n//VTK::PositionVC::Dec\n\n// optional normal declaration\n//VTK::Normal::Dec\n\n// extra lighting parameters\n//VTK::Light::Dec\n\n// Texture coordinates\n//VTK::TCoord::Dec\n\n// material property values\n//VTK::Color::Dec\n\n// clipping plane vars\n//VTK::Clip::Dec\n\n// camera and actor matrix values\n//VTK::Camera::Dec\n\n// Apple Bug\n//VTK::PrimID::Dec\n\nvoid main()\n{\n  //VTK::Color::Impl\n\n  //VTK::Normal::Impl\n\n  //VTK::TCoord::Impl\n\n  //VTK::Clip::Impl\n\n  //VTK::PrimID::Impl\n\n  //VTK::PositionVC::Impl\n\n  //VTK::Light::Impl\n}\n"
+	  if (!model.empty && (!model.values || !model.size) || model.type !== 'vtkDataArray') {
+	    throw Error('Can not create vtkDataArray object without: size > 0, values or type = vtkDataArray');
+	  }
+
+	  if (!model.values) {
+	    model.values = new window[model.dataType](model.size);
+	  }
+
+	  // Object methods
+	  macro.obj(publicAPI, model);
+	  macro.setGet(publicAPI, model, ['name']);
+
+	  // Object specific methods
+	  vtkDataArray(publicAPI, model);
+	}
+
+	// ----------------------------------------------------------------------------
+
+	var newInstance = exports.newInstance = macro.newInstance(extend, 'vtkDataArray');
+
+	// ----------------------------------------------------------------------------
+
+	exports.default = Object.assign({ newInstance: newInstance, extend: extend }, STATIC);
 
 /***/ },
 /* 32 */
 /***/ function(module, exports) {
 
-	module.exports = "//VTK::System::Dec\n\n/*=========================================================================\n\n  Program:   Visualization Toolkit\n  Module:    vtkPolyDataFS.glsl\n\n  Copyright (c) Ken Martin, Will Schroeder, Bill Lorensen\n  All rights reserved.\n  See Copyright.txt or http://www.kitware.com/Copyright.htm for details.\n\n     This software is distributed WITHOUT ANY WARRANTY; without even\n     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR\n     PURPOSE.  See the above copyright notice for more information.\n\n=========================================================================*/\n// Template for the polydata mappers fragment shader\n\nuniform int PrimitiveIDOffset;\n\n// VC position of this fragment\n//VTK::PositionVC::Dec\n\n// optional color passed in from the vertex shader, vertexColor\n//VTK::Color::Dec\n\n// optional surface normal declaration\n//VTK::Normal::Dec\n\n// extra lighting parameters\n//VTK::Light::Dec\n\n// Texture coordinates\n//VTK::TCoord::Dec\n\n// picking support\n//VTK::Picking::Dec\n\n// Depth Peeling Support\n//VTK::DepthPeeling::Dec\n\n// clipping plane vars\n//VTK::Clip::Dec\n\n// the output of this shader\n//VTK::Output::Dec\n\n// Apple Bug\n//VTK::PrimID::Dec\n\n// handle coincident offsets\n//VTK::Coincident::Dec\n\nvoid main()\n{\n  // VC position of this fragment. This should not branch/return/discard.\n  //VTK::PositionVC::Impl\n\n  // Place any calls that require uniform flow (e.g. dFdx) here.\n  //VTK::UniformFlow::Impl\n\n  // Early depth peeling abort:\n  //VTK::DepthPeeling::PreColor\n\n  // Apple Bug\n  //VTK::PrimID::Impl\n\n  //VTK::Clip::Impl\n\n  //VTK::Color::Impl\n\n  // Generate the normal if we are not passed in one\n  //VTK::Normal::Impl\n\n  //VTK::Light::Impl\n\n  //VTK::TCoord::Impl\n\n  if (gl_FragData[0].a <= 0.0)\n    {\n    discard;\n    }\n\n  //VTK::DepthPeeling::Impl\n\n  //VTK::Picking::Impl\n\n  // handle coincident offsets\n  //VTK::Coincident::Impl\n}\n"
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	var VTK_BYTE_SIZE = exports.VTK_BYTE_SIZE = {
+	  Int8Array: 1,
+	  Uint8Array: 1,
+	  Uint8ClampedArray: 1,
+	  Int16Array: 2,
+	  Uint16Array: 2,
+	  Int32Array: 4,
+	  Uint32Array: 4,
+	  Float32Array: 4,
+	  Float64Array: 8
+	};
+
+	var VTK_DATATYPES = exports.VTK_DATATYPES = {
+	  CHAR: 'Int8Array',
+	  SIGNED_CHAR: 'Int8Array',
+	  UNSIGNED_CHAR: 'Uint8Array',
+	  SHORT: 'Int16Array',
+	  UNSIGNED_SHORT: 'Uint16Array',
+	  INT: 'Int32Array',
+	  UNSIGNED_INT: 'Uint32Array',
+	  FLOAT: 'Float32Array',
+	  DOUBLE: 'Float64Array'
+	};
+
+	var VTK_DEFAULT_DATATYPE = exports.VTK_DEFAULT_DATATYPE = 'Float32Array';
+
+	exports.default = {
+	  VTK_DEFAULT_DATATYPE: VTK_DEFAULT_DATATYPE,
+	  VTK_BYTE_SIZE: VTK_BYTE_SIZE,
+	  VTK_DATATYPES: VTK_DATATYPES
+	};
 
 /***/ },
 /* 33 */
@@ -10952,158 +10872,15 @@
 	  value: true
 	});
 	exports.newInstance = undefined;
-	exports.vtkOpenGLRenderer = vtkOpenGLRenderer;
 	exports.extend = extend;
 
 	var _macro = __webpack_require__(2);
 
 	var macro = _interopRequireWildcard(_macro);
 
-	var _ViewNode = __webpack_require__(7);
+	var _Constants = __webpack_require__(34);
 
-	var _ViewNode2 = _interopRequireDefault(_ViewNode);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-	// ----------------------------------------------------------------------------
-	// vtkOpenGLRenderer methods
-	// ----------------------------------------------------------------------------
-
-	function vtkOpenGLRenderer(publicAPI, model) {
-	  // Set our className
-	  model.classHierarchy.push('vtkOpenGLRenderer');
-
-	  // Builds myself.
-	  publicAPI.build = function (prepass) {
-	    if (prepass) {
-	      if (!model.renderable) {
-	        return;
-	      }
-
-	      // make sure we have a camera
-	      if (!model.renderable.isActiveCameraCreated()) {
-	        model.renderable.resetCamera();
-	      }
-	      publicAPI.updateLights();
-	      publicAPI.prepareNodes();
-	      publicAPI.addMissingNode(model.renderable.getActiveCamera());
-	      publicAPI.addMissingNodes(model.renderable.getActors());
-	      publicAPI.removeUnusedNodes();
-	    }
-	  };
-
-	  publicAPI.updateLights = function () {
-	    var count = 0;
-
-	    model.renderable.getLights().forEach(function (light) {
-	      if (light.getSwitch() > 0.0) {
-	        count++;
-	      }
-	    });
-
-	    if (!count) {
-	      console.debug('No lights are on, creating one.');
-	      model.renderable.createLight();
-	    }
-
-	    return count;
-	  };
-
-	  // Renders myself
-	  publicAPI.render = function (prepass) {
-	    if (prepass) {
-	      model.context = publicAPI.getFirstAncestorOfType('vtkOpenGLRenderWindow').getContext();
-	      publicAPI.clear();
-	    } else {
-	      // else
-	    }
-	  };
-
-	  publicAPI.getAspectRatio = function () {
-	    var size = model.parent.getSize();
-	    var viewport = model.renderable.getViewport();
-	    return size[0] * (viewport[2] - viewport[0]) / ((viewport[3] - viewport[1]) * size[1]);
-	  };
-
-	  publicAPI.clear = function () {
-	    var clearMask = 0;
-	    var gl = model.context;
-
-	    if (!model.renderable.getTransparent()) {
-	      var background = model.renderable.getBackground();
-	      model.context.clearColor(background[0], background[1], background[2], 1.0);
-	      clearMask |= gl.COLOR_BUFFER_BIT;
-	    }
-
-	    if (!model.renderable.getPreserveDepthBuffer()) {
-	      gl.clearDepth(1.0);
-	      clearMask |= gl.DEPTH_BUFFER_BIT;
-	      gl.depthMask(true);
-	    }
-
-	    gl.colorMask(true, true, true, true);
-	    gl.clear(clearMask);
-
-	    gl.enable(gl.DEPTH_TEST);
-	  };
-	}
-
-	// ----------------------------------------------------------------------------
-	// Object factory
-	// ----------------------------------------------------------------------------
-
-	var DEFAULT_VALUES = {
-	  context: null
-	};
-
-	// ----------------------------------------------------------------------------
-
-	function extend(publicAPI, model) {
-	  var initialValues = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
-
-	  Object.assign(model, DEFAULT_VALUES, initialValues);
-
-	  // Inheritance
-	  _ViewNode2.default.extend(publicAPI, model);
-
-	  // Build VTK API
-	  macro.get(publicAPI, model, ['shaderCache']);
-
-	  macro.setGet(publicAPI, model, ['context']);
-
-	  // Object methods
-	  vtkOpenGLRenderer(publicAPI, model);
-	}
-
-	// ----------------------------------------------------------------------------
-
-	var newInstance = exports.newInstance = macro.newInstance(extend);
-
-	// ----------------------------------------------------------------------------
-
-	exports.default = { newInstance: newInstance, extend: extend };
-
-/***/ },
-/* 34 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.newInstance = undefined;
-	exports.extend = extend;
-
-	var _macro = __webpack_require__(2);
-
-	var macro = _interopRequireWildcard(_macro);
-
-	var _Constants = __webpack_require__(35);
-
-	var _Constants2 = __webpack_require__(36);
+	var _Constants2 = __webpack_require__(32);
 
 	var _ViewNode = __webpack_require__(7);
 
@@ -11135,15 +10912,15 @@
 	  // Renders myself
 	  publicAPI.render = function (prepass) {
 	    if (prepass) {
-	      model.window = publicAPI.getFirstAncestorOfType('vtkOpenGLRenderWindow');
-	      model.context = model.window.getContext();
-	      var ren = publicAPI.getFirstAncestorOfType('vtkOpenGLRenderer');
-	      publicAPI.preRender(ren);
+	      var oglren = publicAPI.getFirstAncestorOfType('vtkOpenGLRenderer');
+	      publicAPI.preRender(oglren);
 	    }
 	  };
 
-	  publicAPI.preRender = function (ren) {
+	  publicAPI.preRender = function (oglren) {
 	    // sync renderable properties
+	    model.window = oglren.getParent();
+	    model.context = model.window.getContext();
 	    if (model.renderable.getInterpolate()) {
 	      if (model.generateMipmap) {
 	        publicAPI.setMinificationFilter(_Constants.VTK_FILTER.LINEAR_MIPMAP_LINEAR);
@@ -11421,6 +11198,43 @@
 	    return model.openGLDataType;
 	  };
 
+	  publicAPI.getShiftAndScale = function () {
+	    var shift = 0.0;
+	    var scale = 1.0;
+
+	    // for all float type internal formats
+	    switch (model.openGLDataType) {
+	      case model.context.BYTE:
+	        scale = 127.5;
+	        shift = scale - 128.0;
+	        break;
+	      case model.context.UNSIGNED_BYTE:
+	        scale = 255.0;
+	        shift = 0.0;
+	        break;
+	      case model.context.SHORT:
+	        scale = 32767.5;
+	        shift = scale - 32768.0;
+	        break;
+	      case model.context.UNSIGNED_SHORT:
+	        scale = 65536.0;
+	        shift = 0.0;
+	        break;
+	      case model.context.INT:
+	        scale = 2147483647.5;
+	        shift = scale - 2147483648.0;
+	        break;
+	      case model.context.UNSIGNED_INT:
+	        scale = 4294967295.0;
+	        shift = 0.0;
+	        break;
+	      case model.context.FLOAT:
+	      default:
+	        break;
+	    }
+	    return { shift: shift, scale: scale };
+	  };
+
 	  //----------------------------------------------------------------------------
 	  publicAPI.getOpenGLFilterMode = function (emode) {
 	    switch (emode) {
@@ -11563,7 +11377,7 @@
 	exports.default = { newInstance: newInstance, extend: extend };
 
 /***/ },
-/* 35 */
+/* 34 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -11592,48 +11406,7 @@
 	};
 
 /***/ },
-/* 36 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	var VTK_BYTE_SIZE = exports.VTK_BYTE_SIZE = {
-	  Int8Array: 1,
-	  Uint8Array: 1,
-	  Uint8ClampedArray: 1,
-	  Int16Array: 2,
-	  Uint16Array: 2,
-	  Int32Array: 4,
-	  Uint32Array: 4,
-	  Float32Array: 4,
-	  Float64Array: 8
-	};
-
-	var VTK_DATATYPES = exports.VTK_DATATYPES = {
-	  CHAR: 'Int8Array',
-	  SIGNED_CHAR: 'Int8Array',
-	  UNSIGNED_CHAR: 'Uint8Array',
-	  SHORT: 'Int16Array',
-	  UNSIGNED_SHORT: 'Uint16Array',
-	  INT: 'Int32Array',
-	  UNSIGNED_INT: 'Uint32Array',
-	  FLOAT: 'Float32Array',
-	  DOUBLE: 'Float64Array'
-	};
-
-	var VTK_DEFAULT_DATATYPE = exports.VTK_DEFAULT_DATATYPE = 'Float32Array';
-
-	exports.default = {
-	  VTK_DEFAULT_DATATYPE: VTK_DEFAULT_DATATYPE,
-	  VTK_BYTE_SIZE: VTK_BYTE_SIZE,
-	  VTK_DATATYPES: VTK_DATATYPES
-	};
-
-/***/ },
-/* 37 */
+/* 35 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -11648,11 +11421,1302 @@
 
 	var macro = _interopRequireWildcard(_macro);
 
-	var _ShaderProgram = __webpack_require__(26);
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	// ----------------------------------------------------------------------------
+	// vtkTexture methods
+	// ----------------------------------------------------------------------------
+
+	function vtkTexture(publicAPI, model) {
+	  // Set our className
+	  model.classHierarchy.push('vtkTexture');
+	}
+
+	// ----------------------------------------------------------------------------
+	// Object factory
+	// ----------------------------------------------------------------------------
+
+	var DEFAULT_VALUES = {
+	  repeat: true,
+	  interpolate: false,
+	  edgeClamp: false
+	};
+
+	// ----------------------------------------------------------------------------
+
+	function extend(publicAPI, model) {
+	  var initialValues = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+
+	  Object.assign(model, DEFAULT_VALUES, initialValues);
+
+	  // Build VTK API
+	  macro.obj(publicAPI, model);
+	  macro.algo(publicAPI, model, 1, 0);
+
+	  macro.setGet(publicAPI, model, ['repeat', 'edgeClamp', 'interpolate']);
+
+	  vtkTexture(publicAPI, model);
+	}
+
+	// ----------------------------------------------------------------------------
+
+	var newInstance = exports.newInstance = macro.newInstance(extend);
+
+	// ----------------------------------------------------------------------------
+
+	exports.default = { newInstance: newInstance, extend: extend };
+
+/***/ },
+/* 36 */
+/***/ function(module, exports) {
+
+	module.exports = "//VTK::System::Dec\n\n/*=========================================================================\n\n  Program:   Visualization Toolkit\n  Module:    vtkPolyDataVS.glsl\n\n  Copyright (c) Ken Martin, Will Schroeder, Bill Lorensen\n  All rights reserved.\n  See Copyright.txt or http://www.kitware.com/Copyright.htm for details.\n\n     This software is distributed WITHOUT ANY WARRANTY; without even\n     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR\n     PURPOSE.  See the above copyright notice for more information.\n\n=========================================================================*/\n\nattribute vec4 vertexMC;\n\n// frag position in VC\n//VTK::PositionVC::Dec\n\n// optional normal declaration\n//VTK::Normal::Dec\n\n// extra lighting parameters\n//VTK::Light::Dec\n\n// Texture coordinates\n//VTK::TCoord::Dec\n\n// material property values\n//VTK::Color::Dec\n\n// clipping plane vars\n//VTK::Clip::Dec\n\n// camera and actor matrix values\n//VTK::Camera::Dec\n\n// Apple Bug\n//VTK::PrimID::Dec\n\nvoid main()\n{\n  //VTK::Color::Impl\n\n  //VTK::Normal::Impl\n\n  //VTK::TCoord::Impl\n\n  //VTK::Clip::Impl\n\n  //VTK::PrimID::Impl\n\n  //VTK::PositionVC::Impl\n\n  //VTK::Light::Impl\n}\n"
+
+/***/ },
+/* 37 */
+/***/ function(module, exports) {
+
+	module.exports = "//VTK::System::Dec\n\n/*=========================================================================\n\n  Program:   Visualization Toolkit\n  Module:    vtkPolyDataFS.glsl\n\n  Copyright (c) Ken Martin, Will Schroeder, Bill Lorensen\n  All rights reserved.\n  See Copyright.txt or http://www.kitware.com/Copyright.htm for details.\n\n     This software is distributed WITHOUT ANY WARRANTY; without even\n     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR\n     PURPOSE.  See the above copyright notice for more information.\n\n=========================================================================*/\n// Template for the polydata mappers fragment shader\n\nuniform int PrimitiveIDOffset;\n\n// VC position of this fragment\n//VTK::PositionVC::Dec\n\n// optional color passed in from the vertex shader, vertexColor\n//VTK::Color::Dec\n\n// optional surface normal declaration\n//VTK::Normal::Dec\n\n// extra lighting parameters\n//VTK::Light::Dec\n\n// Texture coordinates\n//VTK::TCoord::Dec\n\n// picking support\n//VTK::Picking::Dec\n\n// Depth Peeling Support\n//VTK::DepthPeeling::Dec\n\n// clipping plane vars\n//VTK::Clip::Dec\n\n// the output of this shader\n//VTK::Output::Dec\n\n// Apple Bug\n//VTK::PrimID::Dec\n\n// handle coincident offsets\n//VTK::Coincident::Dec\n\nvoid main()\n{\n  // VC position of this fragment. This should not branch/return/discard.\n  //VTK::PositionVC::Impl\n\n  // Place any calls that require uniform flow (e.g. dFdx) here.\n  //VTK::UniformFlow::Impl\n\n  // Early depth peeling abort:\n  //VTK::DepthPeeling::PreColor\n\n  // Apple Bug\n  //VTK::PrimID::Impl\n\n  //VTK::Clip::Impl\n\n  //VTK::Color::Impl\n\n  // Generate the normal if we are not passed in one\n  //VTK::Normal::Impl\n\n  //VTK::Light::Impl\n\n  //VTK::TCoord::Impl\n\n  if (gl_FragData[0].a <= 0.0)\n    {\n    discard;\n    }\n\n  //VTK::DepthPeeling::Impl\n\n  //VTK::Picking::Impl\n\n  // handle coincident offsets\n  //VTK::Coincident::Impl\n}\n"
+
+/***/ },
+/* 38 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.newInstance = undefined;
+	exports.extend = extend;
+
+	var _macro = __webpack_require__(2);
+
+	var macro = _interopRequireWildcard(_macro);
+
+	var _ViewNode = __webpack_require__(7);
+
+	var _ViewNode2 = _interopRequireDefault(_ViewNode);
+
+	var _glMatrix = __webpack_require__(8);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	// ----------------------------------------------------------------------------
+	// vtkOpenGLActor methods
+	// ----------------------------------------------------------------------------
+
+	function vtkOpenGLImageSlice(publicAPI, model) {
+	  // Set our className
+	  model.classHierarchy.push('vtkOpenGLImageSlice');
+
+	  // Builds myself.
+	  publicAPI.build = function (prepass) {
+	    if (prepass) {
+	      if (!model.renderable) {
+	        return;
+	      }
+
+	      publicAPI.prepareNodes();
+	      publicAPI.addMissingNode(model.renderable.getMapper());
+	      publicAPI.removeUnusedNodes();
+	    }
+	  };
+
+	  // Renders myself
+	  publicAPI.render = function (prepass) {
+	    if (prepass) {
+	      model.context = publicAPI.getFirstAncestorOfType('vtkOpenGLRenderWindow').getContext();
+	      publicAPI.preRender();
+	    } else {
+	      var opaque = model.renderable.getIsOpaque() !== 0;
+	      if (!opaque) {
+	        model.context.depthMask(true);
+	      }
+	    }
+	  };
+
+	  publicAPI.preRender = function () {
+	    // get opacity
+	    var opaque = model.renderable.getIsOpaque() !== 0;
+	    if (opaque) {
+	      model.context.depthMask(true);
+	    } else {
+	      model.context.depthMask(false);
+	    }
+	  };
+
+	  publicAPI.getKeyMatrices = function () {
+	    // has the actor changed?
+	    if (model.renderable.getMTime() > model.keyMatrixTime.getMTime()) {
+	      model.renderable.computeMatrix();
+	      _glMatrix.mat4.copy(model.MCWCMatrix, model.renderable.getMatrix());
+	      _glMatrix.mat4.transpose(model.MCWCMatrix, model.MCWCMatrix);
+
+	      if (model.renderable.getIsIdentity()) {
+	        _glMatrix.mat3.identity(model.normalMatrix);
+	      } else {
+	        _glMatrix.mat3.fromMat4(model.normalMatrix, model.MCWCMatrix);
+	        _glMatrix.mat3.invert(model.normalMatrix, model.normalMatrix);
+	      }
+	      model.keyMatrixTime.modified();
+	    }
+
+	    return { mcwc: model.MCWCMatrix, normalMatrix: model.normalMatrix };
+	  };
+	}
+
+	// ----------------------------------------------------------------------------
+	// Object factory
+	// ----------------------------------------------------------------------------
+
+	var DEFAULT_VALUES = {
+	  context: null,
+	  keyMatrixTime: null,
+	  normalMatrix: null,
+	  MCWCMatrix: null
+	};
+
+	// ----------------------------------------------------------------------------
+
+	function extend(publicAPI, model) {
+	  var initialValues = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+
+	  Object.assign(model, DEFAULT_VALUES, initialValues);
+
+	  // Inheritance
+	  _ViewNode2.default.extend(publicAPI, model);
+
+	  model.keyMatrixTime = {};
+	  macro.obj(model.keyMatrixTime);
+	  model.normalMatrix = _glMatrix.mat3.create();
+	  model.MCWCMatrix = _glMatrix.mat4.create();
+
+	  // Build VTK API
+	  macro.setGet(publicAPI, model, ['context']);
+
+	  // Object methods
+	  vtkOpenGLImageSlice(publicAPI, model);
+	}
+
+	// ----------------------------------------------------------------------------
+
+	var newInstance = exports.newInstance = macro.newInstance(extend);
+
+	// ----------------------------------------------------------------------------
+
+	exports.default = { newInstance: newInstance, extend: extend };
+
+/***/ },
+/* 39 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.newInstance = undefined;
+	exports.vtkOpenGLPolyDataMapper = vtkOpenGLPolyDataMapper;
+	exports.extend = extend;
+
+	var _macro = __webpack_require__(2);
+
+	var macro = _interopRequireWildcard(_macro);
+
+	var _Helper = __webpack_require__(21);
+
+	var _Helper2 = _interopRequireDefault(_Helper);
+
+	var _Math = __webpack_require__(30);
+
+	var _Math2 = _interopRequireDefault(_Math);
+
+	var _ShaderProgram = __webpack_require__(27);
 
 	var _ShaderProgram2 = _interopRequireDefault(_ShaderProgram);
 
-	var _blueimpMd = __webpack_require__(38);
+	var _ViewNode = __webpack_require__(7);
+
+	var _ViewNode2 = _interopRequireDefault(_ViewNode);
+
+	var _Constants = __webpack_require__(26);
+
+	var _Constants2 = __webpack_require__(40);
+
+	var _glMatrix = __webpack_require__(8);
+
+	var _vtkPolyDataVS = __webpack_require__(36);
+
+	var _vtkPolyDataVS2 = _interopRequireDefault(_vtkPolyDataVS);
+
+	var _vtkPolyDataFS = __webpack_require__(37);
+
+	var _vtkPolyDataFS2 = _interopRequireDefault(_vtkPolyDataFS);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	// ----------------------------------------------------------------------------
+	// vtkOpenGLPolyDataMapper methods
+	// ----------------------------------------------------------------------------
+
+	function vtkOpenGLPolyDataMapper(publicAPI, model) {
+	  // Set our className
+	  model.classHierarchy.push('vtkOpenGLPolyDataMapper');
+
+	  // Builds myself.
+	  publicAPI.build = function (prepass) {
+	    if (prepass) {
+	      if (!model.renderable) {
+	        return;
+	      }
+	    }
+	  };
+
+	  // Renders myself
+	  publicAPI.render = function (prepass) {
+	    if (prepass) {
+	      model.openGLRenderWindow = publicAPI.getFirstAncestorOfType('vtkOpenGLRenderWindow');
+	      model.context = model.openGLRenderWindow.getContext();
+	      model.points.setContext(model.context);
+	      model.lines.setContext(model.context);
+	      model.tris.setContext(model.context);
+	      model.triStrips.setContext(model.context);
+	      model.openGLActor = publicAPI.getFirstAncestorOfType('vtkOpenGLActor');
+	      var actor = model.openGLActor.getRenderable();
+	      var openGLRenderer = publicAPI.getFirstAncestorOfType('vtkOpenGLRenderer');
+	      var ren = openGLRenderer.getRenderable();
+	      model.openGLCamera = openGLRenderer.getViewNodeFor(ren.getActiveCamera());
+	      publicAPI.renderPiece(ren, actor);
+	    } else {
+	      // something
+	    }
+	  };
+
+	  publicAPI.buildShaders = function (shaders, ren, actor) {
+	    publicAPI.getShaderTemplate(shaders, ren, actor);
+	    publicAPI.replaceShaderValues(shaders, ren, actor);
+	  };
+
+	  publicAPI.getShaderTemplate = function (shaders, ren, actor) {
+	    shaders.Vertex = _vtkPolyDataVS2.default;
+	    shaders.Fragment = _vtkPolyDataFS2.default;
+	    shaders.Geometry = '';
+	  };
+
+	  publicAPI.replaceShaderColor = function (shaders, ren, actor) {
+	    var VSSource = shaders.Vertex;
+	    var GSSource = shaders.Geometry;
+	    var FSSource = shaders.Fragment;
+
+	    var lastLightComplexity = model.lastLightComplexity.get(model.lastBoundBO);
+
+	    // create the material/color property declarations, and VS implementation
+	    // these are always defined
+	    var colorDec = ['uniform float opacityUniform; // the fragment opacity', 'uniform vec3 ambientColorUniform; // intensity weighted color', 'uniform vec3 diffuseColorUniform; // intensity weighted color'];
+	    // add more for specular
+	    if (lastLightComplexity) {
+	      colorDec = colorDec.concat(['uniform vec3 specularColorUniform; // intensity weighted color', 'uniform float specularPowerUniform;']);
+	    }
+
+	    // now handle the more complex fragment shader implementation
+	    // the following are always defined variables.  We start
+	    // by assiging a default value from the uniform
+	    var colorImpl = ['vec3 ambientColor;', '  vec3 diffuseColor;', '  float opacity;'];
+	    if (lastLightComplexity) {
+	      colorImpl = colorImpl.concat(['  vec3 specularColor;', '  float specularPower;']);
+	    }
+	    colorImpl = colorImpl.concat(['  ambientColor = ambientColorUniform;', '  diffuseColor = diffuseColorUniform;', '  opacity = opacityUniform;']);
+	    if (lastLightComplexity) {
+	      colorImpl = colorImpl.concat(['  specularColor = specularColorUniform;', '  specularPower = specularPowerUniform;']);
+	    }
+
+	    // add scalar vertex coloring
+	    if (model.lastBoundBO.getCABO().getColorComponents() !== 0) {
+	      colorDec = colorDec.concat(['varying vec4 vertexColorVSOutput;']);
+	      VSSource = _ShaderProgram2.default.substitute(VSSource, '//VTK::Color::Dec', ['attribute vec4 scalarColor;', 'varying vec4 vertexColorVSOutput;']).result;
+	      VSSource = _ShaderProgram2.default.substitute(VSSource, '//VTK::Color::Impl', ['vertexColorVSOutput =  scalarColor;']).result;
+	      GSSource = _ShaderProgram2.default.substitute(GSSource, '//VTK::Color::Dec', ['in vec4 vertexColorVSOutput[];', 'out vec4 vertexColorGSOutput;']).result;
+	      GSSource = _ShaderProgram2.default.substitute(GSSource, '//VTK::Color::Impl', ['vertexColorGSOutput = vertexColorVSOutput[i];']).result;
+	    }
+
+	    var scalarMatMode = model.renderable.getScalarMaterialMode();
+
+	    if (model.lastBoundBO.getCABO().getColorComponents() !== 0) {
+	      if (scalarMatMode === _Constants2.VTK_MATERIALMODE.AMBIENT || scalarMatMode === _Constants2.VTK_MATERIALMODE.DEFAULT && actor.getProperty().getAmbient() > actor.getProperty().getDiffuse()) {
+	        FSSource = _ShaderProgram2.default.substitute(FSSource, '//VTK::Color::Impl', colorImpl.concat(['  ambientColor = vertexColorVSOutput.rgb;', '  opacity = opacity*vertexColorVSOutput.a;'])).result;
+	      } else if (scalarMatMode === _Constants2.VTK_MATERIALMODE.DIFFUSE || scalarMatMode === _Constants2.VTK_MATERIALMODE.DEFAULT && actor.getProperty().getAmbient() <= actor.getProperty().getDiffuse()) {
+	        FSSource = _ShaderProgram2.default.substitute(FSSource, '//VTK::Color::Impl', colorImpl.concat(['  diffuseColor = vertexColorVSOutput.rgb;', '  opacity = opacity*vertexColorVSOutput.a;'])).result;
+	      } else {
+	        FSSource = _ShaderProgram2.default.substitute(FSSource, '//VTK::Color::Impl', colorImpl.concat(['  diffuseColor = vertexColorVSOutput.rgb;', '  ambientColor = vertexColorVSOutput.rgb;', '  opacity = opacity*vertexColorVSOutput.a;'])).result;
+	      }
+	    } else {
+	      FSSource = _ShaderProgram2.default.substitute(FSSource, '//VTK::Color::Impl', colorImpl).result;
+	    }
+
+	    FSSource = _ShaderProgram2.default.substitute(FSSource, '//VTK::Color::Dec', colorDec).result;
+
+	    shaders.Vertex = VSSource;
+	    shaders.Geometry = GSSource;
+	    shaders.Fragment = FSSource;
+	  };
+
+	  publicAPI.replaceShaderLight = function (shaders, ren, actor) {
+	    var FSSource = shaders.Fragment;
+
+	    // check for shadow maps
+	    var shadowFactor = '';
+
+	    var lastLightComplexity = model.lastLightComplexity.get(model.lastBoundBO);
+
+	    switch (lastLightComplexity) {
+	      case 0:
+	        // no lighting or RENDER_VALUES
+	        FSSource = _ShaderProgram2.default.substitute(FSSource, '//VTK::Light::Impl', ['  gl_FragData[0] = vec4(ambientColor + diffuseColor, opacity);', '  //VTK::Light::Impl'], false).result;
+	        break;
+
+	      case 1:
+	        // headlight
+	        FSSource = _ShaderProgram2.default.substitute(FSSource, '//VTK::Light::Impl', ['  float df = max(0.0, normalVCVSOutput.z);', '  float sf = pow(df, specularPower);', '  vec3 diffuse = df * diffuseColor;', '  vec3 specular = sf * specularColor;', '  gl_FragData[0] = vec4(ambientColor + diffuse + specular, opacity);', '  //VTK::Light::Impl'], false).result;
+	        break;
+
+	      case 2:
+	        // light kit
+	        FSSource = _ShaderProgram2.default.substitute(FSSource, '//VTK::Light::Dec', [
+	        // only allow for up to 6 active lights
+	        'uniform int numberOfLights;',
+	        // intensity weighted color
+	        'uniform vec3 lightColor[6];', 'uniform vec3 lightDirectionVC[6]; // normalized', 'uniform vec3 lightHalfAngleVC[6]; // normalized']).result;
+	        FSSource = _ShaderProgram2.default.substitute(FSSource, '//VTK::Light::Impl', ['vec3 diffuse = vec3(0,0,0);', '  vec3 specular = vec3(0,0,0);', '  for (int lightNum = 0; lightNum < numberOfLights; lightNum++)', '    {', '    float df = max(0.0, dot(normalVCVSOutput, -lightDirectionVC[lightNum]));', '    diffuse += ((df' + shadowFactor + ') * lightColor[lightNum]);', '    if (dot(normalVCVSOutput, lightDirectionVC[lightNum]) < 0.0)', '      {', '      float sf = pow( max(0.0, dot(lightHalfAngleVC[lightNum],normalVCVSOutput)), specularPower);', '      specular += ((sf' + shadowFactor + ') * lightColor[lightNum]);', '      }', '    }', '  diffuse = diffuse * diffuseColor;', '  specular = specular * specularColor;', '  gl_FragData[0] = vec4(ambientColor + diffuse + specular, opacity);', '  //VTK::Light::Impl'], false).result;
+	        break;
+
+	      case 3:
+	        // positional
+	        FSSource = _ShaderProgram2.default.substitute(FSSource, '//VTK::Light::Dec', [
+	        // only allow for up to 6 active lights
+	        'uniform int numberOfLights;',
+	        // intensity weighted color
+	        'uniform vec3 lightColor[6];', 'uniform vec3 lightDirectionVC[6]; // normalized', 'uniform vec3 lightHalfAngleVC[6]; // normalized', 'uniform vec3 lightPositionVC[6];', 'uniform vec3 lightAttenuation[6];', 'uniform float lightConeAngle[6];', 'uniform float lightExponent[6];', 'uniform int lightPositional[6];']).result;
+	        FSSource = _ShaderProgram2.default.substitute(FSSource, '//VTK::Light::Impl', ['  vec3 diffuse = vec3(0,0,0);', '  vec3 specular = vec3(0,0,0);', '  vec3 vertLightDirectionVC;', '  for (int lightNum = 0; lightNum < numberOfLights; lightNum++)', '    {', '    float attenuation = 1.0;', '    if (lightPositional[lightNum] == 0)', '      {', '      vertLightDirectionVC = lightDirectionVC[lightNum];', '      }', '    else', '      {', '      vertLightDirectionVC = vertexVC.xyz - lightPositionVC[lightNum];', '      float distanceVC = length(vertLightDirectionVC);', '      vertLightDirectionVC = normalize(vertLightDirectionVC);', '      attenuation = 1.0 /', '        (lightAttenuation[lightNum].x', '         + lightAttenuation[lightNum].y * distanceVC', '         + lightAttenuation[lightNum].z * distanceVC * distanceVC);', '      // per OpenGL standard cone angle is 90 or less for a spot light', '      if (lightConeAngle[lightNum] <= 90.0)', '        {', '        float coneDot = dot(vertLightDirectionVC, lightDirectionVC[lightNum]);', '        // if inside the cone', '        if (coneDot >= cos(radians(lightConeAngle[lightNum])))', '          {', '          attenuation = attenuation * pow(coneDot, lightExponent[lightNum]);', '          }', '        else', '          {', '          attenuation = 0.0;', '          }', '        }', '      }', '    float df = max(0.0, attenuation*dot(normalVCVSOutput, -vertLightDirectionVC));', '    diffuse += ((df' + shadowFactor + ') * lightColor[lightNum]);', '    if (dot(normalVCVSOutput, vertLightDirectionVC) < 0.0)', '      {', '      float sf = attenuation*pow( max(0.0, dot(lightHalfAngleVC[lightNum],normalVCVSOutput)), specularPower);', '      specular += ((sf' + shadowFactor + ') * lightColor[lightNum]);', '      }', '    }', '  diffuse = diffuse * diffuseColor;', '  specular = specular * specularColor;', '  gl_FragData[0] = vec4(ambientColor + diffuse + specular, opacity);', '  //VTK::Light::Impl'], false).result;
+	        break;
+	      default:
+	        console.error('bad light complexity');
+	    }
+
+	    shaders.Fragment = FSSource;
+	  };
+
+	  publicAPI.replaceShaderNormal = function (shaders, ren, actor) {
+	    if (model.lastLightComplexity.get(model.lastBoundBO) > 0) {
+	      var VSSource = shaders.Vertex;
+	      var GSSource = shaders.Geometry;
+	      var FSSource = shaders.Fragment;
+
+	      if (model.lastBoundBO.getCABO().getNormalOffset()) {
+	        VSSource = _ShaderProgram2.default.substitute(VSSource, '//VTK::Normal::Dec', ['attribute vec3 normalMC;', 'uniform mat3 normalMatrix;', 'varying vec3 normalVCVSOutput;']).result;
+	        VSSource = _ShaderProgram2.default.substitute(VSSource, '//VTK::Normal::Impl', ['normalVCVSOutput = normalMatrix * normalMC;']).result;
+	        GSSource = _ShaderProgram2.default.substitute(GSSource, '//VTK::Normal::Dec', ['in vec3 normalVCVSOutput[];', 'out vec3 normalVCGSOutput;']).result;
+	        GSSource = _ShaderProgram2.default.substitute(GSSource, '//VTK::Normal::Impl', ['normalVCGSOutput = normalVCVSOutput[i];']).result;
+	        FSSource = _ShaderProgram2.default.substitute(FSSource, '//VTK::Normal::Dec', ['varying vec3 normalVCVSOutput;']).result;
+	        FSSource = _ShaderProgram2.default.substitute(FSSource, '//VTK::Normal::Impl', ['vec3 normalVCVSOutput = normalize(normalVCVSOutput);',
+	        //  if (!gl_FrontFacing) does not work in intel hd4000 mac
+	        //  if (int(gl_FrontFacing) == 0) does not work on mesa
+	        '  if (gl_FrontFacing == false) { normalVCVSOutput = -normalVCVSOutput; }']).result;
+	      } else {
+	        if (model.haveCellNormals) {
+	          FSSource = _ShaderProgram2.default.substitute(FSSource, '//VTK::Normal::Dec', ['uniform mat3 normalMatrix;', 'uniform samplerBuffer textureN;']).result;
+	          FSSource = _ShaderProgram2.default.substitute(FSSource, '//VTK::Normal::Impl', ['vec3 normalVCVSOutput = normalize(normalMatrix *', '    texelFetchBuffer(textureN, gl_PrimitiveID + PrimitiveIDOffset).xyz);', '  if (gl_FrontFacing == false) { normalVCVSOutput = -normalVCVSOutput; }']).result;
+	        } else {
+	          if (actor.getProperty().getRepresentation() === _Constants.VTK_REPRESENTATION.WIREFRAME) {
+	            // generate a normal for lines, it will be perpendicular to the line
+	            // and maximally aligned with the camera view direction
+	            // no clue if this is the best way to do this.
+	            // the code below has been optimized a bit so what follows is
+	            // an explanation of the basic approach. Compute the gradient of the line
+	            // with respect to x and y, the the larger of the two
+	            // cross that with the camera view direction. That gives a vector
+	            // orthogonal to the camera view and the line. Note that the line and the camera
+	            // view are probably not orthogonal. Which is why when we cross result that with
+	            // the line gradient again we get a reasonable normal. It will be othogonal to
+	            // the line (which is a plane but maximally aligned with the camera view.
+	            FSSource = _ShaderProgram2.default.substitute(FSSource, '//VTK::UniformFlow::Impl', ['  vec3 fdx = vec3(dFdx(vertexVC.x),dFdx(vertexVC.y),dFdx(vertexVC.z));', '  vec3 fdy = vec3(dFdy(vertexVC.x),dFdy(vertexVC.y),dFdy(vertexVC.z));', '  //VTK::UniformFlow::Impl'] // For further replacements
+	            ).result;
+	            FSSource = _ShaderProgram2.default.substitute(FSSource, '//VTK::Normal::Impl', ['vec3 normalVCVSOutput;', '  fdx = normalize(fdx);', '  fdy = normalize(fdy);', '  if (abs(fdx.x) > 0.0)', '    { normalVCVSOutput = normalize(cross(vec3(fdx.y, -fdx.x, 0.0), fdx)); }', '  else { normalVCVSOutput = normalize(cross(vec3(fdy.y, -fdy.x, 0.0), fdy));}']).result;
+	          } else {
+	            FSSource = _ShaderProgram2.default.substitute(FSSource, '//VTK::Normal::Dec', ['uniform int cameraParallel;']).result;
+
+	            FSSource = _ShaderProgram2.default.substitute(FSSource, '//VTK::UniformFlow::Impl', [
+	            // '  vec3 fdx = vec3(dFdx(vertexVC.x),dFdx(vertexVC.y),dFdx(vertexVC.z));',
+	            // '  vec3 fdy = vec3(dFdy(vertexVC.x),dFdy(vertexVC.y),dFdy(vertexVC.z));',
+	            '  vec3 fdx = dFdx(vertexVC.xyz);', '  vec3 fdy = dFdy(vertexVC.xyz);', '  //VTK::UniformFlow::Impl'] // For further replacements
+	            ).result;
+	            FSSource = _ShaderProgram2.default.substitute(FSSource, '//VTK::Normal::Impl', ['  fdx = normalize(fdx);', '  fdy = normalize(fdy);', '  vec3 normalVCVSOutput = normalize(cross(fdx,fdy));',
+	            // the code below is faster, but does not work on some devices
+	            // 'vec3 normalVC = normalize(cross(dFdx(vertexVC.xyz), dFdy(vertexVC.xyz)));',
+	            '  if (cameraParallel == 1 && normalVCVSOutput.z < 0.0) { normalVCVSOutput = -1.0*normalVCVSOutput; }', '  if (cameraParallel == 0 && dot(normalVCVSOutput,vertexVC.xyz) > 0.0) { normalVCVSOutput = -1.0*normalVCVSOutput; }']).result;
+	          }
+	        }
+	      }
+	      shaders.Vertex = VSSource;
+	      shaders.Geometry = GSSource;
+	      shaders.Fragment = FSSource;
+	    }
+	  };
+
+	  publicAPI.replaceShaderPositionVC = function (shaders, ren, actor) {
+	    var VSSource = shaders.Vertex;
+	    var GSSource = shaders.Geometry;
+	    var FSSource = shaders.Fragment;
+
+	    // for points make sure to add in the point size
+	    if (actor.getProperty().getRepresentation() === _Constants.VTK_REPRESENTATION.POINTS) {
+	      VSSource = _ShaderProgram2.default.substitute(VSSource, '//VTK::PositionVC::Impl', ['//VTK::PositionVC::Impl', '  gl_PointSize = ' + actor.getProperty().getPointSize().toFixed(1) + ';'], false).result;
+	    }
+
+	    // do we need the vertex in the shader in View Coordinates
+	    if (model.lastLightComplexity.get(model.lastBoundBO) > 0) {
+	      VSSource = _ShaderProgram2.default.substitute(VSSource, '//VTK::PositionVC::Dec', ['varying vec4 vertexVCVSOutput;']).result;
+	      VSSource = _ShaderProgram2.default.substitute(VSSource, '//VTK::PositionVC::Impl', ['vertexVCVSOutput = MCVCMatrix * vertexMC;', '  gl_Position = MCDCMatrix * vertexMC;']).result;
+	      VSSource = _ShaderProgram2.default.substitute(VSSource, '//VTK::Camera::Dec', ['uniform mat4 MCDCMatrix;', 'uniform mat4 MCVCMatrix;']).result;
+	      GSSource = _ShaderProgram2.default.substitute(GSSource, '//VTK::PositionVC::Dec', ['in vec4 vertexVCVSOutput[];', 'out vec4 vertexVCGSOutput;']).result;
+	      GSSource = _ShaderProgram2.default.substitute(GSSource, '//VTK::PositionVC::Impl', ['vertexVCGSOutput = vertexVCVSOutput[i];']).result;
+	      FSSource = _ShaderProgram2.default.substitute(FSSource, '//VTK::PositionVC::Dec', ['varying vec4 vertexVCVSOutput;']).result;
+	      FSSource = _ShaderProgram2.default.substitute(FSSource, '//VTK::PositionVC::Impl', ['vec4 vertexVC = vertexVCVSOutput;']).result;
+	    } else {
+	      VSSource = _ShaderProgram2.default.substitute(VSSource, '//VTK::Camera::Dec', ['uniform mat4 MCDCMatrix;']).result;
+	      VSSource = _ShaderProgram2.default.substitute(VSSource, '//VTK::PositionVC::Impl', ['  gl_Position = MCDCMatrix * vertexMC;']).result;
+	    }
+	    shaders.Vertex = VSSource;
+	    shaders.Geometry = GSSource;
+	    shaders.Fragment = FSSource;
+	  };
+
+	  publicAPI.replaceShaderTCoord = function (shaders, ren, actor) {
+	    if (model.lastBoundBO.getCABO().getTCoordOffset()) {
+	      var VSSource = shaders.Vertex;
+	      var GSSource = shaders.Geometry;
+	      var FSSource = shaders.Fragment;
+
+	      VSSource = _ShaderProgram2.default.substitute(VSSource, '//VTK::TCoord::Impl', 'tcoordVCVSOutput = tcoordMC;').result;
+
+	      // we only handle the first texture by default
+	      // additional textures are activated and we set the uniform
+	      // for the texture unit they are assigned to, but you have to
+	      // add in the shader code to do something with them
+	      var tus = model.openGLActor.getActiveTextures();
+	      var tNumComp = tus[0].getComponents();
+
+	      VSSource = _ShaderProgram2.default.substitute(VSSource, '//VTK::TCoord::Dec', 'attribute vec2 tcoordMC; varying vec2 tcoordVCVSOutput;').result;
+	      GSSource = _ShaderProgram2.default.substitute(GSSource, '//VTK::TCoord::Dec', ['in vec2 tcoordVCVSOutput[];', 'out vec2 tcoordVCGSOutput;']).result;
+	      GSSource = _ShaderProgram2.default.substitute(GSSource, '//VTK::TCoord::Impl', 'tcoordVCGSOutput = tcoordVCVSOutput[i];').result;
+	      FSSource = _ShaderProgram2.default.substitute(FSSource, '//VTK::TCoord::Dec', ['varying vec2 tcoordVCVSOutput;', 'uniform sampler2D texture1;']).result;
+	      switch (tNumComp) {
+	        case 1:
+	          FSSource = _ShaderProgram2.default.substitute(FSSource, '//VTK::TCoord::Impl', ['vec4 tcolor = texture2D(texture1, tcoordVCVSOutput);', 'gl_FragData[0] = clamp(gl_FragData[0],0.0,1.0)*', '  vec4(tcolor.r,tcolor.r,tcolor.r,1.0);']).result;
+	          break;
+	        case 2:
+	          FSSource = _ShaderProgram2.default.substitute(FSSource, '//VTK::TCoord::Impl', ['vec4 tcolor = texture2D(texture1, tcoordVCVSOutput);', 'gl_FragData[0] = clamp(gl_FragData[0],0.0,1.0)*', '  vec4(tcolor.r,tcolor.r,tcolor.r,tcolor.g);']).result;
+	          break;
+	        default:
+	          FSSource = _ShaderProgram2.default.substitute(FSSource, '//VTK::TCoord::Impl', 'gl_FragData[0] = clamp(gl_FragData[0],0.0,1.0)*texture2D(texture1, tcoordVCVSOutput.st);').result;
+	      }
+	      shaders.Vertex = VSSource;
+	      shaders.Geometry = GSSource;
+	      shaders.Fragment = FSSource;
+	    }
+	  };
+
+	  publicAPI.replaceShaderValues = function (shaders, ren, actor) {
+	    publicAPI.replaceShaderColor(shaders, ren, actor);
+	    publicAPI.replaceShaderNormal(shaders, ren, actor);
+	    publicAPI.replaceShaderLight(shaders, ren, actor);
+	    publicAPI.replaceShaderTCoord(shaders, ren, actor);
+	    publicAPI.replaceShaderPositionVC(shaders, ren, actor);
+	  };
+
+	  publicAPI.getNeedToRebuildShaders = function (cellBO, ren, actor) {
+	    var lightComplexity = 0;
+
+	    // wacky backwards compatibility with old VTK lighting
+	    // soooo there are many factors that determine if a primative is lit or not.
+	    // three that mix in a complex way are representation POINT, Interpolation FLAT
+	    // and having normals or not.
+	    var needLighting = false;
+	    var haveNormals = false; // (model.currentInput.getPointData().getNormals() != null);
+	    if (actor.getProperty().getRepresentation() === _Constants.VTK_REPRESENTATION.POINTS) {
+	      needLighting = actor.getProperty().getInterpolation() !== _Constants.VTK_SHADING.FLAT && haveNormals;
+	    } else {
+	      var isTrisOrStrips = cellBO === model.tris || cellBO === model.triStrips;
+	      needLighting = isTrisOrStrips || !isTrisOrStrips && actor.getProperty().getInterpolation() !== _Constants.VTK_SHADING.FLAT && haveNormals;
+	    }
+
+	    // do we need lighting?
+	    if (actor.getProperty().getLighting() && needLighting) {
+	      (function () {
+	        // consider the lighting complexity to determine which case applies
+	        // simple headlight, Light Kit, the whole feature set of VTK
+	        lightComplexity = 0;
+	        var numberOfLights = 0;
+
+	        ren.getLights().forEach(function (light) {
+	          var status = light.getSwitch();
+	          if (status > 0) {
+	            numberOfLights++;
+	            if (lightComplexity === 0) {
+	              lightComplexity = 1;
+	            }
+	          }
+
+	          if (lightComplexity === 1 && (numberOfLights > 1 || light.getIntensity() !== 1.0 || !light.lightTypeIsHeadLight())) {
+	            lightComplexity = 2;
+	          }
+	          if (lightComplexity < 3 && light.getPositional()) {
+	            lightComplexity = 3;
+	          }
+	        });
+	      })();
+	    }
+
+	    if (model.lastLightComplexity.get(cellBO) !== lightComplexity) {
+	      model.lightComplexityChanged.get(cellBO).modified();
+	      model.lastLightComplexity.set(cellBO, lightComplexity);
+	    }
+
+	    // has something changed that would require us to recreate the shader?
+	    // candidates are
+	    // property modified (representation interpolation and lighting)
+	    // input modified
+	    // light complexity changed
+	    if (cellBO.getProgram() === 0 || cellBO.getShaderSourceTime().getMTime() < publicAPI.getMTime() || cellBO.getShaderSourceTime().getMTime() < actor.getMTime() || cellBO.getShaderSourceTime().getMTime() < model.currentInput.getMTime() || cellBO.getShaderSourceTime().getMTime() < model.lightComplexityChanged.get(cellBO).getMTime()) {
+	      return true;
+	    }
+
+	    return false;
+	  };
+
+	  publicAPI.updateShaders = function (cellBO, ren, actor) {
+	    cellBO.getVAO().bind();
+	    model.lastBoundBO = cellBO;
+
+	    // has something changed that would require us to recreate the shader?
+	    if (publicAPI.getNeedToRebuildShaders(cellBO, ren, actor)) {
+	      var shaders = { Vertex: null, Fragment: null, Geometry: null };
+
+	      publicAPI.buildShaders(shaders, ren, actor);
+
+	      // compile and bind the program if needed
+	      var newShader = model.openGLRenderWindow.getShaderCache().readyShaderProgramArray(shaders.Vertex, shaders.Fragment, shaders.Geometry);
+
+	      // if the shader changed reinitialize the VAO
+	      if (newShader !== cellBO.getProgram()) {
+	        cellBO.setProgram(newShader);
+	        // reset the VAO as the shader has changed
+	        cellBO.getVAO().releaseGraphicsResources();
+	      }
+
+	      cellBO.getShaderSourceTime().modified();
+	    } else {
+	      model.openGLRenderWindow.getShaderCache().readyShaderProgram(cellBO.getProgram());
+	    }
+
+	    publicAPI.setMapperShaderParameters(cellBO, ren, actor);
+	    publicAPI.setPropertyShaderParameters(cellBO, ren, actor);
+	    publicAPI.setCameraShaderParameters(cellBO, ren, actor);
+	    publicAPI.setLightingShaderParameters(cellBO, ren, actor);
+	  };
+
+	  publicAPI.setMapperShaderParameters = function (cellBO, ren, actor) {
+	    // Now to update the VAO too, if necessary.
+	    cellBO.getProgram().setUniformi('PrimitiveIDOffset', model.primitiveIDOffset);
+
+	    if (cellBO.getCABO().getElementCount() && (model.VBOBuildTime > cellBO.getAttributeUpdateTime().getMTime() || cellBO.getShaderSourceTime().getMTime() > cellBO.getAttributeUpdateTime().getMTime())) {
+	      cellBO.getCABO().bind();
+	      if (cellBO.getProgram().isAttributeUsed('vertexMC')) {
+	        if (!cellBO.getVAO().addAttributeArray(cellBO.getProgram(), cellBO.getCABO(), 'vertexMC', cellBO.getCABO().getVertexOffset(), cellBO.getCABO().getStride(), model.context.FLOAT, 3, model.context.FALSE)) {
+	          console.error('Error setting vertexMC in shader VAO.');
+	        }
+	      }
+	      if (cellBO.getProgram().isAttributeUsed('normalMC') && cellBO.getCABO().getNormalOffset() && model.lastLightComplexity.get(cellBO) > 0) {
+	        if (!cellBO.getVAO().addAttributeArray(cellBO.getProgram(), cellBO.getCABO(), 'normalMC', cellBO.getCABO().getNormalOffset(), cellBO.getCABO().getStride(), model.context.FLOAT, 3, model.context.FALSE)) {
+	          console.error('Error setting normalMC in shader VAO.');
+	        }
+	      }
+	      if (cellBO.getProgram().isAttributeUsed('tcoordMC') && cellBO.getCABO().getTCoordOffset()) {
+	        if (!cellBO.getVAO().addAttributeArray(cellBO.getProgram(), cellBO.getCABO(), 'tcoordMC', cellBO.getCABO().getTCoordOffset(), cellBO.getCABO().getStride(), model.context.FLOAT, cellBO.getCABO().getTCoordComponents(), model.context.FALSE)) {
+	          console.error('Error setting tcoordMC in shader VAO.');
+	        }
+	      }
+	      if (cellBO.getProgram().isAttributeUsed('scalarColor') && cellBO.getCABO().getColorComponents()) {
+	        if (!cellBO.getVAO().addAttributeArray(cellBO.getProgram(), cellBO.getCABO(), 'scalarColor', cellBO.getCABO().getColorOffset(), cellBO.getCABO().getStride(), model.context.FLOAT /* BYTE */
+	        , cellBO.getCABO().getColorComponents(), true)) {
+	          console.error('Error setting scalarColor in shader VAO.');
+	        }
+	      }
+	    }
+
+	    var tus = model.openGLActor.getActiveTextures();
+	    tus.forEach(function (tex) {
+	      var texUnit = tex.getTextureUnit();
+	      var tname = 'texture' + (texUnit + 1);
+	      if (cellBO.getProgram().isUniformUsed(tname)) {
+	        cellBO.getProgram().setUniformi(tname, texUnit);
+	      }
+	    });
+	  };
+
+	  publicAPI.setLightingShaderParameters = function (cellBO, ren, actor) {
+	    // for unlit and headlight there are no lighting parameters
+	    if (model.lastLightComplexity.get(cellBO) < 2) {
+	      return;
+	    }
+
+	    var program = cellBO.getProgram();
+
+	    // for lightkit case there are some parameters to set
+	    // const cam = ren.getActiveCamera();
+	    // const viewTF = cam.getModelViewTransformObject();
+
+	    // bind some light settings
+	    var numberOfLights = 0;
+
+	    var lightColor = [];
+	    // const lightDirection = [];
+	    // const lightHalfAngle = [];
+	    var lights = ren.getLights();
+	    Object.keys(lights).map(function (key) {
+	      return lights[key];
+	    }).forEach(function (light) {
+	      var status = light.getSwitch();
+	      if (status > 0.0) {
+	        var dColor = light.getDiffuseColor();
+	        var intensity = light.getIntensity();
+	        lightColor[numberOfLights][0] = dColor[0] * intensity;
+	        lightColor[numberOfLights][1] = dColor[1] * intensity;
+	        lightColor[numberOfLights][2] = dColor[2] * intensity;
+	        // get required info from light
+	        // double *lfp = light.getTransformedFocalPoint();
+	        // double *lp = light.getTransformedPosition();
+	        // double lightDir[3];
+	        // vtkMath::Subtract(lfp,lp,lightDir);
+	        // vtkMath::Normalize(lightDir);
+	        // double *tDir = viewTF.TransformNormal(lightDir);
+	        // lightDirection[numberOfLights][0] = tDir[0];
+	        // lightDirection[numberOfLights][1] = tDir[1];
+	        // lightDirection[numberOfLights][2] = tDir[2];
+	        // lightDir[0] = -tDir[0];
+	        // lightDir[1] = -tDir[1];
+	        // lightDir[2] = -tDir[2]+1.0;
+	        // vtkMath::Normalize(lightDir);
+	        // lightHalfAngle[numberOfLights][0] = lightDir[0];
+	        // lightHalfAngle[numberOfLights][1] = lightDir[1];
+	        // lightHalfAngle[numberOfLights][2] = lightDir[2];
+	        numberOfLights++;
+	      }
+	    });
+
+	    program.setUniform3fv('lightColor', numberOfLights, lightColor);
+	    // program.setUniform3fv('lightDirectionVC', numberOfLights, lightDirection);
+	    // program.setUniform3fv('lightHalfAngleVC', numberOfLights, lightHalfAngle);
+	    program.setUniformi('numberOfLights', numberOfLights);
+
+	    // // we are done unless we have positional lights
+	    if (model.lastLightComplexity.get(cellBO) < 3) {
+	      return;
+	    }
+
+	    // // if positional lights pass down more parameters
+	    // let lightAttenuation[6][3];
+	    // let lightPosition[6][3];
+	    // let lightConeAngle[6];
+	    // let lightExponent[6];
+	    // int lightPositional[6];
+	    // numberOfLights = 0;
+	    // for(lc.InitTraversal(sit);
+	    //     (light = lc.getNextLight(sit)); )
+	    //   {
+	    //   let status = light.getSwitch();
+	    //   if (status > 0.0)
+	    //     {
+	    //     double *attn = light.getAttenuationValues();
+	    //     lightAttenuation[numberOfLights][0] = attn[0];
+	    //     lightAttenuation[numberOfLights][1] = attn[1];
+	    //     lightAttenuation[numberOfLights][2] = attn[2];
+	    //     lightExponent[numberOfLights] = light.getExponent();
+	    //     lightConeAngle[numberOfLights] = light.getConeAngle();
+	    //     double *lp = light.getTransformedPosition();
+	    //     double *tlp = viewTF.TransformPoint(lp);
+	    //     lightPosition[numberOfLights][0] = tlp[0];
+	    //     lightPosition[numberOfLights][1] = tlp[1];
+	    //     lightPosition[numberOfLights][2] = tlp[2];
+	    //     lightPositional[numberOfLights] = light.getPositional();
+	    //     numberOfLights++;
+	    //     }
+	    //   }
+	    // program.SetUniform3fv('lightAttenuation', numberOfLights, lightAttenuation);
+	    // program.SetUniform1iv('lightPositional', numberOfLights, lightPositional);
+	    // program.SetUniform3fv('lightPositionVC', numberOfLights, lightPosition);
+	    // program.SetUniform1fv('lightExponent', numberOfLights, lightExponent);
+	    // program.SetUniform1fv('lightConeAngle', numberOfLights, lightConeAngle);
+	  };
+
+	  publicAPI.setCameraShaderParameters = function (cellBO, ren, actor) {
+	    var program = cellBO.getProgram();
+
+	    // // [WMVD]C == {world, model, view, display} coordinates
+	    // // E.g., WCDC == world to display coordinate transformation
+	    var keyMats = model.openGLCamera.getKeyMatrices(ren);
+	    var cam = ren.getActiveCamera();
+
+	    if (actor.getIsIdentity()) {
+	      program.setUniformMatrix('MCDCMatrix', keyMats.wcdc);
+	      if (program.isUniformUsed('MCVCMatrix')) {
+	        program.setUniformMatrix('MCVCMatrix', keyMats.wcvc);
+	      }
+	      if (program.isUniformUsed('normalMatrix')) {
+	        program.setUniformMatrix3x3('normalMatrix', keyMats.normalMatrix);
+	      }
+	    } else {
+	      var actMats = model.openGLActor.getKeyMatrices();
+	      if (program.isUniformUsed('normalMatrix')) {
+	        var anorms = _glMatrix.mat3.create();
+	        _glMatrix.mat3.multiply(anorms, keyMats.normalMatrix, actMats.normalMatrix);
+	        program.setUniformMatrix3x3('normalMatrix', anorms);
+	      }
+	      var tmp4 = _glMatrix.mat4.create();
+	      _glMatrix.mat4.multiply(tmp4, keyMats.wcdc, actMats.mcwc);
+	      program.setUniformMatrix('MCDCMatrix', tmp4);
+	      if (program.isUniformUsed('MCVCMatrix')) {
+	        _glMatrix.mat4.multiply(tmp4, keyMats.wcvc, actMats.mcwc);
+	        program.setUniformMatrix('MCVCMatrix', tmp4);
+	      }
+	    }
+
+	    if (program.isUniformUsed('cameraParallel')) {
+	      program.setUniformi('cameraParallel', cam.getParallelProjection());
+	    }
+	  };
+
+	  publicAPI.setPropertyShaderParameters = function (cellBO, ren, actor) {
+	    var program = cellBO.getProgram();
+
+	    var ppty = actor.getProperty();
+
+	    var opacity = ppty.getOpacity();
+	    var aColor = ppty.getAmbientColor();
+	    var aIntensity = ppty.getAmbient();
+	    var ambientColor = [aColor[0] * aIntensity, aColor[1] * aIntensity, aColor[2] * aIntensity];
+	    var dColor = ppty.getDiffuseColor();
+	    var dIntensity = ppty.getDiffuse();
+	    var diffuseColor = [dColor[0] * dIntensity, dColor[1] * dIntensity, dColor[2] * dIntensity];
+
+	    program.setUniformf('opacityUniform', opacity);
+	    program.setUniform3f('ambientColorUniform', ambientColor);
+	    program.setUniform3f('diffuseColorUniform', diffuseColor);
+	    // we are done unless we have lighting
+	    if (model.lastLightComplexity.get(cellBO) < 1) {
+	      return;
+	    }
+	    var sColor = ppty.getSpecularColor();
+	    var sIntensity = ppty.getSpecular();
+	    var specularColor = [sColor[0] * sIntensity, sColor[1] * sIntensity, sColor[2] * sIntensity];
+	    program.setUniform3f('specularColorUniform', specularColor);
+	    var specularPower = ppty.getSpecularPower();
+	    program.setUniformf('specularPowerUniform', specularPower);
+
+	    // // now set the backface properties if we have them
+	    // if (actor.getBackfaceProperty() && !model.DrawingEdges)
+	    //   {
+	    //   ppty = actor.getBackfaceProperty();
+
+	    //   let opacity = static_cast<float>(ppty.getOpacity());
+	    //   double *aColor = ppty.getAmbientColor();
+	    //   double aIntensity = ppty.getAmbient();  // ignoring renderer ambient
+	    //   let ambientColor[3] = {static_cast<float>(aColor[0] * aIntensity),
+	    //     static_cast<float>(aColor[1] * aIntensity),
+	    //     static_cast<float>(aColor[2] * aIntensity)};
+	    //   double *dColor = ppty.getDiffuseColor();
+	    //   double dIntensity = ppty.getDiffuse();
+	    //   let diffuseColor[3] = {static_cast<float>(dColor[0] * dIntensity),
+	    //     static_cast<float>(dColor[1] * dIntensity),
+	    //     static_cast<float>(dColor[2] * dIntensity)};
+	    //   double *sColor = ppty.getSpecularColor();
+	    //   double sIntensity = ppty.getSpecular();
+	    //   let specularColor[3] = {static_cast<float>(sColor[0] * sIntensity),
+	    //     static_cast<float>(sColor[1] * sIntensity),
+	    //     static_cast<float>(sColor[2] * sIntensity)};
+	    //   double specularPower = ppty.getSpecularPower();
+
+	    //   program.SetUniformf('opacityUniformBF', opacity);
+	    //   program.SetUniform3f('ambientColorUniformBF', ambientColor);
+	    //   program.SetUniform3f('diffuseColorUniformBF', diffuseColor);
+	    //   // we are done unless we have lighting
+	    //   if (model.LastLightComplexity[&cellBO] < 1)
+	    //     {
+	    //     return;
+	    //     }
+	    //   program.SetUniform3f('specularColorUniformBF', specularColor);
+	    //   program.SetUniformf('specularPowerUniformBF', specularPower);
+	    //   }
+	  };
+
+	  publicAPI.renderPieceStart = function (ren, actor) {
+	    model.primitiveIDOffset = 0;
+
+	    // Line Width setting (FIXME Ken)
+	    model.context.lineWidth(actor.getProperty().getLineWidth());
+
+	    // make sure the BOs are up to date
+	    publicAPI.updateBufferObjects(ren, actor);
+
+	    // Bind the OpenGL, this is shared between the different primitive/cell types.
+	    model.lastBoundBO = null;
+	  };
+
+	  publicAPI.renderPieceDraw = function (ren, actor) {
+	    var representation = actor.getProperty().getRepresentation();
+
+	    var gl = model.context;
+
+	    // draw points
+	    if (model.points.getCABO().getElementCount()) {
+	      // Update/build/etc the shader.
+	      publicAPI.updateShaders(model.points, ren, actor);
+	      gl.drawArrays(gl.POINTS, 0, model.points.getCABO().getElementCount());
+	      model.primitiveIDOffset += model.points.getCABO().getElementCount();
+	    }
+
+	    // draw lines
+	    if (model.lines.getCABO().getElementCount()) {
+	      publicAPI.updateShaders(model.lines, ren, actor);
+	      if (representation === _Constants.VTK_REPRESENTATION.POINTS) {
+	        gl.drawArrays(gl.POINTS, 0, model.lines.getCABO().getElementCount());
+	      } else {
+	        gl.drawArrays(gl.LINES, 0, model.lines.getCABO().getElementCount());
+	      }
+	      model.primitiveIDOffset += model.lines.getCABO().getElementCount() / 2;
+	    }
+
+	    // draw polygons
+	    if (model.tris.getCABO().getElementCount()) {
+	      // First we do the triangles, update the shader, set uniforms, etc.
+	      publicAPI.updateShaders(model.tris, ren, actor);
+	      var mode = gl.POINTS;
+	      if (representation === _Constants.VTK_REPRESENTATION.WIREFRAME) {
+	        mode = gl.LINES;
+	      }
+	      if (representation === _Constants.VTK_REPRESENTATION.SURFACE) {
+	        mode = gl.TRIANGLES;
+	      }
+	      gl.drawArrays(mode, 0, model.tris.getCABO().getElementCount());
+	      model.primitiveIDOffset += model.tris.getCABO().getElementCount() / 3;
+	    }
+
+	    // draw strips
+	    if (model.triStrips.getCABO().getElementCount()) {
+	      // Use the tris shader program/VAO, but triStrips ibo.
+	      model.updateShaders(model.triStrips, ren, actor);
+	      if (representation === _Constants.VTK_REPRESENTATION.POINTS) {
+	        gl.drawArrays(gl.POINTS, 0, model.triStrips.getCABO().getElementCount());
+	      }
+	      if (representation === _Constants.VTK_REPRESENTATION.WIREFRAME) {
+	        gl.drawArays(gl.LINES, 0, model.triStrips.getCABO().getElementCount());
+	      }
+	      if (representation === _Constants.VTK_REPRESENTATION.SURFACE) {
+	        gl.drawArrays(gl.TRIANGLES, 0, model.triStrips.getCABO().getElementCount());
+	      }
+	      // just be safe and divide by 3
+	      model.primitiveIDOffset += model.triStrips.getCABO().getElementCount() / 3;
+	    }
+	  };
+
+	  publicAPI.renderPieceFinish = function (ren, actor) {
+	    if (model.LastBoundBO) {
+	      model.LastBoundBO.getVAO().release();
+	    }
+	  };
+
+	  publicAPI.renderPiece = function (ren, actor) {
+	    // Make sure that we have been properly initialized.
+	    // if (ren.getRenderWindow().checkAbortStatus()) {
+	    //   return;
+	    // }
+
+	    publicAPI.invokeEvent({ type: 'StartEvent' });
+	    model.currentInput = model.renderable.getInputData();
+	    if (!model.renderable.getStatic()) {
+	      model.renderable.update();
+	      model.currentInput = model.renderable.getInputData();
+	    }
+	    publicAPI.invokeEvent({ type: 'EndEvent' });
+
+	    if (model.currentInput === null) {
+	      console.error('No input!');
+	      return;
+	    }
+
+	    // if there are no points then we are done
+	    if (!model.currentInput.getPoints || !model.currentInput.getPoints().getNumberOfValues()) {
+	      return;
+	    }
+
+	    publicAPI.renderPieceStart(ren, actor);
+	    publicAPI.renderPieceDraw(ren, actor);
+	    // publicAPI.renderEdges(ren, actor);
+	    publicAPI.renderPieceFinish(ren, actor);
+	  };
+
+	  publicAPI.computeBounds = function (ren, actor) {
+	    if (!publicAPI.getInput()) {
+	      _Math2.default.uninitializeBounds(model.Bounds);
+	      return;
+	    }
+	    model.bounnds = publicAPI.getInput().getBounds();
+	  };
+
+	  publicAPI.updateBufferObjects = function (ren, actor) {
+	    // Rebuild buffers if needed
+	    if (publicAPI.getNeedToRebuildBufferObjects(ren, actor)) {
+	      publicAPI.buildBufferObjects(ren, actor);
+	    }
+	  };
+
+	  publicAPI.getNeedToRebuildBufferObjects = function (ren, actor) {
+	    // first do a coarse check
+	    if (model.VBOBuildTime.getMTime() < publicAPI.getMTime() || model.VBOBuildTime.getMTime() < actor.getMTime() || model.VBOBuildTime.getMTime() < actor.getProperty().getMTime() || model.VBOBuildTime.getMTime() < model.currentInput.getMTime()) {
+	      return true;
+	    }
+	    return false;
+	  };
+
+	  publicAPI.buildBufferObjects = function (ren, actor) {
+	    var poly = model.currentInput;
+
+	    if (poly === null) {
+	      return;
+	    }
+
+	    model.renderable.mapScalars(poly, 1.0);
+	    var c = model.renderable.getColorMapColors();
+
+	    model.haveCellScalars = false;
+	    var scalarMode = model.renderable.getScalarMode();
+	    if (model.renderable.getScalarVisibility()) {
+	      // We must figure out how the scalars should be mapped to the polydata.
+	      if ((scalarMode === _Constants2.VTK_SCALAR_MODE.USE_CELL_DATA || scalarMode === _Constants2.VTK_SCALAR_MODE.USE_CELL_FIELD_DATA || scalarMode === _Constants2.VTK_SCALAR_MODE.USE_FIELD_DATA || !poly.getPointData().getScalars()) && scalarMode !== _Constants2.VTK_SCALAR_MODE.USE_POINT_FIELD_DATA && c) {
+	        model.haveCellScalars = true;
+	      }
+	    }
+
+	    // Do we have normals?
+	    var n = actor.getProperty().getInterpolation() !== _Constants.VTK_SHADING.FLAT ? poly.getPointData().getNormals() : null;
+	    if (n === null && poly.getCellData().getNormals()) {
+	      model.haveCellNormals = true;
+	      n = poly.getCelData().getNormals();
+	    }
+
+	    // rebuild the VBO if the data has changed we create a string for the VBO what
+	    // can change the VBO? points normals tcoords colors so what can change those?
+	    // the input data is clearly one as it can change all four items tcoords may
+	    // haveTextures or not colors may change based on quite a few mapping
+	    // parameters in the mapper
+
+	    var representation = actor.getProperty().getRepresentation();
+	    var toString = poly.getMTime() + 'A' + representation + 'B' + poly.getMTime() + 'C' + (n ? n.getMTime() : 1) + 'C' + (model.colors ? model.colors.getMTime() : 1);
+
+	    var tcoords = poly.getPointData().getTCoords();
+	    if (!model.openGLActor.getActiveTextures().length) {
+	      tcoords = null;
+	    }
+
+	    if (model.VBOBuildString !== toString) {
+	      // Build the VBOs
+	      var points = poly.getPoints();
+
+	      var cellOffset = 0;
+	      cellOffset += model.points.getCABO().createVBO(poly.getVerts(), 'verts', representation, { points: points, normals: n, tcoords: tcoords, colors: c, cellOffset: cellOffset,
+	        haveCellScalars: model.haveCellScalars, haveCellNormals: model.haveCellNormals });
+	      cellOffset += model.lines.getCABO().createVBO(poly.getLines(), 'lines', representation, { points: points, normals: n, tcoords: tcoords, colors: c, cellOffset: cellOffset,
+	        haveCellScalars: model.haveCellScalars, haveCellNormals: model.haveCellNormals });
+	      cellOffset += model.tris.getCABO().createVBO(poly.getPolys(), 'polys', representation, { points: points, normals: n, tcoords: tcoords, colors: c, cellOffset: cellOffset,
+	        haveCellScalars: model.haveCellScalars, haveCellNormals: model.haveCellNormals });
+	      cellOffset += model.triStrips.getCABO().createVBO(poly.getStrips(), 'strips', representation, { points: points, normals: n, tcoords: tcoords, colors: c, cellOffset: cellOffset,
+	        haveCellScalars: model.haveCellScalars, haveCellNormals: model.haveCellNormals });
+
+	      model.VBOBuildTime.modified();
+	      model.VBOBuildString = toString;
+	    }
+	  };
+	}
+
+	// ----------------------------------------------------------------------------
+	// Object factory
+	// ----------------------------------------------------------------------------
+
+	var DEFAULT_VALUES = {
+	  context: null,
+	  VBOBuildTime: 0,
+	  VBOBuildString: null,
+	  lightComplexityChanged: null,
+	  lastLightComplexity: null
+	};
+
+	// ----------------------------------------------------------------------------
+
+	function extend(publicAPI, model) {
+	  var initialValues = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+
+	  Object.assign(model, DEFAULT_VALUES, initialValues);
+
+	  // Inheritance
+	  _ViewNode2.default.extend(publicAPI, model);
+
+	  model.points = _Helper2.default.newInstance();
+	  model.lines = _Helper2.default.newInstance();
+	  model.tris = _Helper2.default.newInstance();
+	  model.triStrips = _Helper2.default.newInstance();
+
+	  // Build VTK API
+	  macro.setGet(publicAPI, model, ['context']);
+
+	  model.VBOBuildTime = {};
+	  macro.obj(model.VBOBuildTime);
+
+	  model.lightComplexityChanged = new Map();
+	  model.lightComplexityChanged.set(model.points, {});
+	  macro.obj(model.lightComplexityChanged.get(model.points));
+	  model.lightComplexityChanged.set(model.lines, {});
+	  macro.obj(model.lightComplexityChanged.get(model.lines));
+	  model.lightComplexityChanged.set(model.tris, {});
+	  macro.obj(model.lightComplexityChanged.get(model.tris));
+	  model.lightComplexityChanged.set(model.triStrips, {});
+	  macro.obj(model.lightComplexityChanged.get(model.triStrips));
+
+	  model.lastLightComplexity = new Map();
+	  model.lastLightComplexity.set(model.points, 0);
+	  model.lastLightComplexity.set(model.lines, 0);
+	  model.lastLightComplexity.set(model.tris, 0);
+	  model.lastLightComplexity.set(model.triStrips, 0);
+
+	  // Object methods
+	  vtkOpenGLPolyDataMapper(publicAPI, model);
+	}
+
+	// ----------------------------------------------------------------------------
+
+	var newInstance = exports.newInstance = macro.newInstance(extend);
+
+	// ----------------------------------------------------------------------------
+
+	exports.default = { newInstance: newInstance, extend: extend };
+
+/***/ },
+/* 40 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	var VTK_COLOR_MODE = exports.VTK_COLOR_MODE = {
+	  DEFAULT: 0,
+	  MAP_SCALARS: 1,
+	  DIRECT_SCALARS: 2
+	};
+
+	var VTK_SCALAR_MODE = exports.VTK_SCALAR_MODE = {
+	  DEFAULT: 0,
+	  USE_POINT_DATA: 1,
+	  USE_CELL_DATA: 2,
+	  USE_POINT_FIELD_DATA: 3,
+	  USE_CELL_FIELD_DATA: 4,
+	  USE_FIELD_DATA: 5
+	};
+
+	var VTK_MATERIALMODE = exports.VTK_MATERIALMODE = {
+	  DEFAULT: 0,
+	  AMBIENT: 1,
+	  DIFFUSE: 2,
+	  AMBIENT_AND_DIFFUSE: 3
+	};
+
+	var VTK_GET_ARRAY = exports.VTK_GET_ARRAY = {
+	  BY_ID: 0,
+	  BY_NAME: 1
+	};
+
+	exports.default = { VTK_COLOR_MODE: VTK_COLOR_MODE, VTK_MATERIALMODE: VTK_MATERIALMODE, VTK_GET_ARRAY: VTK_GET_ARRAY, VTK_SCALAR_MODE: VTK_SCALAR_MODE };
+
+/***/ },
+/* 41 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.newInstance = undefined;
+	exports.vtkOpenGLRenderer = vtkOpenGLRenderer;
+	exports.extend = extend;
+
+	var _macro = __webpack_require__(2);
+
+	var macro = _interopRequireWildcard(_macro);
+
+	var _ViewNode = __webpack_require__(7);
+
+	var _ViewNode2 = _interopRequireDefault(_ViewNode);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	// ----------------------------------------------------------------------------
+	// vtkOpenGLRenderer methods
+	// ----------------------------------------------------------------------------
+
+	function vtkOpenGLRenderer(publicAPI, model) {
+	  // Set our className
+	  model.classHierarchy.push('vtkOpenGLRenderer');
+
+	  // Builds myself.
+	  publicAPI.build = function (prepass) {
+	    if (prepass) {
+	      if (!model.renderable) {
+	        return;
+	      }
+
+	      // make sure we have a camera
+	      if (!model.renderable.isActiveCameraCreated()) {
+	        model.renderable.resetCamera();
+	      }
+	      publicAPI.updateLights();
+	      publicAPI.prepareNodes();
+	      publicAPI.addMissingNode(model.renderable.getActiveCamera());
+	      publicAPI.addMissingNodes(model.renderable.getActors());
+	      publicAPI.addMissingNodes(model.renderable.getActors2D());
+	      publicAPI.addMissingNodes(model.renderable.getVolumes());
+	      publicAPI.removeUnusedNodes();
+	    }
+	  };
+
+	  publicAPI.updateLights = function () {
+	    var count = 0;
+
+	    model.renderable.getLights().forEach(function (light) {
+	      if (light.getSwitch() > 0.0) {
+	        count++;
+	      }
+	    });
+
+	    if (!count) {
+	      console.debug('No lights are on, creating one.');
+	      model.renderable.createLight();
+	    }
+
+	    return count;
+	  };
+
+	  // Renders myself
+	  publicAPI.render = function (prepass) {
+	    if (prepass) {
+	      model.context = publicAPI.getFirstAncestorOfType('vtkOpenGLRenderWindow').getContext();
+	      publicAPI.clear();
+	    } else {
+	      // else
+	    }
+	  };
+
+	  publicAPI.getAspectRatio = function () {
+	    var size = model.parent.getSize();
+	    var viewport = model.renderable.getViewport();
+	    return size[0] * (viewport[2] - viewport[0]) / ((viewport[3] - viewport[1]) * size[1]);
+	  };
+
+	  publicAPI.clear = function () {
+	    var clearMask = 0;
+	    var gl = model.context;
+
+	    if (!model.renderable.getTransparent()) {
+	      var background = model.renderable.getBackground();
+	      model.context.clearColor(background[0], background[1], background[2], 1.0);
+	      clearMask |= gl.COLOR_BUFFER_BIT;
+	    }
+
+	    if (!model.renderable.getPreserveDepthBuffer()) {
+	      gl.clearDepth(1.0);
+	      clearMask |= gl.DEPTH_BUFFER_BIT;
+	      gl.depthMask(true);
+	    }
+
+	    gl.colorMask(true, true, true, true);
+	    gl.clear(clearMask);
+
+	    gl.enable(gl.DEPTH_TEST);
+	  };
+	}
+
+	// ----------------------------------------------------------------------------
+	// Object factory
+	// ----------------------------------------------------------------------------
+
+	var DEFAULT_VALUES = {
+	  context: null
+	};
+
+	// ----------------------------------------------------------------------------
+
+	function extend(publicAPI, model) {
+	  var initialValues = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+
+	  Object.assign(model, DEFAULT_VALUES, initialValues);
+
+	  // Inheritance
+	  _ViewNode2.default.extend(publicAPI, model);
+
+	  // Build VTK API
+	  macro.get(publicAPI, model, ['shaderCache']);
+
+	  macro.setGet(publicAPI, model, ['context']);
+
+	  // Object methods
+	  vtkOpenGLRenderer(publicAPI, model);
+	}
+
+	// ----------------------------------------------------------------------------
+
+	var newInstance = exports.newInstance = macro.newInstance(extend);
+
+	// ----------------------------------------------------------------------------
+
+	exports.default = { newInstance: newInstance, extend: extend };
+
+/***/ },
+/* 42 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.newInstance = undefined;
+	exports.extend = extend;
+
+	var _macro = __webpack_require__(2);
+
+	var macro = _interopRequireWildcard(_macro);
+
+	var _ShaderProgram = __webpack_require__(27);
+
+	var _ShaderProgram2 = _interopRequireDefault(_ShaderProgram);
+
+	var _blueimpMd = __webpack_require__(43);
 
 	var _blueimpMd2 = _interopRequireDefault(_blueimpMd);
 
@@ -11831,7 +12895,7 @@
 	exports.default = { newInstance: newInstance, extend: extend };
 
 /***/ },
-/* 38 */
+/* 43 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/*
@@ -12116,7 +13180,7 @@
 
 
 /***/ },
-/* 39 */
+/* 44 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -12255,7 +13319,7 @@
 	exports.default = { newInstance: newInstance, extend: extend };
 
 /***/ },
-/* 40 */
+/* 45 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -12379,7 +13443,7 @@
 	exports.default = { newInstance: newInstance, extend: extend };
 
 /***/ },
-/* 41 */
+/* 46 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -12394,27 +13458,27 @@
 
 	var macro = _interopRequireWildcard(_macro);
 
-	var _Camera = __webpack_require__(42);
+	var _Camera = __webpack_require__(47);
 
 	var _Camera2 = _interopRequireDefault(_Camera);
 
-	var _Light = __webpack_require__(43);
+	var _Light = __webpack_require__(48);
 
 	var _Light2 = _interopRequireDefault(_Light);
 
-	var _Math = __webpack_require__(29);
+	var _Math = __webpack_require__(30);
 
 	var _Math2 = _interopRequireDefault(_Math);
 
-	var _TimerLog = __webpack_require__(44);
+	var _TimerLog = __webpack_require__(49);
 
 	var _TimerLog2 = _interopRequireDefault(_TimerLog);
 
-	var _Viewport = __webpack_require__(45);
+	var _Viewport = __webpack_require__(50);
 
 	var _Viewport2 = _interopRequireDefault(_Viewport);
 
-	var _BoundingBox = __webpack_require__(46);
+	var _BoundingBox = __webpack_require__(51);
 
 	var _glMatrix = __webpack_require__(8);
 
@@ -12499,81 +13563,6 @@
 	        prop.releaseGraphicsResources(vtkWindow);
 	      }
 	    });
-	  };
-
-	  publicAPI.render = function () {
-	    if (model.delegate && model.delegate.getUsed()) {
-	      model.delegate.render(publicAPI);
-	      return;
-	    }
-
-	    // If Draw is not on, ignore the render.
-	    if (!model.draw) {
-	      console.debug('Ignoring render because Draw is off.');
-	      return;
-	    }
-
-	    var t1 = _TimerLog2.default.getUniversalTime();
-	    publicAPI.invokeEvent({ type: 'StartEvent' });
-
-	    // Create the initial list of visible props
-	    // This will be passed through AllocateTime(), where
-	    // a time is allocated for each prop, and the list
-	    // maybe re-ordered by the cullers. Also create the
-	    // sublists for the props that need ray casting, and
-	    // the props that need to be rendered into an image.
-	    // Fill these in later (in AllocateTime) - get a
-	    // count of them there too
-	    if (model.props.length > 0) {
-	      model.propArray = model.props.filter(function (prop) {
-	        return prop.getVisibility();
-	      });
-	    }
-
-	    if (model.propArray.length === 0) {
-	      console.debug('There are no visible props!');
-	    } else {
-	      // Call all the culling methods to set allocated time
-	      // for each prop and re-order the prop list if desired
-	      publicAPI.allocateTime();
-	    }
-
-	    // do the render library specific stuff
-	    publicAPI.deviceRender();
-
-	    // If we aborted, restore old estimated times
-	    // Setting the allocated render time to zero also sets the
-	    // estimated render time to zero, so that when we add back
-	    // in the old value we have set it correctly.
-	    if (model.renderWindow.getAbortRender()) {
-	      model.propArray.restoreEstimatedRenderTime();
-	    }
-
-	    // Clean up the space we allocated before. If the PropArray exists,
-	    // they all should exist
-	    model.propArray = null;
-
-	    // If we aborted, do not record the last render time.
-	    // Lets play around with determining the accuracy of the
-	    // EstimatedRenderTimes.  We can try to adjust for bad
-	    // estimates with the TimeFactor.
-	    if (!model.renderWindow.getAbortRender()) {
-	      // Measure the actual RenderTime
-	      model.lastRenderTimeInSeconds = (_TimerLog2.default.getUniversalTime() - t1) / 1000;
-
-	      if (model.lastRenderTimeInSeconds === 0.0) {
-	        model.lastRenderTimeInSeconds = 0.0001;
-	      }
-
-	      model.timeFactor = model.allocatedRenderTime / model.lastRenderTimeInSeconds;
-	    }
-
-	    publicAPI.invokeEvent({ type: 'EndEvent' });
-	  };
-
-	  publicAPI.deviceRenderTranslucentPolygonalGeometry = function () {
-	    model.lastRenderingUsedDepthPeeling = false;
-	    publicAPI.updateTranslucentPolygonalGeometry();
 	  };
 
 	  // macro
@@ -13193,7 +14182,7 @@
 	exports.default = { newInstance: newInstance, extend: extend };
 
 /***/ },
-/* 42 */
+/* 47 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -13208,7 +14197,7 @@
 
 	var macro = _interopRequireWildcard(_macro);
 
-	var _Math = __webpack_require__(29);
+	var _Math = __webpack_require__(30);
 
 	var _Math2 = _interopRequireDefault(_Math);
 
@@ -13622,7 +14611,7 @@
 	exports.default = { newInstance: newInstance, extend: extend };
 
 /***/ },
-/* 43 */
+/* 48 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -13638,7 +14627,7 @@
 
 	var macro = _interopRequireWildcard(_macro);
 
-	var _Math = __webpack_require__(29);
+	var _Math = __webpack_require__(30);
 
 	var _Math2 = _interopRequireDefault(_Math);
 
@@ -13754,7 +14743,7 @@
 	exports.default = { newInstance: newInstance, extend: extend, LIGHT_TYPES: LIGHT_TYPES };
 
 /***/ },
-/* 44 */
+/* 49 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -13772,7 +14761,7 @@
 	};
 
 /***/ },
-/* 45 */
+/* 50 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -13841,11 +14830,12 @@
 	    publicAPI.removeViewProp(prop);
 	  };
 
-	  publicAPI.getActor2D = function () {
+	  publicAPI.getActors2D = function () {
 	    model.actors2D = [];
 	    model.props.forEach(function (prop) {
-	      model.actors2D = model.actors2D.concat(prop.getActor2D());
+	      model.actors2D = model.actors2D.concat(prop.getActors2D());
 	    });
+	    return model.actors2D;
 	  };
 
 	  publicAPI.displayToView = function () {
@@ -13940,7 +14930,7 @@
 	exports.default = { newInstance: newInstance, extend: extend };
 
 /***/ },
-/* 46 */
+/* 51 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -13958,7 +14948,7 @@
 
 	var macro = _interopRequireWildcard(_macro);
 
-	var _Plane = __webpack_require__(47);
+	var _Plane = __webpack_require__(52);
 
 	var _Plane2 = _interopRequireDefault(_Plane);
 
@@ -14385,7 +15375,7 @@
 	exports.default = Object.assign({ newInstance: newInstance, extend: extend }, STATIC);
 
 /***/ },
-/* 47 */
+/* 52 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';

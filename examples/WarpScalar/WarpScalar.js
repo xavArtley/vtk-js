@@ -70,27 +70,27 @@
 
 	var _RenderWindow2 = _interopRequireDefault(_RenderWindow);
 
-	var _Renderer = __webpack_require__(54);
+	var _Renderer = __webpack_require__(58);
 
 	var _Renderer2 = _interopRequireDefault(_Renderer);
 
-	var _RenderWindow3 = __webpack_require__(58);
+	var _RenderWindow3 = __webpack_require__(62);
 
 	var _RenderWindow4 = _interopRequireDefault(_RenderWindow3);
 
-	var _RenderWindowInteractor = __webpack_require__(59);
+	var _RenderWindowInteractor = __webpack_require__(63);
 
 	var _RenderWindowInteractor2 = _interopRequireDefault(_RenderWindowInteractor);
 
-	var _SphereSource = __webpack_require__(64);
+	var _SphereSource = __webpack_require__(68);
 
 	var _SphereSource2 = _interopRequireDefault(_SphereSource);
 
-	var _WarpScalar = __webpack_require__(69);
+	var _WarpScalar = __webpack_require__(73);
 
 	var _WarpScalar2 = _interopRequireDefault(_WarpScalar);
 
-	var _controller = __webpack_require__(70);
+	var _controller = __webpack_require__(74);
 
 	var _controller2 = _interopRequireDefault(_controller);
 
@@ -811,72 +811,6 @@
 	    isOpaque = isOpaque && (!model.mapper || model.mapper.getIsOpaque());
 
 	    return isOpaque;
-	  };
-
-	  publicAPI.renderOpaqueGeometry = function (viewport) {
-	    var renderedSomething = false;
-
-	    if (model.mapper === null) {
-	      return renderedSomething;
-	    }
-
-	    if (model.property === null) {
-	      // force creation of a property
-	      publicAPI.setProperty(publicAPI.makeProperty());
-	    }
-
-	    if (publicAPI.getIsOpaque() || viewport.getSelector() && model.property.getOpacity() > 0.0) {
-	      model.property.render(publicAPI, viewport);
-
-	      // render the backface property
-	      if (model.backfaceProperty) {
-	        model.backfaceProperty.backfaceRender(publicAPI, viewport);
-	      }
-
-	      // TODO: If we had an array of textures, we would render them here.
-	      publicAPI.render(viewport, model.mapper);
-	      publicAPI.property.postRender(publicAPI, viewport);
-	      // TODO: If we had an array of textures, we would postRender them here.
-
-	      model.estimatedRenderTime += model.mapper.getTimeToDraw();
-	      renderedSomething = true;
-	    }
-
-	    return renderedSomething;
-	  };
-
-	  publicAPI.renderTranslucentPolygonalGeometry = function (viewport) {
-	    var renderedSomething = false;
-
-	    if (model.mapper === null) {
-	      return renderedSomething;
-	    }
-
-	    // make sure we have a property
-	    if (model.property === null) {
-	      // force creation of a property
-	      publicAPI.setProperty(publicAPI.makeProperty());
-	    }
-
-	    // is this actor opaque?
-	    if (!publicAPI.getIsOpaque()) {
-	      model.property.render(publicAPI, viewport);
-
-	      // render the backface property
-	      if (model.backfaceProperty) {
-	        model.backfaceProperty.backfaceRender(publicAPI, viewport);
-	      }
-
-	      // TODO: If we had an array of textures, we would render them here.
-	      publicAPI.render(viewport, model.mapper);
-	      model.property.postRender(publicAPI, viewport);
-	      // TODO: If we had an array of textures, we would postRender them here.
-
-	      model.estimatedRenderTime += model.mapper.getTimeToDraw();
-	      renderedSomething = true;
-	    }
-
-	    return renderedSomething;
 	  };
 
 	  publicAPI.hasTranslucentPolygonalGeometry = function () {
@@ -1805,6 +1739,16 @@
 	function vtkProp(publicAPI, model) {
 	  // Set our className
 	  model.classHierarchy.push('vtkProp');
+
+	  publicAPI.getActors = function () {
+	    return null;
+	  };
+	  publicAPI.getActors2D = function () {
+	    return null;
+	  };
+	  publicAPI.getVolumes = function () {
+	    return null;
+	  };
 
 	  publicAPI.pick = notImplemented('pick');
 	  publicAPI.hasKey = notImplemented('hasKey');
@@ -6936,14 +6880,6 @@
 	    return [].concat(model.color);
 	  };
 
-	  publicAPI.setTexture = notImplemented('SetTexture');
-	  publicAPI.getTexture = notImplemented('getTexture');
-	  publicAPI.getNumberOfTextures = notImplemented('getNumberOfTextures');
-	  publicAPI.removeTexture = notImplemented('removeTexture');
-	  publicAPI.removeAllTextures = notImplemented('RemoveAllTextures');
-	  publicAPI.getTextureAtIndex = notImplemented('getTextureAtIndex');
-	  publicAPI.getTextureUnitAtIndex = notImplemented('getTextureUnitAtIndex');
-	  publicAPI.getTextureUnit = notImplemented('getTextureUnit');
 	  publicAPI.render = notImplemented('render');
 	  publicAPI.postRender = notImplemented('postRender');
 	  publicAPI.addShaderVariable = notImplemented('AddShaderVariable');
@@ -6977,9 +6913,6 @@
 	  publicAPI.setRepresentationToPoints = function () {
 	    return publicAPI.setRepresentation(_Constants.VTK_REPRESENTATION.POINTS);
 	  };
-
-	  // NoOp here
-	  publicAPI.releaseGraphicsResources = function () {};
 	}
 
 	// ----------------------------------------------------------------------------
@@ -10957,7 +10890,7 @@
 
 	var _ViewNodeFactory2 = _interopRequireDefault(_ViewNodeFactory);
 
-	var _ShaderCache = __webpack_require__(51);
+	var _ShaderCache = __webpack_require__(55);
 
 	var _ShaderCache2 = _interopRequireDefault(_ShaderCache);
 
@@ -10965,7 +10898,7 @@
 
 	var _ViewNode2 = _interopRequireDefault(_ViewNode);
 
-	var _TextureUnitManager = __webpack_require__(53);
+	var _TextureUnitManager = __webpack_require__(57);
 
 	var _TextureUnitManager2 = _interopRequireDefault(_TextureUnitManager);
 
@@ -11224,11 +11157,23 @@
 
 	var _Actor2 = _interopRequireDefault(_Actor);
 
-	var _Camera = __webpack_require__(36);
+	var _Actor2D = __webpack_require__(36);
+
+	var _Actor2D2 = _interopRequireDefault(_Actor2D);
+
+	var _Camera = __webpack_require__(37);
 
 	var _Camera2 = _interopRequireDefault(_Camera);
 
-	var _PolyDataMapper = __webpack_require__(37);
+	var _ImageMapper = __webpack_require__(38);
+
+	var _ImageMapper2 = _interopRequireDefault(_ImageMapper);
+
+	var _ImageSlice = __webpack_require__(52);
+
+	var _ImageSlice2 = _interopRequireDefault(_ImageSlice);
+
+	var _PolyDataMapper = __webpack_require__(53);
 
 	var _PolyDataMapper2 = _interopRequireDefault(_PolyDataMapper);
 
@@ -11236,11 +11181,11 @@
 
 	var _RenderWindow2 = _interopRequireDefault(_RenderWindow);
 
-	var _Renderer = __webpack_require__(48);
+	var _Renderer = __webpack_require__(54);
 
 	var _Renderer2 = _interopRequireDefault(_Renderer);
 
-	var _Texture = __webpack_require__(49);
+	var _Texture = __webpack_require__(47);
 
 	var _Texture2 = _interopRequireDefault(_Texture);
 
@@ -11277,11 +11222,14 @@
 	  vtkOpenGLViewNodeFactory(publicAPI, model);
 
 	  // Initialization
+	  publicAPI.registerOverride('vtkActor', _Actor2.default.newInstance);
+	  publicAPI.registerOverride('vtkActor2D', _Actor2D2.default.newInstance);
+	  publicAPI.registerOverride('vtkCamera', _Camera2.default.newInstance);
+	  publicAPI.registerOverride('vtkImageMapper', _ImageMapper2.default.newInstance);
+	  publicAPI.registerOverride('vtkImageSlice', _ImageSlice2.default.newInstance);
+	  publicAPI.registerOverride('vtkMapper', _PolyDataMapper2.default.newInstance);
 	  publicAPI.registerOverride('vtkRenderWindow', _RenderWindow2.default.newInstance);
 	  publicAPI.registerOverride('vtkRenderer', _Renderer2.default.newInstance);
-	  publicAPI.registerOverride('vtkActor', _Actor2.default.newInstance);
-	  publicAPI.registerOverride('vtkMapper', _PolyDataMapper2.default.newInstance);
-	  publicAPI.registerOverride('vtkCamera', _Camera2.default.newInstance);
 	  publicAPI.registerOverride('vtkTexture', _Texture2.default.newInstance);
 	}
 
@@ -11607,10 +11555,15 @@
 	  };
 
 	  publicAPI.addMissingNode = function (dataObj) {
-	    publicAPI.addMissingNodes([dataObj]);
+	    if (dataObj) {
+	      publicAPI.addMissingNodes([dataObj]);
+	    }
 	  };
 
 	  publicAPI.addMissingNodes = function (dataObjs) {
+	    if (!dataObjs || !dataObjs.length) {
+	      return;
+	    }
 	    model.preparedNodes = model.preparedNodes.concat(dataObjs);
 
 	    // if any dataObj is not a renderable of a child
@@ -11622,7 +11575,7 @@
 	    });
 
 	    var newNodes = dataObjs.filter(function (node) {
-	      return childDOs.indexOf(node) === -1;
+	      return node && childDOs.indexOf(node) === -1;
 	    }).map(function (node) {
 	      var newNode = publicAPI.createViewNode(node);
 	      if (newNode) {
@@ -11698,6 +11651,131 @@
 
 /***/ },
 /* 36 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.newInstance = undefined;
+	exports.extend = extend;
+
+	var _macro = __webpack_require__(1);
+
+	var macro = _interopRequireWildcard(_macro);
+
+	var _ViewNode = __webpack_require__(35);
+
+	var _ViewNode2 = _interopRequireDefault(_ViewNode);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	// ----------------------------------------------------------------------------
+	// vtkOpenGLActor methods
+	// ----------------------------------------------------------------------------
+
+	function vtkOpenGLActor2D(publicAPI, model) {
+	  // Set our className
+	  model.classHierarchy.push('vtkOpenGLActor2D');
+
+	  // Builds myself.
+	  publicAPI.build = function (prepass) {
+	    if (prepass) {
+	      if (!model.renderable) {
+	        return;
+	      }
+
+	      publicAPI.prepareNodes();
+	      publicAPI.addMissingNodes(model.renderable.getTextures());
+	      publicAPI.addMissingNode(model.renderable.getMapper());
+	      publicAPI.removeUnusedNodes();
+	    }
+	  };
+
+	  // we draw textures, then mapper, then post pass textures
+	  publicAPI.traverse = function (operation) {
+	    publicAPI.apply(operation, true);
+
+	    model.activeTextures = [];
+	    model.children.forEach(function (child) {
+	      child.apply(operation, true);
+	      if (child.isA('vtkOpenGLTexture') && operation === 'Render') {
+	        model.activeTextures.push(child);
+	      }
+	    });
+
+	    model.children.forEach(function (child) {
+	      child.apply(operation, false);
+	    });
+
+	    publicAPI.apply(operation, false);
+	  };
+
+	  // Renders myself
+	  publicAPI.render = function (prepass) {
+	    if (prepass) {
+	      model.context = publicAPI.getFirstAncestorOfType('vtkOpenGLRenderWindow').getContext();
+	      publicAPI.preRender();
+	    } else {
+	      // deactivate textures
+	      model.children.forEach(function (child) {
+	        if (child.isA('vtkOpenGLTexture')) {
+	          child.deactivate();
+	        }
+	      });
+	      var opaque = model.renderable.getIsOpaque() !== 0;
+	      if (!opaque) {
+	        model.context.depthMask(true);
+	      }
+	    }
+	  };
+
+	  publicAPI.preRender = function () {
+	    model.context.depthMask(false);
+	  };
+	}
+
+	// ----------------------------------------------------------------------------
+	// Object factory
+	// ----------------------------------------------------------------------------
+
+	var DEFAULT_VALUES = {
+	  context: null,
+	  activeTextures: []
+	};
+
+	// ----------------------------------------------------------------------------
+
+	function extend(publicAPI, model) {
+	  var initialValues = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+
+	  Object.assign(model, DEFAULT_VALUES, initialValues);
+
+	  // Inheritance
+	  _ViewNode2.default.extend(publicAPI, model);
+
+	  // Build VTK API
+	  macro.setGet(publicAPI, model, ['context']);
+
+	  macro.get(publicAPI, model, ['activeTextures']);
+
+	  // Object methods
+	  vtkOpenGLActor2D(publicAPI, model);
+	}
+
+	// ----------------------------------------------------------------------------
+
+	var newInstance = exports.newInstance = macro.newInstance(extend);
+
+	// ----------------------------------------------------------------------------
+
+	exports.default = { newInstance: newInstance, extend: extend };
+
+/***/ },
+/* 37 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -11822,7 +11900,2654 @@
 	exports.default = { newInstance: newInstance, extend: extend };
 
 /***/ },
-/* 37 */
+/* 38 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.newInstance = undefined;
+	exports.vtkOpenGLImageMapper = vtkOpenGLImageMapper;
+	exports.extend = extend;
+
+	var _macro = __webpack_require__(1);
+
+	var macro = _interopRequireWildcard(_macro);
+
+	var _Helper = __webpack_require__(39);
+
+	var _Helper2 = _interopRequireDefault(_Helper);
+
+	var _Math = __webpack_require__(21);
+
+	var _Math2 = _interopRequireDefault(_Math);
+
+	var _DataArray = __webpack_require__(22);
+
+	var _DataArray2 = _interopRequireDefault(_DataArray);
+
+	var _Texture = __webpack_require__(47);
+
+	var _Texture2 = _interopRequireDefault(_Texture);
+
+	var _ShaderProgram = __webpack_require__(44);
+
+	var _ShaderProgram2 = _interopRequireDefault(_ShaderProgram);
+
+	var _Texture3 = __webpack_require__(49);
+
+	var _Texture4 = _interopRequireDefault(_Texture3);
+
+	var _ViewNode = __webpack_require__(35);
+
+	var _ViewNode2 = _interopRequireDefault(_ViewNode);
+
+	var _Constants = __webpack_require__(19);
+
+	var _vtkPolyDataVS = __webpack_require__(50);
+
+	var _vtkPolyDataVS2 = _interopRequireDefault(_vtkPolyDataVS);
+
+	var _vtkPolyDataFS = __webpack_require__(51);
+
+	var _vtkPolyDataFS2 = _interopRequireDefault(_vtkPolyDataFS);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	// ----------------------------------------------------------------------------
+	// vtkOpenGLImageMapper methods
+	// ----------------------------------------------------------------------------
+
+	// import { mat4 } from 'gl-matrix';
+
+	function vtkOpenGLImageMapper(publicAPI, model) {
+	  // Set our className
+	  model.classHierarchy.push('vtkOpenGLImageMapper');
+
+	  // Builds myself.
+	  publicAPI.build = function (prepass) {
+	    if (prepass) {
+	      if (!model.renderable) {
+	        return;
+	      }
+	    }
+	  };
+
+	  // Renders myself
+	  publicAPI.render = function (prepass) {
+	    if (prepass) {
+	      model.openGLRenderWindow = publicAPI.getFirstAncestorOfType('vtkOpenGLRenderWindow');
+	      model.context = model.openGLRenderWindow.getContext();
+	      model.tris.setContext(model.context);
+	      model.openGLImageSlice = publicAPI.getFirstAncestorOfType('vtkOpenGLImageSlice');
+	      var actor = model.openGLImageSlice.getRenderable();
+	      model.openGLRenderer = publicAPI.getFirstAncestorOfType('vtkOpenGLRenderer');
+	      var ren = model.openGLRenderer.getRenderable();
+	      model.openGLCamera = model.openGLRenderer.getViewNodeFor(ren.getActiveCamera());
+	      publicAPI.renderPiece(ren, actor);
+	    } else {
+	      // something
+	    }
+	  };
+
+	  publicAPI.buildShaders = function (shaders, ren, actor) {
+	    publicAPI.getShaderTemplate(shaders, ren, actor);
+	    publicAPI.replaceShaderValues(shaders, ren, actor);
+	  };
+
+	  publicAPI.getShaderTemplate = function (shaders, ren, actor) {
+	    shaders.Vertex = _vtkPolyDataVS2.default;
+	    shaders.Fragment = _vtkPolyDataFS2.default;
+	    shaders.Geometry = '';
+	  };
+
+	  publicAPI.replaceShaderValues = function (shaders, ren, actor) {
+	    var VSSource = shaders.Vertex;
+	    var FSSource = shaders.Fragment;
+
+	    VSSource = _ShaderProgram2.default.substitute(VSSource, '//VTK::Camera::Dec', ['uniform mat4 MCDCMatrix;']).result;
+	    VSSource = _ShaderProgram2.default.substitute(VSSource, '//VTK::PositionVC::Impl', ['  gl_Position = MCDCMatrix * vertexMC;']).result;
+
+	    VSSource = _ShaderProgram2.default.substitute(VSSource, '//VTK::TCoord::Impl', 'tcoordVCVSOutput = tcoordMC;').result;
+
+	    var tNumComp = model.openGLTexture.getComponents();
+
+	    VSSource = _ShaderProgram2.default.substitute(VSSource, '//VTK::TCoord::Dec', 'attribute vec2 tcoordMC; varying vec2 tcoordVCVSOutput;').result;
+	    FSSource = _ShaderProgram2.default.substitute(FSSource, '//VTK::TCoord::Dec', ['varying vec2 tcoordVCVSOutput;', 'uniform float shift;', 'uniform float scale;', 'uniform sampler2D texture1;']).result;
+	    switch (tNumComp) {
+	      case 1:
+	        FSSource = _ShaderProgram2.default.substitute(FSSource, '//VTK::TCoord::Impl', ['float intensity = texture2D(texture1, tcoordVCVSOutput).r*scale + shift;', 'gl_FragData[0] = vec4(intensity,intensity,intensity,1.0);']).result;
+	        break;
+	      case 2:
+	        FSSource = _ShaderProgram2.default.substitute(FSSource, '//VTK::TCoord::Impl', ['vec4 tcolor = texture2D(texture1, tcoordVCVSOutput);', 'float intensity = tcolor.r*scale + shift;', 'gl_FragData[0] = vec4(intensity, intensity, intensity, scale*tcolor.g + shift);']).result;
+	        break;
+	      default:
+	        FSSource = _ShaderProgram2.default.substitute(FSSource, '//VTK::TCoord::Impl', 'gl_FragData[0] = scale*texture2D(texture1, tcoordVCVSOutput.st) + shift;').result;
+	    }
+	    shaders.Vertex = VSSource;
+	    shaders.Fragment = FSSource;
+	  };
+
+	  publicAPI.getNeedToRebuildShaders = function (cellBO, ren, actor) {
+	    // has something changed that would require us to recreate the shader?
+	    // candidates are
+	    // property modified (representation interpolation and lighting)
+	    // input modified
+	    // light complexity changed
+	    if (cellBO.getProgram() === 0 || cellBO.getShaderSourceTime().getMTime() < publicAPI.getMTime() || cellBO.getShaderSourceTime().getMTime() < actor.getMTime() || cellBO.getShaderSourceTime().getMTime() < model.currentInput.getMTime()) {
+	      return true;
+	    }
+
+	    return false;
+	  };
+
+	  publicAPI.updateShaders = function (cellBO, ren, actor) {
+	    cellBO.getVAO().bind();
+	    model.lastBoundBO = cellBO;
+
+	    // has something changed that would require us to recreate the shader?
+	    if (publicAPI.getNeedToRebuildShaders(cellBO, ren, actor)) {
+	      var shaders = { Vertex: null, Fragment: null, Geometry: null };
+
+	      publicAPI.buildShaders(shaders, ren, actor);
+
+	      // compile and bind the program if needed
+	      var newShader = model.openGLRenderWindow.getShaderCache().readyShaderProgramArray(shaders.Vertex, shaders.Fragment, shaders.Geometry);
+
+	      // if the shader changed reinitialize the VAO
+	      if (newShader !== cellBO.getProgram()) {
+	        cellBO.setProgram(newShader);
+	        // reset the VAO as the shader has changed
+	        cellBO.getVAO().releaseGraphicsResources();
+	      }
+
+	      cellBO.getShaderSourceTime().modified();
+	    } else {
+	      model.openGLRenderWindow.getShaderCache().readyShaderProgram(cellBO.getProgram());
+	    }
+
+	    publicAPI.setMapperShaderParameters(cellBO, ren, actor);
+	    publicAPI.setCameraShaderParameters(cellBO, ren, actor);
+	    publicAPI.setPropertyShaderParameters(cellBO, ren, actor);
+	  };
+
+	  publicAPI.setMapperShaderParameters = function (cellBO, ren, actor) {
+	    // Now to update the VAO too, if necessary.
+
+	    if (cellBO.getCABO().getElementCount() && (model.VBOBuildTime > cellBO.getAttributeUpdateTime().getMTime() || cellBO.getShaderSourceTime().getMTime() > cellBO.getAttributeUpdateTime().getMTime())) {
+	      cellBO.getCABO().bind();
+	      if (cellBO.getProgram().isAttributeUsed('vertexMC')) {
+	        if (!cellBO.getVAO().addAttributeArray(cellBO.getProgram(), cellBO.getCABO(), 'vertexMC', cellBO.getCABO().getVertexOffset(), cellBO.getCABO().getStride(), model.context.FLOAT, 3, model.context.FALSE)) {
+	          console.error('Error setting vertexMC in shader VAO.');
+	        }
+	      }
+	      if (cellBO.getProgram().isAttributeUsed('tcoordMC') && cellBO.getCABO().getTCoordOffset()) {
+	        if (!cellBO.getVAO().addAttributeArray(cellBO.getProgram(), cellBO.getCABO(), 'tcoordMC', cellBO.getCABO().getTCoordOffset(), cellBO.getCABO().getStride(), model.context.FLOAT, cellBO.getCABO().getTCoordComponents(), model.context.FALSE)) {
+	          console.error('Error setting tcoordMC in shader VAO.');
+	        }
+	      }
+	    }
+
+	    var texUnit = model.openGLTexture.getTextureUnit();
+	    cellBO.getProgram().setUniformi('texture1', texUnit);
+
+	    var cw = actor.getProperty().getColorWindow();
+	    var cl = actor.getProperty().getColorLevel();
+	    var oglShiftScale = model.openGLTexture.getShiftAndScale();
+
+	    var scale = oglShiftScale.scale / cw;
+	    var shift = (oglShiftScale.shift - cl) / cw + 0.5;
+
+	    cellBO.getProgram().setUniformf('shift', shift);
+	    cellBO.getProgram().setUniformf('scale', scale);
+	  };
+
+	  publicAPI.setCameraShaderParameters = function (cellBO, ren, actor) {
+	    var program = cellBO.getProgram();
+
+	    // if (model.renderable.getRenderToRectangle()) {
+	    //   let xscale = 1.0;
+	    //   let yscale = 1.0;
+	    //   const actorPos =
+	    //     actor.getActualPositionCoordinate().getComputedViewValue(ren);
+	    //   const actorPos2 =
+	    //     actor.getActualPosition2Coordinate().getComputedViewValue(ren);
+
+	    //   const rectwidth  = (actorPos2[0] - actorPos[0]) + 1;
+	    //   const rectheight = (actorPos2[1] - actorPos[1]) + 1;
+	    //   const xscale = rectwidth / width;
+	    //   const yscale = rectheight / height;
+	    // }
+
+	    // points->SetPoint(0, 0.0, 0.0, 0);
+	    // points->SetPoint(1, width*xscale, 0.0, 0);
+	    // points->SetPoint(2, width*xscale, height*yscale, 0);
+	    // points->SetPoint(3, 0.0, height*yscale, 0);
+
+	    // // [WMVD]C == {world, model, view, display} coordinates
+	    // // E.g., WCDC == world to display coordinate transformation
+	    var keyMats = model.openGLCamera.getKeyMatrices(ren);
+	    program.setUniformMatrix('MCDCMatrix', keyMats.wcdc);
+	    // program.setUniformf4('p1', );
+	    // program.setUniformf4('p2',);
+	  };
+
+	  publicAPI.setPropertyShaderParameters = function (cellBO, ren, actor) {
+	    var program = cellBO.getProgram();
+
+	    var ppty = actor.getProperty();
+
+	    var opacity = ppty.getOpacity();
+	    program.setUniformf('opacityUniform', opacity);
+	  };
+
+	  publicAPI.renderPieceStart = function (ren, actor) {
+	    // make sure the BOs are up to date
+	    publicAPI.updateBufferObjects(ren, actor);
+
+	    // Bind the OpenGL, this is shared between the different primitive/cell types.
+	    model.lastBoundBO = null;
+	  };
+
+	  publicAPI.renderPieceDraw = function (ren, actor) {
+	    var gl = model.context;
+
+	    // render the texture
+	    model.openGLTexture.preRender(model.openGLRenderer);
+
+	    // draw polygons
+	    if (model.tris.getCABO().getElementCount()) {
+	      // First we do the triangles, update the shader, set uniforms, etc.
+	      publicAPI.updateShaders(model.tris, ren, actor);
+	      gl.drawArrays(gl.TRIANGLES, 0, model.tris.getCABO().getElementCount());
+	    }
+
+	    model.openGLTexture.deactivate();
+	  };
+
+	  publicAPI.renderPieceFinish = function (ren, actor) {
+	    if (model.LastBoundBO) {
+	      model.LastBoundBO.getVAO().release();
+	    }
+	  };
+
+	  publicAPI.renderPiece = function (ren, actor) {
+	    // Make sure that we have been properly initialized.
+	    // if (ren.getRenderWindow().checkAbortStatus()) {
+	    //   return;
+	    // }
+
+	    publicAPI.invokeEvent({ type: 'StartEvent' });
+	    model.renderable.update();
+	    model.currentInput = model.renderable.getInputData();
+	    publicAPI.invokeEvent({ type: 'EndEvent' });
+
+	    if (model.currentInput === null) {
+	      console.error('No input!');
+	      return;
+	    }
+
+	    publicAPI.renderPieceStart(ren, actor);
+	    publicAPI.renderPieceDraw(ren, actor);
+	    publicAPI.renderPieceFinish(ren, actor);
+	  };
+
+	  publicAPI.computeBounds = function (ren, actor) {
+	    if (!publicAPI.getInput()) {
+	      _Math2.default.uninitializeBounds(model.Bounds);
+	      return;
+	    }
+	    model.bounnds = publicAPI.getInput().getBounds();
+	  };
+
+	  publicAPI.updateBufferObjects = function (ren, actor) {
+	    // Rebuild buffers if needed
+	    if (publicAPI.getNeedToRebuildBufferObjects(ren, actor)) {
+	      publicAPI.buildBufferObjects(ren, actor);
+	    }
+	  };
+
+	  publicAPI.getNeedToRebuildBufferObjects = function (ren, actor) {
+	    // first do a coarse check
+	    if (model.VBOBuildTime.getMTime() < publicAPI.getMTime() || model.VBOBuildTime.getMTime() < actor.getMTime() || model.VBOBuildTime.getMTime() < actor.getProperty().getMTime() || model.VBOBuildTime.getMTime() < model.currentInput.getMTime()) {
+	      return true;
+	    }
+	    return false;
+	  };
+
+	  publicAPI.buildBufferObjects = function (ren, actor) {
+	    var image = model.currentInput;
+
+	    if (image === null) {
+	      return;
+	    }
+
+	    // rebuild the VBO if the data has changed
+	    var toString = image.getMTime() + 'A' + image.getPointData().getScalars().getMTime() + 'B' + publicAPI.getMTime();
+
+	    if (model.VBOBuildString !== toString) {
+	      // Build the VBOs
+	      model.texture.setInputData(image);
+
+	      var bounds = model.renderable.getBounds();
+
+	      var ptsArray = new Float32Array(12);
+	      var tcoordArray = new Float32Array(8);
+	      for (var i = 0; i < 4; i++) {
+	        ptsArray[i * 3] = bounds[i % 2];
+	        ptsArray[i * 3 + 1] = bounds[(i > 1 ? 1 : 0) + 2];
+	        ptsArray[i * 3 + 2] = bounds[4];
+	        tcoordArray[i * 2] = i % 2 ? 1.0 : 0.0;
+	        tcoordArray[i * 2 + 1] = i > 1 ? 1.0 : 0.0;
+	      }
+
+	      var points = _DataArray2.default.newInstance({ tuple: 3, values: ptsArray });
+	      points.setName('points');
+	      var tcoords = _DataArray2.default.newInstance({ tuple: 2, values: tcoordArray });
+	      tcoords.setName('tcoords');
+
+	      var cellArray = new Uint16Array(8);
+	      cellArray[0] = 3;
+	      cellArray[1] = 0;
+	      cellArray[2] = 1;
+	      cellArray[3] = 3;
+	      cellArray[4] = 3;
+	      cellArray[5] = 0;
+	      cellArray[6] = 3;
+	      cellArray[7] = 2;
+	      var cells = _DataArray2.default.newInstance({ tuple: 1, values: cellArray });
+
+	      var cellOffset = 0;
+	      cellOffset += model.tris.getCABO().createVBO(cells, 'polys', _Constants.VTK_REPRESENTATION.SURFACE, { points: points, tcoords: tcoords, cellOffset: cellOffset });
+	      model.VBOBuildTime.modified();
+	      model.VBOBuildString = toString;
+	    }
+	  };
+	}
+
+	// ----------------------------------------------------------------------------
+	// Object factory
+	// ----------------------------------------------------------------------------
+
+	var DEFAULT_VALUES = {
+	  context: null,
+	  VBOBuildTime: 0,
+	  VBOBuildString: null,
+	  texture: null,
+	  openGLTexture: null,
+	  tris: null
+	};
+
+	// ----------------------------------------------------------------------------
+
+	function extend(publicAPI, model) {
+	  var initialValues = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+
+	  Object.assign(model, DEFAULT_VALUES, initialValues);
+
+	  // Inheritance
+	  _ViewNode2.default.extend(publicAPI, model);
+
+	  model.tris = _Helper2.default.newInstance();
+	  model.texture = _Texture4.default.newInstance();
+	  model.openGLTexture = _Texture2.default.newInstance();
+	  model.openGLTexture.setRenderable(model.texture);
+
+	  // Build VTK API
+	  macro.setGet(publicAPI, model, ['context']);
+
+	  model.VBOBuildTime = {};
+	  macro.obj(model.VBOBuildTime);
+
+	  // Object methods
+	  vtkOpenGLImageMapper(publicAPI, model);
+	}
+
+	// ----------------------------------------------------------------------------
+
+	var newInstance = exports.newInstance = macro.newInstance(extend);
+
+	// ----------------------------------------------------------------------------
+
+	exports.default = { newInstance: newInstance, extend: extend };
+
+/***/ },
+/* 39 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.newInstance = undefined;
+	exports.vtkOpenGLHelper = vtkOpenGLHelper;
+	exports.extend = extend;
+
+	var _macro = __webpack_require__(1);
+
+	var macro = _interopRequireWildcard(_macro);
+
+	var _CellArrayBufferObject = __webpack_require__(40);
+
+	var _CellArrayBufferObject2 = _interopRequireDefault(_CellArrayBufferObject);
+
+	var _ShaderProgram = __webpack_require__(44);
+
+	var _ShaderProgram2 = _interopRequireDefault(_ShaderProgram);
+
+	var _VertexArrayObject = __webpack_require__(46);
+
+	var _VertexArrayObject2 = _interopRequireDefault(_VertexArrayObject);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	// ----------------------------------------------------------------------------
+	// vtkOpenGLHelper methods
+	// ----------------------------------------------------------------------------
+
+	function vtkOpenGLHelper(publicAPI, model) {
+	  // Set our className
+	  model.classHierarchy.push('vtkOpenGLHelper');
+
+	  publicAPI.setContext = function (ctx) {
+	    model.program.setContext(ctx);
+	    model.VAO.setContext(ctx);
+	    model.CABO.setContext(ctx);
+	  };
+	}
+
+	// ----------------------------------------------------------------------------
+	// Object factory
+	// ----------------------------------------------------------------------------
+
+	var DEFAULT_VALUES = {
+	  program: null,
+	  shaderSourceTime: null,
+	  VAO: null,
+	  attributeUpdateTime: null,
+	  IBO: null,
+	  CABO: null
+	};
+
+	// ----------------------------------------------------------------------------
+
+	function extend(publicAPI, model) {
+	  var initialValues = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+
+	  Object.assign(model, DEFAULT_VALUES, initialValues);
+
+	  // Build VTK API
+	  macro.obj(publicAPI, model);
+
+	  model.shaderSourceTime = {};
+	  macro.obj(model.shaderSourceTime);
+
+	  model.attributeUpdateTime = {};
+	  macro.obj(model.attributeUpdateTime);
+
+	  macro.setGet(publicAPI, model, ['program', 'shaderSourceTime', 'VAO', 'attributeUpdateTime', 'CABO']);
+
+	  model.program = _ShaderProgram2.default.newInstance();
+	  model.VAO = _VertexArrayObject2.default.newInstance();
+	  model.CABO = _CellArrayBufferObject2.default.newInstance();
+
+	  // Object methods
+	  vtkOpenGLHelper(publicAPI, model);
+	}
+
+	// ----------------------------------------------------------------------------
+
+	var newInstance = exports.newInstance = macro.newInstance(extend);
+
+	// ----------------------------------------------------------------------------
+
+	exports.default = { newInstance: newInstance, extend: extend };
+
+/***/ },
+/* 40 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.newInstance = undefined;
+	exports.extend = extend;
+
+	var _macro = __webpack_require__(1);
+
+	var macro = _interopRequireWildcard(_macro);
+
+	var _BufferObject = __webpack_require__(41);
+
+	var _BufferObject2 = _interopRequireDefault(_BufferObject);
+
+	var _DynamicTypedArray = __webpack_require__(43);
+
+	var _Constants = __webpack_require__(42);
+
+	var _Constants2 = __webpack_require__(19);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	// ----------------------------------------------------------------------------
+	// vtkOpenGLCellArrayBufferObject methods
+	// ----------------------------------------------------------------------------
+
+	function vtkOpenGLCellArrayBufferObject(publicAPI, model) {
+	  // Set our className
+	  model.classHierarchy.push('vtkOpenGLCellArrayBufferObject');
+
+	  var packedVBO = new _DynamicTypedArray.DynamicTypedArray({ chunkSize: 65500, arrayType: 'Float32Array' }); // the data
+
+	  publicAPI.setType(_Constants.OBJECT_TYPE.ARRAY_BUFFER);
+
+	  publicAPI.createVBO = function (cellArray, inRep, outRep, options) {
+	    if (!cellArray.getData() || !cellArray.getData().length) {
+	      model.elementCount = 0;
+	      return 0;
+	    }
+
+	    // Figure out how big each block will be, currently 6 or 7 floats.
+	    model.blockSize = 3;
+	    model.vertexOffset = 0;
+	    model.normalOffset = 0;
+	    model.tCoordOffset = 0;
+	    model.tCoordComponents = 0;
+	    model.colorComponents = 0;
+	    model.colorOffset = 0;
+
+	    var pointData = options.points.getData();
+	    var normalData = null;
+	    var tcoordData = null;
+	    var colorData = null;
+
+	    var colorComponents = options.colors ? options.colors.getNumberOfComponents() : 0;
+	    var textureComponents = options.tcoords ? options.tcoords.getNumberOfComponents() : 0;
+
+	    if (options.normals) {
+	      model.normalOffset = /* sizeof(float) */4 * model.blockSize;
+	      model.blockSize += 3;
+	      normalData = options.normals.getData();
+	    }
+
+	    if (options.tcoords) {
+	      model.tCoordOffset = /* sizeof(float) */4 * model.blockSize;
+	      model.tCoordComponents = textureComponents;
+	      model.blockSize += textureComponents;
+	      tcoordData = options.tcoords.getData();
+	    }
+
+	    if (options.colors) {
+	      model.colorComponents = options.colors.getNumberOfComponents();
+	      model.colorOffset = /* sizeof(float) */4 * model.blockSize;
+	      //      model.blockSize += 1;
+	      model.blockSize += model.colorComponents;
+	      colorData = options.colors.getData();
+	    }
+	    model.stride = /* sizeof(float) */4 * model.blockSize;
+
+	    var pointIdx = 0;
+	    var normalIdx = 0;
+	    var tcoordIdx = 0;
+	    var colorIdx = 0;
+	    var cellCount = 0;
+
+	    // const colorHolder = new Uint8Array(4);
+
+	    var addAPoint = function addAPoint(i) {
+	      // Vertices
+	      pointIdx = i * 3;
+	      tcoordIdx = i * textureComponents;
+
+	      packedVBO.push(pointData[pointIdx++]);
+	      packedVBO.push(pointData[pointIdx++]);
+	      packedVBO.push(pointData[pointIdx++]);
+
+	      if (normalData !== null) {
+	        if (options.haveCellNormals) {
+	          normalIdx = (cellCount + options.cellOffset) * 3;
+	        } else {
+	          normalIdx = i * 3;
+	        }
+	        packedVBO.push(normalData[normalIdx++]);
+	        packedVBO.push(normalData[normalIdx++]);
+	        packedVBO.push(normalData[normalIdx++]);
+	      }
+
+	      if (tcoordData !== null) {
+	        for (var j = 0; j < textureComponents; ++j) {
+	          packedVBO.push(tcoordData[tcoordIdx++]);
+	        }
+	      }
+
+	      if (colorData !== null) {
+	        if (options.haveCellScalars) {
+	          colorIdx = (cellCount + options.cellOffset) * colorComponents;
+	        } else {
+	          colorIdx = i * colorComponents;
+	        }
+
+	        for (var _j = 0; _j < colorComponents; ++_j) {
+	          packedVBO.push(colorData[colorIdx++] / 255.5);
+	        }
+	      }
+	      // if (colorData !== null) {
+	      //   colorHolder[0] = colorData[colorIdx++];
+	      //   colorHolder[1] = colorData[colorIdx++];
+	      //   colorHolder[2] = colorData[colorIdx++];
+
+	      //   if (colorComponents === 4) {
+	      //     colorHolder[3] = colorData[colorIdx++];
+	      //   } else {  // must be 3 color components then
+	      //     colorHolder[3] = 255;
+	      //   }
+
+	      //   packedVBO.push(new Float32Array(colorHolder.buffer)[0]);
+	      // }
+	    };
+
+	    var cellBuilders = {
+	      // easy, every input point becomes an output point
+
+	      anythingToPoints: function anythingToPoints(numPoints, cellPts, offset) {
+	        for (var i = 0; i < numPoints; ++i) {
+	          addAPoint(cellPts[offset + i]);
+	        }
+	      },
+	      linesToWireframe: function linesToWireframe(numPoints, cellPts, offset) {
+	        // for lines we add a bunch of segments
+	        for (var i = 0; i < numPoints - 1; ++i) {
+	          addAPoint(cellPts[offset + i]);
+	          addAPoint(cellPts[offset + i + 1]);
+	        }
+	      },
+	      polysToWireframe: function polysToWireframe(numPoints, cellPts, offset) {
+	        // for polys we add a bunch of segments and close it
+	        for (var i = 0; i < numPoints; ++i) {
+	          addAPoint(cellPts[offset + i]);
+	          addAPoint(cellPts[offset + (i + 1) % numPoints]);
+	        }
+	      },
+	      stripsToWireframe: function stripsToWireframe(numPoints, cellPts, offset) {
+	        // for strips we add a bunch of segments and close it
+	        for (var i = 0; i < numPoints - 1; ++i) {
+	          addAPoint(cellPts[offset + i]);
+	          addAPoint(cellPts[offset + i + 1]);
+	        }
+	        for (var _i = 0; _i < numPoints - 2; _i++) {
+	          addAPoint(cellPts[offset + _i]);
+	          addAPoint(cellPts[offset + _i + 2]);
+	        }
+	      },
+	      polysToSurface: function polysToSurface(npts, cellPts, offset) {
+	        if (npts < 3) {
+	          // ignore degenerate triangles
+	          console.log('skipping degenerate triangle');
+	        } else {
+	          for (var i = 0; i < npts - 2; i++) {
+	            addAPoint(cellPts[offset + 0]);
+	            addAPoint(cellPts[offset + i + 1]);
+	            addAPoint(cellPts[offset + i + 2]);
+	          }
+	        }
+	      },
+	      stripsToSurface: function stripsToSurface(npts, cellPts, offset) {
+	        for (var i = 0; i < npts - 2; i++) {
+	          addAPoint(cellPts[offset + i]);
+	          addAPoint(cellPts[offset + i + 1 + i % 2]);
+	          addAPoint(cellPts[offset + i + 1 + (i + 1) % 2]);
+	        }
+	      }
+	    };
+
+	    var func = null;
+	    if (outRep === _Constants2.VTK_REPRESENTATION.POINTS || inRep === 'verts') {
+	      func = cellBuilders.anythingToPoints;
+	    } else if (outRep === _Constants2.VTK_REPRESENTATION.WIREFRAME || inRep === 'lines') {
+	      func = cellBuilders[inRep + 'ToWireframe'];
+	    } else {
+	      func = cellBuilders[inRep + 'ToSurface'];
+	    }
+
+	    var currentIndex = 0;
+	    var array = cellArray.getData();
+	    var size = array.length;
+	    for (var index = 0; index < size; index++) {
+	      if (index === currentIndex) {
+	        func(array[index], array, currentIndex + 1);
+	        currentIndex += array[index] + 1;
+	        cellCount++;
+	      }
+	    }
+	    model.elementCount = packedVBO.getNumberOfElements() / model.blockSize;
+	    var vboArray = packedVBO.getFrozenArray();
+	    publicAPI.upload(vboArray, _Constants.OBJECT_TYPE.ARRAY_BUFFER);
+	    packedVBO.reset();
+	    return cellCount;
+	  };
+
+	  publicAPI.setCoordShiftAndScaleMethod = function (shiftScaleMethod) {
+	    console.log('coordinate shift and scale not yet implemented');
+	  };
+
+	  publicAPI.setCoordShift = function (shiftArray) {
+	    console.log('coordinate shift and scale not yet implemented');
+	  };
+
+	  publicAPI.setCoordScale = function (scaleArray) {
+	    console.log('coordinate shift and scale not yet implemented');
+	  };
+	}
+
+	// ----------------------------------------------------------------------------
+	// Object factory
+	// ----------------------------------------------------------------------------
+
+	var DEFAULT_VALUES = {
+	  elementCount: 0,
+	  stride: 0,
+	  vertexOffset: 0,
+	  normalOffset: 0,
+	  tCoordOffset: 0,
+	  tCoordComponents: 0,
+	  colorOffset: 0,
+	  colorComponents: 0
+	};
+
+	// ----------------------------------------------------------------------------
+
+	function extend(publicAPI, model) {
+	  var initialValues = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+
+	  Object.assign(model, DEFAULT_VALUES, initialValues);
+
+	  // Inheritance
+	  _BufferObject2.default.extend(publicAPI, model);
+
+	  macro.get(publicAPI, model, ['elementCount', 'stride', 'vertexOffset', 'normalOffset', 'tCoordOffset', 'tCoordComponents', 'colorOffset', 'colorComponents']);
+
+	  // Object specific methods
+	  vtkOpenGLCellArrayBufferObject(publicAPI, model);
+	}
+
+	// ----------------------------------------------------------------------------
+
+	var newInstance = exports.newInstance = macro.newInstance(extend);
+
+	// ----------------------------------------------------------------------------
+
+	exports.default = { newInstance: newInstance, extend: extend };
+
+/***/ },
+/* 41 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.newInstance = exports.STATIC = undefined;
+	exports.extend = extend;
+
+	var _macro = __webpack_require__(1);
+
+	var macro = _interopRequireWildcard(_macro);
+
+	var _Constants = __webpack_require__(42);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	// ----------------------------------------------------------------------------
+	// Global methods
+	// ----------------------------------------------------------------------------
+
+	// ----------------------------------------------------------------------------
+	// Static API
+	// ----------------------------------------------------------------------------
+
+	var STATIC = exports.STATIC = {};
+
+	// ----------------------------------------------------------------------------
+	// vtkOpenGLBufferObject methods
+	// ----------------------------------------------------------------------------
+
+	function vtkOpenGLBufferObject(publicAPI, model) {
+	  // Set our className
+	  model.classHierarchy.push('vtkOpenGLBufferObject');
+
+	  // Class-specific private functions
+	  function convertType(type) {
+	    switch (type) {
+	      case _Constants.OBJECT_TYPE.ELEMENT_ARRAY_BUFFER:
+	        return model.context.ELEMENT_ARRAY_BUFFER;
+	      case _Constants.OBJECT_TYPE.TEXTURE_BUFFER:
+	        if ('TEXTURE_BUFFER' in model.context) {
+	          return model.context.TEXTURE_BUFFER;
+	        }
+	      /* eslint-disable no-fallthrough */
+	      // Intentional fallthrough in case there is no TEXTURE_BUFFER in WebGL
+	      default:
+	      /* eslint-enable no-fallthrough */
+	      case _Constants.OBJECT_TYPE.ARRAY_BUFFER:
+	        return model.context.ARRAY_BUFFER;
+	    }
+	  }
+
+	  var internalType = null;
+	  var internalHandle = null;
+	  var dirty = true;
+	  var error = '';
+
+	  // Public API methods
+	  publicAPI.getType = function () {
+	    return internalType;
+	  };
+
+	  publicAPI.setType = function (value) {
+	    internalType = value;
+	  };
+
+	  publicAPI.getHandle = function () {
+	    return internalHandle;
+	  };
+	  publicAPI.isReady = function () {
+	    return dirty === false;
+	  };
+
+	  publicAPI.generateBuffer = function (type) {
+	    var objectTypeGL = convertType(type);
+	    if (internalHandle === null) {
+	      internalHandle = model.context.createBuffer();
+	      internalType = type;
+	    }
+	    return convertType(internalType) === objectTypeGL;
+	  };
+
+	  publicAPI.upload = function (data, type) {
+	    // buffer, size, type
+	    var alreadyGenerated = publicAPI.generateBuffer(type);
+	    if (!alreadyGenerated) {
+	      error = 'Trying to upload array buffer to incompatible buffer.';
+	      return false;
+	    }
+	    model.context.bindBuffer(convertType(internalType), internalHandle);
+	    model.context.bufferData(convertType(internalType), data, model.context.STATIC_DRAW);
+	    dirty = false;
+	    return true;
+	  };
+
+	  publicAPI.bind = function () {
+	    if (!internalHandle) {
+	      return false;
+	    }
+	    model.context.bindBuffer(convertType(internalType), internalHandle);
+	    return true;
+	  };
+
+	  publicAPI.release = function () {
+	    if (!internalHandle) {
+	      return false;
+	    }
+	    model.context.bindBuffer(convertType(internalType), null);
+	    return true;
+	  };
+
+	  publicAPI.releaseGraphicsResources = function () {
+	    if (internalHandle !== null) {
+	      model.context.bindBuffer(convertType(internalType), null);
+	      model.context.deleteBuffers(internalHandle);
+	      internalHandle = null;
+	    }
+	  };
+
+	  publicAPI.getError = function () {
+	    return error;
+	  };
+	}
+
+	// ----------------------------------------------------------------------------
+	// Object factory
+	// ----------------------------------------------------------------------------
+
+	var DEFAULT_VALUES = {
+	  objectType: _Constants.OBJECT_TYPE.ARRAY_BUFFER,
+	  context: null
+	};
+
+	// ----------------------------------------------------------------------------
+
+	function extend(publicAPI, model) {
+	  var initialValues = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+
+	  Object.assign(model, DEFAULT_VALUES, initialValues);
+
+	  // Object methods
+	  macro.obj(publicAPI, model);
+
+	  macro.setGet(publicAPI, model, ['context']);
+
+	  vtkOpenGLBufferObject(publicAPI, model);
+	}
+
+	// ----------------------------------------------------------------------------
+
+	var newInstance = exports.newInstance = macro.newInstance(extend);
+
+	// ----------------------------------------------------------------------------
+
+	exports.default = Object.assign({ newInstance: newInstance, extend: extend }, STATIC);
+
+/***/ },
+/* 42 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	var OBJECT_TYPE = exports.OBJECT_TYPE = {
+	  ARRAY_BUFFER: 0,
+	  ELEMENT_ARRAY_BUFFER: 1,
+	  TEXTURE_BUFFER: 2
+	};
+
+	exports.default = { OBJECT_TYPE: OBJECT_TYPE };
+
+/***/ },
+/* 43 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	var DynamicTypedArray = exports.DynamicTypedArray = function () {
+	  function DynamicTypedArray() {
+	    var _ref = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+
+	    var _ref$chunkSize = _ref.chunkSize;
+	    var chunkSize = _ref$chunkSize === undefined ? 65536 : _ref$chunkSize;
+	    var _ref$arrayType = _ref.arrayType;
+	    var arrayType = _ref$arrayType === undefined ? 'Int32Array' : _ref$arrayType;
+
+	    _classCallCheck(this, DynamicTypedArray);
+
+	    this.ArrayConstructor = window[arrayType];
+	    this.chunkSize = chunkSize;
+	    this.reset();
+	  }
+
+	  _createClass(DynamicTypedArray, [{
+	    key: 'reset',
+	    value: function reset() {
+	      this.chunkContainer = [];
+	      this.chunkContainer.push(new this.ArrayConstructor(this.chunkSize));
+	      this.lastChunkItemCount = 0;
+	    }
+	  }, {
+	    key: 'push',
+	    value: function push(value) {
+	      if (this.lastChunkItemCount === this.chunkSize) {
+	        this.chunkContainer.push(new this.ArrayConstructor(this.chunkSize));
+	        this.lastChunkItemCount = 0;
+	      }
+	      this.chunkContainer[this.chunkContainer.length - 1][this.lastChunkItemCount] = value;
+	      this.lastChunkItemCount += 1;
+	    }
+	  }, {
+	    key: 'getNumberOfElements',
+	    value: function getNumberOfElements() {
+	      return (this.chunkContainer.length - 1) * this.chunkSize + this.lastChunkItemCount;
+	    }
+	  }, {
+	    key: 'getFrozenArray',
+	    value: function getFrozenArray() {
+	      var fullArray = new this.ArrayConstructor(this.getNumberOfElements());
+	      for (var i = 0; i < this.chunkContainer.length - 1; ++i) {
+	        fullArray.set(this.chunkContainer[i], i * this.chunkSize);
+	      }
+
+	      var indexOfLastChunk = this.chunkContainer.length - 1;
+
+	      if (this.lastChunkItemCount < this.chunkSize) {
+	        var buf = this.chunkContainer[indexOfLastChunk].buffer;
+	        var bufLen = this.lastChunkItemCount; // mult by 4 in case it needs number of bytes
+	        var partialChunkView = new this.ArrayConstructor(buf, 0, bufLen);
+	        fullArray.set(partialChunkView, indexOfLastChunk * this.chunkSize);
+	      } else {
+	        // If the last chunk is completely full
+	        fullArray.set(this.chunkContainer[indexOfLastChunk], indexOfLastChunk * this.chunkSize);
+	      }
+
+	      return fullArray;
+	    }
+	  }]);
+
+	  return DynamicTypedArray;
+	}();
+
+/***/ },
+/* 44 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.newInstance = undefined;
+	exports.substitute = substitute;
+	exports.vtkShaderProgram = vtkShaderProgram;
+	exports.extend = extend;
+
+	var _macro = __webpack_require__(1);
+
+	var macro = _interopRequireWildcard(_macro);
+
+	var _Shader = __webpack_require__(45);
+
+	var _Shader2 = _interopRequireDefault(_Shader);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	// perform in place string substitutions, indicate if a substitution was done
+	// this is useful for building up shader strings which typically involve
+	// lots of string substitutions. Return true if a substitution was done.
+	function substitute(source, search, replace) {
+	  var all = arguments.length <= 3 || arguments[3] === undefined ? true : arguments[3];
+
+	  var replaceStr = Array.isArray(replace) ? replace.join('\n') : replace;
+	  var replaced = false;
+	  if (source.search(search) !== -1) {
+	    replaced = true;
+	  }
+	  var gflag = '';
+	  if (all) {
+	    gflag = 'g';
+	  }
+	  var regex = new RegExp(search, gflag);
+	  var resultstr = source.replace(regex, replaceStr);
+	  return { replace: replaced, result: resultstr };
+	}
+
+	// ----------------------------------------------------------------------------
+	// vtkShaderProgram methods
+	// ----------------------------------------------------------------------------
+
+	function vtkShaderProgram(publicAPI, model) {
+	  // Set our className
+	  model.classHierarchy.push('vtkShaderProgram');
+
+	  publicAPI.compileShader = function () {
+	    if (!model.vertexShader.compile()) {
+	      console.log(model.vertexShader.getSource().split('\n').map(function (line, index) {
+	        return index + ': ' + line;
+	      }).join('\n'));
+	      console.log(model.vertexShader.getError());
+	      return 0;
+	    }
+	    if (!model.fragmentShader.compile()) {
+	      console.log(model.fragmentShader.getSource().split('\n').map(function (line, index) {
+	        return index + ': ' + line;
+	      }).join('\n'));
+	      console.log(model.fragmentShader.getError());
+	      return 0;
+	    }
+	    // skip geometry for now
+	    if (!publicAPI.attachShader(model.vertexShader)) {
+	      console.log(model.error);
+	      return 0;
+	    }
+	    if (!publicAPI.attachShader(model.fragmentShader)) {
+	      console.log(model.error);
+	      return 0;
+	    }
+
+	    if (!publicAPI.link()) {
+	      console.log('Links failed: ' + model.error);
+	      return 0;
+	    }
+
+	    publicAPI.setCompiled(true);
+	    return 1;
+	  };
+
+	  publicAPI.cleanup = function () {
+	    if (model.shaderType === 'Unknown' || model.handle === 0) {
+	      return;
+	    }
+
+	    model.context.deleteShader(model.handle);
+	    model.handle = 0;
+	  };
+
+	  publicAPI.bind = function () {
+	    if (!model.linked && !model.link()) {
+	      return false;
+	    }
+
+	    model.context.useProgram(model.handle);
+	    publicAPI.setBound(true);
+	    return true;
+	  };
+
+	  publicAPI.isBound = function () {
+	    return !!model.bound;
+	  };
+
+	  publicAPI.release = function () {
+	    model.context.useProgram(null);
+	    publicAPI.setBound(false);
+	  };
+
+	  publicAPI.setContext = function (ctx) {
+	    model.vertexShader.setContext(ctx);
+	    model.fragmentShader.setContext(ctx);
+	    model.geometryShader.setContext(ctx);
+	  };
+
+	  publicAPI.link = function () {
+	    if (model.inked) {
+	      return true;
+	    }
+
+	    if (model.handle === 0) {
+	      model.error = 'Program has not been initialized, and/or does not have shaders.';
+	      return false;
+	    }
+
+	    // clear out the list of uniforms used
+	    model.uniformLocs = {};
+
+	    model.context.linkProgram(model.handle);
+	    var isCompiled = model.context.getProgramParameter(model.handle, model.context.LINK_STATUS);
+	    if (!isCompiled) {
+	      var lastError = model.context.getProgramInfoLog(model.handle);
+	      console.error('Error linking shader ' + lastError);
+	      model.handle = 0;
+	      return false;
+	    }
+
+	    publicAPI.setLinked(true);
+	    model.attributeLocs = {};
+	    return true;
+	  };
+
+	  publicAPI.setUniformf = function (name, v) {
+	    var location = publicAPI.findUniform(name);
+	    if (location === -1) {
+	      model.error = 'Could not set uniform ' + name + ' . No such uniform.';
+	      return false;
+	    }
+	    model.context.uniform1f(location, v);
+	    return true;
+	  };
+
+	  publicAPI.setUniformi = function (name, v) {
+	    var location = publicAPI.findUniform(name);
+	    if (location === -1) {
+	      model.error = 'Could not set uniform ' + name + ' . No such uniform.';
+	      return false;
+	    }
+	    model.context.uniform1i(location, v);
+	    return true;
+	  };
+
+	  publicAPI.setUniformMatrix = function (name, v) {
+	    var location = publicAPI.findUniform(name);
+	    if (location === -1) {
+	      model.error = 'Could not set uniform ' + name + ' . No such uniform.';
+	      return false;
+	    }
+	    model.context.uniformMatrix4fv(location, false, v);
+	    return true;
+	  };
+
+	  publicAPI.setUniformMatrix3x3 = function (name, v) {
+	    var location = publicAPI.findUniform(name);
+	    if (location === -1) {
+	      model.error = 'Could not set uniform ' + name + ' . No such uniform.';
+	      return false;
+	    }
+	    model.context.uniformMatrix3fv(location, false, v);
+	    return true;
+	  };
+
+	  publicAPI.setUniform3f = function (name, v) {
+	    var location = publicAPI.findUniform(name);
+	    if (location === -1) {
+	      model.error = 'Could not set uniform ' + name + ' . No such uniform.';
+	      return false;
+	    }
+	    model.context.uniform3f(location, v[0], v[1], v[2]);
+	    return true;
+	  };
+
+	  publicAPI.setUniform3fv = function (name, count, v) {
+	    var location = publicAPI.findUniform(name);
+	    if (location === -1) {
+	      model.error = 'Could not set uniform ' + name + ' . No such uniform.';
+	      return false;
+	    }
+	    model.context.uniform3fv(location, count, v);
+	    return true;
+	  };
+
+	  publicAPI.findUniform = function (name) {
+	    if (!name || !model.linked) {
+	      return -1;
+	    }
+
+	    var loc = Object.keys(model.uniformLocs).indexOf(name);
+
+	    if (loc !== -1) {
+	      return model.uniformLocs[name];
+	    }
+
+	    loc = model.context.getUniformLocation(model.handle, name);
+	    if (loc === null) {
+	      model.error = 'Uniform ' + name + ' not found in current shader program.';
+	    }
+	    model.uniformLocs[name] = loc;
+
+	    return loc;
+	  };
+
+	  publicAPI.isUniformUsed = function (name) {
+	    if (!name) {
+	      return false;
+	    }
+
+	    // see if we have cached the result
+	    var loc = Object.keys(model.uniformLocs).indexOf(name);
+	    if (loc !== -1) {
+	      return true;
+	    }
+
+	    if (!model.linked) {
+	      console.log('attempt to find uniform when the shader program is not linked');
+	      return false;
+	    }
+
+	    loc = model.context.getUniformLocation(model.handle, name);
+	    if (loc === null) {
+	      return false;
+	    }
+	    model.uniformLocs[name] = loc;
+
+	    return true;
+	  };
+
+	  publicAPI.isAttributeUsed = function (name) {
+	    if (!name) {
+	      return false;
+	    }
+
+	    // see if we have cached the result
+	    var loc = Object.keys(model.attributeLocs).indexOf(name);
+	    if (loc !== -1) {
+	      return true;
+	    }
+
+	    if (!model.linked) {
+	      console.log('attempt to find uniform when the shader program is not linked');
+	      return false;
+	    }
+
+	    loc = model.context.getAttribLocation(model.handle, name);
+	    if (loc === -1) {
+	      return false;
+	    }
+	    model.attributeLocs[name] = loc;
+
+	    return true;
+	  };
+
+	  publicAPI.attachShader = function (shader) {
+	    if (shader.getHandle() === 0) {
+	      model.error = 'Shader object was not initialized, cannot attach it.';
+	      return false;
+	    }
+	    if (shader.getShaderType() === 'Unknown') {
+	      model.error = 'Shader object is of type Unknown and cannot be used.';
+	      return false;
+	    }
+
+	    if (model.handle === 0) {
+	      var thandle = model.context.createProgram();
+	      if (thandle === 0) {
+	        model.error = 'Could not create shader program.';
+	        return false;
+	      }
+	      model.handle = thandle;
+	      model.linked = false;
+	    }
+
+	    if (shader.getShaderType() === 'Vertex') {
+	      if (model.vertexShaderHandle !== 0) {
+	        model.comntext.detachShader(model.handle, model.vertexShaderHandle);
+	      }
+	      model.vertexShaderHandle = shader.getHandle();
+	    }
+	    if (shader.getShaderType() === 'Fragment') {
+	      if (model.fragmentShaderHandle !== 0) {
+	        model.context.detachShader(model.handle, model.fragmentShaderHandle);
+	      }
+	      model.fragmentShaderHandle = shader.getHandle();
+	    }
+
+	    model.context.attachShader(model.handle, shader.getHandle());
+	    publicAPI.setLinked(false);
+	    return true;
+	  };
+
+	  publicAPI.detachShader = function (shader) {
+	    if (shader.getHandle() === 0) {
+	      model.error = 'shader object was not initialized, cannot attach it.';
+	      return false;
+	    }
+	    if (shader.getShaderType() === 'Unknown') {
+	      model.error = 'Shader object is of type Unknown and cannot be used.';
+	      return false;
+	    }
+	    if (model.handle === 0) {
+	      model.errror = 'This shader prorgram has not been initialized yet.';
+	    }
+
+	    switch (shader.getShaderType()) {
+	      case 'Vertex':
+	        if (model.vertexShaderHandle !== shader.getHandle()) {
+	          model.error = 'The supplied shader was not attached to this program.';
+	          return false;
+	        }
+	        model.context.detachShader(model.handle, shader.getHandle());
+	        model.vertexShaderHandle = 0;
+	        model.linked = false;
+	        return true;
+	      case 'Fragment':
+	        if (model.fragmentShaderHandle !== shader.getHandle()) {
+	          model.error = 'The supplied shader was not attached to this program.';
+	          return false;
+	        }
+	        model.context.detachShader(model.handle, shader.getHandle());
+	        model.fragmentShaderHandle = 0;
+	        model.linked = false;
+	        return true;
+	      default:
+	        return false;
+	    }
+	  };
+
+	  publicAPI.setContext = function (ctx) {
+	    model.context = ctx;
+	    model.vertexShader.setContext(ctx);
+	    model.fragmentShader.setContext(ctx);
+	    model.geometryShader.setContext(ctx);
+	  };
+
+	  // publicAPI.enableAttributeArray = (name) => {
+	  //   const location = publicAPI.findAttributeArray(name);
+	  //   if (location === -1) {
+	  //     model.error = `Could not enable attribute ${name} No such attribute.`;
+	  //     return false;
+	  //   }
+	  //   model.context.enableVertexAttribArray(location);
+	  //   return true;
+	  // };
+
+	  // publicAPI.disableAttributeArray = (name) => {
+	  //   const location = publicAPI.findAttributeArray(name);
+	  //   if (location === -1) {
+	  //     model.error = `Could not enable attribute ${name} No such attribute.`;
+	  //     return false;
+	  //   }
+	  //   model.context.disableVertexAttribArray(location);
+	  //   return true;
+	  // };
+	}
+
+	// ----------------------------------------------------------------------------
+	// Object factory
+	// ----------------------------------------------------------------------------
+
+	var DEFAULT_VALUES = {
+	  vertexShaderHandle: 0,
+	  fragmentShaderHandle: 0,
+	  geometryShaderHandle: 0,
+	  vertexShader: null,
+	  fragmentShader: null,
+	  geometryShader: null,
+
+	  linked: false,
+	  bound: false,
+	  compiled: false,
+	  error: '',
+	  handle: 0,
+	  numberOfOutputs: 0,
+	  attributesLocs: null,
+	  uniformLocs: null,
+	  md5Hash: 0,
+	  context: null
+	};
+
+	// ----------------------------------------------------------------------------
+
+	function extend(publicAPI, model) {
+	  var initialValues = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+
+	  Object.assign(model, DEFAULT_VALUES, initialValues);
+
+	  // Instanciate internal objects
+	  model.attributesLocs = {};
+	  model.uniformLocs = {};
+	  model.vertexShader = _Shader2.default.newInstance();
+	  model.vertexShader.setShaderType('Vertex');
+	  model.fragmentShader = _Shader2.default.newInstance();
+	  model.fragmentShader.setShaderType('Fragment');
+	  model.geometryShader = _Shader2.default.newInstance();
+	  model.geometryShader.setShaderType('Geometry');
+
+	  // Build VTK API
+	  macro.obj(publicAPI, model);
+	  macro.setGet(publicAPI, model, ['error', 'handle', 'compiled', 'bound', 'md5Hash', 'vertexShader', 'fragmentShader', 'geometryShader', 'linked']);
+
+	  // Object methods
+	  vtkShaderProgram(publicAPI, model);
+	}
+
+	// ----------------------------------------------------------------------------
+
+	var newInstance = exports.newInstance = macro.newInstance(extend);
+
+	// ----------------------------------------------------------------------------
+
+	exports.default = { newInstance: newInstance, extend: extend, substitute: substitute };
+
+/***/ },
+/* 45 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.newInstance = undefined;
+	exports.vtkShader = vtkShader;
+	exports.extend = extend;
+
+	var _macro = __webpack_require__(1);
+
+	var macro = _interopRequireWildcard(_macro);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	// export const SHADER_TYPES = ['Vertex', 'Fragment', 'Geometry', 'Unknown'];
+
+	// ----------------------------------------------------------------------------
+	// vtkShader methods
+	// ----------------------------------------------------------------------------
+
+	function vtkShader(publicAPI, model) {
+	  // Set our className
+	  model.classHierarchy.push('vtkShader');
+
+	  publicAPI.compile = function () {
+	    var stype = model.context.VERTEX_SHADER;
+
+	    if (!model.source || !model.source.length || model.shaderType === 'Unknown') {
+	      return false;
+	    }
+
+	    // Ensure we delete the previous shader if necessary.
+	    if (model.handle !== 0) {
+	      model.context.deleteShader(model.handle);
+	      model.handle = 0;
+	    }
+
+	    switch (model.shaderType) {
+	      // case vtkShader::Geometry:
+	      //   type = GL_GEOMETRY_SHADER;
+	      //   break;
+	      case 'Fragment':
+	        stype = model.context.FRAGMENT_SHADER;
+	        break;
+	      case 'Vertex':
+	      default:
+	        stype = model.context.VERTEX_SHADER;
+	        break;
+	    }
+
+	    model.handle = model.context.createShader(stype);
+	    model.context.shaderSource(model.handle, model.source);
+	    model.context.compileShader(model.handle);
+	    var isCompiled = model.context.getShaderParameter(model.handle, model.context.COMPILE_STATUS);
+	    if (!isCompiled) {
+	      var lastError = model.context.getShaderInfoLog(model.handle);
+	      console.error('Error compiling shader \'' + model.source + '\': ' + lastError);
+	      model.context.deleteShader(model.handle);
+	      model.handle = 0;
+	      return false;
+	    }
+
+	    // The shader compiled, store its handle and return success.
+	    return true;
+	  };
+
+	  publicAPI.cleanup = function () {
+	    if (model.shaderType === 'Unknown' || model.handle === 0) {
+	      return;
+	    }
+
+	    model.context.deleteShader(model.handle);
+	    model.handle = 0;
+	    model.dirty = true;
+	  };
+	}
+
+	// ----------------------------------------------------------------------------
+	// Object factory
+	// ----------------------------------------------------------------------------
+
+	var DEFAULT_VALUES = {
+	  shaderType: 'Unknown',
+	  source: '',
+	  error: '',
+	  handle: 0,
+	  dirty: false,
+	  context: null
+	};
+
+	// ----------------------------------------------------------------------------
+
+	function extend(publicAPI, model) {
+	  var initialValues = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+
+	  Object.assign(model, DEFAULT_VALUES, initialValues);
+
+	  // Build VTK API
+	  macro.obj(publicAPI, model);
+	  macro.setGet(publicAPI, model, ['shaderType', 'source', 'error', 'handle', 'context']);
+
+	  // Object methods
+	  vtkShader(publicAPI, model);
+	}
+
+	// ----------------------------------------------------------------------------
+
+	var newInstance = exports.newInstance = macro.newInstance(extend);
+
+	// ----------------------------------------------------------------------------
+
+	exports.default = { newInstance: newInstance, extend: extend };
+
+/***/ },
+/* 46 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.newInstance = undefined;
+	exports.extend = extend;
+
+	var _macro = __webpack_require__(1);
+
+	var macro = _interopRequireWildcard(_macro);
+
+	var _Constants = __webpack_require__(42);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+	// ----------------------------------------------------------------------------
+	// vtkOpenGLVertexArrayObject methods
+	// ----------------------------------------------------------------------------
+
+	function vtkOpenGLVertexArrayObject(publicAPI, model) {
+	  // Set our className
+	  model.classHierarchy.push('vtkOpenGLVertexArrayObject');
+
+	  // Public API methods
+	  publicAPI.exposedMethod = function () {
+	    // This is a publicly exposed method of this object
+	  };
+
+	  publicAPI.initialize = function () {
+	    model.extension = model.context.getExtension('OES_vertex_array_object');
+
+	    // Start setting up VAO
+	    if (!model.forceEmulation && model.extension) {
+	      model.supported = true;
+	      model.handleVAO = model.extension.createVertexArrayOES();
+	    } else {
+	      model.supported = false;
+	    }
+	  };
+
+	  publicAPI.isReady = function () {
+	    return(
+	      // We either probed and allocated a VAO, or are falling back as the current
+	      // hardware does not support VAOs.
+	      model.handleVAO !== 0 || model.supported === false
+	    );
+	  };
+
+	  publicAPI.bind = function () {
+	    // Either simply bind the VAO, or emulate behavior by binding all attributes.
+	    if (!publicAPI.isReady()) {
+	      publicAPI.initialize();
+	    }
+	    if (publicAPI.isReady() && model.supported) {
+	      model.extension.bindVertexArrayOES(model.handleVAO);
+	    } else if (publicAPI.isReady()) {
+	      (function () {
+	        var gl = model.context;
+	        Object.keys(model.buffers).map(function (key) {
+	          return model.buffers[key];
+	        }).forEach(function (buff) {
+	          model.context.bindBuffer(gl.ARRAY_BUFFER, buff.buffer);
+	          Object.keys(buff.attributes).map(function (key) {
+	            return buff.attributes[key];
+	          }).forEach(function (attrIt) {
+	            var matrixCount = attrIt.isMatrix ? attrIt.size : 1;
+	            for (var i = 0; i < matrixCount; ++i) {
+	              gl.enableVertexAttribArray(attrIt.index + i);
+	              gl.vertexAttribPointer(attrIt.index + i, attrIt.size, attrIt.type, attrIt.normalize, attrIt.stride, attrIt.offset + attrIt.stride * i / attrIt.size);
+	              if (attrIt.divisor > 0) {
+	                gl.vertexAttribDivisor(attrIt.index + i, 1);
+	              }
+	            }
+	          });
+	          // gl.bindBuffer(gl.ARRAY_BUFFER, 0);
+	        });
+	      })();
+	    }
+	  };
+
+	  publicAPI.release = function () {
+	    // Either simply release the VAO, or emulate behavior by releasing all attributes.
+	    if (publicAPI.isReady() && model.supported) {
+	      model.extension.bindVertexArrayOES(null);
+	    } else if (publicAPI.isReady()) {
+	      (function () {
+	        var gl = model.context;
+	        Object.keys(model.buffers).map(function (key) {
+	          return model.buffers[key];
+	        }).forEach(function (buff) {
+	          Object.keys(buff.attributes).map(function (key) {
+	            return buff.attributes[key];
+	          }).forEach(function (attrIt) {
+	            var matrixCount = attrIt.isMatrix ? attrIt.size : 1;
+	            for (var i = 0; i < matrixCount; ++i) {
+	              gl.enableVertexAttribArray(attrIt.index + i);
+	              gl.vertexAttribPointer(attrIt.index + i, attrIt.size, attrIt.type, attrIt.normalize, attrIt.stride, attrIt.offset + attrIt.stride * i / attrIt.size);
+	              if (attrIt.divisor > 0) {
+	                gl.vertexAttribDivisor(attrIt.index + i, 0);
+	              }
+	              gl.disableVertexAttribArray(attrIt.index + i);
+	            }
+	          });
+	        });
+	      })();
+	    }
+	  };
+
+	  publicAPI.shaderProgramChanged = function () {
+	    publicAPI.release();
+	    if (model.handleVAO) {
+	      model.extension.deleteVertexArrayOES(model.handleVAO);
+	    }
+	    model.handleVAO = 0;
+	    model.handleProgram = 0;
+	  };
+
+	  publicAPI.releaseGraphicsResources = function () {
+	    publicAPI.shaderProgramChanged();
+	    if (model.handleVAO) {
+	      model.extension.deleteVertexArrayOES(model.handleVAO);
+	    }
+	    model.handleVAO = 0;
+	    model.supported = true;
+	    model.handleProgram = 0;
+	  };
+
+	  publicAPI.addAttributeArray = function (program, buffer, name, offset, stride, elementType, elementTupleSize, normalize) {
+	    return publicAPI.addAttributeArrayWithDivisor(program, buffer, name, offset, stride, elementType, elementTupleSize, normalize, 0, false);
+	  };
+
+	  publicAPI.addAttributeArrayWithDivisor = function (program, buffer, name, offset, stride, elementType, elementTupleSize, normalize, divisor, isMatrix) {
+	    if (!program) {
+	      return false;
+	    }
+
+	    // Check the program is bound, and the buffer is valid.
+	    if (!program.isBound() || buffer.getHandle() === 0 || buffer.getType() !== _Constants.OBJECT_TYPE.ARRAY_BUFFER) {
+	      return false;
+	    }
+
+	    // Perform initalization if necessary, ensure program matches VAOs.
+	    if (model.handleProgram === 0) {
+	      model.handleProgram = program.getHandle();
+	    }
+	    if (!publicAPI.isReady()) {
+	      publicAPI.initialize();
+	    }
+	    if (!publicAPI.isReady() || model.handleProgram !== program.getHandle()) {
+	      return false;
+	    }
+
+	    var gl = model.context;
+
+	    var attribs = {};
+	    attribs.index = gl.getAttribLocation(model.handleProgram, name);
+	    attribs.offset = offset;
+	    attribs.stride = stride;
+	    //    attribs.type = convertTypeToGL(elementType);
+	    attribs.type = elementType;
+	    attribs.size = elementTupleSize;
+	    attribs.normalize = normalize;
+	    attribs.isMatrix = isMatrix;
+	    attribs.divisor = divisor;
+
+	    if (attribs.Index === -1) {
+	      return false;
+	    }
+
+	    // Always make the call as even the first use wants the attrib pointer setting
+	    // up when we are emulating.
+	    buffer.bind();
+	    gl.enableVertexAttribArray(attribs.index);
+	    gl.vertexAttribPointer(attribs.index, attribs.size, attribs.type, attribs.normalize, attribs.stride, attribs.offset);
+
+	    if (divisor > 0) {
+	      gl.vertexAttribDivisor(attribs.index, 1);
+	    }
+
+	    // If vertex array objects are not supported then build up our list.
+	    if (!model.supported) {
+	      var handleBuffer = buffer.getHandle();
+	      // find the buffer
+	      if (Object.keys(model.buffers).indexOf(handleBuffer) !== -1) {
+	        model.buffers[handleBuffer].attributes[attribs.index] = attribs;
+	        model.buffers[handleBuffer].buffer = handleBuffer;
+	      } else {
+	        // a single handle can have multiple attribs
+	        model.buffers[handleBuffer] = { buffer: handleBuffer, attributes: _defineProperty({}, attribs.index, attribs) };
+	      }
+	    }
+	    return true;
+	  };
+
+	  publicAPI.addAttributeMatrixWithDivisor = function (program, buffer, name, offset, stride, elementType, elementTupleSize, normalize, divisor) {
+	    // bind the first row of values
+	    var result = publicAPI.addAttributeArrayWithDivisor(program, buffer, name, offset, stride, elementType, elementTupleSize, normalize, divisor, true);
+
+	    if (!result) {
+	      return result;
+	    }
+
+	    var gl = model.context;
+
+	    var index = gl.getAttribLocation(model.handleProgram, name);
+
+	    for (var i = 1; i < elementTupleSize; i++) {
+	      gl.enableVertexAttribArray(index + i);
+	      //      gl.vertexAttribPointer(index + i, elementTupleSize, convertTypeToGL(elementType),
+	      gl.vertexAttribPointer(index + i, elementTupleSize, elementType, normalize, stride, offset + stride * i / elementTupleSize);
+	      if (divisor > 0) {
+	        gl.vertexAttribDivisor(index + i, 1);
+	      }
+	    }
+
+	    return true;
+	  };
+
+	  publicAPI.removeAttributeArray = function (name) {
+	    if (!publicAPI.isReady() || model.handleProgram === 0) {
+	      return false;
+	    }
+
+	    var gl = model.context;
+	    var location = gl.getAttribLocation(model.handleProgram, name);
+
+	    if (location === -1) {
+	      return false;
+	    }
+
+	    gl.disableVertexAttribArray(location);
+	    // If we don't have real VAOs find the entry and remove it too.
+	    if (!model.supported) {
+	      Object.keys(model.buffers).map(function (key) {
+	        return model.buffers[key];
+	      }).forEach(function (buff) {
+	        delete buff.attributes[location];
+	      });
+	    }
+
+	    return true;
+	  };
+	}
+
+	// ----------------------------------------------------------------------------
+	// Object factory
+	// ----------------------------------------------------------------------------
+
+	var DEFAULT_VALUES = {
+	  forceEmulation: false,
+	  handleVAO: 0,
+	  handleProgram: 0,
+	  supported: true,
+	  buffers: null,
+	  context: null
+	};
+
+	// ----------------------------------------------------------------------------
+
+	function extend(publicAPI, model) {
+	  var initialValues = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+
+	  Object.assign(model, DEFAULT_VALUES, initialValues);
+
+	  // Internal objects initialization
+	  model.buffers = {};
+
+	  // Object methods
+	  macro.obj(publicAPI, model);
+
+	  // Create get-only macros
+	  macro.get(publicAPI, model, ['supported']);
+
+	  // Create get-set macros
+	  macro.setGet(publicAPI, model, ['context', 'forceEmulation']);
+
+	  // For more macro methods, see "Sources/macro.js"
+
+	  // Object specific methods
+	  vtkOpenGLVertexArrayObject(publicAPI, model);
+	}
+
+	// ----------------------------------------------------------------------------
+
+	var newInstance = exports.newInstance = macro.newInstance(extend);
+
+	// ----------------------------------------------------------------------------
+
+	exports.default = { newInstance: newInstance, extend: extend };
+
+/***/ },
+/* 47 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.newInstance = undefined;
+	exports.extend = extend;
+
+	var _macro = __webpack_require__(1);
+
+	var macro = _interopRequireWildcard(_macro);
+
+	var _Constants = __webpack_require__(48);
+
+	var _Constants2 = __webpack_require__(23);
+
+	var _ViewNode = __webpack_require__(35);
+
+	var _ViewNode2 = _interopRequireDefault(_ViewNode);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	// ----------------------------------------------------------------------------
+	// vtkOpenGLTexture methods
+	// ----------------------------------------------------------------------------
+
+	function vtkOpenGLTexture(publicAPI, model) {
+	  var _this = this;
+
+	  // Set our className
+	  model.classHierarchy.push('vtkOpenGLTexture');
+
+	  // Builds myself.
+	  publicAPI.build = function (prepass) {
+	    if (prepass) {
+	      if (!model.renderable) {
+	        return;
+	      }
+	    }
+	  };
+
+	  // Renders myself
+	  publicAPI.render = function (prepass) {
+	    if (prepass) {
+	      var oglren = publicAPI.getFirstAncestorOfType('vtkOpenGLRenderer');
+	      publicAPI.preRender(oglren);
+	    }
+	  };
+
+	  publicAPI.preRender = function (oglren) {
+	    // sync renderable properties
+	    model.window = oglren.getParent();
+	    model.context = model.window.getContext();
+	    if (model.renderable.getInterpolate()) {
+	      if (model.generateMipmap) {
+	        publicAPI.setMinificationFilter(_Constants.VTK_FILTER.LINEAR_MIPMAP_LINEAR);
+	      } else {
+	        publicAPI.setMinificationFilter(_Constants.VTK_FILTER.LINEAR);
+	      }
+	      publicAPI.setMagnificationFilter(_Constants.VTK_FILTER.LINEAR);
+	    } else {
+	      publicAPI.setMinificationFilter(_Constants.VTK_FILTER.NEAREST);
+	      publicAPI.setMagnificationFilter(_Constants.VTK_FILTER.NEAREST);
+	    }
+	    // create the texture if it is not done already
+	    if (!model.handle) {
+	      var input = model.renderable.getInputData();
+	      var ext = input.getExtent();
+	      var inScalars = input.getPointData().getScalars();
+	      if (model.renderable.getInterpolate()) {
+	        model.generateMipmap = true;
+	        publicAPI.setMinificationFilter(_Constants.VTK_FILTER.LINEAR_MIPMAP_LINEAR);
+	      }
+	      publicAPI.create2DFromRaw(ext[1] - ext[0] + 1, ext[3] - ext[2] + 1, inScalars.getNumberOfComponents(), inScalars.getDataType(), inScalars.getData());
+	      publicAPI.activate();
+	      publicAPI.sendParameters();
+	    } else {
+	      publicAPI.activate();
+	    }
+	  };
+
+	  //----------------------------------------------------------------------------
+	  publicAPI.destroyTexture = function () {
+	    // deactivate it first
+	    publicAPI.deactivate();
+
+	    if (model.context && model.handle) {
+	      model.context.deleteTexture(model.handle);
+	    }
+	    model.handle = 0;
+	    model.numberOfDimensions = 0;
+	    model.target = 0;
+	    model.components = 0;
+	    model.width = 0;
+	    model.height = 0;
+	    model.depth = 0;
+	    publicAPI.resetFormatAndType();
+	  };
+
+	  //----------------------------------------------------------------------------
+	  publicAPI.createTexture = function () {
+	    // reuse the existing handle if we have one
+	    if (!model.handle) {
+	      model.handle = model.context.createTexture();
+
+	      if (model.target) {
+	        model.context.bindTexture(model.target, model.handle);
+
+	        // See: http://www.openmodel.context..org/wiki/Common_Mistakes#Creating_a_complete_texture
+	        // turn off mip map filter or set the base and max level correctly. here
+	        // both are done.
+	        model.context.texParameteri(model.target, model.context.TEXTURE_MIN_FILTER, publicAPI.getOpenGLFilterMode(model.minificationFilter));
+	        model.context.texParameteri(model.target, model.context.TEXTURE_MAG_FILTER, publicAPI.getOpenGLFilterMode(model.magnificationFilter));
+
+	        model.context.texParameteri(model.target, model.context.TEXTURE_WRAP_S, publicAPI.getOpenGLWrapMode(model.wrapS));
+	        model.context.texParameteri(model.target, model.context.TEXTURE_WRAP_T, publicAPI.getOpenGLWrapMode(model.wrapT));
+
+	        model.context.bindTexture(model.target, null);
+	      }
+	    }
+	  };
+
+	  //---------------------------------------------------------------------------
+	  publicAPI.getTextureUnit = function () {
+	    if (model.window) {
+	      return model.window.getTextureUnitForTexture(publicAPI);
+	    }
+	    return -1;
+	  };
+
+	  //---------------------------------------------------------------------------
+	  publicAPI.activate = function () {
+	    // activate a free texture unit for this texture
+	    model.window.activateTexture(publicAPI);
+	    publicAPI.bind();
+	  };
+
+	  //---------------------------------------------------------------------------
+	  publicAPI.deactivate = function () {
+	    if (model.window) {
+	      model.window.activateTexture(publicAPI);
+	      publicAPI.unBind();
+	      model.window.deactivateTexture(publicAPI);
+	    }
+	  };
+
+	  //---------------------------------------------------------------------------
+	  publicAPI.releaseGraphicsResources = function (rwin) {
+	    if (rwin && model.handle) {
+	      rwin.makeCurrent();
+
+	      rwin.activateTexture(publicAPI);
+	      publicAPI.unBind();
+	      rwin.deactivateTexture(publicAPI);
+	      model.context.deleteTexture(model.handle);
+	      model.handle = 0;
+	      model.numberOfDimensions = 0;
+	      model.target = 0;
+	      model.internalFormat = 0;
+	      model.format = 0;
+	      model.openGLDataType = 0;
+	      model.components = 0;
+	      model.width = 0;
+	      model.height = 0;
+	      model.depth = 0;
+	    }
+	    if (model.shaderProgram) {
+	      model.shaderProgram.releaseGraphicsResources(rwin);
+	      model.shaderProgram = null;
+	    }
+	  };
+
+	  //----------------------------------------------------------------------------
+	  publicAPI.bind = function () {
+	    model.context.bindTexture(model.target, model.handle);
+	    if (model.autoParameters && publicAPI.getMTime() > model.sendParametersTime.getMTime()) {
+	      publicAPI.sendParameters();
+	    }
+	  };
+
+	  //----------------------------------------------------------------------------
+	  publicAPI.unBind = function () {
+	    if (model.target) {
+	      model.context.bindTexture(model.target, null);
+	    }
+	  };
+
+	  //----------------------------------------------------------------------------
+	  publicAPI.isBound = function () {
+	    var result = false;
+	    if (model.context && model.handle) {
+	      var target = 0;
+	      switch (model.target) {
+	        case model.context.TEXTURE_2D:
+	          target = model.context.TEXTURE_BINDING_2D;
+	          break;
+	        default:
+	          console.warn('impossible case');
+	          break;
+	      }
+	      var oid = model.context.getIntegerv(target);
+	      result = oid === model.handle;
+	    }
+	    return result;
+	  };
+
+	  //----------------------------------------------------------------------------
+	  publicAPI.sendParameters = function () {
+	    model.context.texParameteri(model.target, model.context.TEXTURE_WRAP_S, publicAPI.getOpenGLWrapMode(model.wrapS));
+	    model.context.texParameteri(model.target, model.context.TEXTURE_WRAP_T, publicAPI.getOpenGLWrapMode(model.wrapT));
+
+	    model.context.texParameteri(model.target, model.context.TEXTURE_MIN_FILTER, publicAPI.getOpenGLFilterMode(model.minificationFilter));
+
+	    model.context.texParameteri(model.target, model.context.TEXTURE_MAG_FILTER, publicAPI.getOpenGLFilterMode(model.magnificationFilter));
+
+	    // model.context.texParameterf(model.target, model.context.TEXTURE_MIN_LOD, model.minLOD);
+	    // model.context.texParameterf(model.target, model.context.TEXTURE_MAX_LOD, model.maxLOD);
+	    // model.context.texParameteri(model.target, model.context.TEXTURE_BASE_LEVEL, model.baseLevel);
+	    // model.context.texParameteri(model.target, model.context.TEXTURE_MAX_LEVEL, model.maxLevel);
+
+	    model.sendParametersTime.modified();
+	  };
+
+	  //----------------------------------------------------------------------------
+	  publicAPI.getInternalFormat = function (vtktype, numComps) {
+	    if (model.internalFormat) {
+	      return model.internalFormat;
+	    }
+
+	    model.internalFormat = publicAPI.getDefaultInternalFormat(vtktype, numComps);
+
+	    if (!model.internalFormat) {
+	      console.debug('Unable to find suitable internal format for T=' + vtktype + ' NC= ' + numComps);
+	    }
+
+	    return model.internalFormat;
+	  };
+
+	  //----------------------------------------------------------------------------
+	  publicAPI.getDefaultInternalFormat = function (vtktype, numComps) {
+	    var result = 0;
+
+	    // try default next
+	    result = model.window.getDefaultTextureInternalFormat(vtktype, numComps, false);
+	    if (result) {
+	      return result;
+	    }
+
+	    // try floating point
+	    result = _this.window.getDefaultTextureInternalFormat(vtktype, numComps, true);
+
+	    if (!result) {
+	      console.debug('Unsupported internal texture type!');
+	      console.debug('Unable to find suitable internal format for T=' + vtktype + ' NC= ' + numComps);
+	    }
+
+	    return result;
+	  };
+
+	  //----------------------------------------------------------------------------
+	  publicAPI.setInternalFormat = function (iFormat) {
+	    if (iFormat !== model.context.InternalFormat) {
+	      model.internalFormat = iFormat;
+	      publicAPI.modified();
+	    }
+	  };
+
+	  //----------------------------------------------------------------------------
+	  publicAPI.getFormat = function (vtktype, numComps) {
+	    if (!model.format) {
+	      model.format = publicAPI.getDefaultFormat(vtktype, numComps);
+	    }
+	    return model.format;
+	  };
+
+	  //----------------------------------------------------------------------------
+	  publicAPI.getDefaultFormat = function (vtktype, numComps) {
+	    switch (numComps) {
+	      case 1:
+	        return model.context.LUMINANCE;
+	      case 2:
+	        return model.context.LUMINANCE_ALPHA;
+	      case 3:
+	        return model.context.RGB;
+	      case 4:
+	        return model.context.RGBA;
+	      default:
+	        return model.context.RGB;
+	    }
+	  };
+
+	  //----------------------------------------------------------------------------
+	  publicAPI.resetFormatAndType = function () {
+	    model.format = 0;
+	    model.internalFormat = 0;
+	    model.openGLDataType = 0;
+	  };
+
+	  //----------------------------------------------------------------------------
+	  publicAPI.getDefaultDataType = function (vtkScalarType) {
+	    // DON'T DEAL with VTK_CHAR as this is platform dependent.
+	    switch (vtkScalarType) {
+	      case _Constants2.VTK_DATATYPES.SIGNED_CHAR:
+	        return model.context.BYTE;
+	      case _Constants2.VTK_DATATYPES.UNSIGNED_CHAR:
+	        return model.context.UNSIGNED_BYTE;
+	      case _Constants2.VTK_DATATYPES.SHORT:
+	        return model.context.SHORT;
+	      case _Constants2.VTK_DATATYPES.UNSIGNED_SHORT:
+	        return model.context.UNSIGNED_SHORT;
+	      case _Constants2.VTK_DATATYPES.INT:
+	        return model.context.INT;
+	      case _Constants2.VTK_DATATYPES.UNSIGNED_INT:
+	        return model.context.UNSIGNED_INT;
+	      case _Constants2.VTK_DATATYPES.FLOAT:
+	      case _Constants2.VTK_DATATYPES.VOID: // used for depth component textures.
+	      default:
+	        return model.context.FLOAT;
+	    }
+	  };
+
+	  //----------------------------------------------------------------------------
+	  publicAPI.getOpenGLDataType = function (vtkScalarType) {
+	    if (!model.openGLDataType) {
+	      model.openGLDataType = publicAPI.getDefaultDataType(vtkScalarType);
+	    }
+
+	    return model.openGLDataType;
+	  };
+
+	  publicAPI.getShiftAndScale = function () {
+	    var shift = 0.0;
+	    var scale = 1.0;
+
+	    // for all float type internal formats
+	    switch (model.openGLDataType) {
+	      case model.context.BYTE:
+	        scale = 127.5;
+	        shift = scale - 128.0;
+	        break;
+	      case model.context.UNSIGNED_BYTE:
+	        scale = 255.0;
+	        shift = 0.0;
+	        break;
+	      case model.context.SHORT:
+	        scale = 32767.5;
+	        shift = scale - 32768.0;
+	        break;
+	      case model.context.UNSIGNED_SHORT:
+	        scale = 65536.0;
+	        shift = 0.0;
+	        break;
+	      case model.context.INT:
+	        scale = 2147483647.5;
+	        shift = scale - 2147483648.0;
+	        break;
+	      case model.context.UNSIGNED_INT:
+	        scale = 4294967295.0;
+	        shift = 0.0;
+	        break;
+	      case model.context.FLOAT:
+	      default:
+	        break;
+	    }
+	    return { shift: shift, scale: scale };
+	  };
+
+	  //----------------------------------------------------------------------------
+	  publicAPI.getOpenGLFilterMode = function (emode) {
+	    switch (emode) {
+	      case _Constants.VTK_FILTER.NEAREST:
+	        return model.context.NEAREST;
+	      case _Constants.VTK_FILTER.LINEAR:
+	        return model.context.LINEAR;
+	      case _Constants.VTK_FILTER.NEAREST_MIPMAP_NEAREST:
+	        return model.context.NEAREST_MIPMAP_NEAREST;
+	      case _Constants.VTK_FILTER.NEAREST_MIPMAP_LINEAR:
+	        return model.context.NEAREST_MIPMAP_LINEAR;
+	      case _Constants.VTK_FILTER.LINEAR_MIPMAP_NEAREST:
+	        return model.context.LINEAR_MIPMAP_NEAREST;
+	      case _Constants.VTK_FILTER.LINEAR_MIPMAP_LINEAR:
+	        return model.context.LINEAR_MIPMAP_LINEAR;
+	      default:
+	        return model.context.NEAREST;
+	    }
+	  };
+
+	  //----------------------------------------------------------------------------
+	  publicAPI.getOpenGLWrapMode = function (vtktype) {
+	    switch (vtktype) {
+	      case _Constants.VTK_WRAP.CLAMP_TO_EDGE:
+	        return model.context.CLAMP_TO_EDGE;
+	      case _Constants.VTK_WRAP.REPEAT:
+	        return model.context.REPEAT;
+	      case _Constants.VTK_WRAP.MIRRORED_REPEAT:
+	        return model.context.MIRRORED_REPEAT;
+	      default:
+	        return model.context.CLAMP_TO_EDGE;
+	    }
+	  };
+
+	  //----------------------------------------------------------------------------
+	  publicAPI.create2DFromRaw = function (width, height, numComps, dataType, data) {
+	    // Now determine the texture parameters using the arguments.
+	    publicAPI.getOpenGLDataType(dataType);
+	    publicAPI.getInternalFormat(dataType, numComps);
+	    publicAPI.getFormat(dataType, numComps);
+
+	    if (!model.internalFormat || !model.format || !model.openGLDataType) {
+	      console.error('Failed to determine texture parameters.');
+	      return false;
+	    }
+
+	    model.target = model.context.TEXTURE_2D;
+	    model.components = numComps;
+	    model.width = width;
+	    model.height = height;
+	    model.depth = 1;
+	    model.numberOfDimensions = 2;
+	    model.window.activateTexture(publicAPI);
+	    publicAPI.createTexture();
+	    publicAPI.bind();
+
+	    // Source texture data from the PBO.
+	    // model.context.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
+	    model.context.pixelStorei(model.context.UNPACK_ALIGNMENT, 1);
+
+	    model.context.texImage2D(model.target, 0, model.internalFormat, model.width, model.height, 0, model.format, model.openGLDataType, data);
+
+	    if (model.generateMipmap) {
+	      model.context.generateMipmap(model.target);
+	    }
+
+	    publicAPI.deactivate();
+	    return true;
+	  };
+
+	  //----------------------------------------------------------------------------
+	  publicAPI.getMaximumTextureSize = function (ctx) {
+	    if (ctx && ctx.isCurrent()) {
+	      return ctx.getIntegerv(ctx.MAX_TEXTURE_SIZE);
+	    }
+
+	    return -1;
+	  };
+	}
+
+	// ----------------------------------------------------------------------------
+	// Object factory
+	// ----------------------------------------------------------------------------
+
+	var DEFAULT_VALUES = {
+	  context: null,
+	  handle: 0,
+	  sendParametersTime: null,
+	  numberOfDimensions: 0,
+	  target: 0,
+	  format: 0,
+	  openGLDataType: 0,
+	  components: 0,
+	  width: 0,
+	  height: 0,
+	  depth: 0,
+	  autoParameters: true,
+	  wrapS: _Constants.VTK_WRAP.REPEAT,
+	  wrapT: _Constants.VTK_WRAP.REPEAT,
+	  wrapR: _Constants.VTK_WRAP.REPEAT,
+	  minificationFilter: _Constants.VTK_FILTER.NEAREST,
+	  magnificationFilter: _Constants.VTK_FILTER.NEAREST,
+	  minLOD: -1000.0,
+	  maxLOD: 1000.0,
+	  baseLevel: 0,
+	  maxLevel: 0,
+	  generateMipmap: false
+	};
+
+	// ----------------------------------------------------------------------------
+
+	function extend(publicAPI, model) {
+	  var initialValues = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+
+	  Object.assign(model, DEFAULT_VALUES, initialValues);
+
+	  // Inheritance
+	  _ViewNode2.default.extend(publicAPI, model);
+
+	  model.sendParametersTime = {};
+	  macro.obj(model.sendParametersTime);
+
+	  // Build VTK API
+	  macro.set(publicAPI, model, ['format', 'openGLDataType']);
+
+	  macro.setGet(publicAPI, model, ['context', 'keyMatrixTime', 'minificationFilter', 'magnificationFilter']);
+
+	  macro.get(publicAPI, model, ['components']);
+
+	  // Object methods
+	  vtkOpenGLTexture(publicAPI, model);
+	}
+
+	// ----------------------------------------------------------------------------
+
+	var newInstance = exports.newInstance = macro.newInstance(extend);
+
+	// ----------------------------------------------------------------------------
+
+	exports.default = { newInstance: newInstance, extend: extend };
+
+/***/ },
+/* 48 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	var VTK_WRAP = exports.VTK_WRAP = {
+	  CLAMP_TO_EDGE: 0,
+	  REPEAT: 1,
+	  MIRRORED_REPEAT: 2
+	};
+
+	var VTK_FILTER = exports.VTK_FILTER = {
+	  NEAREST: 0,
+	  LINEAR: 1,
+	  NEAREST_MIPMAP_NEAREST: 2,
+	  NEAREST_MIPMAP_LINEAR: 3,
+	  LINEAR_MIPMAP_NEAREST: 4,
+	  LINEAR_MIPMAP_LINEAR: 5
+	};
+
+	exports.default = {
+	  VTK_WRAP: VTK_WRAP,
+	  VTK_FILTER: VTK_FILTER
+	};
+
+/***/ },
+/* 49 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.newInstance = undefined;
+	exports.extend = extend;
+
+	var _macro = __webpack_require__(1);
+
+	var macro = _interopRequireWildcard(_macro);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	// ----------------------------------------------------------------------------
+	// vtkTexture methods
+	// ----------------------------------------------------------------------------
+
+	function vtkTexture(publicAPI, model) {
+	  // Set our className
+	  model.classHierarchy.push('vtkTexture');
+	}
+
+	// ----------------------------------------------------------------------------
+	// Object factory
+	// ----------------------------------------------------------------------------
+
+	var DEFAULT_VALUES = {
+	  repeat: true,
+	  interpolate: false,
+	  edgeClamp: false
+	};
+
+	// ----------------------------------------------------------------------------
+
+	function extend(publicAPI, model) {
+	  var initialValues = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+
+	  Object.assign(model, DEFAULT_VALUES, initialValues);
+
+	  // Build VTK API
+	  macro.obj(publicAPI, model);
+	  macro.algo(publicAPI, model, 1, 0);
+
+	  macro.setGet(publicAPI, model, ['repeat', 'edgeClamp', 'interpolate']);
+
+	  vtkTexture(publicAPI, model);
+	}
+
+	// ----------------------------------------------------------------------------
+
+	var newInstance = exports.newInstance = macro.newInstance(extend);
+
+	// ----------------------------------------------------------------------------
+
+	exports.default = { newInstance: newInstance, extend: extend };
+
+/***/ },
+/* 50 */
+/***/ function(module, exports) {
+
+	module.exports = "//VTK::System::Dec\n\n/*=========================================================================\n\n  Program:   Visualization Toolkit\n  Module:    vtkPolyDataVS.glsl\n\n  Copyright (c) Ken Martin, Will Schroeder, Bill Lorensen\n  All rights reserved.\n  See Copyright.txt or http://www.kitware.com/Copyright.htm for details.\n\n     This software is distributed WITHOUT ANY WARRANTY; without even\n     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR\n     PURPOSE.  See the above copyright notice for more information.\n\n=========================================================================*/\n\nattribute vec4 vertexMC;\n\n// frag position in VC\n//VTK::PositionVC::Dec\n\n// optional normal declaration\n//VTK::Normal::Dec\n\n// extra lighting parameters\n//VTK::Light::Dec\n\n// Texture coordinates\n//VTK::TCoord::Dec\n\n// material property values\n//VTK::Color::Dec\n\n// clipping plane vars\n//VTK::Clip::Dec\n\n// camera and actor matrix values\n//VTK::Camera::Dec\n\n// Apple Bug\n//VTK::PrimID::Dec\n\nvoid main()\n{\n  //VTK::Color::Impl\n\n  //VTK::Normal::Impl\n\n  //VTK::TCoord::Impl\n\n  //VTK::Clip::Impl\n\n  //VTK::PrimID::Impl\n\n  //VTK::PositionVC::Impl\n\n  //VTK::Light::Impl\n}\n"
+
+/***/ },
+/* 51 */
+/***/ function(module, exports) {
+
+	module.exports = "//VTK::System::Dec\n\n/*=========================================================================\n\n  Program:   Visualization Toolkit\n  Module:    vtkPolyDataFS.glsl\n\n  Copyright (c) Ken Martin, Will Schroeder, Bill Lorensen\n  All rights reserved.\n  See Copyright.txt or http://www.kitware.com/Copyright.htm for details.\n\n     This software is distributed WITHOUT ANY WARRANTY; without even\n     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR\n     PURPOSE.  See the above copyright notice for more information.\n\n=========================================================================*/\n// Template for the polydata mappers fragment shader\n\nuniform int PrimitiveIDOffset;\n\n// VC position of this fragment\n//VTK::PositionVC::Dec\n\n// optional color passed in from the vertex shader, vertexColor\n//VTK::Color::Dec\n\n// optional surface normal declaration\n//VTK::Normal::Dec\n\n// extra lighting parameters\n//VTK::Light::Dec\n\n// Texture coordinates\n//VTK::TCoord::Dec\n\n// picking support\n//VTK::Picking::Dec\n\n// Depth Peeling Support\n//VTK::DepthPeeling::Dec\n\n// clipping plane vars\n//VTK::Clip::Dec\n\n// the output of this shader\n//VTK::Output::Dec\n\n// Apple Bug\n//VTK::PrimID::Dec\n\n// handle coincident offsets\n//VTK::Coincident::Dec\n\nvoid main()\n{\n  // VC position of this fragment. This should not branch/return/discard.\n  //VTK::PositionVC::Impl\n\n  // Place any calls that require uniform flow (e.g. dFdx) here.\n  //VTK::UniformFlow::Impl\n\n  // Early depth peeling abort:\n  //VTK::DepthPeeling::PreColor\n\n  // Apple Bug\n  //VTK::PrimID::Impl\n\n  //VTK::Clip::Impl\n\n  //VTK::Color::Impl\n\n  // Generate the normal if we are not passed in one\n  //VTK::Normal::Impl\n\n  //VTK::Light::Impl\n\n  //VTK::TCoord::Impl\n\n  if (gl_FragData[0].a <= 0.0)\n    {\n    discard;\n    }\n\n  //VTK::DepthPeeling::Impl\n\n  //VTK::Picking::Impl\n\n  // handle coincident offsets\n  //VTK::Coincident::Impl\n}\n"
+
+/***/ },
+/* 52 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.newInstance = undefined;
+	exports.extend = extend;
+
+	var _macro = __webpack_require__(1);
+
+	var macro = _interopRequireWildcard(_macro);
+
+	var _ViewNode = __webpack_require__(35);
+
+	var _ViewNode2 = _interopRequireDefault(_ViewNode);
+
+	var _glMatrix = __webpack_require__(8);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	// ----------------------------------------------------------------------------
+	// vtkOpenGLActor methods
+	// ----------------------------------------------------------------------------
+
+	function vtkOpenGLImageSlice(publicAPI, model) {
+	  // Set our className
+	  model.classHierarchy.push('vtkOpenGLImageSlice');
+
+	  // Builds myself.
+	  publicAPI.build = function (prepass) {
+	    if (prepass) {
+	      if (!model.renderable) {
+	        return;
+	      }
+
+	      publicAPI.prepareNodes();
+	      publicAPI.addMissingNode(model.renderable.getMapper());
+	      publicAPI.removeUnusedNodes();
+	    }
+	  };
+
+	  // Renders myself
+	  publicAPI.render = function (prepass) {
+	    if (prepass) {
+	      model.context = publicAPI.getFirstAncestorOfType('vtkOpenGLRenderWindow').getContext();
+	      publicAPI.preRender();
+	    } else {
+	      var opaque = model.renderable.getIsOpaque() !== 0;
+	      if (!opaque) {
+	        model.context.depthMask(true);
+	      }
+	    }
+	  };
+
+	  publicAPI.preRender = function () {
+	    // get opacity
+	    var opaque = model.renderable.getIsOpaque() !== 0;
+	    if (opaque) {
+	      model.context.depthMask(true);
+	    } else {
+	      model.context.depthMask(false);
+	    }
+	  };
+
+	  publicAPI.getKeyMatrices = function () {
+	    // has the actor changed?
+	    if (model.renderable.getMTime() > model.keyMatrixTime.getMTime()) {
+	      model.renderable.computeMatrix();
+	      _glMatrix.mat4.copy(model.MCWCMatrix, model.renderable.getMatrix());
+	      _glMatrix.mat4.transpose(model.MCWCMatrix, model.MCWCMatrix);
+
+	      if (model.renderable.getIsIdentity()) {
+	        _glMatrix.mat3.identity(model.normalMatrix);
+	      } else {
+	        _glMatrix.mat3.fromMat4(model.normalMatrix, model.MCWCMatrix);
+	        _glMatrix.mat3.invert(model.normalMatrix, model.normalMatrix);
+	      }
+	      model.keyMatrixTime.modified();
+	    }
+
+	    return { mcwc: model.MCWCMatrix, normalMatrix: model.normalMatrix };
+	  };
+	}
+
+	// ----------------------------------------------------------------------------
+	// Object factory
+	// ----------------------------------------------------------------------------
+
+	var DEFAULT_VALUES = {
+	  context: null,
+	  keyMatrixTime: null,
+	  normalMatrix: null,
+	  MCWCMatrix: null
+	};
+
+	// ----------------------------------------------------------------------------
+
+	function extend(publicAPI, model) {
+	  var initialValues = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+
+	  Object.assign(model, DEFAULT_VALUES, initialValues);
+
+	  // Inheritance
+	  _ViewNode2.default.extend(publicAPI, model);
+
+	  model.keyMatrixTime = {};
+	  macro.obj(model.keyMatrixTime);
+	  model.normalMatrix = _glMatrix.mat3.create();
+	  model.MCWCMatrix = _glMatrix.mat4.create();
+
+	  // Build VTK API
+	  macro.setGet(publicAPI, model, ['context']);
+
+	  // Object methods
+	  vtkOpenGLImageSlice(publicAPI, model);
+	}
+
+	// ----------------------------------------------------------------------------
+
+	var newInstance = exports.newInstance = macro.newInstance(extend);
+
+	// ----------------------------------------------------------------------------
+
+	exports.default = { newInstance: newInstance, extend: extend };
+
+/***/ },
+/* 53 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -11838,7 +14563,7 @@
 
 	var macro = _interopRequireWildcard(_macro);
 
-	var _Helper = __webpack_require__(38);
+	var _Helper = __webpack_require__(39);
 
 	var _Helper2 = _interopRequireDefault(_Helper);
 
@@ -11846,7 +14571,7 @@
 
 	var _Math2 = _interopRequireDefault(_Math);
 
-	var _ShaderProgram = __webpack_require__(43);
+	var _ShaderProgram = __webpack_require__(44);
 
 	var _ShaderProgram2 = _interopRequireDefault(_ShaderProgram);
 
@@ -11860,11 +14585,11 @@
 
 	var _glMatrix = __webpack_require__(8);
 
-	var _vtkPolyDataVS = __webpack_require__(46);
+	var _vtkPolyDataVS = __webpack_require__(50);
 
 	var _vtkPolyDataVS2 = _interopRequireDefault(_vtkPolyDataVS);
 
-	var _vtkPolyDataFS = __webpack_require__(47);
+	var _vtkPolyDataFS = __webpack_require__(51);
 
 	var _vtkPolyDataFS2 = _interopRequireDefault(_vtkPolyDataFS);
 
@@ -12692,7 +15417,6 @@
 	  model.triStrips = _Helper2.default.newInstance();
 
 	  // Build VTK API
-	  macro.get(publicAPI, model, ['shaderCache']);
 	  macro.setGet(publicAPI, model, ['context']);
 
 	  model.VBOBuildTime = {};
@@ -12727,1503 +15451,7 @@
 	exports.default = { newInstance: newInstance, extend: extend };
 
 /***/ },
-/* 38 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.newInstance = undefined;
-	exports.vtkOpenGLHelper = vtkOpenGLHelper;
-	exports.extend = extend;
-
-	var _macro = __webpack_require__(1);
-
-	var macro = _interopRequireWildcard(_macro);
-
-	var _CellArrayBufferObject = __webpack_require__(39);
-
-	var _CellArrayBufferObject2 = _interopRequireDefault(_CellArrayBufferObject);
-
-	var _ShaderProgram = __webpack_require__(43);
-
-	var _ShaderProgram2 = _interopRequireDefault(_ShaderProgram);
-
-	var _VertexArrayObject = __webpack_require__(45);
-
-	var _VertexArrayObject2 = _interopRequireDefault(_VertexArrayObject);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-	// ----------------------------------------------------------------------------
-	// vtkOpenGLHelper methods
-	// ----------------------------------------------------------------------------
-
-	function vtkOpenGLHelper(publicAPI, model) {
-	  // Set our className
-	  model.classHierarchy.push('vtkOpenGLHelper');
-
-	  publicAPI.setContext = function (ctx) {
-	    model.program.setContext(ctx);
-	    model.VAO.setContext(ctx);
-	    model.CABO.setContext(ctx);
-	  };
-	}
-
-	// ----------------------------------------------------------------------------
-	// Object factory
-	// ----------------------------------------------------------------------------
-
-	var DEFAULT_VALUES = {
-	  program: null,
-	  shaderSourceTime: null,
-	  VAO: null,
-	  attributeUpdateTime: null,
-	  IBO: null,
-	  CABO: null
-	};
-
-	// ----------------------------------------------------------------------------
-
-	function extend(publicAPI, model) {
-	  var initialValues = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
-
-	  Object.assign(model, DEFAULT_VALUES, initialValues);
-
-	  // Build VTK API
-	  macro.obj(publicAPI, model);
-
-	  model.shaderSourceTime = {};
-	  macro.obj(model.shaderSourceTime);
-
-	  model.attributeUpdateTime = {};
-	  macro.obj(model.attributeUpdateTime);
-
-	  macro.setGet(publicAPI, model, ['program', 'shaderSourceTime', 'VAO', 'attributeUpdateTime', 'CABO']);
-
-	  model.program = _ShaderProgram2.default.newInstance();
-	  model.VAO = _VertexArrayObject2.default.newInstance();
-	  model.CABO = _CellArrayBufferObject2.default.newInstance();
-
-	  // Object methods
-	  vtkOpenGLHelper(publicAPI, model);
-	}
-
-	// ----------------------------------------------------------------------------
-
-	var newInstance = exports.newInstance = macro.newInstance(extend);
-
-	// ----------------------------------------------------------------------------
-
-	exports.default = { newInstance: newInstance, extend: extend };
-
-/***/ },
-/* 39 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.newInstance = undefined;
-	exports.extend = extend;
-
-	var _macro = __webpack_require__(1);
-
-	var macro = _interopRequireWildcard(_macro);
-
-	var _BufferObject = __webpack_require__(40);
-
-	var _BufferObject2 = _interopRequireDefault(_BufferObject);
-
-	var _DynamicTypedArray = __webpack_require__(42);
-
-	var _Constants = __webpack_require__(41);
-
-	var _Constants2 = __webpack_require__(19);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-	// ----------------------------------------------------------------------------
-	// vtkOpenGLCellArrayBufferObject methods
-	// ----------------------------------------------------------------------------
-
-	function vtkOpenGLCellArrayBufferObject(publicAPI, model) {
-	  // Set our className
-	  model.classHierarchy.push('vtkOpenGLCellArrayBufferObject');
-
-	  var packedVBO = new _DynamicTypedArray.DynamicTypedArray({ chunkSize: 65500, arrayType: 'Float32Array' }); // the data
-
-	  publicAPI.setType(_Constants.OBJECT_TYPE.ARRAY_BUFFER);
-
-	  publicAPI.createVBO = function (cellArray, inRep, outRep, options) {
-	    if (!cellArray.getData() || !cellArray.getData().length) {
-	      model.elementCount = 0;
-	      return 0;
-	    }
-
-	    // Figure out how big each block will be, currently 6 or 7 floats.
-	    model.blockSize = 3;
-	    model.vertexOffset = 0;
-	    model.normalOffset = 0;
-	    model.tCoordOffset = 0;
-	    model.tCoordComponents = 0;
-	    model.colorComponents = 0;
-	    model.colorOffset = 0;
-
-	    var pointData = options.points.getData();
-	    var normalData = null;
-	    var tcoordData = null;
-	    var colorData = null;
-
-	    var colorComponents = options.colors ? options.colors.getNumberOfComponents() : 0;
-	    var textureComponents = options.tcoords ? options.tcoords.getNumberOfComponents() : 0;
-
-	    if (options.normals !== null) {
-	      model.normalOffset = /* sizeof(float) */4 * model.blockSize;
-	      model.blockSize += 3;
-	      normalData = options.normals.getData();
-	    }
-
-	    if (options.tcoords !== null) {
-	      model.tCoordOffset = /* sizeof(float) */4 * model.blockSize;
-	      model.tCoordComponents = textureComponents;
-	      model.blockSize += textureComponents;
-	      tcoordData = options.tcoords.getData();
-	    }
-
-	    if (options.colors !== null) {
-	      model.colorComponents = options.colors.getNumberOfComponents();
-	      model.colorOffset = /* sizeof(float) */4 * model.blockSize;
-	      //      model.blockSize += 1;
-	      model.blockSize += model.colorComponents;
-	      colorData = options.colors.getData();
-	    }
-	    model.stride = /* sizeof(float) */4 * model.blockSize;
-
-	    var pointIdx = 0;
-	    var normalIdx = 0;
-	    var tcoordIdx = 0;
-	    var colorIdx = 0;
-	    var cellCount = 0;
-
-	    // const colorHolder = new Uint8Array(4);
-
-	    var addAPoint = function addAPoint(i) {
-	      // Vertices
-	      pointIdx = i * 3;
-	      tcoordIdx = i * textureComponents;
-
-	      packedVBO.push(pointData[pointIdx++]);
-	      packedVBO.push(pointData[pointIdx++]);
-	      packedVBO.push(pointData[pointIdx++]);
-
-	      if (normalData !== null) {
-	        if (options.haveCellNormals) {
-	          normalIdx = (cellCount + options.cellOffset) * 3;
-	        } else {
-	          normalIdx = i * 3;
-	        }
-	        packedVBO.push(normalData[normalIdx++]);
-	        packedVBO.push(normalData[normalIdx++]);
-	        packedVBO.push(normalData[normalIdx++]);
-	      }
-
-	      if (tcoordData !== null) {
-	        for (var j = 0; j < textureComponents; ++j) {
-	          packedVBO.push(tcoordData[tcoordIdx++]);
-	        }
-	      }
-
-	      if (colorData !== null) {
-	        if (options.haveCellScalars) {
-	          colorIdx = (cellCount + options.cellOffset) * colorComponents;
-	        } else {
-	          colorIdx = i * colorComponents;
-	        }
-
-	        for (var _j = 0; _j < colorComponents; ++_j) {
-	          packedVBO.push(colorData[colorIdx++] / 255.5);
-	        }
-	      }
-	      // if (colorData !== null) {
-	      //   colorHolder[0] = colorData[colorIdx++];
-	      //   colorHolder[1] = colorData[colorIdx++];
-	      //   colorHolder[2] = colorData[colorIdx++];
-
-	      //   if (colorComponents === 4) {
-	      //     colorHolder[3] = colorData[colorIdx++];
-	      //   } else {  // must be 3 color components then
-	      //     colorHolder[3] = 255;
-	      //   }
-
-	      //   packedVBO.push(new Float32Array(colorHolder.buffer)[0]);
-	      // }
-	    };
-
-	    var cellBuilders = {
-	      // easy, every input point becomes an output point
-
-	      anythingToPoints: function anythingToPoints(numPoints, cellPts, offset) {
-	        for (var i = 0; i < numPoints; ++i) {
-	          addAPoint(cellPts[offset + i]);
-	        }
-	      },
-	      linesToWireframe: function linesToWireframe(numPoints, cellPts, offset) {
-	        // for lines we add a bunch of segments
-	        for (var i = 0; i < numPoints - 1; ++i) {
-	          addAPoint(cellPts[offset + i]);
-	          addAPoint(cellPts[offset + i + 1]);
-	        }
-	      },
-	      polysToWireframe: function polysToWireframe(numPoints, cellPts, offset) {
-	        // for polys we add a bunch of segments and close it
-	        for (var i = 0; i < numPoints; ++i) {
-	          addAPoint(cellPts[offset + i]);
-	          addAPoint(cellPts[offset + (i + 1) % numPoints]);
-	        }
-	      },
-	      stripsToWireframe: function stripsToWireframe(numPoints, cellPts, offset) {
-	        // for strips we add a bunch of segments and close it
-	        for (var i = 0; i < numPoints - 1; ++i) {
-	          addAPoint(cellPts[offset + i]);
-	          addAPoint(cellPts[offset + i + 1]);
-	        }
-	        for (var _i = 0; _i < numPoints - 2; _i++) {
-	          addAPoint(cellPts[offset + _i]);
-	          addAPoint(cellPts[offset + _i + 2]);
-	        }
-	      },
-	      polysToSurface: function polysToSurface(npts, cellPts, offset) {
-	        if (npts < 3) {
-	          // ignore degenerate triangles
-	          console.log('skipping degenerate triangle');
-	        } else {
-	          for (var i = 0; i < npts - 2; i++) {
-	            addAPoint(cellPts[offset + 0]);
-	            addAPoint(cellPts[offset + i + 1]);
-	            addAPoint(cellPts[offset + i + 2]);
-	          }
-	        }
-	      },
-	      stripsToSurface: function stripsToSurface(npts, cellPts, offset) {
-	        for (var i = 0; i < npts - 2; i++) {
-	          addAPoint(cellPts[offset + i]);
-	          addAPoint(cellPts[offset + i + 1 + i % 2]);
-	          addAPoint(cellPts[offset + i + 1 + (i + 1) % 2]);
-	        }
-	      }
-	    };
-
-	    var func = null;
-	    if (outRep === _Constants2.VTK_REPRESENTATION.POINTS || inRep === 'verts') {
-	      func = cellBuilders.anythingToPoints;
-	    } else if (outRep === _Constants2.VTK_REPRESENTATION.WIREFRAME || inRep === 'lines') {
-	      func = cellBuilders[inRep + 'ToWireframe'];
-	    } else {
-	      func = cellBuilders[inRep + 'ToSurface'];
-	    }
-
-	    var currentIndex = 0;
-	    var array = cellArray.getData();
-	    var size = array.length;
-	    for (var index = 0; index < size; index++) {
-	      if (index === currentIndex) {
-	        func(array[index], array, currentIndex + 1);
-	        currentIndex += array[index] + 1;
-	        cellCount++;
-	      }
-	    }
-	    model.elementCount = packedVBO.getNumberOfElements() / model.blockSize;
-	    var vboArray = packedVBO.getFrozenArray();
-	    publicAPI.upload(vboArray, _Constants.OBJECT_TYPE.ARRAY_BUFFER);
-	    packedVBO.reset();
-	    return cellCount;
-	  };
-
-	  publicAPI.setCoordShiftAndScaleMethod = function (shiftScaleMethod) {
-	    console.log('coordinate shift and scale not yet implemented');
-	  };
-
-	  publicAPI.setCoordShift = function (shiftArray) {
-	    console.log('coordinate shift and scale not yet implemented');
-	  };
-
-	  publicAPI.setCoordScale = function (scaleArray) {
-	    console.log('coordinate shift and scale not yet implemented');
-	  };
-	}
-
-	// ----------------------------------------------------------------------------
-	// Object factory
-	// ----------------------------------------------------------------------------
-
-	var DEFAULT_VALUES = {
-	  elementCount: 0,
-	  stride: 0,
-	  vertexOffset: 0,
-	  normalOffset: 0,
-	  tCoordOffset: 0,
-	  tCoordComponents: 0,
-	  colorOffset: 0,
-	  colorComponents: 0
-	};
-
-	// ----------------------------------------------------------------------------
-
-	function extend(publicAPI, model) {
-	  var initialValues = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
-
-	  Object.assign(model, DEFAULT_VALUES, initialValues);
-
-	  // Inheritance
-	  _BufferObject2.default.extend(publicAPI, model);
-
-	  macro.get(publicAPI, model, ['elementCount', 'stride', 'vertexOffset', 'normalOffset', 'tCoordOffset', 'tCoordComponents', 'colorOffset', 'colorComponents']);
-
-	  // Object specific methods
-	  vtkOpenGLCellArrayBufferObject(publicAPI, model);
-	}
-
-	// ----------------------------------------------------------------------------
-
-	var newInstance = exports.newInstance = macro.newInstance(extend);
-
-	// ----------------------------------------------------------------------------
-
-	exports.default = { newInstance: newInstance, extend: extend };
-
-/***/ },
-/* 40 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.newInstance = exports.STATIC = undefined;
-	exports.extend = extend;
-
-	var _macro = __webpack_require__(1);
-
-	var macro = _interopRequireWildcard(_macro);
-
-	var _Constants = __webpack_require__(41);
-
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-	// ----------------------------------------------------------------------------
-	// Global methods
-	// ----------------------------------------------------------------------------
-
-	// ----------------------------------------------------------------------------
-	// Static API
-	// ----------------------------------------------------------------------------
-
-	var STATIC = exports.STATIC = {};
-
-	// ----------------------------------------------------------------------------
-	// vtkOpenGLBufferObject methods
-	// ----------------------------------------------------------------------------
-
-	function vtkOpenGLBufferObject(publicAPI, model) {
-	  // Set our className
-	  model.classHierarchy.push('vtkOpenGLBufferObject');
-
-	  // Class-specific private functions
-	  function convertType(type) {
-	    switch (type) {
-	      case _Constants.OBJECT_TYPE.ELEMENT_ARRAY_BUFFER:
-	        return model.context.ELEMENT_ARRAY_BUFFER;
-	      case _Constants.OBJECT_TYPE.TEXTURE_BUFFER:
-	        if ('TEXTURE_BUFFER' in model.context) {
-	          return model.context.TEXTURE_BUFFER;
-	        }
-	      /* eslint-disable no-fallthrough */
-	      // Intentional fallthrough in case there is no TEXTURE_BUFFER in WebGL
-	      default:
-	      /* eslint-enable no-fallthrough */
-	      case _Constants.OBJECT_TYPE.ARRAY_BUFFER:
-	        return model.context.ARRAY_BUFFER;
-	    }
-	  }
-
-	  var internalType = null;
-	  var internalHandle = null;
-	  var dirty = true;
-	  var error = '';
-
-	  // Public API methods
-	  publicAPI.getType = function () {
-	    return internalType;
-	  };
-
-	  publicAPI.setType = function (value) {
-	    internalType = value;
-	  };
-
-	  publicAPI.getHandle = function () {
-	    return internalHandle;
-	  };
-	  publicAPI.isReady = function () {
-	    return dirty === false;
-	  };
-
-	  publicAPI.generateBuffer = function (type) {
-	    var objectTypeGL = convertType(type);
-	    if (internalHandle === null) {
-	      internalHandle = model.context.createBuffer();
-	      internalType = type;
-	    }
-	    return convertType(internalType) === objectTypeGL;
-	  };
-
-	  publicAPI.upload = function (data, type) {
-	    // buffer, size, type
-	    var alreadyGenerated = publicAPI.generateBuffer(type);
-	    if (!alreadyGenerated) {
-	      error = 'Trying to upload array buffer to incompatible buffer.';
-	      return false;
-	    }
-	    model.context.bindBuffer(convertType(internalType), internalHandle);
-	    model.context.bufferData(convertType(internalType), data, model.context.STATIC_DRAW);
-	    dirty = false;
-	    return true;
-	  };
-
-	  publicAPI.bind = function () {
-	    if (!internalHandle) {
-	      return false;
-	    }
-	    model.context.bindBuffer(convertType(internalType), internalHandle);
-	    return true;
-	  };
-
-	  publicAPI.release = function () {
-	    if (!internalHandle) {
-	      return false;
-	    }
-	    model.context.bindBuffer(convertType(internalType), null);
-	    return true;
-	  };
-
-	  publicAPI.releaseGraphicsResources = function () {
-	    if (internalHandle !== null) {
-	      model.context.bindBuffer(convertType(internalType), null);
-	      model.context.deleteBuffers(internalHandle);
-	      internalHandle = null;
-	    }
-	  };
-
-	  publicAPI.getError = function () {
-	    return error;
-	  };
-	}
-
-	// ----------------------------------------------------------------------------
-	// Object factory
-	// ----------------------------------------------------------------------------
-
-	var DEFAULT_VALUES = {
-	  objectType: _Constants.OBJECT_TYPE.ARRAY_BUFFER,
-	  context: null
-	};
-
-	// ----------------------------------------------------------------------------
-
-	function extend(publicAPI, model) {
-	  var initialValues = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
-
-	  Object.assign(model, DEFAULT_VALUES, initialValues);
-
-	  // Object methods
-	  macro.obj(publicAPI, model);
-
-	  macro.setGet(publicAPI, model, ['context']);
-
-	  vtkOpenGLBufferObject(publicAPI, model);
-	}
-
-	// ----------------------------------------------------------------------------
-
-	var newInstance = exports.newInstance = macro.newInstance(extend);
-
-	// ----------------------------------------------------------------------------
-
-	exports.default = Object.assign({ newInstance: newInstance, extend: extend }, STATIC);
-
-/***/ },
-/* 41 */
-/***/ function(module, exports) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	var OBJECT_TYPE = exports.OBJECT_TYPE = {
-	  ARRAY_BUFFER: 0,
-	  ELEMENT_ARRAY_BUFFER: 1,
-	  TEXTURE_BUFFER: 2
-	};
-
-	exports.default = { OBJECT_TYPE: OBJECT_TYPE };
-
-/***/ },
-/* 42 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	var DynamicTypedArray = exports.DynamicTypedArray = function () {
-	  function DynamicTypedArray() {
-	    var _ref = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
-
-	    var _ref$chunkSize = _ref.chunkSize;
-	    var chunkSize = _ref$chunkSize === undefined ? 65536 : _ref$chunkSize;
-	    var _ref$arrayType = _ref.arrayType;
-	    var arrayType = _ref$arrayType === undefined ? 'Int32Array' : _ref$arrayType;
-
-	    _classCallCheck(this, DynamicTypedArray);
-
-	    this.ArrayConstructor = window[arrayType];
-	    this.chunkSize = chunkSize;
-	    this.reset();
-	  }
-
-	  _createClass(DynamicTypedArray, [{
-	    key: 'reset',
-	    value: function reset() {
-	      this.chunkContainer = [];
-	      this.chunkContainer.push(new this.ArrayConstructor(this.chunkSize));
-	      this.lastChunkItemCount = 0;
-	    }
-	  }, {
-	    key: 'push',
-	    value: function push(value) {
-	      if (this.lastChunkItemCount === this.chunkSize) {
-	        this.chunkContainer.push(new this.ArrayConstructor(this.chunkSize));
-	        this.lastChunkItemCount = 0;
-	      }
-	      this.chunkContainer[this.chunkContainer.length - 1][this.lastChunkItemCount] = value;
-	      this.lastChunkItemCount += 1;
-	    }
-	  }, {
-	    key: 'getNumberOfElements',
-	    value: function getNumberOfElements() {
-	      return (this.chunkContainer.length - 1) * this.chunkSize + this.lastChunkItemCount;
-	    }
-	  }, {
-	    key: 'getFrozenArray',
-	    value: function getFrozenArray() {
-	      var fullArray = new this.ArrayConstructor(this.getNumberOfElements());
-	      for (var i = 0; i < this.chunkContainer.length - 1; ++i) {
-	        fullArray.set(this.chunkContainer[i], i * this.chunkSize);
-	      }
-
-	      var indexOfLastChunk = this.chunkContainer.length - 1;
-
-	      if (this.lastChunkItemCount < this.chunkSize) {
-	        var buf = this.chunkContainer[indexOfLastChunk].buffer;
-	        var bufLen = this.lastChunkItemCount; // mult by 4 in case it needs number of bytes
-	        var partialChunkView = new this.ArrayConstructor(buf, 0, bufLen);
-	        fullArray.set(partialChunkView, indexOfLastChunk * this.chunkSize);
-	      } else {
-	        // If the last chunk is completely full
-	        fullArray.set(this.chunkContainer[indexOfLastChunk], indexOfLastChunk * this.chunkSize);
-	      }
-
-	      return fullArray;
-	    }
-	  }]);
-
-	  return DynamicTypedArray;
-	}();
-
-/***/ },
-/* 43 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.newInstance = undefined;
-	exports.substitute = substitute;
-	exports.vtkShaderProgram = vtkShaderProgram;
-	exports.extend = extend;
-
-	var _macro = __webpack_require__(1);
-
-	var macro = _interopRequireWildcard(_macro);
-
-	var _Shader = __webpack_require__(44);
-
-	var _Shader2 = _interopRequireDefault(_Shader);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-	// perform in place string substitutions, indicate if a substitution was done
-	// this is useful for building up shader strings which typically involve
-	// lots of string substitutions. Return true if a substitution was done.
-	function substitute(source, search, replace) {
-	  var all = arguments.length <= 3 || arguments[3] === undefined ? true : arguments[3];
-
-	  var replaceStr = Array.isArray(replace) ? replace.join('\n') : replace;
-	  var replaced = false;
-	  if (source.search(search) !== -1) {
-	    replaced = true;
-	  }
-	  var gflag = '';
-	  if (all) {
-	    gflag = 'g';
-	  }
-	  var regex = new RegExp(search, gflag);
-	  var resultstr = source.replace(regex, replaceStr);
-	  return { replace: replaced, result: resultstr };
-	}
-
-	// ----------------------------------------------------------------------------
-	// vtkShaderProgram methods
-	// ----------------------------------------------------------------------------
-
-	function vtkShaderProgram(publicAPI, model) {
-	  // Set our className
-	  model.classHierarchy.push('vtkShaderProgram');
-
-	  publicAPI.compileShader = function () {
-	    if (!model.vertexShader.compile()) {
-	      console.log(model.vertexShader.getSource().split('\n').map(function (line, index) {
-	        return index + ': ' + line;
-	      }).join('\n'));
-	      console.log(model.vertexShader.getError());
-	      return 0;
-	    }
-	    if (!model.fragmentShader.compile()) {
-	      console.log(model.fragmentShader.getSource().split('\n').map(function (line, index) {
-	        return index + ': ' + line;
-	      }).join('\n'));
-	      console.log(model.fragmentShader.getError());
-	      return 0;
-	    }
-	    // skip geometry for now
-	    if (!publicAPI.attachShader(model.vertexShader)) {
-	      console.log(model.error);
-	      return 0;
-	    }
-	    if (!publicAPI.attachShader(model.fragmentShader)) {
-	      console.log(model.error);
-	      return 0;
-	    }
-
-	    if (!publicAPI.link()) {
-	      console.log('Links failed: ' + model.error);
-	      return 0;
-	    }
-
-	    publicAPI.setCompiled(true);
-	    return 1;
-	  };
-
-	  publicAPI.cleanup = function () {
-	    if (model.shaderType === 'Unknown' || model.handle === 0) {
-	      return;
-	    }
-
-	    model.context.deleteShader(model.handle);
-	    model.handle = 0;
-	  };
-
-	  publicAPI.bind = function () {
-	    if (!model.linked && !model.link()) {
-	      return false;
-	    }
-
-	    model.context.useProgram(model.handle);
-	    publicAPI.setBound(true);
-	    return true;
-	  };
-
-	  publicAPI.isBound = function () {
-	    return !!model.bound;
-	  };
-
-	  publicAPI.release = function () {
-	    model.context.useProgram(null);
-	    publicAPI.setBound(false);
-	  };
-
-	  publicAPI.setContext = function (ctx) {
-	    model.vertexShader.setContext(ctx);
-	    model.fragmentShader.setContext(ctx);
-	    model.geometryShader.setContext(ctx);
-	  };
-
-	  publicAPI.link = function () {
-	    if (model.inked) {
-	      return true;
-	    }
-
-	    if (model.handle === 0) {
-	      model.error = 'Program has not been initialized, and/or does not have shaders.';
-	      return false;
-	    }
-
-	    // clear out the list of uniforms used
-	    model.uniformLocs = {};
-
-	    model.context.linkProgram(model.handle);
-	    var isCompiled = model.context.getProgramParameter(model.handle, model.context.LINK_STATUS);
-	    if (!isCompiled) {
-	      var lastError = model.context.getProgramInfoLog(model.handle);
-	      console.error('Error linking shader ' + lastError);
-	      model.handle = 0;
-	      return false;
-	    }
-
-	    publicAPI.setLinked(true);
-	    model.attributeLocs = {};
-	    return true;
-	  };
-
-	  publicAPI.setUniformf = function (name, v) {
-	    var location = publicAPI.findUniform(name);
-	    if (location === -1) {
-	      model.error = 'Could not set uniform ' + name + ' . No such uniform.';
-	      return false;
-	    }
-	    model.context.uniform1f(location, v);
-	    return true;
-	  };
-
-	  publicAPI.setUniformi = function (name, v) {
-	    var location = publicAPI.findUniform(name);
-	    if (location === -1) {
-	      model.error = 'Could not set uniform ' + name + ' . No such uniform.';
-	      return false;
-	    }
-	    model.context.uniform1i(location, v);
-	    return true;
-	  };
-
-	  publicAPI.setUniformMatrix = function (name, v) {
-	    var location = publicAPI.findUniform(name);
-	    if (location === -1) {
-	      model.error = 'Could not set uniform ' + name + ' . No such uniform.';
-	      return false;
-	    }
-	    model.context.uniformMatrix4fv(location, false, v);
-	    return true;
-	  };
-
-	  publicAPI.setUniformMatrix3x3 = function (name, v) {
-	    var location = publicAPI.findUniform(name);
-	    if (location === -1) {
-	      model.error = 'Could not set uniform ' + name + ' . No such uniform.';
-	      return false;
-	    }
-	    model.context.uniformMatrix3fv(location, false, v);
-	    return true;
-	  };
-
-	  publicAPI.setUniform3f = function (name, v) {
-	    var location = publicAPI.findUniform(name);
-	    if (location === -1) {
-	      model.error = 'Could not set uniform ' + name + ' . No such uniform.';
-	      return false;
-	    }
-	    model.context.uniform3f(location, v[0], v[1], v[2]);
-	    return true;
-	  };
-
-	  publicAPI.setUniform3fv = function (name, count, v) {
-	    var location = publicAPI.findUniform(name);
-	    if (location === -1) {
-	      model.error = 'Could not set uniform ' + name + ' . No such uniform.';
-	      return false;
-	    }
-	    model.context.uniform3fv(location, count, v);
-	    return true;
-	  };
-
-	  publicAPI.findUniform = function (name) {
-	    if (!name || !model.linked) {
-	      return -1;
-	    }
-
-	    var loc = Object.keys(model.uniformLocs).indexOf(name);
-
-	    if (loc !== -1) {
-	      return model.uniformLocs[name];
-	    }
-
-	    loc = model.context.getUniformLocation(model.handle, name);
-	    if (loc === null) {
-	      model.error = 'Uniform ' + name + ' not found in current shader program.';
-	    }
-	    model.uniformLocs[name] = loc;
-
-	    return loc;
-	  };
-
-	  publicAPI.isUniformUsed = function (name) {
-	    if (!name) {
-	      return false;
-	    }
-
-	    // see if we have cached the result
-	    var loc = Object.keys(model.uniformLocs).indexOf(name);
-	    if (loc !== -1) {
-	      return true;
-	    }
-
-	    if (!model.linked) {
-	      console.log('attempt to find uniform when the shader program is not linked');
-	      return false;
-	    }
-
-	    loc = model.context.getUniformLocation(model.handle, name);
-	    if (loc === null) {
-	      return false;
-	    }
-	    model.uniformLocs[name] = loc;
-
-	    return true;
-	  };
-
-	  publicAPI.isAttributeUsed = function (name) {
-	    if (!name) {
-	      return false;
-	    }
-
-	    // see if we have cached the result
-	    var loc = Object.keys(model.attributeLocs).indexOf(name);
-	    if (loc !== -1) {
-	      return true;
-	    }
-
-	    if (!model.linked) {
-	      console.log('attempt to find uniform when the shader program is not linked');
-	      return false;
-	    }
-
-	    loc = model.context.getAttribLocation(model.handle, name);
-	    if (loc === -1) {
-	      return false;
-	    }
-	    model.attributeLocs[name] = loc;
-
-	    return true;
-	  };
-
-	  publicAPI.attachShader = function (shader) {
-	    if (shader.getHandle() === 0) {
-	      model.error = 'Shader object was not initialized, cannot attach it.';
-	      return false;
-	    }
-	    if (shader.getShaderType() === 'Unknown') {
-	      model.error = 'Shader object is of type Unknown and cannot be used.';
-	      return false;
-	    }
-
-	    if (model.handle === 0) {
-	      var thandle = model.context.createProgram();
-	      if (thandle === 0) {
-	        model.error = 'Could not create shader program.';
-	        return false;
-	      }
-	      model.handle = thandle;
-	      model.linked = false;
-	    }
-
-	    if (shader.getShaderType() === 'Vertex') {
-	      if (model.vertexShaderHandle !== 0) {
-	        model.comntext.detachShader(model.handle, model.vertexShaderHandle);
-	      }
-	      model.vertexShaderHandle = shader.getHandle();
-	    }
-	    if (shader.getShaderType() === 'Fragment') {
-	      if (model.fragmentShaderHandle !== 0) {
-	        model.context.detachShader(model.handle, model.fragmentShaderHandle);
-	      }
-	      model.fragmentShaderHandle = shader.getHandle();
-	    }
-
-	    model.context.attachShader(model.handle, shader.getHandle());
-	    publicAPI.setLinked(false);
-	    return true;
-	  };
-
-	  publicAPI.detachShader = function (shader) {
-	    if (shader.getHandle() === 0) {
-	      model.error = 'shader object was not initialized, cannot attach it.';
-	      return false;
-	    }
-	    if (shader.getShaderType() === 'Unknown') {
-	      model.error = 'Shader object is of type Unknown and cannot be used.';
-	      return false;
-	    }
-	    if (model.handle === 0) {
-	      model.errror = 'This shader prorgram has not been initialized yet.';
-	    }
-
-	    switch (shader.getShaderType()) {
-	      case 'Vertex':
-	        if (model.vertexShaderHandle !== shader.getHandle()) {
-	          model.error = 'The supplied shader was not attached to this program.';
-	          return false;
-	        }
-	        model.context.detachShader(model.handle, shader.getHandle());
-	        model.vertexShaderHandle = 0;
-	        model.linked = false;
-	        return true;
-	      case 'Fragment':
-	        if (model.fragmentShaderHandle !== shader.getHandle()) {
-	          model.error = 'The supplied shader was not attached to this program.';
-	          return false;
-	        }
-	        model.context.detachShader(model.handle, shader.getHandle());
-	        model.fragmentShaderHandle = 0;
-	        model.linked = false;
-	        return true;
-	      default:
-	        return false;
-	    }
-	  };
-
-	  publicAPI.setContext = function (ctx) {
-	    model.context = ctx;
-	    model.vertexShader.setContext(ctx);
-	    model.fragmentShader.setContext(ctx);
-	    model.geometryShader.setContext(ctx);
-	  };
-
-	  // publicAPI.enableAttributeArray = (name) => {
-	  //   const location = publicAPI.findAttributeArray(name);
-	  //   if (location === -1) {
-	  //     model.error = `Could not enable attribute ${name} No such attribute.`;
-	  //     return false;
-	  //   }
-	  //   model.context.enableVertexAttribArray(location);
-	  //   return true;
-	  // };
-
-	  // publicAPI.disableAttributeArray = (name) => {
-	  //   const location = publicAPI.findAttributeArray(name);
-	  //   if (location === -1) {
-	  //     model.error = `Could not enable attribute ${name} No such attribute.`;
-	  //     return false;
-	  //   }
-	  //   model.context.disableVertexAttribArray(location);
-	  //   return true;
-	  // };
-	}
-
-	// ----------------------------------------------------------------------------
-	// Object factory
-	// ----------------------------------------------------------------------------
-
-	var DEFAULT_VALUES = {
-	  vertexShaderHandle: 0,
-	  fragmentShaderHandle: 0,
-	  geometryShaderHandle: 0,
-	  vertexShader: null,
-	  fragmentShader: null,
-	  geometryShader: null,
-
-	  linked: false,
-	  bound: false,
-	  compiled: false,
-	  error: '',
-	  handle: 0,
-	  numberOfOutputs: 0,
-	  attributesLocs: null,
-	  uniformLocs: null,
-	  md5Hash: 0,
-	  context: null
-	};
-
-	// ----------------------------------------------------------------------------
-
-	function extend(publicAPI, model) {
-	  var initialValues = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
-
-	  Object.assign(model, DEFAULT_VALUES, initialValues);
-
-	  // Instanciate internal objects
-	  model.attributesLocs = {};
-	  model.uniformLocs = {};
-	  model.vertexShader = _Shader2.default.newInstance();
-	  model.vertexShader.setShaderType('Vertex');
-	  model.fragmentShader = _Shader2.default.newInstance();
-	  model.fragmentShader.setShaderType('Fragment');
-	  model.geometryShader = _Shader2.default.newInstance();
-	  model.geometryShader.setShaderType('Geometry');
-
-	  // Build VTK API
-	  macro.obj(publicAPI, model);
-	  macro.setGet(publicAPI, model, ['error', 'handle', 'compiled', 'bound', 'md5Hash', 'vertexShader', 'fragmentShader', 'geometryShader', 'linked']);
-
-	  // Object methods
-	  vtkShaderProgram(publicAPI, model);
-	}
-
-	// ----------------------------------------------------------------------------
-
-	var newInstance = exports.newInstance = macro.newInstance(extend);
-
-	// ----------------------------------------------------------------------------
-
-	exports.default = { newInstance: newInstance, extend: extend, substitute: substitute };
-
-/***/ },
-/* 44 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.newInstance = undefined;
-	exports.vtkShader = vtkShader;
-	exports.extend = extend;
-
-	var _macro = __webpack_require__(1);
-
-	var macro = _interopRequireWildcard(_macro);
-
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-	// export const SHADER_TYPES = ['Vertex', 'Fragment', 'Geometry', 'Unknown'];
-
-	// ----------------------------------------------------------------------------
-	// vtkShader methods
-	// ----------------------------------------------------------------------------
-
-	function vtkShader(publicAPI, model) {
-	  // Set our className
-	  model.classHierarchy.push('vtkShader');
-
-	  publicAPI.compile = function () {
-	    var stype = model.context.VERTEX_SHADER;
-
-	    if (!model.source || !model.source.length || model.shaderType === 'Unknown') {
-	      return false;
-	    }
-
-	    // Ensure we delete the previous shader if necessary.
-	    if (model.handle !== 0) {
-	      model.context.deleteShader(model.handle);
-	      model.handle = 0;
-	    }
-
-	    switch (model.shaderType) {
-	      // case vtkShader::Geometry:
-	      //   type = GL_GEOMETRY_SHADER;
-	      //   break;
-	      case 'Fragment':
-	        stype = model.context.FRAGMENT_SHADER;
-	        break;
-	      case 'Vertex':
-	      default:
-	        stype = model.context.VERTEX_SHADER;
-	        break;
-	    }
-
-	    model.handle = model.context.createShader(stype);
-	    model.context.shaderSource(model.handle, model.source);
-	    model.context.compileShader(model.handle);
-	    var isCompiled = model.context.getShaderParameter(model.handle, model.context.COMPILE_STATUS);
-	    if (!isCompiled) {
-	      var lastError = model.context.getShaderInfoLog(model.handle);
-	      console.error('Error compiling shader \'' + model.source + '\': ' + lastError);
-	      model.context.deleteShader(model.handle);
-	      model.handle = 0;
-	      return false;
-	    }
-
-	    // The shader compiled, store its handle and return success.
-	    return true;
-	  };
-
-	  publicAPI.cleanup = function () {
-	    if (model.shaderType === 'Unknown' || model.handle === 0) {
-	      return;
-	    }
-
-	    model.context.deleteShader(model.handle);
-	    model.handle = 0;
-	    model.dirty = true;
-	  };
-	}
-
-	// ----------------------------------------------------------------------------
-	// Object factory
-	// ----------------------------------------------------------------------------
-
-	var DEFAULT_VALUES = {
-	  shaderType: 'Unknown',
-	  source: '',
-	  error: '',
-	  handle: 0,
-	  dirty: false,
-	  context: null
-	};
-
-	// ----------------------------------------------------------------------------
-
-	function extend(publicAPI, model) {
-	  var initialValues = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
-
-	  Object.assign(model, DEFAULT_VALUES, initialValues);
-
-	  // Build VTK API
-	  macro.obj(publicAPI, model);
-	  macro.setGet(publicAPI, model, ['shaderType', 'source', 'error', 'handle', 'context']);
-
-	  // Object methods
-	  vtkShader(publicAPI, model);
-	}
-
-	// ----------------------------------------------------------------------------
-
-	var newInstance = exports.newInstance = macro.newInstance(extend);
-
-	// ----------------------------------------------------------------------------
-
-	exports.default = { newInstance: newInstance, extend: extend };
-
-/***/ },
-/* 45 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.newInstance = undefined;
-	exports.extend = extend;
-
-	var _macro = __webpack_require__(1);
-
-	var macro = _interopRequireWildcard(_macro);
-
-	var _Constants = __webpack_require__(41);
-
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-	// ----------------------------------------------------------------------------
-	// vtkOpenGLVertexArrayObject methods
-	// ----------------------------------------------------------------------------
-
-	function vtkOpenGLVertexArrayObject(publicAPI, model) {
-	  // Set our className
-	  model.classHierarchy.push('vtkOpenGLVertexArrayObject');
-
-	  // Public API methods
-	  publicAPI.exposedMethod = function () {
-	    // This is a publicly exposed method of this object
-	  };
-
-	  publicAPI.initialize = function () {
-	    model.extension = model.context.getExtension('OES_vertex_array_object');
-
-	    // Start setting up VAO
-	    if (!model.forceEmulation && model.extension) {
-	      model.supported = true;
-	      model.handleVAO = model.extension.createVertexArrayOES();
-	    } else {
-	      model.supported = false;
-	    }
-	  };
-
-	  publicAPI.isReady = function () {
-	    return(
-	      // We either probed and allocated a VAO, or are falling back as the current
-	      // hardware does not support VAOs.
-	      model.handleVAO !== 0 || model.supported === false
-	    );
-	  };
-
-	  publicAPI.bind = function () {
-	    // Either simply bind the VAO, or emulate behavior by binding all attributes.
-	    if (!publicAPI.isReady()) {
-	      publicAPI.initialize();
-	    }
-	    if (publicAPI.isReady() && model.supported) {
-	      model.extension.bindVertexArrayOES(model.handleVAO);
-	    } else if (publicAPI.isReady()) {
-	      (function () {
-	        var gl = model.context;
-	        Object.keys(model.buffers).map(function (key) {
-	          return model.buffers[key];
-	        }).forEach(function (buff) {
-	          model.context.bindBuffer(gl.ARRAY_BUFFER, buff.buffer);
-	          Object.keys(buff.attributes).map(function (key) {
-	            return buff.attributes[key];
-	          }).forEach(function (attrIt) {
-	            var matrixCount = attrIt.isMatrix ? attrIt.size : 1;
-	            for (var i = 0; i < matrixCount; ++i) {
-	              gl.enableVertexAttribArray(attrIt.index + i);
-	              gl.vertexAttribPointer(attrIt.index + i, attrIt.size, attrIt.type, attrIt.normalize, attrIt.stride, attrIt.offset + attrIt.stride * i / attrIt.size);
-	              if (attrIt.divisor > 0) {
-	                gl.vertexAttribDivisor(attrIt.index + i, 1);
-	              }
-	            }
-	          });
-	          // gl.bindBuffer(gl.ARRAY_BUFFER, 0);
-	        });
-	      })();
-	    }
-	  };
-
-	  publicAPI.release = function () {
-	    // Either simply release the VAO, or emulate behavior by releasing all attributes.
-	    if (publicAPI.isReady() && model.supported) {
-	      model.extension.bindVertexArrayOES(null);
-	    } else if (publicAPI.isReady()) {
-	      (function () {
-	        var gl = model.context;
-	        Object.keys(model.buffers).map(function (key) {
-	          return model.buffers[key];
-	        }).forEach(function (buff) {
-	          Object.keys(buff.attributes).map(function (key) {
-	            return buff.attributes[key];
-	          }).forEach(function (attrIt) {
-	            var matrixCount = attrIt.isMatrix ? attrIt.size : 1;
-	            for (var i = 0; i < matrixCount; ++i) {
-	              gl.enableVertexAttribArray(attrIt.index + i);
-	              gl.vertexAttribPointer(attrIt.index + i, attrIt.size, attrIt.type, attrIt.normalize, attrIt.stride, attrIt.offset + attrIt.stride * i / attrIt.size);
-	              if (attrIt.divisor > 0) {
-	                gl.vertexAttribDivisor(attrIt.index + i, 0);
-	              }
-	              gl.disableVertexAttribArray(attrIt.index + i);
-	            }
-	          });
-	        });
-	      })();
-	    }
-	  };
-
-	  publicAPI.shaderProgramChanged = function () {
-	    publicAPI.release();
-	    if (model.handleVAO) {
-	      model.extension.deleteVertexArrayOES(model.handleVAO);
-	    }
-	    model.handleVAO = 0;
-	    model.handleProgram = 0;
-	  };
-
-	  publicAPI.releaseGraphicsResources = function () {
-	    publicAPI.shaderProgramChanged();
-	    if (model.handleVAO) {
-	      model.extension.deleteVertexArrayOES(model.handleVAO);
-	    }
-	    model.handleVAO = 0;
-	    model.supported = true;
-	    model.handleProgram = 0;
-	  };
-
-	  publicAPI.addAttributeArray = function (program, buffer, name, offset, stride, elementType, elementTupleSize, normalize) {
-	    return publicAPI.addAttributeArrayWithDivisor(program, buffer, name, offset, stride, elementType, elementTupleSize, normalize, 0, false);
-	  };
-
-	  publicAPI.addAttributeArrayWithDivisor = function (program, buffer, name, offset, stride, elementType, elementTupleSize, normalize, divisor, isMatrix) {
-	    if (!program) {
-	      return false;
-	    }
-
-	    // Check the program is bound, and the buffer is valid.
-	    if (!program.isBound() || buffer.getHandle() === 0 || buffer.getType() !== _Constants.OBJECT_TYPE.ARRAY_BUFFER) {
-	      return false;
-	    }
-
-	    // Perform initalization if necessary, ensure program matches VAOs.
-	    if (model.handleProgram === 0) {
-	      model.handleProgram = program.getHandle();
-	    }
-	    if (!publicAPI.isReady()) {
-	      publicAPI.initialize();
-	    }
-	    if (!publicAPI.isReady() || model.handleProgram !== program.getHandle()) {
-	      return false;
-	    }
-
-	    var gl = model.context;
-
-	    var attribs = {};
-	    attribs.index = gl.getAttribLocation(model.handleProgram, name);
-	    attribs.offset = offset;
-	    attribs.stride = stride;
-	    //    attribs.type = convertTypeToGL(elementType);
-	    attribs.type = elementType;
-	    attribs.size = elementTupleSize;
-	    attribs.normalize = normalize;
-	    attribs.isMatrix = isMatrix;
-	    attribs.divisor = divisor;
-
-	    if (attribs.Index === -1) {
-	      return false;
-	    }
-
-	    // Always make the call as even the first use wants the attrib pointer setting
-	    // up when we are emulating.
-	    buffer.bind();
-	    gl.enableVertexAttribArray(attribs.index);
-	    gl.vertexAttribPointer(attribs.index, attribs.size, attribs.type, attribs.normalize, attribs.stride, attribs.offset);
-
-	    if (divisor > 0) {
-	      gl.vertexAttribDivisor(attribs.index, 1);
-	    }
-
-	    // If vertex array objects are not supported then build up our list.
-	    if (!model.supported) {
-	      var handleBuffer = buffer.getHandle();
-	      // find the buffer
-	      if (Object.keys(model.buffers).indexOf(handleBuffer) !== -1) {
-	        model.buffers[handleBuffer].attributes[attribs.index] = attribs;
-	        model.buffers[handleBuffer].buffer = handleBuffer;
-	      } else {
-	        // a single handle can have multiple attribs
-	        model.buffers[handleBuffer] = { buffer: handleBuffer, attributes: _defineProperty({}, attribs.index, attribs) };
-	      }
-	    }
-	    return true;
-	  };
-
-	  publicAPI.addAttributeMatrixWithDivisor = function (program, buffer, name, offset, stride, elementType, elementTupleSize, normalize, divisor) {
-	    // bind the first row of values
-	    var result = publicAPI.addAttributeArrayWithDivisor(program, buffer, name, offset, stride, elementType, elementTupleSize, normalize, divisor, true);
-
-	    if (!result) {
-	      return result;
-	    }
-
-	    var gl = model.context;
-
-	    var index = gl.getAttribLocation(model.handleProgram, name);
-
-	    for (var i = 1; i < elementTupleSize; i++) {
-	      gl.enableVertexAttribArray(index + i);
-	      //      gl.vertexAttribPointer(index + i, elementTupleSize, convertTypeToGL(elementType),
-	      gl.vertexAttribPointer(index + i, elementTupleSize, elementType, normalize, stride, offset + stride * i / elementTupleSize);
-	      if (divisor > 0) {
-	        gl.vertexAttribDivisor(index + i, 1);
-	      }
-	    }
-
-	    return true;
-	  };
-
-	  publicAPI.removeAttributeArray = function (name) {
-	    if (!publicAPI.isReady() || model.handleProgram === 0) {
-	      return false;
-	    }
-
-	    var gl = model.context;
-	    var location = gl.getAttribLocation(model.handleProgram, name);
-
-	    if (location === -1) {
-	      return false;
-	    }
-
-	    gl.disableVertexAttribArray(location);
-	    // If we don't have real VAOs find the entry and remove it too.
-	    if (!model.supported) {
-	      Object.keys(model.buffers).map(function (key) {
-	        return model.buffers[key];
-	      }).forEach(function (buff) {
-	        delete buff.attributes[location];
-	      });
-	    }
-
-	    return true;
-	  };
-	}
-
-	// ----------------------------------------------------------------------------
-	// Object factory
-	// ----------------------------------------------------------------------------
-
-	var DEFAULT_VALUES = {
-	  forceEmulation: false,
-	  handleVAO: 0,
-	  handleProgram: 0,
-	  supported: true,
-	  buffers: null,
-	  context: null
-	};
-
-	// ----------------------------------------------------------------------------
-
-	function extend(publicAPI, model) {
-	  var initialValues = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
-
-	  Object.assign(model, DEFAULT_VALUES, initialValues);
-
-	  // Internal objects initialization
-	  model.buffers = {};
-
-	  // Object methods
-	  macro.obj(publicAPI, model);
-
-	  // Create get-only macros
-	  macro.get(publicAPI, model, ['supported']);
-
-	  // Create get-set macros
-	  macro.setGet(publicAPI, model, ['context', 'forceEmulation']);
-
-	  // For more macro methods, see "Sources/macro.js"
-
-	  // Object specific methods
-	  vtkOpenGLVertexArrayObject(publicAPI, model);
-	}
-
-	// ----------------------------------------------------------------------------
-
-	var newInstance = exports.newInstance = macro.newInstance(extend);
-
-	// ----------------------------------------------------------------------------
-
-	exports.default = { newInstance: newInstance, extend: extend };
-
-/***/ },
-/* 46 */
-/***/ function(module, exports) {
-
-	module.exports = "//VTK::System::Dec\n\n/*=========================================================================\n\n  Program:   Visualization Toolkit\n  Module:    vtkPolyDataVS.glsl\n\n  Copyright (c) Ken Martin, Will Schroeder, Bill Lorensen\n  All rights reserved.\n  See Copyright.txt or http://www.kitware.com/Copyright.htm for details.\n\n     This software is distributed WITHOUT ANY WARRANTY; without even\n     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR\n     PURPOSE.  See the above copyright notice for more information.\n\n=========================================================================*/\n\nattribute vec4 vertexMC;\n\n// frag position in VC\n//VTK::PositionVC::Dec\n\n// optional normal declaration\n//VTK::Normal::Dec\n\n// extra lighting parameters\n//VTK::Light::Dec\n\n// Texture coordinates\n//VTK::TCoord::Dec\n\n// material property values\n//VTK::Color::Dec\n\n// clipping plane vars\n//VTK::Clip::Dec\n\n// camera and actor matrix values\n//VTK::Camera::Dec\n\n// Apple Bug\n//VTK::PrimID::Dec\n\nvoid main()\n{\n  //VTK::Color::Impl\n\n  //VTK::Normal::Impl\n\n  //VTK::TCoord::Impl\n\n  //VTK::Clip::Impl\n\n  //VTK::PrimID::Impl\n\n  //VTK::PositionVC::Impl\n\n  //VTK::Light::Impl\n}\n"
-
-/***/ },
-/* 47 */
-/***/ function(module, exports) {
-
-	module.exports = "//VTK::System::Dec\n\n/*=========================================================================\n\n  Program:   Visualization Toolkit\n  Module:    vtkPolyDataFS.glsl\n\n  Copyright (c) Ken Martin, Will Schroeder, Bill Lorensen\n  All rights reserved.\n  See Copyright.txt or http://www.kitware.com/Copyright.htm for details.\n\n     This software is distributed WITHOUT ANY WARRANTY; without even\n     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR\n     PURPOSE.  See the above copyright notice for more information.\n\n=========================================================================*/\n// Template for the polydata mappers fragment shader\n\nuniform int PrimitiveIDOffset;\n\n// VC position of this fragment\n//VTK::PositionVC::Dec\n\n// optional color passed in from the vertex shader, vertexColor\n//VTK::Color::Dec\n\n// optional surface normal declaration\n//VTK::Normal::Dec\n\n// extra lighting parameters\n//VTK::Light::Dec\n\n// Texture coordinates\n//VTK::TCoord::Dec\n\n// picking support\n//VTK::Picking::Dec\n\n// Depth Peeling Support\n//VTK::DepthPeeling::Dec\n\n// clipping plane vars\n//VTK::Clip::Dec\n\n// the output of this shader\n//VTK::Output::Dec\n\n// Apple Bug\n//VTK::PrimID::Dec\n\n// handle coincident offsets\n//VTK::Coincident::Dec\n\nvoid main()\n{\n  // VC position of this fragment. This should not branch/return/discard.\n  //VTK::PositionVC::Impl\n\n  // Place any calls that require uniform flow (e.g. dFdx) here.\n  //VTK::UniformFlow::Impl\n\n  // Early depth peeling abort:\n  //VTK::DepthPeeling::PreColor\n\n  // Apple Bug\n  //VTK::PrimID::Impl\n\n  //VTK::Clip::Impl\n\n  //VTK::Color::Impl\n\n  // Generate the normal if we are not passed in one\n  //VTK::Normal::Impl\n\n  //VTK::Light::Impl\n\n  //VTK::TCoord::Impl\n\n  if (gl_FragData[0].a <= 0.0)\n    {\n    discard;\n    }\n\n  //VTK::DepthPeeling::Impl\n\n  //VTK::Picking::Impl\n\n  // handle coincident offsets\n  //VTK::Coincident::Impl\n}\n"
-
-/***/ },
-/* 48 */
+/* 54 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -14270,6 +15498,8 @@
 	      publicAPI.prepareNodes();
 	      publicAPI.addMissingNode(model.renderable.getActiveCamera());
 	      publicAPI.addMissingNodes(model.renderable.getActors());
+	      publicAPI.addMissingNodes(model.renderable.getActors2D());
+	      publicAPI.addMissingNodes(model.renderable.getVolumes());
 	      publicAPI.removeUnusedNodes();
 	    }
 	  };
@@ -14366,7 +15596,7 @@
 	exports.default = { newInstance: newInstance, extend: extend };
 
 /***/ },
-/* 49 */
+/* 55 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -14381,517 +15611,11 @@
 
 	var macro = _interopRequireWildcard(_macro);
 
-	var _Constants = __webpack_require__(50);
-
-	var _Constants2 = __webpack_require__(23);
-
-	var _ViewNode = __webpack_require__(35);
-
-	var _ViewNode2 = _interopRequireDefault(_ViewNode);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-	// ----------------------------------------------------------------------------
-	// vtkOpenGLTexture methods
-	// ----------------------------------------------------------------------------
-
-	function vtkOpenGLTexture(publicAPI, model) {
-	  var _this = this;
-
-	  // Set our className
-	  model.classHierarchy.push('vtkOpenGLTexture');
-
-	  // Builds myself.
-	  publicAPI.build = function (prepass) {
-	    if (prepass) {
-	      if (!model.renderable) {
-	        return;
-	      }
-	    }
-	  };
-
-	  // Renders myself
-	  publicAPI.render = function (prepass) {
-	    if (prepass) {
-	      model.window = publicAPI.getFirstAncestorOfType('vtkOpenGLRenderWindow');
-	      model.context = model.window.getContext();
-	      var ren = publicAPI.getFirstAncestorOfType('vtkOpenGLRenderer');
-	      publicAPI.preRender(ren);
-	    }
-	  };
-
-	  publicAPI.preRender = function (ren) {
-	    // sync renderable properties
-	    if (model.renderable.getInterpolate()) {
-	      if (model.generateMipmap) {
-	        publicAPI.setMinificationFilter(_Constants.VTK_FILTER.LINEAR_MIPMAP_LINEAR);
-	      } else {
-	        publicAPI.setMinificationFilter(_Constants.VTK_FILTER.LINEAR);
-	      }
-	      publicAPI.setMagnificationFilter(_Constants.VTK_FILTER.LINEAR);
-	    } else {
-	      publicAPI.setMinificationFilter(_Constants.VTK_FILTER.NEAREST);
-	      publicAPI.setMagnificationFilter(_Constants.VTK_FILTER.NEAREST);
-	    }
-	    // create the texture if it is not done already
-	    if (!model.handle) {
-	      var input = model.renderable.getInputData();
-	      var ext = input.getExtent();
-	      var inScalars = input.getPointData().getScalars();
-	      if (model.renderable.getInterpolate()) {
-	        model.generateMipmap = true;
-	        publicAPI.setMinificationFilter(_Constants.VTK_FILTER.LINEAR_MIPMAP_LINEAR);
-	      }
-	      publicAPI.create2DFromRaw(ext[1] - ext[0] + 1, ext[3] - ext[2] + 1, inScalars.getNumberOfComponents(), inScalars.getDataType(), inScalars.getData());
-	      publicAPI.activate();
-	      publicAPI.sendParameters();
-	    } else {
-	      publicAPI.activate();
-	    }
-	  };
-
-	  //----------------------------------------------------------------------------
-	  publicAPI.destroyTexture = function () {
-	    // deactivate it first
-	    publicAPI.deactivate();
-
-	    if (model.context && model.handle) {
-	      model.context.deleteTexture(model.handle);
-	    }
-	    model.handle = 0;
-	    model.numberOfDimensions = 0;
-	    model.target = 0;
-	    model.components = 0;
-	    model.width = 0;
-	    model.height = 0;
-	    model.depth = 0;
-	    publicAPI.resetFormatAndType();
-	  };
-
-	  //----------------------------------------------------------------------------
-	  publicAPI.createTexture = function () {
-	    // reuse the existing handle if we have one
-	    if (!model.handle) {
-	      model.handle = model.context.createTexture();
-
-	      if (model.target) {
-	        model.context.bindTexture(model.target, model.handle);
-
-	        // See: http://www.openmodel.context..org/wiki/Common_Mistakes#Creating_a_complete_texture
-	        // turn off mip map filter or set the base and max level correctly. here
-	        // both are done.
-	        model.context.texParameteri(model.target, model.context.TEXTURE_MIN_FILTER, publicAPI.getOpenGLFilterMode(model.minificationFilter));
-	        model.context.texParameteri(model.target, model.context.TEXTURE_MAG_FILTER, publicAPI.getOpenGLFilterMode(model.magnificationFilter));
-
-	        model.context.texParameteri(model.target, model.context.TEXTURE_WRAP_S, publicAPI.getOpenGLWrapMode(model.wrapS));
-	        model.context.texParameteri(model.target, model.context.TEXTURE_WRAP_T, publicAPI.getOpenGLWrapMode(model.wrapT));
-
-	        model.context.bindTexture(model.target, null);
-	      }
-	    }
-	  };
-
-	  //---------------------------------------------------------------------------
-	  publicAPI.getTextureUnit = function () {
-	    if (model.window) {
-	      return model.window.getTextureUnitForTexture(publicAPI);
-	    }
-	    return -1;
-	  };
-
-	  //---------------------------------------------------------------------------
-	  publicAPI.activate = function () {
-	    // activate a free texture unit for this texture
-	    model.window.activateTexture(publicAPI);
-	    publicAPI.bind();
-	  };
-
-	  //---------------------------------------------------------------------------
-	  publicAPI.deactivate = function () {
-	    if (model.window) {
-	      model.window.activateTexture(publicAPI);
-	      publicAPI.unBind();
-	      model.window.deactivateTexture(publicAPI);
-	    }
-	  };
-
-	  //---------------------------------------------------------------------------
-	  publicAPI.releaseGraphicsResources = function (rwin) {
-	    if (rwin && model.handle) {
-	      rwin.makeCurrent();
-
-	      rwin.activateTexture(publicAPI);
-	      publicAPI.unBind();
-	      rwin.deactivateTexture(publicAPI);
-	      model.context.deleteTexture(model.handle);
-	      model.handle = 0;
-	      model.numberOfDimensions = 0;
-	      model.target = 0;
-	      model.internalFormat = 0;
-	      model.format = 0;
-	      model.openGLDataType = 0;
-	      model.components = 0;
-	      model.width = 0;
-	      model.height = 0;
-	      model.depth = 0;
-	    }
-	    if (model.shaderProgram) {
-	      model.shaderProgram.releaseGraphicsResources(rwin);
-	      model.shaderProgram = null;
-	    }
-	  };
-
-	  //----------------------------------------------------------------------------
-	  publicAPI.bind = function () {
-	    model.context.bindTexture(model.target, model.handle);
-	    if (model.autoParameters && publicAPI.getMTime() > model.sendParametersTime.getMTime()) {
-	      publicAPI.sendParameters();
-	    }
-	  };
-
-	  //----------------------------------------------------------------------------
-	  publicAPI.unBind = function () {
-	    if (model.target) {
-	      model.context.bindTexture(model.target, null);
-	    }
-	  };
-
-	  //----------------------------------------------------------------------------
-	  publicAPI.isBound = function () {
-	    var result = false;
-	    if (model.context && model.handle) {
-	      var target = 0;
-	      switch (model.target) {
-	        case model.context.TEXTURE_2D:
-	          target = model.context.TEXTURE_BINDING_2D;
-	          break;
-	        default:
-	          console.warn('impossible case');
-	          break;
-	      }
-	      var oid = model.context.getIntegerv(target);
-	      result = oid === model.handle;
-	    }
-	    return result;
-	  };
-
-	  //----------------------------------------------------------------------------
-	  publicAPI.sendParameters = function () {
-	    model.context.texParameteri(model.target, model.context.TEXTURE_WRAP_S, publicAPI.getOpenGLWrapMode(model.wrapS));
-	    model.context.texParameteri(model.target, model.context.TEXTURE_WRAP_T, publicAPI.getOpenGLWrapMode(model.wrapT));
-
-	    model.context.texParameteri(model.target, model.context.TEXTURE_MIN_FILTER, publicAPI.getOpenGLFilterMode(model.minificationFilter));
-
-	    model.context.texParameteri(model.target, model.context.TEXTURE_MAG_FILTER, publicAPI.getOpenGLFilterMode(model.magnificationFilter));
-
-	    // model.context.texParameterf(model.target, model.context.TEXTURE_MIN_LOD, model.minLOD);
-	    // model.context.texParameterf(model.target, model.context.TEXTURE_MAX_LOD, model.maxLOD);
-	    // model.context.texParameteri(model.target, model.context.TEXTURE_BASE_LEVEL, model.baseLevel);
-	    // model.context.texParameteri(model.target, model.context.TEXTURE_MAX_LEVEL, model.maxLevel);
-
-	    model.sendParametersTime.modified();
-	  };
-
-	  //----------------------------------------------------------------------------
-	  publicAPI.getInternalFormat = function (vtktype, numComps) {
-	    if (model.internalFormat) {
-	      return model.internalFormat;
-	    }
-
-	    model.internalFormat = publicAPI.getDefaultInternalFormat(vtktype, numComps);
-
-	    if (!model.internalFormat) {
-	      console.debug('Unable to find suitable internal format for T=' + vtktype + ' NC= ' + numComps);
-	    }
-
-	    return model.internalFormat;
-	  };
-
-	  //----------------------------------------------------------------------------
-	  publicAPI.getDefaultInternalFormat = function (vtktype, numComps) {
-	    var result = 0;
-
-	    // try default next
-	    result = model.window.getDefaultTextureInternalFormat(vtktype, numComps, false);
-	    if (result) {
-	      return result;
-	    }
-
-	    // try floating point
-	    result = _this.window.getDefaultTextureInternalFormat(vtktype, numComps, true);
-
-	    if (!result) {
-	      console.debug('Unsupported internal texture type!');
-	      console.debug('Unable to find suitable internal format for T=' + vtktype + ' NC= ' + numComps);
-	    }
-
-	    return result;
-	  };
-
-	  //----------------------------------------------------------------------------
-	  publicAPI.setInternalFormat = function (iFormat) {
-	    if (iFormat !== model.context.InternalFormat) {
-	      model.internalFormat = iFormat;
-	      publicAPI.modified();
-	    }
-	  };
-
-	  //----------------------------------------------------------------------------
-	  publicAPI.getFormat = function (vtktype, numComps) {
-	    if (!model.format) {
-	      model.format = publicAPI.getDefaultFormat(vtktype, numComps);
-	    }
-	    return model.format;
-	  };
-
-	  //----------------------------------------------------------------------------
-	  publicAPI.getDefaultFormat = function (vtktype, numComps) {
-	    switch (numComps) {
-	      case 1:
-	        return model.context.LUMINANCE;
-	      case 2:
-	        return model.context.LUMINANCE_ALPHA;
-	      case 3:
-	        return model.context.RGB;
-	      case 4:
-	        return model.context.RGBA;
-	      default:
-	        return model.context.RGB;
-	    }
-	  };
-
-	  //----------------------------------------------------------------------------
-	  publicAPI.resetFormatAndType = function () {
-	    model.format = 0;
-	    model.internalFormat = 0;
-	    model.openGLDataType = 0;
-	  };
-
-	  //----------------------------------------------------------------------------
-	  publicAPI.getDefaultDataType = function (vtkScalarType) {
-	    // DON'T DEAL with VTK_CHAR as this is platform dependent.
-	    switch (vtkScalarType) {
-	      case _Constants2.VTK_DATATYPES.SIGNED_CHAR:
-	        return model.context.BYTE;
-	      case _Constants2.VTK_DATATYPES.UNSIGNED_CHAR:
-	        return model.context.UNSIGNED_BYTE;
-	      case _Constants2.VTK_DATATYPES.SHORT:
-	        return model.context.SHORT;
-	      case _Constants2.VTK_DATATYPES.UNSIGNED_SHORT:
-	        return model.context.UNSIGNED_SHORT;
-	      case _Constants2.VTK_DATATYPES.INT:
-	        return model.context.INT;
-	      case _Constants2.VTK_DATATYPES.UNSIGNED_INT:
-	        return model.context.UNSIGNED_INT;
-	      case _Constants2.VTK_DATATYPES.FLOAT:
-	      case _Constants2.VTK_DATATYPES.VOID: // used for depth component textures.
-	      default:
-	        return model.context.FLOAT;
-	    }
-	  };
-
-	  //----------------------------------------------------------------------------
-	  publicAPI.getOpenGLDataType = function (vtkScalarType) {
-	    if (!model.openGLDataType) {
-	      model.openGLDataType = publicAPI.getDefaultDataType(vtkScalarType);
-	    }
-
-	    return model.openGLDataType;
-	  };
-
-	  //----------------------------------------------------------------------------
-	  publicAPI.getOpenGLFilterMode = function (emode) {
-	    switch (emode) {
-	      case _Constants.VTK_FILTER.NEAREST:
-	        return model.context.NEAREST;
-	      case _Constants.VTK_FILTER.LINEAR:
-	        return model.context.LINEAR;
-	      case _Constants.VTK_FILTER.NEAREST_MIPMAP_NEAREST:
-	        return model.context.NEAREST_MIPMAP_NEAREST;
-	      case _Constants.VTK_FILTER.NEAREST_MIPMAP_LINEAR:
-	        return model.context.NEAREST_MIPMAP_LINEAR;
-	      case _Constants.VTK_FILTER.LINEAR_MIPMAP_NEAREST:
-	        return model.context.LINEAR_MIPMAP_NEAREST;
-	      case _Constants.VTK_FILTER.LINEAR_MIPMAP_LINEAR:
-	        return model.context.LINEAR_MIPMAP_LINEAR;
-	      default:
-	        return model.context.NEAREST;
-	    }
-	  };
-
-	  //----------------------------------------------------------------------------
-	  publicAPI.getOpenGLWrapMode = function (vtktype) {
-	    switch (vtktype) {
-	      case _Constants.VTK_WRAP.CLAMP_TO_EDGE:
-	        return model.context.CLAMP_TO_EDGE;
-	      case _Constants.VTK_WRAP.REPEAT:
-	        return model.context.REPEAT;
-	      case _Constants.VTK_WRAP.MIRRORED_REPEAT:
-	        return model.context.MIRRORED_REPEAT;
-	      default:
-	        return model.context.CLAMP_TO_EDGE;
-	    }
-	  };
-
-	  //----------------------------------------------------------------------------
-	  publicAPI.create2DFromRaw = function (width, height, numComps, dataType, data) {
-	    // Now determine the texture parameters using the arguments.
-	    publicAPI.getOpenGLDataType(dataType);
-	    publicAPI.getInternalFormat(dataType, numComps);
-	    publicAPI.getFormat(dataType, numComps);
-
-	    if (!model.internalFormat || !model.format || !model.openGLDataType) {
-	      console.error('Failed to determine texture parameters.');
-	      return false;
-	    }
-
-	    model.target = model.context.TEXTURE_2D;
-	    model.components = numComps;
-	    model.width = width;
-	    model.height = height;
-	    model.depth = 1;
-	    model.numberOfDimensions = 2;
-	    model.window.activateTexture(publicAPI);
-	    publicAPI.createTexture();
-	    publicAPI.bind();
-
-	    // Source texture data from the PBO.
-	    // model.context.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
-	    model.context.pixelStorei(model.context.UNPACK_ALIGNMENT, 1);
-
-	    model.context.texImage2D(model.target, 0, model.internalFormat, model.width, model.height, 0, model.format, model.openGLDataType, data);
-
-	    if (model.generateMipmap) {
-	      model.context.generateMipmap(model.target);
-	    }
-
-	    publicAPI.deactivate();
-	    return true;
-	  };
-
-	  //----------------------------------------------------------------------------
-	  publicAPI.getMaximumTextureSize = function (ctx) {
-	    if (ctx && ctx.isCurrent()) {
-	      return ctx.getIntegerv(ctx.MAX_TEXTURE_SIZE);
-	    }
-
-	    return -1;
-	  };
-	}
-
-	// ----------------------------------------------------------------------------
-	// Object factory
-	// ----------------------------------------------------------------------------
-
-	var DEFAULT_VALUES = {
-	  context: null,
-	  handle: 0,
-	  sendParametersTime: null,
-	  numberOfDimensions: 0,
-	  target: 0,
-	  format: 0,
-	  openGLDataType: 0,
-	  components: 0,
-	  width: 0,
-	  height: 0,
-	  depth: 0,
-	  autoParameters: true,
-	  wrapS: _Constants.VTK_WRAP.REPEAT,
-	  wrapT: _Constants.VTK_WRAP.REPEAT,
-	  wrapR: _Constants.VTK_WRAP.REPEAT,
-	  minificationFilter: _Constants.VTK_FILTER.NEAREST,
-	  magnificationFilter: _Constants.VTK_FILTER.NEAREST,
-	  minLOD: -1000.0,
-	  maxLOD: 1000.0,
-	  baseLevel: 0,
-	  maxLevel: 0,
-	  generateMipmap: false
-	};
-
-	// ----------------------------------------------------------------------------
-
-	function extend(publicAPI, model) {
-	  var initialValues = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
-
-	  Object.assign(model, DEFAULT_VALUES, initialValues);
-
-	  // Inheritance
-	  _ViewNode2.default.extend(publicAPI, model);
-
-	  model.sendParametersTime = {};
-	  macro.obj(model.sendParametersTime);
-
-	  // Build VTK API
-	  macro.set(publicAPI, model, ['format', 'openGLDataType']);
-
-	  macro.setGet(publicAPI, model, ['context', 'keyMatrixTime', 'minificationFilter', 'magnificationFilter']);
-
-	  macro.get(publicAPI, model, ['components']);
-
-	  // Object methods
-	  vtkOpenGLTexture(publicAPI, model);
-	}
-
-	// ----------------------------------------------------------------------------
-
-	var newInstance = exports.newInstance = macro.newInstance(extend);
-
-	// ----------------------------------------------------------------------------
-
-	exports.default = { newInstance: newInstance, extend: extend };
-
-/***/ },
-/* 50 */
-/***/ function(module, exports) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	var VTK_WRAP = exports.VTK_WRAP = {
-	  CLAMP_TO_EDGE: 0,
-	  REPEAT: 1,
-	  MIRRORED_REPEAT: 2
-	};
-
-	var VTK_FILTER = exports.VTK_FILTER = {
-	  NEAREST: 0,
-	  LINEAR: 1,
-	  NEAREST_MIPMAP_NEAREST: 2,
-	  NEAREST_MIPMAP_LINEAR: 3,
-	  LINEAR_MIPMAP_NEAREST: 4,
-	  LINEAR_MIPMAP_LINEAR: 5
-	};
-
-	exports.default = {
-	  VTK_WRAP: VTK_WRAP,
-	  VTK_FILTER: VTK_FILTER
-	};
-
-/***/ },
-/* 51 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.newInstance = undefined;
-	exports.extend = extend;
-
-	var _macro = __webpack_require__(1);
-
-	var macro = _interopRequireWildcard(_macro);
-
-	var _ShaderProgram = __webpack_require__(43);
+	var _ShaderProgram = __webpack_require__(44);
 
 	var _ShaderProgram2 = _interopRequireDefault(_ShaderProgram);
 
-	var _blueimpMd = __webpack_require__(52);
+	var _blueimpMd = __webpack_require__(56);
 
 	var _blueimpMd2 = _interopRequireDefault(_blueimpMd);
 
@@ -15070,7 +15794,7 @@
 	exports.default = { newInstance: newInstance, extend: extend };
 
 /***/ },
-/* 52 */
+/* 56 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/*
@@ -15355,7 +16079,7 @@
 
 
 /***/ },
-/* 53 */
+/* 57 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -15494,7 +16218,7 @@
 	exports.default = { newInstance: newInstance, extend: extend };
 
 /***/ },
-/* 54 */
+/* 58 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -15513,7 +16237,7 @@
 
 	var _Camera2 = _interopRequireDefault(_Camera);
 
-	var _Light = __webpack_require__(55);
+	var _Light = __webpack_require__(59);
 
 	var _Light2 = _interopRequireDefault(_Light);
 
@@ -15521,11 +16245,11 @@
 
 	var _Math2 = _interopRequireDefault(_Math);
 
-	var _TimerLog = __webpack_require__(56);
+	var _TimerLog = __webpack_require__(60);
 
 	var _TimerLog2 = _interopRequireDefault(_TimerLog);
 
-	var _Viewport = __webpack_require__(57);
+	var _Viewport = __webpack_require__(61);
 
 	var _Viewport2 = _interopRequireDefault(_Viewport);
 
@@ -15614,81 +16338,6 @@
 	        prop.releaseGraphicsResources(vtkWindow);
 	      }
 	    });
-	  };
-
-	  publicAPI.render = function () {
-	    if (model.delegate && model.delegate.getUsed()) {
-	      model.delegate.render(publicAPI);
-	      return;
-	    }
-
-	    // If Draw is not on, ignore the render.
-	    if (!model.draw) {
-	      console.debug('Ignoring render because Draw is off.');
-	      return;
-	    }
-
-	    var t1 = _TimerLog2.default.getUniversalTime();
-	    publicAPI.invokeEvent({ type: 'StartEvent' });
-
-	    // Create the initial list of visible props
-	    // This will be passed through AllocateTime(), where
-	    // a time is allocated for each prop, and the list
-	    // maybe re-ordered by the cullers. Also create the
-	    // sublists for the props that need ray casting, and
-	    // the props that need to be rendered into an image.
-	    // Fill these in later (in AllocateTime) - get a
-	    // count of them there too
-	    if (model.props.length > 0) {
-	      model.propArray = model.props.filter(function (prop) {
-	        return prop.getVisibility();
-	      });
-	    }
-
-	    if (model.propArray.length === 0) {
-	      console.debug('There are no visible props!');
-	    } else {
-	      // Call all the culling methods to set allocated time
-	      // for each prop and re-order the prop list if desired
-	      publicAPI.allocateTime();
-	    }
-
-	    // do the render library specific stuff
-	    publicAPI.deviceRender();
-
-	    // If we aborted, restore old estimated times
-	    // Setting the allocated render time to zero also sets the
-	    // estimated render time to zero, so that when we add back
-	    // in the old value we have set it correctly.
-	    if (model.renderWindow.getAbortRender()) {
-	      model.propArray.restoreEstimatedRenderTime();
-	    }
-
-	    // Clean up the space we allocated before. If the PropArray exists,
-	    // they all should exist
-	    model.propArray = null;
-
-	    // If we aborted, do not record the last render time.
-	    // Lets play around with determining the accuracy of the
-	    // EstimatedRenderTimes.  We can try to adjust for bad
-	    // estimates with the TimeFactor.
-	    if (!model.renderWindow.getAbortRender()) {
-	      // Measure the actual RenderTime
-	      model.lastRenderTimeInSeconds = (_TimerLog2.default.getUniversalTime() - t1) / 1000;
-
-	      if (model.lastRenderTimeInSeconds === 0.0) {
-	        model.lastRenderTimeInSeconds = 0.0001;
-	      }
-
-	      model.timeFactor = model.allocatedRenderTime / model.lastRenderTimeInSeconds;
-	    }
-
-	    publicAPI.invokeEvent({ type: 'EndEvent' });
-	  };
-
-	  publicAPI.deviceRenderTranslucentPolygonalGeometry = function () {
-	    model.lastRenderingUsedDepthPeeling = false;
-	    publicAPI.updateTranslucentPolygonalGeometry();
 	  };
 
 	  // macro
@@ -16308,7 +16957,7 @@
 	exports.default = { newInstance: newInstance, extend: extend };
 
 /***/ },
-/* 55 */
+/* 59 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -16440,7 +17089,7 @@
 	exports.default = { newInstance: newInstance, extend: extend, LIGHT_TYPES: LIGHT_TYPES };
 
 /***/ },
-/* 56 */
+/* 60 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -16458,7 +17107,7 @@
 	};
 
 /***/ },
-/* 57 */
+/* 61 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -16527,11 +17176,12 @@
 	    publicAPI.removeViewProp(prop);
 	  };
 
-	  publicAPI.getActor2D = function () {
+	  publicAPI.getActors2D = function () {
 	    model.actors2D = [];
 	    model.props.forEach(function (prop) {
-	      model.actors2D = model.actors2D.concat(prop.getActor2D());
+	      model.actors2D = model.actors2D.concat(prop.getActors2D());
 	    });
+	    return model.actors2D;
 	  };
 
 	  publicAPI.displayToView = function () {
@@ -16626,7 +17276,7 @@
 	exports.default = { newInstance: newInstance, extend: extend };
 
 /***/ },
-/* 58 */
+/* 62 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -16750,7 +17400,7 @@
 	exports.default = { newInstance: newInstance, extend: extend };
 
 /***/ },
-/* 59 */
+/* 63 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -16769,7 +17419,7 @@
 
 	var _Math2 = _interopRequireDefault(_Math);
 
-	var _InteractorStyleTrackballCamera = __webpack_require__(60);
+	var _InteractorStyleTrackballCamera = __webpack_require__(64);
 
 	var _InteractorStyleTrackballCamera2 = _interopRequireDefault(_InteractorStyleTrackballCamera);
 
@@ -16833,6 +17483,9 @@
 	  //----------------------------------------------------------------------
 	  publicAPI.setInteractorStyle = function (style) {
 	    if (model.interactorStyle !== style) {
+	      if (model.interactorStyle != null) {
+	        model.interactorStyle.setInteractor(null);
+	      }
 	      model.interactorStyle = style;
 	      if (model.interactorStyle != null) {
 	        if (model.interactorStyle.getInteractor() !== publicAPI) {
@@ -17356,7 +18009,7 @@
 	exports.default = Object.assign({ newInstance: newInstance, extend: extend });
 
 /***/ },
-/* 60 */
+/* 64 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -17371,7 +18024,7 @@
 
 	var macro = _interopRequireWildcard(_macro);
 
-	var _InteractorStyle = __webpack_require__(61);
+	var _InteractorStyle = __webpack_require__(65);
 
 	var _InteractorStyle2 = _interopRequireDefault(_InteractorStyle);
 
@@ -17379,7 +18032,7 @@
 
 	var _Math2 = _interopRequireDefault(_Math);
 
-	var _Constants = __webpack_require__(63);
+	var _Constants = __webpack_require__(67);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -17481,33 +18134,6 @@
 	        publicAPI.endRotate();
 	        break;
 
-	      default:
-	        break;
-	    }
-
-	    if (model.interactor) {
-	      publicAPI.releaseFocus();
-	    }
-	  };
-
-	  //----------------------------------------------------------------------------
-	  publicAPI.handleRightButtonPress = function () {
-	    var pos = model.interactor.getEventPosition(model.interactor.getPointerIndex());
-	    publicAPI.findPokedRenderer(pos.x, pos.y);
-	    if (model.currentRenderer === null) {
-	      return;
-	    }
-
-	    publicAPI.grabFocus(model.eventCallbackCommand);
-	    publicAPI.startDolly();
-	  };
-
-	  //--------------------------------------------------------------------------
-	  publicAPI.handleRightButtonRelease = function () {
-	    switch (model.state) {
-	      case _Constants.STATES.VTKIS_DOLLY:
-	        publicAPI.endDolly();
-	        break;
 	      default:
 	        break;
 	    }
@@ -17799,7 +18425,7 @@
 	exports.default = Object.assign({ newInstance: newInstance, extend: extend });
 
 /***/ },
-/* 61 */
+/* 65 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -17814,11 +18440,11 @@
 
 	var macro = _interopRequireWildcard(_macro);
 
-	var _InteractorObserver = __webpack_require__(62);
+	var _InteractorObserver = __webpack_require__(66);
 
 	var _InteractorObserver2 = _interopRequireDefault(_InteractorObserver);
 
-	var _Constants = __webpack_require__(63);
+	var _Constants = __webpack_require__(67);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -17860,27 +18486,27 @@
 
 	  // Public API methods
 	  publicAPI.setInteractor = function (i) {
-	    if (i === model.nteractor) {
+	    if (i === model.interactor) {
 	      return;
 	    }
 
 	    // if we already have an Interactor then stop observing it
 	    if (model.interactor) {
 	      model.unsubscribes.forEach(function (val) {
-	        return val();
+	        return val.unsubscribe();
 	      });
-	      model.unsubscribes = [];
+	      model.unsubscribes.clear();
 	    }
 
 	    model.interactor = i;
 
 	    if (i) {
 	      events.forEach(function (eventName) {
-	        model.unsubscribes[eventName] = i['on' + eventName](function () {
+	        model.unsubscribes.set(eventName, i['on' + eventName](function () {
 	          if (publicAPI['handle' + eventName]) {
 	            publicAPI['handle' + eventName]();
 	          }
-	        });
+	        }));
 	      });
 	    }
 	  };
@@ -18005,7 +18631,7 @@
 	  animState: _Constants.STATES.VTKIS_ANIM_OFF,
 	  handleObservers: 1,
 	  autoAdjustCameraClippingRange: 1,
-	  unsubscribes: []
+	  unsubscribes: null
 	};
 
 	// ----------------------------------------------------------------------------
@@ -18020,6 +18646,8 @@
 
 	  // Object methods
 	  macro.obj(publicAPI, model);
+
+	  model.unsubscribes = new Map();
 
 	  // Create get-only macros
 	  // macro.get(publicAPI, model, ['myProp2', 'myProp4']);
@@ -18048,7 +18676,7 @@
 	exports.default = Object.assign({ newInstance: newInstance, extend: extend });
 
 /***/ },
-/* 62 */
+/* 66 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -18230,7 +18858,7 @@
 	exports.default = Object.assign({ newInstance: newInstance, extend: extend });
 
 /***/ },
-/* 63 */
+/* 67 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -18254,7 +18882,11 @@
 	  VTKIS_TWO_POINTER: 10,
 
 	  VTKIS_ANIM_OFF: 0,
-	  VTKIS_ANIM_ON: 1
+	  VTKIS_ANIM_ON: 1,
+
+	  VTKIS_WINDOW_LEVEL: 1024,
+	  VTKIS_PICK: 1025,
+	  VTKIS_SLICE: 1026
 	};
 
 	exports.default = {
@@ -18262,7 +18894,7 @@
 	};
 
 /***/ },
-/* 64 */
+/* 68 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -18278,7 +18910,7 @@
 
 	var macro = _interopRequireWildcard(_macro);
 
-	var _PolyData = __webpack_require__(65);
+	var _PolyData = __webpack_require__(69);
 
 	var _PolyData2 = _interopRequireDefault(_PolyData);
 
@@ -18561,7 +19193,7 @@
 	exports.default = { newInstance: newInstance, extend: extend };
 
 /***/ },
-/* 65 */
+/* 69 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -18576,7 +19208,7 @@
 
 	var macro = _interopRequireWildcard(_macro);
 
-	var _PointSet = __webpack_require__(66);
+	var _PointSet = __webpack_require__(70);
 
 	var _PointSet2 = _interopRequireDefault(_PointSet);
 
@@ -18684,7 +19316,7 @@
 	exports.default = Object.assign({ newInstance: newInstance, extend: extend }, STATIC);
 
 /***/ },
-/* 66 */
+/* 70 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -18699,7 +19331,7 @@
 
 	var macro = _interopRequireWildcard(_macro);
 
-	var _DataSet = __webpack_require__(67);
+	var _DataSet = __webpack_require__(71);
 
 	var _DataSet2 = _interopRequireDefault(_DataSet);
 
@@ -18775,7 +19407,7 @@
 	exports.default = Object.assign({ newInstance: newInstance, extend: extend }, STATIC);
 
 /***/ },
-/* 67 */
+/* 71 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -18794,7 +19426,7 @@
 
 	var _BoundingBox2 = _interopRequireDefault(_BoundingBox);
 
-	var _DataSetAttributes = __webpack_require__(68);
+	var _DataSetAttributes = __webpack_require__(72);
 
 	var _DataSetAttributes2 = _interopRequireDefault(_DataSetAttributes);
 
@@ -18835,7 +19467,7 @@
 	      return ds.Points.bounds;
 	    }
 	  }
-	  return _Math2.default.createUninitializedBouds();
+	  return _Math2.default.createUninitializedBounds();
 	}
 
 	// ----------------------------------------------------------------------------
@@ -18899,7 +19531,7 @@
 	exports.default = Object.assign({ newInstance: newInstance, extend: extend }, STATIC);
 
 /***/ },
-/* 68 */
+/* 72 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -19081,7 +19713,7 @@
 	exports.default = { newInstance: newInstance, extend: extend };
 
 /***/ },
-/* 69 */
+/* 73 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -19278,7 +19910,7 @@
 	exports.default = { newInstance: newInstance, extend: extend };
 
 /***/ },
-/* 70 */
+/* 74 */
 /***/ function(module, exports) {
 
 	module.exports = "<table style=\"width: 400px;\">\n  <tr>\n    <td>Radius</td>\n    <td>\n      <input class='radius' type=\"range\" min=\"0.5\" max=\"2.0\" step=\"0.05\" value=\"1.0\" />\n    </td>\n  </tr>\n  <tr>\n    <td>Theta Resolution</td>\n    <td>\n      <input class='thetaResolution' type=\"range\" min=\"4\" max=\"100\" step=\"1\" value=\"40\" />\n    </td>\n  </tr>\n  <tr>\n    <td>Phi Resolution</td>\n    <td>\n      <input class='phiResolution' type=\"range\" min=\"4\" max=\"100\" step=\"1\" value=\"41\" />\n    </td>\n  </tr>\n\n    <td>Warp Scale Factor</td>\n    <td>\n      <input class='scaleFactor' type='range' min='-1.0' max='1.0' step='0.01' value='0' />\n    </td>\n  </tr>\n  <tr>\n    <td>Warp use Normal</td>\n    <td>\n      <input class='useNormal' type=\"checkbox\" />\n    </td>\n  </tr>\n\n</table>\n<div class='renderwidow' style=\"width: 400px;\"></div>\n\n\n";
