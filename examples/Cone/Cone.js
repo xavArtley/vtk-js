@@ -11261,22 +11261,25 @@
 	  publicAPI.getDefaultDataType = function (vtkScalarType) {
 	    // DON'T DEAL with VTK_CHAR as this is platform dependent.
 	    switch (vtkScalarType) {
-	      case _Constants2.VTK_DATATYPES.SIGNED_CHAR:
-	        return model.context.BYTE;
+	      // case VTK_DATATYPES.SIGNED_CHAR:
+	      //   return model.context.BYTE;
 	      case _Constants2.VTK_DATATYPES.UNSIGNED_CHAR:
 	        return model.context.UNSIGNED_BYTE;
-	      case _Constants2.VTK_DATATYPES.SHORT:
-	        return model.context.SHORT;
-	      case _Constants2.VTK_DATATYPES.UNSIGNED_SHORT:
-	        return model.context.UNSIGNED_SHORT;
-	      case _Constants2.VTK_DATATYPES.INT:
-	        return model.context.INT;
-	      case _Constants2.VTK_DATATYPES.UNSIGNED_INT:
-	        return model.context.UNSIGNED_INT;
+	      // case VTK_DATATYPES.SHORT:
+	      //   return model.context.SHORT;
+	      // case VTK_DATATYPES.UNSIGNED_SHORT:
+	      //   return model.context.UNSIGNED_SHORT;
+	      // case VTK_DATATYPES.INT:
+	      //   return model.context.INT;
+	      // case VTK_DATATYPES.UNSIGNED_INT:
+	      //   return model.context.UNSIGNED_INT;
 	      case _Constants2.VTK_DATATYPES.FLOAT:
 	      case _Constants2.VTK_DATATYPES.VOID: // used for depth component textures.
 	      default:
-	        return model.context.FLOAT;
+	        if (model.context.getExtension('OES_texture_float')) {
+	          return model.context.FLOAT;
+	        }
+	        return model.context.UNSIGNED_BYTE;
 	    }
 	  };
 
@@ -11382,11 +11385,34 @@
 	    publicAPI.createTexture();
 	    publicAPI.bind();
 
+	    var pixData = data;
+
+	    // if the opengl data type is float
+	    // then the data array must be float
+	    if (dataType !== _Constants2.VTK_DATATYPES.FLOAT && model.openGLDataType === model.context.FLOAT) {
+	      var pixCount = model.width * model.height * model.components;
+	      var newArray = new Float32Array(pixCount);
+	      for (var i = 0; i < pixCount; i++) {
+	        newArray[i] = data[i];
+	      }
+	      pixData = newArray;
+	    }
+	    // if the opengl data type is ubyte
+	    // then the data array must be u8, we currently simply truncate the data
+	    if (dataType !== _Constants2.VTK_DATATYPES.UNSIGNED_CHAR && model.openGLDataType === model.context.UNSIGNED_BYTE) {
+	      var _pixCount = model.width * model.height * model.components;
+	      var _newArray = new Uint8Array(_pixCount);
+	      for (var _i = 0; _i < _pixCount; _i++) {
+	        _newArray[_i] = data[_i];
+	      }
+	      pixData = _newArray;
+	    }
+
 	    // Source texture data from the PBO.
 	    // model.context.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
 	    model.context.pixelStorei(model.context.UNPACK_ALIGNMENT, 1);
 
-	    model.context.texImage2D(model.target, 0, model.internalFormat, model.width, model.height, 0, model.format, model.openGLDataType, data);
+	    model.context.texImage2D(model.target, 0, model.internalFormat, model.width, model.height, 0, model.format, model.openGLDataType, pixData);
 
 	    if (model.generateMipmap) {
 	      model.context.generateMipmap(model.target);
