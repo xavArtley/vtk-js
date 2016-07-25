@@ -13740,20 +13740,6 @@
 	  publicAPI.allocateTime = notImplemented('allocateTime');
 	  publicAPI.updateGeometry = notImplemented('updateGeometry');
 
-	  publicAPI.updateTranslucentPolygonalGeometry = function () {
-	    var result = 0;
-
-	    // loop through props and give them a chance to
-	    // render themselves as translucent geometry
-	    model.propArray.forEach(function (prop) {
-	      var rendered = prop.renderTranslucentPolygonalGeometry(publicAPI);
-	      model.numberOfPropsRendered += rendered;
-	      result += rendered;
-	    });
-
-	    return result;
-	  };
-
 	  publicAPI.getVTKWindow = function () {
 	    return model.renderWindow;
 	  };
@@ -14201,7 +14187,6 @@
 
 	  // FIXME
 	  publicAPI.getTiledAspectRatio = notImplemented('GetTiledAspectRatio');
-	  publicAPI.captureGL2PSSpecialProp = notImplemented('CaptureGL2PSSpecialProp');
 
 	  publicAPI.isActiveCameraCreated = function () {
 	    return !!model.activeCamera;
@@ -17142,34 +17127,6 @@
 
 	  publicAPI.pick = notImplemented('pick');
 	  publicAPI.hasKey = notImplemented('hasKey');
-
-	  publicAPI.renderFilteredOpaqueGeometry = function (viewport, requiredKeys) {
-	    if (publicAPI.hasKey(requiredKeys)) {
-	      return !!publicAPI.renderOpaqueGeometry(viewport);
-	    }
-	    return false;
-	  };
-
-	  publicAPI.renderFilteredTranslucentPolygonalGeometry = function (viewport, requiredKeys) {
-	    if (publicAPI.hasKey(requiredKeys)) {
-	      return !!publicAPI.renderTranslucentPolygonalGeometry(viewport);
-	    }
-	    return false;
-	  };
-
-	  publicAPI.renderFilteredVolumetricGeometry = function (viewport, requiredKeys) {
-	    if (publicAPI.hasKey(requiredKeys)) {
-	      return !!publicAPI.renderVolumetricGeometry(viewport);
-	    }
-	    return false;
-	  };
-
-	  publicAPI.renderFilteredOverlay = function (viewport, requiredKeys) {
-	    if (publicAPI.hasKey(requiredKeys)) {
-	      return !!publicAPI.renderOverlay(viewport);
-	    }
-	    return false;
-	  };
 
 	  publicAPI.getRedrawMTime = function () {
 	    return model.mtime;
