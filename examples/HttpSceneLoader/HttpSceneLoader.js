@@ -17005,7 +17005,7 @@
 
 	    xhr.onreadystatechange = function (e) {
 	      if (xhr.readyState === 4) {
-	        if (xhr.status === 200) {
+	        if (xhr.status === 200 || xhr.status === 0) {
 	          var data = JSON.parse(xhr.responseText);
 	          resolve(data);
 	        } else {
@@ -19088,7 +19088,7 @@
 	          }
 	          if (xhr.readyState === 4) {
 	            array.ref.pending = false;
-	            if (xhr.status === 200) {
+	            if (xhr.status === 200 || xhr.status === 0) {
 	              array.buffer = xhr.response;
 
 	              if (fetchGzip) {
