@@ -74,23 +74,23 @@
 
 	var _Renderer2 = _interopRequireDefault(_Renderer);
 
-	var _RenderWindow3 = __webpack_require__(62);
+	var _RenderWindow3 = __webpack_require__(61);
 
 	var _RenderWindow4 = _interopRequireDefault(_RenderWindow3);
 
-	var _RenderWindowInteractor = __webpack_require__(63);
+	var _RenderWindowInteractor = __webpack_require__(62);
 
 	var _RenderWindowInteractor2 = _interopRequireDefault(_RenderWindowInteractor);
 
-	var _SphereSource = __webpack_require__(68);
+	var _SphereSource = __webpack_require__(67);
 
 	var _SphereSource2 = _interopRequireDefault(_SphereSource);
 
-	var _WarpScalar = __webpack_require__(73);
+	var _WarpScalar = __webpack_require__(72);
 
 	var _WarpScalar2 = _interopRequireDefault(_WarpScalar);
 
-	var _controller = __webpack_require__(74);
+	var _controller = __webpack_require__(73);
 
 	var _controller2 = _interopRequireDefault(_controller);
 
@@ -16253,11 +16253,7 @@
 
 	var _Math2 = _interopRequireDefault(_Math);
 
-	var _TimerLog = __webpack_require__(60);
-
-	var _TimerLog2 = _interopRequireDefault(_TimerLog);
-
-	var _Viewport = __webpack_require__(61);
+	var _Viewport = __webpack_require__(60);
 
 	var _Viewport2 = _interopRequireDefault(_Viewport);
 
@@ -17083,24 +17079,6 @@
 
 /***/ },
 /* 60 */
-/***/ function(module, exports) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.getUniversalTime = getUniversalTime;
-	function getUniversalTime() {
-	  return +new Date();
-	}
-
-	exports.default = {
-	  getUniversalTime: getUniversalTime
-	};
-
-/***/ },
-/* 61 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -17269,7 +17247,7 @@
 	exports.default = { newInstance: newInstance, extend: extend };
 
 /***/ },
-/* 62 */
+/* 61 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -17393,7 +17371,7 @@
 	exports.default = { newInstance: newInstance, extend: extend };
 
 /***/ },
-/* 63 */
+/* 62 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -17412,7 +17390,7 @@
 
 	var _Math2 = _interopRequireDefault(_Math);
 
-	var _InteractorStyleTrackballCamera = __webpack_require__(64);
+	var _InteractorStyleTrackballCamera = __webpack_require__(63);
 
 	var _InteractorStyleTrackballCamera2 = _interopRequireDefault(_InteractorStyleTrackballCamera);
 
@@ -18002,7 +17980,7 @@
 	exports.default = Object.assign({ newInstance: newInstance, extend: extend });
 
 /***/ },
-/* 64 */
+/* 63 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -18017,7 +17995,7 @@
 
 	var macro = _interopRequireWildcard(_macro);
 
-	var _InteractorStyle = __webpack_require__(65);
+	var _InteractorStyle = __webpack_require__(64);
 
 	var _InteractorStyle2 = _interopRequireDefault(_InteractorStyle);
 
@@ -18025,7 +18003,7 @@
 
 	var _Math2 = _interopRequireDefault(_Math);
 
-	var _Constants = __webpack_require__(67);
+	var _Constants = __webpack_require__(66);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -18418,7 +18396,7 @@
 	exports.default = Object.assign({ newInstance: newInstance, extend: extend });
 
 /***/ },
-/* 65 */
+/* 64 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -18433,11 +18411,11 @@
 
 	var macro = _interopRequireWildcard(_macro);
 
-	var _InteractorObserver = __webpack_require__(66);
+	var _InteractorObserver = __webpack_require__(65);
 
 	var _InteractorObserver2 = _interopRequireDefault(_InteractorObserver);
 
-	var _Constants = __webpack_require__(67);
+	var _Constants = __webpack_require__(66);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -18669,7 +18647,7 @@
 	exports.default = Object.assign({ newInstance: newInstance, extend: extend });
 
 /***/ },
-/* 66 */
+/* 65 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -18851,7 +18829,7 @@
 	exports.default = Object.assign({ newInstance: newInstance, extend: extend });
 
 /***/ },
-/* 67 */
+/* 66 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -18887,7 +18865,7 @@
 	};
 
 /***/ },
-/* 68 */
+/* 67 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -18903,7 +18881,7 @@
 
 	var macro = _interopRequireWildcard(_macro);
 
-	var _PolyData = __webpack_require__(69);
+	var _PolyData = __webpack_require__(68);
 
 	var _PolyData2 = _interopRequireDefault(_PolyData);
 
@@ -19186,7 +19164,7 @@
 	exports.default = { newInstance: newInstance, extend: extend };
 
 /***/ },
-/* 69 */
+/* 68 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -19201,7 +19179,7 @@
 
 	var macro = _interopRequireWildcard(_macro);
 
-	var _PointSet = __webpack_require__(70);
+	var _PointSet = __webpack_require__(69);
 
 	var _PointSet2 = _interopRequireDefault(_PointSet);
 
@@ -19309,7 +19287,7 @@
 	exports.default = Object.assign({ newInstance: newInstance, extend: extend }, STATIC);
 
 /***/ },
-/* 70 */
+/* 69 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -19324,7 +19302,7 @@
 
 	var macro = _interopRequireWildcard(_macro);
 
-	var _DataSet = __webpack_require__(71);
+	var _DataSet = __webpack_require__(70);
 
 	var _DataSet2 = _interopRequireDefault(_DataSet);
 
@@ -19400,7 +19378,7 @@
 	exports.default = Object.assign({ newInstance: newInstance, extend: extend }, STATIC);
 
 /***/ },
-/* 71 */
+/* 70 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -19419,7 +19397,7 @@
 
 	var _BoundingBox2 = _interopRequireDefault(_BoundingBox);
 
-	var _DataSetAttributes = __webpack_require__(72);
+	var _DataSetAttributes = __webpack_require__(71);
 
 	var _DataSetAttributes2 = _interopRequireDefault(_DataSetAttributes);
 
@@ -19524,7 +19502,7 @@
 	exports.default = Object.assign({ newInstance: newInstance, extend: extend }, STATIC);
 
 /***/ },
-/* 72 */
+/* 71 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -19706,7 +19684,7 @@
 	exports.default = { newInstance: newInstance, extend: extend };
 
 /***/ },
-/* 73 */
+/* 72 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -19903,7 +19881,7 @@
 	exports.default = { newInstance: newInstance, extend: extend };
 
 /***/ },
-/* 74 */
+/* 73 */
 /***/ function(module, exports) {
 
 	module.exports = "<table style=\"width: 400px;\">\n  <tr>\n    <td>Radius</td>\n    <td>\n      <input class='radius' type=\"range\" min=\"0.5\" max=\"2.0\" step=\"0.05\" value=\"1.0\" />\n    </td>\n  </tr>\n  <tr>\n    <td>Theta Resolution</td>\n    <td>\n      <input class='thetaResolution' type=\"range\" min=\"4\" max=\"100\" step=\"1\" value=\"40\" />\n    </td>\n  </tr>\n  <tr>\n    <td>Phi Resolution</td>\n    <td>\n      <input class='phiResolution' type=\"range\" min=\"4\" max=\"100\" step=\"1\" value=\"41\" />\n    </td>\n  </tr>\n\n    <td>Warp Scale Factor</td>\n    <td>\n      <input class='scaleFactor' type='range' min='-1.0' max='1.0' step='0.01' value='0' />\n    </td>\n  </tr>\n  <tr>\n    <td>Warp use Normal</td>\n    <td>\n      <input class='useNormal' type=\"checkbox\" />\n    </td>\n  </tr>\n\n</table>\n<div class='renderwidow' style=\"width: 400px;\"></div>\n\n\n";

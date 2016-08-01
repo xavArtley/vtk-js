@@ -58,11 +58,11 @@
 
 	var _Renderer2 = _interopRequireDefault(_Renderer);
 
-	var _RenderWindowInteractor = __webpack_require__(53);
+	var _RenderWindowInteractor = __webpack_require__(52);
 
 	var _RenderWindowInteractor2 = _interopRequireDefault(_RenderWindowInteractor);
 
-	var _HttpSceneLoader = __webpack_require__(58);
+	var _HttpSceneLoader = __webpack_require__(57);
 
 	var _HttpSceneLoader2 = _interopRequireDefault(_HttpSceneLoader);
 
@@ -13505,15 +13505,11 @@
 
 	var _Math2 = _interopRequireDefault(_Math);
 
-	var _TimerLog = __webpack_require__(49);
-
-	var _TimerLog2 = _interopRequireDefault(_TimerLog);
-
-	var _Viewport = __webpack_require__(50);
+	var _Viewport = __webpack_require__(49);
 
 	var _Viewport2 = _interopRequireDefault(_Viewport);
 
-	var _BoundingBox = __webpack_require__(51);
+	var _BoundingBox = __webpack_require__(50);
 
 	var _glMatrix = __webpack_require__(8);
 
@@ -14774,24 +14770,6 @@
 
 /***/ },
 /* 49 */
-/***/ function(module, exports) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.getUniversalTime = getUniversalTime;
-	function getUniversalTime() {
-	  return +new Date();
-	}
-
-	exports.default = {
-	  getUniversalTime: getUniversalTime
-	};
-
-/***/ },
-/* 50 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -14960,7 +14938,7 @@
 	exports.default = { newInstance: newInstance, extend: extend };
 
 /***/ },
-/* 51 */
+/* 50 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -14978,7 +14956,7 @@
 
 	var macro = _interopRequireWildcard(_macro);
 
-	var _Plane = __webpack_require__(52);
+	var _Plane = __webpack_require__(51);
 
 	var _Plane2 = _interopRequireDefault(_Plane);
 
@@ -15405,7 +15383,7 @@
 	exports.default = Object.assign({ newInstance: newInstance, extend: extend }, STATIC);
 
 /***/ },
-/* 52 */
+/* 51 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -15477,7 +15455,7 @@
 	exports.default = Object.assign({ newInstance: newInstance, extend: extend }, STATIC);
 
 /***/ },
-/* 53 */
+/* 52 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -15496,7 +15474,7 @@
 
 	var _Math2 = _interopRequireDefault(_Math);
 
-	var _InteractorStyleTrackballCamera = __webpack_require__(54);
+	var _InteractorStyleTrackballCamera = __webpack_require__(53);
 
 	var _InteractorStyleTrackballCamera2 = _interopRequireDefault(_InteractorStyleTrackballCamera);
 
@@ -16086,7 +16064,7 @@
 	exports.default = Object.assign({ newInstance: newInstance, extend: extend });
 
 /***/ },
-/* 54 */
+/* 53 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -16101,7 +16079,7 @@
 
 	var macro = _interopRequireWildcard(_macro);
 
-	var _InteractorStyle = __webpack_require__(55);
+	var _InteractorStyle = __webpack_require__(54);
 
 	var _InteractorStyle2 = _interopRequireDefault(_InteractorStyle);
 
@@ -16109,7 +16087,7 @@
 
 	var _Math2 = _interopRequireDefault(_Math);
 
-	var _Constants = __webpack_require__(57);
+	var _Constants = __webpack_require__(56);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -16502,7 +16480,7 @@
 	exports.default = Object.assign({ newInstance: newInstance, extend: extend });
 
 /***/ },
-/* 55 */
+/* 54 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -16517,11 +16495,11 @@
 
 	var macro = _interopRequireWildcard(_macro);
 
-	var _InteractorObserver = __webpack_require__(56);
+	var _InteractorObserver = __webpack_require__(55);
 
 	var _InteractorObserver2 = _interopRequireDefault(_InteractorObserver);
 
-	var _Constants = __webpack_require__(57);
+	var _Constants = __webpack_require__(56);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -16753,7 +16731,7 @@
 	exports.default = Object.assign({ newInstance: newInstance, extend: extend });
 
 /***/ },
-/* 56 */
+/* 55 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -16935,7 +16913,7 @@
 	exports.default = Object.assign({ newInstance: newInstance, extend: extend });
 
 /***/ },
-/* 57 */
+/* 56 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -16971,7 +16949,7 @@
 	};
 
 /***/ },
-/* 58 */
+/* 57 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -16987,15 +16965,15 @@
 
 	var macro = _interopRequireWildcard(_macro);
 
-	var _Actor = __webpack_require__(59);
+	var _Actor = __webpack_require__(58);
 
 	var _Actor2 = _interopRequireDefault(_Actor);
 
-	var _Mapper = __webpack_require__(63);
+	var _Mapper = __webpack_require__(62);
 
 	var _Mapper2 = _interopRequireDefault(_Mapper);
 
-	var _HttpDataSetReader = __webpack_require__(69);
+	var _HttpDataSetReader = __webpack_require__(68);
 
 	var _HttpDataSetReader2 = _interopRequireDefault(_HttpDataSetReader);
 
@@ -17168,7 +17146,7 @@
 	exports.default = { newInstance: newInstance, extend: extend };
 
 /***/ },
-/* 59 */
+/* 58 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -17183,11 +17161,11 @@
 
 	var macro = _interopRequireWildcard(_macro);
 
-	var _Prop3D = __webpack_require__(60);
+	var _Prop3D = __webpack_require__(59);
 
 	var _Prop3D2 = _interopRequireDefault(_Prop3D);
 
-	var _Property = __webpack_require__(62);
+	var _Property = __webpack_require__(61);
 
 	var _Property2 = _interopRequireDefault(_Property);
 
@@ -17421,7 +17399,7 @@
 	exports.default = { newInstance: newInstance, extend: extend };
 
 /***/ },
-/* 60 */
+/* 59 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -17436,11 +17414,11 @@
 
 	var macro = _interopRequireWildcard(_macro);
 
-	var _BoundingBox = __webpack_require__(51);
+	var _BoundingBox = __webpack_require__(50);
 
 	var _BoundingBox2 = _interopRequireDefault(_BoundingBox);
 
-	var _Prop = __webpack_require__(61);
+	var _Prop = __webpack_require__(60);
 
 	var _Prop2 = _interopRequireDefault(_Prop);
 
@@ -17612,7 +17590,7 @@
 	exports.default = { newInstance: newInstance, extend: extend };
 
 /***/ },
-/* 61 */
+/* 60 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -17757,7 +17735,7 @@
 	exports.default = { newInstance: newInstance, extend: extend };
 
 /***/ },
-/* 62 */
+/* 61 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -17915,7 +17893,7 @@
 	exports.default = { newInstance: newInstance, extend: extend };
 
 /***/ },
-/* 63 */
+/* 62 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -17926,7 +17904,7 @@
 	exports.newInstance = undefined;
 	exports.extend = extend;
 
-	var _CoincidentTopologyHelper = __webpack_require__(64);
+	var _CoincidentTopologyHelper = __webpack_require__(63);
 
 	var CoincidentTopologyHelper = _interopRequireWildcard(_CoincidentTopologyHelper);
 
@@ -17934,11 +17912,11 @@
 
 	var macro = _interopRequireWildcard(_macro);
 
-	var _Static = __webpack_require__(65);
+	var _Static = __webpack_require__(64);
 
 	var _Static2 = _interopRequireDefault(_Static);
 
-	var _LookupTable = __webpack_require__(66);
+	var _LookupTable = __webpack_require__(65);
 
 	var _LookupTable2 = _interopRequireDefault(_LookupTable);
 
@@ -18275,7 +18253,7 @@
 	exports.default = Object.assign({ newInstance: newInstance, extend: extend }, staticOffsetAPI, _Static2.default);
 
 /***/ },
-/* 64 */
+/* 63 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -18298,7 +18276,7 @@
 	var CATEGORIES = exports.CATEGORIES = ['Polygon', 'Line', 'Point'];
 
 /***/ },
-/* 65 */
+/* 64 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -18364,7 +18342,7 @@
 	};
 
 /***/ },
-/* 66 */
+/* 65 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -18379,7 +18357,7 @@
 
 	var macro = _interopRequireWildcard(_macro);
 
-	var _ScalarsToColors = __webpack_require__(67);
+	var _ScalarsToColors = __webpack_require__(66);
 
 	var _ScalarsToColors2 = _interopRequireDefault(_ScalarsToColors);
 
@@ -18673,7 +18651,7 @@
 	exports.default = Object.assign({ newInstance: newInstance, extend: extend });
 
 /***/ },
-/* 67 */
+/* 66 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -18688,7 +18666,7 @@
 
 	var macro = _interopRequireWildcard(_macro);
 
-	var _Constants = __webpack_require__(68);
+	var _Constants = __webpack_require__(67);
 
 	var _Constants2 = __webpack_require__(40);
 
@@ -18966,7 +18944,7 @@
 	exports.default = Object.assign({ newInstance: newInstance, extend: extend });
 
 /***/ },
-/* 68 */
+/* 67 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -18983,7 +18961,7 @@
 	exports.default = { VECTOR_MODE: VECTOR_MODE };
 
 /***/ },
-/* 69 */
+/* 68 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -19003,19 +18981,19 @@
 
 	var _vtk2 = _interopRequireDefault(_vtk);
 
-	var _Endian = __webpack_require__(70);
+	var _Endian = __webpack_require__(69);
 
 	var _Endian2 = _interopRequireDefault(_Endian);
 
-	var _pako = __webpack_require__(71);
+	var _pako = __webpack_require__(70);
 
 	var _pako2 = _interopRequireDefault(_pako);
 
-	var _PolyData = __webpack_require__(87);
+	var _PolyData = __webpack_require__(86);
 
 	var _PolyData2 = _interopRequireDefault(_PolyData);
 
-	var _Constants = __webpack_require__(91);
+	var _Constants = __webpack_require__(90);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -19430,7 +19408,7 @@
 	exports.default = { newInstance: newInstance, extend: extend };
 
 /***/ },
-/* 70 */
+/* 69 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -19481,17 +19459,17 @@
 	};
 
 /***/ },
-/* 71 */
+/* 70 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// Top level file is just a mixin of submodules & constants
 	'use strict';
 
-	var assign    = __webpack_require__(72).assign;
+	var assign    = __webpack_require__(71).assign;
 
-	var deflate   = __webpack_require__(73);
-	var inflate   = __webpack_require__(81);
-	var constants = __webpack_require__(85);
+	var deflate   = __webpack_require__(72);
+	var inflate   = __webpack_require__(80);
+	var constants = __webpack_require__(84);
 
 	var pako = {};
 
@@ -19501,7 +19479,7 @@
 
 
 /***/ },
-/* 72 */
+/* 71 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -19609,17 +19587,17 @@
 
 
 /***/ },
-/* 73 */
+/* 72 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 
-	var zlib_deflate = __webpack_require__(74);
-	var utils        = __webpack_require__(72);
-	var strings      = __webpack_require__(79);
-	var msg          = __webpack_require__(78);
-	var ZStream      = __webpack_require__(80);
+	var zlib_deflate = __webpack_require__(73);
+	var utils        = __webpack_require__(71);
+	var strings      = __webpack_require__(78);
+	var msg          = __webpack_require__(77);
+	var ZStream      = __webpack_require__(79);
 
 	var toString = Object.prototype.toString;
 
@@ -20015,16 +19993,16 @@
 
 
 /***/ },
-/* 74 */
+/* 73 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils   = __webpack_require__(72);
-	var trees   = __webpack_require__(75);
-	var adler32 = __webpack_require__(76);
-	var crc32   = __webpack_require__(77);
-	var msg     = __webpack_require__(78);
+	var utils   = __webpack_require__(71);
+	var trees   = __webpack_require__(74);
+	var adler32 = __webpack_require__(75);
+	var crc32   = __webpack_require__(76);
+	var msg     = __webpack_require__(77);
 
 	/* Public constants ==========================================================*/
 	/* ===========================================================================*/
@@ -21869,13 +21847,13 @@
 
 
 /***/ },
-/* 75 */
+/* 74 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 
-	var utils = __webpack_require__(72);
+	var utils = __webpack_require__(71);
 
 	/* Public constants ==========================================================*/
 	/* ===========================================================================*/
@@ -23077,7 +23055,7 @@
 
 
 /***/ },
-/* 76 */
+/* 75 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -23115,7 +23093,7 @@
 
 
 /***/ },
-/* 77 */
+/* 76 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -23162,7 +23140,7 @@
 
 
 /***/ },
-/* 78 */
+/* 77 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -23181,14 +23159,14 @@
 
 
 /***/ },
-/* 79 */
+/* 78 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// String encode/decode helpers
 	'use strict';
 
 
-	var utils = __webpack_require__(72);
+	var utils = __webpack_require__(71);
 
 
 	// Quick check if we can use fast array to bin string conversion
@@ -23372,7 +23350,7 @@
 
 
 /***/ },
-/* 80 */
+/* 79 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -23407,19 +23385,19 @@
 
 
 /***/ },
-/* 81 */
+/* 80 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 
-	var zlib_inflate = __webpack_require__(82);
-	var utils        = __webpack_require__(72);
-	var strings      = __webpack_require__(79);
-	var c            = __webpack_require__(85);
-	var msg          = __webpack_require__(78);
-	var ZStream      = __webpack_require__(80);
-	var GZheader     = __webpack_require__(86);
+	var zlib_inflate = __webpack_require__(81);
+	var utils        = __webpack_require__(71);
+	var strings      = __webpack_require__(78);
+	var c            = __webpack_require__(84);
+	var msg          = __webpack_require__(77);
+	var ZStream      = __webpack_require__(79);
+	var GZheader     = __webpack_require__(85);
 
 	var toString = Object.prototype.toString;
 
@@ -23831,17 +23809,17 @@
 
 
 /***/ },
-/* 82 */
+/* 81 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 
-	var utils         = __webpack_require__(72);
-	var adler32       = __webpack_require__(76);
-	var crc32         = __webpack_require__(77);
-	var inflate_fast  = __webpack_require__(83);
-	var inflate_table = __webpack_require__(84);
+	var utils         = __webpack_require__(71);
+	var adler32       = __webpack_require__(75);
+	var crc32         = __webpack_require__(76);
+	var inflate_fast  = __webpack_require__(82);
+	var inflate_table = __webpack_require__(83);
 
 	var CODES = 0;
 	var LENS = 1;
@@ -25375,7 +25353,7 @@
 
 
 /***/ },
-/* 83 */
+/* 82 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -25707,13 +25685,13 @@
 
 
 /***/ },
-/* 84 */
+/* 83 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 
-	var utils = __webpack_require__(72);
+	var utils = __webpack_require__(71);
 
 	var MAXBITS = 15;
 	var ENOUGH_LENS = 852;
@@ -26040,7 +26018,7 @@
 
 
 /***/ },
-/* 85 */
+/* 84 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -26096,7 +26074,7 @@
 
 
 /***/ },
-/* 86 */
+/* 85 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -26142,7 +26120,7 @@
 
 
 /***/ },
-/* 87 */
+/* 86 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -26157,7 +26135,7 @@
 
 	var macro = _interopRequireWildcard(_macro);
 
-	var _PointSet = __webpack_require__(88);
+	var _PointSet = __webpack_require__(87);
 
 	var _PointSet2 = _interopRequireDefault(_PointSet);
 
@@ -26265,7 +26243,7 @@
 	exports.default = Object.assign({ newInstance: newInstance, extend: extend }, STATIC);
 
 /***/ },
-/* 88 */
+/* 87 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -26280,7 +26258,7 @@
 
 	var macro = _interopRequireWildcard(_macro);
 
-	var _DataSet = __webpack_require__(89);
+	var _DataSet = __webpack_require__(88);
 
 	var _DataSet2 = _interopRequireDefault(_DataSet);
 
@@ -26356,7 +26334,7 @@
 	exports.default = Object.assign({ newInstance: newInstance, extend: extend }, STATIC);
 
 /***/ },
-/* 89 */
+/* 88 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -26371,11 +26349,11 @@
 
 	var macro = _interopRequireWildcard(_macro);
 
-	var _BoundingBox = __webpack_require__(51);
+	var _BoundingBox = __webpack_require__(50);
 
 	var _BoundingBox2 = _interopRequireDefault(_BoundingBox);
 
-	var _DataSetAttributes = __webpack_require__(90);
+	var _DataSetAttributes = __webpack_require__(89);
 
 	var _DataSetAttributes2 = _interopRequireDefault(_DataSetAttributes);
 
@@ -26480,7 +26458,7 @@
 	exports.default = Object.assign({ newInstance: newInstance, extend: extend }, STATIC);
 
 /***/ },
-/* 90 */
+/* 89 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -26662,7 +26640,7 @@
 	exports.default = { newInstance: newInstance, extend: extend };
 
 /***/ },
-/* 91 */
+/* 90 */
 /***/ function(module, exports) {
 
 	'use strict';

@@ -70,15 +70,15 @@
 
 	var _Renderer2 = _interopRequireDefault(_Renderer);
 
-	var _RenderWindow3 = __webpack_require__(67);
+	var _RenderWindow3 = __webpack_require__(66);
 
 	var _RenderWindow4 = _interopRequireDefault(_RenderWindow3);
 
-	var _RenderWindowInteractor = __webpack_require__(68);
+	var _RenderWindowInteractor = __webpack_require__(67);
 
 	var _RenderWindowInteractor2 = _interopRequireDefault(_RenderWindowInteractor);
 
-	var _controlPanel = __webpack_require__(73);
+	var _controlPanel = __webpack_require__(72);
 
 	var _controlPanel2 = _interopRequireDefault(_controlPanel);
 
@@ -16901,11 +16901,7 @@
 
 	var _Math2 = _interopRequireDefault(_Math);
 
-	var _TimerLog = __webpack_require__(65);
-
-	var _TimerLog2 = _interopRequireDefault(_TimerLog);
-
-	var _Viewport = __webpack_require__(66);
+	var _Viewport = __webpack_require__(65);
 
 	var _Viewport2 = _interopRequireDefault(_Viewport);
 
@@ -17731,24 +17727,6 @@
 
 /***/ },
 /* 65 */
-/***/ function(module, exports) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.getUniversalTime = getUniversalTime;
-	function getUniversalTime() {
-	  return +new Date();
-	}
-
-	exports.default = {
-	  getUniversalTime: getUniversalTime
-	};
-
-/***/ },
-/* 66 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -17917,7 +17895,7 @@
 	exports.default = { newInstance: newInstance, extend: extend };
 
 /***/ },
-/* 67 */
+/* 66 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -18041,7 +18019,7 @@
 	exports.default = { newInstance: newInstance, extend: extend };
 
 /***/ },
-/* 68 */
+/* 67 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -18060,7 +18038,7 @@
 
 	var _Math2 = _interopRequireDefault(_Math);
 
-	var _InteractorStyleTrackballCamera = __webpack_require__(69);
+	var _InteractorStyleTrackballCamera = __webpack_require__(68);
 
 	var _InteractorStyleTrackballCamera2 = _interopRequireDefault(_InteractorStyleTrackballCamera);
 
@@ -18650,7 +18628,7 @@
 	exports.default = Object.assign({ newInstance: newInstance, extend: extend });
 
 /***/ },
-/* 69 */
+/* 68 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -18665,7 +18643,7 @@
 
 	var macro = _interopRequireWildcard(_macro);
 
-	var _InteractorStyle = __webpack_require__(70);
+	var _InteractorStyle = __webpack_require__(69);
 
 	var _InteractorStyle2 = _interopRequireDefault(_InteractorStyle);
 
@@ -18673,7 +18651,7 @@
 
 	var _Math2 = _interopRequireDefault(_Math);
 
-	var _Constants = __webpack_require__(72);
+	var _Constants = __webpack_require__(71);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -19066,7 +19044,7 @@
 	exports.default = Object.assign({ newInstance: newInstance, extend: extend });
 
 /***/ },
-/* 70 */
+/* 69 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -19081,11 +19059,11 @@
 
 	var macro = _interopRequireWildcard(_macro);
 
-	var _InteractorObserver = __webpack_require__(71);
+	var _InteractorObserver = __webpack_require__(70);
 
 	var _InteractorObserver2 = _interopRequireDefault(_InteractorObserver);
 
-	var _Constants = __webpack_require__(72);
+	var _Constants = __webpack_require__(71);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -19317,7 +19295,7 @@
 	exports.default = Object.assign({ newInstance: newInstance, extend: extend });
 
 /***/ },
-/* 71 */
+/* 70 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -19499,7 +19477,7 @@
 	exports.default = Object.assign({ newInstance: newInstance, extend: extend });
 
 /***/ },
-/* 72 */
+/* 71 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -19535,7 +19513,7 @@
 	};
 
 /***/ },
-/* 73 */
+/* 72 */
 /***/ function(module, exports) {
 
 	module.exports = "<table style=\"width: 400px;\">\n  <tr>\n    <td>Height</td>\n    <td>\n      <input class='height' type=\"range\" min=\"0.5\" max=\"2.0\" step=\"0.1\" value=\"1.0\" />\n    </td>\n  </tr>\n  <tr>\n    <td>Radius</td>\n    <td>\n      <input class='radius' type=\"range\" min=\"0.5\" max=\"2.0\" step=\"0.1\" value=\"1.0\" />\n    </td>\n  </tr>\n  <tr>\n    <td>Resolution</td>\n    <td>\n      <input class='resolution' type=\"range\" min=\"4\" max=\"100\" step=\"1\" value=\"6\" />\n    </td>\n  </tr>\n  <tr>\n    <td>Capping</td>\n    <td>\n      <input class='capping' type=\"checkbox\" checked />\n    </td>\n  </tr>\n</table>\n<div class='renderwidow' style=\"width: 400px;\"></div>\n";

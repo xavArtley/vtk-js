@@ -70,11 +70,11 @@
 
 	var _Renderer2 = _interopRequireDefault(_Renderer);
 
-	var _RenderWindow3 = __webpack_require__(85);
+	var _RenderWindow3 = __webpack_require__(84);
 
 	var _RenderWindow4 = _interopRequireDefault(_RenderWindow3);
 
-	var _RenderWindowInteractor = __webpack_require__(86);
+	var _RenderWindowInteractor = __webpack_require__(85);
 
 	var _RenderWindowInteractor2 = _interopRequireDefault(_RenderWindowInteractor);
 
@@ -23882,11 +23882,7 @@
 
 	var _Math2 = _interopRequireDefault(_Math);
 
-	var _TimerLog = __webpack_require__(83);
-
-	var _TimerLog2 = _interopRequireDefault(_TimerLog);
-
-	var _Viewport = __webpack_require__(84);
+	var _Viewport = __webpack_require__(83);
 
 	var _Viewport2 = _interopRequireDefault(_Viewport);
 
@@ -24712,24 +24708,6 @@
 
 /***/ },
 /* 83 */
-/***/ function(module, exports) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.getUniversalTime = getUniversalTime;
-	function getUniversalTime() {
-	  return +new Date();
-	}
-
-	exports.default = {
-	  getUniversalTime: getUniversalTime
-	};
-
-/***/ },
-/* 84 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -24898,7 +24876,7 @@
 	exports.default = { newInstance: newInstance, extend: extend };
 
 /***/ },
-/* 85 */
+/* 84 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -25022,7 +25000,7 @@
 	exports.default = { newInstance: newInstance, extend: extend };
 
 /***/ },
-/* 86 */
+/* 85 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -25041,7 +25019,7 @@
 
 	var _Math2 = _interopRequireDefault(_Math);
 
-	var _InteractorStyleTrackballCamera = __webpack_require__(87);
+	var _InteractorStyleTrackballCamera = __webpack_require__(86);
 
 	var _InteractorStyleTrackballCamera2 = _interopRequireDefault(_InteractorStyleTrackballCamera);
 
@@ -25631,7 +25609,7 @@
 	exports.default = Object.assign({ newInstance: newInstance, extend: extend });
 
 /***/ },
-/* 87 */
+/* 86 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -25646,7 +25624,7 @@
 
 	var macro = _interopRequireWildcard(_macro);
 
-	var _InteractorStyle = __webpack_require__(88);
+	var _InteractorStyle = __webpack_require__(87);
 
 	var _InteractorStyle2 = _interopRequireDefault(_InteractorStyle);
 
@@ -25654,7 +25632,7 @@
 
 	var _Math2 = _interopRequireDefault(_Math);
 
-	var _Constants = __webpack_require__(90);
+	var _Constants = __webpack_require__(89);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -26047,7 +26025,7 @@
 	exports.default = Object.assign({ newInstance: newInstance, extend: extend });
 
 /***/ },
-/* 88 */
+/* 87 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -26062,11 +26040,11 @@
 
 	var macro = _interopRequireWildcard(_macro);
 
-	var _InteractorObserver = __webpack_require__(89);
+	var _InteractorObserver = __webpack_require__(88);
 
 	var _InteractorObserver2 = _interopRequireDefault(_InteractorObserver);
 
-	var _Constants = __webpack_require__(90);
+	var _Constants = __webpack_require__(89);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -26298,7 +26276,7 @@
 	exports.default = Object.assign({ newInstance: newInstance, extend: extend });
 
 /***/ },
-/* 89 */
+/* 88 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -26480,7 +26458,7 @@
 	exports.default = Object.assign({ newInstance: newInstance, extend: extend });
 
 /***/ },
-/* 90 */
+/* 89 */
 /***/ function(module, exports) {
 
 	"use strict";

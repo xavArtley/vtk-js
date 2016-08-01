@@ -13496,15 +13496,11 @@
 
 	var _Math2 = _interopRequireDefault(_Math);
 
-	var _TimerLog = __webpack_require__(49);
-
-	var _TimerLog2 = _interopRequireDefault(_TimerLog);
-
-	var _Viewport = __webpack_require__(50);
+	var _Viewport = __webpack_require__(49);
 
 	var _Viewport2 = _interopRequireDefault(_Viewport);
 
-	var _BoundingBox = __webpack_require__(51);
+	var _BoundingBox = __webpack_require__(50);
 
 	var _glMatrix = __webpack_require__(8);
 
@@ -14765,24 +14761,6 @@
 
 /***/ },
 /* 49 */
-/***/ function(module, exports) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.getUniversalTime = getUniversalTime;
-	function getUniversalTime() {
-	  return +new Date();
-	}
-
-	exports.default = {
-	  getUniversalTime: getUniversalTime
-	};
-
-/***/ },
-/* 50 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -14951,7 +14929,7 @@
 	exports.default = { newInstance: newInstance, extend: extend };
 
 /***/ },
-/* 51 */
+/* 50 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -14969,7 +14947,7 @@
 
 	var macro = _interopRequireWildcard(_macro);
 
-	var _Plane = __webpack_require__(52);
+	var _Plane = __webpack_require__(51);
 
 	var _Plane2 = _interopRequireDefault(_Plane);
 
@@ -15396,7 +15374,7 @@
 	exports.default = Object.assign({ newInstance: newInstance, extend: extend }, STATIC);
 
 /***/ },
-/* 52 */
+/* 51 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';

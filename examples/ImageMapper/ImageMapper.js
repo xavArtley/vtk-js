@@ -70,11 +70,11 @@
 
 	var _Renderer2 = _interopRequireDefault(_Renderer);
 
-	var _RenderWindow3 = __webpack_require__(66);
+	var _RenderWindow3 = __webpack_require__(65);
 
 	var _RenderWindow4 = _interopRequireDefault(_RenderWindow3);
 
-	var _RenderWindowInteractor = __webpack_require__(67);
+	var _RenderWindowInteractor = __webpack_require__(66);
 
 	var _RenderWindowInteractor2 = _interopRequireDefault(_RenderWindowInteractor);
 
@@ -16462,11 +16462,7 @@
 
 	var _Math2 = _interopRequireDefault(_Math);
 
-	var _TimerLog = __webpack_require__(64);
-
-	var _TimerLog2 = _interopRequireDefault(_TimerLog);
-
-	var _Viewport = __webpack_require__(65);
+	var _Viewport = __webpack_require__(64);
 
 	var _Viewport2 = _interopRequireDefault(_Viewport);
 
@@ -17731,24 +17727,6 @@
 
 /***/ },
 /* 64 */
-/***/ function(module, exports) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.getUniversalTime = getUniversalTime;
-	function getUniversalTime() {
-	  return +new Date();
-	}
-
-	exports.default = {
-	  getUniversalTime: getUniversalTime
-	};
-
-/***/ },
-/* 65 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -17917,7 +17895,7 @@
 	exports.default = { newInstance: newInstance, extend: extend };
 
 /***/ },
-/* 66 */
+/* 65 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -18041,7 +18019,7 @@
 	exports.default = { newInstance: newInstance, extend: extend };
 
 /***/ },
-/* 67 */
+/* 66 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
