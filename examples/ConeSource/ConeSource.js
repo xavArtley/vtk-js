@@ -7165,7 +7165,17 @@
 
 	  publicAPI.pitch = function (angle) {};
 
-	  publicAPI.zoom = function (factor) {};
+	  publicAPI.zoom = function (factor) {
+	    if (factor <= 0) {
+	      return;
+	    }
+	    if (model.parallelProjection) {
+	      model.parallelScale /= factor;
+	    } else {
+	      model.viewAngle /= factor;
+	    }
+	    publicAPI.modified();
+	  };
 
 	  publicAPI.setThickness = function (thickness) {};
 
