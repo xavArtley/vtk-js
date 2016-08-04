@@ -783,7 +783,7 @@
 	  function getInputData() {
 	    var port = arguments.length <= 0 || arguments[0] === undefined ? 0 : arguments[0];
 
-	    if (!model.inputData[port] && model.inputConnection[port]) {
+	    if (model.inputConnection[port]) {
 	      model.inputData[port] = model.inputConnection[port]();
 	    }
 	    return model.inputData[port];
@@ -844,9 +844,6 @@
 	    if (numberOfInputs) {
 	      var _count = 0;
 	      while (_count < numberOfInputs) {
-	        if (model.inputConnection[_count]) {
-	          model.inputData[_count] = null;
-	        }
 	        ins[_count] = publicAPI.getInputData(_count);
 	        _count++;
 	      }
