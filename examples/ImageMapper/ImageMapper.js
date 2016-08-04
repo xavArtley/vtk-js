@@ -9687,7 +9687,6 @@
 	  model.classHierarchy.push('vtkImageMapper');
 
 	  publicAPI.update = function () {
-	    model.inputData[0] = null;
 	    publicAPI.getInputData();
 	  };
 
