@@ -15024,9 +15024,9 @@
 	  height: 0,
 	  depth: 0,
 	  autoParameters: true,
-	  wrapS: _Constants.VTK_WRAP.REPEAT,
-	  wrapT: _Constants.VTK_WRAP.REPEAT,
-	  wrapR: _Constants.VTK_WRAP.REPEAT,
+	  wrapS: _Constants.VTK_WRAP.CLAMP_TO_EDGE,
+	  wrapT: _Constants.VTK_WRAP.CLAMP_TO_EDGE,
+	  wrapR: _Constants.VTK_WRAP.CLAMP_TO_EDGE,
 	  minificationFilter: _Constants.VTK_FILTER.NEAREST,
 	  magnificationFilter: _Constants.VTK_FILTER.NEAREST,
 	  minLOD: -1000.0,
@@ -15129,7 +15129,7 @@
 	// ----------------------------------------------------------------------------
 
 	var DEFAULT_VALUES = {
-	  repeat: true,
+	  repeat: false,
 	  interpolate: false,
 	  edgeClamp: false
 	};
