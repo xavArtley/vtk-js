@@ -143,19 +143,19 @@
 	exports.newInstance = undefined;
 	exports.extend = extend;
 
-	var _macro = __webpack_require__(2);
+	var _glMatrix = __webpack_require__(2);
+
+	var _macro = __webpack_require__(12);
 
 	var macro = _interopRequireWildcard(_macro);
 
-	var _Prop3D = __webpack_require__(4);
+	var _Prop3D = __webpack_require__(14);
 
 	var _Prop3D2 = _interopRequireDefault(_Prop3D);
 
 	var _Property = __webpack_require__(18);
 
 	var _Property2 = _interopRequireDefault(_Property);
-
-	var _glMatrix = __webpack_require__(8);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -388,1400 +388,6 @@
 /* 2 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
-
-	exports.capitalize = capitalize;
-	exports.enumToString = enumToString;
-	exports.obj = obj;
-	exports.get = get;
-	exports.set = set;
-	exports.setGet = setGet;
-	exports.getArray = getArray;
-	exports.setArray = setArray;
-	exports.setGetArray = setGetArray;
-	exports.algo = algo;
-	exports.event = event;
-	exports.newInstance = newInstance;
-
-	var _vtk = __webpack_require__(3);
-
-	var _vtk2 = _interopRequireDefault(_vtk);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
-	var globalMTime = 0;
-	// ----------------------------------------------------------------------------
-	// capitilze provided string
-	// ----------------------------------------------------------------------------
-
-	function capitalize(str) {
-	  return str.charAt(0).toUpperCase() + str.slice(1);
-	}
-
-	function enumToString(e, value) {
-	  return Object.keys(e).find(function (key) {
-	    return e[key] === value;
-	  });
-	}
-
-	// ----------------------------------------------------------------------------
-	// vtkObject: modified(), onModified(callback), delete()
-	// ----------------------------------------------------------------------------
-
-	function obj(publicAPI) {
-	  var model = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
-
-	  var callbacks = [];
-	  model.mtime = model.mtime || globalMTime;
-	  model.classHierarchy = ['vtkObject'];
-
-	  function off(index) {
-	    callbacks[index] = null;
-	  }
-
-	  function on(index) {
-	    function unsubscribe() {
-	      off(index);
-	    }
-	    return Object.freeze({ unsubscribe: unsubscribe });
-	  }
-
-	  publicAPI.modified = function () {
-	    if (model.deleted) {
-	      console.log('instance deleted - can not call any method');
-	      return;
-	    }
-
-	    model.mtime = ++globalMTime;
-	    callbacks.forEach(function (callback) {
-	      return callback && callback(publicAPI);
-	    });
-	  };
-
-	  publicAPI.onModified = function (callback) {
-	    if (model.deleted) {
-	      console.log('instance deleted - can not call any method');
-	      return null;
-	    }
-
-	    var index = callbacks.length;
-	    callbacks.push(callback);
-	    return on(index);
-	  };
-
-	  publicAPI.getMTime = function () {
-	    return model.mtime;
-	  };
-
-	  publicAPI.isA = function (className) {
-	    return model.classHierarchy.indexOf(className) !== -1;
-	  };
-
-	  publicAPI.getClassName = function () {
-	    return model.classHierarchy.slice(-1)[0];
-	  };
-
-	  publicAPI.set = function () {
-	    var map = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
-
-	    Object.keys(map).forEach(function (name) {
-	      if (Array.isArray(map[name])) {
-	        publicAPI['set' + capitalize(name)].apply(publicAPI, _toConsumableArray(map[name]));
-	      } else if (publicAPI['set' + capitalize(name)]) {
-	        publicAPI['set' + capitalize(name)](map[name]);
-	      } else {
-	        // Set data on model directly
-	        if (['mtime'].indexOf(name) === -1) {
-	          console.log('Warning: Set value to model directly', name, map[name]);
-	        }
-	        model[name] = map[name];
-	      }
-	    });
-	  };
-
-	  publicAPI.get = function () {
-	    for (var _len = arguments.length, list = Array(_len), _key = 0; _key < _len; _key++) {
-	      list[_key] = arguments[_key];
-	    }
-
-	    if (!list) {
-	      return model;
-	    }
-	    var subset = {};
-	    list.forEach(function (name) {
-	      subset[name] = model[name];
-	    });
-	    return subset;
-	  };
-
-	  publicAPI.delete = function () {
-	    Object.keys(model).forEach(function (field) {
-	      return delete model[field];
-	    });
-	    callbacks.forEach(function (el, index) {
-	      return off(index);
-	    });
-
-	    // Flag the instance beeing deleted
-	    model.deleted = true;
-	  };
-	}
-
-	// ----------------------------------------------------------------------------
-	// getXXX: add getters
-	// ----------------------------------------------------------------------------
-
-	function get(publicAPI, model, fieldNames) {
-	  fieldNames.forEach(function (field) {
-	    if ((typeof field === 'undefined' ? 'undefined' : _typeof(field)) === 'object') {
-	      publicAPI['get' + capitalize(field.name)] = function () {
-	        return model[field];
-	      };
-	    } else {
-	      publicAPI['get' + capitalize(field)] = function () {
-	        return model[field];
-	      };
-	    }
-	  });
-	}
-
-	// ----------------------------------------------------------------------------
-	// setXXX: add setters
-	// ----------------------------------------------------------------------------
-
-	var objectSetterMap = {
-	  enum: function _enum(publicAPI, model, field) {
-	    return function (value) {
-	      if (typeof value === 'string') {
-	        if (model.enum[value] !== undefined) {
-	          if (model[field.name] !== model.enum[value]) {
-	            model[field.name] = model.enum[value];
-	            publicAPI.modified();
-	            return true;
-	          }
-	          return false;
-	        }
-	        console.log('Set Enum with invalid argument', field, value);
-	        return null;
-	      }
-	      if (typeof value === 'number') {
-	        if (model[field.name] !== value) {
-	          if (Object.keys(field.enum).map(function (key) {
-	            return field.enum[key];
-	          }).indexOf(value) !== -1) {
-	            model[field.name] = value;
-	            publicAPI.modified();
-	            return true;
-	          }
-	          console.log('Set Enum outside range', field, value);
-	        }
-	        return false;
-	      }
-	      console.log('Set Enum with invalid argument (String/Number)', field, value);
-	      return null;
-	    };
-	  }
-	};
-
-	function findSetter(field) {
-	  if ((typeof field === 'undefined' ? 'undefined' : _typeof(field)) === 'object') {
-	    var _ret = function () {
-	      var fn = objectSetterMap[field.type];
-	      if (fn) {
-	        return {
-	          v: function v(publicAPI, model) {
-	            return fn(publicAPI, model, field);
-	          }
-	        };
-	      }
-
-	      console.error('No setter for field', field);
-	    }();
-
-	    if ((typeof _ret === 'undefined' ? 'undefined' : _typeof(_ret)) === "object") return _ret.v;
-	  }
-	  return function getSetter(publicAPI, model) {
-	    return function setter(value) {
-	      if (model.deleted) {
-	        console.log('instance deleted - can not call any method');
-	        return false;
-	      }
-
-	      if (model[field] !== value) {
-	        model[field] = value;
-	        publicAPI.modified();
-	        return true;
-	      }
-	      return false;
-	    };
-	  };
-	}
-
-	function set(publicAPI, model, fields) {
-	  fields.forEach(function (field) {
-	    publicAPI['set' + capitalize(field)] = findSetter(field)(publicAPI, model);
-	  });
-	}
-
-	// ----------------------------------------------------------------------------
-	// set/get XXX: add both setters and getters
-	// ----------------------------------------------------------------------------
-
-	function setGet(publicAPI, model, fieldNames) {
-	  get(publicAPI, model, fieldNames);
-	  set(publicAPI, model, fieldNames);
-	}
-
-	// ----------------------------------------------------------------------------
-	// getXXX: add getters for object of type array
-	// ----------------------------------------------------------------------------
-
-	function getArray(publicAPI, model, fieldNames) {
-	  fieldNames.forEach(function (field) {
-	    publicAPI['get' + capitalize(field)] = function () {
-	      return [].concat(model[field]);
-	    };
-	  });
-	}
-
-	// ----------------------------------------------------------------------------
-	// setXXX: add setter for object of type array
-	// ----------------------------------------------------------------------------
-
-	function setArray(publicAPI, model, fieldNames, size) {
-	  fieldNames.forEach(function (field) {
-	    publicAPI['set' + capitalize(field)] = function () {
-	      for (var _len2 = arguments.length, array = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
-	        array[_key2] = arguments[_key2];
-	      }
-
-	      if (model.deleted) {
-	        console.log('instance deleted - can not call any method');
-	        return;
-	      }
-
-	      var changeDetected = false;
-	      model[field].forEach(function (item, index) {
-	        if (item !== array[index]) {
-	          if (changeDetected) {
-	            return;
-	          }
-	          changeDetected = true;
-	        }
-	      });
-
-	      if (changeDetected) {
-	        model[field] = [].concat(array);
-	        publicAPI.modified();
-	      }
-	    };
-	  });
-	}
-
-	// ----------------------------------------------------------------------------
-	// set/get XXX: add setter and getter for object of type array
-	// ----------------------------------------------------------------------------
-
-	function setGetArray(publicAPI, model, fieldNames, size) {
-	  getArray(publicAPI, model, fieldNames);
-	  setArray(publicAPI, model, fieldNames, size);
-	}
-
-	// ----------------------------------------------------------------------------
-	// vtkAlgorithm: setInputData(), setInputConnection(), getOutput(), getOutputPort()
-	// ----------------------------------------------------------------------------
-
-	function algo(publicAPI, model, numberOfInputs, numberOfOutputs) {
-	  model.inputData = [];
-	  model.inputConnection = [];
-	  model.output = [];
-	  model.inputArrayToProcess = [];
-
-	  // Methods
-	  function setInputData(dataset) {
-	    var port = arguments.length <= 1 || arguments[1] === undefined ? 0 : arguments[1];
-
-	    if (model.deleted) {
-	      console.log('instance deleted - can not call any method');
-	      return;
-	    }
-	    model.inputData[port] = dataset;
-	    model.inputConnection[port] = null;
-	  }
-
-	  function getInputData() {
-	    var port = arguments.length <= 0 || arguments[0] === undefined ? 0 : arguments[0];
-
-	    if (model.inputConnection[port]) {
-	      model.inputData[port] = model.inputConnection[port]();
-	    }
-	    return model.inputData[port];
-	  }
-
-	  function setInputConnection(outputPort) {
-	    var port = arguments.length <= 1 || arguments[1] === undefined ? 0 : arguments[1];
-
-	    if (model.deleted) {
-	      console.log('instance deleted - can not call any method');
-	      return;
-	    }
-	    model.inputData[port] = null;
-	    model.inputConnection[port] = outputPort;
-	  }
-
-	  function getOutputData() {
-	    var port = arguments.length <= 0 || arguments[0] === undefined ? 0 : arguments[0];
-
-	    if (model.deleted) {
-	      console.log('instance deleted - can not call any method');
-	      return null;
-	    }
-	    publicAPI.update();
-	    return model.output[port];
-	  }
-
-	  function getOutputPort() {
-	    var port = arguments.length <= 0 || arguments[0] === undefined ? 0 : arguments[0];
-
-	    return function () {
-	      return getOutputData(port);
-	    };
-	  }
-
-	  // Handle input if needed
-	  if (numberOfInputs) {
-	    // Reserve inputs
-	    var count = numberOfInputs;
-	    while (count--) {
-	      model.inputData.push(null);
-	      model.inputConnection.push(null);
-	    }
-
-	    // Expose public methods
-	    publicAPI.setInputData = setInputData;
-	    publicAPI.setInputConnection = setInputConnection;
-	    publicAPI.getInputData = getInputData;
-	  }
-
-	  if (numberOfOutputs) {
-	    publicAPI.getOutputData = getOutputData;
-	    publicAPI.getOutputPort = getOutputPort;
-	  }
-
-	  publicAPI.update = function () {
-	    var ins = [];
-	    if (numberOfInputs) {
-	      var _count = 0;
-	      while (_count < numberOfInputs) {
-	        ins[_count] = publicAPI.getInputData(_count);
-	        _count++;
-	      }
-	    }
-	    publicAPI.requestData(ins, model.output);
-	  };
-
-	  publicAPI.getNumberOfInputPorts = function () {
-	    return numberOfInputs;
-	  };
-	  publicAPI.getNumberOfOutputPorts = function () {
-	    return numberOfOutputs;
-	  };
-
-	  publicAPI.getInputArrayToProcess = function (inputPort) {
-	    var arrayDesc = model.inputArrayToProcess[inputPort];
-	    var ds = model.inputData[inputPort];
-	    if (arrayDesc && ds) {
-	      return ds['get' + arrayDesc.fieldAssociation]().getArray(arrayDesc.arrayName);
-	    }
-	    return null;
-	  };
-	  publicAPI.setInputArrayToProcess = function (inputPort, arrayName, fieldAssociation) {
-	    var attributeType = arguments.length <= 3 || arguments[3] === undefined ? 'Scalars' : arguments[3];
-
-	    while (model.inputArrayToProcess.length < inputPort) {
-	      model.inputArrayToProcess.push(null);
-	    }
-	    model.inputArrayToProcess[inputPort] = { arrayName: arrayName, fieldAssociation: fieldAssociation, attributeType: attributeType };
-	  };
-	}
-
-	// ----------------------------------------------------------------------------
-	// Event handling: onXXX(callback), invokeXXX(args...)
-	// ----------------------------------------------------------------------------
-
-	function event(publicAPI, model, eventName) {
-	  var callbacks = [];
-	  var previousDelete = publicAPI.delete;
-
-	  function off(index) {
-	    callbacks[index] = null;
-	  }
-
-	  function on(index) {
-	    function unsubscribe() {
-	      off(index);
-	    }
-	    return Object.freeze({ unsubscribe: unsubscribe });
-	  }
-
-	  publicAPI['invoke' + capitalize(eventName)] = function () {
-	    for (var _len3 = arguments.length, args = Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
-	      args[_key3] = arguments[_key3];
-	    }
-
-	    if (model.deleted) {
-	      console.log('instance deleted - can not call any method');
-	      return;
-	    }
-
-	    callbacks.forEach(function (callback) {
-	      return callback && callback.apply(publicAPI, args);
-	    });
-	  };
-
-	  publicAPI['on' + capitalize(eventName)] = function (callback) {
-	    if (model.deleted) {
-	      console.log('instance deleted - can not call any method');
-	      return null;
-	    }
-
-	    var index = callbacks.length;
-	    callbacks.push(callback);
-	    return on(index);
-	  };
-
-	  publicAPI.delete = function () {
-	    previousDelete();
-	    callbacks.forEach(function (el, index) {
-	      return off(index);
-	    });
-	  };
-	}
-
-	// ----------------------------------------------------------------------------
-	// newInstance
-	// ----------------------------------------------------------------------------
-
-	function newInstance(extend, className) {
-	  var constructor = function constructor() {
-	    var initialValues = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
-
-	    var model = {};
-	    var publicAPI = {};
-	    extend(publicAPI, model, initialValues);
-	    return Object.freeze(publicAPI);
-	  };
-
-	  // Register constructor to factory
-	  if (className) {
-	    _vtk2.default.register(className, constructor);
-	  }
-
-	  return constructor;
-	}
-
-/***/ },
-/* 3 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.default = vtk;
-	exports.register = register;
-	var factoryMapping = {};
-
-	function vtk(obj) {
-	  if (obj.isA) {
-	    return obj;
-	  }
-	  if (!obj.type) {
-	    console.log('Invalid VTK object');
-	    return null;
-	  }
-	  var constructor = factoryMapping[obj.type];
-	  if (!constructor) {
-	    console.log('No vtk class found for Object of type', obj.type);
-	    return null;
-	  }
-
-	  return constructor(obj);
-	}
-
-	function register(vtkClassName, constructor) {
-	  factoryMapping[vtkClassName] = constructor;
-	}
-
-	// Nest register method under the vtk function
-	vtk.register = register;
-
-/***/ },
-/* 4 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.newInstance = undefined;
-	exports.extend = extend;
-
-	var _macro = __webpack_require__(2);
-
-	var macro = _interopRequireWildcard(_macro);
-
-	var _BoundingBox = __webpack_require__(5);
-
-	var _BoundingBox2 = _interopRequireDefault(_BoundingBox);
-
-	var _Prop = __webpack_require__(7);
-
-	var _Prop2 = _interopRequireDefault(_Prop);
-
-	var _glMatrix = __webpack_require__(8);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-	function notImplemented(method) {
-	  return function () {
-	    return console.log('vtkProp3D::${method} - NOT IMPLEMENTED');
-	  };
-	}
-
-	// ----------------------------------------------------------------------------
-	// vtkProp3D methods
-	// ----------------------------------------------------------------------------
-
-	function vtkProp3D(publicAPI, model) {
-	  // Set our className
-	  model.classHierarchy.push('vtkProp3D');
-
-	  publicAPI.getMTime = function () {
-	    return Math.max(model.mtime, publicAPI.getUserTransformMatrixMTime());
-	  };
-
-	  publicAPI.getUserTransformMatrixMTime = function () {
-	    return Math.max(model.userMatrix ? model.userMatrix.getMTime() : 0, model.userTransform ? model.userTransform.getMTime() : 0);
-	  };
-
-	  publicAPI.addPosition = function (deltaXYZ) {
-	    model.position = model.position.map(function (value, index) {
-	      return value + deltaXYZ[index];
-	    });
-	    publicAPI.modified();
-	  };
-
-	  // FIXME
-	  publicAPI.setOrientation = notImplemented('setOrientation');
-	  publicAPI.getOrientation = notImplemented('getOrientation');
-	  publicAPI.getOrientationWXYZ = notImplemented('GetOrientationWXYZ');
-	  publicAPI.AddOrientation = notImplemented('AddOrientation');
-	  publicAPI.RotateX = notImplemented('RotateX');
-	  publicAPI.RotateY = notImplemented('RotateY');
-	  publicAPI.RotateZ = notImplemented('RotateZ');
-	  publicAPI.RotateWXYZ = notImplemented('RotateWXYZ');
-	  publicAPI.SetUserTransform = notImplemented('SetUserTransform');
-	  publicAPI.SetUserMatrix = notImplemented('SetUserMatrix');
-
-	  publicAPI.getMatrix = function () {
-	    publicAPI.computeMatrix();
-	    return model.matrix;
-	  };
-
-	  publicAPI.computeMatrix = function () {
-	    if (model.isIdentity) {
-	      return;
-	    }
-
-	    // check whether or not need to rebuild the matrix
-	    if (publicAPI.getMTime() > model.matrixMTime.getMTime()) {
-	      _glMatrix.mat4.identity(model.matrix);
-	      _glMatrix.mat4.translate(model.matrix, model.matrix, [-model.origin[0], -model.origin[1], -model.origin[2]]);
-	      _glMatrix.mat4.scale(model.matrix, model.matrix, model.scale);
-	      _glMatrix.mat4.translate(model.matrix, model.matrix, model.position);
-	      _glMatrix.mat4.translate(model.matrix, model.matrix, model.origin);
-	      _glMatrix.mat4.transpose(model.matrix, model.matrix);
-
-	      model.matrixMTime.modified();
-	    }
-	  };
-
-	  publicAPI.getCenter = function () {
-	    return _BoundingBox2.default.getCenter(model.bounds);
-	  };
-	  publicAPI.getLength = function () {
-	    return _BoundingBox2.default.getLength(model.bounds);
-	  };
-	  publicAPI.getXRange = function () {
-	    return _BoundingBox2.default.getXRange(model.bounds);
-	  };
-	  publicAPI.getYRange = function () {
-	    return _BoundingBox2.default.getYRange(model.bounds);
-	  };
-	  publicAPI.getZRange = function () {
-	    return _BoundingBox2.default.getZRange(model.bounds);
-	  };
-
-	  publicAPI.pokeMatrix = notImplemented('pokeMatrix');
-	  publicAPI.getUserMatrix = notImplemented('GetUserMatrix');
-
-	  function updateIdentityFlag() {
-	    [model.origin, model.position, model.orientation].forEach(function (array) {
-	      if (array.filter(function (v) {
-	        return v !== 0;
-	      }).length) {
-	        model.isIdentity = false;
-	        return;
-	      }
-	    });
-
-	    // if (model.userMatrix || model.userTransform) {
-	    //   model.isIdentity = false;
-	    //   return;
-	    // }
-
-	    if (model.scale.filter(function (v) {
-	      return v !== 1;
-	    }).length) {
-	      model.isIdentity = false;
-	      return;
-	    }
-	  }
-
-	  publicAPI.onModified(updateIdentityFlag);
-	}
-
-	// ----------------------------------------------------------------------------
-	// Object factory
-	// ----------------------------------------------------------------------------
-
-	var DEFAULT_VALUES = {
-	  origin: [0, 0, 0],
-	  position: [0, 0, 0],
-	  orientation: [0, 0, 0],
-	  scale: [1, 1, 1],
-	  bounds: [1, -1, 1, -1, 1, -1],
-
-	  userMatrix: null,
-	  userTransform: null,
-
-	  cachedProp3D: null,
-	  isIdentity: true,
-	  matrixMTime: null
-	};
-
-	// ----------------------------------------------------------------------------
-
-	function extend(publicAPI, model) {
-	  var initialValues = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
-
-	  Object.assign(model, DEFAULT_VALUES, initialValues);
-
-	  // Inheritance
-	  _Prop2.default.extend(publicAPI, model);
-
-	  model.matrixMTime = {};
-	  macro.obj(model.matrixMTime);
-
-	  // Build VTK API
-	  macro.get(publicAPI, model, ['bounds', 'isIdentity']);
-	  macro.setGetArray(publicAPI, model, ['origin', 'position', 'orientation', 'scale'], 3);
-
-	  // Object internal instance
-	  model.matrix = _glMatrix.mat4.create();
-	  model.transform = null; // FIXME
-
-	  // Object methods
-	  vtkProp3D(publicAPI, model);
-	}
-
-	// ----------------------------------------------------------------------------
-
-	var newInstance = exports.newInstance = macro.newInstance(extend);
-
-	// ----------------------------------------------------------------------------
-
-	exports.default = { newInstance: newInstance, extend: extend };
-
-/***/ },
-/* 5 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.newInstance = exports.STATIC = exports.INIT_BOUNDS = undefined;
-
-	var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
-
-	exports.extend = extend;
-
-	var _macro = __webpack_require__(2);
-
-	var macro = _interopRequireWildcard(_macro);
-
-	var _Plane = __webpack_require__(6);
-
-	var _Plane2 = _interopRequireDefault(_Plane);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
-	var INIT_BOUNDS = exports.INIT_BOUNDS = [Number.MAX_VALUE, Number.MIN_VALUE, // X
-	Number.MAX_VALUE, Number.MIN_VALUE, // Y
-	Number.MAX_VALUE, Number.MIN_VALUE];
-
-	// ----------------------------------------------------------------------------
-	// Global methods
-	// ----------------------------------------------------------------------------
-
-	function isValid(bounds) {
-	  return bounds[0] <= bounds[1] && bounds[2] <= bounds[3] && bounds[4] <= bounds[5];
-	}
-
-	function getCenter(bounds) {
-	  return [0.5 * (bounds[0] + bounds[1]), 0.5 * (bounds[2] + bounds[3]), 0.5 * (bounds[4] + bounds[5])];
-	}
-
-	function getLength(bounds, index) {
-	  return bounds[index * 2 + 1] - bounds[index * 2];
-	}
-
-	function getLengths(bounds) {
-	  return [getLength(bounds, 0), getLength(bounds, 1), getLength(bounds, 2)];
-	}
-
-	function getXRange(bounds) {
-	  return bounds.slice(0, 2);
-	}
-
-	function getYRange(bounds) {
-	  return bounds.slice(2, 4);
-	}
-
-	function getZRange(bounds) {
-	  return bounds.slice(4, 6);
-	}
-
-	function getMaxLength(bounds) {
-	  var l = getLengths(bounds);
-	  if (l[0] > l[1]) {
-	    if (l[0] > l[2]) {
-	      return l[0];
-	    }
-	    return l[2];
-	  } else if (l[1] > l[2]) {
-	    return l[1];
-	  }
-	  return l[2];
-	}
-
-	function getDiagonalLength(bounds) {
-	  if (isValid(bounds)) {
-	    var l = getLengths(bounds);
-	    return Math.sqrt(l[0] * l[0] + l[1] * l[1] + l[2] * l[2]);
-	  }
-	  return null;
-	}
-
-	function oppositeSign(a, b) {
-	  return a <= 0 && b >= 0 || a >= 0 && b <= 0;
-	}
-
-	// ----------------------------------------------------------------------------
-	// Static API
-	// ----------------------------------------------------------------------------
-
-	var STATIC = exports.STATIC = {
-	  isValid: isValid,
-	  getCenter: getCenter,
-	  getLength: getLength,
-	  getLengths: getLengths,
-	  getMaxLength: getMaxLength,
-	  getDiagonalLength: getDiagonalLength,
-	  getXRange: getXRange,
-	  getYRange: getYRange,
-	  getZRange: getZRange
-	};
-
-	// ----------------------------------------------------------------------------
-	// vtkBoundingBox methods
-	// ----------------------------------------------------------------------------
-
-	function vtkBoundingBox(publicAPI, model) {
-	  // Set our className
-	  model.classHierarchy.push('vtkBoundingBox');
-
-	  publicAPI.clone = function () {
-	    var bounds = [].concat(model.bounds);
-	    /* eslint-disable no-use-before-define */
-	    return newInstance({ bounds: bounds });
-	    /* eslint-enable no-use-before-define */
-	  };
-
-	  publicAPI.equals = function (other) {
-	    var a = model.bounds;
-	    var b = other.getBounds();
-	    return a[0] === b[0] && a[1] === b[1] && a[2] === b[2] && a[3] === b[3] && a[4] === b[4] && a[5] === b[5];
-	  };
-
-	  publicAPI.setMinPoint = function (x, y, z) {
-	    var _model$bounds = _slicedToArray(model.bounds, 6);
-
-	    var xMin = _model$bounds[0];
-	    var xMax = _model$bounds[1];
-	    var yMin = _model$bounds[2];
-	    var yMax = _model$bounds[3];
-	    var zMin = _model$bounds[4];
-	    var zMax = _model$bounds[5];
-
-	    model.bounds = [x, x > xMax ? x : xMax, y, y > yMax ? y : yMax, z, z > zMax ? z : zMax];
-
-	    return xMin !== x || yMin !== y || zMin !== z;
-	  };
-
-	  publicAPI.setMaxPoint = function (x, y, z) {
-	    var _model$bounds2 = _slicedToArray(model.bounds, 6);
-
-	    var xMin = _model$bounds2[0];
-	    var xMax = _model$bounds2[1];
-	    var yMin = _model$bounds2[2];
-	    var yMax = _model$bounds2[3];
-	    var zMin = _model$bounds2[4];
-	    var zMax = _model$bounds2[5];
-
-	    model.bounds = [x < xMin ? x : xMin, x, y < yMin ? y : yMin, y, z < zMin ? z : zMin, z];
-
-	    return xMax !== x || yMax !== y || zMax !== z;
-	  };
-
-	  publicAPI.addPoint = function () {
-	    for (var _len = arguments.length, xyz = Array(_len), _key = 0; _key < _len; _key++) {
-	      xyz[_key] = arguments[_key];
-	    }
-
-	    model.bounds = model.bounds.map(function (value, index) {
-	      if (index % 2 === 0) {
-	        var _idx = index / 2;
-	        return value < xyz[_idx] ? value : xyz[_idx];
-	      }
-	      var idx = (index - 1) / 2;
-	      return value > xyz[idx] ? value : xyz[idx];
-	    });
-	  };
-
-	  publicAPI.addBounds = function (xMin, xMax, yMin, yMax, zMin, zMax) {
-	    var _model$bounds3 = _slicedToArray(model.bounds, 6);
-
-	    var _xMin = _model$bounds3[0];
-	    var _xMax = _model$bounds3[1];
-	    var _yMin = _model$bounds3[2];
-	    var _yMax = _model$bounds3[3];
-	    var _zMin = _model$bounds3[4];
-	    var _zMax = _model$bounds3[5];
-
-	    model.bounds = [Math.min(xMin, _xMin), Math.max(xMax, _xMax), Math.min(yMin, _yMin), Math.max(yMax, _yMax), Math.min(zMin, _zMin), Math.max(zMax, _zMax)];
-	  };
-
-	  publicAPI.addBox = function (other) {
-	    publicAPI.addBounds.apply(publicAPI, _toConsumableArray(other.getBounds()));
-	  };
-
-	  publicAPI.isValid = function () {
-	    return isValid(model.bounds);
-	  };
-
-	  publicAPI.intersect = function (bbox) {
-	    if (!(publicAPI.isValid() && bbox.isValid())) {
-	      return false;
-	    }
-
-	    var newBounds = [0, 0, 0, 0, 0, 0];
-	    var bBounds = bbox.getBounds();
-	    var intersects = void 0;
-	    for (var i = 0; i < 3; i++) {
-	      intersects = false;
-	      if (bBounds[i * 2] >= model.bounds[i * 2] && bBounds[i * 2] <= model.bounds[i * 2 + 1]) {
-	        intersects = true;
-	        newBounds[i * 2] = bBounds[i * 2];
-	      } else if (model.bounds[i * 2] >= bBounds[i * 2] && model.bounds[i * 2] <= bBounds[i * 2 + 1]) {
-	        intersects = true;
-	        newBounds[i * 2] = model.bounds[i * 2];
-	      }
-
-	      if (bBounds[i * 2 + 1] >= model.bounds[i * 2] && bBounds[i * 2 + 1] <= model.bounds[i * 2 + 1]) {
-	        intersects = true;
-	        newBounds[i * 2 + 1] = bbox.MaxPnt[i];
-	      } else if (model.bounds[i * 2 + 1] >= bbox.MinPnt[i * 2] && model.bounds[i * 2 + 1] <= bbox.MaxPnt[i * 2 + 1]) {
-	        intersects = true;
-	        newBounds[i * 2 + 1] = model.bounds[i * 2 + 1];
-	      }
-
-	      if (!intersects) {
-	        return false;
-	      }
-	    }
-
-	    // OK they did intersect - set the box to be the result
-	    model.bounds = newBounds;
-	    return true;
-	  };
-
-	  publicAPI.intersects = function (bbox) {
-	    if (!(publicAPI.isValid() && bbox.isValid())) {
-	      return false;
-	    }
-	    var bBounds = bbox.getBounds();
-	    for (var i = 0; i < 3; i++) {
-	      if (bBounds[i * 2] >= model.bounds[i * 2] && bBounds[i * 2] <= model.bounds[i * 2 + 1]) {
-	        continue;
-	      } else if (model.bounds[i * 2] >= bBounds[i * 2] && model.bounds[i * 2] <= bBounds[i * 2 + 1]) {
-	        continue;
-	      }
-
-	      if (bBounds[i * 2 + 1] >= model.bounds[i * 2] && bBounds[i * 2 + 1] <= model.bounds[i * 2 + 1]) {
-	        continue;
-	      } else if (model.bounds[i * 2 + 1] >= bbox.MinPnt[i * 2] && model.bounds[i * 2 + 1] <= bbox.MaxPnt[i * 2 + 1]) {
-	        continue;
-	      }
-	      return false;
-	    }
-
-	    return true;
-	  };
-
-	  publicAPI.intersectPlane = function (origin, normal) {
-	    // Index[0..2] represents the order of traversing the corners of a cube
-	    // in (x,y,z), (y,x,z) and (z,x,y) ordering, respectively
-	    var index = [[0, 1, 2, 3, 4, 5, 6, 7], [0, 1, 4, 5, 2, 3, 6, 7], [0, 2, 4, 6, 1, 3, 5, 7]];
-
-	    // stores the signed distance to a plane
-	    var d = [0, 0, 0, 0, 0, 0, 0, 0];
-	    var idx = 0;
-	    for (var ix = 0; ix < 2; ix++) {
-	      for (var iy = 2; iy < 4; iy++) {
-	        for (var iz = 4; iz < 6; iz++) {
-	          var x = [model.bounds[ix], model.bounds[iy], model.bounds[iz]];
-	          d[idx++] = _Plane2.default.evaluate(normal, origin, x);
-	        }
-	      }
-	    }
-
-	    var dir = 2;
-	    while (dir--) {
-	      // in each direction, we test if the vertices of two orthogonal faces
-	      // are on either side of the plane
-	      if (oppositeSign(d[index[dir][0]], d[index[dir][4]]) && oppositeSign(d[index[dir][1]], d[index[dir][5]]) && oppositeSign(d[index[dir][2]], d[index[dir][6]]) && oppositeSign(d[index[dir][3]], d[index[dir][7]])) {
-	        break;
-	      }
-	    }
-
-	    if (dir < 0) {
-	      return false;
-	    }
-
-	    var sign = Math.sign(normal[dir]);
-	    var size = Math.abs((model.bounds[dir * 2 + 1] - model.bounds[dir * 2]) * normal[dir]);
-	    var t = sign > 0 ? 1 : 0;
-	    for (var i = 0; i < 4; i++) {
-	      if (size === 0) {
-	        continue; // shouldn't happen
-	      }
-	      var ti = Math.abs(d[index[dir][i]]) / size;
-	      if (sign > 0 && ti < t) {
-	        t = ti;
-	      }
-
-	      if (sign < 0 && ti > t) {
-	        t = ti;
-	      }
-	    }
-	    var bound = (1.0 - t) * model.bounds[dir * 2] + t * model.bounds[dir * 2 + 1];
-
-	    if (sign > 0) {
-	      model.bounds[dir * 2] = bound;
-	    } else {
-	      model.bounds[dir * 2 + 1] = bound;
-	    }
-
-	    return true;
-	  };
-
-	  publicAPI.containsPoint = function (x, y, z) {
-	    if (x < model.bounds[0] || x > model.bounds[1]) {
-	      return false;
-	    }
-
-	    if (y < model.bounds[2] || y > model.bounds[3]) {
-	      return false;
-	    }
-
-	    if (z < model.bounds[4] || z > model.bounds[5]) {
-	      return false;
-	    }
-
-	    return true;
-	  };
-
-	  publicAPI.getMinPoint = function () {
-	    return [model.bounds[0], model.bounds[2], model.bounds[4]];
-	  };
-	  publicAPI.getMaxPoint = function () {
-	    return [model.bounds[1], model.bounds[3], model.bounds[5]];
-	  };
-	  publicAPI.getBound = function (index) {
-	    return model.bound[index];
-	  };
-
-	  publicAPI.contains = function (bbox) {
-	    // if either box is not valid or they don't intersect
-	    if (!publicAPI.intersects(bbox)) {
-	      return false;
-	    }
-
-	    if (!publicAPI.containsPoint.apply(publicAPI, _toConsumableArray(bbox.getMinPoint()))) {
-	      return false;
-	    }
-
-	    if (!publicAPI.containsPoint.apply(publicAPI, _toConsumableArray(bbox.getMaxPoint()))) {
-	      return 0;
-	    }
-
-	    return true;
-	  };
-
-	  publicAPI.getCenter = function () {
-	    return getCenter(model.bounds);
-	  };
-	  publicAPI.getLength = function (index) {
-	    return getLength(model.bounds, index);
-	  };
-	  publicAPI.getLengths = function () {
-	    return getLengths(model.bounds);
-	  };
-	  publicAPI.getMaxLength = function () {
-	    return getMaxLength(model.bounds);
-	  };
-	  publicAPI.getDiagonalLength = function () {
-	    return getDiagonalLength(model.bounds);
-	  };
-
-	  publicAPI.reset = function () {
-	    return publicAPI.setBounds([].concat(INIT_BOUNDS));
-	  };
-
-	  publicAPI.inflate = function (delta) {
-	    model.bounds = model.bounds.map(function (value, index) {
-	      if (index % 2 === 0) {
-	        return value - delta;
-	      }
-	      return value + delta;
-	    });
-	  };
-
-	  publicAPI.scale = function (sx, sy, sz) {
-	    if (publicAPI.isValid()) {
-	      var newBounds = [].concat(model.bounds);
-	      if (sx >= 0.0) {
-	        newBounds[0] *= sx;
-	        newBounds[1] *= sx;
-	      } else {
-	        newBounds[0] = sx * model.bounds[1];
-	        newBounds[1] = sx * model.bounds[0];
-	      }
-
-	      if (sy >= 0.0) {
-	        newBounds[2] *= sy;
-	        newBounds[3] *= sy;
-	      } else {
-	        newBounds[2] = sy * model.bounds[3];
-	        newBounds[3] = sy * model.bounds[2];
-	      }
-
-	      if (sz >= 0.0) {
-	        newBounds[4] *= sz;
-	        newBounds[5] *= sz;
-	      } else {
-	        newBounds[4] = sz * model.bounds[5];
-	        newBounds[5] = sz * model.bounds[4];
-	      }
-
-	      model.bounds = newBounds;
-	      return true;
-	    }
-	    return false;
-	  };
-	}
-
-	// ----------------------------------------------------------------------------
-	// Object factory
-	// ----------------------------------------------------------------------------
-
-	var DEFAULT_VALUES = {
-	  type: 'vtkBoundingBox',
-	  bounds: [].concat(INIT_BOUNDS)
-	};
-
-	// ----------------------------------------------------------------------------
-
-	function extend(publicAPI, model) {
-	  var initialValues = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
-
-	  Object.assign(model, DEFAULT_VALUES, initialValues);
-
-	  // Object methods
-	  macro.obj(publicAPI, model);
-	  macro.setGet(publicAPI, model, ['bounds']);
-	  vtkBoundingBox(publicAPI, model);
-	}
-
-	// ----------------------------------------------------------------------------
-
-	var newInstance = exports.newInstance = macro.newInstance(extend, 'vtkBoundingBox');
-
-	// ----------------------------------------------------------------------------
-
-	exports.default = Object.assign({ newInstance: newInstance, extend: extend }, STATIC);
-
-/***/ },
-/* 6 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.newInstance = exports.STATIC = undefined;
-	exports.extend = extend;
-
-	var _macro = __webpack_require__(2);
-
-	var macro = _interopRequireWildcard(_macro);
-
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-	// ----------------------------------------------------------------------------
-	// Global methods
-	// ----------------------------------------------------------------------------
-
-	function evaluate(normal, origin, x) {
-	  return normal[0] * (x[0] - origin[0]) + normal[1] * (x[1] - origin[1]) + normal[2] * (x[2] - origin[2]);
-	}
-
-	// ----------------------------------------------------------------------------
-	// Static API
-	// ----------------------------------------------------------------------------
-
-	var STATIC = exports.STATIC = {
-	  evaluate: evaluate
-	};
-
-	// ----------------------------------------------------------------------------
-	// vtkPlane methods
-	// ----------------------------------------------------------------------------
-
-	function vtkPlane(publicAPI, model) {
-	  // Set our className
-	  model.classHierarchy.push('vtkPlane');
-	}
-
-	// ----------------------------------------------------------------------------
-	// Object factory
-	// ----------------------------------------------------------------------------
-
-	var DEFAULT_VALUES = {
-	  type: 'vtkPlane'
-	};
-
-	// ----------------------------------------------------------------------------
-
-	function extend(publicAPI, model) {
-	  var initialValues = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
-
-	  Object.assign(model, DEFAULT_VALUES, initialValues);
-
-	  // Object methods
-	  macro.obj(publicAPI, model);
-	  macro.setGet(publicAPI, model, ['bounds']);
-	  vtkPlane(publicAPI, model);
-	}
-
-	// ----------------------------------------------------------------------------
-
-	var newInstance = exports.newInstance = macro.newInstance(extend, 'vtkPlane');
-
-	// ----------------------------------------------------------------------------
-
-	exports.default = Object.assign({ newInstance: newInstance, extend: extend }, STATIC);
-
-/***/ },
-/* 7 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.newInstance = undefined;
-	exports.extend = extend;
-
-	var _macro = __webpack_require__(2);
-
-	var macro = _interopRequireWildcard(_macro);
-
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-	function notImplemented(method) {
-	  return function () {
-	    return console.log('vtkProp::${method} - NOT IMPLEMENTED');
-	  };
-	}
-
-	// ----------------------------------------------------------------------------
-	// vtkProp methods
-	// ----------------------------------------------------------------------------
-
-	function vtkProp(publicAPI, model) {
-	  // Set our className
-	  model.classHierarchy.push('vtkProp');
-
-	  publicAPI.getActors = function () {
-	    return null;
-	  };
-	  publicAPI.getActors2D = function () {
-	    return null;
-	  };
-	  publicAPI.getVolumes = function () {
-	    return null;
-	  };
-
-	  publicAPI.pick = notImplemented('pick');
-	  publicAPI.hasKey = notImplemented('hasKey');
-
-	  publicAPI.getRedrawMTime = function () {
-	    return model.mtime;
-	  };
-
-	  publicAPI.setEstimatedRenderTime = function (t) {
-	    model.estimatedRenderTime = t;
-	    model.savedEstimatedRenderTime = t;
-	  };
-
-	  publicAPI.restoreEstimatedRenderTime = function () {
-	    model.estimatedRenderTime = model.savedEstimatedRenderTime;
-	  };
-
-	  publicAPI.addEstimatedRenderTime = function (t) {
-	    model.estimatedRenderTime += t;
-	  };
-
-	  publicAPI.setAllocatedRenderTime = function (t) {
-	    model.allocatedRenderTime = t;
-	    model.savedEstimatedRenderTime = model.estimatedRenderTime;
-	    model.estimatedRenderTime = 0;
-	  };
-
-	  publicAPI.getSupportsSelection = function () {
-	    return false;
-	  };
-
-	  publicAPI.getTextures = function () {
-	    return model.textures;
-	  };
-	  publicAPI.hasTexture = function (texture) {
-	    return !!model.textures.filter(function (item) {
-	      return item === texture;
-	    }).length;
-	  };
-	  publicAPI.addTexture = function (texture) {
-	    if (texture && !publicAPI.hasTexture(texture)) {
-	      model.textures = model.textures.concat(texture);
-	    }
-	  };
-
-	  publicAPI.removeTexture = function (texture) {
-	    var newTextureList = model.textures.filter(function (item) {
-	      return item === texture;
-	    });
-	    if (model.texture.length !== newTextureList.length) {
-	      texture.releaseGraphicsResources(model.vtkWindow);
-	      model.textures = newTextureList;
-	    }
-	  };
-
-	  publicAPI.removeAllTextures = function () {
-	    model.textures.forEach(function (texture) {
-	      texture.releaseGraphicsResources(model.vtkWindow);
-	    });
-	    model.textures = [];
-	  };
-	}
-
-	// ----------------------------------------------------------------------------
-	// Object factory
-	// ----------------------------------------------------------------------------
-
-	var DEFAULT_VALUES = {
-	  visibility: true,
-	  pickable: true,
-	  dragable: true,
-	  useBounds: true,
-	  allocatedRenderTime: 10,
-	  estimatedRenderTime: 0,
-	  savedEstimatedRenderTime: 0,
-	  renderTimeMultiplier: 1,
-	  paths: null,
-	  textures: []
-	};
-
-	// ----------------------------------------------------------------------------
-
-	function extend(publicAPI, model) {
-	  var initialValues = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
-
-	  Object.assign(model, DEFAULT_VALUES, initialValues);
-
-	  // Build VTK API
-	  macro.obj(publicAPI, model);
-	  macro.get(publicAPI, model, ['estimatedRenderTime', 'allocatedRenderTime']);
-	  macro.setGet(publicAPI, model, ['visibility', 'pickable', 'dragable', 'useBounds', 'renderTimeMultiplier']);
-
-	  // Object methods
-	  vtkProp(publicAPI, model);
-	}
-
-	// ----------------------------------------------------------------------------
-
-	var newInstance = exports.newInstance = macro.newInstance(extend);
-
-	// ----------------------------------------------------------------------------
-
-	exports.default = { newInstance: newInstance, extend: extend };
-
-/***/ },
-/* 8 */
-/***/ function(module, exports, __webpack_require__) {
-
 	/**
 	 * @fileoverview gl-matrix - High performance matrix and vector operations
 	 * @author Brandon Jones
@@ -1810,18 +416,18 @@
 	THE SOFTWARE. */
 	// END HEADER
 
-	exports.glMatrix = __webpack_require__(9);
-	exports.mat2 = __webpack_require__(10);
-	exports.mat2d = __webpack_require__(11);
-	exports.mat3 = __webpack_require__(12);
-	exports.mat4 = __webpack_require__(13);
-	exports.quat = __webpack_require__(14);
-	exports.vec2 = __webpack_require__(17);
-	exports.vec3 = __webpack_require__(15);
-	exports.vec4 = __webpack_require__(16);
+	exports.glMatrix = __webpack_require__(3);
+	exports.mat2 = __webpack_require__(4);
+	exports.mat2d = __webpack_require__(5);
+	exports.mat3 = __webpack_require__(6);
+	exports.mat4 = __webpack_require__(7);
+	exports.quat = __webpack_require__(8);
+	exports.vec2 = __webpack_require__(11);
+	exports.vec3 = __webpack_require__(9);
+	exports.vec4 = __webpack_require__(10);
 
 /***/ },
-/* 9 */
+/* 3 */
 /***/ function(module, exports) {
 
 	/* Copyright (c) 2015, Brandon Jones, Colin MacKenzie IV.
@@ -1879,7 +485,7 @@
 
 
 /***/ },
-/* 10 */
+/* 4 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* Copyright (c) 2015, Brandon Jones, Colin MacKenzie IV.
@@ -1902,7 +508,7 @@
 	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 	THE SOFTWARE. */
 
-	var glMatrix = __webpack_require__(9);
+	var glMatrix = __webpack_require__(3);
 
 	/**
 	 * @class 2x2 Matrix
@@ -2187,7 +793,7 @@
 
 
 /***/ },
-/* 11 */
+/* 5 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* Copyright (c) 2015, Brandon Jones, Colin MacKenzie IV.
@@ -2210,7 +816,7 @@
 	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 	THE SOFTWARE. */
 
-	var glMatrix = __webpack_require__(9);
+	var glMatrix = __webpack_require__(3);
 
 	/**
 	 * @class 2x3 Matrix
@@ -2510,7 +1116,7 @@
 
 
 /***/ },
-/* 12 */
+/* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* Copyright (c) 2015, Brandon Jones, Colin MacKenzie IV.
@@ -2533,7 +1139,7 @@
 	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 	THE SOFTWARE. */
 
-	var glMatrix = __webpack_require__(9);
+	var glMatrix = __webpack_require__(3);
 
 	/**
 	 * @class 3x3 Matrix
@@ -3081,7 +1687,7 @@
 
 
 /***/ },
-/* 13 */
+/* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* Copyright (c) 2015, Brandon Jones, Colin MacKenzie IV.
@@ -3104,7 +1710,7 @@
 	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 	THE SOFTWARE. */
 
-	var glMatrix = __webpack_require__(9);
+	var glMatrix = __webpack_require__(3);
 
 	/**
 	 * @class 4x4 Matrix
@@ -4370,7 +2976,7 @@
 
 
 /***/ },
-/* 14 */
+/* 8 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* Copyright (c) 2015, Brandon Jones, Colin MacKenzie IV.
@@ -4393,10 +2999,10 @@
 	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 	THE SOFTWARE. */
 
-	var glMatrix = __webpack_require__(9);
-	var mat3 = __webpack_require__(12);
-	var vec3 = __webpack_require__(15);
-	var vec4 = __webpack_require__(16);
+	var glMatrix = __webpack_require__(3);
+	var mat3 = __webpack_require__(6);
+	var vec3 = __webpack_require__(9);
+	var vec4 = __webpack_require__(10);
 
 	/**
 	 * @class Quaternion
@@ -4929,7 +3535,7 @@
 
 
 /***/ },
-/* 15 */
+/* 9 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* Copyright (c) 2015, Brandon Jones, Colin MacKenzie IV.
@@ -4952,7 +3558,7 @@
 	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 	THE SOFTWARE. */
 
-	var glMatrix = __webpack_require__(9);
+	var glMatrix = __webpack_require__(3);
 
 	/**
 	 * @class 3 Dimensional Vector
@@ -5644,7 +4250,7 @@
 
 
 /***/ },
-/* 16 */
+/* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* Copyright (c) 2015, Brandon Jones, Colin MacKenzie IV.
@@ -5667,7 +4273,7 @@
 	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 	THE SOFTWARE. */
 
-	var glMatrix = __webpack_require__(9);
+	var glMatrix = __webpack_require__(3);
 
 	/**
 	 * @class 4 Dimensional Vector
@@ -6187,7 +4793,7 @@
 
 
 /***/ },
-/* 17 */
+/* 11 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* Copyright (c) 2015, Brandon Jones, Colin MacKenzie IV.
@@ -6210,7 +4816,7 @@
 	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 	THE SOFTWARE. */
 
-	var glMatrix = __webpack_require__(9);
+	var glMatrix = __webpack_require__(3);
 
 	/**
 	 * @class 2 Dimensional Vector
@@ -6716,6 +5322,1404 @@
 
 
 /***/ },
+/* 12 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+
+	exports.capitalize = capitalize;
+	exports.enumToString = enumToString;
+	exports.obj = obj;
+	exports.get = get;
+	exports.set = set;
+	exports.setGet = setGet;
+	exports.getArray = getArray;
+	exports.setArray = setArray;
+	exports.setGetArray = setGetArray;
+	exports.algo = algo;
+	exports.event = event;
+	exports.newInstance = newInstance;
+
+	var _vtk = __webpack_require__(13);
+
+	var _vtk2 = _interopRequireDefault(_vtk);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+	var globalMTime = 0;
+	// ----------------------------------------------------------------------------
+	// capitilze provided string
+	// ----------------------------------------------------------------------------
+
+	function capitalize(str) {
+	  return str.charAt(0).toUpperCase() + str.slice(1);
+	}
+
+	function enumToString(e, value) {
+	  return Object.keys(e).find(function (key) {
+	    return e[key] === value;
+	  });
+	}
+
+	// ----------------------------------------------------------------------------
+	// vtkObject: modified(), onModified(callback), delete()
+	// ----------------------------------------------------------------------------
+
+	function obj(publicAPI) {
+	  var model = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+
+	  var callbacks = [];
+	  model.mtime = model.mtime || globalMTime;
+	  model.classHierarchy = ['vtkObject'];
+
+	  function off(index) {
+	    callbacks[index] = null;
+	  }
+
+	  function on(index) {
+	    function unsubscribe() {
+	      off(index);
+	    }
+	    return Object.freeze({ unsubscribe: unsubscribe });
+	  }
+
+	  publicAPI.modified = function () {
+	    if (model.deleted) {
+	      console.log('instance deleted - can not call any method');
+	      return;
+	    }
+
+	    model.mtime = ++globalMTime;
+	    callbacks.forEach(function (callback) {
+	      return callback && callback(publicAPI);
+	    });
+	  };
+
+	  publicAPI.onModified = function (callback) {
+	    if (model.deleted) {
+	      console.log('instance deleted - can not call any method');
+	      return null;
+	    }
+
+	    var index = callbacks.length;
+	    callbacks.push(callback);
+	    return on(index);
+	  };
+
+	  publicAPI.getMTime = function () {
+	    return model.mtime;
+	  };
+
+	  publicAPI.isA = function (className) {
+	    return model.classHierarchy.indexOf(className) !== -1;
+	  };
+
+	  publicAPI.getClassName = function () {
+	    return model.classHierarchy.slice(-1)[0];
+	  };
+
+	  publicAPI.set = function () {
+	    var map = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+
+	    Object.keys(map).forEach(function (name) {
+	      if (Array.isArray(map[name])) {
+	        publicAPI['set' + capitalize(name)].apply(publicAPI, _toConsumableArray(map[name]));
+	      } else if (publicAPI['set' + capitalize(name)]) {
+	        publicAPI['set' + capitalize(name)](map[name]);
+	      } else {
+	        // Set data on model directly
+	        if (['mtime'].indexOf(name) === -1) {
+	          console.log('Warning: Set value to model directly', name, map[name]);
+	        }
+	        model[name] = map[name];
+	      }
+	    });
+	  };
+
+	  publicAPI.get = function () {
+	    for (var _len = arguments.length, list = Array(_len), _key = 0; _key < _len; _key++) {
+	      list[_key] = arguments[_key];
+	    }
+
+	    if (!list) {
+	      return model;
+	    }
+	    var subset = {};
+	    list.forEach(function (name) {
+	      subset[name] = model[name];
+	    });
+	    return subset;
+	  };
+
+	  publicAPI.delete = function () {
+	    Object.keys(model).forEach(function (field) {
+	      return delete model[field];
+	    });
+	    callbacks.forEach(function (el, index) {
+	      return off(index);
+	    });
+
+	    // Flag the instance beeing deleted
+	    model.deleted = true;
+	  };
+	}
+
+	// ----------------------------------------------------------------------------
+	// getXXX: add getters
+	// ----------------------------------------------------------------------------
+
+	function get(publicAPI, model, fieldNames) {
+	  fieldNames.forEach(function (field) {
+	    if ((typeof field === 'undefined' ? 'undefined' : _typeof(field)) === 'object') {
+	      publicAPI['get' + capitalize(field.name)] = function () {
+	        return model[field];
+	      };
+	    } else {
+	      publicAPI['get' + capitalize(field)] = function () {
+	        return model[field];
+	      };
+	    }
+	  });
+	}
+
+	// ----------------------------------------------------------------------------
+	// setXXX: add setters
+	// ----------------------------------------------------------------------------
+
+	var objectSetterMap = {
+	  enum: function _enum(publicAPI, model, field) {
+	    return function (value) {
+	      if (typeof value === 'string') {
+	        if (model.enum[value] !== undefined) {
+	          if (model[field.name] !== model.enum[value]) {
+	            model[field.name] = model.enum[value];
+	            publicAPI.modified();
+	            return true;
+	          }
+	          return false;
+	        }
+	        console.log('Set Enum with invalid argument', field, value);
+	        return null;
+	      }
+	      if (typeof value === 'number') {
+	        if (model[field.name] !== value) {
+	          if (Object.keys(field.enum).map(function (key) {
+	            return field.enum[key];
+	          }).indexOf(value) !== -1) {
+	            model[field.name] = value;
+	            publicAPI.modified();
+	            return true;
+	          }
+	          console.log('Set Enum outside range', field, value);
+	        }
+	        return false;
+	      }
+	      console.log('Set Enum with invalid argument (String/Number)', field, value);
+	      return null;
+	    };
+	  }
+	};
+
+	function findSetter(field) {
+	  if ((typeof field === 'undefined' ? 'undefined' : _typeof(field)) === 'object') {
+	    var _ret = function () {
+	      var fn = objectSetterMap[field.type];
+	      if (fn) {
+	        return {
+	          v: function v(publicAPI, model) {
+	            return fn(publicAPI, model, field);
+	          }
+	        };
+	      }
+
+	      console.error('No setter for field', field);
+	    }();
+
+	    if ((typeof _ret === 'undefined' ? 'undefined' : _typeof(_ret)) === "object") return _ret.v;
+	  }
+	  return function getSetter(publicAPI, model) {
+	    return function setter(value) {
+	      if (model.deleted) {
+	        console.log('instance deleted - can not call any method');
+	        return false;
+	      }
+
+	      if (model[field] !== value) {
+	        model[field] = value;
+	        publicAPI.modified();
+	        return true;
+	      }
+	      return false;
+	    };
+	  };
+	}
+
+	function set(publicAPI, model, fields) {
+	  fields.forEach(function (field) {
+	    publicAPI['set' + capitalize(field)] = findSetter(field)(publicAPI, model);
+	  });
+	}
+
+	// ----------------------------------------------------------------------------
+	// set/get XXX: add both setters and getters
+	// ----------------------------------------------------------------------------
+
+	function setGet(publicAPI, model, fieldNames) {
+	  get(publicAPI, model, fieldNames);
+	  set(publicAPI, model, fieldNames);
+	}
+
+	// ----------------------------------------------------------------------------
+	// getXXX: add getters for object of type array
+	// ----------------------------------------------------------------------------
+
+	function getArray(publicAPI, model, fieldNames) {
+	  fieldNames.forEach(function (field) {
+	    publicAPI['get' + capitalize(field)] = function () {
+	      return [].concat(model[field]);
+	    };
+	  });
+	}
+
+	// ----------------------------------------------------------------------------
+	// setXXX: add setter for object of type array
+	// ----------------------------------------------------------------------------
+
+	function setArray(publicAPI, model, fieldNames, size) {
+	  fieldNames.forEach(function (field) {
+	    publicAPI['set' + capitalize(field)] = function () {
+	      for (var _len2 = arguments.length, array = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+	        array[_key2] = arguments[_key2];
+	      }
+
+	      if (model.deleted) {
+	        console.log('instance deleted - can not call any method');
+	        return;
+	      }
+
+	      var changeDetected = false;
+	      model[field].forEach(function (item, index) {
+	        if (item !== array[index]) {
+	          if (changeDetected) {
+	            return;
+	          }
+	          changeDetected = true;
+	        }
+	      });
+
+	      if (changeDetected) {
+	        model[field] = [].concat(array);
+	        publicAPI.modified();
+	      }
+	    };
+	  });
+	}
+
+	// ----------------------------------------------------------------------------
+	// set/get XXX: add setter and getter for object of type array
+	// ----------------------------------------------------------------------------
+
+	function setGetArray(publicAPI, model, fieldNames, size) {
+	  getArray(publicAPI, model, fieldNames);
+	  setArray(publicAPI, model, fieldNames, size);
+	}
+
+	// ----------------------------------------------------------------------------
+	// vtkAlgorithm: setInputData(), setInputConnection(), getOutput(), getOutputPort()
+	// ----------------------------------------------------------------------------
+
+	function algo(publicAPI, model, numberOfInputs, numberOfOutputs) {
+	  model.inputData = [];
+	  model.inputConnection = [];
+	  model.output = [];
+	  model.inputArrayToProcess = [];
+
+	  // Methods
+	  function setInputData(dataset) {
+	    var port = arguments.length <= 1 || arguments[1] === undefined ? 0 : arguments[1];
+
+	    if (model.deleted) {
+	      console.log('instance deleted - can not call any method');
+	      return;
+	    }
+	    model.inputData[port] = dataset;
+	    model.inputConnection[port] = null;
+	  }
+
+	  function getInputData() {
+	    var port = arguments.length <= 0 || arguments[0] === undefined ? 0 : arguments[0];
+
+	    if (model.inputConnection[port]) {
+	      model.inputData[port] = model.inputConnection[port]();
+	    }
+	    return model.inputData[port];
+	  }
+
+	  function setInputConnection(outputPort) {
+	    var port = arguments.length <= 1 || arguments[1] === undefined ? 0 : arguments[1];
+
+	    if (model.deleted) {
+	      console.log('instance deleted - can not call any method');
+	      return;
+	    }
+	    model.inputData[port] = null;
+	    model.inputConnection[port] = outputPort;
+	  }
+
+	  function getOutputData() {
+	    var port = arguments.length <= 0 || arguments[0] === undefined ? 0 : arguments[0];
+
+	    if (model.deleted) {
+	      console.log('instance deleted - can not call any method');
+	      return null;
+	    }
+	    publicAPI.update();
+	    return model.output[port];
+	  }
+
+	  function getOutputPort() {
+	    var port = arguments.length <= 0 || arguments[0] === undefined ? 0 : arguments[0];
+
+	    return function () {
+	      return getOutputData(port);
+	    };
+	  }
+
+	  // Handle input if needed
+	  if (numberOfInputs) {
+	    // Reserve inputs
+	    var count = numberOfInputs;
+	    while (count--) {
+	      model.inputData.push(null);
+	      model.inputConnection.push(null);
+	    }
+
+	    // Expose public methods
+	    publicAPI.setInputData = setInputData;
+	    publicAPI.setInputConnection = setInputConnection;
+	    publicAPI.getInputData = getInputData;
+	  }
+
+	  if (numberOfOutputs) {
+	    publicAPI.getOutputData = getOutputData;
+	    publicAPI.getOutputPort = getOutputPort;
+	  }
+
+	  publicAPI.update = function () {
+	    var ins = [];
+	    if (numberOfInputs) {
+	      var _count = 0;
+	      while (_count < numberOfInputs) {
+	        ins[_count] = publicAPI.getInputData(_count);
+	        _count++;
+	      }
+	    }
+	    publicAPI.requestData(ins, model.output);
+	  };
+
+	  publicAPI.getNumberOfInputPorts = function () {
+	    return numberOfInputs;
+	  };
+	  publicAPI.getNumberOfOutputPorts = function () {
+	    return numberOfOutputs;
+	  };
+
+	  publicAPI.getInputArrayToProcess = function (inputPort) {
+	    var arrayDesc = model.inputArrayToProcess[inputPort];
+	    var ds = model.inputData[inputPort];
+	    if (arrayDesc && ds) {
+	      return ds['get' + arrayDesc.fieldAssociation]().getArray(arrayDesc.arrayName);
+	    }
+	    return null;
+	  };
+	  publicAPI.setInputArrayToProcess = function (inputPort, arrayName, fieldAssociation) {
+	    var attributeType = arguments.length <= 3 || arguments[3] === undefined ? 'Scalars' : arguments[3];
+
+	    while (model.inputArrayToProcess.length < inputPort) {
+	      model.inputArrayToProcess.push(null);
+	    }
+	    model.inputArrayToProcess[inputPort] = { arrayName: arrayName, fieldAssociation: fieldAssociation, attributeType: attributeType };
+	  };
+	}
+
+	// ----------------------------------------------------------------------------
+	// Event handling: onXXX(callback), invokeXXX(args...)
+	// ----------------------------------------------------------------------------
+
+	function event(publicAPI, model, eventName) {
+	  var callbacks = [];
+	  var previousDelete = publicAPI.delete;
+
+	  function off(index) {
+	    callbacks[index] = null;
+	  }
+
+	  function on(index) {
+	    function unsubscribe() {
+	      off(index);
+	    }
+	    return Object.freeze({ unsubscribe: unsubscribe });
+	  }
+
+	  publicAPI['invoke' + capitalize(eventName)] = function () {
+	    for (var _len3 = arguments.length, args = Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
+	      args[_key3] = arguments[_key3];
+	    }
+
+	    if (model.deleted) {
+	      console.log('instance deleted - can not call any method');
+	      return;
+	    }
+
+	    callbacks.forEach(function (callback) {
+	      return callback && callback.apply(publicAPI, args);
+	    });
+	  };
+
+	  publicAPI['on' + capitalize(eventName)] = function (callback) {
+	    if (model.deleted) {
+	      console.log('instance deleted - can not call any method');
+	      return null;
+	    }
+
+	    var index = callbacks.length;
+	    callbacks.push(callback);
+	    return on(index);
+	  };
+
+	  publicAPI.delete = function () {
+	    previousDelete();
+	    callbacks.forEach(function (el, index) {
+	      return off(index);
+	    });
+	  };
+	}
+
+	// ----------------------------------------------------------------------------
+	// newInstance
+	// ----------------------------------------------------------------------------
+
+	function newInstance(extend, className) {
+	  var constructor = function constructor() {
+	    var initialValues = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+
+	    var model = {};
+	    var publicAPI = {};
+	    extend(publicAPI, model, initialValues);
+	    return Object.freeze(publicAPI);
+	  };
+
+	  // Register constructor to factory
+	  if (className) {
+	    _vtk2.default.register(className, constructor);
+	  }
+
+	  return constructor;
+	}
+
+/***/ },
+/* 13 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.default = vtk;
+	exports.register = register;
+	var factoryMapping = {};
+
+	function vtk(obj) {
+	  if (obj.isA) {
+	    return obj;
+	  }
+	  if (!obj.type) {
+	    console.log('Invalid VTK object');
+	    return null;
+	  }
+	  var constructor = factoryMapping[obj.type];
+	  if (!constructor) {
+	    console.log('No vtk class found for Object of type', obj.type);
+	    return null;
+	  }
+
+	  return constructor(obj);
+	}
+
+	function register(vtkClassName, constructor) {
+	  factoryMapping[vtkClassName] = constructor;
+	}
+
+	// Nest register method under the vtk function
+	vtk.register = register;
+
+/***/ },
+/* 14 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.newInstance = undefined;
+	exports.extend = extend;
+
+	var _glMatrix = __webpack_require__(2);
+
+	var _macro = __webpack_require__(12);
+
+	var macro = _interopRequireWildcard(_macro);
+
+	var _BoundingBox = __webpack_require__(15);
+
+	var _BoundingBox2 = _interopRequireDefault(_BoundingBox);
+
+	var _Prop = __webpack_require__(17);
+
+	var _Prop2 = _interopRequireDefault(_Prop);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	function notImplemented(method) {
+	  return function () {
+	    return console.log('vtkProp3D::${method} - NOT IMPLEMENTED');
+	  };
+	}
+
+	// ----------------------------------------------------------------------------
+	// vtkProp3D methods
+	// ----------------------------------------------------------------------------
+
+	function vtkProp3D(publicAPI, model) {
+	  // Set our className
+	  model.classHierarchy.push('vtkProp3D');
+
+	  publicAPI.getMTime = function () {
+	    return Math.max(model.mtime, publicAPI.getUserTransformMatrixMTime());
+	  };
+
+	  publicAPI.getUserTransformMatrixMTime = function () {
+	    return Math.max(model.userMatrix ? model.userMatrix.getMTime() : 0, model.userTransform ? model.userTransform.getMTime() : 0);
+	  };
+
+	  publicAPI.addPosition = function (deltaXYZ) {
+	    model.position = model.position.map(function (value, index) {
+	      return value + deltaXYZ[index];
+	    });
+	    publicAPI.modified();
+	  };
+
+	  // FIXME
+	  publicAPI.setOrientation = notImplemented('setOrientation');
+	  publicAPI.getOrientation = notImplemented('getOrientation');
+	  publicAPI.getOrientationWXYZ = notImplemented('GetOrientationWXYZ');
+	  publicAPI.AddOrientation = notImplemented('AddOrientation');
+	  publicAPI.RotateX = notImplemented('RotateX');
+	  publicAPI.RotateY = notImplemented('RotateY');
+	  publicAPI.RotateZ = notImplemented('RotateZ');
+	  publicAPI.RotateWXYZ = notImplemented('RotateWXYZ');
+	  publicAPI.SetUserTransform = notImplemented('SetUserTransform');
+	  publicAPI.SetUserMatrix = notImplemented('SetUserMatrix');
+
+	  publicAPI.getMatrix = function () {
+	    publicAPI.computeMatrix();
+	    return model.matrix;
+	  };
+
+	  publicAPI.computeMatrix = function () {
+	    if (model.isIdentity) {
+	      return;
+	    }
+
+	    // check whether or not need to rebuild the matrix
+	    if (publicAPI.getMTime() > model.matrixMTime.getMTime()) {
+	      _glMatrix.mat4.identity(model.matrix);
+	      _glMatrix.mat4.translate(model.matrix, model.matrix, [-model.origin[0], -model.origin[1], -model.origin[2]]);
+	      _glMatrix.mat4.scale(model.matrix, model.matrix, model.scale);
+	      _glMatrix.mat4.translate(model.matrix, model.matrix, model.position);
+	      _glMatrix.mat4.translate(model.matrix, model.matrix, model.origin);
+	      _glMatrix.mat4.transpose(model.matrix, model.matrix);
+
+	      model.matrixMTime.modified();
+	    }
+	  };
+
+	  publicAPI.getCenter = function () {
+	    return _BoundingBox2.default.getCenter(model.bounds);
+	  };
+	  publicAPI.getLength = function () {
+	    return _BoundingBox2.default.getLength(model.bounds);
+	  };
+	  publicAPI.getXRange = function () {
+	    return _BoundingBox2.default.getXRange(model.bounds);
+	  };
+	  publicAPI.getYRange = function () {
+	    return _BoundingBox2.default.getYRange(model.bounds);
+	  };
+	  publicAPI.getZRange = function () {
+	    return _BoundingBox2.default.getZRange(model.bounds);
+	  };
+
+	  publicAPI.pokeMatrix = notImplemented('pokeMatrix');
+	  publicAPI.getUserMatrix = notImplemented('GetUserMatrix');
+
+	  function updateIdentityFlag() {
+	    [model.origin, model.position, model.orientation].forEach(function (array) {
+	      if (array.filter(function (v) {
+	        return v !== 0;
+	      }).length) {
+	        model.isIdentity = false;
+	        return;
+	      }
+	    });
+
+	    // if (model.userMatrix || model.userTransform) {
+	    //   model.isIdentity = false;
+	    //   return;
+	    // }
+
+	    if (model.scale.filter(function (v) {
+	      return v !== 1;
+	    }).length) {
+	      model.isIdentity = false;
+	      return;
+	    }
+	  }
+
+	  publicAPI.onModified(updateIdentityFlag);
+	}
+
+	// ----------------------------------------------------------------------------
+	// Object factory
+	// ----------------------------------------------------------------------------
+
+	var DEFAULT_VALUES = {
+	  origin: [0, 0, 0],
+	  position: [0, 0, 0],
+	  orientation: [0, 0, 0],
+	  scale: [1, 1, 1],
+	  bounds: [1, -1, 1, -1, 1, -1],
+
+	  userMatrix: null,
+	  userTransform: null,
+
+	  cachedProp3D: null,
+	  isIdentity: true,
+	  matrixMTime: null
+	};
+
+	// ----------------------------------------------------------------------------
+
+	function extend(publicAPI, model) {
+	  var initialValues = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+
+	  Object.assign(model, DEFAULT_VALUES, initialValues);
+
+	  // Inheritance
+	  _Prop2.default.extend(publicAPI, model);
+
+	  model.matrixMTime = {};
+	  macro.obj(model.matrixMTime);
+
+	  // Build VTK API
+	  macro.get(publicAPI, model, ['bounds', 'isIdentity']);
+	  macro.setGetArray(publicAPI, model, ['origin', 'position', 'orientation', 'scale'], 3);
+
+	  // Object internal instance
+	  model.matrix = _glMatrix.mat4.create();
+	  model.transform = null; // FIXME
+
+	  // Object methods
+	  vtkProp3D(publicAPI, model);
+	}
+
+	// ----------------------------------------------------------------------------
+
+	var newInstance = exports.newInstance = macro.newInstance(extend);
+
+	// ----------------------------------------------------------------------------
+
+	exports.default = { newInstance: newInstance, extend: extend };
+
+/***/ },
+/* 15 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.newInstance = exports.STATIC = exports.INIT_BOUNDS = undefined;
+
+	var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+
+	exports.extend = extend;
+
+	var _macro = __webpack_require__(12);
+
+	var macro = _interopRequireWildcard(_macro);
+
+	var _Plane = __webpack_require__(16);
+
+	var _Plane2 = _interopRequireDefault(_Plane);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+	var INIT_BOUNDS = exports.INIT_BOUNDS = [Number.MAX_VALUE, Number.MIN_VALUE, // X
+	Number.MAX_VALUE, Number.MIN_VALUE, // Y
+	Number.MAX_VALUE, Number.MIN_VALUE];
+
+	// ----------------------------------------------------------------------------
+	// Global methods
+	// ----------------------------------------------------------------------------
+
+	function isValid(bounds) {
+	  return bounds[0] <= bounds[1] && bounds[2] <= bounds[3] && bounds[4] <= bounds[5];
+	}
+
+	function getCenter(bounds) {
+	  return [0.5 * (bounds[0] + bounds[1]), 0.5 * (bounds[2] + bounds[3]), 0.5 * (bounds[4] + bounds[5])];
+	}
+
+	function getLength(bounds, index) {
+	  return bounds[index * 2 + 1] - bounds[index * 2];
+	}
+
+	function getLengths(bounds) {
+	  return [getLength(bounds, 0), getLength(bounds, 1), getLength(bounds, 2)];
+	}
+
+	function getXRange(bounds) {
+	  return bounds.slice(0, 2);
+	}
+
+	function getYRange(bounds) {
+	  return bounds.slice(2, 4);
+	}
+
+	function getZRange(bounds) {
+	  return bounds.slice(4, 6);
+	}
+
+	function getMaxLength(bounds) {
+	  var l = getLengths(bounds);
+	  if (l[0] > l[1]) {
+	    if (l[0] > l[2]) {
+	      return l[0];
+	    }
+	    return l[2];
+	  } else if (l[1] > l[2]) {
+	    return l[1];
+	  }
+	  return l[2];
+	}
+
+	function getDiagonalLength(bounds) {
+	  if (isValid(bounds)) {
+	    var l = getLengths(bounds);
+	    return Math.sqrt(l[0] * l[0] + l[1] * l[1] + l[2] * l[2]);
+	  }
+	  return null;
+	}
+
+	function oppositeSign(a, b) {
+	  return a <= 0 && b >= 0 || a >= 0 && b <= 0;
+	}
+
+	// ----------------------------------------------------------------------------
+	// Static API
+	// ----------------------------------------------------------------------------
+
+	var STATIC = exports.STATIC = {
+	  isValid: isValid,
+	  getCenter: getCenter,
+	  getLength: getLength,
+	  getLengths: getLengths,
+	  getMaxLength: getMaxLength,
+	  getDiagonalLength: getDiagonalLength,
+	  getXRange: getXRange,
+	  getYRange: getYRange,
+	  getZRange: getZRange
+	};
+
+	// ----------------------------------------------------------------------------
+	// vtkBoundingBox methods
+	// ----------------------------------------------------------------------------
+
+	function vtkBoundingBox(publicAPI, model) {
+	  // Set our className
+	  model.classHierarchy.push('vtkBoundingBox');
+
+	  publicAPI.clone = function () {
+	    var bounds = [].concat(model.bounds);
+	    /* eslint-disable no-use-before-define */
+	    return newInstance({ bounds: bounds });
+	    /* eslint-enable no-use-before-define */
+	  };
+
+	  publicAPI.equals = function (other) {
+	    var a = model.bounds;
+	    var b = other.getBounds();
+	    return a[0] === b[0] && a[1] === b[1] && a[2] === b[2] && a[3] === b[3] && a[4] === b[4] && a[5] === b[5];
+	  };
+
+	  publicAPI.setMinPoint = function (x, y, z) {
+	    var _model$bounds = _slicedToArray(model.bounds, 6);
+
+	    var xMin = _model$bounds[0];
+	    var xMax = _model$bounds[1];
+	    var yMin = _model$bounds[2];
+	    var yMax = _model$bounds[3];
+	    var zMin = _model$bounds[4];
+	    var zMax = _model$bounds[5];
+
+	    model.bounds = [x, x > xMax ? x : xMax, y, y > yMax ? y : yMax, z, z > zMax ? z : zMax];
+
+	    return xMin !== x || yMin !== y || zMin !== z;
+	  };
+
+	  publicAPI.setMaxPoint = function (x, y, z) {
+	    var _model$bounds2 = _slicedToArray(model.bounds, 6);
+
+	    var xMin = _model$bounds2[0];
+	    var xMax = _model$bounds2[1];
+	    var yMin = _model$bounds2[2];
+	    var yMax = _model$bounds2[3];
+	    var zMin = _model$bounds2[4];
+	    var zMax = _model$bounds2[5];
+
+	    model.bounds = [x < xMin ? x : xMin, x, y < yMin ? y : yMin, y, z < zMin ? z : zMin, z];
+
+	    return xMax !== x || yMax !== y || zMax !== z;
+	  };
+
+	  publicAPI.addPoint = function () {
+	    for (var _len = arguments.length, xyz = Array(_len), _key = 0; _key < _len; _key++) {
+	      xyz[_key] = arguments[_key];
+	    }
+
+	    model.bounds = model.bounds.map(function (value, index) {
+	      if (index % 2 === 0) {
+	        var _idx = index / 2;
+	        return value < xyz[_idx] ? value : xyz[_idx];
+	      }
+	      var idx = (index - 1) / 2;
+	      return value > xyz[idx] ? value : xyz[idx];
+	    });
+	  };
+
+	  publicAPI.addBounds = function (xMin, xMax, yMin, yMax, zMin, zMax) {
+	    var _model$bounds3 = _slicedToArray(model.bounds, 6);
+
+	    var _xMin = _model$bounds3[0];
+	    var _xMax = _model$bounds3[1];
+	    var _yMin = _model$bounds3[2];
+	    var _yMax = _model$bounds3[3];
+	    var _zMin = _model$bounds3[4];
+	    var _zMax = _model$bounds3[5];
+
+	    model.bounds = [Math.min(xMin, _xMin), Math.max(xMax, _xMax), Math.min(yMin, _yMin), Math.max(yMax, _yMax), Math.min(zMin, _zMin), Math.max(zMax, _zMax)];
+	  };
+
+	  publicAPI.addBox = function (other) {
+	    publicAPI.addBounds.apply(publicAPI, _toConsumableArray(other.getBounds()));
+	  };
+
+	  publicAPI.isValid = function () {
+	    return isValid(model.bounds);
+	  };
+
+	  publicAPI.intersect = function (bbox) {
+	    if (!(publicAPI.isValid() && bbox.isValid())) {
+	      return false;
+	    }
+
+	    var newBounds = [0, 0, 0, 0, 0, 0];
+	    var bBounds = bbox.getBounds();
+	    var intersects = void 0;
+	    for (var i = 0; i < 3; i++) {
+	      intersects = false;
+	      if (bBounds[i * 2] >= model.bounds[i * 2] && bBounds[i * 2] <= model.bounds[i * 2 + 1]) {
+	        intersects = true;
+	        newBounds[i * 2] = bBounds[i * 2];
+	      } else if (model.bounds[i * 2] >= bBounds[i * 2] && model.bounds[i * 2] <= bBounds[i * 2 + 1]) {
+	        intersects = true;
+	        newBounds[i * 2] = model.bounds[i * 2];
+	      }
+
+	      if (bBounds[i * 2 + 1] >= model.bounds[i * 2] && bBounds[i * 2 + 1] <= model.bounds[i * 2 + 1]) {
+	        intersects = true;
+	        newBounds[i * 2 + 1] = bbox.MaxPnt[i];
+	      } else if (model.bounds[i * 2 + 1] >= bbox.MinPnt[i * 2] && model.bounds[i * 2 + 1] <= bbox.MaxPnt[i * 2 + 1]) {
+	        intersects = true;
+	        newBounds[i * 2 + 1] = model.bounds[i * 2 + 1];
+	      }
+
+	      if (!intersects) {
+	        return false;
+	      }
+	    }
+
+	    // OK they did intersect - set the box to be the result
+	    model.bounds = newBounds;
+	    return true;
+	  };
+
+	  publicAPI.intersects = function (bbox) {
+	    if (!(publicAPI.isValid() && bbox.isValid())) {
+	      return false;
+	    }
+	    var bBounds = bbox.getBounds();
+	    /* eslint-disable no-continue */
+	    for (var i = 0; i < 3; i++) {
+	      if (bBounds[i * 2] >= model.bounds[i * 2] && bBounds[i * 2] <= model.bounds[i * 2 + 1]) {
+	        continue;
+	      } else if (model.bounds[i * 2] >= bBounds[i * 2] && model.bounds[i * 2] <= bBounds[i * 2 + 1]) {
+	        continue;
+	      }
+
+	      if (bBounds[i * 2 + 1] >= model.bounds[i * 2] && bBounds[i * 2 + 1] <= model.bounds[i * 2 + 1]) {
+	        continue;
+	      } else if (model.bounds[i * 2 + 1] >= bbox.MinPnt[i * 2] && model.bounds[i * 2 + 1] <= bbox.MaxPnt[i * 2 + 1]) {
+	        continue;
+	      }
+	      return false;
+	    }
+	    /* eslint-enable no-continue */
+
+	    return true;
+	  };
+
+	  publicAPI.intersectPlane = function (origin, normal) {
+	    // Index[0..2] represents the order of traversing the corners of a cube
+	    // in (x,y,z), (y,x,z) and (z,x,y) ordering, respectively
+	    var index = [[0, 1, 2, 3, 4, 5, 6, 7], [0, 1, 4, 5, 2, 3, 6, 7], [0, 2, 4, 6, 1, 3, 5, 7]];
+
+	    // stores the signed distance to a plane
+	    var d = [0, 0, 0, 0, 0, 0, 0, 0];
+	    var idx = 0;
+	    for (var ix = 0; ix < 2; ix++) {
+	      for (var iy = 2; iy < 4; iy++) {
+	        for (var iz = 4; iz < 6; iz++) {
+	          var x = [model.bounds[ix], model.bounds[iy], model.bounds[iz]];
+	          d[idx++] = _Plane2.default.evaluate(normal, origin, x);
+	        }
+	      }
+	    }
+
+	    var dir = 2;
+	    while (dir--) {
+	      // in each direction, we test if the vertices of two orthogonal faces
+	      // are on either side of the plane
+	      if (oppositeSign(d[index[dir][0]], d[index[dir][4]]) && oppositeSign(d[index[dir][1]], d[index[dir][5]]) && oppositeSign(d[index[dir][2]], d[index[dir][6]]) && oppositeSign(d[index[dir][3]], d[index[dir][7]])) {
+	        break;
+	      }
+	    }
+
+	    if (dir < 0) {
+	      return false;
+	    }
+
+	    var sign = Math.sign(normal[dir]);
+	    var size = Math.abs((model.bounds[dir * 2 + 1] - model.bounds[dir * 2]) * normal[dir]);
+	    var t = sign > 0 ? 1 : 0;
+	    /* eslint-disable no-continue */
+	    for (var i = 0; i < 4; i++) {
+	      if (size === 0) {
+	        continue; // shouldn't happen
+	      }
+	      var ti = Math.abs(d[index[dir][i]]) / size;
+	      if (sign > 0 && ti < t) {
+	        t = ti;
+	      }
+
+	      if (sign < 0 && ti > t) {
+	        t = ti;
+	      }
+	    }
+	    /* eslint-enable no-continue */
+	    var bound = (1.0 - t) * model.bounds[dir * 2] + t * model.bounds[dir * 2 + 1];
+
+	    if (sign > 0) {
+	      model.bounds[dir * 2] = bound;
+	    } else {
+	      model.bounds[dir * 2 + 1] = bound;
+	    }
+
+	    return true;
+	  };
+
+	  publicAPI.containsPoint = function (x, y, z) {
+	    if (x < model.bounds[0] || x > model.bounds[1]) {
+	      return false;
+	    }
+
+	    if (y < model.bounds[2] || y > model.bounds[3]) {
+	      return false;
+	    }
+
+	    if (z < model.bounds[4] || z > model.bounds[5]) {
+	      return false;
+	    }
+
+	    return true;
+	  };
+
+	  publicAPI.getMinPoint = function () {
+	    return [model.bounds[0], model.bounds[2], model.bounds[4]];
+	  };
+	  publicAPI.getMaxPoint = function () {
+	    return [model.bounds[1], model.bounds[3], model.bounds[5]];
+	  };
+	  publicAPI.getBound = function (index) {
+	    return model.bound[index];
+	  };
+
+	  publicAPI.contains = function (bbox) {
+	    // if either box is not valid or they don't intersect
+	    if (!publicAPI.intersects(bbox)) {
+	      return false;
+	    }
+
+	    if (!publicAPI.containsPoint.apply(publicAPI, _toConsumableArray(bbox.getMinPoint()))) {
+	      return false;
+	    }
+
+	    if (!publicAPI.containsPoint.apply(publicAPI, _toConsumableArray(bbox.getMaxPoint()))) {
+	      return 0;
+	    }
+
+	    return true;
+	  };
+
+	  publicAPI.getCenter = function () {
+	    return getCenter(model.bounds);
+	  };
+	  publicAPI.getLength = function (index) {
+	    return getLength(model.bounds, index);
+	  };
+	  publicAPI.getLengths = function () {
+	    return getLengths(model.bounds);
+	  };
+	  publicAPI.getMaxLength = function () {
+	    return getMaxLength(model.bounds);
+	  };
+	  publicAPI.getDiagonalLength = function () {
+	    return getDiagonalLength(model.bounds);
+	  };
+
+	  publicAPI.reset = function () {
+	    return publicAPI.setBounds([].concat(INIT_BOUNDS));
+	  };
+
+	  publicAPI.inflate = function (delta) {
+	    model.bounds = model.bounds.map(function (value, index) {
+	      if (index % 2 === 0) {
+	        return value - delta;
+	      }
+	      return value + delta;
+	    });
+	  };
+
+	  publicAPI.scale = function (sx, sy, sz) {
+	    if (publicAPI.isValid()) {
+	      var newBounds = [].concat(model.bounds);
+	      if (sx >= 0.0) {
+	        newBounds[0] *= sx;
+	        newBounds[1] *= sx;
+	      } else {
+	        newBounds[0] = sx * model.bounds[1];
+	        newBounds[1] = sx * model.bounds[0];
+	      }
+
+	      if (sy >= 0.0) {
+	        newBounds[2] *= sy;
+	        newBounds[3] *= sy;
+	      } else {
+	        newBounds[2] = sy * model.bounds[3];
+	        newBounds[3] = sy * model.bounds[2];
+	      }
+
+	      if (sz >= 0.0) {
+	        newBounds[4] *= sz;
+	        newBounds[5] *= sz;
+	      } else {
+	        newBounds[4] = sz * model.bounds[5];
+	        newBounds[5] = sz * model.bounds[4];
+	      }
+
+	      model.bounds = newBounds;
+	      return true;
+	    }
+	    return false;
+	  };
+	}
+
+	// ----------------------------------------------------------------------------
+	// Object factory
+	// ----------------------------------------------------------------------------
+
+	var DEFAULT_VALUES = {
+	  type: 'vtkBoundingBox',
+	  bounds: [].concat(INIT_BOUNDS)
+	};
+
+	// ----------------------------------------------------------------------------
+
+	function extend(publicAPI, model) {
+	  var initialValues = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+
+	  Object.assign(model, DEFAULT_VALUES, initialValues);
+
+	  // Object methods
+	  macro.obj(publicAPI, model);
+	  macro.setGet(publicAPI, model, ['bounds']);
+	  vtkBoundingBox(publicAPI, model);
+	}
+
+	// ----------------------------------------------------------------------------
+
+	var newInstance = exports.newInstance = macro.newInstance(extend, 'vtkBoundingBox');
+
+	// ----------------------------------------------------------------------------
+
+	exports.default = Object.assign({ newInstance: newInstance, extend: extend }, STATIC);
+
+/***/ },
+/* 16 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.newInstance = exports.STATIC = undefined;
+	exports.extend = extend;
+
+	var _macro = __webpack_require__(12);
+
+	var macro = _interopRequireWildcard(_macro);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	// ----------------------------------------------------------------------------
+	// Global methods
+	// ----------------------------------------------------------------------------
+
+	function evaluate(normal, origin, x) {
+	  return normal[0] * (x[0] - origin[0]) + normal[1] * (x[1] - origin[1]) + normal[2] * (x[2] - origin[2]);
+	}
+
+	// ----------------------------------------------------------------------------
+	// Static API
+	// ----------------------------------------------------------------------------
+
+	var STATIC = exports.STATIC = {
+	  evaluate: evaluate
+	};
+
+	// ----------------------------------------------------------------------------
+	// vtkPlane methods
+	// ----------------------------------------------------------------------------
+
+	function vtkPlane(publicAPI, model) {
+	  // Set our className
+	  model.classHierarchy.push('vtkPlane');
+	}
+
+	// ----------------------------------------------------------------------------
+	// Object factory
+	// ----------------------------------------------------------------------------
+
+	var DEFAULT_VALUES = {
+	  type: 'vtkPlane'
+	};
+
+	// ----------------------------------------------------------------------------
+
+	function extend(publicAPI, model) {
+	  var initialValues = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+
+	  Object.assign(model, DEFAULT_VALUES, initialValues);
+
+	  // Object methods
+	  macro.obj(publicAPI, model);
+	  macro.setGet(publicAPI, model, ['bounds']);
+	  vtkPlane(publicAPI, model);
+	}
+
+	// ----------------------------------------------------------------------------
+
+	var newInstance = exports.newInstance = macro.newInstance(extend, 'vtkPlane');
+
+	// ----------------------------------------------------------------------------
+
+	exports.default = Object.assign({ newInstance: newInstance, extend: extend }, STATIC);
+
+/***/ },
+/* 17 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.newInstance = undefined;
+	exports.extend = extend;
+
+	var _macro = __webpack_require__(12);
+
+	var macro = _interopRequireWildcard(_macro);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	function notImplemented(method) {
+	  return function () {
+	    return console.log('vtkProp::${method} - NOT IMPLEMENTED');
+	  };
+	}
+
+	// ----------------------------------------------------------------------------
+	// vtkProp methods
+	// ----------------------------------------------------------------------------
+
+	function vtkProp(publicAPI, model) {
+	  // Set our className
+	  model.classHierarchy.push('vtkProp');
+
+	  publicAPI.getActors = function () {
+	    return null;
+	  };
+	  publicAPI.getActors2D = function () {
+	    return null;
+	  };
+	  publicAPI.getVolumes = function () {
+	    return null;
+	  };
+
+	  publicAPI.pick = notImplemented('pick');
+	  publicAPI.hasKey = notImplemented('hasKey');
+
+	  publicAPI.getRedrawMTime = function () {
+	    return model.mtime;
+	  };
+
+	  publicAPI.setEstimatedRenderTime = function (t) {
+	    model.estimatedRenderTime = t;
+	    model.savedEstimatedRenderTime = t;
+	  };
+
+	  publicAPI.restoreEstimatedRenderTime = function () {
+	    model.estimatedRenderTime = model.savedEstimatedRenderTime;
+	  };
+
+	  publicAPI.addEstimatedRenderTime = function (t) {
+	    model.estimatedRenderTime += t;
+	  };
+
+	  publicAPI.setAllocatedRenderTime = function (t) {
+	    model.allocatedRenderTime = t;
+	    model.savedEstimatedRenderTime = model.estimatedRenderTime;
+	    model.estimatedRenderTime = 0;
+	  };
+
+	  publicAPI.getSupportsSelection = function () {
+	    return false;
+	  };
+
+	  publicAPI.getTextures = function () {
+	    return model.textures;
+	  };
+	  publicAPI.hasTexture = function (texture) {
+	    return !!model.textures.filter(function (item) {
+	      return item === texture;
+	    }).length;
+	  };
+	  publicAPI.addTexture = function (texture) {
+	    if (texture && !publicAPI.hasTexture(texture)) {
+	      model.textures = model.textures.concat(texture);
+	    }
+	  };
+
+	  publicAPI.removeTexture = function (texture) {
+	    var newTextureList = model.textures.filter(function (item) {
+	      return item === texture;
+	    });
+	    if (model.texture.length !== newTextureList.length) {
+	      texture.releaseGraphicsResources(model.vtkWindow);
+	      model.textures = newTextureList;
+	    }
+	  };
+
+	  publicAPI.removeAllTextures = function () {
+	    model.textures.forEach(function (texture) {
+	      texture.releaseGraphicsResources(model.vtkWindow);
+	    });
+	    model.textures = [];
+	  };
+	}
+
+	// ----------------------------------------------------------------------------
+	// Object factory
+	// ----------------------------------------------------------------------------
+
+	var DEFAULT_VALUES = {
+	  visibility: true,
+	  pickable: true,
+	  dragable: true,
+	  useBounds: true,
+	  allocatedRenderTime: 10,
+	  estimatedRenderTime: 0,
+	  savedEstimatedRenderTime: 0,
+	  renderTimeMultiplier: 1,
+	  paths: null,
+	  textures: []
+	};
+
+	// ----------------------------------------------------------------------------
+
+	function extend(publicAPI, model) {
+	  var initialValues = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+
+	  Object.assign(model, DEFAULT_VALUES, initialValues);
+
+	  // Build VTK API
+	  macro.obj(publicAPI, model);
+	  macro.get(publicAPI, model, ['estimatedRenderTime', 'allocatedRenderTime']);
+	  macro.setGet(publicAPI, model, ['visibility', 'pickable', 'dragable', 'useBounds', 'renderTimeMultiplier']);
+
+	  // Object methods
+	  vtkProp(publicAPI, model);
+	}
+
+	// ----------------------------------------------------------------------------
+
+	var newInstance = exports.newInstance = macro.newInstance(extend);
+
+	// ----------------------------------------------------------------------------
+
+	exports.default = { newInstance: newInstance, extend: extend };
+
+/***/ },
 /* 18 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -6727,7 +6731,7 @@
 	exports.newInstance = undefined;
 	exports.extend = extend;
 
-	var _macro = __webpack_require__(2);
+	var _macro = __webpack_require__(12);
 
 	var macro = _interopRequireWildcard(_macro);
 
@@ -6918,15 +6922,15 @@
 	exports.newInstance = exports.DEFAULT_VALUES = undefined;
 	exports.extend = extend;
 
-	var _macro = __webpack_require__(2);
+	var _glMatrix = __webpack_require__(2);
+
+	var _macro = __webpack_require__(12);
 
 	var macro = _interopRequireWildcard(_macro);
 
 	var _Math = __webpack_require__(21);
 
 	var _Math2 = _interopRequireDefault(_Math);
-
-	var _glMatrix = __webpack_require__(8);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -7572,11 +7576,11 @@
 	    if (y) {
 	      y[dx] = (c * costheta - a * b * sintheta) / tmp;
 	      y[dy] = sintheta * tmp;
-	      y[dz] = (-a * costheta - b * c * sintheta) / tmp;
+	      y[dz] = (-(a * costheta) - b * c * sintheta) / tmp;
 	    }
 
 	    if (z) {
-	      z[dx] = (-c * sintheta - a * b * costheta) / tmp;
+	      z[dx] = (-(c * sintheta) - a * b * costheta) / tmp;
 	      z[dy] = costheta * tmp;
 	      z[dz] = (a * sintheta - b * c * costheta) / tmp;
 	    }
@@ -7756,7 +7760,7 @@
 	  x_3[2] = sum - mat_3x3[2][0] * x_3[0] - mat_3x3[2][1] * x_3[1];
 
 	  // back substitution
-	  x_3[2] = x_3[2] / mat_3x3[2][2];
+	  x_3[2] /= mat_3x3[2][2];
 	  x_3[1] = (x_3[1] - mat_3x3[1][2] * x_3[2]) / mat_3x3[1][1];
 	  x_3[0] = (x_3[0] - mat_3x3[0][1] * x_3[1] - mat_3x3[0][2] * x_3[2]) / mat_3x3[0][0];
 	}
@@ -8564,7 +8568,7 @@
 	    }
 
 	    y[0] = (A[1][1] * x[0] - A[0][1] * x[1]) / det;
-	    y[1] = (-A[1][0] * x[0] + A[0][0] * x[1]) / det;
+	    y[1] = (-(A[1][0] * x[0]) + A[0][0] * x[1]) / det;
 
 	    x[0] = y[0];
 	    x[1] = y[1];
@@ -8736,6 +8740,7 @@
 	    // really make much sense for yOrder to be greater than one in this case,
 	    // since that's just yOrder occurrences of a 0 vector on the RHS, but
 	    // we allow it anyway. N
+
 
 	    // Initialize homogeneous flags on a per-right-hand-side basis
 	    for (j = 0; j < yOrder; j++) {
@@ -8979,7 +8984,6 @@
 
 	function lab2xyz(lab, xyz) {
 	  // LAB to XYZ
-
 	  var _lab = _slicedToArray(lab, 3);
 
 	  var L = _lab[0];
@@ -9057,9 +9061,9 @@
 	  // several applications including Adobe Photoshop and Microsoft Windows color
 	  // management.  OpenGL is agnostic on its RGB color space, but it is reasonable
 	  // to assume it is close to this one.
-	  if (r > 0.0031308) r = 1.055 * Math.pow(r, 1 / 2.4) - 0.055;else r = 12.92 * r;
-	  if (g > 0.0031308) g = 1.055 * Math.pow(g, 1 / 2.4) - 0.055;else g = 12.92 * g;
-	  if (b > 0.0031308) b = 1.055 * Math.pow(b, 1 / 2.4) - 0.055;else b = 12.92 * b;
+	  if (r > 0.0031308) r = 1.055 * Math.pow(r, 1 / 2.4) - 0.055;else r *= 12.92;
+	  if (g > 0.0031308) g = 1.055 * Math.pow(g, 1 / 2.4) - 0.055;else g *= 12.92;
+	  if (b > 0.0031308) b = 1.055 * Math.pow(b, 1 / 2.4) - 0.055;else b *= 12.92;
 
 	  // Clip colors. ideally we would do something that is perceptually closest
 	  // (since we can see colors outside of the display gamut), but this seems to
@@ -9097,9 +9101,9 @@
 	  // management.  OpenGL is agnostic on its RGB color space, but it is reasonable
 	  // to assume it is close to this one.
 
-	  if (r > 0.04045) r = Math.pow((r + 0.055) / 1.055, 2.4);else r = r / 12.92;
-	  if (g > 0.04045) g = Math.pow((g + 0.055) / 1.055, 2.4);else g = g / 12.92;
-	  if (b > 0.04045) b = Math.pow((b + 0.055) / 1.055, 2.4);else b = b / 12.92;
+	  if (r > 0.04045) r = Math.pow((r + 0.055) / 1.055, 2.4);else r /= 12.92;
+	  if (g > 0.04045) g = Math.pow((g + 0.055) / 1.055, 2.4);else g /= 12.92;
+	  if (b > 0.04045) b = Math.pow((b + 0.055) / 1.055, 2.4);else b /= 12.92;
 
 	  // Observer. = 2 deg, Illuminant = D65
 	  xyz[0] = r * 0.4124 + g * 0.3576 + b * 0.1805;
@@ -9148,12 +9152,10 @@
 	    // clamp
 	    if (value < range[0]) {
 	      result = range[0];
+	    } else if (value > range[1]) {
+	      result = range[1];
 	    } else {
-	      if (value > range[1]) {
-	        result = range[1];
-	      } else {
-	        result = value;
-	      }
+	      result = value;
 	    }
 	    // normalize
 	    result = (result - range[0]) / (range[1] - range[0]);
@@ -9369,21 +9371,21 @@
 	exports.vtkHttpDataSetReader = vtkHttpDataSetReader;
 	exports.extend = extend;
 
-	var _macro = __webpack_require__(2);
+	var _pako = __webpack_require__(23);
+
+	var _pako2 = _interopRequireDefault(_pako);
+
+	var _macro = __webpack_require__(12);
 
 	var macro = _interopRequireWildcard(_macro);
 
-	var _vtk = __webpack_require__(3);
+	var _vtk = __webpack_require__(13);
 
 	var _vtk2 = _interopRequireDefault(_vtk);
 
-	var _Endian = __webpack_require__(23);
+	var _Endian = __webpack_require__(39);
 
 	var _Endian2 = _interopRequireDefault(_Endian);
-
-	var _pako = __webpack_require__(24);
-
-	var _pako2 = _interopRequireDefault(_pako);
 
 	var _PolyData = __webpack_require__(40);
 
@@ -9391,9 +9393,11 @@
 
 	var _Constants = __webpack_require__(46);
 
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+	/* global XMLHttpRequest window */
 
 	// ----------------------------------------------------------------------------
 	// Global methods
@@ -9779,6 +9783,7 @@
 
 	// ----------------------------------------------------------------------------
 
+
 	function extend(publicAPI, model) {
 	  var initialValues = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
 
@@ -9805,67 +9810,16 @@
 
 /***/ },
 /* 23 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.getEndianness = getEndianness;
-	exports.swapBytes = swapBytes;
-	function getEndianness() {
-	  var a = new ArrayBuffer(4);
-	  var b = new Uint8Array(a);
-	  var c = new Uint32Array(a);
-	  b[0] = 0xa1;
-	  b[1] = 0xb2;
-	  b[2] = 0xc3;
-	  b[3] = 0xd4;
-	  if (c[0] === 0xd4c3b2a1) return 'LittleEndian';
-	  if (c[0] === 0xa1b2c3d4) return 'BigEndian';
-	  return null;
-	}
-
-	var ENDIANNESS = exports.ENDIANNESS = getEndianness();
-
-	function swapBytes(buffer, wordSize) {
-	  if (wordSize < 2) {
-	    return;
-	  }
-
-	  var bytes = new Int8Array(buffer);
-	  var size = bytes.length;
-	  var tempBuffer = [];
-
-	  for (var i = 0; i < size; i += wordSize) {
-	    for (var j = 0; j < wordSize; j++) {
-	      tempBuffer.push(bytes[i + j]);
-	    }
-	    for (var _j = 0; _j < wordSize; _j++) {
-	      bytes[i + _j] = tempBuffer.pop();
-	    }
-	  }
-	}
-
-	exports.default = {
-	  ENDIANNESS: ENDIANNESS,
-	  getEndianness: getEndianness,
-	  swapBytes: swapBytes
-	};
-
-/***/ },
-/* 24 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// Top level file is just a mixin of submodules & constants
 	'use strict';
 
-	var assign    = __webpack_require__(25).assign;
+	var assign    = __webpack_require__(24).assign;
 
-	var deflate   = __webpack_require__(26);
-	var inflate   = __webpack_require__(34);
-	var constants = __webpack_require__(38);
+	var deflate   = __webpack_require__(25);
+	var inflate   = __webpack_require__(33);
+	var constants = __webpack_require__(37);
 
 	var pako = {};
 
@@ -9875,7 +9829,7 @@
 
 
 /***/ },
-/* 25 */
+/* 24 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -9983,17 +9937,17 @@
 
 
 /***/ },
-/* 26 */
+/* 25 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 
-	var zlib_deflate = __webpack_require__(27);
-	var utils        = __webpack_require__(25);
-	var strings      = __webpack_require__(32);
-	var msg          = __webpack_require__(31);
-	var ZStream      = __webpack_require__(33);
+	var zlib_deflate = __webpack_require__(26);
+	var utils        = __webpack_require__(24);
+	var strings      = __webpack_require__(31);
+	var msg          = __webpack_require__(30);
+	var ZStream      = __webpack_require__(32);
 
 	var toString = Object.prototype.toString;
 
@@ -10389,16 +10343,16 @@
 
 
 /***/ },
-/* 27 */
+/* 26 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils   = __webpack_require__(25);
-	var trees   = __webpack_require__(28);
-	var adler32 = __webpack_require__(29);
-	var crc32   = __webpack_require__(30);
-	var msg     = __webpack_require__(31);
+	var utils   = __webpack_require__(24);
+	var trees   = __webpack_require__(27);
+	var adler32 = __webpack_require__(28);
+	var crc32   = __webpack_require__(29);
+	var msg     = __webpack_require__(30);
 
 	/* Public constants ==========================================================*/
 	/* ===========================================================================*/
@@ -12243,13 +12197,13 @@
 
 
 /***/ },
-/* 28 */
+/* 27 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 
-	var utils = __webpack_require__(25);
+	var utils = __webpack_require__(24);
 
 	/* Public constants ==========================================================*/
 	/* ===========================================================================*/
@@ -13451,7 +13405,7 @@
 
 
 /***/ },
-/* 29 */
+/* 28 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -13489,7 +13443,7 @@
 
 
 /***/ },
-/* 30 */
+/* 29 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -13536,7 +13490,7 @@
 
 
 /***/ },
-/* 31 */
+/* 30 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -13555,14 +13509,14 @@
 
 
 /***/ },
-/* 32 */
+/* 31 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// String encode/decode helpers
 	'use strict';
 
 
-	var utils = __webpack_require__(25);
+	var utils = __webpack_require__(24);
 
 
 	// Quick check if we can use fast array to bin string conversion
@@ -13746,7 +13700,7 @@
 
 
 /***/ },
-/* 33 */
+/* 32 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -13781,19 +13735,19 @@
 
 
 /***/ },
-/* 34 */
+/* 33 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 
-	var zlib_inflate = __webpack_require__(35);
-	var utils        = __webpack_require__(25);
-	var strings      = __webpack_require__(32);
-	var c            = __webpack_require__(38);
-	var msg          = __webpack_require__(31);
-	var ZStream      = __webpack_require__(33);
-	var GZheader     = __webpack_require__(39);
+	var zlib_inflate = __webpack_require__(34);
+	var utils        = __webpack_require__(24);
+	var strings      = __webpack_require__(31);
+	var c            = __webpack_require__(37);
+	var msg          = __webpack_require__(30);
+	var ZStream      = __webpack_require__(32);
+	var GZheader     = __webpack_require__(38);
 
 	var toString = Object.prototype.toString;
 
@@ -14205,17 +14159,17 @@
 
 
 /***/ },
-/* 35 */
+/* 34 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 
-	var utils         = __webpack_require__(25);
-	var adler32       = __webpack_require__(29);
-	var crc32         = __webpack_require__(30);
-	var inflate_fast  = __webpack_require__(36);
-	var inflate_table = __webpack_require__(37);
+	var utils         = __webpack_require__(24);
+	var adler32       = __webpack_require__(28);
+	var crc32         = __webpack_require__(29);
+	var inflate_fast  = __webpack_require__(35);
+	var inflate_table = __webpack_require__(36);
 
 	var CODES = 0;
 	var LENS = 1;
@@ -15749,7 +15703,7 @@
 
 
 /***/ },
-/* 36 */
+/* 35 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -16081,13 +16035,13 @@
 
 
 /***/ },
-/* 37 */
+/* 36 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 
-	var utils = __webpack_require__(25);
+	var utils = __webpack_require__(24);
 
 	var MAXBITS = 15;
 	var ENOUGH_LENS = 852;
@@ -16414,7 +16368,7 @@
 
 
 /***/ },
-/* 38 */
+/* 37 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -16470,7 +16424,7 @@
 
 
 /***/ },
-/* 39 */
+/* 38 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -16516,6 +16470,57 @@
 
 
 /***/ },
+/* 39 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.getEndianness = getEndianness;
+	exports.swapBytes = swapBytes;
+	function getEndianness() {
+	  var a = new ArrayBuffer(4);
+	  var b = new Uint8Array(a);
+	  var c = new Uint32Array(a);
+	  b[0] = 0xa1;
+	  b[1] = 0xb2;
+	  b[2] = 0xc3;
+	  b[3] = 0xd4;
+	  if (c[0] === 0xd4c3b2a1) return 'LittleEndian';
+	  if (c[0] === 0xa1b2c3d4) return 'BigEndian';
+	  return null;
+	}
+
+	var ENDIANNESS = exports.ENDIANNESS = getEndianness();
+
+	function swapBytes(buffer, wordSize) {
+	  if (wordSize < 2) {
+	    return;
+	  }
+
+	  var bytes = new Int8Array(buffer);
+	  var size = bytes.length;
+	  var tempBuffer = [];
+
+	  for (var i = 0; i < size; i += wordSize) {
+	    for (var j = 0; j < wordSize; j++) {
+	      tempBuffer.push(bytes[i + j]);
+	    }
+	    for (var _j = 0; _j < wordSize; _j++) {
+	      bytes[i + _j] = tempBuffer.pop();
+	    }
+	  }
+	}
+
+	exports.default = {
+	  ENDIANNESS: ENDIANNESS,
+	  getEndianness: getEndianness,
+	  swapBytes: swapBytes
+	};
+
+/***/ },
 /* 40 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -16527,7 +16532,7 @@
 	exports.newInstance = exports.STATIC = undefined;
 	exports.extend = extend;
 
-	var _macro = __webpack_require__(2);
+	var _macro = __webpack_require__(12);
 
 	var macro = _interopRequireWildcard(_macro);
 
@@ -16650,7 +16655,7 @@
 	exports.newInstance = exports.STATIC = undefined;
 	exports.extend = extend;
 
-	var _macro = __webpack_require__(2);
+	var _macro = __webpack_require__(12);
 
 	var macro = _interopRequireWildcard(_macro);
 
@@ -16741,11 +16746,11 @@
 	exports.newInstance = exports.STATIC = undefined;
 	exports.extend = extend;
 
-	var _macro = __webpack_require__(2);
+	var _macro = __webpack_require__(12);
 
 	var macro = _interopRequireWildcard(_macro);
 
-	var _BoundingBox = __webpack_require__(5);
+	var _BoundingBox = __webpack_require__(15);
 
 	var _BoundingBox2 = _interopRequireDefault(_BoundingBox);
 
@@ -16865,7 +16870,7 @@
 	exports.newInstance = undefined;
 	exports.extend = extend;
 
-	var _macro = __webpack_require__(2);
+	var _macro = __webpack_require__(12);
 
 	var macro = _interopRequireWildcard(_macro);
 
@@ -16873,7 +16878,7 @@
 
 	var _DataArray2 = _interopRequireDefault(_DataArray);
 
-	var _vtk = __webpack_require__(3);
+	var _vtk = __webpack_require__(13);
 
 	var _vtk2 = _interopRequireDefault(_vtk);
 
@@ -17047,13 +17052,15 @@
 	exports.newInstance = exports.STATIC = undefined;
 	exports.extend = extend;
 
-	var _macro = __webpack_require__(2);
+	var _macro = __webpack_require__(12);
 
 	var macro = _interopRequireWildcard(_macro);
 
 	var _Constants = __webpack_require__(45);
 
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	/* global window */
 
 	// ----------------------------------------------------------------------------
 	// Global methods
@@ -17388,7 +17395,7 @@
 
 	var CoincidentTopologyHelper = _interopRequireWildcard(_CoincidentTopologyHelper);
 
-	var _macro = __webpack_require__(2);
+	var _macro = __webpack_require__(12);
 
 	var macro = _interopRequireWildcard(_macro);
 
@@ -17833,7 +17840,7 @@
 	exports.newInstance = undefined;
 	exports.extend = extend;
 
-	var _macro = __webpack_require__(2);
+	var _macro = __webpack_require__(12);
 
 	var macro = _interopRequireWildcard(_macro);
 
@@ -17959,6 +17966,7 @@
 	        }
 	      }
 	    } else {
+	      /* eslint-disable no-lonely-if */
 	      if (outFormat === 'VTK_RGBA') {
 	        for (var _i = 0; _i < length; _i++) {
 	          var _cptr = publicAPI.linearLookup(inputV[_i * inIncr], model.table, p);
@@ -18142,7 +18150,7 @@
 	exports.newInstance = undefined;
 	exports.extend = extend;
 
-	var _macro = __webpack_require__(2);
+	var _macro = __webpack_require__(12);
 
 	var macro = _interopRequireWildcard(_macro);
 
@@ -18163,6 +18171,8 @@
 	// ----------------------------------------------------------------------------
 	// Global methods
 	// ----------------------------------------------------------------------------
+
+	/* global window */
 
 	// Add module-level functions or api that you want to expose statically via
 	// the next section...
@@ -18491,7 +18501,7 @@
 	exports.vtkOpenGLRenderWindow = vtkOpenGLRenderWindow;
 	exports.extend = extend;
 
-	var _macro = __webpack_require__(2);
+	var _macro = __webpack_require__(12);
 
 	var macro = _interopRequireWildcard(_macro);
 
@@ -18514,6 +18524,8 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	/* global document */
 
 	// ----------------------------------------------------------------------------
 	// vtkOpenGLRenderWindow methods
@@ -18754,7 +18766,7 @@
 	exports.vtkOpenGLViewNodeFactory = vtkOpenGLViewNodeFactory;
 	exports.extend = extend;
 
-	var _macro = __webpack_require__(2);
+	var _macro = __webpack_require__(12);
 
 	var macro = _interopRequireWildcard(_macro);
 
@@ -18862,7 +18874,7 @@
 	exports.newInstance = undefined;
 	exports.extend = extend;
 
-	var _macro = __webpack_require__(2);
+	var _macro = __webpack_require__(12);
 
 	var macro = _interopRequireWildcard(_macro);
 
@@ -18932,15 +18944,15 @@
 	exports.newInstance = undefined;
 	exports.extend = extend;
 
-	var _macro = __webpack_require__(2);
+	var _glMatrix = __webpack_require__(2);
+
+	var _macro = __webpack_require__(12);
 
 	var macro = _interopRequireWildcard(_macro);
 
 	var _ViewNode = __webpack_require__(58);
 
 	var _ViewNode2 = _interopRequireDefault(_ViewNode);
-
-	var _glMatrix = __webpack_require__(8);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -19092,7 +19104,7 @@
 	exports.newInstance = exports.PASS_TYPES = undefined;
 	exports.extend = extend;
 
-	var _macro = __webpack_require__(2);
+	var _macro = __webpack_require__(12);
 
 	var macro = _interopRequireWildcard(_macro);
 
@@ -19270,7 +19282,7 @@
 	exports.newInstance = undefined;
 	exports.extend = extend;
 
-	var _macro = __webpack_require__(2);
+	var _macro = __webpack_require__(12);
 
 	var macro = _interopRequireWildcard(_macro);
 
@@ -19395,15 +19407,15 @@
 	exports.newInstance = undefined;
 	exports.extend = extend;
 
-	var _macro = __webpack_require__(2);
+	var _glMatrix = __webpack_require__(2);
+
+	var _macro = __webpack_require__(12);
 
 	var macro = _interopRequireWildcard(_macro);
 
 	var _ViewNode = __webpack_require__(58);
 
 	var _ViewNode2 = _interopRequireDefault(_ViewNode);
-
-	var _glMatrix = __webpack_require__(8);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -19521,7 +19533,7 @@
 	exports.vtkOpenGLImageMapper = vtkOpenGLImageMapper;
 	exports.extend = extend;
 
-	var _macro = __webpack_require__(2);
+	var _macro = __webpack_require__(12);
 
 	var macro = _interopRequireWildcard(_macro);
 
@@ -19872,6 +19884,7 @@
 
 	      var cellOffset = 0;
 	      cellOffset += model.tris.getCABO().createVBO(cells, 'polys', _Constants.VTK_REPRESENTATION.SURFACE, { points: points, tcoords: tcoords, cellOffset: cellOffset });
+	      console.log('FIXME(Ken) - unused', cellOffset);
 	      model.VBOBuildTime.modified();
 	      model.VBOBuildString = toString;
 	    }
@@ -19937,7 +19950,7 @@
 	exports.vtkOpenGLHelper = vtkOpenGLHelper;
 	exports.extend = extend;
 
-	var _macro = __webpack_require__(2);
+	var _macro = __webpack_require__(12);
 
 	var macro = _interopRequireWildcard(_macro);
 
@@ -20031,7 +20044,7 @@
 	exports.newInstance = undefined;
 	exports.extend = extend;
 
-	var _macro = __webpack_require__(2);
+	var _macro = __webpack_require__(12);
 
 	var macro = _interopRequireWildcard(_macro);
 
@@ -20168,7 +20181,6 @@
 
 	    var cellBuilders = {
 	      // easy, every input point becomes an output point
-
 	      anythingToPoints: function anythingToPoints(numPoints, cellPts, offset) {
 	        for (var i = 0; i < numPoints; ++i) {
 	          addAPoint(cellPts[offset + i]);
@@ -20310,7 +20322,7 @@
 	exports.newInstance = exports.STATIC = undefined;
 	exports.extend = extend;
 
-	var _macro = __webpack_require__(2);
+	var _macro = __webpack_require__(12);
 
 	var macro = _interopRequireWildcard(_macro);
 
@@ -20489,7 +20501,9 @@
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-	var DynamicTypedArray = exports.DynamicTypedArray = function () {
+	/* global window */
+
+	var DynamicTypedArray = function () {
 	  function DynamicTypedArray() {
 	    var _ref = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
 
@@ -20554,6 +20568,8 @@
 	  return DynamicTypedArray;
 	}();
 
+	exports.default = DynamicTypedArray;
+
 /***/ },
 /* 67 */
 /***/ function(module, exports, __webpack_require__) {
@@ -20568,7 +20584,7 @@
 	exports.vtkShaderProgram = vtkShaderProgram;
 	exports.extend = extend;
 
-	var _macro = __webpack_require__(2);
+	var _macro = __webpack_require__(12);
 
 	var macro = _interopRequireWildcard(_macro);
 
@@ -21006,7 +21022,7 @@
 	exports.vtkShader = vtkShader;
 	exports.extend = extend;
 
-	var _macro = __webpack_require__(2);
+	var _macro = __webpack_require__(12);
 
 	var macro = _interopRequireWildcard(_macro);
 
@@ -21123,7 +21139,7 @@
 	exports.newInstance = undefined;
 	exports.extend = extend;
 
-	var _macro = __webpack_require__(2);
+	var _macro = __webpack_require__(12);
 
 	var macro = _interopRequireWildcard(_macro);
 
@@ -21159,7 +21175,7 @@
 	  };
 
 	  publicAPI.isReady = function () {
-	    return(
+	    return (
 	      // We either probed and allocated a VAO, or are falling back as the current
 	      // hardware does not support VAOs.
 	      model.handleVAO !== 0 || model.supported === false
@@ -21420,7 +21436,7 @@
 	exports.newInstance = undefined;
 	exports.extend = extend;
 
-	var _macro = __webpack_require__(2);
+	var _macro = __webpack_require__(12);
 
 	var macro = _interopRequireWildcard(_macro);
 
@@ -21989,7 +22005,7 @@
 	exports.newInstance = undefined;
 	exports.extend = extend;
 
-	var _macro = __webpack_require__(2);
+	var _macro = __webpack_require__(12);
 
 	var macro = _interopRequireWildcard(_macro);
 
@@ -22062,15 +22078,15 @@
 	exports.newInstance = undefined;
 	exports.extend = extend;
 
-	var _macro = __webpack_require__(2);
+	var _glMatrix = __webpack_require__(2);
+
+	var _macro = __webpack_require__(12);
 
 	var macro = _interopRequireWildcard(_macro);
 
 	var _ViewNode = __webpack_require__(58);
 
 	var _ViewNode2 = _interopRequireDefault(_ViewNode);
-
-	var _glMatrix = __webpack_require__(8);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -22194,7 +22210,9 @@
 	exports.vtkOpenGLPolyDataMapper = vtkOpenGLPolyDataMapper;
 	exports.extend = extend;
 
-	var _macro = __webpack_require__(2);
+	var _glMatrix = __webpack_require__(2);
+
+	var _macro = __webpack_require__(12);
 
 	var macro = _interopRequireWildcard(_macro);
 
@@ -22218,8 +22236,6 @@
 
 	var _Constants2 = __webpack_require__(53);
 
-	var _glMatrix = __webpack_require__(8);
-
 	var _vtkPolyDataVS = __webpack_require__(73);
 
 	var _vtkPolyDataVS2 = _interopRequireDefault(_vtkPolyDataVS);
@@ -22231,6 +22247,8 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	/* eslint-disable no-lonely-if */
 
 	// ----------------------------------------------------------------------------
 	// vtkOpenGLPolyDataMapper methods
@@ -22917,6 +22935,7 @@
 	    //   return;
 	    // }
 
+
 	    publicAPI.invokeEvent({ type: 'StartEvent' });
 	    model.currentInput = model.renderable.getInputData();
 	    if (!model.renderable.getStatic()) {
@@ -23009,14 +23028,45 @@
 	      var points = poly.getPoints();
 
 	      var cellOffset = 0;
-	      cellOffset += model.points.getCABO().createVBO(poly.getVerts(), 'verts', representation, { points: points, normals: n, tcoords: tcoords, colors: c, cellOffset: cellOffset,
-	        haveCellScalars: model.haveCellScalars, haveCellNormals: model.haveCellNormals });
-	      cellOffset += model.lines.getCABO().createVBO(poly.getLines(), 'lines', representation, { points: points, normals: n, tcoords: tcoords, colors: c, cellOffset: cellOffset,
-	        haveCellScalars: model.haveCellScalars, haveCellNormals: model.haveCellNormals });
-	      cellOffset += model.tris.getCABO().createVBO(poly.getPolys(), 'polys', representation, { points: points, normals: n, tcoords: tcoords, colors: c, cellOffset: cellOffset,
-	        haveCellScalars: model.haveCellScalars, haveCellNormals: model.haveCellNormals });
-	      cellOffset += model.triStrips.getCABO().createVBO(poly.getStrips(), 'strips', representation, { points: points, normals: n, tcoords: tcoords, colors: c, cellOffset: cellOffset,
-	        haveCellScalars: model.haveCellScalars, haveCellNormals: model.haveCellNormals });
+	      cellOffset += model.points.getCABO().createVBO(poly.getVerts(), 'verts', representation, {
+	        points: points,
+	        normals: n,
+	        tcoords: tcoords,
+	        colors: c,
+	        cellOffset: cellOffset,
+	        haveCellScalars: model.haveCellScalars,
+	        haveCellNormals: model.haveCellNormals
+	      });
+	      cellOffset += model.lines.getCABO().createVBO(poly.getLines(), 'lines', representation, {
+	        points: points,
+	        normals: n,
+	        tcoords: tcoords,
+	        colors: c,
+	        cellOffset: cellOffset,
+	        haveCellScalars: model.haveCellScalars,
+	        haveCellNormals: model.haveCellNormals
+	      });
+	      cellOffset += model.tris.getCABO().createVBO(poly.getPolys(), 'polys', representation, {
+	        points: points,
+	        normals: n,
+	        tcoords: tcoords,
+	        colors: c,
+	        cellOffset: cellOffset,
+	        haveCellScalars: model.haveCellScalars,
+	        haveCellNormals: model.haveCellNormals
+	      });
+	      cellOffset += model.triStrips.getCABO().createVBO(poly.getStrips(), 'strips', representation, {
+	        points: points,
+	        normals: n,
+	        tcoords: tcoords,
+	        colors: c,
+	        cellOffset: cellOffset,
+	        haveCellScalars: model.haveCellScalars,
+	        haveCellNormals: model.haveCellNormals
+	      });
+
+	      // FIXME: cellOffset not used... (Ken?)
+	      console.log('FIXME(Ken):', cellOffset);
 
 	      model.VBOBuildTime.modified();
 	      model.VBOBuildString = toString;
@@ -23098,7 +23148,7 @@
 	exports.vtkOpenGLRenderer = vtkOpenGLRenderer;
 	exports.extend = extend;
 
-	var _macro = __webpack_require__(2);
+	var _macro = __webpack_require__(12);
 
 	var macro = _interopRequireWildcard(_macro);
 
@@ -23242,7 +23292,11 @@
 	exports.newInstance = undefined;
 	exports.extend = extend;
 
-	var _macro = __webpack_require__(2);
+	var _blueimpMd = __webpack_require__(79);
+
+	var _blueimpMd2 = _interopRequireDefault(_blueimpMd);
+
+	var _macro = __webpack_require__(12);
 
 	var macro = _interopRequireWildcard(_macro);
 
@@ -23250,13 +23304,9 @@
 
 	var _ShaderProgram2 = _interopRequireDefault(_ShaderProgram);
 
-	var _blueimpMd = __webpack_require__(79);
-
-	var _blueimpMd2 = _interopRequireDefault(_blueimpMd);
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 	// ----------------------------------------------------------------------------
 
@@ -23725,7 +23775,7 @@
 	exports.newInstance = undefined;
 	exports.extend = extend;
 
-	var _macro = __webpack_require__(2);
+	var _macro = __webpack_require__(12);
 
 	var macro = _interopRequireWildcard(_macro);
 
@@ -23864,7 +23914,9 @@
 	exports.newInstance = undefined;
 	exports.extend = extend;
 
-	var _macro = __webpack_require__(2);
+	var _glMatrix = __webpack_require__(2);
+
+	var _macro = __webpack_require__(12);
 
 	var macro = _interopRequireWildcard(_macro);
 
@@ -23884,9 +23936,7 @@
 
 	var _Viewport2 = _interopRequireDefault(_Viewport);
 
-	var _BoundingBox = __webpack_require__(5);
-
-	var _glMatrix = __webpack_require__(8);
+	var _BoundingBox = __webpack_require__(15);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -24585,7 +24635,7 @@
 	exports.vtkLight = vtkLight;
 	exports.extend = extend;
 
-	var _macro = __webpack_require__(2);
+	var _macro = __webpack_require__(12);
 
 	var macro = _interopRequireWildcard(_macro);
 
@@ -24716,7 +24766,7 @@
 	exports.newInstance = undefined;
 	exports.extend = extend;
 
-	var _macro = __webpack_require__(2);
+	var _macro = __webpack_require__(12);
 
 	var macro = _interopRequireWildcard(_macro);
 
@@ -24886,7 +24936,7 @@
 	exports.vtkRenderWindow = vtkRenderWindow;
 	exports.extend = extend;
 
-	var _macro = __webpack_require__(2);
+	var _macro = __webpack_require__(12);
 
 	var macro = _interopRequireWildcard(_macro);
 
@@ -25009,7 +25059,7 @@
 	exports.newInstance = undefined;
 	exports.extend = extend;
 
-	var _macro = __webpack_require__(2);
+	var _macro = __webpack_require__(12);
 
 	var macro = _interopRequireWildcard(_macro);
 
@@ -25034,6 +25084,7 @@
 	// ----------------------------------------------------------------------------
 	// Static API
 	// ----------------------------------------------------------------------------
+
 
 	// ----------------------------------------------------------------------------
 	// vtkMyClass methods
@@ -25618,7 +25669,7 @@
 	exports.newInstance = undefined;
 	exports.extend = extend;
 
-	var _macro = __webpack_require__(2);
+	var _macro = __webpack_require__(12);
 
 	var macro = _interopRequireWildcard(_macro);
 
@@ -25635,6 +25686,8 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	/* eslint-disable no-lonely-if */
 
 	// ----------------------------------------------------------------------------
 	// Global methods
@@ -26034,7 +26087,7 @@
 	exports.newInstance = undefined;
 	exports.extend = extend;
 
-	var _macro = __webpack_require__(2);
+	var _macro = __webpack_require__(12);
 
 	var macro = _interopRequireWildcard(_macro);
 
@@ -26285,7 +26338,7 @@
 	exports.newInstance = undefined;
 	exports.extend = extend;
 
-	var _macro = __webpack_require__(2);
+	var _macro = __webpack_require__(12);
 
 	var macro = _interopRequireWildcard(_macro);
 
@@ -26294,6 +26347,7 @@
 	// ----------------------------------------------------------------------------
 	// Global methods
 	// ----------------------------------------------------------------------------
+
 
 	// ----------------------------------------------------------------------------
 	// Static API

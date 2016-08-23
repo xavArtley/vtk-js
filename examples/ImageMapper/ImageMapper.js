@@ -140,7 +140,7 @@
 
 	var _ImageProperty2 = _interopRequireDefault(_ImageProperty);
 
-	var _glMatrix = __webpack_require__(8);
+	var _glMatrix = __webpack_require__(5);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -908,19 +908,19 @@
 	exports.newInstance = undefined;
 	exports.extend = extend;
 
+	var _glMatrix = __webpack_require__(5);
+
 	var _macro = __webpack_require__(2);
 
 	var macro = _interopRequireWildcard(_macro);
 
-	var _BoundingBox = __webpack_require__(5);
+	var _BoundingBox = __webpack_require__(15);
 
 	var _BoundingBox2 = _interopRequireDefault(_BoundingBox);
 
-	var _Prop = __webpack_require__(7);
+	var _Prop = __webpack_require__(17);
 
 	var _Prop2 = _interopRequireDefault(_Prop);
-
-	var _glMatrix = __webpack_require__(8);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -1091,668 +1091,6 @@
 /* 5 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.newInstance = exports.STATIC = exports.INIT_BOUNDS = undefined;
-
-	var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
-
-	exports.extend = extend;
-
-	var _macro = __webpack_require__(2);
-
-	var macro = _interopRequireWildcard(_macro);
-
-	var _Plane = __webpack_require__(6);
-
-	var _Plane2 = _interopRequireDefault(_Plane);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
-	var INIT_BOUNDS = exports.INIT_BOUNDS = [Number.MAX_VALUE, Number.MIN_VALUE, // X
-	Number.MAX_VALUE, Number.MIN_VALUE, // Y
-	Number.MAX_VALUE, Number.MIN_VALUE];
-
-	// ----------------------------------------------------------------------------
-	// Global methods
-	// ----------------------------------------------------------------------------
-
-	function isValid(bounds) {
-	  return bounds[0] <= bounds[1] && bounds[2] <= bounds[3] && bounds[4] <= bounds[5];
-	}
-
-	function getCenter(bounds) {
-	  return [0.5 * (bounds[0] + bounds[1]), 0.5 * (bounds[2] + bounds[3]), 0.5 * (bounds[4] + bounds[5])];
-	}
-
-	function getLength(bounds, index) {
-	  return bounds[index * 2 + 1] - bounds[index * 2];
-	}
-
-	function getLengths(bounds) {
-	  return [getLength(bounds, 0), getLength(bounds, 1), getLength(bounds, 2)];
-	}
-
-	function getXRange(bounds) {
-	  return bounds.slice(0, 2);
-	}
-
-	function getYRange(bounds) {
-	  return bounds.slice(2, 4);
-	}
-
-	function getZRange(bounds) {
-	  return bounds.slice(4, 6);
-	}
-
-	function getMaxLength(bounds) {
-	  var l = getLengths(bounds);
-	  if (l[0] > l[1]) {
-	    if (l[0] > l[2]) {
-	      return l[0];
-	    }
-	    return l[2];
-	  } else if (l[1] > l[2]) {
-	    return l[1];
-	  }
-	  return l[2];
-	}
-
-	function getDiagonalLength(bounds) {
-	  if (isValid(bounds)) {
-	    var l = getLengths(bounds);
-	    return Math.sqrt(l[0] * l[0] + l[1] * l[1] + l[2] * l[2]);
-	  }
-	  return null;
-	}
-
-	function oppositeSign(a, b) {
-	  return a <= 0 && b >= 0 || a >= 0 && b <= 0;
-	}
-
-	// ----------------------------------------------------------------------------
-	// Static API
-	// ----------------------------------------------------------------------------
-
-	var STATIC = exports.STATIC = {
-	  isValid: isValid,
-	  getCenter: getCenter,
-	  getLength: getLength,
-	  getLengths: getLengths,
-	  getMaxLength: getMaxLength,
-	  getDiagonalLength: getDiagonalLength,
-	  getXRange: getXRange,
-	  getYRange: getYRange,
-	  getZRange: getZRange
-	};
-
-	// ----------------------------------------------------------------------------
-	// vtkBoundingBox methods
-	// ----------------------------------------------------------------------------
-
-	function vtkBoundingBox(publicAPI, model) {
-	  // Set our className
-	  model.classHierarchy.push('vtkBoundingBox');
-
-	  publicAPI.clone = function () {
-	    var bounds = [].concat(model.bounds);
-	    /* eslint-disable no-use-before-define */
-	    return newInstance({ bounds: bounds });
-	    /* eslint-enable no-use-before-define */
-	  };
-
-	  publicAPI.equals = function (other) {
-	    var a = model.bounds;
-	    var b = other.getBounds();
-	    return a[0] === b[0] && a[1] === b[1] && a[2] === b[2] && a[3] === b[3] && a[4] === b[4] && a[5] === b[5];
-	  };
-
-	  publicAPI.setMinPoint = function (x, y, z) {
-	    var _model$bounds = _slicedToArray(model.bounds, 6);
-
-	    var xMin = _model$bounds[0];
-	    var xMax = _model$bounds[1];
-	    var yMin = _model$bounds[2];
-	    var yMax = _model$bounds[3];
-	    var zMin = _model$bounds[4];
-	    var zMax = _model$bounds[5];
-
-	    model.bounds = [x, x > xMax ? x : xMax, y, y > yMax ? y : yMax, z, z > zMax ? z : zMax];
-
-	    return xMin !== x || yMin !== y || zMin !== z;
-	  };
-
-	  publicAPI.setMaxPoint = function (x, y, z) {
-	    var _model$bounds2 = _slicedToArray(model.bounds, 6);
-
-	    var xMin = _model$bounds2[0];
-	    var xMax = _model$bounds2[1];
-	    var yMin = _model$bounds2[2];
-	    var yMax = _model$bounds2[3];
-	    var zMin = _model$bounds2[4];
-	    var zMax = _model$bounds2[5];
-
-	    model.bounds = [x < xMin ? x : xMin, x, y < yMin ? y : yMin, y, z < zMin ? z : zMin, z];
-
-	    return xMax !== x || yMax !== y || zMax !== z;
-	  };
-
-	  publicAPI.addPoint = function () {
-	    for (var _len = arguments.length, xyz = Array(_len), _key = 0; _key < _len; _key++) {
-	      xyz[_key] = arguments[_key];
-	    }
-
-	    model.bounds = model.bounds.map(function (value, index) {
-	      if (index % 2 === 0) {
-	        var _idx = index / 2;
-	        return value < xyz[_idx] ? value : xyz[_idx];
-	      }
-	      var idx = (index - 1) / 2;
-	      return value > xyz[idx] ? value : xyz[idx];
-	    });
-	  };
-
-	  publicAPI.addBounds = function (xMin, xMax, yMin, yMax, zMin, zMax) {
-	    var _model$bounds3 = _slicedToArray(model.bounds, 6);
-
-	    var _xMin = _model$bounds3[0];
-	    var _xMax = _model$bounds3[1];
-	    var _yMin = _model$bounds3[2];
-	    var _yMax = _model$bounds3[3];
-	    var _zMin = _model$bounds3[4];
-	    var _zMax = _model$bounds3[5];
-
-	    model.bounds = [Math.min(xMin, _xMin), Math.max(xMax, _xMax), Math.min(yMin, _yMin), Math.max(yMax, _yMax), Math.min(zMin, _zMin), Math.max(zMax, _zMax)];
-	  };
-
-	  publicAPI.addBox = function (other) {
-	    publicAPI.addBounds.apply(publicAPI, _toConsumableArray(other.getBounds()));
-	  };
-
-	  publicAPI.isValid = function () {
-	    return isValid(model.bounds);
-	  };
-
-	  publicAPI.intersect = function (bbox) {
-	    if (!(publicAPI.isValid() && bbox.isValid())) {
-	      return false;
-	    }
-
-	    var newBounds = [0, 0, 0, 0, 0, 0];
-	    var bBounds = bbox.getBounds();
-	    var intersects = void 0;
-	    for (var i = 0; i < 3; i++) {
-	      intersects = false;
-	      if (bBounds[i * 2] >= model.bounds[i * 2] && bBounds[i * 2] <= model.bounds[i * 2 + 1]) {
-	        intersects = true;
-	        newBounds[i * 2] = bBounds[i * 2];
-	      } else if (model.bounds[i * 2] >= bBounds[i * 2] && model.bounds[i * 2] <= bBounds[i * 2 + 1]) {
-	        intersects = true;
-	        newBounds[i * 2] = model.bounds[i * 2];
-	      }
-
-	      if (bBounds[i * 2 + 1] >= model.bounds[i * 2] && bBounds[i * 2 + 1] <= model.bounds[i * 2 + 1]) {
-	        intersects = true;
-	        newBounds[i * 2 + 1] = bbox.MaxPnt[i];
-	      } else if (model.bounds[i * 2 + 1] >= bbox.MinPnt[i * 2] && model.bounds[i * 2 + 1] <= bbox.MaxPnt[i * 2 + 1]) {
-	        intersects = true;
-	        newBounds[i * 2 + 1] = model.bounds[i * 2 + 1];
-	      }
-
-	      if (!intersects) {
-	        return false;
-	      }
-	    }
-
-	    // OK they did intersect - set the box to be the result
-	    model.bounds = newBounds;
-	    return true;
-	  };
-
-	  publicAPI.intersects = function (bbox) {
-	    if (!(publicAPI.isValid() && bbox.isValid())) {
-	      return false;
-	    }
-	    var bBounds = bbox.getBounds();
-	    for (var i = 0; i < 3; i++) {
-	      if (bBounds[i * 2] >= model.bounds[i * 2] && bBounds[i * 2] <= model.bounds[i * 2 + 1]) {
-	        continue;
-	      } else if (model.bounds[i * 2] >= bBounds[i * 2] && model.bounds[i * 2] <= bBounds[i * 2 + 1]) {
-	        continue;
-	      }
-
-	      if (bBounds[i * 2 + 1] >= model.bounds[i * 2] && bBounds[i * 2 + 1] <= model.bounds[i * 2 + 1]) {
-	        continue;
-	      } else if (model.bounds[i * 2 + 1] >= bbox.MinPnt[i * 2] && model.bounds[i * 2 + 1] <= bbox.MaxPnt[i * 2 + 1]) {
-	        continue;
-	      }
-	      return false;
-	    }
-
-	    return true;
-	  };
-
-	  publicAPI.intersectPlane = function (origin, normal) {
-	    // Index[0..2] represents the order of traversing the corners of a cube
-	    // in (x,y,z), (y,x,z) and (z,x,y) ordering, respectively
-	    var index = [[0, 1, 2, 3, 4, 5, 6, 7], [0, 1, 4, 5, 2, 3, 6, 7], [0, 2, 4, 6, 1, 3, 5, 7]];
-
-	    // stores the signed distance to a plane
-	    var d = [0, 0, 0, 0, 0, 0, 0, 0];
-	    var idx = 0;
-	    for (var ix = 0; ix < 2; ix++) {
-	      for (var iy = 2; iy < 4; iy++) {
-	        for (var iz = 4; iz < 6; iz++) {
-	          var x = [model.bounds[ix], model.bounds[iy], model.bounds[iz]];
-	          d[idx++] = _Plane2.default.evaluate(normal, origin, x);
-	        }
-	      }
-	    }
-
-	    var dir = 2;
-	    while (dir--) {
-	      // in each direction, we test if the vertices of two orthogonal faces
-	      // are on either side of the plane
-	      if (oppositeSign(d[index[dir][0]], d[index[dir][4]]) && oppositeSign(d[index[dir][1]], d[index[dir][5]]) && oppositeSign(d[index[dir][2]], d[index[dir][6]]) && oppositeSign(d[index[dir][3]], d[index[dir][7]])) {
-	        break;
-	      }
-	    }
-
-	    if (dir < 0) {
-	      return false;
-	    }
-
-	    var sign = Math.sign(normal[dir]);
-	    var size = Math.abs((model.bounds[dir * 2 + 1] - model.bounds[dir * 2]) * normal[dir]);
-	    var t = sign > 0 ? 1 : 0;
-	    for (var i = 0; i < 4; i++) {
-	      if (size === 0) {
-	        continue; // shouldn't happen
-	      }
-	      var ti = Math.abs(d[index[dir][i]]) / size;
-	      if (sign > 0 && ti < t) {
-	        t = ti;
-	      }
-
-	      if (sign < 0 && ti > t) {
-	        t = ti;
-	      }
-	    }
-	    var bound = (1.0 - t) * model.bounds[dir * 2] + t * model.bounds[dir * 2 + 1];
-
-	    if (sign > 0) {
-	      model.bounds[dir * 2] = bound;
-	    } else {
-	      model.bounds[dir * 2 + 1] = bound;
-	    }
-
-	    return true;
-	  };
-
-	  publicAPI.containsPoint = function (x, y, z) {
-	    if (x < model.bounds[0] || x > model.bounds[1]) {
-	      return false;
-	    }
-
-	    if (y < model.bounds[2] || y > model.bounds[3]) {
-	      return false;
-	    }
-
-	    if (z < model.bounds[4] || z > model.bounds[5]) {
-	      return false;
-	    }
-
-	    return true;
-	  };
-
-	  publicAPI.getMinPoint = function () {
-	    return [model.bounds[0], model.bounds[2], model.bounds[4]];
-	  };
-	  publicAPI.getMaxPoint = function () {
-	    return [model.bounds[1], model.bounds[3], model.bounds[5]];
-	  };
-	  publicAPI.getBound = function (index) {
-	    return model.bound[index];
-	  };
-
-	  publicAPI.contains = function (bbox) {
-	    // if either box is not valid or they don't intersect
-	    if (!publicAPI.intersects(bbox)) {
-	      return false;
-	    }
-
-	    if (!publicAPI.containsPoint.apply(publicAPI, _toConsumableArray(bbox.getMinPoint()))) {
-	      return false;
-	    }
-
-	    if (!publicAPI.containsPoint.apply(publicAPI, _toConsumableArray(bbox.getMaxPoint()))) {
-	      return 0;
-	    }
-
-	    return true;
-	  };
-
-	  publicAPI.getCenter = function () {
-	    return getCenter(model.bounds);
-	  };
-	  publicAPI.getLength = function (index) {
-	    return getLength(model.bounds, index);
-	  };
-	  publicAPI.getLengths = function () {
-	    return getLengths(model.bounds);
-	  };
-	  publicAPI.getMaxLength = function () {
-	    return getMaxLength(model.bounds);
-	  };
-	  publicAPI.getDiagonalLength = function () {
-	    return getDiagonalLength(model.bounds);
-	  };
-
-	  publicAPI.reset = function () {
-	    return publicAPI.setBounds([].concat(INIT_BOUNDS));
-	  };
-
-	  publicAPI.inflate = function (delta) {
-	    model.bounds = model.bounds.map(function (value, index) {
-	      if (index % 2 === 0) {
-	        return value - delta;
-	      }
-	      return value + delta;
-	    });
-	  };
-
-	  publicAPI.scale = function (sx, sy, sz) {
-	    if (publicAPI.isValid()) {
-	      var newBounds = [].concat(model.bounds);
-	      if (sx >= 0.0) {
-	        newBounds[0] *= sx;
-	        newBounds[1] *= sx;
-	      } else {
-	        newBounds[0] = sx * model.bounds[1];
-	        newBounds[1] = sx * model.bounds[0];
-	      }
-
-	      if (sy >= 0.0) {
-	        newBounds[2] *= sy;
-	        newBounds[3] *= sy;
-	      } else {
-	        newBounds[2] = sy * model.bounds[3];
-	        newBounds[3] = sy * model.bounds[2];
-	      }
-
-	      if (sz >= 0.0) {
-	        newBounds[4] *= sz;
-	        newBounds[5] *= sz;
-	      } else {
-	        newBounds[4] = sz * model.bounds[5];
-	        newBounds[5] = sz * model.bounds[4];
-	      }
-
-	      model.bounds = newBounds;
-	      return true;
-	    }
-	    return false;
-	  };
-	}
-
-	// ----------------------------------------------------------------------------
-	// Object factory
-	// ----------------------------------------------------------------------------
-
-	var DEFAULT_VALUES = {
-	  type: 'vtkBoundingBox',
-	  bounds: [].concat(INIT_BOUNDS)
-	};
-
-	// ----------------------------------------------------------------------------
-
-	function extend(publicAPI, model) {
-	  var initialValues = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
-
-	  Object.assign(model, DEFAULT_VALUES, initialValues);
-
-	  // Object methods
-	  macro.obj(publicAPI, model);
-	  macro.setGet(publicAPI, model, ['bounds']);
-	  vtkBoundingBox(publicAPI, model);
-	}
-
-	// ----------------------------------------------------------------------------
-
-	var newInstance = exports.newInstance = macro.newInstance(extend, 'vtkBoundingBox');
-
-	// ----------------------------------------------------------------------------
-
-	exports.default = Object.assign({ newInstance: newInstance, extend: extend }, STATIC);
-
-/***/ },
-/* 6 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.newInstance = exports.STATIC = undefined;
-	exports.extend = extend;
-
-	var _macro = __webpack_require__(2);
-
-	var macro = _interopRequireWildcard(_macro);
-
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-	// ----------------------------------------------------------------------------
-	// Global methods
-	// ----------------------------------------------------------------------------
-
-	function evaluate(normal, origin, x) {
-	  return normal[0] * (x[0] - origin[0]) + normal[1] * (x[1] - origin[1]) + normal[2] * (x[2] - origin[2]);
-	}
-
-	// ----------------------------------------------------------------------------
-	// Static API
-	// ----------------------------------------------------------------------------
-
-	var STATIC = exports.STATIC = {
-	  evaluate: evaluate
-	};
-
-	// ----------------------------------------------------------------------------
-	// vtkPlane methods
-	// ----------------------------------------------------------------------------
-
-	function vtkPlane(publicAPI, model) {
-	  // Set our className
-	  model.classHierarchy.push('vtkPlane');
-	}
-
-	// ----------------------------------------------------------------------------
-	// Object factory
-	// ----------------------------------------------------------------------------
-
-	var DEFAULT_VALUES = {
-	  type: 'vtkPlane'
-	};
-
-	// ----------------------------------------------------------------------------
-
-	function extend(publicAPI, model) {
-	  var initialValues = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
-
-	  Object.assign(model, DEFAULT_VALUES, initialValues);
-
-	  // Object methods
-	  macro.obj(publicAPI, model);
-	  macro.setGet(publicAPI, model, ['bounds']);
-	  vtkPlane(publicAPI, model);
-	}
-
-	// ----------------------------------------------------------------------------
-
-	var newInstance = exports.newInstance = macro.newInstance(extend, 'vtkPlane');
-
-	// ----------------------------------------------------------------------------
-
-	exports.default = Object.assign({ newInstance: newInstance, extend: extend }, STATIC);
-
-/***/ },
-/* 7 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.newInstance = undefined;
-	exports.extend = extend;
-
-	var _macro = __webpack_require__(2);
-
-	var macro = _interopRequireWildcard(_macro);
-
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-	function notImplemented(method) {
-	  return function () {
-	    return console.log('vtkProp::${method} - NOT IMPLEMENTED');
-	  };
-	}
-
-	// ----------------------------------------------------------------------------
-	// vtkProp methods
-	// ----------------------------------------------------------------------------
-
-	function vtkProp(publicAPI, model) {
-	  // Set our className
-	  model.classHierarchy.push('vtkProp');
-
-	  publicAPI.getActors = function () {
-	    return null;
-	  };
-	  publicAPI.getActors2D = function () {
-	    return null;
-	  };
-	  publicAPI.getVolumes = function () {
-	    return null;
-	  };
-
-	  publicAPI.pick = notImplemented('pick');
-	  publicAPI.hasKey = notImplemented('hasKey');
-
-	  publicAPI.getRedrawMTime = function () {
-	    return model.mtime;
-	  };
-
-	  publicAPI.setEstimatedRenderTime = function (t) {
-	    model.estimatedRenderTime = t;
-	    model.savedEstimatedRenderTime = t;
-	  };
-
-	  publicAPI.restoreEstimatedRenderTime = function () {
-	    model.estimatedRenderTime = model.savedEstimatedRenderTime;
-	  };
-
-	  publicAPI.addEstimatedRenderTime = function (t) {
-	    model.estimatedRenderTime += t;
-	  };
-
-	  publicAPI.setAllocatedRenderTime = function (t) {
-	    model.allocatedRenderTime = t;
-	    model.savedEstimatedRenderTime = model.estimatedRenderTime;
-	    model.estimatedRenderTime = 0;
-	  };
-
-	  publicAPI.getSupportsSelection = function () {
-	    return false;
-	  };
-
-	  publicAPI.getTextures = function () {
-	    return model.textures;
-	  };
-	  publicAPI.hasTexture = function (texture) {
-	    return !!model.textures.filter(function (item) {
-	      return item === texture;
-	    }).length;
-	  };
-	  publicAPI.addTexture = function (texture) {
-	    if (texture && !publicAPI.hasTexture(texture)) {
-	      model.textures = model.textures.concat(texture);
-	    }
-	  };
-
-	  publicAPI.removeTexture = function (texture) {
-	    var newTextureList = model.textures.filter(function (item) {
-	      return item === texture;
-	    });
-	    if (model.texture.length !== newTextureList.length) {
-	      texture.releaseGraphicsResources(model.vtkWindow);
-	      model.textures = newTextureList;
-	    }
-	  };
-
-	  publicAPI.removeAllTextures = function () {
-	    model.textures.forEach(function (texture) {
-	      texture.releaseGraphicsResources(model.vtkWindow);
-	    });
-	    model.textures = [];
-	  };
-	}
-
-	// ----------------------------------------------------------------------------
-	// Object factory
-	// ----------------------------------------------------------------------------
-
-	var DEFAULT_VALUES = {
-	  visibility: true,
-	  pickable: true,
-	  dragable: true,
-	  useBounds: true,
-	  allocatedRenderTime: 10,
-	  estimatedRenderTime: 0,
-	  savedEstimatedRenderTime: 0,
-	  renderTimeMultiplier: 1,
-	  paths: null,
-	  textures: []
-	};
-
-	// ----------------------------------------------------------------------------
-
-	function extend(publicAPI, model) {
-	  var initialValues = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
-
-	  Object.assign(model, DEFAULT_VALUES, initialValues);
-
-	  // Build VTK API
-	  macro.obj(publicAPI, model);
-	  macro.get(publicAPI, model, ['estimatedRenderTime', 'allocatedRenderTime']);
-	  macro.setGet(publicAPI, model, ['visibility', 'pickable', 'dragable', 'useBounds', 'renderTimeMultiplier']);
-
-	  // Object methods
-	  vtkProp(publicAPI, model);
-	}
-
-	// ----------------------------------------------------------------------------
-
-	var newInstance = exports.newInstance = macro.newInstance(extend);
-
-	// ----------------------------------------------------------------------------
-
-	exports.default = { newInstance: newInstance, extend: extend };
-
-/***/ },
-/* 8 */
-/***/ function(module, exports, __webpack_require__) {
-
 	/**
 	 * @fileoverview gl-matrix - High performance matrix and vector operations
 	 * @author Brandon Jones
@@ -1781,18 +1119,18 @@
 	THE SOFTWARE. */
 	// END HEADER
 
-	exports.glMatrix = __webpack_require__(9);
-	exports.mat2 = __webpack_require__(10);
-	exports.mat2d = __webpack_require__(11);
-	exports.mat3 = __webpack_require__(12);
-	exports.mat4 = __webpack_require__(13);
-	exports.quat = __webpack_require__(14);
-	exports.vec2 = __webpack_require__(17);
-	exports.vec3 = __webpack_require__(15);
-	exports.vec4 = __webpack_require__(16);
+	exports.glMatrix = __webpack_require__(6);
+	exports.mat2 = __webpack_require__(7);
+	exports.mat2d = __webpack_require__(8);
+	exports.mat3 = __webpack_require__(9);
+	exports.mat4 = __webpack_require__(10);
+	exports.quat = __webpack_require__(11);
+	exports.vec2 = __webpack_require__(14);
+	exports.vec3 = __webpack_require__(12);
+	exports.vec4 = __webpack_require__(13);
 
 /***/ },
-/* 9 */
+/* 6 */
 /***/ function(module, exports) {
 
 	/* Copyright (c) 2015, Brandon Jones, Colin MacKenzie IV.
@@ -1850,7 +1188,7 @@
 
 
 /***/ },
-/* 10 */
+/* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* Copyright (c) 2015, Brandon Jones, Colin MacKenzie IV.
@@ -1873,7 +1211,7 @@
 	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 	THE SOFTWARE. */
 
-	var glMatrix = __webpack_require__(9);
+	var glMatrix = __webpack_require__(6);
 
 	/**
 	 * @class 2x2 Matrix
@@ -2158,7 +1496,7 @@
 
 
 /***/ },
-/* 11 */
+/* 8 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* Copyright (c) 2015, Brandon Jones, Colin MacKenzie IV.
@@ -2181,7 +1519,7 @@
 	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 	THE SOFTWARE. */
 
-	var glMatrix = __webpack_require__(9);
+	var glMatrix = __webpack_require__(6);
 
 	/**
 	 * @class 2x3 Matrix
@@ -2481,7 +1819,7 @@
 
 
 /***/ },
-/* 12 */
+/* 9 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* Copyright (c) 2015, Brandon Jones, Colin MacKenzie IV.
@@ -2504,7 +1842,7 @@
 	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 	THE SOFTWARE. */
 
-	var glMatrix = __webpack_require__(9);
+	var glMatrix = __webpack_require__(6);
 
 	/**
 	 * @class 3x3 Matrix
@@ -3052,7 +2390,7 @@
 
 
 /***/ },
-/* 13 */
+/* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* Copyright (c) 2015, Brandon Jones, Colin MacKenzie IV.
@@ -3075,7 +2413,7 @@
 	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 	THE SOFTWARE. */
 
-	var glMatrix = __webpack_require__(9);
+	var glMatrix = __webpack_require__(6);
 
 	/**
 	 * @class 4x4 Matrix
@@ -4341,7 +3679,7 @@
 
 
 /***/ },
-/* 14 */
+/* 11 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* Copyright (c) 2015, Brandon Jones, Colin MacKenzie IV.
@@ -4364,10 +3702,10 @@
 	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 	THE SOFTWARE. */
 
-	var glMatrix = __webpack_require__(9);
-	var mat3 = __webpack_require__(12);
-	var vec3 = __webpack_require__(15);
-	var vec4 = __webpack_require__(16);
+	var glMatrix = __webpack_require__(6);
+	var mat3 = __webpack_require__(9);
+	var vec3 = __webpack_require__(12);
+	var vec4 = __webpack_require__(13);
 
 	/**
 	 * @class Quaternion
@@ -4900,7 +4238,7 @@
 
 
 /***/ },
-/* 15 */
+/* 12 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* Copyright (c) 2015, Brandon Jones, Colin MacKenzie IV.
@@ -4923,7 +4261,7 @@
 	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 	THE SOFTWARE. */
 
-	var glMatrix = __webpack_require__(9);
+	var glMatrix = __webpack_require__(6);
 
 	/**
 	 * @class 3 Dimensional Vector
@@ -5615,7 +4953,7 @@
 
 
 /***/ },
-/* 16 */
+/* 13 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* Copyright (c) 2015, Brandon Jones, Colin MacKenzie IV.
@@ -5638,7 +4976,7 @@
 	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 	THE SOFTWARE. */
 
-	var glMatrix = __webpack_require__(9);
+	var glMatrix = __webpack_require__(6);
 
 	/**
 	 * @class 4 Dimensional Vector
@@ -6158,7 +5496,7 @@
 
 
 /***/ },
-/* 17 */
+/* 14 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* Copyright (c) 2015, Brandon Jones, Colin MacKenzie IV.
@@ -6181,7 +5519,7 @@
 	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 	THE SOFTWARE. */
 
-	var glMatrix = __webpack_require__(9);
+	var glMatrix = __webpack_require__(6);
 
 	/**
 	 * @class 2 Dimensional Vector
@@ -6687,6 +6025,672 @@
 
 
 /***/ },
+/* 15 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.newInstance = exports.STATIC = exports.INIT_BOUNDS = undefined;
+
+	var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+
+	exports.extend = extend;
+
+	var _macro = __webpack_require__(2);
+
+	var macro = _interopRequireWildcard(_macro);
+
+	var _Plane = __webpack_require__(16);
+
+	var _Plane2 = _interopRequireDefault(_Plane);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+	var INIT_BOUNDS = exports.INIT_BOUNDS = [Number.MAX_VALUE, Number.MIN_VALUE, // X
+	Number.MAX_VALUE, Number.MIN_VALUE, // Y
+	Number.MAX_VALUE, Number.MIN_VALUE];
+
+	// ----------------------------------------------------------------------------
+	// Global methods
+	// ----------------------------------------------------------------------------
+
+	function isValid(bounds) {
+	  return bounds[0] <= bounds[1] && bounds[2] <= bounds[3] && bounds[4] <= bounds[5];
+	}
+
+	function getCenter(bounds) {
+	  return [0.5 * (bounds[0] + bounds[1]), 0.5 * (bounds[2] + bounds[3]), 0.5 * (bounds[4] + bounds[5])];
+	}
+
+	function getLength(bounds, index) {
+	  return bounds[index * 2 + 1] - bounds[index * 2];
+	}
+
+	function getLengths(bounds) {
+	  return [getLength(bounds, 0), getLength(bounds, 1), getLength(bounds, 2)];
+	}
+
+	function getXRange(bounds) {
+	  return bounds.slice(0, 2);
+	}
+
+	function getYRange(bounds) {
+	  return bounds.slice(2, 4);
+	}
+
+	function getZRange(bounds) {
+	  return bounds.slice(4, 6);
+	}
+
+	function getMaxLength(bounds) {
+	  var l = getLengths(bounds);
+	  if (l[0] > l[1]) {
+	    if (l[0] > l[2]) {
+	      return l[0];
+	    }
+	    return l[2];
+	  } else if (l[1] > l[2]) {
+	    return l[1];
+	  }
+	  return l[2];
+	}
+
+	function getDiagonalLength(bounds) {
+	  if (isValid(bounds)) {
+	    var l = getLengths(bounds);
+	    return Math.sqrt(l[0] * l[0] + l[1] * l[1] + l[2] * l[2]);
+	  }
+	  return null;
+	}
+
+	function oppositeSign(a, b) {
+	  return a <= 0 && b >= 0 || a >= 0 && b <= 0;
+	}
+
+	// ----------------------------------------------------------------------------
+	// Static API
+	// ----------------------------------------------------------------------------
+
+	var STATIC = exports.STATIC = {
+	  isValid: isValid,
+	  getCenter: getCenter,
+	  getLength: getLength,
+	  getLengths: getLengths,
+	  getMaxLength: getMaxLength,
+	  getDiagonalLength: getDiagonalLength,
+	  getXRange: getXRange,
+	  getYRange: getYRange,
+	  getZRange: getZRange
+	};
+
+	// ----------------------------------------------------------------------------
+	// vtkBoundingBox methods
+	// ----------------------------------------------------------------------------
+
+	function vtkBoundingBox(publicAPI, model) {
+	  // Set our className
+	  model.classHierarchy.push('vtkBoundingBox');
+
+	  publicAPI.clone = function () {
+	    var bounds = [].concat(model.bounds);
+	    /* eslint-disable no-use-before-define */
+	    return newInstance({ bounds: bounds });
+	    /* eslint-enable no-use-before-define */
+	  };
+
+	  publicAPI.equals = function (other) {
+	    var a = model.bounds;
+	    var b = other.getBounds();
+	    return a[0] === b[0] && a[1] === b[1] && a[2] === b[2] && a[3] === b[3] && a[4] === b[4] && a[5] === b[5];
+	  };
+
+	  publicAPI.setMinPoint = function (x, y, z) {
+	    var _model$bounds = _slicedToArray(model.bounds, 6);
+
+	    var xMin = _model$bounds[0];
+	    var xMax = _model$bounds[1];
+	    var yMin = _model$bounds[2];
+	    var yMax = _model$bounds[3];
+	    var zMin = _model$bounds[4];
+	    var zMax = _model$bounds[5];
+
+	    model.bounds = [x, x > xMax ? x : xMax, y, y > yMax ? y : yMax, z, z > zMax ? z : zMax];
+
+	    return xMin !== x || yMin !== y || zMin !== z;
+	  };
+
+	  publicAPI.setMaxPoint = function (x, y, z) {
+	    var _model$bounds2 = _slicedToArray(model.bounds, 6);
+
+	    var xMin = _model$bounds2[0];
+	    var xMax = _model$bounds2[1];
+	    var yMin = _model$bounds2[2];
+	    var yMax = _model$bounds2[3];
+	    var zMin = _model$bounds2[4];
+	    var zMax = _model$bounds2[5];
+
+	    model.bounds = [x < xMin ? x : xMin, x, y < yMin ? y : yMin, y, z < zMin ? z : zMin, z];
+
+	    return xMax !== x || yMax !== y || zMax !== z;
+	  };
+
+	  publicAPI.addPoint = function () {
+	    for (var _len = arguments.length, xyz = Array(_len), _key = 0; _key < _len; _key++) {
+	      xyz[_key] = arguments[_key];
+	    }
+
+	    model.bounds = model.bounds.map(function (value, index) {
+	      if (index % 2 === 0) {
+	        var _idx = index / 2;
+	        return value < xyz[_idx] ? value : xyz[_idx];
+	      }
+	      var idx = (index - 1) / 2;
+	      return value > xyz[idx] ? value : xyz[idx];
+	    });
+	  };
+
+	  publicAPI.addBounds = function (xMin, xMax, yMin, yMax, zMin, zMax) {
+	    var _model$bounds3 = _slicedToArray(model.bounds, 6);
+
+	    var _xMin = _model$bounds3[0];
+	    var _xMax = _model$bounds3[1];
+	    var _yMin = _model$bounds3[2];
+	    var _yMax = _model$bounds3[3];
+	    var _zMin = _model$bounds3[4];
+	    var _zMax = _model$bounds3[5];
+
+	    model.bounds = [Math.min(xMin, _xMin), Math.max(xMax, _xMax), Math.min(yMin, _yMin), Math.max(yMax, _yMax), Math.min(zMin, _zMin), Math.max(zMax, _zMax)];
+	  };
+
+	  publicAPI.addBox = function (other) {
+	    publicAPI.addBounds.apply(publicAPI, _toConsumableArray(other.getBounds()));
+	  };
+
+	  publicAPI.isValid = function () {
+	    return isValid(model.bounds);
+	  };
+
+	  publicAPI.intersect = function (bbox) {
+	    if (!(publicAPI.isValid() && bbox.isValid())) {
+	      return false;
+	    }
+
+	    var newBounds = [0, 0, 0, 0, 0, 0];
+	    var bBounds = bbox.getBounds();
+	    var intersects = void 0;
+	    for (var i = 0; i < 3; i++) {
+	      intersects = false;
+	      if (bBounds[i * 2] >= model.bounds[i * 2] && bBounds[i * 2] <= model.bounds[i * 2 + 1]) {
+	        intersects = true;
+	        newBounds[i * 2] = bBounds[i * 2];
+	      } else if (model.bounds[i * 2] >= bBounds[i * 2] && model.bounds[i * 2] <= bBounds[i * 2 + 1]) {
+	        intersects = true;
+	        newBounds[i * 2] = model.bounds[i * 2];
+	      }
+
+	      if (bBounds[i * 2 + 1] >= model.bounds[i * 2] && bBounds[i * 2 + 1] <= model.bounds[i * 2 + 1]) {
+	        intersects = true;
+	        newBounds[i * 2 + 1] = bbox.MaxPnt[i];
+	      } else if (model.bounds[i * 2 + 1] >= bbox.MinPnt[i * 2] && model.bounds[i * 2 + 1] <= bbox.MaxPnt[i * 2 + 1]) {
+	        intersects = true;
+	        newBounds[i * 2 + 1] = model.bounds[i * 2 + 1];
+	      }
+
+	      if (!intersects) {
+	        return false;
+	      }
+	    }
+
+	    // OK they did intersect - set the box to be the result
+	    model.bounds = newBounds;
+	    return true;
+	  };
+
+	  publicAPI.intersects = function (bbox) {
+	    if (!(publicAPI.isValid() && bbox.isValid())) {
+	      return false;
+	    }
+	    var bBounds = bbox.getBounds();
+	    /* eslint-disable no-continue */
+	    for (var i = 0; i < 3; i++) {
+	      if (bBounds[i * 2] >= model.bounds[i * 2] && bBounds[i * 2] <= model.bounds[i * 2 + 1]) {
+	        continue;
+	      } else if (model.bounds[i * 2] >= bBounds[i * 2] && model.bounds[i * 2] <= bBounds[i * 2 + 1]) {
+	        continue;
+	      }
+
+	      if (bBounds[i * 2 + 1] >= model.bounds[i * 2] && bBounds[i * 2 + 1] <= model.bounds[i * 2 + 1]) {
+	        continue;
+	      } else if (model.bounds[i * 2 + 1] >= bbox.MinPnt[i * 2] && model.bounds[i * 2 + 1] <= bbox.MaxPnt[i * 2 + 1]) {
+	        continue;
+	      }
+	      return false;
+	    }
+	    /* eslint-enable no-continue */
+
+	    return true;
+	  };
+
+	  publicAPI.intersectPlane = function (origin, normal) {
+	    // Index[0..2] represents the order of traversing the corners of a cube
+	    // in (x,y,z), (y,x,z) and (z,x,y) ordering, respectively
+	    var index = [[0, 1, 2, 3, 4, 5, 6, 7], [0, 1, 4, 5, 2, 3, 6, 7], [0, 2, 4, 6, 1, 3, 5, 7]];
+
+	    // stores the signed distance to a plane
+	    var d = [0, 0, 0, 0, 0, 0, 0, 0];
+	    var idx = 0;
+	    for (var ix = 0; ix < 2; ix++) {
+	      for (var iy = 2; iy < 4; iy++) {
+	        for (var iz = 4; iz < 6; iz++) {
+	          var x = [model.bounds[ix], model.bounds[iy], model.bounds[iz]];
+	          d[idx++] = _Plane2.default.evaluate(normal, origin, x);
+	        }
+	      }
+	    }
+
+	    var dir = 2;
+	    while (dir--) {
+	      // in each direction, we test if the vertices of two orthogonal faces
+	      // are on either side of the plane
+	      if (oppositeSign(d[index[dir][0]], d[index[dir][4]]) && oppositeSign(d[index[dir][1]], d[index[dir][5]]) && oppositeSign(d[index[dir][2]], d[index[dir][6]]) && oppositeSign(d[index[dir][3]], d[index[dir][7]])) {
+	        break;
+	      }
+	    }
+
+	    if (dir < 0) {
+	      return false;
+	    }
+
+	    var sign = Math.sign(normal[dir]);
+	    var size = Math.abs((model.bounds[dir * 2 + 1] - model.bounds[dir * 2]) * normal[dir]);
+	    var t = sign > 0 ? 1 : 0;
+	    /* eslint-disable no-continue */
+	    for (var i = 0; i < 4; i++) {
+	      if (size === 0) {
+	        continue; // shouldn't happen
+	      }
+	      var ti = Math.abs(d[index[dir][i]]) / size;
+	      if (sign > 0 && ti < t) {
+	        t = ti;
+	      }
+
+	      if (sign < 0 && ti > t) {
+	        t = ti;
+	      }
+	    }
+	    /* eslint-enable no-continue */
+	    var bound = (1.0 - t) * model.bounds[dir * 2] + t * model.bounds[dir * 2 + 1];
+
+	    if (sign > 0) {
+	      model.bounds[dir * 2] = bound;
+	    } else {
+	      model.bounds[dir * 2 + 1] = bound;
+	    }
+
+	    return true;
+	  };
+
+	  publicAPI.containsPoint = function (x, y, z) {
+	    if (x < model.bounds[0] || x > model.bounds[1]) {
+	      return false;
+	    }
+
+	    if (y < model.bounds[2] || y > model.bounds[3]) {
+	      return false;
+	    }
+
+	    if (z < model.bounds[4] || z > model.bounds[5]) {
+	      return false;
+	    }
+
+	    return true;
+	  };
+
+	  publicAPI.getMinPoint = function () {
+	    return [model.bounds[0], model.bounds[2], model.bounds[4]];
+	  };
+	  publicAPI.getMaxPoint = function () {
+	    return [model.bounds[1], model.bounds[3], model.bounds[5]];
+	  };
+	  publicAPI.getBound = function (index) {
+	    return model.bound[index];
+	  };
+
+	  publicAPI.contains = function (bbox) {
+	    // if either box is not valid or they don't intersect
+	    if (!publicAPI.intersects(bbox)) {
+	      return false;
+	    }
+
+	    if (!publicAPI.containsPoint.apply(publicAPI, _toConsumableArray(bbox.getMinPoint()))) {
+	      return false;
+	    }
+
+	    if (!publicAPI.containsPoint.apply(publicAPI, _toConsumableArray(bbox.getMaxPoint()))) {
+	      return 0;
+	    }
+
+	    return true;
+	  };
+
+	  publicAPI.getCenter = function () {
+	    return getCenter(model.bounds);
+	  };
+	  publicAPI.getLength = function (index) {
+	    return getLength(model.bounds, index);
+	  };
+	  publicAPI.getLengths = function () {
+	    return getLengths(model.bounds);
+	  };
+	  publicAPI.getMaxLength = function () {
+	    return getMaxLength(model.bounds);
+	  };
+	  publicAPI.getDiagonalLength = function () {
+	    return getDiagonalLength(model.bounds);
+	  };
+
+	  publicAPI.reset = function () {
+	    return publicAPI.setBounds([].concat(INIT_BOUNDS));
+	  };
+
+	  publicAPI.inflate = function (delta) {
+	    model.bounds = model.bounds.map(function (value, index) {
+	      if (index % 2 === 0) {
+	        return value - delta;
+	      }
+	      return value + delta;
+	    });
+	  };
+
+	  publicAPI.scale = function (sx, sy, sz) {
+	    if (publicAPI.isValid()) {
+	      var newBounds = [].concat(model.bounds);
+	      if (sx >= 0.0) {
+	        newBounds[0] *= sx;
+	        newBounds[1] *= sx;
+	      } else {
+	        newBounds[0] = sx * model.bounds[1];
+	        newBounds[1] = sx * model.bounds[0];
+	      }
+
+	      if (sy >= 0.0) {
+	        newBounds[2] *= sy;
+	        newBounds[3] *= sy;
+	      } else {
+	        newBounds[2] = sy * model.bounds[3];
+	        newBounds[3] = sy * model.bounds[2];
+	      }
+
+	      if (sz >= 0.0) {
+	        newBounds[4] *= sz;
+	        newBounds[5] *= sz;
+	      } else {
+	        newBounds[4] = sz * model.bounds[5];
+	        newBounds[5] = sz * model.bounds[4];
+	      }
+
+	      model.bounds = newBounds;
+	      return true;
+	    }
+	    return false;
+	  };
+	}
+
+	// ----------------------------------------------------------------------------
+	// Object factory
+	// ----------------------------------------------------------------------------
+
+	var DEFAULT_VALUES = {
+	  type: 'vtkBoundingBox',
+	  bounds: [].concat(INIT_BOUNDS)
+	};
+
+	// ----------------------------------------------------------------------------
+
+	function extend(publicAPI, model) {
+	  var initialValues = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+
+	  Object.assign(model, DEFAULT_VALUES, initialValues);
+
+	  // Object methods
+	  macro.obj(publicAPI, model);
+	  macro.setGet(publicAPI, model, ['bounds']);
+	  vtkBoundingBox(publicAPI, model);
+	}
+
+	// ----------------------------------------------------------------------------
+
+	var newInstance = exports.newInstance = macro.newInstance(extend, 'vtkBoundingBox');
+
+	// ----------------------------------------------------------------------------
+
+	exports.default = Object.assign({ newInstance: newInstance, extend: extend }, STATIC);
+
+/***/ },
+/* 16 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.newInstance = exports.STATIC = undefined;
+	exports.extend = extend;
+
+	var _macro = __webpack_require__(2);
+
+	var macro = _interopRequireWildcard(_macro);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	// ----------------------------------------------------------------------------
+	// Global methods
+	// ----------------------------------------------------------------------------
+
+	function evaluate(normal, origin, x) {
+	  return normal[0] * (x[0] - origin[0]) + normal[1] * (x[1] - origin[1]) + normal[2] * (x[2] - origin[2]);
+	}
+
+	// ----------------------------------------------------------------------------
+	// Static API
+	// ----------------------------------------------------------------------------
+
+	var STATIC = exports.STATIC = {
+	  evaluate: evaluate
+	};
+
+	// ----------------------------------------------------------------------------
+	// vtkPlane methods
+	// ----------------------------------------------------------------------------
+
+	function vtkPlane(publicAPI, model) {
+	  // Set our className
+	  model.classHierarchy.push('vtkPlane');
+	}
+
+	// ----------------------------------------------------------------------------
+	// Object factory
+	// ----------------------------------------------------------------------------
+
+	var DEFAULT_VALUES = {
+	  type: 'vtkPlane'
+	};
+
+	// ----------------------------------------------------------------------------
+
+	function extend(publicAPI, model) {
+	  var initialValues = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+
+	  Object.assign(model, DEFAULT_VALUES, initialValues);
+
+	  // Object methods
+	  macro.obj(publicAPI, model);
+	  macro.setGet(publicAPI, model, ['bounds']);
+	  vtkPlane(publicAPI, model);
+	}
+
+	// ----------------------------------------------------------------------------
+
+	var newInstance = exports.newInstance = macro.newInstance(extend, 'vtkPlane');
+
+	// ----------------------------------------------------------------------------
+
+	exports.default = Object.assign({ newInstance: newInstance, extend: extend }, STATIC);
+
+/***/ },
+/* 17 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.newInstance = undefined;
+	exports.extend = extend;
+
+	var _macro = __webpack_require__(2);
+
+	var macro = _interopRequireWildcard(_macro);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	function notImplemented(method) {
+	  return function () {
+	    return console.log('vtkProp::${method} - NOT IMPLEMENTED');
+	  };
+	}
+
+	// ----------------------------------------------------------------------------
+	// vtkProp methods
+	// ----------------------------------------------------------------------------
+
+	function vtkProp(publicAPI, model) {
+	  // Set our className
+	  model.classHierarchy.push('vtkProp');
+
+	  publicAPI.getActors = function () {
+	    return null;
+	  };
+	  publicAPI.getActors2D = function () {
+	    return null;
+	  };
+	  publicAPI.getVolumes = function () {
+	    return null;
+	  };
+
+	  publicAPI.pick = notImplemented('pick');
+	  publicAPI.hasKey = notImplemented('hasKey');
+
+	  publicAPI.getRedrawMTime = function () {
+	    return model.mtime;
+	  };
+
+	  publicAPI.setEstimatedRenderTime = function (t) {
+	    model.estimatedRenderTime = t;
+	    model.savedEstimatedRenderTime = t;
+	  };
+
+	  publicAPI.restoreEstimatedRenderTime = function () {
+	    model.estimatedRenderTime = model.savedEstimatedRenderTime;
+	  };
+
+	  publicAPI.addEstimatedRenderTime = function (t) {
+	    model.estimatedRenderTime += t;
+	  };
+
+	  publicAPI.setAllocatedRenderTime = function (t) {
+	    model.allocatedRenderTime = t;
+	    model.savedEstimatedRenderTime = model.estimatedRenderTime;
+	    model.estimatedRenderTime = 0;
+	  };
+
+	  publicAPI.getSupportsSelection = function () {
+	    return false;
+	  };
+
+	  publicAPI.getTextures = function () {
+	    return model.textures;
+	  };
+	  publicAPI.hasTexture = function (texture) {
+	    return !!model.textures.filter(function (item) {
+	      return item === texture;
+	    }).length;
+	  };
+	  publicAPI.addTexture = function (texture) {
+	    if (texture && !publicAPI.hasTexture(texture)) {
+	      model.textures = model.textures.concat(texture);
+	    }
+	  };
+
+	  publicAPI.removeTexture = function (texture) {
+	    var newTextureList = model.textures.filter(function (item) {
+	      return item === texture;
+	    });
+	    if (model.texture.length !== newTextureList.length) {
+	      texture.releaseGraphicsResources(model.vtkWindow);
+	      model.textures = newTextureList;
+	    }
+	  };
+
+	  publicAPI.removeAllTextures = function () {
+	    model.textures.forEach(function (texture) {
+	      texture.releaseGraphicsResources(model.vtkWindow);
+	    });
+	    model.textures = [];
+	  };
+	}
+
+	// ----------------------------------------------------------------------------
+	// Object factory
+	// ----------------------------------------------------------------------------
+
+	var DEFAULT_VALUES = {
+	  visibility: true,
+	  pickable: true,
+	  dragable: true,
+	  useBounds: true,
+	  allocatedRenderTime: 10,
+	  estimatedRenderTime: 0,
+	  savedEstimatedRenderTime: 0,
+	  renderTimeMultiplier: 1,
+	  paths: null,
+	  textures: []
+	};
+
+	// ----------------------------------------------------------------------------
+
+	function extend(publicAPI, model) {
+	  var initialValues = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+
+	  Object.assign(model, DEFAULT_VALUES, initialValues);
+
+	  // Build VTK API
+	  macro.obj(publicAPI, model);
+	  macro.get(publicAPI, model, ['estimatedRenderTime', 'allocatedRenderTime']);
+	  macro.setGet(publicAPI, model, ['visibility', 'pickable', 'dragable', 'useBounds', 'renderTimeMultiplier']);
+
+	  // Object methods
+	  vtkProp(publicAPI, model);
+	}
+
+	// ----------------------------------------------------------------------------
+
+	var newInstance = exports.newInstance = macro.newInstance(extend);
+
+	// ----------------------------------------------------------------------------
+
+	exports.default = { newInstance: newInstance, extend: extend };
+
+/***/ },
 /* 18 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -7037,7 +7041,7 @@
 
 	var macro = _interopRequireWildcard(_macro);
 
-	var _BoundingBox = __webpack_require__(5);
+	var _BoundingBox = __webpack_require__(15);
 
 	var _BoundingBox2 = _interopRequireDefault(_BoundingBox);
 
@@ -7346,6 +7350,8 @@
 	var _Constants = __webpack_require__(24);
 
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	/* global window */
 
 	// ----------------------------------------------------------------------------
 	// Global methods
@@ -7868,11 +7874,11 @@
 	    if (y) {
 	      y[dx] = (c * costheta - a * b * sintheta) / tmp;
 	      y[dy] = sintheta * tmp;
-	      y[dz] = (-a * costheta - b * c * sintheta) / tmp;
+	      y[dz] = (-(a * costheta) - b * c * sintheta) / tmp;
 	    }
 
 	    if (z) {
-	      z[dx] = (-c * sintheta - a * b * costheta) / tmp;
+	      z[dx] = (-(c * sintheta) - a * b * costheta) / tmp;
 	      z[dy] = costheta * tmp;
 	      z[dz] = (a * sintheta - b * c * costheta) / tmp;
 	    }
@@ -8052,7 +8058,7 @@
 	  x_3[2] = sum - mat_3x3[2][0] * x_3[0] - mat_3x3[2][1] * x_3[1];
 
 	  // back substitution
-	  x_3[2] = x_3[2] / mat_3x3[2][2];
+	  x_3[2] /= mat_3x3[2][2];
 	  x_3[1] = (x_3[1] - mat_3x3[1][2] * x_3[2]) / mat_3x3[1][1];
 	  x_3[0] = (x_3[0] - mat_3x3[0][1] * x_3[1] - mat_3x3[0][2] * x_3[2]) / mat_3x3[0][0];
 	}
@@ -8860,7 +8866,7 @@
 	    }
 
 	    y[0] = (A[1][1] * x[0] - A[0][1] * x[1]) / det;
-	    y[1] = (-A[1][0] * x[0] + A[0][0] * x[1]) / det;
+	    y[1] = (-(A[1][0] * x[0]) + A[0][0] * x[1]) / det;
 
 	    x[0] = y[0];
 	    x[1] = y[1];
@@ -9032,6 +9038,7 @@
 	    // really make much sense for yOrder to be greater than one in this case,
 	    // since that's just yOrder occurrences of a 0 vector on the RHS, but
 	    // we allow it anyway. N
+
 
 	    // Initialize homogeneous flags on a per-right-hand-side basis
 	    for (j = 0; j < yOrder; j++) {
@@ -9275,7 +9282,6 @@
 
 	function lab2xyz(lab, xyz) {
 	  // LAB to XYZ
-
 	  var _lab = _slicedToArray(lab, 3);
 
 	  var L = _lab[0];
@@ -9353,9 +9359,9 @@
 	  // several applications including Adobe Photoshop and Microsoft Windows color
 	  // management.  OpenGL is agnostic on its RGB color space, but it is reasonable
 	  // to assume it is close to this one.
-	  if (r > 0.0031308) r = 1.055 * Math.pow(r, 1 / 2.4) - 0.055;else r = 12.92 * r;
-	  if (g > 0.0031308) g = 1.055 * Math.pow(g, 1 / 2.4) - 0.055;else g = 12.92 * g;
-	  if (b > 0.0031308) b = 1.055 * Math.pow(b, 1 / 2.4) - 0.055;else b = 12.92 * b;
+	  if (r > 0.0031308) r = 1.055 * Math.pow(r, 1 / 2.4) - 0.055;else r *= 12.92;
+	  if (g > 0.0031308) g = 1.055 * Math.pow(g, 1 / 2.4) - 0.055;else g *= 12.92;
+	  if (b > 0.0031308) b = 1.055 * Math.pow(b, 1 / 2.4) - 0.055;else b *= 12.92;
 
 	  // Clip colors. ideally we would do something that is perceptually closest
 	  // (since we can see colors outside of the display gamut), but this seems to
@@ -9393,9 +9399,9 @@
 	  // management.  OpenGL is agnostic on its RGB color space, but it is reasonable
 	  // to assume it is close to this one.
 
-	  if (r > 0.04045) r = Math.pow((r + 0.055) / 1.055, 2.4);else r = r / 12.92;
-	  if (g > 0.04045) g = Math.pow((g + 0.055) / 1.055, 2.4);else g = g / 12.92;
-	  if (b > 0.04045) b = Math.pow((b + 0.055) / 1.055, 2.4);else b = b / 12.92;
+	  if (r > 0.04045) r = Math.pow((r + 0.055) / 1.055, 2.4);else r /= 12.92;
+	  if (g > 0.04045) g = Math.pow((g + 0.055) / 1.055, 2.4);else g /= 12.92;
+	  if (b > 0.04045) b = Math.pow((b + 0.055) / 1.055, 2.4);else b /= 12.92;
 
 	  // Observer. = 2 deg, Illuminant = D65
 	  xyz[0] = r * 0.4124 + g * 0.3576 + b * 0.1805;
@@ -9444,12 +9450,10 @@
 	    // clamp
 	    if (value < range[0]) {
 	      result = range[0];
+	    } else if (value > range[1]) {
+	      result = range[1];
 	    } else {
-	      if (value > range[1]) {
-	        result = range[1];
-	      } else {
-	        result = value;
-	      }
+	      result = value;
 	    }
 	    // normalize
 	    result = (result - range[0]) / (range[1] - range[0]);
@@ -10131,6 +10135,8 @@
 
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
+	/* eslint-disable no-lonely-if */
+
 	// ----------------------------------------------------------------------------
 	// Global methods
 	// ----------------------------------------------------------------------------
@@ -10790,6 +10796,7 @@
 	// Global methods
 	// ----------------------------------------------------------------------------
 
+
 	// ----------------------------------------------------------------------------
 	// Static API
 	// ----------------------------------------------------------------------------
@@ -11022,6 +11029,8 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	/* global document */
 
 	// ----------------------------------------------------------------------------
 	// vtkOpenGLRenderWindow methods
@@ -11440,6 +11449,8 @@
 	exports.newInstance = undefined;
 	exports.extend = extend;
 
+	var _glMatrix = __webpack_require__(5);
+
 	var _macro = __webpack_require__(2);
 
 	var macro = _interopRequireWildcard(_macro);
@@ -11447,8 +11458,6 @@
 	var _ViewNode = __webpack_require__(36);
 
 	var _ViewNode2 = _interopRequireDefault(_ViewNode);
-
-	var _glMatrix = __webpack_require__(8);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -11903,6 +11912,8 @@
 	exports.newInstance = undefined;
 	exports.extend = extend;
 
+	var _glMatrix = __webpack_require__(5);
+
 	var _macro = __webpack_require__(2);
 
 	var macro = _interopRequireWildcard(_macro);
@@ -11910,8 +11921,6 @@
 	var _ViewNode = __webpack_require__(36);
 
 	var _ViewNode2 = _interopRequireDefault(_ViewNode);
-
-	var _glMatrix = __webpack_require__(8);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -12380,6 +12389,7 @@
 
 	      var cellOffset = 0;
 	      cellOffset += model.tris.getCABO().createVBO(cells, 'polys', _Constants.VTK_REPRESENTATION.SURFACE, { points: points, tcoords: tcoords, cellOffset: cellOffset });
+	      console.log('FIXME(Ken) - unused', cellOffset);
 	      model.VBOBuildTime.modified();
 	      model.VBOBuildString = toString;
 	    }
@@ -12676,7 +12686,6 @@
 
 	    var cellBuilders = {
 	      // easy, every input point becomes an output point
-
 	      anythingToPoints: function anythingToPoints(numPoints, cellPts, offset) {
 	        for (var i = 0; i < numPoints; ++i) {
 	          addAPoint(cellPts[offset + i]);
@@ -12997,7 +13006,9 @@
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-	var DynamicTypedArray = exports.DynamicTypedArray = function () {
+	/* global window */
+
+	var DynamicTypedArray = function () {
 	  function DynamicTypedArray() {
 	    var _ref = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
 
@@ -13061,6 +13072,8 @@
 
 	  return DynamicTypedArray;
 	}();
+
+	exports.default = DynamicTypedArray;
 
 /***/ },
 /* 45 */
@@ -13700,7 +13713,7 @@
 	  };
 
 	  publicAPI.isReady = function () {
-	    return(
+	    return (
 	      // We either probed and allocated a VAO, or are falling back as the current
 	      // hardware does not support VAOs.
 	      model.handleVAO !== 0 || model.supported === false
@@ -14603,6 +14616,8 @@
 	exports.newInstance = undefined;
 	exports.extend = extend;
 
+	var _glMatrix = __webpack_require__(5);
+
 	var _macro = __webpack_require__(2);
 
 	var macro = _interopRequireWildcard(_macro);
@@ -14610,8 +14625,6 @@
 	var _ViewNode = __webpack_require__(36);
 
 	var _ViewNode2 = _interopRequireDefault(_ViewNode);
-
-	var _glMatrix = __webpack_require__(8);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -14735,6 +14748,8 @@
 	exports.vtkOpenGLPolyDataMapper = vtkOpenGLPolyDataMapper;
 	exports.extend = extend;
 
+	var _glMatrix = __webpack_require__(5);
+
 	var _macro = __webpack_require__(2);
 
 	var macro = _interopRequireWildcard(_macro);
@@ -14759,8 +14774,6 @@
 
 	var _Constants2 = __webpack_require__(56);
 
-	var _glMatrix = __webpack_require__(8);
-
 	var _vtkPolyDataVS = __webpack_require__(52);
 
 	var _vtkPolyDataVS2 = _interopRequireDefault(_vtkPolyDataVS);
@@ -14772,6 +14785,8 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	/* eslint-disable no-lonely-if */
 
 	// ----------------------------------------------------------------------------
 	// vtkOpenGLPolyDataMapper methods
@@ -15458,6 +15473,7 @@
 	    //   return;
 	    // }
 
+
 	    publicAPI.invokeEvent({ type: 'StartEvent' });
 	    model.currentInput = model.renderable.getInputData();
 	    if (!model.renderable.getStatic()) {
@@ -15550,14 +15566,45 @@
 	      var points = poly.getPoints();
 
 	      var cellOffset = 0;
-	      cellOffset += model.points.getCABO().createVBO(poly.getVerts(), 'verts', representation, { points: points, normals: n, tcoords: tcoords, colors: c, cellOffset: cellOffset,
-	        haveCellScalars: model.haveCellScalars, haveCellNormals: model.haveCellNormals });
-	      cellOffset += model.lines.getCABO().createVBO(poly.getLines(), 'lines', representation, { points: points, normals: n, tcoords: tcoords, colors: c, cellOffset: cellOffset,
-	        haveCellScalars: model.haveCellScalars, haveCellNormals: model.haveCellNormals });
-	      cellOffset += model.tris.getCABO().createVBO(poly.getPolys(), 'polys', representation, { points: points, normals: n, tcoords: tcoords, colors: c, cellOffset: cellOffset,
-	        haveCellScalars: model.haveCellScalars, haveCellNormals: model.haveCellNormals });
-	      cellOffset += model.triStrips.getCABO().createVBO(poly.getStrips(), 'strips', representation, { points: points, normals: n, tcoords: tcoords, colors: c, cellOffset: cellOffset,
-	        haveCellScalars: model.haveCellScalars, haveCellNormals: model.haveCellNormals });
+	      cellOffset += model.points.getCABO().createVBO(poly.getVerts(), 'verts', representation, {
+	        points: points,
+	        normals: n,
+	        tcoords: tcoords,
+	        colors: c,
+	        cellOffset: cellOffset,
+	        haveCellScalars: model.haveCellScalars,
+	        haveCellNormals: model.haveCellNormals
+	      });
+	      cellOffset += model.lines.getCABO().createVBO(poly.getLines(), 'lines', representation, {
+	        points: points,
+	        normals: n,
+	        tcoords: tcoords,
+	        colors: c,
+	        cellOffset: cellOffset,
+	        haveCellScalars: model.haveCellScalars,
+	        haveCellNormals: model.haveCellNormals
+	      });
+	      cellOffset += model.tris.getCABO().createVBO(poly.getPolys(), 'polys', representation, {
+	        points: points,
+	        normals: n,
+	        tcoords: tcoords,
+	        colors: c,
+	        cellOffset: cellOffset,
+	        haveCellScalars: model.haveCellScalars,
+	        haveCellNormals: model.haveCellNormals
+	      });
+	      cellOffset += model.triStrips.getCABO().createVBO(poly.getStrips(), 'strips', representation, {
+	        points: points,
+	        normals: n,
+	        tcoords: tcoords,
+	        colors: c,
+	        cellOffset: cellOffset,
+	        haveCellScalars: model.haveCellScalars,
+	        haveCellNormals: model.haveCellNormals
+	      });
+
+	      // FIXME: cellOffset not used... (Ken?)
+	      console.log('FIXME(Ken):', cellOffset);
 
 	      model.VBOBuildTime.modified();
 	      model.VBOBuildString = toString;
@@ -15821,6 +15868,10 @@
 	exports.newInstance = undefined;
 	exports.extend = extend;
 
+	var _blueimpMd = __webpack_require__(59);
+
+	var _blueimpMd2 = _interopRequireDefault(_blueimpMd);
+
 	var _macro = __webpack_require__(2);
 
 	var macro = _interopRequireWildcard(_macro);
@@ -15829,13 +15880,9 @@
 
 	var _ShaderProgram2 = _interopRequireDefault(_ShaderProgram);
 
-	var _blueimpMd = __webpack_require__(59);
-
-	var _blueimpMd2 = _interopRequireDefault(_blueimpMd);
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 	// ----------------------------------------------------------------------------
 
@@ -16443,6 +16490,8 @@
 	exports.newInstance = undefined;
 	exports.extend = extend;
 
+	var _glMatrix = __webpack_require__(5);
+
 	var _macro = __webpack_require__(2);
 
 	var macro = _interopRequireWildcard(_macro);
@@ -16463,9 +16512,7 @@
 
 	var _Viewport2 = _interopRequireDefault(_Viewport);
 
-	var _BoundingBox = __webpack_require__(5);
-
-	var _glMatrix = __webpack_require__(8);
+	var _BoundingBox = __webpack_require__(15);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -17163,6 +17210,8 @@
 	exports.newInstance = exports.DEFAULT_VALUES = undefined;
 	exports.extend = extend;
 
+	var _glMatrix = __webpack_require__(5);
+
 	var _macro = __webpack_require__(2);
 
 	var macro = _interopRequireWildcard(_macro);
@@ -17170,8 +17219,6 @@
 	var _Math = __webpack_require__(25);
 
 	var _Math2 = _interopRequireDefault(_Math);
-
-	var _glMatrix = __webpack_require__(8);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -18052,6 +18099,7 @@
 	// ----------------------------------------------------------------------------
 	// Static API
 	// ----------------------------------------------------------------------------
+
 
 	// ----------------------------------------------------------------------------
 	// vtkMyClass methods

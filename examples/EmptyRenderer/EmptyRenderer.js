@@ -119,7 +119,7 @@
 
 	var _ShaderCache2 = _interopRequireDefault(_ShaderCache);
 
-	var _ViewNode = __webpack_require__(7);
+	var _ViewNode = __webpack_require__(17);
 
 	var _ViewNode2 = _interopRequireDefault(_ViewNode);
 
@@ -130,6 +130,8 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	/* global document */
 
 	// ----------------------------------------------------------------------------
 	// vtkOpenGLRenderWindow methods
@@ -1089,15 +1091,15 @@
 	exports.newInstance = undefined;
 	exports.extend = extend;
 
+	var _glMatrix = __webpack_require__(7);
+
 	var _macro = __webpack_require__(2);
 
 	var macro = _interopRequireWildcard(_macro);
 
-	var _ViewNode = __webpack_require__(7);
+	var _ViewNode = __webpack_require__(17);
 
 	var _ViewNode2 = _interopRequireDefault(_ViewNode);
-
-	var _glMatrix = __webpack_require__(8);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -1241,184 +1243,6 @@
 /* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.newInstance = exports.PASS_TYPES = undefined;
-	exports.extend = extend;
-
-	var _macro = __webpack_require__(2);
-
-	var macro = _interopRequireWildcard(_macro);
-
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-	var PASS_TYPES = exports.PASS_TYPES = ['Build', 'Render'];
-
-	// ----------------------------------------------------------------------------
-	// vtkViewNode methods
-	// ----------------------------------------------------------------------------
-
-	function vtkViewNode(publicAPI, model) {
-	  // Set our className
-	  model.classHierarchy.push('vtkViewNode');
-
-	  // Builds myself.
-	  publicAPI.build = function (prepass) {};
-
-	  // Renders myself
-	  publicAPI.render = function (prepass) {};
-
-	  publicAPI.getViewNodeFor = function (dataObject) {
-	    if (model.renderable === dataObject) {
-	      return publicAPI;
-	    }
-
-	    return model.children.find(function (child) {
-	      var vn = child.getViewNodeFor(dataObject);
-	      return !!vn;
-	    });
-	  };
-
-	  publicAPI.getFirstAncestorOfType = function (type) {
-	    if (!model.parent) {
-	      return null;
-	    }
-	    if (model.parent.isA(type)) {
-	      return model.parent;
-	    }
-	    return model.parent.getFirstAncestorOfType(type);
-	  };
-
-	  publicAPI.traverse = function (operation) {
-	    publicAPI.apply(operation, true);
-
-	    model.children.forEach(function (child) {
-	      child.traverse(operation);
-	    });
-
-	    publicAPI.apply(operation, false);
-	  };
-
-	  publicAPI.traverseAllPasses = function () {
-	    publicAPI.traverse('Build');
-	    publicAPI.traverse('Render');
-	  };
-
-	  publicAPI.apply = function (operation, prepass) {
-	    switch (operation) {
-	      case 'Build':
-	        publicAPI.build(prepass);
-	        break;
-	      case 'Render':
-	        publicAPI.render(prepass);
-	        break;
-	      default:
-	        console.log('UNKNOWN OPERATION  ' + operation);
-	    }
-	  };
-
-	  publicAPI.addMissingNode = function (dataObj) {
-	    if (dataObj) {
-	      publicAPI.addMissingNodes([dataObj]);
-	    }
-	  };
-
-	  publicAPI.addMissingNodes = function (dataObjs) {
-	    if (!dataObjs || !dataObjs.length) {
-	      return;
-	    }
-	    model.preparedNodes = model.preparedNodes.concat(dataObjs);
-
-	    // if any dataObj is not a renderable of a child
-	    // then create child for that dataObj with renderable set to the
-	    // dataObj
-
-	    var childDOs = model.children.map(function (node) {
-	      return node.getRenderable();
-	    });
-
-	    var newNodes = dataObjs.filter(function (node) {
-	      return node && childDOs.indexOf(node) === -1;
-	    }).map(function (node) {
-	      var newNode = publicAPI.createViewNode(node);
-	      if (newNode) {
-	        newNode.setParent(publicAPI);
-	        newNode.setRenderable(node);
-	      }
-	      return newNode;
-	    });
-
-	    model.children = model.children.concat(newNodes);
-	  };
-
-	  publicAPI.prepareNodes = function () {
-	    model.preparedNodes = [];
-	  };
-
-	  publicAPI.removeUnusedNodes = function () {
-	    model.children = model.children.filter(function (node) {
-	      return model.preparedNodes.indexOf(node.getRenderable()) !== -1;
-	    });
-	    publicAPI.prepareNodes();
-	  };
-
-	  publicAPI.createViewNode = function (dataObj) {
-	    if (!model.myFactory) {
-	      console.log('Can not create view nodes without my own factory');
-	      return null;
-	    }
-	    var ret = model.myFactory.createNode(dataObj);
-	    if (ret) {
-	      ret.setRenderable(dataObj);
-	    }
-	    return ret;
-	  };
-	}
-
-	// ----------------------------------------------------------------------------
-	// Object factory
-	// ----------------------------------------------------------------------------
-
-	var DEFAULT_VALUES = {
-	  parent: null,
-	  renderable: null,
-	  myFactory: null,
-	  children: [],
-	  preparedNodes: []
-	};
-
-	// ----------------------------------------------------------------------------
-
-	function extend(publicAPI, model) {
-	  var initialValues = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
-
-	  Object.assign(model, DEFAULT_VALUES, initialValues);
-
-	  // Build VTK API
-	  macro.obj(publicAPI, model);
-	  macro.event(publicAPI, model, 'event');
-	  macro.setGet(publicAPI, model, ['parent', 'renderable', 'myFactory']);
-	  macro.getArray(publicAPI, model, ['children']);
-
-	  // Object methods
-	  vtkViewNode(publicAPI, model);
-	}
-
-	// ----------------------------------------------------------------------------
-
-	var newInstance = exports.newInstance = macro.newInstance(extend);
-
-	// ----------------------------------------------------------------------------
-
-	exports.default = { newInstance: newInstance, extend: extend, PASS_TYPES: PASS_TYPES };
-
-/***/ },
-/* 8 */
-/***/ function(module, exports, __webpack_require__) {
-
 	/**
 	 * @fileoverview gl-matrix - High performance matrix and vector operations
 	 * @author Brandon Jones
@@ -1447,18 +1271,18 @@
 	THE SOFTWARE. */
 	// END HEADER
 
-	exports.glMatrix = __webpack_require__(9);
-	exports.mat2 = __webpack_require__(10);
-	exports.mat2d = __webpack_require__(11);
-	exports.mat3 = __webpack_require__(12);
-	exports.mat4 = __webpack_require__(13);
-	exports.quat = __webpack_require__(14);
-	exports.vec2 = __webpack_require__(17);
-	exports.vec3 = __webpack_require__(15);
-	exports.vec4 = __webpack_require__(16);
+	exports.glMatrix = __webpack_require__(8);
+	exports.mat2 = __webpack_require__(9);
+	exports.mat2d = __webpack_require__(10);
+	exports.mat3 = __webpack_require__(11);
+	exports.mat4 = __webpack_require__(12);
+	exports.quat = __webpack_require__(13);
+	exports.vec2 = __webpack_require__(16);
+	exports.vec3 = __webpack_require__(14);
+	exports.vec4 = __webpack_require__(15);
 
 /***/ },
-/* 9 */
+/* 8 */
 /***/ function(module, exports) {
 
 	/* Copyright (c) 2015, Brandon Jones, Colin MacKenzie IV.
@@ -1516,7 +1340,7 @@
 
 
 /***/ },
-/* 10 */
+/* 9 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* Copyright (c) 2015, Brandon Jones, Colin MacKenzie IV.
@@ -1539,7 +1363,7 @@
 	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 	THE SOFTWARE. */
 
-	var glMatrix = __webpack_require__(9);
+	var glMatrix = __webpack_require__(8);
 
 	/**
 	 * @class 2x2 Matrix
@@ -1824,7 +1648,7 @@
 
 
 /***/ },
-/* 11 */
+/* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* Copyright (c) 2015, Brandon Jones, Colin MacKenzie IV.
@@ -1847,7 +1671,7 @@
 	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 	THE SOFTWARE. */
 
-	var glMatrix = __webpack_require__(9);
+	var glMatrix = __webpack_require__(8);
 
 	/**
 	 * @class 2x3 Matrix
@@ -2147,7 +1971,7 @@
 
 
 /***/ },
-/* 12 */
+/* 11 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* Copyright (c) 2015, Brandon Jones, Colin MacKenzie IV.
@@ -2170,7 +1994,7 @@
 	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 	THE SOFTWARE. */
 
-	var glMatrix = __webpack_require__(9);
+	var glMatrix = __webpack_require__(8);
 
 	/**
 	 * @class 3x3 Matrix
@@ -2718,7 +2542,7 @@
 
 
 /***/ },
-/* 13 */
+/* 12 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* Copyright (c) 2015, Brandon Jones, Colin MacKenzie IV.
@@ -2741,7 +2565,7 @@
 	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 	THE SOFTWARE. */
 
-	var glMatrix = __webpack_require__(9);
+	var glMatrix = __webpack_require__(8);
 
 	/**
 	 * @class 4x4 Matrix
@@ -4007,7 +3831,7 @@
 
 
 /***/ },
-/* 14 */
+/* 13 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* Copyright (c) 2015, Brandon Jones, Colin MacKenzie IV.
@@ -4030,10 +3854,10 @@
 	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 	THE SOFTWARE. */
 
-	var glMatrix = __webpack_require__(9);
-	var mat3 = __webpack_require__(12);
-	var vec3 = __webpack_require__(15);
-	var vec4 = __webpack_require__(16);
+	var glMatrix = __webpack_require__(8);
+	var mat3 = __webpack_require__(11);
+	var vec3 = __webpack_require__(14);
+	var vec4 = __webpack_require__(15);
 
 	/**
 	 * @class Quaternion
@@ -4566,7 +4390,7 @@
 
 
 /***/ },
-/* 15 */
+/* 14 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* Copyright (c) 2015, Brandon Jones, Colin MacKenzie IV.
@@ -4589,7 +4413,7 @@
 	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 	THE SOFTWARE. */
 
-	var glMatrix = __webpack_require__(9);
+	var glMatrix = __webpack_require__(8);
 
 	/**
 	 * @class 3 Dimensional Vector
@@ -5281,7 +5105,7 @@
 
 
 /***/ },
-/* 16 */
+/* 15 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* Copyright (c) 2015, Brandon Jones, Colin MacKenzie IV.
@@ -5304,7 +5128,7 @@
 	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 	THE SOFTWARE. */
 
-	var glMatrix = __webpack_require__(9);
+	var glMatrix = __webpack_require__(8);
 
 	/**
 	 * @class 4 Dimensional Vector
@@ -5824,7 +5648,7 @@
 
 
 /***/ },
-/* 17 */
+/* 16 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* Copyright (c) 2015, Brandon Jones, Colin MacKenzie IV.
@@ -5847,7 +5671,7 @@
 	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 	THE SOFTWARE. */
 
-	var glMatrix = __webpack_require__(9);
+	var glMatrix = __webpack_require__(8);
 
 	/**
 	 * @class 2 Dimensional Vector
@@ -6353,6 +6177,184 @@
 
 
 /***/ },
+/* 17 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.newInstance = exports.PASS_TYPES = undefined;
+	exports.extend = extend;
+
+	var _macro = __webpack_require__(2);
+
+	var macro = _interopRequireWildcard(_macro);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	var PASS_TYPES = exports.PASS_TYPES = ['Build', 'Render'];
+
+	// ----------------------------------------------------------------------------
+	// vtkViewNode methods
+	// ----------------------------------------------------------------------------
+
+	function vtkViewNode(publicAPI, model) {
+	  // Set our className
+	  model.classHierarchy.push('vtkViewNode');
+
+	  // Builds myself.
+	  publicAPI.build = function (prepass) {};
+
+	  // Renders myself
+	  publicAPI.render = function (prepass) {};
+
+	  publicAPI.getViewNodeFor = function (dataObject) {
+	    if (model.renderable === dataObject) {
+	      return publicAPI;
+	    }
+
+	    return model.children.find(function (child) {
+	      var vn = child.getViewNodeFor(dataObject);
+	      return !!vn;
+	    });
+	  };
+
+	  publicAPI.getFirstAncestorOfType = function (type) {
+	    if (!model.parent) {
+	      return null;
+	    }
+	    if (model.parent.isA(type)) {
+	      return model.parent;
+	    }
+	    return model.parent.getFirstAncestorOfType(type);
+	  };
+
+	  publicAPI.traverse = function (operation) {
+	    publicAPI.apply(operation, true);
+
+	    model.children.forEach(function (child) {
+	      child.traverse(operation);
+	    });
+
+	    publicAPI.apply(operation, false);
+	  };
+
+	  publicAPI.traverseAllPasses = function () {
+	    publicAPI.traverse('Build');
+	    publicAPI.traverse('Render');
+	  };
+
+	  publicAPI.apply = function (operation, prepass) {
+	    switch (operation) {
+	      case 'Build':
+	        publicAPI.build(prepass);
+	        break;
+	      case 'Render':
+	        publicAPI.render(prepass);
+	        break;
+	      default:
+	        console.log('UNKNOWN OPERATION  ' + operation);
+	    }
+	  };
+
+	  publicAPI.addMissingNode = function (dataObj) {
+	    if (dataObj) {
+	      publicAPI.addMissingNodes([dataObj]);
+	    }
+	  };
+
+	  publicAPI.addMissingNodes = function (dataObjs) {
+	    if (!dataObjs || !dataObjs.length) {
+	      return;
+	    }
+	    model.preparedNodes = model.preparedNodes.concat(dataObjs);
+
+	    // if any dataObj is not a renderable of a child
+	    // then create child for that dataObj with renderable set to the
+	    // dataObj
+
+	    var childDOs = model.children.map(function (node) {
+	      return node.getRenderable();
+	    });
+
+	    var newNodes = dataObjs.filter(function (node) {
+	      return node && childDOs.indexOf(node) === -1;
+	    }).map(function (node) {
+	      var newNode = publicAPI.createViewNode(node);
+	      if (newNode) {
+	        newNode.setParent(publicAPI);
+	        newNode.setRenderable(node);
+	      }
+	      return newNode;
+	    });
+
+	    model.children = model.children.concat(newNodes);
+	  };
+
+	  publicAPI.prepareNodes = function () {
+	    model.preparedNodes = [];
+	  };
+
+	  publicAPI.removeUnusedNodes = function () {
+	    model.children = model.children.filter(function (node) {
+	      return model.preparedNodes.indexOf(node.getRenderable()) !== -1;
+	    });
+	    publicAPI.prepareNodes();
+	  };
+
+	  publicAPI.createViewNode = function (dataObj) {
+	    if (!model.myFactory) {
+	      console.log('Can not create view nodes without my own factory');
+	      return null;
+	    }
+	    var ret = model.myFactory.createNode(dataObj);
+	    if (ret) {
+	      ret.setRenderable(dataObj);
+	    }
+	    return ret;
+	  };
+	}
+
+	// ----------------------------------------------------------------------------
+	// Object factory
+	// ----------------------------------------------------------------------------
+
+	var DEFAULT_VALUES = {
+	  parent: null,
+	  renderable: null,
+	  myFactory: null,
+	  children: [],
+	  preparedNodes: []
+	};
+
+	// ----------------------------------------------------------------------------
+
+	function extend(publicAPI, model) {
+	  var initialValues = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+
+	  Object.assign(model, DEFAULT_VALUES, initialValues);
+
+	  // Build VTK API
+	  macro.obj(publicAPI, model);
+	  macro.event(publicAPI, model, 'event');
+	  macro.setGet(publicAPI, model, ['parent', 'renderable', 'myFactory']);
+	  macro.getArray(publicAPI, model, ['children']);
+
+	  // Object methods
+	  vtkViewNode(publicAPI, model);
+	}
+
+	// ----------------------------------------------------------------------------
+
+	var newInstance = exports.newInstance = macro.newInstance(extend);
+
+	// ----------------------------------------------------------------------------
+
+	exports.default = { newInstance: newInstance, extend: extend, PASS_TYPES: PASS_TYPES };
+
+/***/ },
 /* 18 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -6368,7 +6370,7 @@
 
 	var macro = _interopRequireWildcard(_macro);
 
-	var _ViewNode = __webpack_require__(7);
+	var _ViewNode = __webpack_require__(17);
 
 	var _ViewNode2 = _interopRequireDefault(_ViewNode);
 
@@ -6489,15 +6491,15 @@
 	exports.newInstance = undefined;
 	exports.extend = extend;
 
+	var _glMatrix = __webpack_require__(7);
+
 	var _macro = __webpack_require__(2);
 
 	var macro = _interopRequireWildcard(_macro);
 
-	var _ViewNode = __webpack_require__(7);
+	var _ViewNode = __webpack_require__(17);
 
 	var _ViewNode2 = _interopRequireDefault(_ViewNode);
-
-	var _glMatrix = __webpack_require__(8);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -6643,7 +6645,7 @@
 
 	var _Texture4 = _interopRequireDefault(_Texture3);
 
-	var _ViewNode = __webpack_require__(7);
+	var _ViewNode = __webpack_require__(17);
 
 	var _ViewNode2 = _interopRequireDefault(_ViewNode);
 
@@ -6966,6 +6968,7 @@
 
 	      var cellOffset = 0;
 	      cellOffset += model.tris.getCABO().createVBO(cells, 'polys', _Constants.VTK_REPRESENTATION.SURFACE, { points: points, tcoords: tcoords, cellOffset: cellOffset });
+	      console.log('FIXME(Ken) - unused', cellOffset);
 	      model.VBOBuildTime.modified();
 	      model.VBOBuildString = toString;
 	    }
@@ -7262,7 +7265,6 @@
 
 	    var cellBuilders = {
 	      // easy, every input point becomes an output point
-
 	      anythingToPoints: function anythingToPoints(numPoints, cellPts, offset) {
 	        for (var i = 0; i < numPoints; ++i) {
 	          addAPoint(cellPts[offset + i]);
@@ -7583,7 +7585,9 @@
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-	var DynamicTypedArray = exports.DynamicTypedArray = function () {
+	/* global window */
+
+	var DynamicTypedArray = function () {
 	  function DynamicTypedArray() {
 	    var _ref = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
 
@@ -7647,6 +7651,8 @@
 
 	  return DynamicTypedArray;
 	}();
+
+	exports.default = DynamicTypedArray;
 
 /***/ },
 /* 26 */
@@ -8286,7 +8292,7 @@
 	  };
 
 	  publicAPI.isReady = function () {
-	    return(
+	    return (
 	      // We either probed and allocated a VAO, or are falling back as the current
 	      // hardware does not support VAOs.
 	      model.handleVAO !== 0 || model.supported === false
@@ -8762,11 +8768,11 @@
 	    if (y) {
 	      y[dx] = (c * costheta - a * b * sintheta) / tmp;
 	      y[dy] = sintheta * tmp;
-	      y[dz] = (-a * costheta - b * c * sintheta) / tmp;
+	      y[dz] = (-(a * costheta) - b * c * sintheta) / tmp;
 	    }
 
 	    if (z) {
-	      z[dx] = (-c * sintheta - a * b * costheta) / tmp;
+	      z[dx] = (-(c * sintheta) - a * b * costheta) / tmp;
 	      z[dy] = costheta * tmp;
 	      z[dz] = (a * sintheta - b * c * costheta) / tmp;
 	    }
@@ -8946,7 +8952,7 @@
 	  x_3[2] = sum - mat_3x3[2][0] * x_3[0] - mat_3x3[2][1] * x_3[1];
 
 	  // back substitution
-	  x_3[2] = x_3[2] / mat_3x3[2][2];
+	  x_3[2] /= mat_3x3[2][2];
 	  x_3[1] = (x_3[1] - mat_3x3[1][2] * x_3[2]) / mat_3x3[1][1];
 	  x_3[0] = (x_3[0] - mat_3x3[0][1] * x_3[1] - mat_3x3[0][2] * x_3[2]) / mat_3x3[0][0];
 	}
@@ -9754,7 +9760,7 @@
 	    }
 
 	    y[0] = (A[1][1] * x[0] - A[0][1] * x[1]) / det;
-	    y[1] = (-A[1][0] * x[0] + A[0][0] * x[1]) / det;
+	    y[1] = (-(A[1][0] * x[0]) + A[0][0] * x[1]) / det;
 
 	    x[0] = y[0];
 	    x[1] = y[1];
@@ -9926,6 +9932,7 @@
 	    // really make much sense for yOrder to be greater than one in this case,
 	    // since that's just yOrder occurrences of a 0 vector on the RHS, but
 	    // we allow it anyway. N
+
 
 	    // Initialize homogeneous flags on a per-right-hand-side basis
 	    for (j = 0; j < yOrder; j++) {
@@ -10169,7 +10176,6 @@
 
 	function lab2xyz(lab, xyz) {
 	  // LAB to XYZ
-
 	  var _lab = _slicedToArray(lab, 3);
 
 	  var L = _lab[0];
@@ -10247,9 +10253,9 @@
 	  // several applications including Adobe Photoshop and Microsoft Windows color
 	  // management.  OpenGL is agnostic on its RGB color space, but it is reasonable
 	  // to assume it is close to this one.
-	  if (r > 0.0031308) r = 1.055 * Math.pow(r, 1 / 2.4) - 0.055;else r = 12.92 * r;
-	  if (g > 0.0031308) g = 1.055 * Math.pow(g, 1 / 2.4) - 0.055;else g = 12.92 * g;
-	  if (b > 0.0031308) b = 1.055 * Math.pow(b, 1 / 2.4) - 0.055;else b = 12.92 * b;
+	  if (r > 0.0031308) r = 1.055 * Math.pow(r, 1 / 2.4) - 0.055;else r *= 12.92;
+	  if (g > 0.0031308) g = 1.055 * Math.pow(g, 1 / 2.4) - 0.055;else g *= 12.92;
+	  if (b > 0.0031308) b = 1.055 * Math.pow(b, 1 / 2.4) - 0.055;else b *= 12.92;
 
 	  // Clip colors. ideally we would do something that is perceptually closest
 	  // (since we can see colors outside of the display gamut), but this seems to
@@ -10287,9 +10293,9 @@
 	  // management.  OpenGL is agnostic on its RGB color space, but it is reasonable
 	  // to assume it is close to this one.
 
-	  if (r > 0.04045) r = Math.pow((r + 0.055) / 1.055, 2.4);else r = r / 12.92;
-	  if (g > 0.04045) g = Math.pow((g + 0.055) / 1.055, 2.4);else g = g / 12.92;
-	  if (b > 0.04045) b = Math.pow((b + 0.055) / 1.055, 2.4);else b = b / 12.92;
+	  if (r > 0.04045) r = Math.pow((r + 0.055) / 1.055, 2.4);else r /= 12.92;
+	  if (g > 0.04045) g = Math.pow((g + 0.055) / 1.055, 2.4);else g /= 12.92;
+	  if (b > 0.04045) b = Math.pow((b + 0.055) / 1.055, 2.4);else b /= 12.92;
 
 	  // Observer. = 2 deg, Illuminant = D65
 	  xyz[0] = r * 0.4124 + g * 0.3576 + b * 0.1805;
@@ -10338,12 +10344,10 @@
 	    // clamp
 	    if (value < range[0]) {
 	      result = range[0];
+	    } else if (value > range[1]) {
+	      result = range[1];
 	    } else {
-	      if (value > range[1]) {
-	        result = range[1];
-	      } else {
-	        result = value;
-	      }
+	      result = value;
 	    }
 	    // normalize
 	    result = (result - range[0]) / (range[1] - range[0]);
@@ -10565,6 +10569,8 @@
 	var _Constants = __webpack_require__(32);
 
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	/* global window */
 
 	// ----------------------------------------------------------------------------
 	// Global methods
@@ -10880,7 +10886,7 @@
 
 	var _Constants2 = __webpack_require__(32);
 
-	var _ViewNode = __webpack_require__(7);
+	var _ViewNode = __webpack_require__(17);
 
 	var _ViewNode2 = _interopRequireDefault(_ViewNode);
 
@@ -11514,15 +11520,15 @@
 	exports.newInstance = undefined;
 	exports.extend = extend;
 
+	var _glMatrix = __webpack_require__(7);
+
 	var _macro = __webpack_require__(2);
 
 	var macro = _interopRequireWildcard(_macro);
 
-	var _ViewNode = __webpack_require__(7);
+	var _ViewNode = __webpack_require__(17);
 
 	var _ViewNode2 = _interopRequireDefault(_ViewNode);
-
-	var _glMatrix = __webpack_require__(8);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -11646,6 +11652,8 @@
 	exports.vtkOpenGLPolyDataMapper = vtkOpenGLPolyDataMapper;
 	exports.extend = extend;
 
+	var _glMatrix = __webpack_require__(7);
+
 	var _macro = __webpack_require__(2);
 
 	var macro = _interopRequireWildcard(_macro);
@@ -11662,15 +11670,13 @@
 
 	var _ShaderProgram2 = _interopRequireDefault(_ShaderProgram);
 
-	var _ViewNode = __webpack_require__(7);
+	var _ViewNode = __webpack_require__(17);
 
 	var _ViewNode2 = _interopRequireDefault(_ViewNode);
 
 	var _Constants = __webpack_require__(26);
 
 	var _Constants2 = __webpack_require__(40);
-
-	var _glMatrix = __webpack_require__(8);
 
 	var _vtkPolyDataVS = __webpack_require__(36);
 
@@ -11683,6 +11689,8 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	/* eslint-disable no-lonely-if */
 
 	// ----------------------------------------------------------------------------
 	// vtkOpenGLPolyDataMapper methods
@@ -12369,6 +12377,7 @@
 	    //   return;
 	    // }
 
+
 	    publicAPI.invokeEvent({ type: 'StartEvent' });
 	    model.currentInput = model.renderable.getInputData();
 	    if (!model.renderable.getStatic()) {
@@ -12461,14 +12470,45 @@
 	      var points = poly.getPoints();
 
 	      var cellOffset = 0;
-	      cellOffset += model.points.getCABO().createVBO(poly.getVerts(), 'verts', representation, { points: points, normals: n, tcoords: tcoords, colors: c, cellOffset: cellOffset,
-	        haveCellScalars: model.haveCellScalars, haveCellNormals: model.haveCellNormals });
-	      cellOffset += model.lines.getCABO().createVBO(poly.getLines(), 'lines', representation, { points: points, normals: n, tcoords: tcoords, colors: c, cellOffset: cellOffset,
-	        haveCellScalars: model.haveCellScalars, haveCellNormals: model.haveCellNormals });
-	      cellOffset += model.tris.getCABO().createVBO(poly.getPolys(), 'polys', representation, { points: points, normals: n, tcoords: tcoords, colors: c, cellOffset: cellOffset,
-	        haveCellScalars: model.haveCellScalars, haveCellNormals: model.haveCellNormals });
-	      cellOffset += model.triStrips.getCABO().createVBO(poly.getStrips(), 'strips', representation, { points: points, normals: n, tcoords: tcoords, colors: c, cellOffset: cellOffset,
-	        haveCellScalars: model.haveCellScalars, haveCellNormals: model.haveCellNormals });
+	      cellOffset += model.points.getCABO().createVBO(poly.getVerts(), 'verts', representation, {
+	        points: points,
+	        normals: n,
+	        tcoords: tcoords,
+	        colors: c,
+	        cellOffset: cellOffset,
+	        haveCellScalars: model.haveCellScalars,
+	        haveCellNormals: model.haveCellNormals
+	      });
+	      cellOffset += model.lines.getCABO().createVBO(poly.getLines(), 'lines', representation, {
+	        points: points,
+	        normals: n,
+	        tcoords: tcoords,
+	        colors: c,
+	        cellOffset: cellOffset,
+	        haveCellScalars: model.haveCellScalars,
+	        haveCellNormals: model.haveCellNormals
+	      });
+	      cellOffset += model.tris.getCABO().createVBO(poly.getPolys(), 'polys', representation, {
+	        points: points,
+	        normals: n,
+	        tcoords: tcoords,
+	        colors: c,
+	        cellOffset: cellOffset,
+	        haveCellScalars: model.haveCellScalars,
+	        haveCellNormals: model.haveCellNormals
+	      });
+	      cellOffset += model.triStrips.getCABO().createVBO(poly.getStrips(), 'strips', representation, {
+	        points: points,
+	        normals: n,
+	        tcoords: tcoords,
+	        colors: c,
+	        cellOffset: cellOffset,
+	        haveCellScalars: model.haveCellScalars,
+	        haveCellNormals: model.haveCellNormals
+	      });
+
+	      // FIXME: cellOffset not used... (Ken?)
+	      console.log('FIXME(Ken):', cellOffset);
 
 	      model.VBOBuildTime.modified();
 	      model.VBOBuildString = toString;
@@ -12592,7 +12632,7 @@
 
 	var macro = _interopRequireWildcard(_macro);
 
-	var _ViewNode = __webpack_require__(7);
+	var _ViewNode = __webpack_require__(17);
 
 	var _ViewNode2 = _interopRequireDefault(_ViewNode);
 
@@ -12732,6 +12772,10 @@
 	exports.newInstance = undefined;
 	exports.extend = extend;
 
+	var _blueimpMd = __webpack_require__(43);
+
+	var _blueimpMd2 = _interopRequireDefault(_blueimpMd);
+
 	var _macro = __webpack_require__(2);
 
 	var macro = _interopRequireWildcard(_macro);
@@ -12740,13 +12784,9 @@
 
 	var _ShaderProgram2 = _interopRequireDefault(_ShaderProgram);
 
-	var _blueimpMd = __webpack_require__(43);
-
-	var _blueimpMd2 = _interopRequireDefault(_blueimpMd);
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 	// ----------------------------------------------------------------------------
 
@@ -13478,6 +13518,8 @@
 	exports.newInstance = undefined;
 	exports.extend = extend;
 
+	var _glMatrix = __webpack_require__(7);
+
 	var _macro = __webpack_require__(2);
 
 	var macro = _interopRequireWildcard(_macro);
@@ -13499,8 +13541,6 @@
 	var _Viewport2 = _interopRequireDefault(_Viewport);
 
 	var _BoundingBox = __webpack_require__(50);
-
-	var _glMatrix = __webpack_require__(8);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -14198,6 +14238,8 @@
 	exports.newInstance = exports.DEFAULT_VALUES = undefined;
 	exports.extend = extend;
 
+	var _glMatrix = __webpack_require__(7);
+
 	var _macro = __webpack_require__(2);
 
 	var macro = _interopRequireWildcard(_macro);
@@ -14205,8 +14247,6 @@
 	var _Math = __webpack_require__(30);
 
 	var _Math2 = _interopRequireDefault(_Math);
-
-	var _glMatrix = __webpack_require__(8);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -15160,6 +15200,7 @@
 	      return false;
 	    }
 	    var bBounds = bbox.getBounds();
+	    /* eslint-disable no-continue */
 	    for (var i = 0; i < 3; i++) {
 	      if (bBounds[i * 2] >= model.bounds[i * 2] && bBounds[i * 2] <= model.bounds[i * 2 + 1]) {
 	        continue;
@@ -15174,6 +15215,7 @@
 	      }
 	      return false;
 	    }
+	    /* eslint-enable no-continue */
 
 	    return true;
 	  };
@@ -15211,6 +15253,7 @@
 	    var sign = Math.sign(normal[dir]);
 	    var size = Math.abs((model.bounds[dir * 2 + 1] - model.bounds[dir * 2]) * normal[dir]);
 	    var t = sign > 0 ? 1 : 0;
+	    /* eslint-disable no-continue */
 	    for (var i = 0; i < 4; i++) {
 	      if (size === 0) {
 	        continue; // shouldn't happen
@@ -15224,6 +15267,7 @@
 	        t = ti;
 	      }
 	    }
+	    /* eslint-enable no-continue */
 	    var bound = (1.0 - t) * model.bounds[dir * 2] + t * model.bounds[dir * 2 + 1];
 
 	    if (sign > 0) {
