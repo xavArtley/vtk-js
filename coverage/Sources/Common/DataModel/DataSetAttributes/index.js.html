@@ -1,0 +1,539 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for Sources/Common/DataModel/DataSetAttributes/index.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../../../prettify.css" />
+    <link rel="stylesheet" href="../../../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../../../index.html">all files</a> / <a href="index.html">Sources/Common/DataModel/DataSetAttributes/</a> index.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">46.97% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>31/66</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">40% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>10/25</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">31.25% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>5/16</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">49.21% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>31/63</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line low'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">12×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">12×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">12×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">12×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">12×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">12×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">12×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">12×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">12×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">12×</span>
+<span class="cline-any cline-yes">12×</span>
+<span class="cline-any cline-yes">12×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">12×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">12×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">12×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">12×</span>
+<span class="cline-any cline-yes">12×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">12×</span>
+<span class="cline-any cline-yes">12×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">12×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import * as macro from '../../../macro';
+&nbsp;
+/* eslint-disable no-unused-vars */
+// Needed so the VTK factory is filled with them
+import vtkDataArray from '../../../Common/Core/DataArray';
+// import vtkStringArray from '../../../Common/Core/vtkStringArray';
+&nbsp;
+import vtk from '../../../vtk';
+&nbsp;
+// ----------------------------------------------------------------------------
+// vtkDataSetAttributes methods
+// ----------------------------------------------------------------------------
+&nbsp;
+function vtkDataSetAttributes(publicAPI, model) {
+  // Set our className
+  model.classHierarchy.push('vtkDataSetAttributes');
+&nbsp;
+  publicAPI.getScalars = () =&gt; <span class="fstat-no" title="function not covered" >{</span>
+    const array = <span class="cstat-no" title="statement not covered" >model.arrays[model.activeScalars];</span>
+<span class="cstat-no" title="statement not covered" >    if (array) {</span>
+<span class="cstat-no" title="statement not covered" >      return array;</span>
+    }
+<span class="cstat-no" title="statement not covered" >    return null;</span>
+  };
+&nbsp;
+  publicAPI.getVectors = () =&gt; <span class="fstat-no" title="function not covered" >{</span>
+    const array = <span class="cstat-no" title="statement not covered" >model.arrays[model.activeVectors];</span>
+<span class="cstat-no" title="statement not covered" >    if (array) {</span>
+<span class="cstat-no" title="statement not covered" >      return array;</span>
+    }
+<span class="cstat-no" title="statement not covered" >    return null;</span>
+  };
+&nbsp;
+  publicAPI.getNormals = () =&gt; {
+    const array = model.arrays[model.activeNormals];
+    <span class="missing-if-branch" title="else path not taken" >E</span>if (array) {
+      return array;
+    }
+<span class="cstat-no" title="statement not covered" >    return null;</span>
+  };
+&nbsp;
+  publicAPI.getTCoords = () =&gt; <span class="fstat-no" title="function not covered" >{</span>
+    const array = <span class="cstat-no" title="statement not covered" >model.arrays[model.activeTCoords];</span>
+<span class="cstat-no" title="statement not covered" >    if (array) {</span>
+<span class="cstat-no" title="statement not covered" >      return array;</span>
+    }
+<span class="cstat-no" title="statement not covered" >    return null;</span>
+  };
+&nbsp;
+  publicAPI.getGlobalIds = () =&gt; <span class="fstat-no" title="function not covered" >{</span>
+    const array = <span class="cstat-no" title="statement not covered" >model.arrays[model.activeGlobalIds];</span>
+<span class="cstat-no" title="statement not covered" >    if (array) {</span>
+<span class="cstat-no" title="statement not covered" >      return array;</span>
+    }
+<span class="cstat-no" title="statement not covered" >    return null;</span>
+  };
+&nbsp;
+  publicAPI.getPedigreeIds = () =&gt; <span class="fstat-no" title="function not covered" >{</span>
+    const array = <span class="cstat-no" title="statement not covered" >model.arrays[model.activePedigreeIds];</span>
+<span class="cstat-no" title="statement not covered" >    if (array) {</span>
+<span class="cstat-no" title="statement not covered" >      return array;</span>
+    }
+<span class="cstat-no" title="statement not covered" >    return null;</span>
+  };
+&nbsp;
+  publicAPI.addArray = array =&gt; {
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (model.arrays[array.getName()]) {
+<span class="cstat-no" title="statement not covered" >      throw new Error('Array with same name already exist', array, model.arrays);</span>
+    }
+    model.arrays[array.getName()] = array;
+    publicAPI.modified();
+  };
+&nbsp;
+  publicAPI.removeArray = (name) =&gt; <span class="fstat-no" title="function not covered" >{</span>
+    const array = <span class="cstat-no" title="statement not covered" >model.arrays[name];</span>
+<span class="cstat-no" title="statement not covered" >    delete model.arrays[name];</span>
+<span class="cstat-no" title="statement not covered" >    publicAPI.modified();</span>
+<span class="cstat-no" title="statement not covered" >    return array;</span>
+  };
+&nbsp;
+  publicAPI.getArrayNames = () =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >Object.keys(model.arrays);</span></span>
+  publicAPI.getAbstractArray = name =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >model.arrays[name];</span></span>
+  publicAPI.getArray = name =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >model.arrays[name];</span></span>
+&nbsp;
+  // Process dataArrays if any
+  if (model.dataArrays &amp;&amp; Object.keys(model.dataArrays).length) {
+    Object.keys(model.dataArrays).forEach(name =&gt; {
+      <span class="missing-if-branch" title="else path not taken" >E</span>if (!model.dataArrays[name].ref &amp;&amp; model.dataArrays[name].type === 'vtkDataArray') {
+        publicAPI.addArray(vtkDataArray.newInstance(model.dataArrays[name]));
+      }
+    });
+  }
+&nbsp;
+  /* eslint-disable no-use-before-define */
+  publicAPI.shallowCopy = () =&gt; <span class="fstat-no" title="function not covered" >{</span>
+    const newIntsanceModel = <span class="cstat-no" title="statement not covered" >Object.assign({}, model, { arrays: null, dataArrays: null });</span>
+    const copyInst = <span class="cstat-no" title="statement not covered" >newInstance(newIntsanceModel);</span>
+&nbsp;
+    // Shallow copy each array
+<span class="cstat-no" title="statement not covered" >    publicAPI.getArrayNames().forEach(name =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >      copyInst.addArray(publicAPI.getArray(name).shallowCopy());</span>
+    });
+&nbsp;
+    // Reset mtime to original value
+<span class="cstat-no" title="statement not covered" >    copyInst.set({ mtime: model.mtime });</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    return copyInst;</span>
+  };
+  /* eslint-enable no-use-before-define */
+}
+&nbsp;
+// ----------------------------------------------------------------------------
+// Object factory
+// ----------------------------------------------------------------------------
+&nbsp;
+const DEFAULT_VALUES = {
+  activeScalars: '',
+  activeVectors: '',
+  activeTensors: '',
+  activeNormals: '',
+  activeTCoords: '',
+  activeGlobalIds: '',
+  activePedigreeIds: '',
+  arrays: null,
+};
+&nbsp;
+// ----------------------------------------------------------------------------
+&nbsp;
+export function extend(publicAPI, model, initialValues = {}) {
+  Object.assign(model, DEFAULT_VALUES, initialValues);
+&nbsp;
+  // Object methods
+  macro.obj(publicAPI, model);
+  macro.setGet(publicAPI, model, [
+    'activeScalars',
+    'activeNormals',
+    'activeTCoords',
+    'activeVectors',
+    'activeTensors',
+    'activeGlobalIds',
+    'activePedigreeIds',
+  ]);
+&nbsp;
+  <span class="missing-if-branch" title="else path not taken" >E</span>if (!model.arrays) {
+    model.arrays = {};
+  }
+&nbsp;
+  // Object specific methods
+  vtkDataSetAttributes(publicAPI, model);
+}
+&nbsp;
+// ----------------------------------------------------------------------------
+&nbsp;
+export const newInstance = macro.newInstance(extend, 'vtkDataSetAttributes');
+&nbsp;
+// ----------------------------------------------------------------------------
+&nbsp;
+export default { newInstance, extend };
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Aug 23 2016 23:57:45 GMT+0000 (UTC)
+</div>
+</div>
+<script src="../../../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../../../sorter.js"></script>
+</body>
+</html>
