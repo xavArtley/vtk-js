@@ -1,0 +1,2138 @@
+{
+  "vtkMultiBlock": {
+    "Blocks": {
+      "Element Blocks": {
+        "vtkMultiBlock": {
+          "Blocks": {
+            "Unnamed block ID: 1 Type: HEX": {
+              "vtkPolyData": {
+                "Polys": {
+                  "name": "_polys", 
+                  "tuple": 1, 
+                  "dataType": "Uint32Array", 
+                  "ref": {
+                    "encode": "LittleEndian", 
+                    "basepath": "../data", 
+                    "id": "7566e03bfe054cb3c8a652229891af8b"
+                  }, 
+                  "ranges": [
+                    {
+                      "max": 3681.0, 
+                      "component": null, 
+                      "min": 0.0
+                    }
+                  ], 
+                  "type": "vtkDataArray", 
+                  "size": 18400
+                }, 
+                "PointData": {
+                  "PedigreeNodeId": {
+                    "name": "PedigreeNodeId", 
+                    "tuple": 1, 
+                    "dataType": "Uint32Array", 
+                    "ref": {
+                      "encode": "LittleEndian", 
+                      "basepath": "../data", 
+                      "id": "d35446b0cb884138019be9dbf274b776"
+                    }, 
+                    "ranges": [
+                      {
+                        "max": 6724.0, 
+                        "component": null, 
+                        "min": 1.0
+                      }
+                    ], 
+                    "type": "vtkDataArray", 
+                    "size": 3682
+                  }, 
+                  "ACCL": {
+                    "name": "ACCL", 
+                    "tuple": 3, 
+                    "dataType": "Float64Array", 
+                    "ref": {
+                      "encode": "LittleEndian", 
+                      "basepath": "../data", 
+                      "id": "13aa2fe02229caa19b3b94d673cc7a9c"
+                    }, 
+                    "ranges": [
+                      {
+                        "max": 504981280.0, 
+                        "component": null, 
+                        "min": -261341136.0
+                      }, 
+                      {
+                        "max": 161864384.0, 
+                        "component": null, 
+                        "min": -759826496.0
+                      }, 
+                      {
+                        "max": 1483790208.0, 
+                        "component": null, 
+                        "min": -602448704.0
+                      }, 
+                      {
+                        "max": 1496730045.6573794, 
+                        "component": null, 
+                        "min": 53504.126305161284
+                      }
+                    ], 
+                    "type": "vtkDataArray", 
+                    "size": 11046
+                  }, 
+                  "VEL": {
+                    "name": "VEL", 
+                    "tuple": 3, 
+                    "dataType": "Float64Array", 
+                    "ref": {
+                      "encode": "LittleEndian", 
+                      "basepath": "../data", 
+                      "id": "61c784f1064c626873b33a28d4230c36"
+                    }, 
+                    "ranges": [
+                      {
+                        "max": 1678.5443115234375, 
+                        "component": null, 
+                        "min": -3766.32421875
+                      }, 
+                      {
+                        "max": 2015.1612548828125, 
+                        "component": null, 
+                        "min": -1608.7099609375
+                      }, 
+                      {
+                        "max": 898.6068115234375, 
+                        "component": null, 
+                        "min": -6958.830078125
+                      }, 
+                      {
+                        "max": 7117.172822597166, 
+                        "component": null, 
+                        "min": 83.77951766587972
+                      }
+                    ], 
+                    "type": "vtkDataArray", 
+                    "size": 11046
+                  }, 
+                  "DISPL": {
+                    "name": "DISPL", 
+                    "tuple": 3, 
+                    "dataType": "Float64Array", 
+                    "ref": {
+                      "encode": "LittleEndian", 
+                      "basepath": "../data", 
+                      "id": "aa843a171412eadb2831622c8ad5f331"
+                    }, 
+                    "ranges": [
+                      {
+                        "max": 0.33674341440200806, 
+                        "component": null, 
+                        "min": -1.640120029449463
+                      }, 
+                      {
+                        "max": 1.225399136543274, 
+                        "component": null, 
+                        "min": -0.5534557104110718
+                      }, 
+                      {
+                        "max": 0.00043735295184887946, 
+                        "component": null, 
+                        "min": -5.360531806945801
+                      }, 
+                      {
+                        "max": 5.516922523324054, 
+                        "component": null, 
+                        "min": 0.03659627576706884
+                      }
+                    ], 
+                    "type": "vtkDataArray", 
+                    "size": 11046
+                  }, 
+                  "GlobalNodeId": {
+                    "name": "GlobalNodeId", 
+                    "tuple": 1, 
+                    "dataType": "Uint32Array", 
+                    "ref": {
+                      "encode": "LittleEndian", 
+                      "basepath": "../data", 
+                      "id": "d35446b0cb884138019be9dbf274b776"
+                    }, 
+                    "ranges": [
+                      {
+                        "max": 6724.0, 
+                        "component": null, 
+                        "min": 1.0
+                      }
+                    ], 
+                    "type": "vtkDataArray", 
+                    "size": 3682
+                  }
+                }, 
+                "Points": {
+                  "name": "_points", 
+                  "tuple": 3, 
+                  "dataType": "Float32Array", 
+                  "ref": {
+                    "encode": "LittleEndian", 
+                    "basepath": "../data", 
+                    "id": "e849251fc467e4256d34c836c1fa1bd3"
+                  }, 
+                  "bounds": [
+                    -6.640120029449463, 
+                    5.377353191375732, 
+                    -0.5534557104110718, 
+                    6.338938236236572, 
+                    -14.999999046325684, 
+                    -2.3967196941375732
+                  ], 
+                  "ranges": [
+                    {
+                      "max": 5.377353191375732, 
+                      "component": null, 
+                      "min": -6.640120029449463
+                    }, 
+                    {
+                      "max": 6.338938236236572, 
+                      "component": null, 
+                      "min": -0.5534557104110718
+                    }, 
+                    {
+                      "max": -2.3967196941375732, 
+                      "component": null, 
+                      "min": -14.999999046325684
+                    }, 
+                    {
+                      "max": 15.886184749091562, 
+                      "component": null, 
+                      "min": 5.466485456739422
+                    }
+                  ], 
+                  "type": "vtkDataArray", 
+                  "size": 11046
+                }, 
+                "CellData": {
+                  "EQPS": {
+                    "name": "EQPS", 
+                    "tuple": 1, 
+                    "dataType": "Float64Array", 
+                    "ref": {
+                      "encode": "LittleEndian", 
+                      "basepath": "../data", 
+                      "id": "c089fc461b0498577d41f146e5808318"
+                    }, 
+                    "ranges": [
+                      {
+                        "max": 1.6556193828582764, 
+                        "component": null, 
+                        "min": 0.0
+                      }
+                    ], 
+                    "type": "vtkDataArray", 
+                    "size": 3680
+                  }, 
+                  "GlobalElementId": {
+                    "name": "GlobalElementId", 
+                    "tuple": 1, 
+                    "dataType": "Uint32Array", 
+                    "ref": {
+                      "encode": "LittleEndian", 
+                      "basepath": "../data", 
+                      "id": "5ea191c4c13294d1408266b1730365fb"
+                    }, 
+                    "ranges": [
+                      {
+                        "max": 4800.0, 
+                        "component": null, 
+                        "min": 1.0
+                      }
+                    ], 
+                    "type": "vtkDataArray", 
+                    "size": 3680
+                  }, 
+                  "PedigreeElementId": {
+                    "name": "PedigreeElementId", 
+                    "tuple": 1, 
+                    "dataType": "Uint32Array", 
+                    "ref": {
+                      "encode": "LittleEndian", 
+                      "basepath": "../data", 
+                      "id": "5ea191c4c13294d1408266b1730365fb"
+                    }, 
+                    "ranges": [
+                      {
+                        "max": 4800.0, 
+                        "component": null, 
+                        "min": 1.0
+                      }
+                    ], 
+                    "type": "vtkDataArray", 
+                    "size": 3680
+                  }, 
+                  "ObjectId": {
+                    "name": "ObjectId", 
+                    "tuple": 1, 
+                    "dataType": "Int32Array", 
+                    "ref": {
+                      "encode": "LittleEndian", 
+                      "basepath": "../data", 
+                      "id": "e4f737cfed4f688fb50a3179fb5f0603"
+                    }, 
+                    "ranges": [
+                      {
+                        "max": 1.0, 
+                        "component": null, 
+                        "min": 1.0
+                      }
+                    ], 
+                    "type": "vtkDataArray", 
+                    "size": 3680
+                  }
+                }, 
+                "FieldData": {
+                  "QA_Records": {
+                    "name": "QA_Records", 
+                    "tuple": 33, 
+                    "dataType": "Int8Array", 
+                    "ref": {
+                      "encode": "LittleEndian", 
+                      "basepath": "../data", 
+                      "id": "50f62f9582b469e5018e3b95ba721fae"
+                    }, 
+                    "ranges": [
+                      {
+                        "max": 80.0, 
+                        "component": null, 
+                        "min": 32.0
+                      }, 
+                      {
+                        "max": 101.0, 
+                        "component": null, 
+                        "min": 32.0
+                      }, 
+                      {
+                        "max": 111.0, 
+                        "component": null, 
+                        "min": 32.0
+                      }, 
+                      {
+                        "max": 105.0, 
+                        "component": null, 
+                        "min": 46.0
+                      }, 
+                      {
+                        "max": 110.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 79.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 57.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 68.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 214.40848863792684, 
+                        "component": null, 
+                        "min": 90.77995373429091
+                      }
+                    ], 
+                    "type": "vtkDataArray", 
+                    "size": 792
+                  }, 
+                  "KE": {
+                    "name": "KE", 
+                    "tuple": 1, 
+                    "dataType": "Float64Array", 
+                    "ref": {
+                      "encode": "LittleEndian", 
+                      "basepath": "../data", 
+                      "id": "1681688738db7141cdd987c0e249e8a5"
+                    }, 
+                    "ranges": [
+                      {
+                        "max": 2959999.75, 
+                        "component": null, 
+                        "min": 1467643.625
+                      }
+                    ], 
+                    "type": "vtkDataArray", 
+                    "size": 44
+                  }, 
+                  "Title": {
+                    "name": "Title", 
+                    "tuple": 1, 
+                    "dataType": "JSON", 
+                    "ref": {
+                      "encode": "LittleEndian", 
+                      "basepath": "../data", 
+                      "id": "98ae9eabcd70859519c3a7bf50fcb753"
+                    }, 
+                    "type": "vtkStringArray", 
+                    "size": 1
+                  }, 
+                  "XMOM": {
+                    "name": "XMOM", 
+                    "tuple": 1, 
+                    "dataType": "Float64Array", 
+                    "ref": {
+                      "encode": "LittleEndian", 
+                      "basepath": "../data", 
+                      "id": "59c6f25d3b9db0ef9cdcdff85787434a"
+                    }, 
+                    "ranges": [
+                      {
+                        "max": 0.2753971517086029, 
+                        "component": null, 
+                        "min": -0.04863959178328514
+                      }
+                    ], 
+                    "type": "vtkDataArray", 
+                    "size": 44
+                  }, 
+                  "NSTEPS": {
+                    "name": "NSTEPS", 
+                    "tuple": 1, 
+                    "dataType": "Float64Array", 
+                    "ref": {
+                      "encode": "LittleEndian", 
+                      "basepath": "../data", 
+                      "id": "ed147b75a4c6622e4b7b51b44af7a8a8"
+                    }, 
+                    "ranges": [
+                      {
+                        "max": 28318.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }
+                    ], 
+                    "type": "vtkDataArray", 
+                    "size": 44
+                  }, 
+                  "ElementBlockIds": {
+                    "name": "ElementBlockIds", 
+                    "tuple": 1, 
+                    "dataType": "Int32Array", 
+                    "ref": {
+                      "encode": "LittleEndian", 
+                      "basepath": "../data", 
+                      "id": "4352d88a78aa39750bf70cd6f27bcaa5"
+                    }, 
+                    "ranges": [
+                      {
+                        "max": 1.0, 
+                        "component": null, 
+                        "min": 1.0
+                      }
+                    ], 
+                    "type": "vtkDataArray", 
+                    "size": 1
+                  }, 
+                  "Info_Records": {
+                    "name": "Info_Records", 
+                    "tuple": 81, 
+                    "dataType": "Int8Array", 
+                    "ref": {
+                      "encode": "LittleEndian", 
+                      "basepath": "../data", 
+                      "id": "7b7c929c509512c448474e89760f13c5"
+                    }, 
+                    "ranges": [
+                      {
+                        "max": 48.0, 
+                        "component": null, 
+                        "min": 48.0
+                      }, 
+                      {
+                        "max": 50.0, 
+                        "component": null, 
+                        "min": 49.0
+                      }, 
+                      {
+                        "max": 47.0, 
+                        "component": null, 
+                        "min": 47.0
+                      }, 
+                      {
+                        "max": 32.0, 
+                        "component": null, 
+                        "min": 32.0
+                      }, 
+                      {
+                        "max": 99.0, 
+                        "component": null, 
+                        "min": 71.0
+                      }, 
+                      {
+                        "max": 108.0, 
+                        "component": null, 
+                        "min": 97.0
+                      }, 
+                      {
+                        "max": 111.0, 
+                        "component": null, 
+                        "min": 110.0
+                      }, 
+                      {
+                        "max": 99.0, 
+                        "component": null, 
+                        "min": 51.0
+                      }, 
+                      {
+                        "max": 107.0, 
+                        "component": null, 
+                        "min": 68.0
+                      }, 
+                      {
+                        "max": 97.0, 
+                        "component": null, 
+                        "min": 58.0
+                      }, 
+                      {
+                        "max": 108.0, 
+                        "component": null, 
+                        "min": 32.0
+                      }, 
+                      {
+                        "max": 102.0, 
+                        "component": null, 
+                        "min": 97.0
+                      }, 
+                      {
+                        "max": 108.0, 
+                        "component": null, 
+                        "min": 46.0
+                      }, 
+                      {
+                        "max": 111.0, 
+                        "component": null, 
+                        "min": 102.0
+                      }, 
+                      {
+                        "max": 99.0, 
+                        "component": null, 
+                        "min": 46.0
+                      }, 
+                      {
+                        "max": 107.0, 
+                        "component": null, 
+                        "min": 100.0
+                      }, 
+                      {
+                        "max": 97.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 108.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 102.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 108.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 103.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 50.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 103.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 50.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 100.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 422.34346212531807, 
+                        "component": null, 
+                        "min": 340.42914093831627
+                      }
+                    ], 
+                    "type": "vtkDataArray", 
+                    "size": 324
+                  }, 
+                  "ZMOM": {
+                    "name": "ZMOM", 
+                    "tuple": 1, 
+                    "dataType": "Float64Array", 
+                    "ref": {
+                      "encode": "LittleEndian", 
+                      "basepath": "../data", 
+                      "id": "19f467c8ceb8391c56a49fe38221be6c"
+                    }, 
+                    "ranges": [
+                      {
+                        "max": -765.4190673828125, 
+                        "component": null, 
+                        "min": -1183.9998779296875
+                      }
+                    ], 
+                    "type": "vtkDataArray", 
+                    "size": 44
+                  }, 
+                  "TMSTEP": {
+                    "name": "TMSTEP", 
+                    "tuple": 1, 
+                    "dataType": "Float64Array", 
+                    "ref": {
+                      "encode": "LittleEndian", 
+                      "basepath": "../data", 
+                      "id": "08dc7c6fbdb463c6deb67e6a9a8bf2ee"
+                    }, 
+                    "ranges": [
+                      {
+                        "max": 2.4712693402761943e-07, 
+                        "component": null, 
+                        "min": 5.355158805286919e-08
+                      }
+                    ], 
+                    "type": "vtkDataArray", 
+                    "size": 44
+                  }, 
+                  "YMOM": {
+                    "name": "YMOM", 
+                    "tuple": 1, 
+                    "dataType": "Float64Array", 
+                    "ref": {
+                      "encode": "LittleEndian", 
+                      "basepath": "../data", 
+                      "id": "6919eb24502db01564a4abce44eff1af"
+                    }, 
+                    "ranges": [
+                      {
+                        "max": 0.007546288892626762, 
+                        "component": null, 
+                        "min": -5.840920925140381
+                      }
+                    ], 
+                    "type": "vtkDataArray", 
+                    "size": 44
+                  }
+                }
+              }, 
+              "type": "vtkPolyData"
+            }, 
+            "Unnamed block ID: 2 Type: HEX": {
+              "vtkPolyData": {
+                "Polys": {
+                  "name": "_polys", 
+                  "tuple": 1, 
+                  "dataType": "Uint32Array", 
+                  "ref": {
+                    "encode": "LittleEndian", 
+                    "basepath": "../data", 
+                    "id": "1595f71fd36069c1b3e11946880c2c64"
+                  }, 
+                  "ranges": [
+                    {
+                      "max": 1905.0, 
+                      "component": null, 
+                      "min": 0.0
+                    }
+                  ], 
+                  "type": "vtkDataArray", 
+                  "size": 9520
+                }, 
+                "PointData": {
+                  "PedigreeNodeId": {
+                    "name": "PedigreeNodeId", 
+                    "tuple": 1, 
+                    "dataType": "Uint32Array", 
+                    "ref": {
+                      "encode": "LittleEndian", 
+                      "basepath": "../data", 
+                      "id": "dfa769af9f33ce96ba7fbef729ee704a"
+                    }, 
+                    "ranges": [
+                      {
+                        "max": 10088.0, 
+                        "component": null, 
+                        "min": 6725.0
+                      }
+                    ], 
+                    "type": "vtkDataArray", 
+                    "size": 1906
+                  }, 
+                  "ACCL": {
+                    "name": "ACCL", 
+                    "tuple": 3, 
+                    "dataType": "Float64Array", 
+                    "ref": {
+                      "encode": "LittleEndian", 
+                      "basepath": "../data", 
+                      "id": "cb5b13f73e5e0b0563d27596ebf1dea6"
+                    }, 
+                    "ranges": [
+                      {
+                        "max": 28376922.0, 
+                        "component": null, 
+                        "min": -10224455.0
+                      }, 
+                      {
+                        "max": 15301237.0, 
+                        "component": null, 
+                        "min": -15005649.0
+                      }, 
+                      {
+                        "max": 153176208.0, 
+                        "component": null, 
+                        "min": -19297290.0
+                      }, 
+                      {
+                        "max": 155796679.49607965, 
+                        "component": null, 
+                        "min": 136283.03392608036
+                      }
+                    ], 
+                    "type": "vtkDataArray", 
+                    "size": 5718
+                  }, 
+                  "VEL": {
+                    "name": "VEL", 
+                    "tuple": 3, 
+                    "dataType": "Float64Array", 
+                    "ref": {
+                      "encode": "LittleEndian", 
+                      "basepath": "../data", 
+                      "id": "9b5c2d2828a66fd15a3052539b5a2c60"
+                    }, 
+                    "ranges": [
+                      {
+                        "max": 145.72268676757812, 
+                        "component": null, 
+                        "min": -41.0645637512207
+                      }, 
+                      {
+                        "max": 114.72570037841797, 
+                        "component": null, 
+                        "min": -102.8759765625
+                      }, 
+                      {
+                        "max": -4367.71728515625, 
+                        "component": null, 
+                        "min": -5029.70166015625
+                      }, 
+                      {
+                        "max": 5030.989450188158, 
+                        "component": null, 
+                        "min": 4370.516629160764
+                      }
+                    ], 
+                    "type": "vtkDataArray", 
+                    "size": 5718
+                  }, 
+                  "DISPL": {
+                    "name": "DISPL", 
+                    "tuple": 3, 
+                    "dataType": "Float64Array", 
+                    "ref": {
+                      "encode": "LittleEndian", 
+                      "basepath": "../data", 
+                      "id": "bd81dcb31096de9dc8d2d2a96db54ba5"
+                    }, 
+                    "ranges": [
+                      {
+                        "max": 0.06369609385728836, 
+                        "component": null, 
+                        "min": -0.01289230678230524
+                      }, 
+                      {
+                        "max": 0.027567842975258827, 
+                        "component": null, 
+                        "min": -0.02584988810122013
+                      }, 
+                      {
+                        "max": -4.183985233306885, 
+                        "component": null, 
+                        "min": -4.498714447021484
+                      }, 
+                      {
+                        "max": 4.498797081919298, 
+                        "component": null, 
+                        "min": 4.184252272478881
+                      }
+                    ], 
+                    "type": "vtkDataArray", 
+                    "size": 5718
+                  }, 
+                  "GlobalNodeId": {
+                    "name": "GlobalNodeId", 
+                    "tuple": 1, 
+                    "dataType": "Uint32Array", 
+                    "ref": {
+                      "encode": "LittleEndian", 
+                      "basepath": "../data", 
+                      "id": "dfa769af9f33ce96ba7fbef729ee704a"
+                    }, 
+                    "ranges": [
+                      {
+                        "max": 10088.0, 
+                        "component": null, 
+                        "min": 6725.0
+                      }
+                    ], 
+                    "type": "vtkDataArray", 
+                    "size": 1906
+                  }
+                }, 
+                "Points": {
+                  "name": "_points", 
+                  "tuple": 3, 
+                  "dataType": "Float32Array", 
+                  "ref": {
+                    "encode": "LittleEndian", 
+                    "basepath": "../data", 
+                    "id": "3435567a3f222af4bb2ba6b0ff2be40e"
+                  }, 
+                  "bounds": [
+                    -7.86312198638916, 
+                    8.35389232635498, 
+                    -0.02584988810122013, 
+                    8.02540397644043, 
+                    -4.789468288421631, 
+                    0.4397544860839844
+                  ], 
+                  "ranges": [
+                    {
+                      "max": 8.35389232635498, 
+                      "component": null, 
+                      "min": -7.86312198638916
+                    }, 
+                    {
+                      "max": 8.02540397644043, 
+                      "component": null, 
+                      "min": -0.02584988810122013
+                    }, 
+                    {
+                      "max": 0.4397544860839844, 
+                      "component": null, 
+                      "min": -4.789468288421631
+                    }, 
+                    {
+                      "max": 12.219132721258074, 
+                      "component": null, 
+                      "min": 0.7817695904061162
+                    }
+                  ], 
+                  "type": "vtkDataArray", 
+                  "size": 5718
+                }, 
+                "CellData": {
+                  "EQPS": {
+                    "name": "EQPS", 
+                    "tuple": 1, 
+                    "dataType": "Float64Array", 
+                    "ref": {
+                      "encode": "LittleEndian", 
+                      "basepath": "../data", 
+                      "id": "bc7c85e1b6ea4912bada79bdfdddcae4"
+                    }, 
+                    "ranges": [
+                      {
+                        "max": 0.011721696704626083, 
+                        "component": null, 
+                        "min": 0.0
+                      }
+                    ], 
+                    "type": "vtkDataArray", 
+                    "size": 1904
+                  }, 
+                  "GlobalElementId": {
+                    "name": "GlobalElementId", 
+                    "tuple": 1, 
+                    "dataType": "Uint32Array", 
+                    "ref": {
+                      "encode": "LittleEndian", 
+                      "basepath": "../data", 
+                      "id": "c47125e2cbd8c8098d5b7098e2ac0d59"
+                    }, 
+                    "ranges": [
+                      {
+                        "max": 7152.0, 
+                        "component": null, 
+                        "min": 4801.0
+                      }
+                    ], 
+                    "type": "vtkDataArray", 
+                    "size": 1904
+                  }, 
+                  "PedigreeElementId": {
+                    "name": "PedigreeElementId", 
+                    "tuple": 1, 
+                    "dataType": "Uint32Array", 
+                    "ref": {
+                      "encode": "LittleEndian", 
+                      "basepath": "../data", 
+                      "id": "c47125e2cbd8c8098d5b7098e2ac0d59"
+                    }, 
+                    "ranges": [
+                      {
+                        "max": 7152.0, 
+                        "component": null, 
+                        "min": 4801.0
+                      }
+                    ], 
+                    "type": "vtkDataArray", 
+                    "size": 1904
+                  }, 
+                  "ObjectId": {
+                    "name": "ObjectId", 
+                    "tuple": 1, 
+                    "dataType": "Int32Array", 
+                    "ref": {
+                      "encode": "LittleEndian", 
+                      "basepath": "../data", 
+                      "id": "ec0253eae22463870aaeb1e093854cae"
+                    }, 
+                    "ranges": [
+                      {
+                        "max": 2.0, 
+                        "component": null, 
+                        "min": 2.0
+                      }
+                    ], 
+                    "type": "vtkDataArray", 
+                    "size": 1904
+                  }
+                }, 
+                "FieldData": {
+                  "QA_Records": {
+                    "name": "QA_Records", 
+                    "tuple": 33, 
+                    "dataType": "Int8Array", 
+                    "ref": {
+                      "encode": "LittleEndian", 
+                      "basepath": "../data", 
+                      "id": "50f62f9582b469e5018e3b95ba721fae"
+                    }, 
+                    "ranges": [
+                      {
+                        "max": 80.0, 
+                        "component": null, 
+                        "min": 32.0
+                      }, 
+                      {
+                        "max": 101.0, 
+                        "component": null, 
+                        "min": 32.0
+                      }, 
+                      {
+                        "max": 111.0, 
+                        "component": null, 
+                        "min": 32.0
+                      }, 
+                      {
+                        "max": 105.0, 
+                        "component": null, 
+                        "min": 46.0
+                      }, 
+                      {
+                        "max": 110.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 79.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 57.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 68.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 214.40848863792684, 
+                        "component": null, 
+                        "min": 90.77995373429091
+                      }
+                    ], 
+                    "type": "vtkDataArray", 
+                    "size": 792
+                  }, 
+                  "KE": {
+                    "name": "KE", 
+                    "tuple": 1, 
+                    "dataType": "Float64Array", 
+                    "ref": {
+                      "encode": "LittleEndian", 
+                      "basepath": "../data", 
+                      "id": "1681688738db7141cdd987c0e249e8a5"
+                    }, 
+                    "ranges": [
+                      {
+                        "max": 2959999.75, 
+                        "component": null, 
+                        "min": 1467643.625
+                      }
+                    ], 
+                    "type": "vtkDataArray", 
+                    "size": 44
+                  }, 
+                  "Title": {
+                    "name": "Title", 
+                    "tuple": 1, 
+                    "dataType": "JSON", 
+                    "ref": {
+                      "encode": "LittleEndian", 
+                      "basepath": "../data", 
+                      "id": "98ae9eabcd70859519c3a7bf50fcb753"
+                    }, 
+                    "type": "vtkStringArray", 
+                    "size": 1
+                  }, 
+                  "XMOM": {
+                    "name": "XMOM", 
+                    "tuple": 1, 
+                    "dataType": "Float64Array", 
+                    "ref": {
+                      "encode": "LittleEndian", 
+                      "basepath": "../data", 
+                      "id": "59c6f25d3b9db0ef9cdcdff85787434a"
+                    }, 
+                    "ranges": [
+                      {
+                        "max": 0.2753971517086029, 
+                        "component": null, 
+                        "min": -0.04863959178328514
+                      }
+                    ], 
+                    "type": "vtkDataArray", 
+                    "size": 44
+                  }, 
+                  "NSTEPS": {
+                    "name": "NSTEPS", 
+                    "tuple": 1, 
+                    "dataType": "Float64Array", 
+                    "ref": {
+                      "encode": "LittleEndian", 
+                      "basepath": "../data", 
+                      "id": "ed147b75a4c6622e4b7b51b44af7a8a8"
+                    }, 
+                    "ranges": [
+                      {
+                        "max": 28318.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }
+                    ], 
+                    "type": "vtkDataArray", 
+                    "size": 44
+                  }, 
+                  "ElementBlockIds": {
+                    "name": "ElementBlockIds", 
+                    "tuple": 1, 
+                    "dataType": "Int32Array", 
+                    "ref": {
+                      "encode": "LittleEndian", 
+                      "basepath": "../data", 
+                      "id": "f2dd0dedb2c260419ece4a9e03b2e828"
+                    }, 
+                    "ranges": [
+                      {
+                        "max": 2.0, 
+                        "component": null, 
+                        "min": 2.0
+                      }
+                    ], 
+                    "type": "vtkDataArray", 
+                    "size": 1
+                  }, 
+                  "Info_Records": {
+                    "name": "Info_Records", 
+                    "tuple": 81, 
+                    "dataType": "Int8Array", 
+                    "ref": {
+                      "encode": "LittleEndian", 
+                      "basepath": "../data", 
+                      "id": "7b7c929c509512c448474e89760f13c5"
+                    }, 
+                    "ranges": [
+                      {
+                        "max": 48.0, 
+                        "component": null, 
+                        "min": 48.0
+                      }, 
+                      {
+                        "max": 50.0, 
+                        "component": null, 
+                        "min": 49.0
+                      }, 
+                      {
+                        "max": 47.0, 
+                        "component": null, 
+                        "min": 47.0
+                      }, 
+                      {
+                        "max": 32.0, 
+                        "component": null, 
+                        "min": 32.0
+                      }, 
+                      {
+                        "max": 99.0, 
+                        "component": null, 
+                        "min": 71.0
+                      }, 
+                      {
+                        "max": 108.0, 
+                        "component": null, 
+                        "min": 97.0
+                      }, 
+                      {
+                        "max": 111.0, 
+                        "component": null, 
+                        "min": 110.0
+                      }, 
+                      {
+                        "max": 99.0, 
+                        "component": null, 
+                        "min": 51.0
+                      }, 
+                      {
+                        "max": 107.0, 
+                        "component": null, 
+                        "min": 68.0
+                      }, 
+                      {
+                        "max": 97.0, 
+                        "component": null, 
+                        "min": 58.0
+                      }, 
+                      {
+                        "max": 108.0, 
+                        "component": null, 
+                        "min": 32.0
+                      }, 
+                      {
+                        "max": 102.0, 
+                        "component": null, 
+                        "min": 97.0
+                      }, 
+                      {
+                        "max": 108.0, 
+                        "component": null, 
+                        "min": 46.0
+                      }, 
+                      {
+                        "max": 111.0, 
+                        "component": null, 
+                        "min": 102.0
+                      }, 
+                      {
+                        "max": 99.0, 
+                        "component": null, 
+                        "min": 46.0
+                      }, 
+                      {
+                        "max": 107.0, 
+                        "component": null, 
+                        "min": 100.0
+                      }, 
+                      {
+                        "max": 97.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 108.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 102.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 108.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 103.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 50.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 103.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 50.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 100.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 0.0, 
+                        "component": null, 
+                        "min": 0.0
+                      }, 
+                      {
+                        "max": 422.34346212531807, 
+                        "component": null, 
+                        "min": 340.42914093831627
+                      }
+                    ], 
+                    "type": "vtkDataArray", 
+                    "size": 324
+                  }, 
+                  "ZMOM": {
+                    "name": "ZMOM", 
+                    "tuple": 1, 
+                    "dataType": "Float64Array", 
+                    "ref": {
+                      "encode": "LittleEndian", 
+                      "basepath": "../data", 
+                      "id": "19f467c8ceb8391c56a49fe38221be6c"
+                    }, 
+                    "ranges": [
+                      {
+                        "max": -765.4190673828125, 
+                        "component": null, 
+                        "min": -1183.9998779296875
+                      }
+                    ], 
+                    "type": "vtkDataArray", 
+                    "size": 44
+                  }, 
+                  "TMSTEP": {
+                    "name": "TMSTEP", 
+                    "tuple": 1, 
+                    "dataType": "Float64Array", 
+                    "ref": {
+                      "encode": "LittleEndian", 
+                      "basepath": "../data", 
+                      "id": "08dc7c6fbdb463c6deb67e6a9a8bf2ee"
+                    }, 
+                    "ranges": [
+                      {
+                        "max": 2.4712693402761943e-07, 
+                        "component": null, 
+                        "min": 5.355158805286919e-08
+                      }
+                    ], 
+                    "type": "vtkDataArray", 
+                    "size": 44
+                  }, 
+                  "YMOM": {
+                    "name": "YMOM", 
+                    "tuple": 1, 
+                    "dataType": "Float64Array", 
+                    "ref": {
+                      "encode": "LittleEndian", 
+                      "basepath": "../data", 
+                      "id": "6919eb24502db01564a4abce44eff1af"
+                    }, 
+                    "ranges": [
+                      {
+                        "max": 0.007546288892626762, 
+                        "component": null, 
+                        "min": -5.840920925140381
+                      }
+                    ], 
+                    "type": "vtkDataArray", 
+                    "size": 44
+                  }
+                }
+              }, 
+              "type": "vtkPolyData"
+            }
+          }
+        }, 
+        "type": "vtkMultiBlock"
+      }, 
+      "Node Sets": {
+        "vtkMultiBlock": {
+          "Blocks": {}
+        }, 
+        "type": "vtkMultiBlock"
+      }, 
+      "Element Sets": {
+        "vtkMultiBlock": {
+          "Blocks": {}
+        }, 
+        "type": "vtkMultiBlock"
+      }, 
+      "Edge Blocks": {
+        "vtkMultiBlock": {
+          "Blocks": {}
+        }, 
+        "type": "vtkMultiBlock"
+      }, 
+      "Edge Sets": {
+        "vtkMultiBlock": {
+          "Blocks": {}
+        }, 
+        "type": "vtkMultiBlock"
+      }, 
+      "Face Blocks": {
+        "vtkMultiBlock": {
+          "Blocks": {}
+        }, 
+        "type": "vtkMultiBlock"
+      }, 
+      "Face Sets": {
+        "vtkMultiBlock": {
+          "Blocks": {}
+        }, 
+        "type": "vtkMultiBlock"
+      }, 
+      "Side Sets": {
+        "vtkMultiBlock": {
+          "Blocks": {}
+        }, 
+        "type": "vtkMultiBlock"
+      }
+    }
+  }, 
+  "type": "vtkMultiBlock"
+}

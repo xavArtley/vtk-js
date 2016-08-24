@@ -1,0 +1,127 @@
+{
+  "vtkRectilinearGrid": {
+    "XCoordinates": {
+      "name": null, 
+      "tuple": 1, 
+      "dataType": "Float32Array", 
+      "ref": {
+        "encode": "LittleEndian", 
+        "basepath": "data", 
+        "id": "3c7fe175c1bec253da5fcbb93f23cc9d"
+      }, 
+      "ranges": [
+        {
+          "max": 1.1718800067901611, 
+          "component": null, 
+          "min": -1.223960041999817
+        }
+      ], 
+      "type": "vtkDataArray", 
+      "size": 47
+    }, 
+    "CellData": {}, 
+    "Dimensions": [
+      47, 
+      33, 
+      11
+    ], 
+    "PointData": {
+      "scalars": {
+        "name": "scalars", 
+        "tuple": 1, 
+        "dataType": "Float32Array", 
+        "ref": {
+          "encode": "LittleEndian", 
+          "basepath": "data", 
+          "id": "7615ad7fa98b3916848ad9b0f812df16"
+        }, 
+        "ranges": [
+          {
+            "max": 10.396400451660156, 
+            "component": null, 
+            "min": 0.0
+          }
+        ], 
+        "type": "vtkDataArray", 
+        "size": 17061
+      }, 
+      "vectors": {
+        "name": "vectors", 
+        "tuple": 3, 
+        "dataType": "Float32Array", 
+        "ref": {
+          "encode": "LittleEndian", 
+          "basepath": "data", 
+          "id": "d955b3baa4ab56889251979d013cc327"
+        }, 
+        "ranges": [
+          {
+            "max": 3.0431900024414062, 
+            "component": null, 
+            "min": -0.1570339947938919
+          }, 
+          {
+            "max": 0.3920060098171234, 
+            "component": null, 
+            "min": -0.3920060098171234
+          }, 
+          {
+            "max": 10.078700065612793, 
+            "component": null, 
+            "min": -5.3614501953125
+          }, 
+          {
+            "max": 10.396400467293878, 
+            "component": null, 
+            "min": 0.0
+          }
+        ], 
+        "type": "vtkDataArray", 
+        "size": 51183
+      }
+    }, 
+    "ZCoordinates": {
+      "name": null, 
+      "tuple": 1, 
+      "dataType": "Float32Array", 
+      "ref": {
+        "encode": "LittleEndian", 
+        "basepath": "data", 
+        "id": "54257be233a3c9715b6038636b6def7e"
+      }, 
+      "ranges": [
+        {
+          "max": 0.8999999761581421, 
+          "component": null, 
+          "min": 0.0
+        }
+      ], 
+      "type": "vtkDataArray", 
+      "size": 11
+    }, 
+    "YCoordinates": {
+      "name": null, 
+      "tuple": 1, 
+      "dataType": "Float32Array", 
+      "ref": {
+        "encode": "LittleEndian", 
+        "basepath": "data", 
+        "id": "d48e6ee7ab618fea1e22aba3c7bfa852"
+      }, 
+      "ranges": [
+        {
+          "max": 1.25, 
+          "component": null, 
+          "min": -1.25
+        }
+      ], 
+      "type": "vtkDataArray", 
+      "size": 33
+    }, 
+    "FieldData": {}
+  }, 
+  "type": "vtkRectilinearGrid", 
+  "metadata": {
+    "name": "RectGrid2.vtk"
+  }
+}
