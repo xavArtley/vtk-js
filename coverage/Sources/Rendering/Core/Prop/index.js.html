@@ -1,0 +1,410 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for Sources/Rendering/Core/Prop/index.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../../../prettify.css" />
+    <link rel="stylesheet" href="../../../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../../../index.html">all files</a> / <a href="index.html">Sources/Rendering/Core/Prop/</a> index.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">54.9% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>28/51</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">14.29% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>1/7</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">28.57% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>6/21</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">60.98% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>25/41</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line medium'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import * as macro from '../../../macro';
+&nbsp;
+function notImplemented(method) {
+  return () =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >console.log('vtkProp::${method} - NOT IMPLEMENTED');</span></span>
+}
+&nbsp;
+// ----------------------------------------------------------------------------
+// vtkProp methods
+// ----------------------------------------------------------------------------
+&nbsp;
+function vtkProp(publicAPI, model) {
+  // Set our className
+  model.classHierarchy.push('vtkProp');
+&nbsp;
+  publicAPI.getActors = () =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >null;</span></span>
+  publicAPI.getActors2D = () =&gt; null;
+  publicAPI.getVolumes = () =&gt; null;
+&nbsp;
+  publicAPI.pick = notImplemented('pick');
+  publicAPI.hasKey = notImplemented('hasKey');
+&nbsp;
+  publicAPI.getRedrawMTime = () =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >model.mtime;</span></span>
+&nbsp;
+  publicAPI.setEstimatedRenderTime = t =&gt; <span class="fstat-no" title="function not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >    model.estimatedRenderTime = t;</span>
+<span class="cstat-no" title="statement not covered" >    model.savedEstimatedRenderTime = t;</span>
+  };
+&nbsp;
+  publicAPI.restoreEstimatedRenderTime = () =&gt; <span class="fstat-no" title="function not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >    model.estimatedRenderTime = model.savedEstimatedRenderTime;</span>
+  };
+&nbsp;
+  publicAPI.addEstimatedRenderTime = t =&gt; <span class="fstat-no" title="function not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >    model.estimatedRenderTime += t;</span>
+  };
+&nbsp;
+  publicAPI.setAllocatedRenderTime = t =&gt; <span class="fstat-no" title="function not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >    model.allocatedRenderTime = t;</span>
+<span class="cstat-no" title="statement not covered" >    model.savedEstimatedRenderTime = model.estimatedRenderTime;</span>
+<span class="cstat-no" title="statement not covered" >    model.estimatedRenderTime = 0;</span>
+  };
+&nbsp;
+  publicAPI.getSupportsSelection = () =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >false;</span></span>
+&nbsp;
+  publicAPI.getTextures = () =&gt; model.textures;
+  publicAPI.hasTexture = (texture) =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >!!model.textures.filter(item =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >item === texture)</span></span>.length;</span></span>
+  publicAPI.addTexture = (texture) =&gt; <span class="fstat-no" title="function not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >    if (texture &amp;&amp; !publicAPI.hasTexture(texture)) {</span>
+<span class="cstat-no" title="statement not covered" >      model.textures = model.textures.concat(texture);</span>
+    }
+  };
+&nbsp;
+  publicAPI.removeTexture = (texture) =&gt; <span class="fstat-no" title="function not covered" >{</span>
+    const newTextureList = <span class="cstat-no" title="statement not covered" >model.textures.filter(item =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >item === texture)</span></span>;</span>
+<span class="cstat-no" title="statement not covered" >    if (model.texture.length !== newTextureList.length) {</span>
+<span class="cstat-no" title="statement not covered" >      texture.releaseGraphicsResources(model.vtkWindow);</span>
+<span class="cstat-no" title="statement not covered" >      model.textures = newTextureList;</span>
+    }
+  };
+&nbsp;
+  publicAPI.removeAllTextures = () =&gt; <span class="fstat-no" title="function not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >    model.textures.forEach(texture =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >      texture.releaseGraphicsResources(model.vtkWindow);</span>
+    });
+<span class="cstat-no" title="statement not covered" >    model.textures = [];</span>
+  };
+}
+&nbsp;
+// ----------------------------------------------------------------------------
+// Object factory
+// ----------------------------------------------------------------------------
+&nbsp;
+const DEFAULT_VALUES = {
+  visibility: true,
+  pickable: true,
+  dragable: true,
+  useBounds: true,
+  allocatedRenderTime: 10,
+  estimatedRenderTime: 0,
+  savedEstimatedRenderTime: 0,
+  renderTimeMultiplier: 1,
+  paths: null,
+  textures: [],
+};
+&nbsp;
+// ----------------------------------------------------------------------------
+&nbsp;
+export function extend(publicAPI, model, initialValues = {}) {
+  Object.assign(model, DEFAULT_VALUES, initialValues);
+&nbsp;
+  // Build VTK API
+  macro.obj(publicAPI, model);
+  macro.get(publicAPI, model, [
+    'estimatedRenderTime',
+    'allocatedRenderTime',
+  ]);
+  macro.setGet(publicAPI, model, [
+    'visibility',
+    'pickable',
+    'dragable',
+    'useBounds',
+    'renderTimeMultiplier',
+  ]);
+&nbsp;
+  // Object methods
+  vtkProp(publicAPI, model);
+}
+&nbsp;
+// ----------------------------------------------------------------------------
+&nbsp;
+export const newInstance = macro.newInstance(extend);
+&nbsp;
+// ----------------------------------------------------------------------------
+&nbsp;
+export default { newInstance, extend };
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Aug 26 2016 17:44:25 GMT+0000 (UTC)
+</div>
+</div>
+<script src="../../../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../../../sorter.js"></script>
+</body>
+</html>

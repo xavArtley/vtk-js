@@ -400,7 +400,6 @@
 
 	  publicAPI.captureImage = function () {
 	    var format = arguments.length <= 0 || arguments[0] === undefined ? 'image/png' : arguments[0];
-
 	    return model.canvas.toDataURL(format);
 	  };
 	}
