@@ -20,9 +20,9 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">100% </span>
+        <span class="strong">13.33% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>15/15</span>
+        <span class='fraction'>2/15</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
@@ -30,18 +30,18 @@
         <span class='fraction'>0/1</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">100% </span>
+        <span class="strong">0% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>2/2</span>
+        <span class='fraction'>0/2</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">100% </span>
+        <span class="strong">13.33% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>15/15</span>
+        <span class='fraction'>2/15</span>
       </div>
     </div>
   </div>
-  <div class='status-line high'></div>
+  <div class='status-line low'></div>
 <pre><table class="coverage">
 <tr><td class="line-count quiet">1
 2
@@ -120,7 +120,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -133,24 +133,24 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -177,9 +177,9 @@ import vtkOpenGLTexture from '../Texture';
 // vtkOpenGLViewNodeFactory methods
 // ----------------------------------------------------------------------------
 &nbsp;
-export function vtkOpenGLViewNodeFactory(publicAPI, model) {
+export function vtkOpenGLViewNodeFactory(publicAPI, model) <span class="fstat-no" title="function not covered" >{</span>
   // Set our className
-  model.classHierarchy.push('vtkOpenGLViewNodeFactory');
+<span class="cstat-no" title="statement not covered" >  model.classHierarchy.push('vtkOpenGLViewNodeFactory');</span>
 }
 &nbsp;
 // ----------------------------------------------------------------------------
@@ -191,25 +191,25 @@ const DEFAULT_VALUES = {
 &nbsp;
 // ----------------------------------------------------------------------------
 &nbsp;
-export function extend(publicAPI, model, initialValues = {}) {
-  Object.assign(model, DEFAULT_VALUES, initialValues);
+export function extend(publicAPI, model, initialValues = {}) <span class="fstat-no" title="function not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >  Object.assign(model, DEFAULT_VALUES, initialValues);</span>
 &nbsp;
   // Inheritance
-  vtkViewNodeFactory.extend(publicAPI, model);
+<span class="cstat-no" title="statement not covered" >  vtkViewNodeFactory.extend(publicAPI, model);</span>
 &nbsp;
   // Object methods
-  vtkOpenGLViewNodeFactory(publicAPI, model);
+<span class="cstat-no" title="statement not covered" >  vtkOpenGLViewNodeFactory(publicAPI, model);</span>
 &nbsp;
   // Initialization
-  publicAPI.registerOverride('vtkActor', vtkOpenGLActor.newInstance);
-  publicAPI.registerOverride('vtkActor2D', vtkOpenGLActor2D.newInstance);
-  publicAPI.registerOverride('vtkCamera', vtkOpenGLCamera.newInstance);
-  publicAPI.registerOverride('vtkImageMapper', vtkOpenGLImageMapper.newInstance);
-  publicAPI.registerOverride('vtkImageSlice', vtkOpenGLImageSlice.newInstance);
-  publicAPI.registerOverride('vtkMapper', vtkOpenGLPolyDataMapper.newInstance);
-  publicAPI.registerOverride('vtkRenderWindow', vtkOpenGLRenderWindow.newInstance);
-  publicAPI.registerOverride('vtkRenderer', vtkOpenGLRenderer.newInstance);
-  publicAPI.registerOverride('vtkTexture', vtkOpenGLTexture.newInstance);
+<span class="cstat-no" title="statement not covered" >  publicAPI.registerOverride('vtkActor', vtkOpenGLActor.newInstance);</span>
+<span class="cstat-no" title="statement not covered" >  publicAPI.registerOverride('vtkActor2D', vtkOpenGLActor2D.newInstance);</span>
+<span class="cstat-no" title="statement not covered" >  publicAPI.registerOverride('vtkCamera', vtkOpenGLCamera.newInstance);</span>
+<span class="cstat-no" title="statement not covered" >  publicAPI.registerOverride('vtkImageMapper', vtkOpenGLImageMapper.newInstance);</span>
+<span class="cstat-no" title="statement not covered" >  publicAPI.registerOverride('vtkImageSlice', vtkOpenGLImageSlice.newInstance);</span>
+<span class="cstat-no" title="statement not covered" >  publicAPI.registerOverride('vtkMapper', vtkOpenGLPolyDataMapper.newInstance);</span>
+<span class="cstat-no" title="statement not covered" >  publicAPI.registerOverride('vtkRenderWindow', vtkOpenGLRenderWindow.newInstance);</span>
+<span class="cstat-no" title="statement not covered" >  publicAPI.registerOverride('vtkRenderer', vtkOpenGLRenderer.newInstance);</span>
+<span class="cstat-no" title="statement not covered" >  publicAPI.registerOverride('vtkTexture', vtkOpenGLTexture.newInstance);</span>
 }
 &nbsp;
 // ----------------------------------------------------------------------------
@@ -226,7 +226,7 @@ export default { newInstance, extend };
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Aug 26 2016 19:44:16 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Aug 26 2016 20:35:11 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>

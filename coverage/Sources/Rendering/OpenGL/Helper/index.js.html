@@ -20,9 +20,9 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">83.33% </span>
+        <span class="strong">11.11% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>15/18</span>
+        <span class='fraction'>2/18</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
@@ -30,18 +30,18 @@
         <span class='fraction'>0/1</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">66.67% </span>
+        <span class="strong">0% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>2/3</span>
+        <span class='fraction'>0/3</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">83.33% </span>
+        <span class="strong">11.11% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>15/18</span>
+        <span class='fraction'>2/18</span>
       </div>
     </div>
   </div>
-  <div class='status-line high'></div>
+  <div class='status-line low'></div>
 <pre><table class="coverage">
 <tr><td class="line-count quiet">1
 2
@@ -124,9 +124,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -149,31 +149,31 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4×</span>
-<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4×</span>
-<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4×</span>
-<span class="cline-any cline-yes">4×</span>
-<span class="cline-any cline-yes">4×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -192,11 +192,11 @@ import vtkVertexArrayObject from '../VertexArrayObject';
 // vtkOpenGLHelper methods
 // ----------------------------------------------------------------------------
 &nbsp;
-export function vtkOpenGLHelper(publicAPI, model) {
+export function vtkOpenGLHelper(publicAPI, model) <span class="fstat-no" title="function not covered" >{</span>
   // Set our className
-  model.classHierarchy.push('vtkOpenGLHelper');
+<span class="cstat-no" title="statement not covered" >  model.classHierarchy.push('vtkOpenGLHelper');</span>
 &nbsp;
-  publicAPI.setContext = (ctx) =&gt; <span class="fstat-no" title="function not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >  publicAPI.setContext = (ctx) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
 <span class="cstat-no" title="statement not covered" >    model.program.setContext(ctx);</span>
 <span class="cstat-no" title="statement not covered" >    model.VAO.setContext(ctx);</span>
 <span class="cstat-no" title="statement not covered" >    model.CABO.setContext(ctx);</span>
@@ -218,19 +218,19 @@ const DEFAULT_VALUES = {
 &nbsp;
 // ----------------------------------------------------------------------------
 &nbsp;
-export function extend(publicAPI, model, initialValues = {}) {
-  Object.assign(model, DEFAULT_VALUES, initialValues);
+export function extend(publicAPI, model, initialValues = {}) <span class="fstat-no" title="function not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >  Object.assign(model, DEFAULT_VALUES, initialValues);</span>
 &nbsp;
   // Build VTK API
-  macro.obj(publicAPI, model);
+<span class="cstat-no" title="statement not covered" >  macro.obj(publicAPI, model);</span>
 &nbsp;
-  model.shaderSourceTime = {};
-  macro.obj(model.shaderSourceTime);
+<span class="cstat-no" title="statement not covered" >  model.shaderSourceTime = {};</span>
+<span class="cstat-no" title="statement not covered" >  macro.obj(model.shaderSourceTime);</span>
 &nbsp;
-  model.attributeUpdateTime = {};
-  macro.obj(model.attributeUpdateTime);
+<span class="cstat-no" title="statement not covered" >  model.attributeUpdateTime = {};</span>
+<span class="cstat-no" title="statement not covered" >  macro.obj(model.attributeUpdateTime);</span>
 &nbsp;
-  macro.setGet(publicAPI, model, [
+<span class="cstat-no" title="statement not covered" >  macro.setGet(publicAPI, model, [</span>
     'program',
     'shaderSourceTime',
     'VAO',
@@ -238,12 +238,12 @@ export function extend(publicAPI, model, initialValues = {}) {
     'CABO',
   ]);
 &nbsp;
-  model.program = vtkShaderProgram.newInstance();
-  model.VAO = vtkVertexArrayObject.newInstance();
-  model.CABO = vtkCellArrayBufferObject.newInstance();
+<span class="cstat-no" title="statement not covered" >  model.program = vtkShaderProgram.newInstance();</span>
+<span class="cstat-no" title="statement not covered" >  model.VAO = vtkVertexArrayObject.newInstance();</span>
+<span class="cstat-no" title="statement not covered" >  model.CABO = vtkCellArrayBufferObject.newInstance();</span>
 &nbsp;
   // Object methods
-  vtkOpenGLHelper(publicAPI, model);
+<span class="cstat-no" title="statement not covered" >  vtkOpenGLHelper(publicAPI, model);</span>
 }
 &nbsp;
 // ----------------------------------------------------------------------------
@@ -259,7 +259,7 @@ export default { newInstance, extend };
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Aug 26 2016 19:44:16 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Aug 26 2016 20:35:11 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>
