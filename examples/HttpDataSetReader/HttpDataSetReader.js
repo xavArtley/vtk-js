@@ -18698,6 +18698,12 @@
 	        return model.context.RGBA;
 	    }
 	  };
+
+	  publicAPI.captureImage = function () {
+	    var format = arguments.length <= 0 || arguments[0] === undefined ? 'image/png' : arguments[0];
+
+	    return model.canvas.toDataURL(format);
+	  };
 	}
 
 	// ----------------------------------------------------------------------------
@@ -20054,6 +20060,8 @@
 
 	var _DynamicTypedArray = __webpack_require__(66);
 
+	var _DynamicTypedArray2 = _interopRequireDefault(_DynamicTypedArray);
+
 	var _Constants = __webpack_require__(65);
 
 	var _Constants2 = __webpack_require__(19);
@@ -20070,7 +20078,7 @@
 	  // Set our className
 	  model.classHierarchy.push('vtkOpenGLCellArrayBufferObject');
 
-	  var packedVBO = new _DynamicTypedArray.DynamicTypedArray({ chunkSize: 65500, arrayType: 'Float32Array' }); // the data
+	  var packedVBO = new _DynamicTypedArray2.default({ chunkSize: 65500, arrayType: 'Float32Array' }); // the data
 
 	  publicAPI.setType(_Constants.OBJECT_TYPE.ARRAY_BUFFER);
 
@@ -25005,6 +25013,17 @@
 	  publicAPI.render = function () {
 	    model.views.forEach(function (view) {
 	      return view.traverseAllPasses();
+	    });
+	  };
+
+	  publicAPI.captureImages = function () {
+	    var format = arguments.length <= 0 || arguments[0] === undefined ? 'image/png' : arguments[0];
+
+	    publicAPI.render();
+	    return model.views.map(function (view) {
+	      return view.captureImage ? view.captureImage(format) : undefined;
+	    }).filter(function (i) {
+	      return !!i;
 	    });
 	  };
 	}
