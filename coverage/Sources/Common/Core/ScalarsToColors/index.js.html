@@ -20,9 +20,9 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">1.94% </span>
+        <span class="strong">1.96% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>2/103</span>
+        <span class='fraction'>2/102</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
@@ -35,9 +35,9 @@
         <span class='fraction'>0/11</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">1.96% </span>
+        <span class="strong">1.98% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>2/102</span>
+        <span class='fraction'>2/101</span>
       </div>
     </div>
   </div>
@@ -311,8 +311,7 @@
 266
 267
 268
-269
-270</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+269</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -451,6 +450,7 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -485,8 +485,6 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -708,25 +706,26 @@ function vtkScalarsToColors(publicAPI, model) <span class="fstat-no" title="func
 <span class="cstat-no" title="statement not covered" >      newColors[count] = l;</span>
 <span class="cstat-no" title="statement not covered" >      newColors[count + 1] = l;</span>
 <span class="cstat-no" title="statement not covered" >      newColors[count + 2] = l;</span>
-<span class="cstat-no" title="statement not covered" >      newColors[count + 3] = convtFun(values[i + 1]);</span>
+<span class="cstat-no" title="statement not covered" >      newColors[count + 3] = convtFun(values[i + 1]) * alpha;</span>
 <span class="cstat-no" title="statement not covered" >      count += 4;</span>
     }
   };
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  publicAPI.rGBToRGBA = (newColors, colors, alpha, convtFun) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
-    const a = <span class="cstat-no" title="statement not covered" >convtFun(alpha);</span>
+    const a = <span class="cstat-no" title="statement not covered" >floatColorToUChar(alpha);</span>
 &nbsp;
     const values = <span class="cstat-no" title="statement not covered" >colors.getData();</span>
+    const newValues = <span class="cstat-no" title="statement not covered" >newColors.getData();</span>
     const size = <span class="cstat-no" title="statement not covered" >values.length;</span>
     const component = <span class="cstat-no" title="statement not covered" >0;</span>
     const tuple = <span class="cstat-no" title="statement not covered" >3;</span>
 &nbsp;
     let count = <span class="cstat-no" title="statement not covered" >0;</span>
 <span class="cstat-no" title="statement not covered" >    for (let i = component; i &lt; size; i += tuple) {</span>
-<span class="cstat-no" title="statement not covered" >      newColors[(count * 4)] = convtFun(values[i]);</span>
-<span class="cstat-no" title="statement not covered" >      newColors[(count * 4) + 1] = convtFun(values[i + 1]);</span>
-<span class="cstat-no" title="statement not covered" >      newColors[(count * 4) + 2] = convtFun(values[i + 2]);</span>
-<span class="cstat-no" title="statement not covered" >      newColors[(count * 4) + 3] = a;</span>
+<span class="cstat-no" title="statement not covered" >      newValues[(count * 4)] = convtFun(values[i]);</span>
+<span class="cstat-no" title="statement not covered" >      newValues[(count * 4) + 1] = convtFun(values[i + 1]);</span>
+<span class="cstat-no" title="statement not covered" >      newValues[(count * 4) + 2] = convtFun(values[i + 2]);</span>
+<span class="cstat-no" title="statement not covered" >      newValues[(count * 4) + 3] = a;</span>
 <span class="cstat-no" title="statement not covered" >      count++;</span>
     }
   };
@@ -754,9 +753,7 @@ function vtkScalarsToColors(publicAPI, model) <span class="fstat-no" title="func
 <span class="cstat-no" title="statement not covered" >      return colors;</span>
     }
 &nbsp;
-    const newColors = <span class="cstat-no" title="statement not covered" >vtkDataArray.newInstance({ dataType: VTK_DATATYPES.UNSIGNED_CHAR });</span>
-<span class="cstat-no" title="statement not covered" >    newColors.setNumberOfComponents(4);</span>
-<span class="cstat-no" title="statement not covered" >    newColors.setNumberOfTuples(numTuples);</span>
+    const newColors = <span class="cstat-no" title="statement not covered" >vtkDataArray.newInstance({ tuple: 4, empty: true, size: 4 * numTuples, dataType: VTK_DATATYPES.UNSIGNED_CHAR });</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    if (numTuples &lt;= 0) {</span>
 <span class="cstat-no" title="statement not covered" >      return newColors;</span>
@@ -856,7 +853,7 @@ export default Object.assign({ newInstance, extend });
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Oct 12 2016 19:09:54 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Oct 12 2016 23:00:06 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>

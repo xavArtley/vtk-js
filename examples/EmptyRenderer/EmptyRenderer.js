@@ -12343,7 +12343,7 @@
 	    // draw strips
 	    if (model.triStrips.getCABO().getElementCount()) {
 	      // Use the tris shader program/VAO, but triStrips ibo.
-	      model.updateShaders(model.triStrips, ren, actor);
+	      publicAPI.updateShaders(model.triStrips, ren, actor);
 	      if (representation === _Constants.VTK_REPRESENTATION.POINTS) {
 	        gl.drawArrays(gl.POINTS, 0, model.triStrips.getCABO().getElementCount());
 	      }

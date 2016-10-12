@@ -9920,7 +9920,7 @@
 	  publicAPI.mapScalars = function (input, alpha) {
 	    var scalars = publicAPI.getAbstractScalars(input, model.scalarMode, model.arrayAccessMode, model.arrayId, model.colorByArrayName);
 
-	    if (scalars === null) {
+	    if (!scalars) {
 	      model.colorMapColors = null;
 	      return;
 	    }
@@ -10605,25 +10605,26 @@
 	      newColors[count] = l;
 	      newColors[count + 1] = l;
 	      newColors[count + 2] = l;
-	      newColors[count + 3] = convtFun(values[i + 1]);
+	      newColors[count + 3] = convtFun(values[i + 1]) * alpha;
 	      count += 4;
 	    }
 	  };
 
 	  publicAPI.rGBToRGBA = function (newColors, colors, alpha, convtFun) {
-	    var a = convtFun(alpha);
+	    var a = floatColorToUChar(alpha);
 
 	    var values = colors.getData();
+	    var newValues = newColors.getData();
 	    var size = values.length;
 	    var component = 0;
 	    var tuple = 3;
 
 	    var count = 0;
 	    for (var i = component; i < size; i += tuple) {
-	      newColors[count * 4] = convtFun(values[i]);
-	      newColors[count * 4 + 1] = convtFun(values[i + 1]);
-	      newColors[count * 4 + 2] = convtFun(values[i + 2]);
-	      newColors[count * 4 + 3] = a;
+	      newValues[count * 4] = convtFun(values[i]);
+	      newValues[count * 4 + 1] = convtFun(values[i + 1]);
+	      newValues[count * 4 + 2] = convtFun(values[i + 2]);
+	      newValues[count * 4 + 3] = a;
 	      count++;
 	    }
 	  };
@@ -10650,9 +10651,7 @@
 	      return colors;
 	    }
 
-	    var newColors = _DataArray2.default.newInstance({ dataType: _Constants3.VTK_DATATYPES.UNSIGNED_CHAR });
-	    newColors.setNumberOfComponents(4);
-	    newColors.setNumberOfTuples(numTuples);
+	    var newColors = _DataArray2.default.newInstance({ tuple: 4, empty: true, size: 4 * numTuples, dataType: _Constants3.VTK_DATATYPES.UNSIGNED_CHAR });
 
 	    if (numTuples <= 0) {
 	      return newColors;
@@ -15214,7 +15213,7 @@
 	    // draw strips
 	    if (model.triStrips.getCABO().getElementCount()) {
 	      // Use the tris shader program/VAO, but triStrips ibo.
-	      model.updateShaders(model.triStrips, ren, actor);
+	      publicAPI.updateShaders(model.triStrips, ren, actor);
 	      if (representation === _Constants.VTK_REPRESENTATION.POINTS) {
 	        gl.drawArrays(gl.POINTS, 0, model.triStrips.getCABO().getElementCount());
 	      }
