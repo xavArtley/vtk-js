@@ -1063,7 +1063,7 @@ function vtkCamera(publicAPI, model) <span class="fstat-no" title="function not 
 <span class="cstat-no" title="statement not covered" >    publicAPI.modified();</span>
   };
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  publicAPI.setDistance = d =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >  publicAPI.setDistance = (d) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
     // if (distance === d) {
     //   return;
     // }
@@ -1133,7 +1133,7 @@ function vtkCamera(publicAPI, model) <span class="fstat-no" title="function not 
   // Move the position of the camera along the view plane normal. Moving
   // towards the focal point (e.g., &gt; 1) is a dolly-in, moving away
   // from the focal point (e.g., &lt; 1) is a dolly-out.
-<span class="cstat-no" title="statement not covered" >  publicAPI.dolly = amount =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >  publicAPI.dolly = (amount) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
 <span class="cstat-no" title="statement not covered" >    if (amount &lt;= 0.0) {</span>
 <span class="cstat-no" title="statement not covered" >      return;</span>
     }
@@ -1147,7 +1147,7 @@ function vtkCamera(publicAPI, model) <span class="fstat-no" title="function not 
       model.focalPoint[2] - (d * model.directionOfProjection[2]));
   };
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  publicAPI.setRoll = roll =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >  publicAPI.setRoll = (roll) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
 &nbsp;
   };
 &nbsp;
@@ -1155,7 +1155,7 @@ function vtkCamera(publicAPI, model) <span class="fstat-no" title="function not 
 &nbsp;
   };
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  publicAPI.roll = angle =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >  publicAPI.roll = (angle) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
     const eye = <span class="cstat-no" title="statement not covered" >model.position;</span>
     const at = <span class="cstat-no" title="statement not covered" >model.focalPoint;</span>
     const up = <span class="cstat-no" title="statement not covered" >model.viewUp;</span>
@@ -1173,7 +1173,7 @@ function vtkCamera(publicAPI, model) <span class="fstat-no" title="function not 
 <span class="cstat-no" title="statement not covered" >    publicAPI.modified();</span>
   };
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  publicAPI.azimuth = angle =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >  publicAPI.azimuth = (angle) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
     const newPosition = <span class="cstat-no" title="statement not covered" >vec3.create();</span>
     const fp = <span class="cstat-no" title="statement not covered" >model.focalPoint;</span>
 &nbsp;
@@ -1192,11 +1192,11 @@ function vtkCamera(publicAPI, model) <span class="fstat-no" title="function not 
 <span class="cstat-no" title="statement not covered" >    publicAPI.setPosition(newPosition[0], newPosition[1], newPosition[2]);</span>
   };
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  publicAPI.yaw = angle =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >  publicAPI.yaw = (angle) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
 &nbsp;
   };
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  publicAPI.elevation = angle =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >  publicAPI.elevation = (angle) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
     const newPosition = <span class="cstat-no" title="statement not covered" >vec3.create();</span>
     const fp = <span class="cstat-no" title="statement not covered" >model.focalPoint;</span>
 &nbsp;
@@ -1218,11 +1218,11 @@ function vtkCamera(publicAPI, model) <span class="fstat-no" title="function not 
 <span class="cstat-no" title="statement not covered" >    publicAPI.setPosition(newPosition[0], newPosition[1], newPosition[2]);</span>
   };
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  publicAPI.pitch = angle =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >  publicAPI.pitch = (angle) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
 &nbsp;
   };
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  publicAPI.zoom = factor =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >  publicAPI.zoom = (factor) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
 <span class="cstat-no" title="statement not covered" >    if (factor &lt;= 0) {</span>
 <span class="cstat-no" title="statement not covered" >      return;</span>
     }
@@ -1234,7 +1234,7 @@ function vtkCamera(publicAPI, model) <span class="fstat-no" title="function not 
 <span class="cstat-no" title="statement not covered" >    publicAPI.modified();</span>
   };
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  publicAPI.setThickness = thickness =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >  publicAPI.setThickness = (thickness) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
 &nbsp;
   };
 &nbsp;
@@ -1246,7 +1246,7 @@ function vtkCamera(publicAPI, model) <span class="fstat-no" title="function not 
 &nbsp;
   };
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  publicAPI.applyTransform = transform =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >  publicAPI.applyTransform = (transform) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
 &nbsp;
   };
 &nbsp;
@@ -1321,15 +1321,15 @@ function vtkCamera(publicAPI, model) <span class="fstat-no" title="function not 
   //   // return glmatrix object
   // };
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  publicAPI.setUserViewTransform = transform =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >  publicAPI.setUserViewTransform = (transform) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
     // transform is a vtkHomogeneousTransform
   };
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  publicAPI.setUserTransform = transform =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >  publicAPI.setUserTransform = (transform) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
     // transform is a vtkHomogeneousTransform
   };
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  publicAPI.render = renderer =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >  publicAPI.render = (renderer) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
 &nbsp;
   };
 &nbsp;
@@ -1341,7 +1341,7 @@ function vtkCamera(publicAPI, model) <span class="fstat-no" title="function not 
 &nbsp;
   };
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  publicAPI.getFrustumPlanes = aspect =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >  publicAPI.getFrustumPlanes = (aspect) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
     // Return array of 24 params (4 params for each of 6 plane equations)
   };
 &nbsp;
@@ -1361,15 +1361,15 @@ function vtkCamera(publicAPI, model) <span class="fstat-no" title="function not 
 &nbsp;
   };
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  publicAPI.shallowCopy = sourceCamera =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >  publicAPI.shallowCopy = (sourceCamera) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
 &nbsp;
   };
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  publicAPI.deepCopy = sourceCamera =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >  publicAPI.deepCopy = (sourceCamera) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
 &nbsp;
   };
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  publicAPI.setScissorRect = rect =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >  publicAPI.setScissorRect = (rect) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
     // rect is a vtkRect
   };
 &nbsp;
@@ -1468,7 +1468,7 @@ export default { newInstance, extend };
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Oct 12 2016 15:49:34 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Oct 12 2016 19:03:28 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>

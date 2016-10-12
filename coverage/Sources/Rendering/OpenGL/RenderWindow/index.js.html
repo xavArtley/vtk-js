@@ -582,7 +582,7 @@ export function vtkOpenGLRenderWindow(publicAPI, model) <span class="fstat-no" t
 <span class="cstat-no" title="statement not covered" >  publicAPI.render = (prepass) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
 <span class="cstat-no" title="statement not covered" >    if (prepass) {</span>
 <span class="cstat-no" title="statement not covered" >      publicAPI.initialize();</span>
-<span class="cstat-no" title="statement not covered" >      model.children.forEach(child =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >      model.children.forEach((child) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
 <span class="cstat-no" title="statement not covered" >        child.setContext(model.context);</span>
       });
     } else {
@@ -590,7 +590,7 @@ export function vtkOpenGLRenderWindow(publicAPI, model) <span class="fstat-no" t
     }
   };
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  publicAPI.setContainer = el =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >  publicAPI.setContainer = (el) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
 <span class="cstat-no" title="statement not covered" >    if (model.el &amp;&amp; model.el !== el) {</span>
       // Remove canvas from previous container
 <span class="cstat-no" title="statement not covered" >      if (model.canvas.parentNode === model.el) {</span>
@@ -621,13 +621,13 @@ export function vtkOpenGLRenderWindow(publicAPI, model) <span class="fstat-no" t
 <span class="cstat-no" title="statement not covered" >    return false;</span>
   };
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  publicAPI.getViewportSize = viewport =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >  publicAPI.getViewportSize = (viewport) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
     const vCoords = <span class="cstat-no" title="statement not covered" >viewport.getViewport();</span>
     const size = <span class="cstat-no" title="statement not covered" >model.size;</span>
 <span class="cstat-no" title="statement not covered" >    return [(vCoords[2] - vCoords[0]) * size[0], (vCoords[3] - vCoords[1]) * size[1]];</span>
   };
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  publicAPI.getViewportCenter = viewport =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >  publicAPI.getViewportCenter = (viewport) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
     const size = <span class="cstat-no" title="statement not covered" >publicAPI.getViewportSize(viewport);</span>
 <span class="cstat-no" title="statement not covered" >    return [size[0] * 0.5, size[1] * 0.5];</span>
   };
@@ -643,7 +643,7 @@ export function vtkOpenGLRenderWindow(publicAPI, model) <span class="fstat-no" t
 <span class="cstat-no" title="statement not covered" >  publicAPI.get3DContext = (options = { preserveDrawingBuffer: true, premultipliedAlpha: false }) =&gt;</span>
 <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >    model.canvas.getContext('webgl', options) || model.canvas.getContext('experimental-webgl', options);</span></span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  publicAPI.activateTexture = texture =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >  publicAPI.activateTexture = (texture) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
     // Only add if it isn't already there
     const result = <span class="cstat-no" title="statement not covered" >model.textureResourceIds.get(texture);</span>
 <span class="cstat-no" title="statement not covered" >    if (result !== undefined) {</span>
@@ -661,7 +661,7 @@ export function vtkOpenGLRenderWindow(publicAPI, model) <span class="fstat-no" t
 <span class="cstat-no" title="statement not covered" >    model.context.activeTexture(model.context.TEXTURE0 + activeUnit);</span>
   };
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  publicAPI.deactivateTexture = texture =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >  publicAPI.deactivateTexture = (texture) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
     // Only deactivate if it isn't already there
     const result = <span class="cstat-no" title="statement not covered" >model.textureResourceIds.get(texture);</span>
 <span class="cstat-no" title="statement not covered" >    if (result !== undefined) {</span>
@@ -670,7 +670,7 @@ export function vtkOpenGLRenderWindow(publicAPI, model) <span class="fstat-no" t
     }
   };
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  publicAPI.getTextureUnitForTexture = texture =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >  publicAPI.getTextureUnitForTexture = (texture) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
     const result = <span class="cstat-no" title="statement not covered" >model.textureResourceIds.get(texture);</span>
 <span class="cstat-no" title="statement not covered" >    if (result !== undefined) {</span>
 <span class="cstat-no" title="statement not covered" >      return result;</span>
@@ -757,7 +757,7 @@ export default { newInstance, extend };
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Oct 12 2016 15:49:34 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Oct 12 2016 19:03:28 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>

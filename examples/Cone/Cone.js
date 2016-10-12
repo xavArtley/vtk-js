@@ -8641,13 +8641,14 @@
 	// ----------------------------------------------------------------------------
 	/* eslint-disable camelcase                                                  */
 	/* eslint-disable no-cond-assign                                             */
+	/* eslint-disable no-bitwise                                                 */
 	// ----------------------------------------------------------------------------
 	var VTK_MAX_ROTATIONS = 20;
 	var VTK_SMALL_NUMBER = 1.0e-12;
 
 	function notImplemented(method) {
 	  return function () {
-	    return console.log('vtkMath::${method} - NOT IMPLEMENTED');
+	    return console.log('vtkMath::' + method + ' - NOT IMPLEMENTED');
 	  };
 	}
 
@@ -12788,6 +12789,7 @@
 	  };
 
 	  publicAPI.clear = function () {
+	    /* eslint-disable no-bitwise */
 	    var clearMask = 0;
 	    var gl = model.context;
 
@@ -12807,6 +12809,7 @@
 	    gl.clear(clearMask);
 
 	    gl.enable(gl.DEPTH_TEST);
+	    /* eslint-enable no-bitwise */
 	  };
 	}
 
@@ -12978,7 +12981,7 @@
 	    Object.keys(model.shaderPrograms).map(function (key) {
 	      return model.shaderPrograms[key];
 	    }).forEach(function (sp) {
-	      sp.releaseGraphicsResources(win);
+	      return sp.releaseGraphicsResources(win);
 	    });
 	  };
 
@@ -13644,7 +13647,7 @@
 
 	function notImplemented(method) {
 	  return function () {
-	    return console.log('vtkRenderer::${method} - NOT IMPLEMENTED');
+	    return console.log('vtkRenderer::' + method + ' - NOT IMPLEMENTED');
 	  };
 	}
 
@@ -13652,54 +13655,63 @@
 	// Global methods
 	// ----------------------------------------------------------------------------
 
-	function expandBounds(bounds, matrix) {
-	  if (!bounds) {
-	    console.error('ERROR: Invalid bounds');
-	    return;
-	  }
+	// function expandBounds(bounds, matrix) {
+	//   if (!bounds) {
+	//     console.error('ERROR: Invalid bounds');
+	//     return;
+	//   }
 
-	  if (!matrix) {
-	    console.error('ERROR: Invalid matrix');
-	    return;
-	  }
+	//   if (!matrix) {
+	//     console.error('ERROR: Invalid matrix');
+	//     return;
+	//   }
 
-	  // Expand the bounding box by model view transform matrix.
-	  var pt = [_glMatrix.vec4.fromValues(bounds[0], bounds[2], bounds[5], 1.0), _glMatrix.vec4.fromValues(bounds[1], bounds[2], bounds[5], 1.0), _glMatrix.vec4.fromValues(bounds[1], bounds[2], bounds[4], 1.0), _glMatrix.vec4.fromValues(bounds[0], bounds[2], bounds[4], 1.0), _glMatrix.vec4.fromValues(bounds[0], bounds[3], bounds[5], 1.0), _glMatrix.vec4.fromValues(bounds[1], bounds[3], bounds[5], 1.0), _glMatrix.vec4.fromValues(bounds[1], bounds[3], bounds[4], 1.0), _glMatrix.vec4.fromValues(bounds[0], bounds[3], bounds[4], 1.0)];
+	//   // Expand the bounding box by model view transform matrix.
+	//   const pt = [
+	//     vec4.fromValues(bounds[0], bounds[2], bounds[5], 1.0),
+	//     vec4.fromValues(bounds[1], bounds[2], bounds[5], 1.0),
+	//     vec4.fromValues(bounds[1], bounds[2], bounds[4], 1.0),
+	//     vec4.fromValues(bounds[0], bounds[2], bounds[4], 1.0),
+	//     vec4.fromValues(bounds[0], bounds[3], bounds[5], 1.0),
+	//     vec4.fromValues(bounds[1], bounds[3], bounds[5], 1.0),
+	//     vec4.fromValues(bounds[1], bounds[3], bounds[4], 1.0),
+	//     vec4.fromValues(bounds[0], bounds[3], bounds[4], 1.0),
+	//   ];
 
-	  // \note: Assuming that matrix does not have projective component. Hence not
-	  // dividing by the homogeneous coordinate after multiplication
-	  for (var i = 0; i < 8; ++i) {
-	    _glMatrix.vec4.transformMat4(pt[i], pt[i], matrix);
-	  }
+	//   // \note: Assuming that matrix does not have projective component. Hence not
+	//   // dividing by the homogeneous coordinate after multiplication
+	//   for (let i = 0; i < 8; ++i) {
+	//     vec4.transformMat4(pt[i], pt[i], matrix);
+	//   }
 
-	  // min = mpx = pt[0]
-	  var min = [];
-	  var max = [];
-	  for (var _i = 0; _i < 4; ++_i) {
-	    min[_i] = pt[0][_i];
-	    max[_i] = pt[0][_i];
-	  }
+	//   // min = mpx = pt[0]
+	//   const min = [];
+	//   const max = [];
+	//   for (let i = 0; i < 4; ++i) {
+	//     min[i] = pt[0][i];
+	//     max[i] = pt[0][i];
+	//   }
 
-	  for (var _i2 = 1; _i2 < 8; ++_i2) {
-	    for (var j = 0; j < 3; ++j) {
-	      if (min[j] > pt[_i2][j]) {
-	        min[j] = pt[_i2][j];
-	      }
-	      if (max[j] < pt[_i2][j]) {
-	        max[j] = pt[_i2][j];
-	      }
-	    }
-	  }
+	//   for (let i = 1; i < 8; ++i) {
+	//     for (let j = 0; j < 3; ++j) {
+	//       if (min[j] > pt[i][j]) {
+	//         min[j] = pt[i][j];
+	//       }
+	//       if (max[j] < pt[i][j]) {
+	//         max[j] = pt[i][j];
+	//       }
+	//     }
+	//   }
 
-	  // Copy values back to bounds.
-	  bounds[0] = min[0];
-	  bounds[2] = min[1];
-	  bounds[4] = min[2];
+	//   // Copy values back to bounds.
+	//   bounds[0] = min[0];
+	//   bounds[2] = min[1];
+	//   bounds[4] = min[2];
 
-	  bounds[1] = max[0];
-	  bounds[3] = max[1];
-	  bounds[5] = max[2];
-	}
+	//   bounds[1] = max[0];
+	//   bounds[3] = max[1];
+	//   bounds[5] = max[2];
+	// }
 
 	// ----------------------------------------------------------------------------
 	// vtkRenderer methods
@@ -14855,7 +14867,7 @@
 
 	function notImplemented(method) {
 	  return function () {
-	    return console.log('vtkViewport::${method} - NOT IMPLEMENTED');
+	    return console.log('vtkViewport::' + method + ' - NOT IMPLEMENTED');
 	  };
 	}
 
@@ -16494,7 +16506,7 @@
 
 	function notImplemented(method) {
 	  return function () {
-	    return console.log('vtkProp3D::${method} - NOT IMPLEMENTED');
+	    return console.log('vtkProp3D::' + method + ' - NOT IMPLEMENTED');
 	  };
 	}
 
@@ -16673,7 +16685,7 @@
 
 	function notImplemented(method) {
 	  return function () {
-	    return console.log('vtkProp::${method} - NOT IMPLEMENTED');
+	    return console.log('vtkProp::' + method + ' - NOT IMPLEMENTED');
 	  };
 	}
 
@@ -16816,7 +16828,7 @@
 
 	function notImplemented(method) {
 	  return function () {
-	    return console.log('vtkProperty::${method} - NOT IMPLEMENTED');
+	    return console.log('vtkProperty::' + method + ' - NOT IMPLEMENTED');
 	  };
 	}
 
@@ -17085,7 +17097,6 @@
 	    Point: { factor: 0, unit: 0 }
 	  };
 	  CoincidentTopologyHelper.addCoincidentTopologyMethods(publicAPI, model.topologyOffset, CoincidentTopologyHelper.CATEGORIES.map(function (key) {
-	    // GetRelativeCoincidentTopologyPolygon
 	    return { key: key, method: 'RelativeCoincidentTopology' + key + 'OffsetParameters' };
 	  }));
 	  /* eslint-enable arrow-body-style */

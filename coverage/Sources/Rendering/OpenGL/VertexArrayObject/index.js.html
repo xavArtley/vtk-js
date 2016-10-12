@@ -626,9 +626,9 @@ function vtkOpenGLVertexArrayObject(publicAPI, model) <span class="fstat-no" tit
 <span class="cstat-no" title="statement not covered" >      model.extension.bindVertexArrayOES(model.handleVAO);</span>
     } else <span class="cstat-no" title="statement not covered" >if (publicAPI.isReady()) {</span>
       const gl = <span class="cstat-no" title="statement not covered" >model.context;</span>
-<span class="cstat-no" title="statement not covered" >      Object.keys(model.buffers).map(key =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >model.buffers[key])</span></span>.forEach(buff =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >      Object.keys(model.buffers).map(key =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >model.buffers[key])</span></span>.forEach((buff) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
 <span class="cstat-no" title="statement not covered" >        model.context.bindBuffer(gl.ARRAY_BUFFER, buff.buffer);</span>
-<span class="cstat-no" title="statement not covered" >        Object.keys(buff.attributes).map(key =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >buff.attributes[key])</span></span>.forEach(attrIt =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >        Object.keys(buff.attributes).map(key =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >buff.attributes[key])</span></span>.forEach((attrIt) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
           const matrixCount = <span class="cstat-no" title="statement not covered" >attrIt.isMatrix ? attrIt.size : 1;</span>
 <span class="cstat-no" title="statement not covered" >          for (let i = 0; i &lt; matrixCount; ++i) {</span>
 <span class="cstat-no" title="statement not covered" >            gl.enableVertexAttribArray(attrIt.index + i);</span>
@@ -651,8 +651,8 @@ function vtkOpenGLVertexArrayObject(publicAPI, model) <span class="fstat-no" tit
 <span class="cstat-no" title="statement not covered" >      model.extension.bindVertexArrayOES(null);</span>
     } else <span class="cstat-no" title="statement not covered" >if (publicAPI.isReady()) {</span>
       const gl = <span class="cstat-no" title="statement not covered" >model.context;</span>
-<span class="cstat-no" title="statement not covered" >      Object.keys(model.buffers).map(key =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >model.buffers[key])</span></span>.forEach(buff =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
-<span class="cstat-no" title="statement not covered" >        Object.keys(buff.attributes).map(key =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >buff.attributes[key])</span></span>.forEach(attrIt =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >      Object.keys(model.buffers).map(key =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >model.buffers[key])</span></span>.forEach((buff) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >        Object.keys(buff.attributes).map(key =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >buff.attributes[key])</span></span>.forEach((attrIt) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
           const matrixCount = <span class="cstat-no" title="statement not covered" >attrIt.isMatrix ? attrIt.size : 1;</span>
 <span class="cstat-no" title="statement not covered" >          for (let i = 0; i &lt; matrixCount; ++i) {</span>
 <span class="cstat-no" title="statement not covered" >            gl.enableVertexAttribArray(attrIt.index + i);</span>
@@ -801,7 +801,7 @@ function vtkOpenGLVertexArrayObject(publicAPI, model) <span class="fstat-no" tit
 <span class="cstat-no" title="statement not covered" >    gl.disableVertexAttribArray(location);</span>
     // If we don't have real VAOs find the entry and remove it too.
 <span class="cstat-no" title="statement not covered" >    if (!model.supported) {</span>
-<span class="cstat-no" title="statement not covered" >      Object.keys(model.buffers).map(key =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >model.buffers[key])</span></span>.forEach(buff =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >      Object.keys(model.buffers).map(key =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >model.buffers[key])</span></span>.forEach((buff) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
 <span class="cstat-no" title="statement not covered" >        delete buff.attributes[location];</span>
       });
     }
@@ -859,7 +859,7 @@ export default { newInstance, extend };
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Oct 12 2016 15:49:34 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Oct 12 2016 19:03:28 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>

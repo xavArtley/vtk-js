@@ -996,7 +996,7 @@ function vtkBoundingBox(publicAPI, model) <span class="fstat-no" title="function
     /* eslint-enable no-use-before-define */
   };
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  publicAPI.equals = other =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >  publicAPI.equals = (other) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
     const a = <span class="cstat-no" title="statement not covered" >model.bounds;</span>
     const b = <span class="cstat-no" title="statement not covered" >other.getBounds();</span>
 <span class="cstat-no" title="statement not covered" >    return a[0] === b[0]</span>
@@ -1055,13 +1055,13 @@ function vtkBoundingBox(publicAPI, model) <span class="fstat-no" title="function
     ];
   };
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  publicAPI.addBox = other =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >  publicAPI.addBox = (other) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
 <span class="cstat-no" title="statement not covered" >    publicAPI.addBounds(...other.getBounds());</span>
   };
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  publicAPI.isValid = () =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >isValid(model.bounds);</span></span></span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  publicAPI.intersect = bbox =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >  publicAPI.intersect = (bbox) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
 <span class="cstat-no" title="statement not covered" >    if (!(publicAPI.isValid() &amp;&amp; bbox.isValid())) {</span>
 <span class="cstat-no" title="statement not covered" >      return false;</span>
     }
@@ -1101,7 +1101,7 @@ function vtkBoundingBox(publicAPI, model) <span class="fstat-no" title="function
 <span class="cstat-no" title="statement not covered" >    return true;</span>
   };
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  publicAPI.intersects = bbox =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >  publicAPI.intersects = (bbox) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
 <span class="cstat-no" title="statement not covered" >    if (!(publicAPI.isValid() &amp;&amp; bbox.isValid())) {</span>
 <span class="cstat-no" title="statement not covered" >      return false;</span>
     }
@@ -1217,7 +1217,7 @@ function vtkBoundingBox(publicAPI, model) <span class="fstat-no" title="function
 <span class="cstat-no" title="statement not covered" >  publicAPI.getMaxPoint = () =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >[model.bounds[1], model.bounds[3], model.bounds[5]];</span></span></span>
 <span class="cstat-no" title="statement not covered" >  publicAPI.getBound = index =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >model.bound[index];</span></span></span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  publicAPI.contains = bbox =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >  publicAPI.contains = (bbox) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
     // if either box is not valid or they don't intersect
 <span class="cstat-no" title="statement not covered" >    if (!publicAPI.intersects(bbox)) {</span>
 <span class="cstat-no" title="statement not covered" >      return false;</span>
@@ -1242,7 +1242,7 @@ function vtkBoundingBox(publicAPI, model) <span class="fstat-no" title="function
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  publicAPI.reset = () =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >publicAPI.setBounds([].concat(INIT_BOUNDS));</span></span></span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  publicAPI.inflate = delta =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >  publicAPI.inflate = (delta) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
 <span class="cstat-no" title="statement not covered" >    model.bounds = model.bounds.map((value, index) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
 <span class="cstat-no" title="statement not covered" >      if (index % 2 === 0) {</span>
 <span class="cstat-no" title="statement not covered" >        return value - delta;</span>
@@ -1318,7 +1318,7 @@ export default Object.assign({ newInstance, extend }, STATIC);
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Oct 12 2016 15:49:34 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Oct 12 2016 19:03:28 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>

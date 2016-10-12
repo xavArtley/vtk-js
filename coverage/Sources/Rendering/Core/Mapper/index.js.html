@@ -361,12 +361,7 @@
 316
 317
 318
-319
-320
-321
-322
-323
-324</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+319</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -388,7 +383,6 @@
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -401,7 +395,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -467,10 +460,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -714,9 +704,7 @@ CoincidentTopologyHelper.addCoincidentTopologyMethods(
   staticOffsetAPI,
   staticOffsetModel,
   CoincidentTopologyHelper.CATEGORIES
-    .map(key =&gt; {
-      return { key, method: `ResolveCoincidentTopology${key}OffsetParameters` };
-    })
+    .map(key =&gt; ({ key, method: `ResolveCoincidentTopology${key}OffsetParameters` }))
 );
 &nbsp;
 // ----------------------------------------------------------------------------
@@ -747,7 +735,7 @@ function vtkMapper(publicAPI, model) <span class="fstat-no" title="function not 
 <span class="cstat-no" title="statement not covered" >    publicAPI.getInputData();</span>
   };
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  publicAPI.setForceCompileOnly = v =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >  publicAPI.setForceCompileOnly = (v) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
 <span class="cstat-no" title="statement not covered" >    model.forceCompileOnly = v;</span>
     // make sure we do NOT call modified()
   };
@@ -772,10 +760,10 @@ function vtkMapper(publicAPI, model) <span class="fstat-no" title="function not 
 <span class="cstat-no" title="statement not covered" >  publicAPI.setScalarModeToUseFieldData = () =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >publicAPI.setScalarMode(5);</span></span></span>
 &nbsp;
   // Add Static methods to our instance
-<span class="cstat-no" title="statement not covered" >  Object.keys(otherStaticMethods).forEach(methodName =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >  Object.keys(otherStaticMethods).forEach((methodName) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
 <span class="cstat-no" title="statement not covered" >    publicAPI[methodName] = otherStaticMethods[methodName];</span>
   });
-<span class="cstat-no" title="statement not covered" >  Object.keys(staticOffsetAPI).forEach(methodName =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >  Object.keys(staticOffsetAPI).forEach((methodName) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
 <span class="cstat-no" title="statement not covered" >    publicAPI[methodName] = staticOffsetAPI[methodName];</span>
   });
 &nbsp;
@@ -790,10 +778,7 @@ function vtkMapper(publicAPI, model) <span class="fstat-no" title="function not 
     publicAPI,
     model.topologyOffset,
     CoincidentTopologyHelper.CATEGORIES
-      .map(key =&gt; <span class="fstat-no" title="function not covered" >{</span>
-        // GetRelativeCoincidentTopologyPolygon
-<span class="cstat-no" title="statement not covered" >        return { key, method: `RelativeCoincidentTopology${key}OffsetParameters` };</span>
-      })
+      .map(key =&gt; (<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >{ key, method: `RelativeCoincidentTopology${key}OffsetParameters` })</span></span>)
   );
   /* eslint-enable arrow-body-style */
 &nbsp;
@@ -901,7 +886,7 @@ function vtkMapper(publicAPI, model) <span class="fstat-no" title="function not 
 <span class="cstat-no" title="statement not covered" >    return true;</span>
   };
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  publicAPI.canUseTextureMapForColoring = input =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >  publicAPI.canUseTextureMapForColoring = (input) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
 <span class="cstat-no" title="statement not covered" >    console.log('vtkMapper::canUseTextureMapForColoring - NOT IMPLEMENTED');</span>
 <span class="cstat-no" title="statement not covered" >    return false;</span>
   };
@@ -1018,7 +1003,7 @@ export default Object.assign({ newInstance, extend }, staticOffsetAPI, otherStat
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Oct 12 2016 15:49:34 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Oct 12 2016 19:03:28 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>
