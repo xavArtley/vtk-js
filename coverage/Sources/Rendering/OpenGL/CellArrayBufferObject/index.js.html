@@ -290,21 +290,7 @@
 245
 246
 247
-248
-249
-250
-251
-252
-253
-254
-255
-256
-257
-258
-259
-260
-261
-262</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+248</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -346,6 +332,8 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -362,7 +350,6 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -373,8 +360,6 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -411,19 +396,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -607,14 +579,16 @@ function vtkOpenGLCellArrayBufferObject(publicAPI, model) <span class="fstat-no"
     const colorComponents = (<span class="cstat-no" title="statement not covered" >options.colors ? options.colors.getNumberOfComponents() : 0)</span>;
     const textureComponents = (<span class="cstat-no" title="statement not covered" >options.tcoords ? options.tcoords.getNumberOfComponents() : 0)</span>;
 &nbsp;
+    // the values of 4 below are because floats are 4 bytes
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    if (options.normals) {</span>
-<span class="cstat-no" title="statement not covered" >      model.normalOffset = /* sizeof(float) */ 4 * model.blockSize;</span>
+<span class="cstat-no" title="statement not covered" >      model.normalOffset = 4 * model.blockSize;</span>
 <span class="cstat-no" title="statement not covered" >      model.blockSize += 3;</span>
 <span class="cstat-no" title="statement not covered" >      normalData = options.normals.getData();</span>
     }
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    if (options.tcoords) {</span>
-<span class="cstat-no" title="statement not covered" >      model.tCoordOffset = /* sizeof(float) */ 4 * model.blockSize;</span>
+<span class="cstat-no" title="statement not covered" >      model.tCoordOffset = 4 * model.blockSize;</span>
 <span class="cstat-no" title="statement not covered" >      model.tCoordComponents = textureComponents;</span>
 <span class="cstat-no" title="statement not covered" >      model.blockSize += textureComponents;</span>
 <span class="cstat-no" title="statement not covered" >      tcoordData = options.tcoords.getData();</span>
@@ -622,20 +596,17 @@ function vtkOpenGLCellArrayBufferObject(publicAPI, model) <span class="fstat-no"
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    if (options.colors) {</span>
 <span class="cstat-no" title="statement not covered" >      model.colorComponents = options.colors.getNumberOfComponents();</span>
-<span class="cstat-no" title="statement not covered" >      model.colorOffset = /* sizeof(float) */ 4 * model.blockSize;</span>
-//      model.blockSize += 1;
+<span class="cstat-no" title="statement not covered" >      model.colorOffset = 4 * model.blockSize;</span>
 <span class="cstat-no" title="statement not covered" >      model.blockSize += model.colorComponents;</span>
 <span class="cstat-no" title="statement not covered" >      colorData = options.colors.getData();</span>
     }
-<span class="cstat-no" title="statement not covered" >    model.stride = /* sizeof(float) */ 4 * model.blockSize;</span>
+<span class="cstat-no" title="statement not covered" >    model.stride = 4 * model.blockSize;</span>
 &nbsp;
     let pointIdx = <span class="cstat-no" title="statement not covered" >0;</span>
     let normalIdx = <span class="cstat-no" title="statement not covered" >0;</span>
     let tcoordIdx = <span class="cstat-no" title="statement not covered" >0;</span>
     let colorIdx = <span class="cstat-no" title="statement not covered" >0;</span>
     let cellCount = <span class="cstat-no" title="statement not covered" >0;</span>
-&nbsp;
-    // const colorHolder = new Uint8Array(4);
 &nbsp;
     const addAPoint = <span class="cstat-no" title="statement not covered" >function addAPoint(i) <span class="fstat-no" title="function not covered" >{</span></span>
       // Vertices
@@ -674,19 +645,6 @@ function vtkOpenGLCellArrayBufferObject(publicAPI, model) <span class="fstat-no"
 <span class="cstat-no" title="statement not covered" >          packedVBO.push(colorData[colorIdx++] / 255.5);</span>
         }
       }
-      // if (colorData !== null) {
-      //   colorHolder[0] = colorData[colorIdx++];
-      //   colorHolder[1] = colorData[colorIdx++];
-      //   colorHolder[2] = colorData[colorIdx++];
-&nbsp;
-      //   if (colorComponents === 4) {
-      //     colorHolder[3] = colorData[colorIdx++];
-      //   } else {  // must be 3 color components then
-      //     colorHolder[3] = 255;
-      //   }
-&nbsp;
-      //   packedVBO.push(new Float32Array(colorHolder.buffer)[0]);
-      // }
     };
 &nbsp;
     const cellBuilders = <span class="cstat-no" title="statement not covered" >{</span>
@@ -832,7 +790,7 @@ export default { newInstance, extend };
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Aug 26 2016 21:08:02 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Oct 12 2016 15:49:34 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>

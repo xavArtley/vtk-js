@@ -229,23 +229,6 @@
 	    return !publicAPI.getIsOpaque();
 	  };
 
-	  publicAPI.releaseGraphicsResources = function (win) {
-	    // pass this information onto the mapper
-	    if (model.mapper) {
-	      model.mapper.releaseGraphicsResources(win);
-	    }
-
-	    // TBD: pass this information onto the texture(s)
-
-	    // pass this information to the properties
-	    if (model.property) {
-	      model.property.releaseGraphicsResources(win);
-	    }
-	    if (model.backfaceProperty) {
-	      model.backfaceProperty.releaseGraphicsResources(win);
-	    }
-	  };
-
 	  publicAPI.makeProperty = _Property2.default.newInstance;
 
 	  publicAPI.getProperty = function () {
@@ -374,7 +357,7 @@
 	// ----------------------------------------------------------------------------
 
 	function extend(publicAPI, model) {
-	  var initialValues = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+	  var initialValues = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
 	  Object.assign(model, DEFAULT_VALUES, initialValues);
 
@@ -5349,7 +5332,7 @@
 	  value: true
 	});
 
-	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 	exports.capitalize = capitalize;
 	exports.enumToString = enumToString;
@@ -5392,7 +5375,7 @@
 	// ----------------------------------------------------------------------------
 
 	function obj(publicAPI) {
-	  var model = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+	  var model = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
 	  var callbacks = [];
 	  model.mtime = model.mtime || globalMTime;
@@ -5445,7 +5428,7 @@
 	  };
 
 	  publicAPI.set = function () {
-	    var map = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+	    var map = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
 	    Object.keys(map).forEach(function (name) {
 	      if (Array.isArray(map[name])) {
@@ -5662,7 +5645,7 @@
 
 	  // Methods
 	  function setInputData(dataset) {
-	    var port = arguments.length <= 1 || arguments[1] === undefined ? 0 : arguments[1];
+	    var port = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
 
 	    if (model.deleted) {
 	      console.log('instance deleted - can not call any method');
@@ -5673,7 +5656,7 @@
 	  }
 
 	  function getInputData() {
-	    var port = arguments.length <= 0 || arguments[0] === undefined ? 0 : arguments[0];
+	    var port = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
 
 	    if (model.inputConnection[port]) {
 	      model.inputData[port] = model.inputConnection[port]();
@@ -5682,7 +5665,7 @@
 	  }
 
 	  function setInputConnection(outputPort) {
-	    var port = arguments.length <= 1 || arguments[1] === undefined ? 0 : arguments[1];
+	    var port = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
 
 	    if (model.deleted) {
 	      console.log('instance deleted - can not call any method');
@@ -5693,7 +5676,7 @@
 	  }
 
 	  function getOutputData() {
-	    var port = arguments.length <= 0 || arguments[0] === undefined ? 0 : arguments[0];
+	    var port = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
 
 	    if (model.deleted) {
 	      console.log('instance deleted - can not call any method');
@@ -5704,7 +5687,7 @@
 	  }
 
 	  function getOutputPort() {
-	    var port = arguments.length <= 0 || arguments[0] === undefined ? 0 : arguments[0];
+	    var port = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
 
 	    return function () {
 	      return getOutputData(port);
@@ -5759,7 +5742,7 @@
 	    return null;
 	  };
 	  publicAPI.setInputArrayToProcess = function (inputPort, arrayName, fieldAssociation) {
-	    var attributeType = arguments.length <= 3 || arguments[3] === undefined ? 'Scalars' : arguments[3];
+	    var attributeType = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 'Scalars';
 
 	    while (model.inputArrayToProcess.length < inputPort) {
 	      model.inputArrayToProcess.push(null);
@@ -5827,7 +5810,7 @@
 
 	function newInstance(extend, className) {
 	  var constructor = function constructor() {
-	    var initialValues = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+	    var initialValues = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
 	    var model = {};
 	    var publicAPI = {};
@@ -6041,7 +6024,7 @@
 	// ----------------------------------------------------------------------------
 
 	function extend(publicAPI, model) {
-	  var initialValues = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+	  var initialValues = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
 	  Object.assign(model, DEFAULT_VALUES, initialValues);
 
@@ -6502,7 +6485,7 @@
 	// ----------------------------------------------------------------------------
 
 	function extend(publicAPI, model) {
-	  var initialValues = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+	  var initialValues = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
 	  Object.assign(model, DEFAULT_VALUES, initialValues);
 
@@ -6574,7 +6557,7 @@
 	// ----------------------------------------------------------------------------
 
 	function extend(publicAPI, model) {
-	  var initialValues = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+	  var initialValues = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
 	  Object.assign(model, DEFAULT_VALUES, initialValues);
 
@@ -6683,15 +6666,11 @@
 	      return item === texture;
 	    });
 	    if (model.texture.length !== newTextureList.length) {
-	      texture.releaseGraphicsResources(model.vtkWindow);
 	      model.textures = newTextureList;
 	    }
 	  };
 
 	  publicAPI.removeAllTextures = function () {
-	    model.textures.forEach(function (texture) {
-	      texture.releaseGraphicsResources(model.vtkWindow);
-	    });
 	    model.textures = [];
 	  };
 	}
@@ -6716,7 +6695,7 @@
 	// ----------------------------------------------------------------------------
 
 	function extend(publicAPI, model) {
-	  var initialValues = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+	  var initialValues = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
 	  Object.assign(model, DEFAULT_VALUES, initialValues);
 
@@ -6799,8 +6778,6 @@
 	    return [].concat(model.color);
 	  };
 
-	  publicAPI.render = notImplemented('render');
-	  publicAPI.postRender = notImplemented('postRender');
 	  publicAPI.addShaderVariable = notImplemented('AddShaderVariable');
 
 	  publicAPI.setInterpolationToFlat = function () {
@@ -6815,12 +6792,6 @@
 
 	  publicAPI.getInterpolationAsString = function () {
 	    return _Constants.VTK_SHADING_MODEL[model.interpolation];
-	  };
-
-	  publicAPI.setLineStipplePattern = function (b0, b1) {
-	    model.lineStipplePattern[0] = b0;
-	    model.lineStipplePattern[1] = b1;
-	    publicAPI.modified();
 	  };
 
 	  publicAPI.setRepresentationToWireframe = function () {
@@ -6857,8 +6828,6 @@
 	  frontfaceCulling: false,
 	  pointSize: 1,
 	  lineWidth: 1,
-	  lineStipplePattern: null,
-	  lineStippleRepeatFactor: 1,
 	  lighting: true,
 
 	  shading: false,
@@ -6868,19 +6837,14 @@
 	// ----------------------------------------------------------------------------
 
 	function extend(publicAPI, model) {
-	  var initialValues = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+	  var initialValues = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
 	  Object.assign(model, DEFAULT_VALUES, initialValues);
 
-	  // Internal objects
-	  model.lineStipplePattern = new Uint8Array(2);
-	  model.lineStipplePattern[0] = 255;
-	  model.lineStipplePattern[1] = 255;
-
 	  // Build VTK API
 	  macro.obj(publicAPI, model);
-	  macro.get(publicAPI, model, ['lineStipplePattern']);
-	  macro.setGet(publicAPI, model, ['lighting', 'interpolation', 'ambient', 'diffuse', 'specular', 'specularPower', 'opacity', 'edgeVisibility', 'lineWidth', 'lineStipplePattern', 'lineStippleRepeatFactor', 'pointSize', 'backfaceCulling', 'frontfaceCulling', 'representation']);
+
+	  macro.setGet(publicAPI, model, ['lighting', 'interpolation', 'ambient', 'diffuse', 'specular', 'specularPower', 'opacity', 'edgeVisibility', 'lineWidth', 'pointSize', 'backfaceCulling', 'frontfaceCulling', 'representation']);
 	  macro.setGetArray(publicAPI, model, ['ambientColor', 'specularColor', 'diffuseColor', 'edgeColor'], 3);
 
 	  // Object methods
@@ -6977,8 +6941,6 @@
 	  // Set up private variables and methods
 	  var viewMatrix = _glMatrix.mat4.create();
 	  var projectionMatrix = _glMatrix.mat4.create();
-	  // let viewUp = new vec3.fromValues(0, 1, 0);
-	  // let distance = 0.0002;
 
 	  publicAPI.orthogonalizeViewUp = function () {
 	    var vt = publicAPI.getViewTransformMatrix();
@@ -7187,12 +7149,6 @@
 
 	  publicAPI.applyTransform = function (transform) {};
 
-	  publicAPI.setEyePosition = function (eyePosition) {};
-
-	  publicAPI.getEyePosition = function () {};
-
-	  publicAPI.getEyePlaneNormal = function () {};
-
 	  publicAPI.getViewTransformMatrix = function () {
 	    var eye = model.position;
 	    var at = model.focalPoint;
@@ -7239,8 +7195,6 @@
 	      }
 	      _glMatrix.mat4.perspective(projectionMatrix, _Math2.default.radiansFromDegrees(fovy), aspect, cRange[0], cRange[1]);
 	    }
-
-	    // No stereo, no view shear at the current time
 
 	    _glMatrix.mat4.transpose(projectionMatrix, projectionMatrix);
 	    return projectionMatrix;
@@ -7315,19 +7269,13 @@
 	  thickness: 1000,
 	  windowCenter: [0, 0],
 	  viewPlaneNormal: [0, 0, 1],
-	  viewShear: [0, 0, 1],
-	  eyeAngle: 2,
 	  focalDisk: 1,
 	  useOffAxisProjection: false,
 	  screenBottomLeft: [-0.5, -0.5, -0.5],
 	  screenBottomRight: [0.5, -0.5, -0.5],
 	  screenTopRight: [0.5, 0.5, -0.5],
-	  eyeSeparation: 0.06,
-	  // eyeTransformMatrix: mat4.create(),     // can't do these here, or else
-	  // modelTransformMatrix: mat4.create(),   // every instance shares same default
 	  userViewTransform: null,
 	  userTransform: null,
-	  leftEye: 1,
 	  freezeFocalPoint: false,
 	  useScissor: false
 	};
@@ -7335,25 +7283,23 @@
 	// ----------------------------------------------------------------------------
 
 	function extend(publicAPI, model) {
-	  var initialValues = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+	  var initialValues = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
 	  Object.assign(model, DEFAULT_VALUES, initialValues);
 
 	  // Make sure we have our own objects
-	  model.eyeTransformMatrix = _glMatrix.mat4.create();
-	  model.modelTransformMatrix = _glMatrix.mat4.create();
 
 	  // Build VTK API
 	  macro.obj(publicAPI, model);
 	  macro.get(publicAPI, model, ['thickness', 'userViewTransform', 'userTransform']);
 
-	  macro.setGet(publicAPI, model, ['parallelProjection', 'useHorizontalViewAngle', 'viewAngle', 'parallelScale', 'eyeAngle', 'focalDisk', 'useOffAxisProjection', 'eyeSeparation', 'eyeTransformMatrix', 'modelTransformMatrix', 'leftEye', 'freezeFocalPoint', 'useScissor']);
+	  macro.setGet(publicAPI, model, ['parallelProjection', 'useHorizontalViewAngle', 'viewAngle', 'parallelScale', 'focalDisk', 'useOffAxisProjection', 'freezeFocalPoint', 'useScissor']);
 
 	  macro.getArray(publicAPI, model, ['directionOfProjection', 'windowCenter', 'viewPlaneNormal', 'position', 'focalPoint']);
 
 	  macro.setGetArray(publicAPI, model, ['clippingRange'], 2);
 
-	  macro.setGetArray(publicAPI, model, ['viewUp', 'viewShear', 'screenBottomLeft', 'screenBottomRight', 'screenTopRight'], 3);
+	  macro.setGetArray(publicAPI, model, ['viewUp', 'screenBottomLeft', 'screenBottomRight', 'screenTopRight'], 3);
 
 	  // Object methods
 	  vtkCamera(publicAPI, model);
@@ -7401,7 +7347,7 @@
 	}
 
 	function createArray() {
-	  var size = arguments.length <= 0 || arguments[0] === undefined ? 3 : arguments[0];
+	  var size = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 3;
 
 	  var array = [];
 	  while (array.length < size) {
@@ -7472,8 +7418,8 @@
 	var getSeed = notImplemented('getSeed');
 
 	function random() {
-	  var minValue = arguments.length <= 0 || arguments[0] === undefined ? 0 : arguments[0];
-	  var maxValue = arguments.length <= 1 || arguments[1] === undefined ? 1 : arguments[1];
+	  var minValue = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
+	  var maxValue = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
 
 	  var delta = maxValue - minValue;
 	  return minValue + delta * Math.random();
@@ -7527,7 +7473,7 @@
 	}
 
 	function norm(x) {
-	  var n = arguments.length <= 1 || arguments[1] === undefined ? 3 : arguments[1];
+	  var n = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 3;
 
 	  switch (n) {
 	    case 1:
@@ -8618,8 +8564,8 @@
 	}
 
 	function invertMatrix(A, AI, size) {
-	  var index = arguments.length <= 3 || arguments[3] === undefined ? null : arguments[3];
-	  var column = arguments.length <= 4 || arguments[4] === undefined ? null : arguments[4];
+	  var index = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : null;
+	  var column = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : null;
 
 	  var tmp1Size = index || createArray(size);
 	  var tmp2Size = column || createArray(size);
@@ -8733,7 +8679,7 @@
 	}
 
 	function solveLeastSquares(numberOfSamples, xt, xOrder, yt, yOrder, mt) {
-	  var checkHomogeneous = arguments.length <= 6 || arguments[6] === undefined ? true : arguments[6];
+	  var checkHomogeneous = arguments.length > 6 && arguments[6] !== undefined ? arguments[6] : true;
 
 	  // check dimensional consistency
 	  if (numberOfSamples < xOrder || numberOfSamples < yOrder) {
@@ -9541,7 +9487,7 @@
 	// ----------------------------------------------------------------------------
 
 	function extend(publicAPI, model) {
-	  var initialValues = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+	  var initialValues = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
 	  Object.assign(model, DEFAULT_VALUES, initialValues);
 
@@ -9664,7 +9610,7 @@
 	// ----------------------------------------------------------------------------
 
 	function extend(publicAPI, model) {
-	  var initialValues = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+	  var initialValues = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
 	  Object.assign(model, DEFAULT_VALUES, initialValues);
 
@@ -9755,7 +9701,7 @@
 	// ----------------------------------------------------------------------------
 
 	function extend(publicAPI, model) {
-	  var initialValues = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+	  var initialValues = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
 	  Object.assign(model, DEFAULT_VALUES, initialValues);
 
@@ -9879,7 +9825,7 @@
 	// ----------------------------------------------------------------------------
 
 	function extend(publicAPI, model) {
-	  var initialValues = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+	  var initialValues = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
 	  Object.assign(model, DEFAULT_VALUES, initialValues);
 
@@ -10057,7 +10003,7 @@
 	// ----------------------------------------------------------------------------
 
 	function extend(publicAPI, model) {
-	  var initialValues = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+	  var initialValues = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
 	  Object.assign(model, DEFAULT_VALUES, initialValues);
 
@@ -10108,8 +10054,8 @@
 	// ----------------------------------------------------------------------------
 
 	function computeRange(values) {
-	  var component = arguments.length <= 1 || arguments[1] === undefined ? 0 : arguments[1];
-	  var tuple = arguments.length <= 2 || arguments[2] === undefined ? 1 : arguments[2];
+	  var component = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+	  var tuple = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 1;
 
 	  var range = { min: Number.MAX_VALUE, max: Number.MIN_VALUE };
 
@@ -10134,7 +10080,7 @@
 	}
 
 	function insureRangeSize(rangeArray) {
-	  var size = arguments.length <= 1 || arguments[1] === undefined ? 0 : arguments[1];
+	  var size = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
 
 	  var ranges = rangeArray || [];
 	  // Pad ranges with null value to get the
@@ -10195,7 +10141,7 @@
 	  // Return the data component at the location specified by tupleIdx and
 	  // compIdx.
 	  publicAPI.getComponent = function (tupleIdx) {
-	    var compIdx = arguments.length <= 1 || arguments[1] === undefined ? 0 : arguments[1];
+	    var compIdx = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
 	    return model.values[tupleIdx * model.tuple + compIdx];
 	  };
 
@@ -10217,7 +10163,7 @@
 	  };
 
 	  publicAPI.getRange = function () {
-	    var componentIndex = arguments.length <= 0 || arguments[0] === undefined ? 0 : arguments[0];
+	    var componentIndex = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
 
 	    var rangeIdx = componentIndex < 0 ? model.tuple : componentIndex;
 	    var range = null;
@@ -10237,7 +10183,7 @@
 	  };
 
 	  publicAPI.getTupleLocation = function () {
-	    var idx = arguments.length <= 0 || arguments[0] === undefined ? 1 : arguments[0];
+	    var idx = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
 	    return idx * model.tuple;
 	  };
 
@@ -10323,7 +10269,7 @@
 	// ----------------------------------------------------------------------------
 
 	function extend(publicAPI, model) {
-	  var initialValues = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+	  var initialValues = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
 	  Object.assign(model, DEFAULT_VALUES, initialValues);
 
@@ -10734,7 +10680,7 @@
 	// ----------------------------------------------------------------------------
 
 	function extend(publicAPI, model) {
-	  var initialValues = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+	  var initialValues = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
 	  Object.assign(model, DEFAULT_VALUES, initialValues);
 
@@ -10815,7 +10761,7 @@
 	}
 
 	function setResolveCoincidentTopology() {
-	  var mode = arguments.length <= 0 || arguments[0] === undefined ? 0 : arguments[0];
+	  var mode = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
 
 	  resolveCoincidentTopology = mode;
 	}
@@ -11112,7 +11058,7 @@
 	// ----------------------------------------------------------------------------
 
 	function extend(publicAPI, model) {
-	  var initialValues = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+	  var initialValues = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
 	  Object.assign(model, DEFAULT_VALUES, initialValues);
 
@@ -11416,7 +11362,7 @@
 	// ----------------------------------------------------------------------------
 
 	function extend(publicAPI, model) {
-	  var initialValues = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+	  var initialValues = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
 	  Object.assign(model, DEFAULT_VALUES, initialValues);
 
@@ -11663,7 +11609,7 @@
 	  };
 
 	  publicAPI.get3DContext = function () {
-	    var options = arguments.length <= 0 || arguments[0] === undefined ? { preserveDrawingBuffer: true, premultipliedAlpha: false } : arguments[0];
+	    var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : { preserveDrawingBuffer: true, premultipliedAlpha: false };
 	    return model.canvas.getContext('webgl', options) || model.canvas.getContext('experimental-webgl', options);
 	  };
 
@@ -11718,7 +11664,7 @@
 	  };
 
 	  publicAPI.captureImage = function () {
-	    var format = arguments.length <= 0 || arguments[0] === undefined ? 'image/png' : arguments[0];
+	    var format = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'image/png';
 	    return model.canvas.toDataURL(format);
 	  };
 	}
@@ -11742,7 +11688,7 @@
 	// ----------------------------------------------------------------------------
 
 	function extend(publicAPI, model) {
-	  var initialValues = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+	  var initialValues = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
 	  Object.assign(model, DEFAULT_VALUES, initialValues);
 
@@ -11855,7 +11801,7 @@
 	// ----------------------------------------------------------------------------
 
 	function extend(publicAPI, model) {
-	  var initialValues = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+	  var initialValues = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
 	  Object.assign(model, DEFAULT_VALUES, initialValues);
 
@@ -11936,7 +11882,7 @@
 	// ----------------------------------------------------------------------------
 
 	function extend(publicAPI, model) {
-	  var initialValues = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+	  var initialValues = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
 	  Object.assign(model, DEFAULT_VALUES, initialValues);
 
@@ -12086,7 +12032,7 @@
 	// ----------------------------------------------------------------------------
 
 	function extend(publicAPI, model) {
-	  var initialValues = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+	  var initialValues = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
 	  Object.assign(model, DEFAULT_VALUES, initialValues);
 
@@ -12271,7 +12217,7 @@
 	// ----------------------------------------------------------------------------
 
 	function extend(publicAPI, model) {
-	  var initialValues = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+	  var initialValues = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
 	  Object.assign(model, DEFAULT_VALUES, initialValues);
 
@@ -12394,7 +12340,7 @@
 	// ----------------------------------------------------------------------------
 
 	function extend(publicAPI, model) {
-	  var initialValues = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+	  var initialValues = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
 	  Object.assign(model, DEFAULT_VALUES, initialValues);
 
@@ -12517,7 +12463,7 @@
 	// ----------------------------------------------------------------------------
 
 	function extend(publicAPI, model) {
-	  var initialValues = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+	  var initialValues = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
 	  Object.assign(model, DEFAULT_VALUES, initialValues);
 
@@ -12930,7 +12876,7 @@
 	// ----------------------------------------------------------------------------
 
 	function extend(publicAPI, model) {
-	  var initialValues = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+	  var initialValues = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
 	  Object.assign(model, DEFAULT_VALUES, initialValues);
 
@@ -13017,14 +12963,13 @@
 	  shaderSourceTime: null,
 	  VAO: null,
 	  attributeUpdateTime: null,
-	  IBO: null,
 	  CABO: null
 	};
 
 	// ----------------------------------------------------------------------------
 
 	function extend(publicAPI, model) {
-	  var initialValues = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+	  var initialValues = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
 	  Object.assign(model, DEFAULT_VALUES, initialValues);
 
@@ -13122,14 +13067,16 @@
 	    var colorComponents = options.colors ? options.colors.getNumberOfComponents() : 0;
 	    var textureComponents = options.tcoords ? options.tcoords.getNumberOfComponents() : 0;
 
+	    // the values of 4 below are because floats are 4 bytes
+
 	    if (options.normals) {
-	      model.normalOffset = /* sizeof(float) */4 * model.blockSize;
+	      model.normalOffset = 4 * model.blockSize;
 	      model.blockSize += 3;
 	      normalData = options.normals.getData();
 	    }
 
 	    if (options.tcoords) {
-	      model.tCoordOffset = /* sizeof(float) */4 * model.blockSize;
+	      model.tCoordOffset = 4 * model.blockSize;
 	      model.tCoordComponents = textureComponents;
 	      model.blockSize += textureComponents;
 	      tcoordData = options.tcoords.getData();
@@ -13137,20 +13084,17 @@
 
 	    if (options.colors) {
 	      model.colorComponents = options.colors.getNumberOfComponents();
-	      model.colorOffset = /* sizeof(float) */4 * model.blockSize;
-	      //      model.blockSize += 1;
+	      model.colorOffset = 4 * model.blockSize;
 	      model.blockSize += model.colorComponents;
 	      colorData = options.colors.getData();
 	    }
-	    model.stride = /* sizeof(float) */4 * model.blockSize;
+	    model.stride = 4 * model.blockSize;
 
 	    var pointIdx = 0;
 	    var normalIdx = 0;
 	    var tcoordIdx = 0;
 	    var colorIdx = 0;
 	    var cellCount = 0;
-
-	    // const colorHolder = new Uint8Array(4);
 
 	    var addAPoint = function addAPoint(i) {
 	      // Vertices
@@ -13189,19 +13133,6 @@
 	          packedVBO.push(colorData[colorIdx++] / 255.5);
 	        }
 	      }
-	      // if (colorData !== null) {
-	      //   colorHolder[0] = colorData[colorIdx++];
-	      //   colorHolder[1] = colorData[colorIdx++];
-	      //   colorHolder[2] = colorData[colorIdx++];
-
-	      //   if (colorComponents === 4) {
-	      //     colorHolder[3] = colorData[colorIdx++];
-	      //   } else {  // must be 3 color components then
-	      //     colorHolder[3] = 255;
-	      //   }
-
-	      //   packedVBO.push(new Float32Array(colorHolder.buffer)[0]);
-	      // }
 	    };
 
 	    var cellBuilders = {
@@ -13314,7 +13245,7 @@
 	// ----------------------------------------------------------------------------
 
 	function extend(publicAPI, model) {
-	  var initialValues = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+	  var initialValues = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
 	  Object.assign(model, DEFAULT_VALUES, initialValues);
 
@@ -13475,7 +13406,7 @@
 	// ----------------------------------------------------------------------------
 
 	function extend(publicAPI, model) {
-	  var initialValues = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+	  var initialValues = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
 	  Object.assign(model, DEFAULT_VALUES, initialValues);
 
@@ -13530,7 +13461,7 @@
 
 	var DynamicTypedArray = function () {
 	  function DynamicTypedArray() {
-	    var _ref = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+	    var _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
 	    var _ref$chunkSize = _ref.chunkSize;
 	    var chunkSize = _ref$chunkSize === undefined ? 65536 : _ref$chunkSize;
@@ -13625,7 +13556,7 @@
 	// this is useful for building up shader strings which typically involve
 	// lots of string substitutions. Return true if a substitution was done.
 	function substitute(source, search, replace) {
-	  var all = arguments.length <= 3 || arguments[3] === undefined ? true : arguments[3];
+	  var all = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : true;
 
 	  var replaceStr = Array.isArray(replace) ? replace.join('\n') : replace;
 	  var replaced = false;
@@ -14004,7 +13935,7 @@
 	// ----------------------------------------------------------------------------
 
 	function extend(publicAPI, model) {
-	  var initialValues = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+	  var initialValues = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
 	  Object.assign(model, DEFAULT_VALUES, initialValues);
 
@@ -14132,7 +14063,7 @@
 	// ----------------------------------------------------------------------------
 
 	function extend(publicAPI, model) {
-	  var initialValues = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+	  var initialValues = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
 	  Object.assign(model, DEFAULT_VALUES, initialValues);
 
@@ -14419,7 +14350,7 @@
 	// ----------------------------------------------------------------------------
 
 	function extend(publicAPI, model) {
-	  var initialValues = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+	  var initialValues = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
 	  Object.assign(model, DEFAULT_VALUES, initialValues);
 
@@ -14960,7 +14891,7 @@
 	// ----------------------------------------------------------------------------
 
 	function extend(publicAPI, model) {
-	  var initialValues = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+	  var initialValues = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
 	  Object.assign(model, DEFAULT_VALUES, initialValues);
 
@@ -15058,7 +14989,7 @@
 	// ----------------------------------------------------------------------------
 
 	function extend(publicAPI, model) {
-	  var initialValues = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+	  var initialValues = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
 	  Object.assign(model, DEFAULT_VALUES, initialValues);
 
@@ -15195,7 +15126,7 @@
 	// ----------------------------------------------------------------------------
 
 	function extend(publicAPI, model) {
-	  var initialValues = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+	  var initialValues = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
 	  Object.assign(model, DEFAULT_VALUES, initialValues);
 
@@ -16114,7 +16045,7 @@
 	// ----------------------------------------------------------------------------
 
 	function extend(publicAPI, model) {
-	  var initialValues = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+	  var initialValues = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
 	  Object.assign(model, DEFAULT_VALUES, initialValues);
 
@@ -16281,7 +16212,7 @@
 	// ----------------------------------------------------------------------------
 
 	function extend(publicAPI, model) {
-	  var initialValues = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+	  var initialValues = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
 	  Object.assign(model, DEFAULT_VALUES, initialValues);
 
@@ -16478,7 +16409,7 @@
 	// ----------------------------------------------------------------------------
 
 	function extend(publicAPI, model) {
-	  var initialValues = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+	  var initialValues = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
 	  Object.assign(model, DEFAULT_VALUES, initialValues);
 
@@ -16904,7 +16835,7 @@
 	// ----------------------------------------------------------------------------
 
 	function extend(publicAPI, model) {
-	  var initialValues = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+	  var initialValues = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
 	  Object.assign(model, DEFAULT_VALUES, initialValues);
 
@@ -17033,22 +16964,6 @@
 	function vtkRenderer(publicAPI, model) {
 	  // Set our className
 	  model.classHierarchy.push('vtkRenderer');
-
-	  publicAPI.releaseGraphicsResources = function (vtkWindow) {
-	    if (model.backgroundTexture) {
-	      model.backgroundTexture.releaseGraphicsResources(vtkWindow);
-	    }
-
-	    model.props.forEach(function (prop) {
-	      if (prop) {
-	        prop.releaseGraphicsResources(vtkWindow);
-	      }
-	    });
-	  };
-
-	  // macro
-	  // - getAllocatedRenderTime
-	  // - getTimeFactor
 
 	  publicAPI.updateCamera = function () {
 	    if (!model.activeCamera) {
@@ -17327,7 +17242,7 @@
 	  };
 
 	  publicAPI.resetCamera = function () {
-	    var bounds = arguments.length <= 0 || arguments[0] === undefined ? null : arguments[0];
+	    var bounds = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
 
 	    var boundsToUse = bounds || publicAPI.computeVisiblePropBounds();
 	    var center = [0, 0, 0];
@@ -17349,8 +17264,6 @@
 	    // Reset the perspective zoom factors, otherwise subsequent zooms will cause
 	    // the view angle to become very small and cause bad depth sorting.
 	    model.activeCamera.setViewAngle(30.0);
-
-	    expandBounds(boundsToUse, model.activeCamera.getModelTransformMatrix());
 
 	    center[0] = (boundsToUse[0] + boundsToUse[1]) / 2.0;
 	    center[1] = (boundsToUse[2] + boundsToUse[3]) / 2.0;
@@ -17411,7 +17324,7 @@
 	  };
 
 	  publicAPI.resetCameraClippingRange = function () {
-	    var bounds = arguments.length <= 0 || arguments[0] === undefined ? null : arguments[0];
+	    var bounds = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
 
 	    var boundsToUse = bounds || publicAPI.computeVisiblePropBounds();
 
@@ -17428,15 +17341,8 @@
 	    }
 
 	    var vn = null;var position = null;
-	    if (!model.activeCamera.getUseOffAxisProjection()) {
-	      vn = model.activeCamera.getViewPlaneNormal();
-	      position = model.activeCamera.getPosition();
-	      expandBounds(boundsToUse, model.activeCamera.getModelTransformMatrix());
-	    } else {
-	      position = model.activeCamera.getEyePosition();
-	      vn = model.activeCamera.getEyePlaneNormal();
-	      expandBounds(boundsToUse, model.activeCamera.getModelViewTransformMatrix());
-	    }
+	    vn = model.activeCamera.getViewPlaneNormal();
+	    position = model.activeCamera.getPosition();
 
 	    var a = -vn[0];
 	    var b = -vn[1];
@@ -17508,21 +17414,6 @@
 
 	  publicAPI.setRenderWindow = function (renderWindow) {
 	    if (renderWindow !== model.renderWindow) {
-	      // This renderer is be dis-associated with its previous render window.
-	      // this information needs to be passed to the renderer's actors and
-	      // volumes so they can release and render window specific (or graphics
-	      // context specific) information (such as display lists and texture ids)
-	      model.props.forEach(function (prop) {
-	        prop.releaseGraphicsResources(model.renderWindow);
-	      });
-	      // what about lights?
-	      // what about cullers?
-	      publicAPI.releaseGraphicsResources(model.renderWindow);
-
-	      if (model.backgroundTexture && model.renderWindow) {
-	        model.backgroundTexture.releaseGraphicsResources(model.renderWindow);
-	      }
-
 	      model.vtkWindow = renderWindow;
 	      model.renderWindow = renderWindow;
 	    }
@@ -17622,7 +17513,7 @@
 	// ----------------------------------------------------------------------------
 
 	function extend(publicAPI, model) {
-	  var initialValues = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+	  var initialValues = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
 	  Object.assign(model, DEFAULT_VALUES, initialValues);
 
@@ -17758,7 +17649,7 @@
 	// ----------------------------------------------------------------------------
 
 	function extend(publicAPI, model) {
-	  var initialValues = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+	  var initialValues = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
 	  Object.assign(model, DEFAULT_VALUES, initialValues);
 
@@ -17831,15 +17722,11 @@
 	      return item === prop;
 	    });
 	    if (model.props.length !== newPropList.length) {
-	      prop.releaseGraphicsResources(model.vtkWindow);
 	      model.props = newPropList;
 	    }
 	  };
 
 	  publicAPI.removeAllViewProps = function () {
-	    model.props.forEach(function (prop) {
-	      prop.releaseGraphicsResources(model.vtkWindow);
-	    });
 	    model.props = [];
 	  };
 
@@ -17925,7 +17812,7 @@
 	// ----------------------------------------------------------------------------
 
 	function extend(publicAPI, model) {
-	  var initialValues = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+	  var initialValues = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
 	  Object.assign(model, DEFAULT_VALUES, initialValues);
 
@@ -18034,7 +17921,7 @@
 	  };
 
 	  publicAPI.captureImages = function () {
-	    var format = arguments.length <= 0 || arguments[0] === undefined ? 'image/png' : arguments[0];
+	    var format = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'image/png';
 
 	    publicAPI.render();
 	    return model.views.map(function (view) {
@@ -18060,7 +17947,7 @@
 	// ----------------------------------------------------------------------------
 
 	function extend(publicAPI, model) {
-	  var initialValues = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+	  var initialValues = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
 	  Object.assign(model, DEFAULT_VALUES, initialValues);
 
@@ -18117,15 +18004,6 @@
 
 	var eventsWeHandle = ['Enter', 'Leave', 'MouseMove', 'LeftButtonPress', 'LeftButtonRelease', 'MiddleButtonPress', 'MiddleButtonRelease', 'RightButtonPress', 'RightButtonRelease', 'MouseWheelForward', 'MouseWheelBackward', 'Expose', 'Configure', 'Timer', 'KeyPress', 'KeyRelease', 'Char', 'Delete', 'StartPinch', 'Pinch', 'EndPinch', 'StartPan', 'Pan', 'EndPan', 'StartRotate', 'Rotate', 'EndRotate', 'Tap', 'LongTap', 'Swipe'];
 
-	// ----------------------------------------------------------------------------
-	// Static API
-	// ----------------------------------------------------------------------------
-
-
-	// ----------------------------------------------------------------------------
-	// vtkMyClass methods
-	// ----------------------------------------------------------------------------
-
 	function vtkRenderWindowInteractor(publicAPI, model) {
 	  // Set our className
 	  model.classHierarchy.push('vtkRenderWindowInteractor');
@@ -18155,14 +18033,6 @@
 	  //----------------------------------------------------------------------
 	  publicAPI.setRenderWindow = function (aren) {
 	    console.error('you want to call setView(view) instead of setRenderWindow on a vtk.js  interactor');
-	    // if (model.renderWindow !== aren) {
-	    //   model.renderWindow = aren;
-	    //   if (model.renderWindow != null) {
-	    //     if (model.renderWindow.getInteractor() !== publicAPI) {
-	    //       model.renderWindow.setInteractor(publicAPI);
-	    //     }
-	    //   }
-	    // }
 	  };
 
 	  //----------------------------------------------------------------------
@@ -18651,7 +18521,7 @@
 	// ----------------------------------------------------------------------------
 
 	function extend(publicAPI, model) {
-	  var initialValues = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+	  var initialValues = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
 	  Object.assign(model, DEFAULT_VALUES, initialValues);
 
@@ -19081,7 +18951,7 @@
 	// ----------------------------------------------------------------------------
 
 	function extend(publicAPI, model) {
-	  var initialValues = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+	  var initialValues = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
 	  Object.assign(model, DEFAULT_VALUES, initialValues);
 
@@ -19279,15 +19149,6 @@
 	      var rwi = model.interactor;
 	      rwi.getRenderWindow().setDesiredUpdateRate(rwi.getDesiredUpdateRate());
 	      model.invokeStartInteractionEvent({ type: 'StartInteractionEvent' });
-	      // if (model.seTimers &&
-	      //      !(model.timerId = rwi.createRepeatingTimer(model.timerDuration)) ) {
-	      //   // vtkTestingInteractor cannot create timers
-	      //   if (std::string(rwi->GetClassName()) != "vtkTestingInteractor")
-	      //     {
-	      //     console.error(<< "Timer start failed");
-	      //     }
-	      //   this->State = VTKIS_NONE;
-	      //   }
 	    }
 	  };
 
@@ -19296,13 +19157,6 @@
 	    if (model.animationState === _Constants.STATES.VTKIS_ANIM_OFF) {
 	      var rwi = model.interactor;
 	      rwi.getRenderWindow().setDesiredUpdateRate(rwi.getStillUpdateRate());
-	      // if (this->UseTimers &&
-	      //     // vtkTestingInteractor cannot create timers
-	      //     std::string(rwi->GetClassName()) != "vtkTestingInteractor" &&
-	      //     !rwi->DestroyTimer(this->TimerId))
-	      //   {
-	      //   console.error(<< "Timer stop failed");
-	      //   }
 	      publicAPI.invokeEndInteractionEvent({ type: 'EndInteractionEvent' });
 	      rwi.render();
 	    }
@@ -19324,7 +19178,7 @@
 	// ----------------------------------------------------------------------------
 
 	function extend(publicAPI, model) {
-	  var initialValues = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+	  var initialValues = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
 	  Object.assign(model, DEFAULT_VALUES, initialValues);
 
@@ -19335,20 +19189,6 @@
 	  macro.obj(publicAPI, model);
 
 	  model.unsubscribes = new Map();
-
-	  // Create get-only macros
-	  // macro.get(publicAPI, model, ['myProp2', 'myProp4']);
-
-	  // Create get-set macros
-	  // macro.getSet(publicAPI, model, ['myProp3']);
-
-	  // Create set macros for array (needs to know size)
-	  // macro.setArray(publicAPI, model, ['myProp5'], 4);
-
-	  // Create get macros for array
-	  // macro.getArray(publicAPI, model, ['myProp1', 'myProp5']);
-
-	  // For more macro methods, see "Sources/macro.js"
 
 	  // Object specific methods
 	  vtkInteractorStyle(publicAPI, model);
@@ -19379,19 +19219,6 @@
 	var macro = _interopRequireWildcard(_macro);
 
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-	// ----------------------------------------------------------------------------
-	// Global methods
-	// ----------------------------------------------------------------------------
-
-
-	// ----------------------------------------------------------------------------
-	// Static API
-	// ----------------------------------------------------------------------------
-
-	// ----------------------------------------------------------------------------
-	// vtkMyClass methods
-	// ----------------------------------------------------------------------------
 
 	function vtkInteractorObserver(publicAPI, model) {
 	  // Set our className
@@ -19514,7 +19341,7 @@
 	// ----------------------------------------------------------------------------
 
 	function extend(publicAPI, model) {
-	  var initialValues = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+	  var initialValues = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
 	  Object.assign(model, DEFAULT_VALUES, initialValues);
 
