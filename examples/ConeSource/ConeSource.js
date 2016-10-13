@@ -11228,6 +11228,7 @@
 	    var a = convtFun(alpha);
 
 	    var values = colors.getData();
+	    var newValues = newColors.getData();
 	    var size = values.length;
 	    var component = 0;
 	    var tuple = 1;
@@ -11235,16 +11236,17 @@
 	    var count = 0;
 	    for (var i = component; i < size; i += tuple) {
 	      var l = convtFun(values[i]);
-	      newColors[count * 4] = l;
-	      newColors[count * 4 + 1] = l;
-	      newColors[count * 4 + 2] = l;
-	      newColors[count * 4 + 3] = a;
+	      newValues[count * 4] = l;
+	      newValues[count * 4 + 1] = l;
+	      newValues[count * 4 + 2] = l;
+	      newValues[count * 4 + 3] = a;
 	      count++;
 	    }
 	  };
 
 	  publicAPI.luminanceAlphaToRGBA = function (newColors, colors, alpha, convtFun) {
 	    var values = colors.getData();
+	    var newValues = newColors.getData();
 	    var size = values.length;
 	    var component = 0;
 	    var tuple = 2;
@@ -11252,10 +11254,10 @@
 	    var count = 0;
 	    for (var i = component; i < size; i += tuple) {
 	      var l = convtFun(values[i]);
-	      newColors[count] = l;
-	      newColors[count + 1] = l;
-	      newColors[count + 2] = l;
-	      newColors[count + 3] = convtFun(values[i + 1]) * alpha;
+	      newValues[count] = l;
+	      newValues[count + 1] = l;
+	      newValues[count + 2] = l;
+	      newValues[count + 3] = convtFun(values[i + 1]) * alpha;
 	      count += 4;
 	    }
 	  };
@@ -11281,15 +11283,16 @@
 
 	  publicAPI.rGBAToRGBA = function (newColors, colors, alpha, convtFun) {
 	    var values = colors.getData();
+	    var newValues = newColors.getData();
 	    var size = values.length;
 	    var component = 0;
 	    var tuple = 4;
 
 	    var count = 0;
 	    for (var i = component; i < size; i += tuple) {
-	      newColors[count * 4] = convtFun(values[i]);
-	      newColors[count * 4 + 1] = convtFun(values[i + 1]);
-	      newColors[count * 4 + 2] = convtFun(values[i + 2]);
+	      newValues[count * 4] = convtFun(values[i]);
+	      newValues[count * 4 + 1] = convtFun(values[i + 1]);
+	      newValues[count * 4 + 2] = convtFun(values[i + 2]);
 	      newColors[count * 4 + 3] = convtFun(values[i + 3]) * alpha;
 	      count++;
 	    }

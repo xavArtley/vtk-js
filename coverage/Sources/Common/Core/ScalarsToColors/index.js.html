@@ -20,9 +20,9 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">1.96% </span>
+        <span class="strong">1.9% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>2/102</span>
+        <span class='fraction'>2/105</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
@@ -35,9 +35,9 @@
         <span class='fraction'>0/11</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">1.98% </span>
+        <span class="strong">1.92% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>2/101</span>
+        <span class='fraction'>2/104</span>
       </div>
     </div>
   </div>
@@ -311,7 +311,10 @@
 266
 267
 268
-269</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+269
+270
+271
+272</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -414,22 +417,6 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -445,6 +432,24 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -462,6 +467,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -679,6 +685,7 @@ function vtkScalarsToColors(publicAPI, model) <span class="fstat-no" title="func
     const a = <span class="cstat-no" title="statement not covered" >convtFun(alpha);</span>
 &nbsp;
     const values = <span class="cstat-no" title="statement not covered" >colors.getData();</span>
+    const newValues = <span class="cstat-no" title="statement not covered" >newColors.getData();</span>
     const size = <span class="cstat-no" title="statement not covered" >values.length;</span>
     const component = <span class="cstat-no" title="statement not covered" >0;</span>
     const tuple = <span class="cstat-no" title="statement not covered" >1;</span>
@@ -686,16 +693,17 @@ function vtkScalarsToColors(publicAPI, model) <span class="fstat-no" title="func
     let count = <span class="cstat-no" title="statement not covered" >0;</span>
 <span class="cstat-no" title="statement not covered" >    for (let i = component; i &lt; size; i += tuple) {</span>
       const l = <span class="cstat-no" title="statement not covered" >convtFun(values[i]);</span>
-<span class="cstat-no" title="statement not covered" >      newColors[(count * 4)] = l;</span>
-<span class="cstat-no" title="statement not covered" >      newColors[(count * 4) + 1] = l;</span>
-<span class="cstat-no" title="statement not covered" >      newColors[(count * 4) + 2] = l;</span>
-<span class="cstat-no" title="statement not covered" >      newColors[(count * 4) + 3] = a;</span>
+<span class="cstat-no" title="statement not covered" >      newValues[(count * 4)] = l;</span>
+<span class="cstat-no" title="statement not covered" >      newValues[(count * 4) + 1] = l;</span>
+<span class="cstat-no" title="statement not covered" >      newValues[(count * 4) + 2] = l;</span>
+<span class="cstat-no" title="statement not covered" >      newValues[(count * 4) + 3] = a;</span>
 <span class="cstat-no" title="statement not covered" >      count++;</span>
     }
   };
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  publicAPI.luminanceAlphaToRGBA = (newColors, colors, alpha, convtFun) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
     const values = <span class="cstat-no" title="statement not covered" >colors.getData();</span>
+    const newValues = <span class="cstat-no" title="statement not covered" >newColors.getData();</span>
     const size = <span class="cstat-no" title="statement not covered" >values.length;</span>
     const component = <span class="cstat-no" title="statement not covered" >0;</span>
     const tuple = <span class="cstat-no" title="statement not covered" >2;</span>
@@ -703,10 +711,10 @@ function vtkScalarsToColors(publicAPI, model) <span class="fstat-no" title="func
     let count = <span class="cstat-no" title="statement not covered" >0;</span>
 <span class="cstat-no" title="statement not covered" >    for (let i = component; i &lt; size; i += tuple) {</span>
       const l = <span class="cstat-no" title="statement not covered" >convtFun(values[i]);</span>
-<span class="cstat-no" title="statement not covered" >      newColors[count] = l;</span>
-<span class="cstat-no" title="statement not covered" >      newColors[count + 1] = l;</span>
-<span class="cstat-no" title="statement not covered" >      newColors[count + 2] = l;</span>
-<span class="cstat-no" title="statement not covered" >      newColors[count + 3] = convtFun(values[i + 1]) * alpha;</span>
+<span class="cstat-no" title="statement not covered" >      newValues[count] = l;</span>
+<span class="cstat-no" title="statement not covered" >      newValues[count + 1] = l;</span>
+<span class="cstat-no" title="statement not covered" >      newValues[count + 2] = l;</span>
+<span class="cstat-no" title="statement not covered" >      newValues[count + 3] = convtFun(values[i + 1]) * alpha;</span>
 <span class="cstat-no" title="statement not covered" >      count += 4;</span>
     }
   };
@@ -732,15 +740,16 @@ function vtkScalarsToColors(publicAPI, model) <span class="fstat-no" title="func
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  publicAPI.rGBAToRGBA = (newColors, colors, alpha, convtFun) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
     const values = <span class="cstat-no" title="statement not covered" >colors.getData();</span>
+    const newValues = <span class="cstat-no" title="statement not covered" >newColors.getData();</span>
     const size = <span class="cstat-no" title="statement not covered" >values.length;</span>
     const component = <span class="cstat-no" title="statement not covered" >0;</span>
     const tuple = <span class="cstat-no" title="statement not covered" >4;</span>
 &nbsp;
     let count = <span class="cstat-no" title="statement not covered" >0;</span>
 <span class="cstat-no" title="statement not covered" >    for (let i = component; i &lt; size; i += tuple) {</span>
-<span class="cstat-no" title="statement not covered" >      newColors[(count * 4)] = convtFun(values[i]);</span>
-<span class="cstat-no" title="statement not covered" >      newColors[(count * 4) + 1] = convtFun(values[i + 1]);</span>
-<span class="cstat-no" title="statement not covered" >      newColors[(count * 4) + 2] = convtFun(values[i + 2]);</span>
+<span class="cstat-no" title="statement not covered" >      newValues[(count * 4)] = convtFun(values[i]);</span>
+<span class="cstat-no" title="statement not covered" >      newValues[(count * 4) + 1] = convtFun(values[i + 1]);</span>
+<span class="cstat-no" title="statement not covered" >      newValues[(count * 4) + 2] = convtFun(values[i + 2]);</span>
 <span class="cstat-no" title="statement not covered" >      newColors[(count * 4) + 3] = convtFun(values[i + 3]) * alpha;</span>
 <span class="cstat-no" title="statement not covered" >      count++;</span>
     }
@@ -853,7 +862,7 @@ export default Object.assign({ newInstance, extend });
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Oct 12 2016 23:00:06 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Oct 13 2016 15:45:55 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>
