@@ -12348,7 +12348,7 @@
 	        gl.drawArrays(gl.POINTS, 0, model.triStrips.getCABO().getElementCount());
 	      }
 	      if (representation === _Constants.VTK_REPRESENTATION.WIREFRAME) {
-	        gl.drawArays(gl.LINES, 0, model.triStrips.getCABO().getElementCount());
+	        gl.drawArrays(gl.LINES, 0, model.triStrips.getCABO().getElementCount());
 	      }
 	      if (representation === _Constants.VTK_REPRESENTATION.SURFACE) {
 	        gl.drawArrays(gl.TRIANGLES, 0, model.triStrips.getCABO().getElementCount());

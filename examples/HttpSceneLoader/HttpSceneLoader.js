@@ -12357,7 +12357,7 @@
 	        gl.drawArrays(gl.POINTS, 0, model.triStrips.getCABO().getElementCount());
 	      }
 	      if (representation === _Constants.VTK_REPRESENTATION.WIREFRAME) {
-	        gl.drawArays(gl.LINES, 0, model.triStrips.getCABO().getElementCount());
+	        gl.drawArrays(gl.LINES, 0, model.triStrips.getCABO().getElementCount());
 	      }
 	      if (representation === _Constants.VTK_REPRESENTATION.SURFACE) {
 	        gl.drawArrays(gl.TRIANGLES, 0, model.triStrips.getCABO().getElementCount());
@@ -16137,13 +16137,13 @@
 
 	    publicAPI.grabFocus(model.eventCallbackCommand);
 	    if (model.interactor.getShiftKey()) {
-	      if (model.interactor.getControlKey()) {
+	      if (model.interactor.getControlKey() || model.interactor.getAltKey()) {
 	        publicAPI.startDolly();
 	      } else {
 	        publicAPI.startPan();
 	      }
 	    } else {
-	      if (model.interactor.getControlKey()) {
+	      if (model.interactor.getControlKey() || model.interactor.getAltKey()) {
 	        publicAPI.startSpin();
 	      } else {
 	        publicAPI.startRotate();
@@ -16931,7 +16931,7 @@
 	// ----------------------------------------------------------------------------
 
 	function loadHttpDataSetReader(item, model, publicAPI) {
-	  var reader = _HttpDataSetReader2.default.newInstance({ fetchGzip: model.fetchGzip });
+	  var reader = _HttpDataSetReader2.default.newInstance({ fetchGzip: model.fetchGzip, dataAccessHelper: model.dataAccessHelper });
 	  var actor = _Actor2.default.newInstance();
 	  model.renderer.addActor(actor);
 	  var mapper = _Mapper2.default.newInstance();
@@ -16976,8 +16976,19 @@
 	// ----------------------------------------------------------------------------
 
 	function vtkHttpSceneLoader(publicAPI, model) {
+	  var originalSceneParameters = {};
+
 	  // Set our className
 	  model.classHierarchy.push('vtkHttpSceneLoader');
+
+	  function setCameraParameters(params) {
+	    var camera = model.renderer.getActiveCamera();
+	    if (camera) {
+	      camera.set(params);
+	    } else {
+	      console.log('No active camera to update');
+	    }
+	  }
 
 	  // Create default dataAccessHelper if not available
 	  if (!model.dataAccessHelper) {
@@ -16991,7 +17002,7 @@
 	    }
 
 	    model.dataAccessHelper.fetchJSON(publicAPI, model.url).then(function (data) {
-	      if ('fetchGzip' in data) {
+	      if (data.fetchGzip !== undefined) {
 	        model.fetchGzip = data.fetchGzip;
 	      }
 	      if (data.background) {
@@ -17000,12 +17011,8 @@
 	        (_model$renderer = model.renderer).setBackground.apply(_model$renderer, _toConsumableArray(data.background));
 	      }
 	      if (data.camera) {
-	        var camera = model.renderer.getActiveCamera();
-	        if (camera) {
-	          camera.set(data.camera);
-	        } else {
-	          console.log('No active camera to update');
-	        }
+	        originalSceneParameters.camera = data.camera;
+	        setCameraParameters(data.camera);
 	      }
 	      if (data.scene) {
 	        data.scene.forEach(function (item) {
@@ -17018,6 +17025,12 @@
 	    }, function (error) {
 	      console.log('Error fetching scene', error);
 	    });
+	  };
+
+	  publicAPI.resetScene = function () {
+	    if (originalSceneParameters.camera) {
+	      setCameraParameters(originalSceneParameters.camera);
+	    }
 	  };
 
 	  // Set DataSet url
@@ -18901,7 +18914,7 @@
 	  vtkPolyData: function vtkPolyData(dataset) {
 	    var arrayToDownload = [];
 	    arrayToDownload.push(dataset.vtkPolyData.Points);
-	    Object.keys(dataset.vtkPolyData).forEach(function (cellName) {
+	    ['Verts', 'Lines', 'Polys', 'Strips'].forEach(function (cellName) {
 	      if (dataset.vtkPolyData[cellName]) {
 	        arrayToDownload.push(dataset.vtkPolyData[cellName]);
 	      }
@@ -26690,12 +26703,19 @@
 
 	/* global window */
 
+	function removeLeadingSlash(str) {
+	  return str[0] === '/' ? str.substr(1) : str;
+	}
+
 	function create(options) {
 	  var ready = false;
 	  var requestCount = 0;
 	  var zip = new _jszip2.default();
 	  zip.loadAsync(options.zipContent).then(function () {
 	    ready = true;
+	    if (options.callback) {
+	      options.callback();
+	    }
 	  });
 	  return {
 	    fetchArray: function fetchArray() {
@@ -26708,15 +26728,18 @@
 	        if (!ready) {
 	          console.log('ERROR!!! zip not ready...');
 	        }
-	        var url = [baseURL, array.ref.basepath, fetchGzip ? array.ref.id + '.gz' : array.ref.id].join('/');
-	        console.log('fetchArray', baseURL, url);
+	        var url = removeLeadingSlash([baseURL, array.ref.basepath, fetchGzip ? array.ref.id + '.gz' : array.ref.id].join('/'));
 
 	        if (++requestCount === 1 && instance.invokeBusy) {
 	          instance.invokeBusy(true);
 	        }
 
-	        zip.file(url).async('uint8array').then(function (buffer) {
-	          array.buffer = buffer;
+	        zip.file(url).async('uint8array').then(function (uint8array) {
+	          array.buffer = new ArrayBuffer(uint8array.length);
+
+	          // copy uint8array to buffer
+	          var view = new Uint8Array(array.buffer);
+	          view.set(uint8array);
 
 	          if (fetchGzip) {
 	            if (array.dataType === 'JSON') {
@@ -26758,11 +26781,16 @@
 	      var instance = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 	      var url = arguments[1];
 
-	      console.log('fetchJSON', url);
+	      var path = removeLeadingSlash(url);
 	      if (!ready) {
 	        console.log('ERROR!!! zip not ready...');
 	      }
-	      return zip.file(url).async('string');
+
+	      return zip.file(path).async('string').then(function (str) {
+	        return new Promise(function (ok) {
+	          return ok(JSON.parse(str));
+	        });
+	      });
 	    }
 	  };
 	}

@@ -12441,7 +12441,7 @@
 	        gl.drawArrays(gl.POINTS, 0, model.triStrips.getCABO().getElementCount());
 	      }
 	      if (representation === _Constants.VTK_REPRESENTATION.WIREFRAME) {
-	        gl.drawArays(gl.LINES, 0, model.triStrips.getCABO().getElementCount());
+	        gl.drawArrays(gl.LINES, 0, model.triStrips.getCABO().getElementCount());
 	      }
 	      if (representation === _Constants.VTK_REPRESENTATION.SURFACE) {
 	        gl.drawArrays(gl.TRIANGLES, 0, model.triStrips.getCABO().getElementCount());
@@ -18709,13 +18709,13 @@
 
 	    publicAPI.grabFocus(model.eventCallbackCommand);
 	    if (model.interactor.getShiftKey()) {
-	      if (model.interactor.getControlKey()) {
+	      if (model.interactor.getControlKey() || model.interactor.getAltKey()) {
 	        publicAPI.startDolly();
 	      } else {
 	        publicAPI.startPan();
 	      }
 	    } else {
-	      if (model.interactor.getControlKey()) {
+	      if (model.interactor.getControlKey() || model.interactor.getAltKey()) {
 	        publicAPI.startSpin();
 	      } else {
 	        publicAPI.startRotate();
