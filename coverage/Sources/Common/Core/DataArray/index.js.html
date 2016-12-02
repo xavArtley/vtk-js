@@ -35,9 +35,9 @@
         <span class='fraction'>5/25</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">34.38% </span>
+        <span class="strong">34.02% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>33/96</span>
+        <span class='fraction'>33/97</span>
       </div>
     </div>
   </div>
@@ -284,7 +284,9 @@
 239
 240
 241
-242</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+242
+243
+244</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -374,6 +376,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">28×</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -420,6 +423,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -614,7 +618,8 @@ function vtkDataArray(publicAPI, model) {
   // Description:
   // Return the data component at the location specified by tupleIdx and
   // compIdx.
-  publicAPI.getComponent = (tupleIdx, compIdx = 0) =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >model.values[(tupleIdx * model.tuple) + compIdx];</span></span>
+  publicAPI.getComponent = (tupleIdx, compIdx = 0) =&gt;
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >    model.values[(tupleIdx * model.numberOfComponents) + compIdx];</span></span>
 &nbsp;
   // Description:
   // Set the data component at the location specified by tupleIdx and compIdx
@@ -623,8 +628,8 @@ function vtkDataArray(publicAPI, model) {
   //  NumberOfComponents. Make sure enough memory has been allocated
   // (use SetNumberOfTuples() and SetNumberOfComponents()).
   publicAPI.setComponent = (tupleIdx, compIdx, value) =&gt; <span class="fstat-no" title="function not covered" >{</span>
-<span class="cstat-no" title="statement not covered" >    if (value !== model.values[(tupleIdx * model.tuple) + compIdx]) {</span>
-<span class="cstat-no" title="statement not covered" >      model.values[(tupleIdx * model.tuple) + compIdx] = value;</span>
+<span class="cstat-no" title="statement not covered" >    if (value !== model.values[(tupleIdx * model.numberOfComponents) + compIdx]) {</span>
+<span class="cstat-no" title="statement not covered" >      model.values[(tupleIdx * model.numberOfComponents) + compIdx] = value;</span>
 <span class="cstat-no" title="statement not covered" >      dataChange();</span>
     }
   };
@@ -632,11 +637,11 @@ function vtkDataArray(publicAPI, model) {
   publicAPI.getData = () =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >model.values;</span></span>
 &nbsp;
   publicAPI.getRange = (componentIndex = 0) =&gt; <span class="fstat-no" title="function not covered" >{</span>
-    const rangeIdx = <span class="cstat-no" title="statement not covered" >componentIndex &lt; 0 ? model.tuple : componentIndex;</span>
+    const rangeIdx = <span class="cstat-no" title="statement not covered" >componentIndex &lt; 0 ? model.numberOfComponents : componentIndex;</span>
     let range = <span class="cstat-no" title="statement not covered" >null;</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    if (!model.ranges) {</span>
-<span class="cstat-no" title="statement not covered" >      model.ranges = insureRangeSize(model.ranges, model.tuple);</span>
+<span class="cstat-no" title="statement not covered" >      model.ranges = insureRangeSize(model.ranges, model.numberOfComponents);</span>
     }
 <span class="cstat-no" title="statement not covered" >    range = model.ranges[rangeIdx];</span>
 &nbsp;
@@ -652,15 +657,16 @@ function vtkDataArray(publicAPI, model) {
   publicAPI.getTupleLocation = (idx = 1) =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >idx * model.tuple;</span></span>
 &nbsp;
   publicAPI.getBounds = () =&gt; <span class="fstat-no" title="function not covered" >{</span>
-<span class="cstat-no" title="statement not covered" >    if (model.tuple === 3) {</span>
+<span class="cstat-no" title="statement not covered" >    if (model.numberOfComponents === 3) {</span>
 <span class="cstat-no" title="statement not covered" >      return [].concat(</span>
         publicAPI.getRange(0),
         publicAPI.getRange(1),
         publicAPI.getRange(2));
     }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    if (model.tuple !== 2) {</span>
-<span class="cstat-no" title="statement not covered" >      console.error('getBounds called on an array of tuple size', model.tuple, model);</span>
+<span class="cstat-no" title="statement not covered" >    if (model.numberOfComponents !== 2) {</span>
+<span class="cstat-no" title="statement not covered" >      console.error('getBounds called on an array with components of ',</span>
+        model.numberOfComponents, model);
 <span class="cstat-no" title="statement not covered" >      return [1, -1, 1, -1, 1, -1];</span>
     }
 &nbsp;
@@ -669,9 +675,9 @@ function vtkDataArray(publicAPI, model) {
         publicAPI.getRange(1));
   };
 &nbsp;
-  publicAPI.getNumberOfComponents = () =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >model.tuple;</span></span>
+  publicAPI.getNumberOfComponents = () =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >model.numberOfComponents;</span></span>
   publicAPI.getNumberOfValues = () =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >model.values.length;</span></span>
-  publicAPI.getNumberOfTuples = () =&gt; model.values.length / model.tuple;
+  publicAPI.getNumberOfTuples = () =&gt; model.values.length / model.numberOfComponents;
   publicAPI.getDataType = () =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >model.dataType;</span></span>
 &nbsp;
   publicAPI.getNumberOfCells = () =&gt; <span class="fstat-no" title="function not covered" >{</span>
@@ -706,10 +712,10 @@ function vtkDataArray(publicAPI, model) {
 <span class="cstat-no" title="statement not covered" >    model.size = typedArray.length;</span>
 <span class="cstat-no" title="statement not covered" >    model.dataType = getDataType(typedArray);</span>
 <span class="cstat-no" title="statement not covered" >    if (numberOfComponents) {</span>
-<span class="cstat-no" title="statement not covered" >      model.tuple = numberOfComponents;</span>
+<span class="cstat-no" title="statement not covered" >      model.numberOfComponents = numberOfComponents;</span>
     }
-<span class="cstat-no" title="statement not covered" >    if (model.size % model.tuple !== 0) {</span>
-<span class="cstat-no" title="statement not covered" >      model.tuple = 1;</span>
+<span class="cstat-no" title="statement not covered" >    if (model.size % model.numberOfComponents !== 0) {</span>
+<span class="cstat-no" title="statement not covered" >      model.numberOfComponents = 1;</span>
     }
 <span class="cstat-no" title="statement not covered" >    dataChange();</span>
   };
@@ -726,7 +732,7 @@ function vtkDataArray(publicAPI, model) {
 const DEFAULT_VALUES = {
   type: 'vtkDataArray',
   name: '',
-  tuple: 1,
+  numberOfComponents: 1,
   size: 0,
   dataType: VTK_DEFAULT_DATATYPE,
   values: null,
@@ -772,7 +778,7 @@ export default Object.assign({ newInstance, extend }, STATIC);
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Dec 01 2016 18:17:47 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Dec 02 2016 13:41:38 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>
