@@ -45,7 +45,7 @@
 <meta property="og:url" content="https://kitware.github.io/vtk-js/api/Plane.html">
 <meta property="og:site_name" content="vtk.js">
 <meta property="og:description" content="IntroductionvtkPlane provides methods for various plane computations. These includeprojecting points onto a plane, evaluating the plane equation, andreturning plane normal. vtkPlane is a concrete impl">
-<meta property="og:updated_time" content="2016-10-12T15:49:35.640Z">
+<meta property="og:updated_time" content="2016-12-07T17:13:41.563Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Plane">
 <meta name="twitter:description" content="IntroductionvtkPlane provides methods for various plane computations. These includeprojecting points onto a plane, evaluating the plane equation, andreturning plane normal. vtkPlane is a concrete impl">
@@ -96,7 +96,7 @@
 <p>  // Description<br>  // Evaluate function gradient at point x[3].<br>  void EvaluateGradient(double x[3], double g[3]);</p>
 <p>  // Description:<br>  // Set/get plane normal. Plane is defined by point and normal.<br>  vtkSetVector3Macro(Normal,double);<br>  vtkGetVectorMacro(Normal,double,3);</p>
 <p>  // Description:<br>  // Set/get point through which plane passes. Plane is defined by point<br>  // and normal.<br>  vtkSetVector3Macro(Origin,double);<br>  vtkGetVectorMacro(Origin,double,3);</p>
-<p>  // Description:<br>  // Translate the plane in the direction of the normal by the<br>  // distance specified.  Negative values move the plane in the<br>  // opposite direction.<br>  void Push(double distance);</p>
+<p>  // Description:<br>  // Translate the plane in the direction of the normal by the<br>  // distance specified. Negative values move the plane in the<br>  // opposite direction.<br>  void Push(double distance);</p>
 <p>  // Description<br>  // Project a point x onto plane defined by origin and normal. The<br>  // projected point is returned in xproj. NOTE : normal assumed to<br>  // have magnitude 1.<br>  static void ProjectPoint(double x[3], double origin[3], double normal[3],<br>                           double xproj[3]);<br>  void ProjectPoint(double x[3], double xproj[3]);</p>
 <p>  // Description<br>  // Project a vector v onto plane defined by origin and normal. The<br>  // projected vector is returned in vproj.<br>  static void ProjectVector(double v[3], double origin[3], double normal[3],<br>                           double vproj[3]);<br>  void ProjectVector(double v[3], double vproj[3]);</p>
 <p>  // Description<br>  // Project a point x onto plane defined by origin and normal. The<br>  // projected point is returned in xproj. NOTE : normal does NOT have to<br>  // have magnitude 1.<br>  static void GeneralizedProjectPoint(double x[3], double origin[3],<br>                                      double normal[3], double xproj[3]);<br>  void GeneralizedProjectPoint(double x[3], double xproj[3]);</p>
@@ -113,7 +113,7 @@
 
               </div>
               <footer class="article-footer">
-                <time class="article-footer-updated" datetime="2016-10-12T15:49:35.640Z" itemprop="dateModified">Last updated: 2016-10-12</time>
+                <time class="article-footer-updated" datetime="2016-12-07T17:13:41.563Z" itemprop="dateModified">Last updated: 2016-12-07</time>
                 <a href="ImageData.html" class="article-footer-prev" title="ImageData"><i class="fa fa-chevron-left"></i><span>Prev</span></a><a href="PointSet.html" class="article-footer-next" title="PointSet"><span>Next</span><i class="fa fa-chevron-right"></i></a>
               </footer>
               
