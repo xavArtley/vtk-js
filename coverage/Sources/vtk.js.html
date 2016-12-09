@@ -20,28 +20,28 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">23.08% </span>
+        <span class="strong">78.26% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>3/13</span>
+        <span class='fraction'>18/23</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">0% </span>
+        <span class="strong">84.21% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>0/6</span>
+        <span class='fraction'>16/19</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">50% </span>
+        <span class="strong">100% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>1/2</span>
+        <span class='fraction'>4/4</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">23.08% </span>
+        <span class="strong">78.26% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>3/13</span>
+        <span class='fraction'>18/23</span>
       </div>
     </div>
   </div>
-  <div class='status-line low'></div>
+  <div class='status-line medium'></div>
 <pre><table class="coverage">
 <tr><td class="line-count quiet">1
 2
@@ -68,48 +68,108 @@
 23
 24
 25
-26</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1×</span>
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">2×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">29×</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">29×</span>
 <span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">20×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">20×</span>
+<span class="cline-any cline-yes">20×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">20×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">20×</span>
+<span class="cline-any cline-yes">159×</span>
+<span class="cline-any cline-yes">11×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">20×</span>
+<span class="cline-any cline-yes">20×</span>
+<span class="cline-any cline-yes">18×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">20×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">31×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const factoryMapping = {};
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const factoryMapping = {
+  vtkObject: () =&gt; null,
+};
 &nbsp;
-export default function vtk(obj) <span class="fstat-no" title="function not covered" >{</span>
-<span class="cstat-no" title="statement not covered" >  if (obj.isA) {</span>
+export default function vtk(obj) {
+  <span class="missing-if-branch" title="if path not taken" >I</span>if (obj === null || obj === undefined) {
 <span class="cstat-no" title="statement not covered" >    return obj;</span>
   }
-<span class="cstat-no" title="statement not covered" >  if (!obj.type) {</span>
+  if (obj.isA) {
+    return obj;
+  }
+  <span class="missing-if-branch" title="if path not taken" >I</span>if (!obj.vtkClass) {
 <span class="cstat-no" title="statement not covered" >    console.log('Invalid VTK object');</span>
 <span class="cstat-no" title="statement not covered" >    return null;</span>
   }
-  const constructor = <span class="cstat-no" title="statement not covered" >factoryMapping[obj.type];</span>
-<span class="cstat-no" title="statement not covered" >  if (!constructor) {</span>
-<span class="cstat-no" title="statement not covered" >    console.log('No vtk class found for Object of type', obj.type);</span>
+  const constructor = factoryMapping[obj.vtkClass];
+  <span class="missing-if-branch" title="if path not taken" >I</span>if (!constructor) {
+<span class="cstat-no" title="statement not covered" >    console.log('No vtk class found for Object of type', obj.vtkClass);</span>
 <span class="cstat-no" title="statement not covered" >    return null;</span>
   }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return constructor(obj);</span>
+  // Shallow copy object
+  const model = Object.assign({}, obj);
+&nbsp;
+  // Convert into vtkObject any nested key
+  Object.keys(model).forEach((keyName) =&gt; {
+    if (model[keyName] &amp;&amp; typeof model[keyName] === 'object' &amp;&amp; model[keyName].vtkClass) {
+      model[keyName] = vtk(model[keyName]);
+    }
+  });
+&nbsp;
+  // Return the root
+  const newInst = constructor(model);
+  if (newInst &amp;&amp; newInst.modified) {
+    newInst.modified();
+  }
+  return newInst;
 }
 &nbsp;
 export function register(vtkClassName, constructor) {
@@ -124,7 +184,7 @@ vtk.register = register;
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Dec 09 2016 21:19:45 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Dec 09 2016 21:24:14 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../prettify.js"></script>
