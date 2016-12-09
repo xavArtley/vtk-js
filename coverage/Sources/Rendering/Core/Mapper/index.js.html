@@ -20,14 +20,14 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">2.58% </span>
+        <span class="strong">2.62% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>6/233</span>
+        <span class='fraction'>6/229</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>0/83</span>
+        <span class='fraction'>0/75</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">2.5% </span>
@@ -35,9 +35,9 @@
         <span class='fraction'>1/40</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">2.78% </span>
+        <span class="strong">2.83% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>6/216</span>
+        <span class='fraction'>6/212</span>
       </div>
     </div>
   </div>
@@ -581,12 +581,7 @@
 536
 537
 538
-539
-540
-541
-542
-543
-544</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+539</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -931,9 +926,6 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -1017,9 +1009,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -1087,7 +1079,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1099,7 +1090,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1262,7 +1252,7 @@ function vtkMapper(publicAPI, model) <span class="fstat-no" title="function not 
 <span class="cstat-no" title="statement not covered" >  publicAPI.getAbstractScalars = (input, scalarMode, arrayAccessMode,</span>
     arrayId, arrayName) =&gt; <span class="fstat-no" title="function not covered" >{</span>
     // make sure we have an input
-<span class="cstat-no" title="statement not covered" >    if (!input || !model.scalarVisibility) {</span>
+<span class="cstat-no" title="statement not covered" >    if (!input) {</span>
 <span class="cstat-no" title="statement not covered" >      return null;</span>
     }
 &nbsp;
@@ -1281,23 +1271,23 @@ function vtkMapper(publicAPI, model) <span class="fstat-no" title="function not 
     } else <span class="cstat-no" title="statement not covered" >if (scalarMode === VTK_SCALAR_MODE.USE_POINT_FIELD_DATA) {</span>
       const pd = <span class="cstat-no" title="statement not covered" >input.getPointData();</span>
 <span class="cstat-no" title="statement not covered" >      if (arrayAccessMode === VTK_GET_ARRAY.BY_ID) {</span>
-<span class="cstat-no" title="statement not covered" >        scalars = pd.getArrayByIndex(arrayId);</span>
+<span class="cstat-no" title="statement not covered" >        scalars = pd.getAbstractArray(arrayId);</span>
       } else {
-<span class="cstat-no" title="statement not covered" >        scalars = pd.getArrayByName(arrayName);</span>
+<span class="cstat-no" title="statement not covered" >        scalars = pd.getAbstractArray(arrayName);</span>
       }
     } else <span class="cstat-no" title="statement not covered" >if (scalarMode === VTK_SCALAR_MODE.USE_CELL_FIELD_DATA) {</span>
       const cd = <span class="cstat-no" title="statement not covered" >input.getCellData();</span>
 <span class="cstat-no" title="statement not covered" >      if (arrayAccessMode === VTK_GET_ARRAY.BY_ID) {</span>
-<span class="cstat-no" title="statement not covered" >        scalars = cd.getArrayByIndex(arrayId);</span>
+<span class="cstat-no" title="statement not covered" >        scalars = cd.getAbstractArray(arrayId);</span>
       } else {
-<span class="cstat-no" title="statement not covered" >        scalars = cd.getArrayByName(arrayName);</span>
+<span class="cstat-no" title="statement not covered" >        scalars = cd.getAbstractArray(arrayName);</span>
       }
     } else <span class="cstat-no" title="statement not covered" >if (scalarMode === VTK_SCALAR_MODE.USE_FIELD_DATA) {</span>
       const fd = <span class="cstat-no" title="statement not covered" >input.getFieldData();</span>
 <span class="cstat-no" title="statement not covered" >      if (arrayAccessMode === VTK_GET_ARRAY.BY_ID) {</span>
-<span class="cstat-no" title="statement not covered" >        scalars = fd.getArrayByIndex(arrayId);</span>
+<span class="cstat-no" title="statement not covered" >        scalars = fd.getAbstractArray(arrayId);</span>
       } else {
-<span class="cstat-no" title="statement not covered" >        scalars = fd.getArrayByName(arrayName);</span>
+<span class="cstat-no" title="statement not covered" >        scalars = fd.getAbstractArray(arrayName);</span>
       }
     }
 &nbsp;
@@ -1316,7 +1306,7 @@ function vtkMapper(publicAPI, model) <span class="fstat-no" title="function not 
     }
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    if (!model.useLookupTableScalarRange) {</span>
-<span class="cstat-no" title="statement not covered" >      model.lookupTable.setRange(</span>
+<span class="cstat-no" title="statement not covered" >      model.lookupTable.setTableRange(</span>
         model.scalarRange[0], model.scalarRange[1]);
     }
 &nbsp;
@@ -1442,7 +1432,7 @@ function vtkMapper(publicAPI, model) <span class="fstat-no" title="function not 
   };
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  publicAPI.mapScalarsToTexture = (scalars, alpha) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
-    const range = <span class="cstat-no" title="statement not covered" >model.lookupTable.getRange();</span>
+    const range = <span class="cstat-no" title="statement not covered" >model.lookupTable.getTableRange();</span>
     const useLogScale = <span class="cstat-no" title="statement not covered" >model.lookupTable.usingLogScale();</span>
 <span class="cstat-no" title="statement not covered" >    if (useLogScale) {</span>
       // convert range to log.
@@ -1469,10 +1459,7 @@ function vtkMapper(publicAPI, model) <span class="fstat-no" title="function not 
       // Create a dummy ramp of scalars.
       // In the future, we could extend vtkScalarsToColors.
 <span class="cstat-no" title="statement not covered" >      model.lookupTable.build();</span>
-      let numberOfColors = <span class="cstat-no" title="statement not covered" >model.lookupTable.getNumberOfAvailableColors();</span>
-<span class="cstat-no" title="statement not covered" >      if (numberOfColors &gt; 4096) {</span>
-<span class="cstat-no" title="statement not covered" >        numberOfColors = 4096;</span>
-      }
+      let numberOfColors = <span class="cstat-no" title="statement not covered" >model.lookupTable.getNumberOfColors();</span>
 <span class="cstat-no" title="statement not covered" >      numberOfColors += 2;</span>
       const k = <span class="cstat-no" title="statement not covered" >(range[1] - range[0]) / (numberOfColors - 1 - 2);</span>
 &nbsp;
@@ -1531,7 +1518,7 @@ function vtkMapper(publicAPI, model) <span class="fstat-no" title="function not 
         model.colorCoordinates,
         num, numComps,
         scalarComponent, range,
-        model.lookupTable.getRange(),
+        model.lookupTable.getTableRange(),
         model.lookupTable.getNumberOfAvailableColors(),
         useLogScale);
     }
@@ -1560,10 +1547,10 @@ function vtkMapper(publicAPI, model) <span class="fstat-no" title="function not 
     }
 &nbsp;
     // index color does not use textures
-<span class="cstat-no" title="statement not covered" >    if (model.lookupTable &amp;&amp;</span>
-        model.lookupTable.getIndexedLookup()) {
-<span class="cstat-no" title="statement not covered" >      return false;</span>
-    }
+    // if (model.lookupTable &amp;&amp;
+    //     model.lookupTable.getIndexedLookup()) {
+    //   return false;
+    // }
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    return true;</span>
   };
@@ -1605,7 +1592,6 @@ const DEFAULT_VALUES = {
   colorMode: 0,
   scalarMode: 0,
   scalarMaterialMode: 0,
-  arrayAccessMode: 1, // By_NAME
 &nbsp;
   bounds: [1, -1, 1, -1, 1, -1],
   center: [0, 0],
@@ -1644,7 +1630,6 @@ export function extend(publicAPI, model, initialValues = {}) <span class="fstat-
 <span class="cstat-no" title="statement not covered" >  macro.setGet(publicAPI, model, [</span>
     'colorByArrayComponent',
     'colorByArrayName',
-    'arrayAccessMode',
     'colorMode',
     'fieldDataTupleId',
     'interpolateScalarsBeforeMapping',
@@ -1667,7 +1652,7 @@ export function extend(publicAPI, model, initialValues = {}) <span class="fstat-
 &nbsp;
 // ----------------------------------------------------------------------------
 &nbsp;
-export const newInstance = macro.newInstance(extend, 'vtkMapper');
+export const newInstance = macro.newInstance(extend);
 &nbsp;
 // ----------------------------------------------------------------------------
 &nbsp;
@@ -1678,7 +1663,7 @@ export default Object.assign({ newInstance, extend }, staticOffsetAPI, otherStat
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Dec 09 2016 21:25:16 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Dec 09 2016 21:46:08 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>
