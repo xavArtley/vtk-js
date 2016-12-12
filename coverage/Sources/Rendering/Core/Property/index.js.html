@@ -20,9 +20,9 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">4.76% </span>
+        <span class="strong">4.55% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>2/42</span>
+        <span class='fraction'>2/44</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
@@ -32,12 +32,12 @@
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>0/13</span>
+        <span class='fraction'>0/14</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">5.88% </span>
+        <span class="strong">5.71% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>2/34</span>
+        <span class='fraction'>2/35</span>
       </div>
     </div>
   </div>
@@ -223,9 +223,9 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -302,7 +302,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import * as macro from '../../../macro';
-import { VTK_SHADING_MODEL, VTK_REPRESENTATION, VTK_INTERPOLATION } from './Constants';
+import { Representation, Interpolation } from './Constants';
 &nbsp;
 function notImplemented(method) <span class="fstat-no" title="function not covered" >{</span>
 <span class="cstat-no" title="statement not covered" >  return () =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >console.log(`vtkProperty::${method} - NOT IMPLEMENTED`);</span></span></span>
@@ -349,15 +349,15 @@ function vtkProperty(publicAPI, model) <span class="fstat-no" title="function no
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  publicAPI.addShaderVariable = notImplemented('AddShaderVariable');</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  publicAPI.setInterpolationToFlat = () =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >publicAPI.setInterpolation(VTK_INTERPOLATION.FLAT);</span></span></span>
-<span class="cstat-no" title="statement not covered" >  publicAPI.setInterpolationToGouraud = () =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >publicAPI.setInterpolation(VTK_INTERPOLATION.GOURAUD);</span></span></span>
-<span class="cstat-no" title="statement not covered" >  publicAPI.setInterpolationToPhong = () =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >publicAPI.setInterpolation(VTK_INTERPOLATION.PHONG);</span></span></span>
+<span class="cstat-no" title="statement not covered" >  publicAPI.setInterpolationToFlat = () =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >publicAPI.setInterpolation(Interpolation.FLAT);</span></span></span>
+<span class="cstat-no" title="statement not covered" >  publicAPI.setInterpolationToGouraud = () =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >publicAPI.setInterpolation(Interpolation.GOURAUD);</span></span></span>
+<span class="cstat-no" title="statement not covered" >  publicAPI.setInterpolationToPhong = () =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >publicAPI.setInterpolation(Interpolation.PHONG);</span></span></span>
+<span class="cstat-no" title="statement not covered" >  publicAPI.getInterpolationAsString = () =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >macro.enumToString(Interpolation, model.interpolation);</span></span></span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  publicAPI.getInterpolationAsString = () =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >VTK_SHADING_MODEL[model.interpolation];</span></span></span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >  publicAPI.setRepresentationToWireframe = () =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >publicAPI.setRepresentation(VTK_REPRESENTATION.WIREFRAME);</span></span></span>
-<span class="cstat-no" title="statement not covered" >  publicAPI.setRepresentationToSurface = () =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >publicAPI.setRepresentation(VTK_REPRESENTATION.SURFACE);</span></span></span>
-<span class="cstat-no" title="statement not covered" >  publicAPI.setRepresentationToPoints = () =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >publicAPI.setRepresentation(VTK_REPRESENTATION.POINTS);</span></span></span>
+<span class="cstat-no" title="statement not covered" >  publicAPI.setRepresentationToWireframe = () =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >publicAPI.setRepresentation(Representation.WIREFRAME);</span></span></span>
+<span class="cstat-no" title="statement not covered" >  publicAPI.setRepresentationToSurface = () =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >publicAPI.setRepresentation(Representation.SURFACE);</span></span></span>
+<span class="cstat-no" title="statement not covered" >  publicAPI.setRepresentationToPoints = () =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >publicAPI.setRepresentation(Representation.POINTS);</span></span></span>
+<span class="cstat-no" title="statement not covered" >  publicAPI.getRepresentationAsString = () =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >macro.enumToString(Representation, model.representation);</span></span></span>
 }
 &nbsp;
 // ----------------------------------------------------------------------------
@@ -376,8 +376,8 @@ const DEFAULT_VALUES = {
   specular: 0,
   specularPower: 1,
   opacity: 1,
-  interpolation: VTK_INTERPOLATION.GOURAUD,
-  representation: VTK_REPRESENTATION.SURFACE,
+  interpolation: Interpolation.GOURAUD,
+  representation: Representation.SURFACE,
   edgeVisibility: false,
   backfaceCulling: false,
   frontfaceCulling: false,
@@ -436,7 +436,7 @@ export default { newInstance, extend };
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sat Dec 10 2016 18:32:58 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Dec 12 2016 23:22:03 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>

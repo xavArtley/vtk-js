@@ -1136,8 +1136,8 @@ import vtkDataArray                               from '../../../Common/Core/Dat
 import vtkImageData                               from '../../../Common/DataModel/ImageData';
 import vtkLookupTable                             from '../../../Common/Core/LookupTable';
 import vtkMath                                    from '../../../Common/Core/Math';
-import { VTK_VECTOR_MODE } from '../../../Common/Core/ScalarsToColors/Constants';
-import { VTK_COLOR_MODE, VTK_SCALAR_MODE, VTK_MATERIALMODE, VTK_GET_ARRAY } from './Constants';
+import { VectorMode } from '../../../Common/Core/ScalarsToColors/Constants';
+import { ColorMode, ScalarMode, MaterialMode, GetArray } from './Constants';
 &nbsp;
 function notImplemented(method) <span class="fstat-no" title="function not covered" >{</span>
 <span class="cstat-no" title="statement not covered" >  return () =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >console.log(`vtkMapper::${method} - NOT IMPLEMENTED`);</span></span></span>
@@ -1194,13 +1194,13 @@ function vtkMapper(publicAPI, model) <span class="fstat-no" title="function not 
 <span class="cstat-no" title="statement not covered" >    model.lookupTable = vtkLookupTable.newInstance();</span>
   };
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  publicAPI.getColorModeAsString = () =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >macro.enumToString(VTK_COLOR_MODE, model.colorMode);</span></span></span>
+<span class="cstat-no" title="statement not covered" >  publicAPI.getColorModeAsString = () =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >macro.enumToString(ColorMode, model.colorMode);</span></span></span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  publicAPI.setColorModeToDefault = () =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >publicAPI.setColorMode(0);</span></span></span>
 <span class="cstat-no" title="statement not covered" >  publicAPI.setColorModeToMapScalars = () =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >publicAPI.setColorMode(1);</span></span></span>
 <span class="cstat-no" title="statement not covered" >  publicAPI.setColorModeToDirectScalars = () =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >publicAPI.setColorMode(2);</span></span></span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  publicAPI.getScalarModeAsString = () =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >macro.enumToString(VTK_SCALAR_MODE, model.scalarMode);</span></span></span>
+<span class="cstat-no" title="statement not covered" >  publicAPI.getScalarModeAsString = () =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >macro.enumToString(ScalarMode, model.scalarMode);</span></span></span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  publicAPI.setScalarModeToDefault = () =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >publicAPI.setScalarMode(0);</span></span></span>
 <span class="cstat-no" title="statement not covered" >  publicAPI.setScalarModeToUsePointData = () =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >publicAPI.setScalarMode(1);</span></span></span>
@@ -1269,32 +1269,32 @@ function vtkMapper(publicAPI, model) <span class="fstat-no" title="function not 
     let scalars = <span class="cstat-no" title="statement not covered" >null;</span>
 &nbsp;
     // get and scalar data according to scalar mode
-<span class="cstat-no" title="statement not covered" >    if (scalarMode === VTK_SCALAR_MODE.DEFAULT) {</span>
+<span class="cstat-no" title="statement not covered" >    if (scalarMode === ScalarMode.DEFAULT) {</span>
 <span class="cstat-no" title="statement not covered" >      scalars = input.getPointData().getScalars();</span>
 <span class="cstat-no" title="statement not covered" >      if (!scalars) {</span>
 <span class="cstat-no" title="statement not covered" >        scalars = input.getCellData().getScalars();</span>
       }
-    } else <span class="cstat-no" title="statement not covered" >if (scalarMode === VTK_SCALAR_MODE.USE_POINT_DATA) {</span>
+    } else <span class="cstat-no" title="statement not covered" >if (scalarMode === ScalarMode.USE_POINT_DATA) {</span>
 <span class="cstat-no" title="statement not covered" >      scalars = input.getPointData().getScalars();</span>
-    } else <span class="cstat-no" title="statement not covered" >if (scalarMode === VTK_SCALAR_MODE.USE_CELL_DATA) {</span>
+    } else <span class="cstat-no" title="statement not covered" >if (scalarMode === ScalarMode.USE_CELL_DATA) {</span>
 <span class="cstat-no" title="statement not covered" >      scalars = input.getCellData().getScalars();</span>
-    } else <span class="cstat-no" title="statement not covered" >if (scalarMode === VTK_SCALAR_MODE.USE_POINT_FIELD_DATA) {</span>
+    } else <span class="cstat-no" title="statement not covered" >if (scalarMode === ScalarMode.USE_POINT_FIELD_DATA) {</span>
       const pd = <span class="cstat-no" title="statement not covered" >input.getPointData();</span>
-<span class="cstat-no" title="statement not covered" >      if (arrayAccessMode === VTK_GET_ARRAY.BY_ID) {</span>
+<span class="cstat-no" title="statement not covered" >      if (arrayAccessMode === GetArray.BY_ID) {</span>
 <span class="cstat-no" title="statement not covered" >        scalars = pd.getArrayByIndex(arrayId);</span>
       } else {
 <span class="cstat-no" title="statement not covered" >        scalars = pd.getArrayByName(arrayName);</span>
       }
-    } else <span class="cstat-no" title="statement not covered" >if (scalarMode === VTK_SCALAR_MODE.USE_CELL_FIELD_DATA) {</span>
+    } else <span class="cstat-no" title="statement not covered" >if (scalarMode === ScalarMode.USE_CELL_FIELD_DATA) {</span>
       const cd = <span class="cstat-no" title="statement not covered" >input.getCellData();</span>
-<span class="cstat-no" title="statement not covered" >      if (arrayAccessMode === VTK_GET_ARRAY.BY_ID) {</span>
+<span class="cstat-no" title="statement not covered" >      if (arrayAccessMode === GetArray.BY_ID) {</span>
 <span class="cstat-no" title="statement not covered" >        scalars = cd.getArrayByIndex(arrayId);</span>
       } else {
 <span class="cstat-no" title="statement not covered" >        scalars = cd.getArrayByName(arrayName);</span>
       }
-    } else <span class="cstat-no" title="statement not covered" >if (scalarMode === VTK_SCALAR_MODE.USE_FIELD_DATA) {</span>
+    } else <span class="cstat-no" title="statement not covered" >if (scalarMode === ScalarMode.USE_FIELD_DATA) {</span>
       const fd = <span class="cstat-no" title="statement not covered" >input.getFieldData();</span>
-<span class="cstat-no" title="statement not covered" >      if (arrayAccessMode === VTK_GET_ARRAY.BY_ID) {</span>
+<span class="cstat-no" title="statement not covered" >      if (arrayAccessMode === GetArray.BY_ID) {</span>
 <span class="cstat-no" title="statement not covered" >        scalars = fd.getArrayByIndex(arrayId);</span>
       } else {
 <span class="cstat-no" title="statement not covered" >        scalars = fd.getArrayByName(arrayName);</span>
@@ -1521,7 +1521,7 @@ function vtkMapper(publicAPI, model) <span class="fstat-no" title="function not 
       let scalarComponent = <span class="cstat-no" title="statement not covered" >model.lookupTable.getVectorComponent();</span>
       // Although I like the feature of applying magnitude to single component
       // scalars, it is not how the old MapScalars for vertex coloring works.
-<span class="cstat-no" title="statement not covered" >      if (model.lookupTable.getVectorMode() === VTK_VECTOR_MODE.MAGNITUDE &amp;&amp;</span>
+<span class="cstat-no" title="statement not covered" >      if (model.lookupTable.getVectorMode() === VectorMode.MAGNITUDE &amp;&amp;</span>
           scalars.getNumberOfComponents() &gt; 1) {
 <span class="cstat-no" title="statement not covered" >        scalarComponent = -1;</span>
       }
@@ -1538,11 +1538,11 @@ function vtkMapper(publicAPI, model) <span class="fstat-no" title="function not 
   };
 &nbsp;
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  publicAPI.setScalarMaterialModeToDefault = () =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >publicAPI.setScalarMaterialMode(VTK_MATERIALMODE.DEFAULT);</span></span></span>
-<span class="cstat-no" title="statement not covered" >  publicAPI.setScalarMaterialModeToAmbient = () =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >publicAPI.setScalarMaterialMode(VTK_MATERIALMODE.AMBIENT);</span></span></span>
-<span class="cstat-no" title="statement not covered" >  publicAPI.setScalarMaterialModeToDiffuse = () =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >publicAPI.setScalarMaterialMode(VTK_MATERIALMODE.DIFFUSE);</span></span></span>
-<span class="cstat-no" title="statement not covered" >  publicAPI.setScalarMaterialModeToAmbientAndDiffuse = () =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >publicAPI.setScalarMaterialMode(VTK_MATERIALMODE.AMBIENT_AND_DIFFUSE);</span></span></span>
-<span class="cstat-no" title="statement not covered" >  publicAPI.getScalarMaterialModeAsString = () =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >macro.enumToString(VTK_MATERIALMODE, model.scalarMaterialMode);</span></span></span>
+<span class="cstat-no" title="statement not covered" >  publicAPI.setScalarMaterialModeToDefault = () =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >publicAPI.setScalarMaterialMode(MaterialMode.DEFAULT);</span></span></span>
+<span class="cstat-no" title="statement not covered" >  publicAPI.setScalarMaterialModeToAmbient = () =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >publicAPI.setScalarMaterialMode(MaterialMode.AMBIENT);</span></span></span>
+<span class="cstat-no" title="statement not covered" >  publicAPI.setScalarMaterialModeToDiffuse = () =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >publicAPI.setScalarMaterialMode(MaterialMode.DIFFUSE);</span></span></span>
+<span class="cstat-no" title="statement not covered" >  publicAPI.setScalarMaterialModeToAmbientAndDiffuse = () =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >publicAPI.setScalarMaterialMode(MaterialMode.AMBIENT_AND_DIFFUSE);</span></span></span>
+<span class="cstat-no" title="statement not covered" >  publicAPI.getScalarMaterialModeAsString = () =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >macro.enumToString(MaterialMode, model.scalarMaterialMode);</span></span></span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  publicAPI.getIsOpaque = () =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
     const lut = <span class="cstat-no" title="statement not covered" >publicAPI.getLookupTable();</span>
@@ -1678,7 +1678,7 @@ export default Object.assign({ newInstance, extend }, staticOffsetAPI, otherStat
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sat Dec 10 2016 18:32:58 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Dec 12 2016 23:22:03 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>

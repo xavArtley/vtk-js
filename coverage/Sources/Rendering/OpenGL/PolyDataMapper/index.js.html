@@ -2685,9 +2685,9 @@ import vtkMath from '../../../Common/Core/Math';
 import vtkShaderProgram from '../ShaderProgram';
 import vtkOpenGLTexture from '../Texture';
 import vtkViewNode from '../../SceneGraph/ViewNode';
-import { VTK_REPRESENTATION, VTK_SHADING } from '../../Core/Property/Constants';
-import { VTK_MATERIALMODE, VTK_SCALAR_MODE } from '../../Core/Mapper/Constants';
-import { VTK_FILTER, VTK_WRAP } from '../Texture/Constants';
+import { Representation, Shading } from '../../Core/Property/Constants';
+import { MaterialMode, ScalarMode } from '../../Core/Mapper/Constants';
+import { Filter, Wrap } from '../Texture/Constants';
 &nbsp;
 import vtkPolyDataVS from '../glsl/vtkPolyDataVS.glsl';
 import vtkPolyDataFS from '../glsl/vtkPolyDataFS.glsl';
@@ -2817,15 +2817,15 @@ export function vtkOpenGLPolyDataMapper(publicAPI, model) <span class="fstat-no"
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    if (model.lastBoundBO.getCABO().getColorComponents() !== 0 &amp;&amp;</span>
         !model.drawingEdges) {
-<span class="cstat-no" title="statement not covered" >      if (scalarMatMode === VTK_MATERIALMODE.AMBIENT ||</span>
-          (scalarMatMode === VTK_MATERIALMODE.DEFAULT &amp;&amp;
+<span class="cstat-no" title="statement not covered" >      if (scalarMatMode === MaterialMode.AMBIENT ||</span>
+          (scalarMatMode === MaterialMode.DEFAULT &amp;&amp;
             actor.getProperty().getAmbient() &gt; actor.getProperty().getDiffuse())) {
 <span class="cstat-no" title="statement not covered" >        FSSource = vtkShaderProgram.substitute(FSSource, '//VTK::Color::Impl',</span>
           colorImpl.concat([
             '  ambientColor = vertexColorVSOutput.rgb;',
             '  opacity = opacity*vertexColorVSOutput.a;'])).result;
-      } else <span class="cstat-no" title="statement not covered" >if (scalarMatMode === VTK_MATERIALMODE.DIFFUSE ||</span>
-          (scalarMatMode === VTK_MATERIALMODE.DEFAULT &amp;&amp;
+      } else <span class="cstat-no" title="statement not covered" >if (scalarMatMode === MaterialMode.DIFFUSE ||</span>
+          (scalarMatMode === MaterialMode.DEFAULT &amp;&amp;
             actor.getProperty().getAmbient() &lt;= actor.getProperty().getDiffuse())) {
 <span class="cstat-no" title="statement not covered" >        FSSource = vtkShaderProgram.substitute(FSSource, '//VTK::Color::Impl',</span>
           colorImpl.concat([
@@ -2842,16 +2842,16 @@ export function vtkOpenGLPolyDataMapper(publicAPI, model) <span class="fstat-no"
 <span class="cstat-no" title="statement not covered" >      if (model.renderable.getInterpolateScalarsBeforeMapping()</span>
          &amp;&amp; model.renderable.getColorCoordinates()
          &amp;&amp; !model.drawingEdges) {
-<span class="cstat-no" title="statement not covered" >        if (scalarMatMode === VTK_MATERIALMODE.AMBIENT ||</span>
-          (scalarMatMode === VTK_MATERIALMODE.DEFAULT &amp;&amp;
+<span class="cstat-no" title="statement not covered" >        if (scalarMatMode === MaterialMode.AMBIENT ||</span>
+          (scalarMatMode === MaterialMode.DEFAULT &amp;&amp;
             actor.getProperty().getAmbient() &gt; actor.getProperty().getDiffuse())) {
 <span class="cstat-no" title="statement not covered" >          FSSource = vtkShaderProgram.substitute(FSSource, '//VTK::Color::Impl',</span>
             colorImpl.concat([
               '  vec4 texColor = texture2D(texture1, tcoordVCVSOutput.st);',
               '  ambientColor = texColor.rgb;',
               '  opacity = opacity*texColor.a;'])).result;
-        } else <span class="cstat-no" title="statement not covered" >if (scalarMatMode === VTK_MATERIALMODE.DIFFUSE ||</span>
-            (scalarMatMode === VTK_MATERIALMODE.DEFAULT &amp;&amp;
+        } else <span class="cstat-no" title="statement not covered" >if (scalarMatMode === MaterialMode.DIFFUSE ||</span>
+            (scalarMatMode === MaterialMode.DEFAULT &amp;&amp;
               actor.getProperty().getAmbient() &lt;= actor.getProperty().getDiffuse())) {
 <span class="cstat-no" title="statement not covered" >          FSSource = vtkShaderProgram.substitute(FSSource, '//VTK::Color::Impl',</span>
             colorImpl.concat([
@@ -3054,7 +3054,7 @@ export function vtkOpenGLPolyDataMapper(publicAPI, model) <span class="fstat-no"
             ).result;
         } else {
 <span class="cstat-no" title="statement not covered" >          if (model.lastBoundBO.getPrimitiveType() === primTypes.Lines ||</span>
-              actor.getProperty().getRepresentation() === VTK_REPRESENTATION.WIREFRAME) {
+              actor.getProperty().getRepresentation() === Representation.WIREFRAME) {
             // generate a normal for lines, it will be perpendicular to the line
             // and maximally aligned with the camera view direction
             // no clue if this is the best way to do this.
@@ -3115,7 +3115,7 @@ export function vtkOpenGLPolyDataMapper(publicAPI, model) <span class="fstat-no"
     let FSSource = <span class="cstat-no" title="statement not covered" >shaders.Fragment;</span>
 &nbsp;
     // for points make sure to add in the point size
-<span class="cstat-no" title="statement not covered" >    if (actor.getProperty().getRepresentation() === VTK_REPRESENTATION.POINTS</span>
+<span class="cstat-no" title="statement not covered" >    if (actor.getProperty().getRepresentation() === Representation.POINTS</span>
       || model.lastBoundBO.getPrimitiveType() === primTypes.Points) {
 <span class="cstat-no" title="statement not covered" >      VSSource = vtkShaderProgram.substitute(VSSource,</span>
         '//VTK::PositionVC::Impl', [
@@ -3238,13 +3238,13 @@ export function vtkOpenGLPolyDataMapper(publicAPI, model) <span class="fstat-no"
     const prop = <span class="cstat-no" title="statement not covered" >actor.getProperty();</span>
 <span class="cstat-no" title="statement not covered" >    if (model.renderable.getResolveCoincidentTopology() ||</span>
         (prop.getEdgeVisibility() &amp;&amp;
-          prop.getRepresentation() === VTK_REPRESENTATION.SURFACE)) {
+          prop.getRepresentation() === Representation.SURFACE)) {
       const primType = <span class="cstat-no" title="statement not covered" >model.lastBoundBO.getPrimitiveType();</span>
 <span class="cstat-no" title="statement not covered" >      if (primType === primTypes.Points ||</span>
-          prop.getRepresentation() === VTK_REPRESENTATION.POINTS) {
+          prop.getRepresentation() === Representation.POINTS) {
 <span class="cstat-no" title="statement not covered" >        cp = model.renderable.getCoincidentTopologyPointOffsetParameter();</span>
       } else <span class="cstat-no" title="statement not covered" >if (primType === primTypes.Lines ||</span>
-          prop.getRepresentation() === VTK_REPRESENTATION.WIREFRAME) {
+          prop.getRepresentation() === Representation.WIREFRAME) {
 <span class="cstat-no" title="statement not covered" >        cp = model.renderable.getCoincidentTopologyLineOffsetParameters();</span>
       } else <span class="cstat-no" title="statement not covered" >if (primType === primTypes.Tris || primType === primTypes.TriStrips) {</span>
 <span class="cstat-no" title="statement not covered" >        cp = model.renderable.getCoincidentTopologyPolygonOffsetParameters();</span>
@@ -3320,7 +3320,7 @@ export function vtkOpenGLPolyDataMapper(publicAPI, model) <span class="fstat-no"
 &nbsp;
     const poly = <span class="cstat-no" title="statement not covered" >model.currentInput;</span>
 &nbsp;
-    let n = <span class="cstat-no" title="statement not covered" >(actor.getProperty().getInterpolation() !== VTK_SHADING.FLAT)</span>
+    let n = <span class="cstat-no" title="statement not covered" >(actor.getProperty().getInterpolation() !== Shading.FLAT)</span>
       ? poly.getPointData().getNormals() : null;
 <span class="cstat-no" title="statement not covered" >    if (n === null &amp;&amp; poly.getCellData().getNormals()) {</span>
 <span class="cstat-no" title="statement not covered" >      n = poly.getCelData().getNormals();</span>
@@ -3328,7 +3328,7 @@ export function vtkOpenGLPolyDataMapper(publicAPI, model) <span class="fstat-no"
 &nbsp;
     const haveNormals = (<span class="cstat-no" title="statement not covered" >n !== null)</span>;
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    if (actor.getProperty().getRepresentation() === VTK_REPRESENTATION.POINTS ||</span>
+<span class="cstat-no" title="statement not covered" >    if (actor.getProperty().getRepresentation() === Representation.POINTS ||</span>
         primType === primTypes.Points) {
 <span class="cstat-no" title="statement not covered" >      needLighting = haveNormals;</span>
     }
@@ -3706,7 +3706,7 @@ export function vtkOpenGLPolyDataMapper(publicAPI, model) <span class="fstat-no"
 &nbsp;
     const drawSurfaceWithEdges =
       (<span class="cstat-no" title="statement not covered" >actor.getProperty().getEdgeVisibility() &amp;&amp;</span>
-        representation === VTK_REPRESENTATION.SURFACE);
+        representation === Representation.SURFACE);
 &nbsp;
     // for every primitive type
 <span class="cstat-no" title="statement not covered" >    for (let i = primTypes.Start; i &lt; primTypes.End; i++) {</span>
@@ -3728,11 +3728,11 @@ export function vtkOpenGLPolyDataMapper(publicAPI, model) <span class="fstat-no"
   };
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  publicAPI.getOpenGLMode = (rep, type) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
-<span class="cstat-no" title="statement not covered" >    if (rep === VTK_REPRESENTATION.POINTS ||</span>
+<span class="cstat-no" title="statement not covered" >    if (rep === Representation.POINTS ||</span>
       type === primTypes.Points) {
 <span class="cstat-no" title="statement not covered" >      return model.context.POINTS;</span>
     }
-<span class="cstat-no" title="statement not covered" >    if (rep === VTK_REPRESENTATION.WIREFRAME ||</span>
+<span class="cstat-no" title="statement not covered" >    if (rep === Representation.WIREFRAME ||</span>
       type === primTypes.Lines ||
       type === primTypes.TrisEdges ||
       type === primTypes.TriStripsEdges) {
@@ -3821,18 +3821,18 @@ export function vtkOpenGLPolyDataMapper(publicAPI, model) <span class="fstat-no"
     const scalarMode = <span class="cstat-no" title="statement not covered" >model.renderable.getScalarMode();</span>
 <span class="cstat-no" title="statement not covered" >    if (model.renderable.getScalarVisibility()) {</span>
       // We must figure out how the scalars should be mapped to the polydata.
-<span class="cstat-no" title="statement not covered" >      if ((scalarMode === VTK_SCALAR_MODE.USE_CELL_DATA ||</span>
-            scalarMode === VTK_SCALAR_MODE.USE_CELL_FIELD_DATA ||
-            scalarMode === VTK_SCALAR_MODE.USE_FIELD_DATA ||
+<span class="cstat-no" title="statement not covered" >      if ((scalarMode === ScalarMode.USE_CELL_DATA ||</span>
+            scalarMode === ScalarMode.USE_CELL_FIELD_DATA ||
+            scalarMode === ScalarMode.USE_FIELD_DATA ||
             !poly.getPointData().getScalars())
-           &amp;&amp; scalarMode !== VTK_SCALAR_MODE.USE_POINT_FIELD_DATA
+           &amp;&amp; scalarMode !== ScalarMode.USE_POINT_FIELD_DATA
            &amp;&amp; c) {
 <span class="cstat-no" title="statement not covered" >        model.haveCellScalars = true;</span>
       }
     }
 &nbsp;
     // Do we have normals?
-    let n = <span class="cstat-no" title="statement not covered" >(actor.getProperty().getInterpolation() !== VTK_SHADING.FLAT)</span>
+    let n = <span class="cstat-no" title="statement not covered" >(actor.getProperty().getInterpolation() !== Shading.FLAT)</span>
       ? poly.getPointData().getNormals() : null;
 <span class="cstat-no" title="statement not covered" >    if (n === null &amp;&amp; poly.getCellData().getNormals()) {</span>
 <span class="cstat-no" title="statement not covered" >      model.haveCellNormals = true;</span>
@@ -3864,10 +3864,10 @@ export function vtkOpenGLPolyDataMapper(publicAPI, model) <span class="fstat-no"
       }
       const tex = <span class="cstat-no" title="statement not covered" >model.internalColorTexture;</span>
       // the following 4 lines allow for NPOT textures
-<span class="cstat-no" title="statement not covered" >      tex.setMinificationFilter(VTK_FILTER.NEAREST);</span>
-<span class="cstat-no" title="statement not covered" >      tex.setMagnificationFilter(VTK_FILTER.NEAREST);</span>
-<span class="cstat-no" title="statement not covered" >      tex.setWrapS(VTK_WRAP.CLAMP_TO_EDGE);</span>
-<span class="cstat-no" title="statement not covered" >      tex.setWrapT(VTK_WRAP.CLAMP_TO_EDGE);</span>
+<span class="cstat-no" title="statement not covered" >      tex.setMinificationFilter(Filter.NEAREST);</span>
+<span class="cstat-no" title="statement not covered" >      tex.setMagnificationFilter(Filter.NEAREST);</span>
+<span class="cstat-no" title="statement not covered" >      tex.setWrapS(Wrap.CLAMP_TO_EDGE);</span>
+<span class="cstat-no" title="statement not covered" >      tex.setWrapT(Wrap.CLAMP_TO_EDGE);</span>
 <span class="cstat-no" title="statement not covered" >      tex.setWindow(model.openGLRenderWindow);</span>
 <span class="cstat-no" title="statement not covered" >      tex.setContext(model.openGLRenderWindow.getContext());</span>
 &nbsp;
@@ -3907,7 +3907,7 @@ export function vtkOpenGLPolyDataMapper(publicAPI, model) <span class="fstat-no"
       // if we have edge visibility build the edge VBOs
 <span class="cstat-no" title="statement not covered" >      if (actor.getProperty().getEdgeVisibility()) {</span>
 <span class="cstat-no" title="statement not covered" >        model.primitives[primTypes.TrisEdges].getCABO()</span>
-          .createVBO(poly.getPolys(), 'polys', VTK_REPRESENTATION.WIREFRAME,
+          .createVBO(poly.getPolys(), 'polys', Representation.WIREFRAME,
           {
             points,
             normals: n,
@@ -3918,7 +3918,7 @@ export function vtkOpenGLPolyDataMapper(publicAPI, model) <span class="fstat-no"
             haveCellNormals: false,
           });
 <span class="cstat-no" title="statement not covered" >        model.primitives[primTypes.TriStripsEdges].getCABO()</span>
-          .createVBO(poly.getStrips(), 'strips', VTK_REPRESENTATION.WIREFRAME,
+          .createVBO(poly.getStrips(), 'strips', Representation.WIREFRAME,
           {
             points,
             normals: n,
@@ -4000,7 +4000,7 @@ export default { newInstance, extend };
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sat Dec 10 2016 18:32:58 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Dec 12 2016 23:22:03 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>
