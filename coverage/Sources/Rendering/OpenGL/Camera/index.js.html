@@ -20,9 +20,9 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">5.41% </span>
+        <span class="strong">5.13% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>2/37</span>
+        <span class='fraction'>2/39</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
@@ -35,9 +35,9 @@
         <span class='fraction'>0/6</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">5.41% </span>
+        <span class="strong">5.13% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>2/37</span>
+        <span class='fraction'>2/39</span>
       </div>
     </div>
   </div>
@@ -150,7 +150,12 @@
 105
 106
 107
-108</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+108
+109
+110
+111
+112
+113</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -205,7 +210,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -231,11 +235,17 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -299,7 +309,7 @@ function vtkOpenGLCamera(publicAPI, model) <span class="fstat-no" title="functio
       publicAPI.getFirstAncestorOfType('vtkOpenGLRenderWindow').getMTime() &gt; model.keyMatrixTime.getMTime() ||
       publicAPI.getMTime() &gt; model.keyMatrixTime.getMTime() ||
       ren.getMTime() &gt; model.keyMatrixTime.getMTime()) {
-<span class="cstat-no" title="statement not covered" >      model.WCVCMatrix = model.renderable.getViewTransformMatrix();</span>
+<span class="cstat-no" title="statement not covered" >      mat4.copy(model.WCVCMatrix, model.renderable.getViewTransformMatrix());</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >      mat3.fromMat4(model.normalMatrix, model.WCVCMatrix);</span>
 <span class="cstat-no" title="statement not covered" >      mat3.invert(model.normalMatrix, model.normalMatrix);</span>
@@ -308,11 +318,10 @@ function vtkOpenGLCamera(publicAPI, model) <span class="fstat-no" title="functio
       const oglren = <span class="cstat-no" title="statement not covered" >publicAPI.getFirstAncestorOfType('vtkOpenGLRenderer');</span>
       const aspectRatio = <span class="cstat-no" title="statement not covered" >oglren.getAspectRatio();</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      model.VCDCMatrix = model.renderable.getProjectionTransformMatrix(</span>
-                           aspectRatio, -1, 1);
+<span class="cstat-no" title="statement not covered" >      mat4.copy(model.VCDCMatrix, model.renderable.getProjectionTransformMatrix(</span>
+                           aspectRatio, -1, 1));
 <span class="cstat-no" title="statement not covered" >      mat4.transpose(model.VCDCMatrix, model.VCDCMatrix);</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      model.WCDCMatrix = mat4.create();</span>
 <span class="cstat-no" title="statement not covered" >      mat4.multiply(model.WCDCMatrix, model.VCDCMatrix, model.WCVCMatrix);</span>
 //      mat4.multiply(model.WCDCMatrix, model.WCVCMatrix, model.VCDCMatrix);
 &nbsp;
@@ -333,6 +342,9 @@ const DEFAULT_VALUES = {
   lastRenderer: null,
   keyMatrixTime: null,
   normalMatrix: null,
+  VCDCMatrix: null,
+  WCVCMatrix: null,
+  WCDCMatrix: null,
 };
 &nbsp;
 // ----------------------------------------------------------------------------
@@ -345,6 +357,9 @@ export function extend(publicAPI, model, initialValues = {}) <span class="fstat-
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  model.keyMatrixTime = {};</span>
 <span class="cstat-no" title="statement not covered" >  model.normalMatrix = mat3.create();</span>
+<span class="cstat-no" title="statement not covered" >  model.VCDCMatrix = mat4.create();</span>
+<span class="cstat-no" title="statement not covered" >  model.WCVCMatrix = mat4.create();</span>
+<span class="cstat-no" title="statement not covered" >  model.WCDCMatrix = mat4.create();</span>
 <span class="cstat-no" title="statement not covered" >  macro.obj(model.keyMatrixTime);</span>
 &nbsp;
   // Build VTK API
@@ -370,7 +385,7 @@ export default { newInstance, extend };
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Jan 05 2017 14:00:15 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Jan 06 2017 17:10:44 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>
