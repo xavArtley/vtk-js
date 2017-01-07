@@ -1194,7 +1194,7 @@ export function obj(publicAPI = {}, model = {}) {
 &nbsp;
   publicAPI.modified = () =&gt; {
     <span class="missing-if-branch" title="if path not taken" >I</span>if (model.deleted) {
-<span class="cstat-no" title="statement not covered" >      console.log('instance deleted - can not call any method');</span>
+<span class="cstat-no" title="statement not covered" >      console.log('instance deleted - cannot call any method');</span>
 <span class="cstat-no" title="statement not covered" >      return;</span>
     }
 &nbsp;
@@ -1204,7 +1204,7 @@ export function obj(publicAPI = {}, model = {}) {
 &nbsp;
   publicAPI.onModified = (callback) =&gt; {
     <span class="missing-if-branch" title="if path not taken" >I</span>if (model.deleted) {
-<span class="cstat-no" title="statement not covered" >      console.log('instance deleted - can not call any method');</span>
+<span class="cstat-no" title="statement not covered" >      console.log('instance deleted - cannot call any method');</span>
 <span class="cstat-no" title="statement not covered" >      return null;</span>
     }
 &nbsp;
@@ -1289,7 +1289,7 @@ export function obj(publicAPI = {}, model = {}) {
   // Add shallowCopy(otherInstance) support
   publicAPI.shallowCopy = (other, debug = false) =&gt; {
     <span class="missing-if-branch" title="if path not taken" >I</span>if (other.getClassName() !== publicAPI.getClassName()) {
-<span class="cstat-no" title="statement not covered" >      throw new Error(`Can not ShallowCopy ${other.getClassName()} into ${publicAPI.getClassName()}`);</span>
+<span class="cstat-no" title="statement not covered" >      throw new Error(`Cannot ShallowCopy ${other.getClassName()} into ${publicAPI.getClassName()}`);</span>
     }
     const otherModel = other.get();
 &nbsp;
@@ -1379,7 +1379,7 @@ function findSetter(field) {
   return function getSetter(publicAPI, model) {
     return function setter(value) {
       <span class="missing-if-branch" title="if path not taken" >I</span>if (model.deleted) {
-<span class="cstat-no" title="statement not covered" >        console.log('instance deleted - can not call any method');</span>
+<span class="cstat-no" title="statement not covered" >        console.log('instance deleted - cannot call any method');</span>
 <span class="cstat-no" title="statement not covered" >        return false;</span>
       }
 &nbsp;
@@ -1430,7 +1430,7 @@ export function setArray(publicAPI, model, fieldNames, size) {
   fieldNames.forEach((field) =&gt; {
     publicAPI[`set${capitalize(field)}`] = (...args) =&gt; {
       <span class="missing-if-branch" title="if path not taken" >I</span>if (model.deleted) {
-<span class="cstat-no" title="statement not covered" >        console.log('instance deleted - can not call any method');</span>
+<span class="cstat-no" title="statement not covered" >        console.log('instance deleted - cannot call any method');</span>
 <span class="cstat-no" title="statement not covered" >        return false;</span>
       }
 &nbsp;
@@ -1503,7 +1503,7 @@ export function algo(publicAPI, model, numberOfInputs, numberOfOutputs) {
   // Methods
   function setInputData(dataset, port = 0) {
     <span class="missing-if-branch" title="if path not taken" >I</span>if (model.deleted) {
-<span class="cstat-no" title="statement not covered" >      console.log('instance deleted - can not call any method');</span>
+<span class="cstat-no" title="statement not covered" >      console.log('instance deleted - cannot call any method');</span>
 <span class="cstat-no" title="statement not covered" >      return;</span>
     }
     model.inputData[port] = dataset;
@@ -1519,7 +1519,7 @@ export function algo(publicAPI, model, numberOfInputs, numberOfOutputs) {
 &nbsp;
   function setInputConnection(outputPort, port = 0) {
     <span class="missing-if-branch" title="if path not taken" >I</span>if (model.deleted) {
-<span class="cstat-no" title="statement not covered" >      console.log('instance deleted - can not call any method');</span>
+<span class="cstat-no" title="statement not covered" >      console.log('instance deleted - cannot call any method');</span>
 <span class="cstat-no" title="statement not covered" >      return;</span>
     }
     model.inputData[port] = null;
@@ -1528,7 +1528,7 @@ export function algo(publicAPI, model, numberOfInputs, numberOfOutputs) {
 &nbsp;
   function getOutputData(port = 0) {
     <span class="missing-if-branch" title="if path not taken" >I</span>if (model.deleted) {
-<span class="cstat-no" title="statement not covered" >      console.log('instance deleted - can not call any method');</span>
+<span class="cstat-no" title="statement not covered" >      console.log('instance deleted - cannot call any method');</span>
 <span class="cstat-no" title="statement not covered" >      return null;</span>
     }
     if (publicAPI.shouldUpdate()) {
@@ -1645,7 +1645,7 @@ export function event(publicAPI, model, eventName) <span class="fstat-no" title=
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  publicAPI[`invoke${capitalize(eventName)}`] = (...args) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
 <span class="cstat-no" title="statement not covered" >    if (model.deleted) {</span>
-<span class="cstat-no" title="statement not covered" >      console.log('instance deleted - can not call any method');</span>
+<span class="cstat-no" title="statement not covered" >      console.log('instance deleted - cannot call any method');</span>
 <span class="cstat-no" title="statement not covered" >      return;</span>
     }
 &nbsp;
@@ -1654,7 +1654,7 @@ export function event(publicAPI, model, eventName) <span class="fstat-no" title=
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  publicAPI[`on${capitalize(eventName)}`] = (callback) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
 <span class="cstat-no" title="statement not covered" >    if (model.deleted) {</span>
-<span class="cstat-no" title="statement not covered" >      console.log('instance deleted - can not call any method');</span>
+<span class="cstat-no" title="statement not covered" >      console.log('instance deleted - cannot call any method');</span>
 <span class="cstat-no" title="statement not covered" >      return null;</span>
     }
 &nbsp;
@@ -1702,7 +1702,7 @@ export function chain(...fn) {
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Jan 06 2017 22:19:30 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sat Jan 07 2017 01:38:09 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../prettify.js"></script>

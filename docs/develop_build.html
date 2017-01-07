@@ -39,19 +39,19 @@
   <!-- RSS -->
   <link rel="alternate" href="/vtk-js/atom.xml" title="vtk.js">
   <!-- Open Graph -->
-  <meta name="description" content="VTK.js is a library and should be used as ES6 dependency but it is worth building it to validate the style and/or generate the actual JavaScript file for external script usage like described here.
-The">
+  <meta name="description" content="VTK.js is a library and should be used as ES6 dependency. However, it is worth building vtk.js to validate the style and to generate the JavaScript file for external script usage as described here.
+Th">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Building vtk.js">
 <meta property="og:url" content="https://kitware.github.io/vtk-js/docs/develop_build.html">
 <meta property="og:site_name" content="vtk.js">
-<meta property="og:description" content="VTK.js is a library and should be used as ES6 dependency but it is worth building it to validate the style and/or generate the actual JavaScript file for external script usage like described here.
-The">
-<meta property="og:updated_time" content="2016-12-13T23:22:09.978Z">
+<meta property="og:description" content="VTK.js is a library and should be used as ES6 dependency. However, it is worth building vtk.js to validate the style and to generate the JavaScript file for external script usage as described here.
+Th">
+<meta property="og:updated_time" content="2017-01-07T01:38:10.701Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Building vtk.js">
-<meta name="twitter:description" content="VTK.js is a library and should be used as ES6 dependency but it is worth building it to validate the style and/or generate the actual JavaScript file for external script usage like described here.
-The">
+<meta name="twitter:description" content="VTK.js is a library and should be used as ES6 dependency. However, it is worth building vtk.js to validate the style and to generate the JavaScript file for external script usage as described here.
+Th">
   <!-- Google Analytics -->
   
 </head>
@@ -92,24 +92,25 @@ The">
                 <h1 class="article-title" itemprop="name">Building vtk.js</h1>
               </header>
               <div class="article-content" itemprop="articleBody">
-                <p>VTK.js is a library and should be used as ES6 dependency but it is worth building it to validate the style and/or generate the actual JavaScript file for external script usage like described <a href="intro_vtk_as_external_script.html">here</a>.</p>
-<p>The library can be build by simply gathering all the dependencies inside a bundle without modification or you can build it for production which will minify the generated file.</p>
-<h2 id="Building-vtk-js" class="article-heading"><a href="#Building-vtk-js" class="headerlink" title="Building vtk.js"></a>Building vtk.js<a class="article-anchor" href="#Building-vtk-js" aria-hidden="true"></a></h2><p>In order to build the library you can run <code>npm run build</code> for quick style validation or <code>npm run build:release</code> for production usage.</p>
-<blockquote class="note warn"><strong class="note-title">For Windows users</strong><p>You can not use the previous command line for building a production ready bundle.<br>Instead you will need to run: <code>npm run build -- -p</code></p>
+                <p>VTK.js is a library and should be used as ES6 dependency. However, it is worth building vtk.js to validate the style and to generate the JavaScript file for external script usage as described <a href="intro_vtk_as_external_script.html">here</a>.</p>
+<p>The library can be built with webpack automatically. Webpack can either gather all the source files and concatenate them with little modification, or it can build it for production which will minify the generated file.</p>
+<h2 id="Building-vtk-js" class="article-heading"><a href="#Building-vtk-js" class="headerlink" title="Building vtk.js"></a>Building vtk.js<a class="article-anchor" href="#Building-vtk-js" aria-hidden="true"></a></h2><p>In order to build the library you can run <code>npm run build</code> for quick development usage or <code>npm run build:release</code> for production usage.</p>
+<blockquote class="note warn"><strong class="note-title">For Windows users</strong><p>You cannot use the previous command line for building a production ready bundle.<br>Instead you will need to run: <code>npm run build -- -p</code></p>
 </blockquote>
-<p>This will generate a <code>dist/vtk.js</code> file that can then be used as an external script.</p>
-<h2 id="Building-Web-site" class="article-heading"><a href="#Building-Web-site" class="headerlink" title="Building Web site"></a>Building Web site<a class="article-anchor" href="#Building-Web-site" aria-hidden="true"></a></h2><p>VTK.js comes with its tools to build the web site that get published on <a href="https://kitware.github.io/vtk-js/">github.io</a> which enable you to write documentation and see what it could look like once published.</p>
-<p>In order to run the tests and build the full web site with its examples you can run the following command line:</p>
+<p>Either of these commands will generate a <code>dist/vtk.js</code> file that can then be used as an external script.</p>
+<h2 id="Building-the-website" class="article-heading"><a href="#Building-the-website" class="headerlink" title="Building the website"></a>Building the website<a class="article-anchor" href="#Building-the-website" aria-hidden="true"></a></h2><p>VTK.js comes with its tools to build the website that get published on <a href="https://kitware.github.io/vtk-js/">github.io</a> which enables you to write documentation and see what it will look like once published.</p>
+<p>In order to run the tests and build the full website with its examples you can run the following command:</p>
 <figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">$ npm run doc:www</div></pre></td></tr></table></figure>
-<p>Then you will be able to browse the content on <code>http://localhost:4000/vtk-js</code> which will contains the test results and coverage.</p>
+<p>You will be able to browse the content on <code>http://localhost:4000/vtk-js</code> which will contains the test results and coverage.</p>
 <p>But if you want to skip the tests you can run the following command:</p>
 <figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">$ npm run doc -- <span class="_">-s</span></div></pre></td></tr></table></figure>
 <p>And if you want to skip tests and examples:</p>
 <figure class="highlight sh"><table><tr><td class="code"><pre><div class="line">$ npm run doc -- <span class="_">-s</span> <span class="_">-f</span> ExampleNameThatDoesNotExist</div></pre></td></tr></table></figure>
+<p><code>ExampleNameThatDoesNotExist</code> can be replaced by multilpe real example names and the doc tool will only build those examples.</p>
 
               </div>
               <footer class="article-footer">
-                <time class="article-footer-updated" datetime="2016-12-13T23:22:09.978Z" itemprop="dateModified">Last updated: 2016-12-13</time>
+                <time class="article-footer-updated" datetime="2017-01-07T01:38:10.701Z" itemprop="dateModified">Last updated: 2017-01-07</time>
                 <a href="develop_test.html" class="article-footer-prev" title="Create test"><i class="fa fa-chevron-left"></i><span>Prev</span></a><a href="misc_tools.html" class="article-footer-next" title="Tools"><span>Next</span><i class="fa fa-chevron-right"></i></a>
               </footer>
               
@@ -118,7 +119,7 @@ The">
           <aside id="article-toc" role="navigation">
             <div id="article-toc-inner">
               <strong class="sidebar-title">Contents</strong>
-              <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Building-vtk-js"><span class="toc-text">Building vtk.js</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Building-Web-site"><span class="toc-text">Building Web site</span></a></li></ol>
+              <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Building-vtk-js"><span class="toc-text">Building vtk.js</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Building-the-website"><span class="toc-text">Building the website</span></a></li></ol>
               <a href="#" id="article-toc-top">Back to Top</a>
             </div>
           </aside>
