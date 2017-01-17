@@ -22,12 +22,12 @@
       <div class='fl pad1y space-right2'>
         <span class="strong">0.67% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>3/445</span>
+        <span class='fraction'>3/447</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>0/286</span>
+        <span class='fraction'>0/288</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
@@ -35,9 +35,9 @@
         <span class='fraction'>0/33</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">0.68% </span>
+        <span class="strong">0.67% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>3/444</span>
+        <span class='fraction'>3/446</span>
       </div>
     </div>
   </div>
@@ -1361,7 +1361,11 @@
 1316
 1317
 1318
-1319</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+1319
+1320
+1321
+1322
+1323</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1971,14 +1975,16 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -2642,14 +2648,16 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -3287,18 +3295,20 @@ export function vtkOpenGLPolyDataMapper(publicAPI, model) <span class="fstat-no"
           'uniform float cfactor;',
           'uniform float coffset;']).result;
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      if (cp.factor !== 0.0) {</span>
-<span class="cstat-no" title="statement not covered" >        FSSource = vtkShaderProgram.substitute(FSSource,</span>
-          '//VTK::UniformFlow::Impl', [
-            'float cscale = length(vec2(dFdx(gl_FragCoord.z),dFdy(gl_FragCoord.z)));',
-            '//VTK::UniformFlow::Impl'], false).result;
-<span class="cstat-no" title="statement not covered" >        FSSource = vtkShaderProgram.substitute(FSSource,</span>
-          '//VTK::Depth::Impl',
-          'gl_FragDepth = gl_FragCoord.z + cfactor*cscale + 0.000016*coffset;').result;
-      } else {
-<span class="cstat-no" title="statement not covered" >        FSSource = vtkShaderProgram.substitute(FSSource,</span>
-          '//VTK::Depth::Impl',
-          'gl_FragDepth = gl_FragCoord.z + 0.000016*coffset;').result;
+<span class="cstat-no" title="statement not covered" >      if (model.context.getExtension('GL_EXT_frag_depth')) {</span>
+<span class="cstat-no" title="statement not covered" >        if (cp.factor !== 0.0) {</span>
+<span class="cstat-no" title="statement not covered" >          FSSource = vtkShaderProgram.substitute(FSSource,</span>
+            '//VTK::UniformFlow::Impl', [
+              'float cscale = length(vec2(dFdx(gl_FragCoord.z),dFdy(gl_FragCoord.z)));',
+              '//VTK::UniformFlow::Impl'], false).result;
+<span class="cstat-no" title="statement not covered" >          FSSource = vtkShaderProgram.substitute(FSSource,</span>
+            '//VTK::Depth::Impl',
+            'gl_FragDepthEXT = gl_FragCoord.z + cfactor*cscale + 0.000016*coffset;').result;
+        } else {
+<span class="cstat-no" title="statement not covered" >          FSSource = vtkShaderProgram.substitute(FSSource,</span>
+            '//VTK::Depth::Impl',
+            'gl_FragDepthEXT = gl_FragCoord.z + 0.000016*coffset;').result;
+        }
       }
 <span class="cstat-no" title="statement not covered" >      shaders.Fragment = FSSource;</span>
     }
@@ -3955,6 +3965,7 @@ const DEFAULT_VALUES = {
   lightComplexityChanged: null,
   lastLightComplexity: null,
   primitives: null,
+  primTypes: null,
 };
 &nbsp;
 // ----------------------------------------------------------------------------
@@ -3969,6 +3980,7 @@ export function extend(publicAPI, model, initialValues = {}) <span class="fstat-
 <span class="cstat-no" title="statement not covered" >  model.lastLightComplexity = new Map();</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  model.primitives = [];</span>
+<span class="cstat-no" title="statement not covered" >  model.primTypes = primTypes;</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  for (let i = primTypes.Start; i &lt; primTypes.End; i++) {</span>
 <span class="cstat-no" title="statement not covered" >    model.primitives[i] = vtkHelper.newInstance();</span>
@@ -4003,7 +4015,7 @@ export default { newInstance, extend };
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Jan 16 2017 18:28:34 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Jan 17 2017 19:11:25 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>
