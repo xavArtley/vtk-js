@@ -20,9 +20,9 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">1.69% </span>
+        <span class="strong">1.64% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>2/118</span>
+        <span class='fraction'>2/122</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
@@ -35,9 +35,9 @@
         <span class='fraction'>0/7</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">1.69% </span>
+        <span class="strong">1.64% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>2/118</span>
+        <span class='fraction'>2/122</span>
       </div>
     </div>
   </div>
@@ -290,7 +290,10 @@
 245
 246
 247
-248</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+248
+249
+250
+251</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -360,16 +363,6 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -378,6 +371,19 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -393,10 +399,10 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -597,7 +603,7 @@ function vtkOpenGLCellArrayBufferObject(publicAPI, model) <span class="fstat-no"
 <span class="cstat-no" title="statement not covered" >    if (options.colors) {</span>
 <span class="cstat-no" title="statement not covered" >      model.colorComponents = options.colors.getNumberOfComponents();</span>
 <span class="cstat-no" title="statement not covered" >      model.colorOffset = 4 * model.blockSize;</span>
-<span class="cstat-no" title="statement not covered" >      model.blockSize += model.colorComponents;</span>
+<span class="cstat-no" title="statement not covered" >      model.blockSize += 1;</span>
 <span class="cstat-no" title="statement not covered" >      colorData = options.colors.getData();</span>
     }
 <span class="cstat-no" title="statement not covered" >    model.stride = 4 * model.blockSize;</span>
@@ -607,6 +613,9 @@ function vtkOpenGLCellArrayBufferObject(publicAPI, model) <span class="fstat-no"
     let tcoordIdx = <span class="cstat-no" title="statement not covered" >0;</span>
     let colorIdx = <span class="cstat-no" title="statement not covered" >0;</span>
     let cellCount = <span class="cstat-no" title="statement not covered" >0;</span>
+    const dataHelper = <span class="cstat-no" title="statement not covered" >new ArrayBuffer(4);</span>
+    const dataHelperView = <span class="cstat-no" title="statement not covered" >new DataView(dataHelper, 0);</span>
+<span class="cstat-no" title="statement not covered" >    dataHelperView.setUint8(3, 255); </span>// default alpha
 &nbsp;
     const addAPoint = <span class="cstat-no" title="statement not covered" >function addAPoint(i) <span class="fstat-no" title="function not covered" >{</span></span>
       // Vertices
@@ -640,10 +649,10 @@ function vtkOpenGLCellArrayBufferObject(publicAPI, model) <span class="fstat-no"
         } else {
 <span class="cstat-no" title="statement not covered" >          colorIdx = i * colorComponents;</span>
         }
-&nbsp;
 <span class="cstat-no" title="statement not covered" >        for (let j = 0; j &lt; colorComponents; ++j) {</span>
-<span class="cstat-no" title="statement not covered" >          packedVBO.push(colorData[colorIdx++] / 255.5);</span>
+<span class="cstat-no" title="statement not covered" >          dataHelperView.setUint8(j, colorData[colorIdx++]);</span>
         }
+<span class="cstat-no" title="statement not covered" >        packedVBO.pushBytes(dataHelperView, 0, 4);</span>
       }
     };
 &nbsp;
@@ -790,7 +799,7 @@ export default { newInstance, extend };
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Jan 17 2017 20:26:40 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Jan 18 2017 15:54:30 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>
