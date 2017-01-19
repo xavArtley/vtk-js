@@ -20,9 +20,9 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">22.15% </span>
+        <span class="strong">21.38% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>33/149</span>
+        <span class='fraction'>31/145</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">3.92% </span>
@@ -30,14 +30,14 @@
         <span class='fraction'>2/51</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">13.33% </span>
+        <span class="strong">15.38% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>2/15</span>
+        <span class='fraction'>2/13</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">23.24% </span>
+        <span class="strong">22.14% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>33/142</span>
+        <span class='fraction'>31/140</span>
       </div>
     </div>
   </div>
@@ -378,13 +378,7 @@
 333
 334
 335
-336
-337
-338
-339
-340
-341
-342</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+336</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -617,9 +611,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2×</span>
-<span class="cline-any cline-yes">2×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2×</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -654,7 +645,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -693,7 +683,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -702,7 +691,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -832,7 +820,7 @@ function vtkLookupTable(publicAPI, model) {
 <span class="cstat-no" title="statement not covered" >      lookupFunc = publicAPI.indexedLookupFunction;</span>
     }
 &nbsp;
-    const trange = <span class="cstat-no" title="statement not covered" >publicAPI.getTableRange();</span>
+    const trange = <span class="cstat-no" title="statement not covered" >publicAPI.getMappingRange();</span>
 &nbsp;
     const p = <span class="cstat-no" title="statement not covered" >{</span>
       maxIndex: publicAPI.getNumberOfColors() - 1,
@@ -957,9 +945,6 @@ function vtkLookupTable(publicAPI, model) {
 <span class="cstat-no" title="statement not covered" >    tptr[base + 3] = (model.nanColor[3] * 255.0) + 0.5;</span>
   };
 &nbsp;
-  publicAPI.setRange = (min, max) =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >publicAPI.setTableRange(min, max);</span></span>
-  publicAPI.getRange = () =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >publicAPI.getTableRange();</span></span>
-&nbsp;
   publicAPI.build = () =&gt; <span class="fstat-no" title="function not covered" >{</span>
 <span class="cstat-no" title="statement not covered" >    if (model.table.length &lt; 1 ||</span>
         publicAPI.getMTime() &gt; model.buildTime.getMTime()) {
@@ -980,7 +965,6 @@ const DEFAULT_VALUES = {
   saturationRange: [1.0, 1.0],
   valueRange: [1.0, 1.0],
   alphaRange: [1.0, 1.0],
-  tableRange: [0.0, 1.0],
 &nbsp;
   nanColor: [0.5, 0.0, 0.0, 1.0],
   belowRangeColor: [0.0, 0.0, 0.0, 1.0],
@@ -1032,7 +1016,6 @@ export function extend(publicAPI, model, initialValues = {}) {
     'hueRange',
     'saturationRange',
     'valueRange',
-    'tableRange',
   ], 2);
 &nbsp;
   macro.setArray(publicAPI, model, [
@@ -1046,7 +1029,6 @@ export function extend(publicAPI, model, initialValues = {}) {
     'hueRange',
     'saturationRange',
     'valueRange',
-    'tableRange',
     'alphaRange',
     'nanColor',
     'belowRangeColor',
@@ -1072,7 +1054,7 @@ export default Object.assign({ newInstance, extend });
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Jan 18 2017 23:05:38 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Jan 19 2017 15:03:42 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>
