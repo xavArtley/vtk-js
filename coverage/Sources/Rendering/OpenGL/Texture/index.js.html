@@ -20,24 +20,24 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">0.74% </span>
+        <span class="strong">0.68% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>2/270</span>
+        <span class='fraction'>2/292</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>0/119</span>
+        <span class='fraction'>0/126</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>0/29</span>
+        <span class='fraction'>0/30</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">0.74% </span>
+        <span class="strong">0.68% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>2/270</span>
+        <span class='fraction'>2/292</span>
       </div>
     </div>
   </div>
@@ -646,7 +646,52 @@
 601
 602
 603
-604</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+604
+605
+606
+607
+608
+609
+610
+611
+612
+613
+614
+615
+616
+617
+618
+619
+620
+621
+622
+623
+624
+625
+626
+627
+628
+629
+630
+631
+632
+633
+634
+635
+636
+637
+638
+639
+640
+641
+642
+643
+644
+645
+646
+647
+648
+649</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1101,6 +1146,50 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1235,6 +1324,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1728,6 +1818,50 @@ function vtkOpenGLTexture(publicAPI, model) <span class="fstat-no" title="functi
   };
 &nbsp;
   //----------------------------------------------------------------------------
+<span class="cstat-no" title="statement not covered" >  publicAPI.createDepthFromRaw = (width, height, dataType, data) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+    // Now determine the texture parameters using the arguments.
+<span class="cstat-no" title="statement not covered" >    publicAPI.getOpenGLDataType(dataType);</span>
+<span class="cstat-no" title="statement not covered" >    model.format = model.context.DEPTH_COMPONENT;</span>
+<span class="cstat-no" title="statement not covered" >    model.internalFormat = model.context.DEPTH_COMPONENT;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    if (!model.internalFormat || !model.format || !model.openGLDataType) {</span>
+<span class="cstat-no" title="statement not covered" >      vtkErrorMacro('Failed to determine texture parameters.');</span>
+<span class="cstat-no" title="statement not covered" >      return false;</span>
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    model.target = model.context.TEXTURE_2D;</span>
+<span class="cstat-no" title="statement not covered" >    model.components = 1;</span>
+<span class="cstat-no" title="statement not covered" >    model.width = width;</span>
+<span class="cstat-no" title="statement not covered" >    model.height = height;</span>
+<span class="cstat-no" title="statement not covered" >    model.depth = 1;</span>
+<span class="cstat-no" title="statement not covered" >    model.numberOfDimensions = 2;</span>
+<span class="cstat-no" title="statement not covered" >    model.window.activateTexture(publicAPI);</span>
+<span class="cstat-no" title="statement not covered" >    publicAPI.createTexture();</span>
+<span class="cstat-no" title="statement not covered" >    publicAPI.bind();</span>
+&nbsp;
+    // Source texture data from the PBO.
+    // model.context.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
+<span class="cstat-no" title="statement not covered" >    model.context.pixelStorei(model.context.UNPACK_ALIGNMENT, 1);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    model.context.texImage2D(</span>
+          model.target,
+          0,
+          model.internalFormat,
+          model.width, model.height,
+          0,
+          model.format,
+          model.openGLDataType,
+          data);
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    if (model.generateMipmap) {</span>
+<span class="cstat-no" title="statement not covered" >      model.context.generateMipmap(model.target);</span>
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    publicAPI.deactivate();</span>
+<span class="cstat-no" title="statement not covered" >    return true;</span>
+  };
+&nbsp;
+  //----------------------------------------------------------------------------
 <span class="cstat-no" title="statement not covered" >  publicAPI.create2DFromImage = (image) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
     // Now determine the texture parameters using the arguments.
 <span class="cstat-no" title="statement not covered" >    publicAPI.getOpenGLDataType(VtkDataTypes.UNSIGNED_CHAR);</span>
@@ -1839,6 +1973,7 @@ export function extend(publicAPI, model, initialValues = {}) <span class="fstat-
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  macro.get(publicAPI, model, [</span>
     'components',
+    'handle',
   ]);
 &nbsp;
   // Object methods
@@ -1858,7 +1993,7 @@ export default { newInstance, extend };
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Jan 27 2017 18:07:03 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Jan 27 2017 19:59:55 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>
