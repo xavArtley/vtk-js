@@ -20,14 +20,14 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">1.45% </span>
+        <span class="strong">1.33% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>1/69</span>
+        <span class='fraction'>1/75</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>0/78</span>
+        <span class='fraction'>0/90</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
@@ -35,9 +35,9 @@
         <span class='fraction'>0/10</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">1.45% </span>
+        <span class="strong">1.33% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>1/69</span>
+        <span class='fraction'>1/75</span>
       </div>
     </div>
   </div>
@@ -190,7 +190,19 @@
 145
 146
 147
-148</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -289,6 +301,18 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -297,10 +321,6 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -316,6 +336,10 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -415,7 +439,7 @@ function fetchArray(instance = {}, baseURL, array, fetchGzip = false) <span clas
 &nbsp;
 // ----------------------------------------------------------------------------
 &nbsp;
-function fetchJSON(instance = {}, url) <span class="fstat-no" title="function not covered" >{</span>
+function fetchJSON(instance = {}, url, compression) <span class="fstat-no" title="function not covered" >{</span>
 <span class="cstat-no" title="statement not covered" >  return new Promise((resolve, reject) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
     const xhr = <span class="cstat-no" title="statement not covered" >new XMLHttpRequest();</span>
 &nbsp;
@@ -430,8 +454,11 @@ function fetchJSON(instance = {}, url) <span class="fstat-no" title="function no
 <span class="cstat-no" title="statement not covered" >          instance.invokeBusy(false);</span>
         }
 <span class="cstat-no" title="statement not covered" >        if (xhr.status === 200 || xhr.status === 0) {</span>
-          const data = <span class="cstat-no" title="statement not covered" >JSON.parse(xhr.responseText);</span>
-<span class="cstat-no" title="statement not covered" >          resolve(data);</span>
+<span class="cstat-no" title="statement not covered" >          if (compression) {</span>
+<span class="cstat-no" title="statement not covered" >            resolve(JSON.parse(pako.inflate(new Uint8Array(xhr.response), { to: 'string' })));</span>
+          } else {
+<span class="cstat-no" title="statement not covered" >            resolve(JSON.parse(xhr.responseText));</span>
+          }
         } else {
 <span class="cstat-no" title="statement not covered" >          reject(xhr, e);</span>
         }
@@ -440,14 +467,19 @@ function fetchJSON(instance = {}, url) <span class="fstat-no" title="function no
 &nbsp;
     // Make request
 <span class="cstat-no" title="statement not covered" >    xhr.open('GET', url, true);</span>
-<span class="cstat-no" title="statement not covered" >    xhr.responseType = 'text';</span>
+<span class="cstat-no" title="statement not covered" >    xhr.responseType = compression ? 'arraybuffer' : 'text';</span>
 <span class="cstat-no" title="statement not covered" >    xhr.send();</span>
   });
 }
 &nbsp;
 // ----------------------------------------------------------------------------
 &nbsp;
-function fetchText(instance = {}, url) <span class="fstat-no" title="function not covered" >{</span>
+function fetchText(instance = {}, url, compression) <span class="fstat-no" title="function not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >  if (compression &amp;&amp; compression !== 'gz') {</span>
+<span class="cstat-no" title="statement not covered" >    console.error('Supported algorithms are: [gz]');</span>
+<span class="cstat-no" title="statement not covered" >    console.error('Unkown compression algorithm:', compression);</span>
+  }
+&nbsp;
 <span class="cstat-no" title="statement not covered" >  return new Promise((resolve, reject) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
     const xhr = <span class="cstat-no" title="statement not covered" >new XMLHttpRequest();</span>
 &nbsp;
@@ -462,7 +494,11 @@ function fetchText(instance = {}, url) <span class="fstat-no" title="function no
 <span class="cstat-no" title="statement not covered" >          instance.invokeBusy(false);</span>
         }
 <span class="cstat-no" title="statement not covered" >        if (xhr.status === 200 || xhr.status === 0) {</span>
-<span class="cstat-no" title="statement not covered" >          resolve(xhr.responseText);</span>
+<span class="cstat-no" title="statement not covered" >          if (compression) {</span>
+<span class="cstat-no" title="statement not covered" >            resolve(pako.inflate(new Uint8Array(xhr.response), { to: 'string' }));</span>
+          } else {
+<span class="cstat-no" title="statement not covered" >            resolve(xhr.responseText);</span>
+          }
         } else {
 <span class="cstat-no" title="statement not covered" >          reject(xhr, e);</span>
         }
@@ -471,7 +507,7 @@ function fetchText(instance = {}, url) <span class="fstat-no" title="function no
 &nbsp;
     // Make request
 <span class="cstat-no" title="statement not covered" >    xhr.open('GET', url, true);</span>
-<span class="cstat-no" title="statement not covered" >    xhr.responseType = 'text';</span>
+<span class="cstat-no" title="statement not covered" >    xhr.responseType = compression ? 'arraybuffer' : 'text';</span>
 <span class="cstat-no" title="statement not covered" >    xhr.send();</span>
   });
 }
@@ -490,7 +526,7 @@ export default {
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Feb 06 2017 15:13:46 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Feb 08 2017 21:21:04 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>
