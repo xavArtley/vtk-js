@@ -20,24 +20,24 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">76.82% </span>
+        <span class="strong">75.93% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>222/289</span>
+        <span class='fraction'>224/295</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">69.18% </span>
+        <span class="strong">67.33% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>101/146</span>
+        <span class='fraction'>101/150</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">73.49% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>61/83</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">76.92% </span>
-        <span class="quiet">Functions</span>
-        <span class='fraction'>60/78</span>
-      </div>
-      <div class='fl pad1y space-right2'>
-        <span class="strong">77.9% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>208/267</span>
+        <span class='fraction'>210/273</span>
       </div>
     </div>
   </div>
@@ -595,7 +595,37 @@
 550
 551
 552
-553</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+553
+554
+555
+556
+557
+558
+559
+560
+561
+562
+563
+564
+565
+566
+567
+568
+569
+570
+571
+572
+573
+574
+575
+576
+577
+578
+579
+580
+581
+582
+583</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1146,6 +1176,36 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">73×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import vtk from './vtk';
 &nbsp;
@@ -1699,13 +1759,43 @@ export function newInstance(extend, className) {
 export function chain(...fn) {
   return (...args) =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >fn.filter(i =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >!!i)</span></span>.forEach(i =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >i(...args))</span></span>;</span></span>
 }
+&nbsp;
+// ----------------------------------------------------------------------------
+// Loggins function calls
+// ----------------------------------------------------------------------------
+&nbsp;
+const loggerFunctions = {
+  debug: console.debug,
+  error: console.error,
+  warn: console.warn,
+};
+&nbsp;
+function noOp() <span class="fstat-no" title="function not covered" >{}</span>
+&nbsp;
+export function setLoggerFunction(name, fn) <span class="fstat-no" title="function not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >  if (loggerFunctions[name]) {</span>
+<span class="cstat-no" title="statement not covered" >    loggerFunctions[name] = fn || noOp;</span>
+  }
+}
+&nbsp;
+export function vtkDebugMacro(...args) {
+  loggerFunctions.debug(...args);
+}
+&nbsp;
+export function vtkErrorMacro(...args) <span class="fstat-no" title="function not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >  loggerFunctions.error(...args);</span>
+}
+&nbsp;
+export function vtkWarningMacro(...args) <span class="fstat-no" title="function not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >  loggerFunctions.warn(...args);</span>
+}
 &nbsp;</pre></td></tr>
 </table></pre>
 <div class='push'></div><!-- for sticky footer -->
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Feb 09 2017 01:19:33 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Feb 09 2017 16:50:58 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../prettify.js"></script>
