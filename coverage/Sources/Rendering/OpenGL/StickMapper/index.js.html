@@ -20,14 +20,14 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">2.1% </span>
+        <span class="strong">1.99% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>3/143</span>
+        <span class='fraction'>3/151</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>0/69</span>
+        <span class='fraction'>0/71</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
@@ -35,9 +35,9 @@
         <span class='fraction'>0/8</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">2.11% </span>
+        <span class="strong">2% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>3/142</span>
+        <span class='fraction'>3/150</span>
       </div>
     </div>
   </div>
@@ -469,7 +469,13 @@
 424
 425
 426
-427</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+427
+428
+429
+430
+431
+432
+433</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -829,6 +835,13 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -849,10 +862,9 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -900,7 +912,7 @@ import { ObjectType }           from 'vtk.js/Sources/Rendering/OpenGL/BufferObje
 &nbsp;
 import * as macro               from 'vtk.js/Sources/macro';
 &nbsp;
-import DynamicFloat32Array      from 'vtk.js/Sources/Rendering/OpenGL/DynamicFloat32Array';
+import DynamicTypedArray        from 'vtk.js/Sources/Common/Core/DynamicTypedArray';
 &nbsp;
 import vtkStickMapperVS         from 'vtk.js/Sources/Rendering/OpenGL/glsl/vtkStickMapperVS.glsl';
 import vtkPolyDataFS            from 'vtk.js/Sources/Rendering/OpenGL/glsl/vtkPolyDataFS.glsl';
@@ -1205,7 +1217,7 @@ export function vtkOpenGLStickMapper(publicAPI, model) <span class="fstat-no" ti
 <span class="cstat-no" title="statement not covered" >    vbo.setStride(pointSize * 4);</span>
 &nbsp;
     // Create a buffer, and copy the data over.
-    const packedVBO = <span class="cstat-no" title="statement not covered" >new DynamicFloat32Array();</span>
+    const packedVBO = <span class="cstat-no" title="statement not covered" >new DynamicTypedArray({ chunkSize: 65500, arrayType: 'Float32Array' });</span>
 &nbsp;
     let scales = <span class="cstat-no" title="statement not covered" >null;</span>
     let orientationArray = <span class="cstat-no" title="statement not covered" >null;</span>
@@ -1255,6 +1267,13 @@ export function vtkOpenGLStickMapper(publicAPI, model) <span class="fstat-no" ti
 &nbsp;
     let pointIdx = <span class="cstat-no" title="statement not covered" >0;</span>
     let colorIdx = <span class="cstat-no" title="statement not covered" >0;</span>
+    let colorView = <span class="cstat-no" title="statement not covered" >null;</span>
+<span class="cstat-no" title="statement not covered" >    if (colorData) {</span>
+<span class="cstat-no" title="statement not covered" >      colorView = new DataView(colorData.buffer, 0);</span>
+    }
+&nbsp;
+    const offsetHelper = <span class="cstat-no" title="statement not covered" >new ArrayBuffer(4);</span>
+    const offsetHelperView = <span class="cstat-no" title="statement not covered" >new DataView(offsetHelper, 0);</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    for (let i = 0; i &lt; numPoints; ++i) {</span>
       let length = <span class="cstat-no" title="statement not covered" >model.renderable.getLength();</span>
@@ -1274,16 +1293,15 @@ export function vtkOpenGLStickMapper(publicAPI, model) <span class="fstat-no" ti
 <span class="cstat-no" title="statement not covered" >        packedVBO.push(orientationArray[pointIdx++] * length);</span>
 <span class="cstat-no" title="statement not covered" >        packedVBO.push(orientationArray[pointIdx++] * length);</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >        packedVBO.pushBytes(</span>
-          255 * (verticesArray[j] % 2),
-          (verticesArray[j] &gt;= 4 ? 255 : 0),
-          (verticesArray[j] &gt;= 2 ? 255 : 0),
-          255);
+<span class="cstat-no" title="statement not covered" >        offsetHelperView.setUint8(0, 255 * (verticesArray[j] % 2));</span>
+<span class="cstat-no" title="statement not covered" >        offsetHelperView.setUint8(1, (verticesArray[j] &gt;= 4 ? 255 : 0));</span>
+<span class="cstat-no" title="statement not covered" >        offsetHelperView.setUint8(2, (verticesArray[j] &gt;= 2 ? 255 : 0));</span>
+<span class="cstat-no" title="statement not covered" >        packedVBO.pushBytes(offsetHelperView, 0, 4);</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >        packedVBO.push(radius);</span>
 <span class="cstat-no" title="statement not covered" >        colorIdx = i * colorComponents;</span>
 <span class="cstat-no" title="statement not covered" >        if (colorData) {</span>
-<span class="cstat-no" title="statement not covered" >          packedVBO.pushBytesFromArray(colorData, colorIdx, 4);</span>
+<span class="cstat-no" title="statement not covered" >          packedVBO.pushBytes(colorView, colorIdx, 4);</span>
         }
       }
     }
@@ -1327,7 +1345,7 @@ export default { newInstance, extend };
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Feb 10 2017 01:25:12 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Feb 10 2017 01:29:47 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>

@@ -20,9 +20,9 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">1.69% </span>
+        <span class="strong">1.64% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>2/118</span>
+        <span class='fraction'>2/122</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
@@ -35,9 +35,9 @@
         <span class='fraction'>0/7</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">1.69% </span>
+        <span class="strong">1.64% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>2/118</span>
+        <span class='fraction'>2/122</span>
       </div>
     </div>
   </div>
@@ -287,7 +287,12 @@
 242
 243
 244
-245</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+245
+246
+247
+248
+249
+250</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -356,16 +361,6 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -374,6 +369,19 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -390,6 +398,8 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -531,11 +541,11 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import macro               from 'vtk.js/Sources/macro';
-import DynamicFloat32Array from 'vtk.js/Sources/Rendering/OpenGL/DynamicFloat32Array';
-import vtkBufferObject     from 'vtk.js/Sources/Rendering/OpenGL/BufferObject';
-import { ObjectType }      from 'vtk.js/Sources/Rendering/OpenGL/BufferObject/Constants';
-import { Representation }  from 'vtk.js/Sources/Rendering/Core/Property/Constants';
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import macro              from 'vtk.js/Sources/macro';
+import DynamicTypedArray  from 'vtk.js/Sources/Common/Core/DynamicTypedArray';
+import vtkBufferObject    from 'vtk.js/Sources/Rendering/OpenGL/BufferObject';
+import { ObjectType }     from 'vtk.js/Sources/Rendering/OpenGL/BufferObject/Constants';
+import { Representation } from 'vtk.js/Sources/Rendering/Core/Property/Constants';
 &nbsp;
 // ----------------------------------------------------------------------------
 // vtkOpenGLCellArrayBufferObject methods
@@ -545,7 +555,7 @@ function vtkOpenGLCellArrayBufferObject(publicAPI, model) <span class="fstat-no"
   // Set our className
 <span class="cstat-no" title="statement not covered" >  model.classHierarchy.push('vtkOpenGLCellArrayBufferObject');</span>
 &nbsp;
-  const packedVBO = <span class="cstat-no" title="statement not covered" >new DynamicFloat32Array();</span> // the data
+  const packedVBO = <span class="cstat-no" title="statement not covered" >new DynamicTypedArray({ chunkSize: 65500, arrayType: 'Float32Array' });</span> // the data
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  publicAPI.setType(ObjectType.ARRAY_BUFFER);</span>
 &nbsp;
@@ -600,6 +610,9 @@ function vtkOpenGLCellArrayBufferObject(publicAPI, model) <span class="fstat-no"
     let tcoordIdx = <span class="cstat-no" title="statement not covered" >0;</span>
     let colorIdx = <span class="cstat-no" title="statement not covered" >0;</span>
     let cellCount = <span class="cstat-no" title="statement not covered" >0;</span>
+    const dataHelper = <span class="cstat-no" title="statement not covered" >new ArrayBuffer(4);</span>
+    const dataHelperView = <span class="cstat-no" title="statement not covered" >new DataView(dataHelper, 0);</span>
+<span class="cstat-no" title="statement not covered" >    dataHelperView.setUint8(3, 255); </span>// default alpha
 &nbsp;
     const addAPoint = <span class="cstat-no" title="statement not covered" >function addAPoint(i) <span class="fstat-no" title="function not covered" >{</span></span>
       // Vertices
@@ -633,8 +646,10 @@ function vtkOpenGLCellArrayBufferObject(publicAPI, model) <span class="fstat-no"
         } else {
 <span class="cstat-no" title="statement not covered" >          colorIdx = i * colorComponents;</span>
         }
-<span class="cstat-no" title="statement not covered" >        packedVBO.pushBytesFromArray(colorData, colorIdx, colorComponents, 255);</span>
-<span class="cstat-no" title="statement not covered" >        colorIdx += colorComponents;</span>
+<span class="cstat-no" title="statement not covered" >        for (let j = 0; j &lt; colorComponents; ++j) {</span>
+<span class="cstat-no" title="statement not covered" >          dataHelperView.setUint8(j, colorData[colorIdx++]);</span>
+        }
+<span class="cstat-no" title="statement not covered" >        packedVBO.pushBytes(dataHelperView, 0, 4);</span>
       }
     };
 &nbsp;
@@ -781,7 +796,7 @@ export default { newInstance, extend };
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Feb 10 2017 01:25:12 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Feb 10 2017 01:29:47 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>
