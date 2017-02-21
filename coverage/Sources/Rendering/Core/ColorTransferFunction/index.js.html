@@ -1165,8 +1165,7 @@
 1120
 1121
 1122
-1123
-1124</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+1123</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1214,7 +1213,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -2336,8 +2334,7 @@ function vtkColorTransferFunctionAdjustHue(msh, unsatM) <span class="fstat-no" t
 &nbsp;
   // This equation is designed to make the perceptual change of the
   // interpolation to be close to constant.
-  const hueSpin = (<span class="cstat-no" title="statement not covered" >msh[1] * Math.sqrt((unsatM * unsatM) - (msh[0] * msh[0]))</span>
-                    / (msh[0] * Math.sin(msh[1])));
+  const hueSpin = (<span class="cstat-no" title="statement not covered" >msh[1] * Math.sqrt((unsatM * unsatM) - (msh[0] * msh[0])) / (msh[0] * Math.sin(msh[1])))</span>;
   // Spin hue away from 0 except in purple hues.
 <span class="cstat-no" title="statement not covered" >  if (msh[2] &gt; -0.3 * vtkMath.pi()) {</span>
 <span class="cstat-no" title="statement not covered" >    return msh[2] + hueSpin;</span>
@@ -2364,8 +2361,8 @@ function vtkColorTransferFunctionAngleDiff(a1, a2) <span class="fstat-no" title=
 function vtkColorTransferFunctionInterpolateDiverging(s, rgb1, rgb2, result) <span class="fstat-no" title="function not covered" >{</span>
   const lab1 = <span class="cstat-no" title="statement not covered" >[];</span>
   const lab2 = <span class="cstat-no" title="statement not covered" >[];</span>
-<span class="cstat-no" title="statement not covered" >  vtkMath.rGBToLab(rgb1, lab1);</span>
-<span class="cstat-no" title="statement not covered" >  vtkMath.rGBToLab(rgb2, lab2);</span>
+<span class="cstat-no" title="statement not covered" >  vtkMath.rgb2lab(rgb1, lab1);</span>
+<span class="cstat-no" title="statement not covered" >  vtkMath.rgb2lab(rgb2, lab2);</span>
 &nbsp;
   const msh1 = <span class="cstat-no" title="statement not covered" >[];</span>
   const msh2 = <span class="cstat-no" title="statement not covered" >[];</span>
@@ -2411,7 +2408,7 @@ function vtkColorTransferFunctionInterpolateDiverging(s, rgb1, rgb2, result) <sp
   // Now convert back to RGB
   const labTmp = <span class="cstat-no" title="statement not covered" >[];</span>
 <span class="cstat-no" title="statement not covered" >  vtkColorTransferFunctionMshToLab(mshTmp, labTmp);</span>
-<span class="cstat-no" title="statement not covered" >  vtkMath.labToRGB(labTmp, result);</span>
+<span class="cstat-no" title="statement not covered" >  vtkMath.lab2rgb(labTmp, result);</span>
 }
 &nbsp;
 // Add module-level functions or api that you want to expose statically via
@@ -2493,7 +2490,7 @@ function vtkColorTransferFunction(publicAPI, model) <span class="fstat-no" title
     const rgb = <span class="cstat-no" title="statement not covered" >[];</span>
     const hsv = <span class="cstat-no" title="statement not covered" >[h, s, v];</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    vtkMath.hSVToRGB(hsv, rgb);</span>
+<span class="cstat-no" title="statement not covered" >    vtkMath.hsv2rgb(hsv, rgb);</span>
 <span class="cstat-no" title="statement not covered" >    return publicAPI.addRGBPoint(x, rgb[0], rgb[1], rgb[2], midpoint, sharpness);</span>
   };
 &nbsp;
@@ -2617,8 +2614,8 @@ function vtkColorTransferFunction(publicAPI, model) <span class="fstat-no" title
     const rgb1 = <span class="cstat-no" title="statement not covered" >[];</span>
     const rgb2 = <span class="cstat-no" title="statement not covered" >[];</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    vtkMath.hSVToRGB(hsv1, rgb1);</span>
-<span class="cstat-no" title="statement not covered" >    vtkMath.hSVToRGB(hsv2, rgb2);</span>
+<span class="cstat-no" title="statement not covered" >    vtkMath.hsv2rgb(hsv1, rgb1);</span>
+<span class="cstat-no" title="statement not covered" >    vtkMath.hsv2rgb(hsv2, rgb2);</span>
 <span class="cstat-no" title="statement not covered" >    publicAPI.addRGBSegment(x1, rgb1[0], rgb1[1], rgb1[2], x2, rgb2[0], rgb2[1], rgb2[2]);</span>
   };
 &nbsp;
@@ -2893,8 +2890,8 @@ function vtkColorTransferFunction(publicAPI, model) <span class="fstat-no" title
           } else <span class="cstat-no" title="statement not covered" >if (model.colorSpace === ColorSpace.HSV) {</span>
             const hsv1 = <span class="cstat-no" title="statement not covered" >[];</span>
             const hsv2 = <span class="cstat-no" title="statement not covered" >[];</span>
-<span class="cstat-no" title="statement not covered" >            vtkMath.rGBToHSV(rgb1, hsv1);</span>
-<span class="cstat-no" title="statement not covered" >            vtkMath.rGBToHSV(rgb2, hsv2);</span>
+<span class="cstat-no" title="statement not covered" >            vtkMath.rgb2hsv(rgb1, hsv1);</span>
+<span class="cstat-no" title="statement not covered" >            vtkMath.rgb2hsv(rgb2, hsv2);</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >            if (model.hSVWrap &amp;&amp;</span>
                  (hsv1[0] - hsv2[0] &gt; 0.5 ||
@@ -2915,15 +2912,15 @@ function vtkColorTransferFunction(publicAPI, model) <span class="fstat-no" title
 <span class="cstat-no" title="statement not covered" >            hsvTmp[2] = ((1.0 - s) * hsv1[2]) + (s * hsv2[2]);</span>
 &nbsp;
             // Now convert this back to RGB
-<span class="cstat-no" title="statement not covered" >            vtkMath.hSVToRGB(hsvTmp, tmpVec);</span>
+<span class="cstat-no" title="statement not covered" >            vtkMath.hsv2rgb(hsvTmp, tmpVec);</span>
 <span class="cstat-no" title="statement not covered" >            table[tidx] = tmpVec[0];</span>
 <span class="cstat-no" title="statement not covered" >            table[tidx + 1] = tmpVec[1];</span>
 <span class="cstat-no" title="statement not covered" >            table[tidx + 2] = tmpVec[2];</span>
           } else <span class="cstat-no" title="statement not covered" >if (model.colorSpace === ColorSpace.LAB) {</span>
             const lab1 = <span class="cstat-no" title="statement not covered" >[];</span>
             const lab2 = <span class="cstat-no" title="statement not covered" >[];</span>
-<span class="cstat-no" title="statement not covered" >            vtkMath.rGBToLab(rgb1, lab1);</span>
-<span class="cstat-no" title="statement not covered" >            vtkMath.rGBToLab(rgb2, lab2);</span>
+<span class="cstat-no" title="statement not covered" >            vtkMath.rgb2lab(rgb1, lab1);</span>
+<span class="cstat-no" title="statement not covered" >            vtkMath.rgb2lab(rgb2, lab2);</span>
 &nbsp;
             const labTmp = <span class="cstat-no" title="statement not covered" >[];</span>
 <span class="cstat-no" title="statement not covered" >            labTmp[0] = ((1 - s) * lab1[0]) + (s * lab2[0]);</span>
@@ -2931,7 +2928,7 @@ function vtkColorTransferFunction(publicAPI, model) <span class="fstat-no" title
 <span class="cstat-no" title="statement not covered" >            labTmp[2] = ((1 - s) * lab1[2]) + (s * lab2[2]);</span>
 &nbsp;
             // Now convert back to RGB
-<span class="cstat-no" title="statement not covered" >            vtkMath.labToRGB(labTmp, tmpVec);</span>
+<span class="cstat-no" title="statement not covered" >            vtkMath.lab2rgb(labTmp, tmpVec);</span>
 <span class="cstat-no" title="statement not covered" >            table[tidx] = tmpVec[0];</span>
 <span class="cstat-no" title="statement not covered" >            table[tidx + 1] = tmpVec[1];</span>
 <span class="cstat-no" title="statement not covered" >            table[tidx + 2] = tmpVec[2];</span>
@@ -2983,8 +2980,8 @@ function vtkColorTransferFunction(publicAPI, model) <span class="fstat-no" title
         } else <span class="cstat-no" title="statement not covered" >if (model.colorSpace === ColorSpace.HSV) {</span>
           const hsv1 = <span class="cstat-no" title="statement not covered" >[];</span>
           const hsv2 = <span class="cstat-no" title="statement not covered" >[];</span>
-<span class="cstat-no" title="statement not covered" >          vtkMath.rGBToHSV(rgb1, hsv1);</span>
-<span class="cstat-no" title="statement not covered" >          vtkMath.rGBToHSV(rgb2, hsv2);</span>
+<span class="cstat-no" title="statement not covered" >          vtkMath.rgb2hsv(rgb1, hsv1);</span>
+<span class="cstat-no" title="statement not covered" >          vtkMath.rgb2hsv(rgb2, hsv2);</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >          if (model.hSVWrap &amp;&amp;</span>
                (hsv1[0] - hsv2[0] &gt; 0.5 ||
@@ -3010,15 +3007,15 @@ function vtkColorTransferFunction(publicAPI, model) <span class="fstat-no" title
             }
           }
           // Now convert this back to RGB
-<span class="cstat-no" title="statement not covered" >          vtkMath.hSVToRGB = (hsvTmp, tmpVec);</span>
+<span class="cstat-no" title="statement not covered" >          vtkMath.hsv2rgb = (hsvTmp, tmpVec);</span>
 <span class="cstat-no" title="statement not covered" >          table[tidx] = tmpVec[0];</span>
 <span class="cstat-no" title="statement not covered" >          table[tidx + 1] = tmpVec[1];</span>
 <span class="cstat-no" title="statement not covered" >          table[tidx + 2] = tmpVec[2];</span>
         } else <span class="cstat-no" title="statement not covered" >if (model.colorSpace === ColorSpace.LAB) {</span>
           const lab1 = <span class="cstat-no" title="statement not covered" >[];</span>
           const lab2 = <span class="cstat-no" title="statement not covered" >[];</span>
-<span class="cstat-no" title="statement not covered" >          vtkMath.rGBToLab(rgb1, lab1);</span>
-<span class="cstat-no" title="statement not covered" >          vtkMath.rGBToLab(rgb2, lab2);</span>
+<span class="cstat-no" title="statement not covered" >          vtkMath.rgb2lab(rgb1, lab1);</span>
+<span class="cstat-no" title="statement not covered" >          vtkMath.rgb2lab(rgb2, lab2);</span>
 &nbsp;
           const labTmp = <span class="cstat-no" title="statement not covered" >[];</span>
 <span class="cstat-no" title="statement not covered" >          for (let j = 0; j &lt; 3; j++) {</span>
@@ -3030,7 +3027,7 @@ function vtkColorTransferFunction(publicAPI, model) <span class="fstat-no" title
 <span class="cstat-no" title="statement not covered" >            labTmp[j] = (h1 * lab1[j]) + (h2 * lab2[j]) + (h3 * t) + (h4 * t);</span>
           }
           // Now convert this back to RGB
-<span class="cstat-no" title="statement not covered" >          vtkMath.labToRGB(labTmp, tmpVec);</span>
+<span class="cstat-no" title="statement not covered" >          vtkMath.lab2rgb(labTmp, tmpVec);</span>
 <span class="cstat-no" title="statement not covered" >          table[tidx] = tmpVec[0];</span>
 <span class="cstat-no" title="statement not covered" >          table[tidx + 1] = tmpVec[1];</span>
 <span class="cstat-no" title="statement not covered" >          table[tidx + 2] = tmpVec[2];</span>
@@ -3418,7 +3415,7 @@ export default Object.assign({ newInstance, extend });
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Feb 21 2017 18:23:26 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Feb 21 2017 21:49:45 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>
