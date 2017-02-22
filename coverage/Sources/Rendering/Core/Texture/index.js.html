@@ -20,24 +20,24 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">25% </span>
+        <span class="strong">8.7% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>2/8</span>
+        <span class='fraction'>2/23</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>0/1</span>
+        <span class='fraction'>0/7</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>0/2</span>
+        <span class='fraction'>0/4</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">25% </span>
+        <span class="strong">8.7% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>2/8</span>
+        <span class='fraction'>2/23</span>
       </div>
     </div>
   </div>
@@ -91,7 +91,32 @@
 46
 47
 48
-49</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -101,12 +126,37 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -148,6 +198,30 @@
 function vtkTexture(publicAPI, model) <span class="fstat-no" title="function not covered" >{</span>
   // Set our className
 <span class="cstat-no" title="statement not covered" >  model.classHierarchy.push('vtkTexture');</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  publicAPI.imageLoaded = () =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >    model.imageLoaded = true;</span>
+<span class="cstat-no" title="statement not covered" >    publicAPI.modified();</span>
+  };
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  publicAPI.setImage = (image) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >    if (model.image === image) {</span>
+<span class="cstat-no" title="statement not covered" >      return;</span>
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    if (image !== null) {</span>
+<span class="cstat-no" title="statement not covered" >      publicAPI.setInputData(null);</span>
+<span class="cstat-no" title="statement not covered" >      publicAPI.setInputConnection(null);</span>
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    model.imageLoaded = false;</span>
+<span class="cstat-no" title="statement not covered" >    image.addEventListener('load', publicAPI.imageLoaded());</span>
+<span class="cstat-no" title="statement not covered" >    model.image = image;</span>
+<span class="cstat-no" title="statement not covered" >    if (image.complete) {</span>
+<span class="cstat-no" title="statement not covered" >      publicAPI.imageLoaded();</span>
+    }
+<span class="cstat-no" title="statement not covered" >    publicAPI.modified();</span>
+  };
 }
 &nbsp;
 // ----------------------------------------------------------------------------
@@ -159,6 +233,7 @@ const DEFAULT_VALUES = {
   interpolate: false,
   edgeClamp: false,
   image: null,
+  imageLoaded: false,
 };
 &nbsp;
 // ----------------------------------------------------------------------------
@@ -193,7 +268,7 @@ export default { newInstance, extend };
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Feb 22 2017 19:20:24 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Feb 22 2017 19:54:24 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>
