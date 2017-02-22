@@ -22,7 +22,7 @@
       <div class='fl pad1y space-right2'>
         <span class="strong">0.52% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>3/572</span>
+        <span class='fraction'>3/579</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
@@ -35,9 +35,9 @@
         <span class='fraction'>0/39</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">0.53% </span>
+        <span class="strong">0.52% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>3/570</span>
+        <span class='fraction'>3/577</span>
       </div>
     </div>
   </div>
@@ -1188,7 +1188,37 @@
 1143
 1144
 1145
-1146</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+1146
+1147
+1148
+1149
+1150
+1151
+1152
+1153
+1154
+1155
+1156
+1157
+1158
+1159
+1160
+1161
+1162
+1163
+1164
+1165
+1166
+1167
+1168
+1169
+1170
+1171
+1172
+1173
+1174
+1175
+1176</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -2231,8 +2261,16 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -2242,6 +2280,28 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -3376,8 +3436,16 @@ function vtkColorTransferFunction(publicAPI, model) <span class="fstat-no" title
 &nbsp;
   //----------------------------------------------------------------------------
 <span class="cstat-no" title="statement not covered" >  publicAPI.applyColorMap = (colorMap) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+    // let convert = (input, output) =&gt; {
+    //   output[0] = input[0];
+    //   output[1] = input[1];
+    //   output[2] = input[2];
+    // };
 <span class="cstat-no" title="statement not covered" >    if (colorMap.ColorSpace) {</span>
 <span class="cstat-no" title="statement not covered" >      model.colorSpace = ColorSpace[colorMap.ColorSpace.toUpperCase()];</span>
+<span class="cstat-no" title="statement not covered" >      console.log('set space to', model.colorSpace);</span>
+      // FIXME are the RGBPoints truly in RGB or could they be in HSV, LAB...
+      // convert = vtkMath[`${colorMap.ColorSpace.toLowerCase()}2rgb`] || convert;
     }
 <span class="cstat-no" title="statement not covered" >    if (colorMap.NanColor) {</span>
 <span class="cstat-no" title="statement not covered" >      model.nanColor = [].concat(colorMap.NanColor);</span>
@@ -3386,7 +3454,29 @@ function vtkColorTransferFunction(publicAPI, model) <span class="fstat-no" title
       }
     }
 <span class="cstat-no" title="statement not covered" >    if (colorMap.RGBPoints) {</span>
-<span class="cstat-no" title="statement not covered" >      model.nodes = [].concat(colorMap.RGBPoints);</span>
+      const size = <span class="cstat-no" title="statement not covered" >colorMap.RGBPoints;</span>
+<span class="cstat-no" title="statement not covered" >      model.nodes = [];</span>
+      const midpoint = <span class="cstat-no" title="statement not covered" >0.5;</span>
+      const sharpness = <span class="cstat-no" title="statement not covered" >0.0;</span>
+      const color = <span class="cstat-no" title="statement not covered" >[0, 0, 0];</span>
+<span class="cstat-no" title="statement not covered" >      for (let i = 0; i &lt; size; i += 4) {</span>
+        // const x = colorMap.RGBPoints[(i * 4) + 0];
+        // convert([
+        //   colorMap.RGBPoints[(i * 4) + 1],
+        //   colorMap.RGBPoints[(i * 4) + 2],
+        //   colorMap.RGBPoints[(i * 4) + 3],
+        // ], color);
+        // const [r, g, b] = color;
+        // model.nodes.push({ x, r, g, b, midpoint, sharpness });
+<span class="cstat-no" title="statement not covered" >        model.nodes.push({</span>
+          x: colorMap.RGBPoints[(i * 4) + 0],
+          r: colorMap.RGBPoints[(i * 4) + 1],
+          g: colorMap.RGBPoints[(i * 4) + 2],
+          b: colorMap.RGBPoints[(i * 4) + 3],
+          midpoint,
+          sharpness,
+        });
+      }
     }
     // FIXME: not supported ?
     // if (colorMap.IndexedColors) {
@@ -3484,7 +3574,7 @@ export default Object.assign({ newInstance, extend });
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Feb 22 2017 18:01:10 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Feb 22 2017 18:28:14 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>
