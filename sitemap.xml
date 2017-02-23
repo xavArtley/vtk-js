@@ -2,6 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://kitware.github.io/vtk-js/api/Mapper.html</loc>
+    
+    <lastmod>2017-02-23T13:38:02.511Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://kitware.github.io/vtk-js/api/ColorTransferFunction.html</loc>
+    
+    <lastmod>2017-02-23T13:38:02.483Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://kitware.github.io/vtk-js/api/OBJRepresentation.html</loc>
     
     <lastmod>2017-02-22T23:23:10.869Z</lastmod>
@@ -19,13 +33,6 @@
     <loc>https://kitware.github.io/vtk-js/api/Actor.html</loc>
     
     <lastmod>2017-02-22T23:23:10.813Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://kitware.github.io/vtk-js/api/ColorTransferFunction.html</loc>
-    
-    <lastmod>2017-02-22T23:23:10.753Z</lastmod>
     
   </url>
   
@@ -163,13 +170,6 @@
   </url>
   
   <url>
-    <loc>https://kitware.github.io/vtk-js/examples/StickMapper.html</loc>
-    
-    <lastmod>2017-02-09T23:02:17.074Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://kitware.github.io/vtk-js/examples/SphereMapper.html</loc>
     
     <lastmod>2017-02-09T23:02:17.074Z</lastmod>
@@ -177,9 +177,9 @@
   </url>
   
   <url>
-    <loc>https://kitware.github.io/vtk-js/examples/HttpSceneLoader.html</loc>
+    <loc>https://kitware.github.io/vtk-js/examples/StickMapper.html</loc>
     
-    <lastmod>2017-02-09T23:02:17.070Z</lastmod>
+    <lastmod>2017-02-09T23:02:17.074Z</lastmod>
     
   </url>
   
@@ -198,7 +198,14 @@
   </url>
   
   <url>
-    <loc>https://kitware.github.io/vtk-js/examples/PlaneSource.html</loc>
+    <loc>https://kitware.github.io/vtk-js/examples/HttpSceneLoader.html</loc>
+    
+    <lastmod>2017-02-09T23:02:17.070Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://kitware.github.io/vtk-js/examples/SphereSource.html</loc>
     
     <lastmod>2017-02-09T23:02:17.066Z</lastmod>
     
@@ -212,7 +219,7 @@
   </url>
   
   <url>
-    <loc>https://kitware.github.io/vtk-js/examples/SphereSource.html</loc>
+    <loc>https://kitware.github.io/vtk-js/examples/PlaneSource.html</loc>
     
     <lastmod>2017-02-09T23:02:17.066Z</lastmod>
     
@@ -222,20 +229,6 @@
     <loc>https://kitware.github.io/vtk-js/examples/LineSource.html</loc>
     
     <lastmod>2017-02-09T23:02:17.066Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://kitware.github.io/vtk-js/examples/ImageStreamline.html</loc>
-    
-    <lastmod>2017-02-09T23:02:17.062Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://kitware.github.io/vtk-js/examples/WarpScalar.html</loc>
-    
-    <lastmod>2017-02-09T23:02:17.062Z</lastmod>
     
   </url>
   
@@ -254,7 +247,21 @@
   </url>
   
   <url>
-    <loc>https://kitware.github.io/vtk-js/examples/Texture.html</loc>
+    <loc>https://kitware.github.io/vtk-js/examples/ImageStreamline.html</loc>
+    
+    <lastmod>2017-02-09T23:02:17.062Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://kitware.github.io/vtk-js/examples/WarpScalar.html</loc>
+    
+    <lastmod>2017-02-09T23:02:17.062Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://kitware.github.io/vtk-js/examples/Calculator.html</loc>
     
     <lastmod>2017-02-09T23:02:17.058Z</lastmod>
     
@@ -268,7 +275,7 @@
   </url>
   
   <url>
-    <loc>https://kitware.github.io/vtk-js/examples/Calculator.html</loc>
+    <loc>https://kitware.github.io/vtk-js/examples/Texture.html</loc>
     
     <lastmod>2017-02-09T23:02:17.058Z</lastmod>
     
@@ -282,6 +289,13 @@
   </url>
   
   <url>
+    <loc>https://kitware.github.io/vtk-js/examples/Manipulators.html</loc>
+    
+    <lastmod>2017-02-09T23:02:17.054Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://kitware.github.io/vtk-js/examples/StandaloneSceneLoader.html</loc>
     
     <lastmod>2017-02-09T23:02:17.054Z</lastmod>
@@ -289,9 +303,9 @@
   </url>
   
   <url>
-    <loc>https://kitware.github.io/vtk-js/examples/Manipulators.html</loc>
+    <loc>https://kitware.github.io/vtk-js/examples/Execution.html</loc>
     
-    <lastmod>2017-02-09T23:02:17.054Z</lastmod>
+    <lastmod>2017-02-09T23:02:17.050Z</lastmod>
     
   </url>
   
@@ -304,13 +318,6 @@
   
   <url>
     <loc>https://kitware.github.io/vtk-js/examples/PolyData.html</loc>
-    
-    <lastmod>2017-02-09T23:02:17.050Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://kitware.github.io/vtk-js/examples/Execution.html</loc>
     
     <lastmod>2017-02-09T23:02:17.050Z</lastmod>
     
@@ -345,14 +352,14 @@
   </url>
   
   <url>
-    <loc>https://kitware.github.io/vtk-js/api/ShaderProgram.html</loc>
+    <loc>https://kitware.github.io/vtk-js/api/Shader.html</loc>
     
     <lastmod>2017-02-09T23:02:16.674Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://kitware.github.io/vtk-js/api/Shader.html</loc>
+    <loc>https://kitware.github.io/vtk-js/api/ShaderProgram.html</loc>
     
     <lastmod>2017-02-09T23:02:16.674Z</lastmod>
     
@@ -373,14 +380,14 @@
   </url>
   
   <url>
-    <loc>https://kitware.github.io/vtk-js/api/Helper.html</loc>
+    <loc>https://kitware.github.io/vtk-js/api/ImageMapper.html</loc>
     
     <lastmod>2017-02-09T23:02:16.662Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://kitware.github.io/vtk-js/api/ImageMapper.html</loc>
+    <loc>https://kitware.github.io/vtk-js/api/Helper.html</loc>
     
     <lastmod>2017-02-09T23:02:16.662Z</lastmod>
     
@@ -429,23 +436,9 @@
   </url>
   
   <url>
-    <loc>https://kitware.github.io/vtk-js/api/Mapper.html</loc>
-    
-    <lastmod>2017-02-09T23:02:16.618Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://kitware.github.io/vtk-js/api/Prop.html</loc>
     
     <lastmod>2017-02-09T23:02:16.618Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://kitware.github.io/vtk-js/api/InteractorStyle.html</loc>
-    
-    <lastmod>2017-02-09T23:02:16.610Z</lastmod>
     
   </url>
   
@@ -457,14 +450,21 @@
   </url>
   
   <url>
-    <loc>https://kitware.github.io/vtk-js/api/ImageProperty.html</loc>
+    <loc>https://kitware.github.io/vtk-js/api/InteractorStyle.html</loc>
+    
+    <lastmod>2017-02-09T23:02:16.610Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://kitware.github.io/vtk-js/api/InteractorObserver.html</loc>
     
     <lastmod>2017-02-09T23:02:16.606Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://kitware.github.io/vtk-js/api/InteractorObserver.html</loc>
+    <loc>https://kitware.github.io/vtk-js/api/ImageProperty.html</loc>
     
     <lastmod>2017-02-09T23:02:16.606Z</lastmod>
     
@@ -492,13 +492,6 @@
   </url>
   
   <url>
-    <loc>https://kitware.github.io/vtk-js/api/HttpDataSetReader.html</loc>
-    
-    <lastmod>2017-02-09T23:02:16.574Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://kitware.github.io/vtk-js/api/DataAccessHelper.html</loc>
     
     <lastmod>2017-02-09T23:02:16.574Z</lastmod>
@@ -506,14 +499,21 @@
   </url>
   
   <url>
-    <loc>https://kitware.github.io/vtk-js/api/InteractorStyleTrackballCamera.html</loc>
+    <loc>https://kitware.github.io/vtk-js/api/HttpDataSetReader.html</loc>
+    
+    <lastmod>2017-02-09T23:02:16.574Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://kitware.github.io/vtk-js/api/InteractorStyleManipulator.html</loc>
     
     <lastmod>2017-02-09T23:02:16.570Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://kitware.github.io/vtk-js/api/InteractorStyleManipulator.html</loc>
+    <loc>https://kitware.github.io/vtk-js/api/InteractorStyleTrackballCamera.html</loc>
     
     <lastmod>2017-02-09T23:02:16.570Z</lastmod>
     
@@ -555,14 +555,14 @@
   </url>
   
   <url>
-    <loc>https://kitware.github.io/vtk-js/api/TrackballMultiRotate.html</loc>
+    <loc>https://kitware.github.io/vtk-js/api/TrackballRoll.html</loc>
     
     <lastmod>2017-02-09T23:02:16.558Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://kitware.github.io/vtk-js/api/TrackballRoll.html</loc>
+    <loc>https://kitware.github.io/vtk-js/api/TrackballMultiRotate.html</loc>
     
     <lastmod>2017-02-09T23:02:16.558Z</lastmod>
     
@@ -576,14 +576,14 @@
   </url>
   
   <url>
-    <loc>https://kitware.github.io/vtk-js/api/PointSource.html</loc>
+    <loc>https://kitware.github.io/vtk-js/api/SphereSource.html</loc>
     
     <lastmod>2017-02-09T23:02:16.550Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://kitware.github.io/vtk-js/api/SphereSource.html</loc>
+    <loc>https://kitware.github.io/vtk-js/api/PointSource.html</loc>
     
     <lastmod>2017-02-09T23:02:16.550Z</lastmod>
     
@@ -611,14 +611,14 @@
   </url>
   
   <url>
-    <loc>https://kitware.github.io/vtk-js/api/WarpScalar.html</loc>
+    <loc>https://kitware.github.io/vtk-js/api/ConeSource.html</loc>
     
     <lastmod>2017-02-09T23:02:16.534Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://kitware.github.io/vtk-js/api/ConeSource.html</loc>
+    <loc>https://kitware.github.io/vtk-js/api/WarpScalar.html</loc>
     
     <lastmod>2017-02-09T23:02:16.534Z</lastmod>
     
@@ -632,14 +632,14 @@
   </url>
   
   <url>
-    <loc>https://kitware.github.io/vtk-js/api/Calculator.html</loc>
+    <loc>https://kitware.github.io/vtk-js/api/ImageStreamline.html</loc>
     
     <lastmod>2017-02-09T23:02:16.526Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://kitware.github.io/vtk-js/api/ImageStreamline.html</loc>
+    <loc>https://kitware.github.io/vtk-js/api/Calculator.html</loc>
     
     <lastmod>2017-02-09T23:02:16.526Z</lastmod>
     
@@ -674,13 +674,6 @@
   </url>
   
   <url>
-    <loc>https://kitware.github.io/vtk-js/api/Plane.html</loc>
-    
-    <lastmod>2017-02-09T23:02:16.502Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://kitware.github.io/vtk-js/api/ImageData.html</loc>
     
     <lastmod>2017-02-09T23:02:16.502Z</lastmod>
@@ -688,14 +681,21 @@
   </url>
   
   <url>
-    <loc>https://kitware.github.io/vtk-js/api/DataSet.html</loc>
+    <loc>https://kitware.github.io/vtk-js/api/Plane.html</loc>
+    
+    <lastmod>2017-02-09T23:02:16.502Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://kitware.github.io/vtk-js/api/BoundingBox.html</loc>
     
     <lastmod>2017-02-09T23:02:16.494Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://kitware.github.io/vtk-js/api/BoundingBox.html</loc>
+    <loc>https://kitware.github.io/vtk-js/api/DataSet.html</loc>
     
     <lastmod>2017-02-09T23:02:16.494Z</lastmod>
     
@@ -758,14 +758,14 @@
   </url>
   
   <url>
-    <loc>https://kitware.github.io/vtk-js/docs/intro_vtk_as_external_script.html</loc>
+    <loc>https://kitware.github.io/vtk-js/docs/intro_vtk_as_es6_dependency.html</loc>
     
     <lastmod>2017-02-09T23:02:16.402Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://kitware.github.io/vtk-js/docs/intro_vtk_as_es6_dependency.html</loc>
+    <loc>https://kitware.github.io/vtk-js/docs/intro_vtk_as_external_script.html</loc>
     
     <lastmod>2017-02-09T23:02:16.402Z</lastmod>
     
@@ -800,7 +800,49 @@
   </url>
   
   <url>
-    <loc>https://kitware.github.io/vtk-js/docs/structures.html</loc>
+    <loc>https://kitware.github.io/vtk-js/docs/structures_DataArray.html</loc>
+    
+    <lastmod>2017-01-20T00:37:01.130Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://kitware.github.io/vtk-js/docs/structures_MultiBlock.html</loc>
+    
+    <lastmod>2017-01-20T00:37:01.130Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://kitware.github.io/vtk-js/docs/structures_ParametricDataset.html</loc>
+    
+    <lastmod>2017-01-20T00:37:01.130Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://kitware.github.io/vtk-js/docs/index.html</loc>
+    
+    <lastmod>2017-01-20T00:37:01.130Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://kitware.github.io/vtk-js/docs/structures_StringArray.html</loc>
+    
+    <lastmod>2017-01-20T00:37:01.130Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://kitware.github.io/vtk-js/docs/structures_Table.html</loc>
+    
+    <lastmod>2017-01-20T00:37:01.130Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://kitware.github.io/vtk-js/docs/structures_UnstructuredGrid.html</loc>
     
     <lastmod>2017-01-20T00:37:01.130Z</lastmod>
     
@@ -808,13 +850,6 @@
   
   <url>
     <loc>https://kitware.github.io/vtk-js/docs/misc_contributing.html</loc>
-    
-    <lastmod>2017-01-20T00:37:01.130Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://kitware.github.io/vtk-js/docs/structures_PolyData.html</loc>
     
     <lastmod>2017-01-20T00:37:01.130Z</lastmod>
     
@@ -835,49 +870,14 @@
   </url>
   
   <url>
-    <loc>https://kitware.github.io/vtk-js/docs/structures_StringArray.html</loc>
+    <loc>https://kitware.github.io/vtk-js/docs/structures.html</loc>
     
     <lastmod>2017-01-20T00:37:01.130Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://kitware.github.io/vtk-js/docs/index.html</loc>
-    
-    <lastmod>2017-01-20T00:37:01.130Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://kitware.github.io/vtk-js/docs/structures_DataArray.html</loc>
-    
-    <lastmod>2017-01-20T00:37:01.130Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://kitware.github.io/vtk-js/docs/structures_MultiBlock.html</loc>
-    
-    <lastmod>2017-01-20T00:37:01.130Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://kitware.github.io/vtk-js/docs/structures_UnstructuredGrid.html</loc>
-    
-    <lastmod>2017-01-20T00:37:01.130Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://kitware.github.io/vtk-js/docs/structures_Table.html</loc>
-    
-    <lastmod>2017-01-20T00:37:01.130Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://kitware.github.io/vtk-js/docs/structures_ParametricDataset.html</loc>
+    <loc>https://kitware.github.io/vtk-js/docs/structures_PolyData.html</loc>
     
     <lastmod>2017-01-20T00:37:01.130Z</lastmod>
     
@@ -898,14 +898,14 @@
   </url>
   
   <url>
-    <loc>https://kitware.github.io/vtk-js/docs/develop_test.html</loc>
+    <loc>https://kitware.github.io/vtk-js/docs/develop_example.html</loc>
     
     <lastmod>2017-01-20T00:37:01.126Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://kitware.github.io/vtk-js/docs/develop_example.html</loc>
+    <loc>https://kitware.github.io/vtk-js/docs/develop_test.html</loc>
     
     <lastmod>2017-01-20T00:37:01.126Z</lastmod>
     
@@ -1052,7 +1052,7 @@
   </url>
   
   <url>
-    <loc>https://kitware.github.io/vtk-js/docs/structures/MultiBlock.html</loc>
+    <loc>https://kitware.github.io/vtk-js/docs/structures/ParametricDataset.html</loc>
     
     <lastmod>2016-12-09T22:01:05.638Z</lastmod>
     
@@ -1066,14 +1066,14 @@
   </url>
   
   <url>
-    <loc>https://kitware.github.io/vtk-js/docs/class.html</loc>
+    <loc>https://kitware.github.io/vtk-js/docs/structures/MultiBlock.html</loc>
     
     <lastmod>2016-12-09T22:01:05.638Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://kitware.github.io/vtk-js/docs/structures/ParametricDataset.html</loc>
+    <loc>https://kitware.github.io/vtk-js/docs/class.html</loc>
     
     <lastmod>2016-12-09T22:01:05.638Z</lastmod>
     

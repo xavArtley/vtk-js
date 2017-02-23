@@ -22,7 +22,7 @@
       <div class='fl pad1y space-right2'>
         <span class="strong">0.52% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>3/579</span>
+        <span class='fraction'>3/578</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
@@ -37,7 +37,7 @@
       <div class='fl pad1y space-right2'>
         <span class="strong">0.52% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>3/577</span>
+        <span class='fraction'>3/576</span>
       </div>
     </div>
   </div>
@@ -1219,8 +1219,7 @@
 1174
 1175
 1176
-1177
-1178</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+1177</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -2282,7 +2281,6 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -2446,7 +2444,7 @@ function vtkColorTransferFunctionAdjustHue(msh, unsatM) <span class="fstat-no" t
   // interpolation to be close to constant.
   const hueSpin = (<span class="cstat-no" title="statement not covered" >msh[1] * Math.sqrt((unsatM * unsatM) - (msh[0] * msh[0])) / (msh[0] * Math.sin(msh[1])))</span>;
   // Spin hue away from 0 except in purple hues.
-<span class="cstat-no" title="statement not covered" >  if (msh[2] &gt; -0.3 * vtkMath.pi()) {</span>
+<span class="cstat-no" title="statement not covered" >  if (msh[2] &gt; -0.3 * Math.PI) {</span>
 <span class="cstat-no" title="statement not covered" >    return msh[2] + hueSpin;</span>
   }
 &nbsp;
@@ -2458,11 +2456,11 @@ function vtkColorTransferFunctionAngleDiff(a1, a2) <span class="fstat-no" title=
 <span class="cstat-no" title="statement not covered" >  if (adiff &lt; 0.0) {</span>
 <span class="cstat-no" title="statement not covered" >    adiff = -adiff;</span>
   }
-<span class="cstat-no" title="statement not covered" >  while (adiff &gt;= 2.0 * vtkMath.pi()) {</span>
-<span class="cstat-no" title="statement not covered" >    adiff -= (2.0 * vtkMath.pi());</span>
+<span class="cstat-no" title="statement not covered" >  while (adiff &gt;= 2.0 * Math.PI) {</span>
+<span class="cstat-no" title="statement not covered" >    adiff -= (2.0 * Math.PI);</span>
   }
-<span class="cstat-no" title="statement not covered" >  if (adiff &gt; vtkMath.pi()) {</span>
-<span class="cstat-no" title="statement not covered" >    adiff = (2.0 * vtkMath.pi()) - adiff;</span>
+<span class="cstat-no" title="statement not covered" >  if (adiff &gt; Math.PI) {</span>
+<span class="cstat-no" title="statement not covered" >    adiff = (2.0 * Math.PI) - adiff;</span>
   }
 <span class="cstat-no" title="statement not covered" >  return adiff;</span>
 }
@@ -2483,7 +2481,7 @@ function vtkColorTransferFunctionInterpolateDiverging(s, rgb1, rgb2, result) <sp
   // them.
   let localS = <span class="cstat-no" title="statement not covered" >s;</span>
 <span class="cstat-no" title="statement not covered" >  if ((msh1[1] &gt; 0.05) &amp;&amp; (msh2[1] &gt; 0.05)</span>
-      &amp;&amp; (vtkColorTransferFunctionAngleDiff(msh1[2], msh2[2]) &gt; 0.33 * vtkMath.pi())) {
+      &amp;&amp; (vtkColorTransferFunctionAngleDiff(msh1[2], msh2[2]) &gt; 0.33 * Math.PI)) {
     // Insert the white midpoint by setting one end to white and adjusting the
     // scalar value.
     let Mmid = <span class="cstat-no" title="statement not covered" >Math.max(msh1[0], msh2[0]);</span>
@@ -3460,11 +3458,10 @@ function vtkColorTransferFunction(publicAPI, model) <span class="fstat-no" title
       }
     }
 <span class="cstat-no" title="statement not covered" >    if (colorMap.RGBPoints) {</span>
-      const size = <span class="cstat-no" title="statement not covered" >colorMap.RGBPoints;</span>
+      const size = <span class="cstat-no" title="statement not covered" >colorMap.RGBPoints.length;</span>
 <span class="cstat-no" title="statement not covered" >      model.nodes = [];</span>
       const midpoint = <span class="cstat-no" title="statement not covered" >0.5;</span>
       const sharpness = <span class="cstat-no" title="statement not covered" >0.0;</span>
-      const color = <span class="cstat-no" title="statement not covered" >[0, 0, 0];</span>
 <span class="cstat-no" title="statement not covered" >      for (let i = 0; i &lt; size; i += 4) {</span>
         // const x = colorMap.RGBPoints[(i * 4) + 0];
         // convert([
@@ -3475,10 +3472,10 @@ function vtkColorTransferFunction(publicAPI, model) <span class="fstat-no" title
         // const [r, g, b] = color;
         // model.nodes.push({ x, r, g, b, midpoint, sharpness });
 <span class="cstat-no" title="statement not covered" >        model.nodes.push({</span>
-          x: colorMap.RGBPoints[(i * 4) + 0],
-          r: colorMap.RGBPoints[(i * 4) + 1],
-          g: colorMap.RGBPoints[(i * 4) + 2],
-          b: colorMap.RGBPoints[(i * 4) + 3],
+          x: colorMap.RGBPoints[i],
+          r: colorMap.RGBPoints[i + 1],
+          g: colorMap.RGBPoints[i + 2],
+          b: colorMap.RGBPoints[i + 3],
           midpoint,
           sharpness,
         });
@@ -3580,7 +3577,7 @@ export default Object.assign({ newInstance, extend });
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Feb 22 2017 23:23:09 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Feb 23 2017 13:38:01 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>
