@@ -20,14 +20,14 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">0.88% </span>
+        <span class="strong">0.86% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>3/342</span>
+        <span class='fraction'>3/347</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>0/149</span>
+        <span class='fraction'>0/156</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
@@ -35,9 +35,9 @@
         <span class='fraction'>0/30</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">0.88% </span>
+        <span class="strong">0.86% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>3/342</span>
+        <span class='fraction'>3/347</span>
       </div>
     </div>
   </div>
@@ -764,7 +764,15 @@
 719
 720
 721
-722</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+722
+723
+724
+725
+726
+727
+728
+729
+730</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -824,7 +832,13 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -832,13 +846,15 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1538,16 +1554,23 @@ function vtkOpenGLTexture(publicAPI, model) <span class="fstat-no" title="functi
 <span class="cstat-no" title="statement not covered" >      model.renderable.setImage(null);</span>
     }
     // create the texture if it is not done already
-<span class="cstat-no" title="statement not covered" >    if (!model.handle &amp;&amp;</span>
-      (model.renderable.getImage() == null || model.renderable.getImageLoaded())) {
+<span class="cstat-no" title="statement not covered" >    if (!model.handle) {</span>
+      // if we have an Image
 <span class="cstat-no" title="statement not covered" >      if (model.renderable.getImage() !== null) {</span>
 <span class="cstat-no" title="statement not covered" >        if (model.renderable.getInterpolate()) {</span>
 <span class="cstat-no" title="statement not covered" >          model.generateMipmap = true;</span>
 <span class="cstat-no" title="statement not covered" >          publicAPI.setMinificationFilter(Filter.LINEAR_MIPMAP_LINEAR);</span>
         }
-<span class="cstat-no" title="statement not covered" >        publicAPI.create2DFromImage(model.renderable.getImage());</span>
-      } else {
-        const input = <span class="cstat-no" title="statement not covered" >model.renderable.getInputData();</span>
+        // Have an Image which may not be complete
+<span class="cstat-no" title="statement not covered" >        if (model.renderable.getImage() &amp;&amp; model.renderable.getImageLoaded()) {</span>
+<span class="cstat-no" title="statement not covered" >          publicAPI.create2DFromImage(model.renderable.getImage());</span>
+<span class="cstat-no" title="statement not covered" >          publicAPI.activate();</span>
+<span class="cstat-no" title="statement not covered" >          publicAPI.sendParameters();</span>
+        }
+      }
+      // if we have Inputdata
+      const input = <span class="cstat-no" title="statement not covered" >model.renderable.getInputData();</span>
+<span class="cstat-no" title="statement not covered" >      if (input &amp;&amp; input.getPointData().getScalars()) {</span>
         const ext = <span class="cstat-no" title="statement not covered" >input.getExtent();</span>
         const inScalars = <span class="cstat-no" title="statement not covered" >input.getPointData().getScalars();</span>
 <span class="cstat-no" title="statement not covered" >        if (model.renderable.getInterpolate()) {</span>
@@ -1556,10 +1579,11 @@ function vtkOpenGLTexture(publicAPI, model) <span class="fstat-no" title="functi
         }
 <span class="cstat-no" title="statement not covered" >        publicAPI.create2DFromRaw(ext[1] - ext[0] + 1, ext[3] - ext[2] + 1,</span>
           inScalars.getNumberOfComponents(), inScalars.getDataType(), inScalars.getData());
+<span class="cstat-no" title="statement not covered" >        publicAPI.activate();</span>
+<span class="cstat-no" title="statement not covered" >        publicAPI.sendParameters();</span>
       }
-<span class="cstat-no" title="statement not covered" >      publicAPI.activate();</span>
-<span class="cstat-no" title="statement not covered" >      publicAPI.sendParameters();</span>
-    } else {
+    }
+<span class="cstat-no" title="statement not covered" >    if (model.handle) {</span>
 <span class="cstat-no" title="statement not covered" >      publicAPI.activate();</span>
     }
   };
@@ -2212,7 +2236,7 @@ export default { newInstance, extend };
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Feb 23 2017 15:00:00 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Feb 23 2017 20:10:39 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>
