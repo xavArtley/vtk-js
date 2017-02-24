@@ -20,14 +20,14 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">4.29% </span>
+        <span class="strong">4.05% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>3/70</span>
+        <span class='fraction'>3/74</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>0/24</span>
+        <span class='fraction'>0/31</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
@@ -35,9 +35,9 @@
         <span class='fraction'>0/20</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">4.35% </span>
+        <span class="strong">4.11% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>3/69</span>
+        <span class='fraction'>3/73</span>
       </div>
     </div>
   </div>
@@ -208,7 +208,15 @@
 163
 164
 165
-166</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+166
+167
+168
+169
+170
+171
+172
+173
+174</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -219,6 +227,10 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -250,6 +262,10 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -382,6 +398,10 @@ export const PASS_TYPES = ['Build', 'Render'];
 // ----------------------------------------------------------------------------
 &nbsp;
 function vtkViewNode(publicAPI, model) <span class="fstat-no" title="function not covered" >{</span>
+  // Make sure our list of children is just for our instance not shared with everyone...
+<span class="cstat-no" title="statement not covered" >  model.children = [];</span>
+<span class="cstat-no" title="statement not covered" >  model.preparedNodes = [];</span>
+&nbsp;
   // Set our className
 <span class="cstat-no" title="statement not covered" >  model.classHierarchy.push('vtkViewNode');</span>
 &nbsp;
@@ -415,6 +435,10 @@ function vtkViewNode(publicAPI, model) <span class="fstat-no" title="function no
   };
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  publicAPI.traverse = (operation) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >    if (model.deleted) {</span>
+<span class="cstat-no" title="statement not covered" >      return;</span>
+    }
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    publicAPI.apply(operation, true);</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    model.children.forEach((child) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
@@ -443,7 +467,7 @@ function vtkViewNode(publicAPI, model) <span class="fstat-no" title="function no
   };
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  publicAPI.addMissingNode = (dataObj) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
-<span class="cstat-no" title="statement not covered" >    if (dataObj) {</span>
+<span class="cstat-no" title="statement not covered" >    if (dataObj &amp;&amp; !dataObj.isDeleted()) {</span>
 <span class="cstat-no" title="statement not covered" >      publicAPI.addMissingNodes([dataObj]);</span>
     }
   };
@@ -462,7 +486,7 @@ function vtkViewNode(publicAPI, model) <span class="fstat-no" title="function no
 &nbsp;
     const newNodes =
 <span class="cstat-no" title="statement not covered" >      dataObjs</span>
-        .filter(node =&gt; (<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >node &amp;&amp; childDOs.indexOf(node) === -1)</span></span>)
+        .filter(node =&gt; (<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >node &amp;&amp; !node.isDeleted() &amp;&amp; childDOs.indexOf(node) === -1)</span></span>)
         .map((node) =&gt; <span class="fstat-no" title="function not covered" >{</span>
           const newNode = <span class="cstat-no" title="statement not covered" >publicAPI.createViewNode(node);</span>
 <span class="cstat-no" title="statement not covered" >          if (newNode) {</span>
@@ -482,7 +506,7 @@ function vtkViewNode(publicAPI, model) <span class="fstat-no" title="function no
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  publicAPI.removeUnusedNodes = () =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
 <span class="cstat-no" title="statement not covered" >    model.children = model.children.filter(node =&gt;</span>
-      (<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >model.preparedNodes.indexOf(node.getRenderable()) !== -1)</span></span>
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >      node.isDeleted() || (model.preparedNodes.indexOf(node.getRenderable()) !== -1)</span></span>
     );
 <span class="cstat-no" title="statement not covered" >    publicAPI.prepareNodes();</span>
   };
@@ -508,8 +532,8 @@ const DEFAULT_VALUES = {
   parent: null,
   renderable: null,
   myFactory: null,
-  children: [],
-  preparedNodes: [],
+  // children: [],
+  // preparedNodes: [],
 };
 &nbsp;
 // ----------------------------------------------------------------------------
@@ -544,7 +568,7 @@ export default { newInstance, extend, PASS_TYPES };
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Feb 23 2017 22:15:43 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Feb 24 2017 17:58:18 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>
