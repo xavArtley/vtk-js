@@ -20,24 +20,24 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">0.52% </span>
+        <span class="strong">0.5% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>3/580</span>
+        <span class='fraction'>3/598</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>0/245</span>
+        <span class='fraction'>0/251</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>0/39</span>
+        <span class='fraction'>0/40</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">0.52% </span>
+        <span class="strong">0.5% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>3/578</span>
+        <span class='fraction'>3/596</span>
       </div>
     </div>
   </div>
@@ -1205,7 +1205,35 @@
 1160
 1161
 1162
-1163</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+1163
+1164
+1165
+1166
+1167
+1168
+1169
+1170
+1171
+1172
+1173
+1174
+1175
+1176
+1177
+1178
+1179
+1180
+1181
+1182
+1183
+1184
+1185
+1186
+1187
+1188
+1189
+1190
+1191</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -2115,6 +2143,32 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -2315,8 +2369,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -2324,6 +2376,10 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -3275,6 +3331,32 @@ function vtkColorTransferFunction(publicAPI, model) <span class="fstat-no" title
   };
 &nbsp;
   //----------------------------------------------------------------------------
+<span class="cstat-no" title="statement not covered" >  publicAPI.setMappingRange = (min, max) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+    const range = <span class="cstat-no" title="statement not covered" >[min, max];</span>
+    const originalRange = <span class="cstat-no" title="statement not covered" >publicAPI.getRange();</span>
+<span class="cstat-no" title="statement not covered" >    if (originalRange[1] === range[1] &amp;&amp;</span>
+        originalRange[0] === range[0]) {
+<span class="cstat-no" title="statement not covered" >      return;</span>
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    if (range[1] === range[0]) {</span>
+<span class="cstat-no" title="statement not covered" >      vtkErrorMacro('attempt to set zero width color range');</span>
+<span class="cstat-no" title="statement not covered" >      return;</span>
+    }
+&nbsp;
+    const scale = <span class="cstat-no" title="statement not covered" >(range[1] - range[0]) / (originalRange[1] - originalRange[0]);</span>
+    const shift = <span class="cstat-no" title="statement not covered" >range[0] - (originalRange[0] * scale);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    for (let i = 0; i &lt; model.nodes.length; ++i) {</span>
+<span class="cstat-no" title="statement not covered" >      model.nodes[i].x = (model.nodes[i].x * scale) + shift;</span>
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    model.mappingRange[0] = range[0];</span>
+<span class="cstat-no" title="statement not covered" >    model.mappingRange[1] = range[1];</span>
+<span class="cstat-no" title="statement not covered" >    publicAPI.modified();</span>
+  };
+&nbsp;
+  //----------------------------------------------------------------------------
 <span class="cstat-no" title="statement not covered" >  publicAPI.adjustRange = (range) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
     const functionRange = <span class="cstat-no" title="statement not covered" >publicAPI.getRange();</span>
 &nbsp;
@@ -3454,16 +3536,14 @@ function vtkColorTransferFunction(publicAPI, model) <span class="fstat-no" title
 // ----------------------------------------------------------------------------
 &nbsp;
 const DEFAULT_VALUES = {
-  range: [0, 0],
-&nbsp;
   clamping: true,
   colorSpace: ColorSpace.RGB,
   hSVWrap: true,
   scale: Scale.LINEAR,
 &nbsp;
-  nanColor: [0.5, 0.0, 0.0, 1.0],
-  belowRangeColor: [0.0, 0.0, 0.0, 1.0],
-  aboveRangeColor: [1.0, 1.0, 1.0, 1.0],
+  nanColor: null,
+  belowRangeColor: null,
+  aboveRangeColor: null,
   useAboveRangeColor: false,
   useBelowRangeColor: false,
 &nbsp;
@@ -3488,6 +3568,10 @@ export function extend(publicAPI, model, initialValues = {}) <span class="fstat-
   // Internal objects initialization
 <span class="cstat-no" title="statement not covered" >  model.table = [];</span>
 <span class="cstat-no" title="statement not covered" >  model.nodes = [];</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  model.nanColor = [0.5, 0.0, 0.0, 1.0];</span>
+<span class="cstat-no" title="statement not covered" >  model.belowRangeColor = [0.0, 0.0, 0.0, 1.0];</span>
+<span class="cstat-no" title="statement not covered" >  model.aboveRangeColor = [1.0, 1.0, 1.0, 1.0];</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  model.buildTime = {};</span>
 <span class="cstat-no" title="statement not covered" >  macro.obj(model.buildTime);</span>
@@ -3535,7 +3619,7 @@ export default Object.assign({ newInstance, extend });
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Feb 24 2017 21:54:41 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Feb 27 2017 14:32:59 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>
