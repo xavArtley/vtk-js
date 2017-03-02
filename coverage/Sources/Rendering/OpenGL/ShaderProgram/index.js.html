@@ -20,9 +20,9 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">0.91% </span>
+        <span class="strong">1.36% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>2/220</span>
+        <span class='fraction'>3/221</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
@@ -35,9 +35,9 @@
         <span class='fraction'>0/24</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">0.91% </span>
+        <span class="strong">1.36% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>2/219</span>
+        <span class='fraction'>3/220</span>
       </div>
     </div>
   </div>
@@ -464,8 +464,12 @@
 419
 420
 421
-422</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+422
+423
+424</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -888,6 +892,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import macro     from 'vtk.js/Sources/macro';
 import vtkShader from 'vtk.js/Sources/Rendering/OpenGL/Shader';
 &nbsp;
+const { vtkErrorMacro } = macro;
+&nbsp;
 // perform in place string substitutions, indicate if a substitution was done
 // this is useful for building up shader strings which typically involve
 // lots of string substitutions. Return true if a substitution was done.
@@ -916,33 +922,33 @@ export function vtkShaderProgram(publicAPI, model) <span class="fstat-no" title=
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  publicAPI.compileShader = () =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
 <span class="cstat-no" title="statement not covered" >    if (!model.vertexShader.compile()) {</span>
-<span class="cstat-no" title="statement not covered" >      console.log(model.vertexShader.getSource()</span>
+<span class="cstat-no" title="statement not covered" >      vtkErrorMacro(model.vertexShader.getSource()</span>
         .split('\n')
         .map((line, index) =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >`${index}: ${line}`)</span></span>
         .join('\n'));
-<span class="cstat-no" title="statement not covered" >      console.log(model.vertexShader.getError());</span>
+<span class="cstat-no" title="statement not covered" >      vtkErrorMacro(model.vertexShader.getError());</span>
 <span class="cstat-no" title="statement not covered" >      return 0;</span>
     }
 <span class="cstat-no" title="statement not covered" >    if (!model.fragmentShader.compile()) {</span>
-<span class="cstat-no" title="statement not covered" >      console.log(model.fragmentShader.getSource()</span>
+<span class="cstat-no" title="statement not covered" >      vtkErrorMacro(model.fragmentShader.getSource()</span>
         .split('\n')
         .map((line, index) =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >`${index}: ${line}`)</span></span>
         .join('\n'));
-<span class="cstat-no" title="statement not covered" >      console.log(model.fragmentShader.getError());</span>
+<span class="cstat-no" title="statement not covered" >      vtkErrorMacro(model.fragmentShader.getError());</span>
 <span class="cstat-no" title="statement not covered" >      return 0;</span>
     }
     // skip geometry for now
 <span class="cstat-no" title="statement not covered" >    if (!publicAPI.attachShader(model.vertexShader)) {</span>
-<span class="cstat-no" title="statement not covered" >      console.log(model.error);</span>
+<span class="cstat-no" title="statement not covered" >      vtkErrorMacro(model.error);</span>
 <span class="cstat-no" title="statement not covered" >      return 0;</span>
     }
 <span class="cstat-no" title="statement not covered" >    if (!publicAPI.attachShader(model.fragmentShader)) {</span>
-<span class="cstat-no" title="statement not covered" >      console.log(model.error);</span>
+<span class="cstat-no" title="statement not covered" >      vtkErrorMacro(model.error);</span>
 <span class="cstat-no" title="statement not covered" >      return 0;</span>
     }
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    if (!publicAPI.link()) {</span>
-<span class="cstat-no" title="statement not covered" >      console.log(`Links failed: ${model.error}`);</span>
+<span class="cstat-no" title="statement not covered" >      vtkErrorMacro(`Links failed: ${model.error}`);</span>
 <span class="cstat-no" title="statement not covered" >      return 0;</span>
     }
 &nbsp;
@@ -999,7 +1005,7 @@ export function vtkShaderProgram(publicAPI, model) <span class="fstat-no" title=
     const isCompiled = <span class="cstat-no" title="statement not covered" >model.context.getProgramParameter(model.handle, model.context.LINK_STATUS);</span>
 <span class="cstat-no" title="statement not covered" >    if (!isCompiled) {</span>
       const lastError = <span class="cstat-no" title="statement not covered" >model.context.getProgramInfoLog(model.handle);</span>
-<span class="cstat-no" title="statement not covered" >      console.error(`Error linking shader ${lastError}`);</span>
+<span class="cstat-no" title="statement not covered" >      vtkErrorMacro(`Error linking shader ${lastError}`);</span>
 <span class="cstat-no" title="statement not covered" >      model.handle = 0;</span>
 <span class="cstat-no" title="statement not covered" >      return false;</span>
     }
@@ -1101,7 +1107,7 @@ export function vtkShaderProgram(publicAPI, model) <span class="fstat-no" title=
     }
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    if (!model.linked) {</span>
-<span class="cstat-no" title="statement not covered" >      console.log('attempt to find uniform when the shader program is not linked');</span>
+<span class="cstat-no" title="statement not covered" >      vtkErrorMacro('attempt to find uniform when the shader program is not linked');</span>
 <span class="cstat-no" title="statement not covered" >      return false;</span>
     }
 &nbsp;
@@ -1126,7 +1132,7 @@ export function vtkShaderProgram(publicAPI, model) <span class="fstat-no" title=
     }
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    if (!model.linked) {</span>
-<span class="cstat-no" title="statement not covered" >      console.log('attempt to find uniform when the shader program is not linked');</span>
+<span class="cstat-no" title="statement not covered" >      vtkErrorMacro('attempt to find uniform when the shader program is not linked');</span>
 <span class="cstat-no" title="statement not covered" >      return false;</span>
     }
 &nbsp;
@@ -1312,7 +1318,7 @@ export default { newInstance, extend, substitute };
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Feb 27 2017 20:21:05 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Mar 02 2017 18:23:39 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>
