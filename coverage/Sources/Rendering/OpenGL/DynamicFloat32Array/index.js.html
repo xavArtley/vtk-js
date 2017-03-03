@@ -22,7 +22,7 @@
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>0/26</span>
+        <span class='fraction'>0/25</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
@@ -32,12 +32,12 @@
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>0/8</span>
+        <span class='fraction'>0/7</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>0/26</span>
+        <span class='fraction'>0/25</span>
       </div>
     </div>
   </div>
@@ -91,10 +91,7 @@
 46
 47
 48
-49
-50
-51
-52</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+49</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -120,9 +117,6 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -132,11 +126,11 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -164,35 +158,32 @@
   }
 &nbsp;
   pushBytes(r, g, b, a = 255) <span class="fstat-no" title="function not covered" >{</span>
-    const data = <span class="cstat-no" title="statement not covered" >new DataView(new ArrayBuffer(8));</span>
-<span class="cstat-no" title="statement not covered" >    data.setUint32(0, this.floats.length * 4);</span>
-<span class="cstat-no" title="statement not covered" >    data.setUint8(4, r);</span>
-<span class="cstat-no" title="statement not covered" >    data.setUint8(5, g);</span>
-<span class="cstat-no" title="statement not covered" >    data.setUint8(6, b);</span>
-<span class="cstat-no" title="statement not covered" >    data.setUint8(7, a);</span>
-&nbsp;
+<span class="cstat-no" title="statement not covered" >    this.bytes.push(this.floats.length * 4);</span>
+<span class="cstat-no" title="statement not covered" >    this.bytes.push(r);</span>
+<span class="cstat-no" title="statement not covered" >    this.bytes.push(g);</span>
+<span class="cstat-no" title="statement not covered" >    this.bytes.push(b);</span>
+<span class="cstat-no" title="statement not covered" >    this.bytes.push(a);</span>
 <span class="cstat-no" title="statement not covered" >    this.floats.push(0); </span>// place holder
-<span class="cstat-no" title="statement not covered" >    this.bytes.push(data);</span>
   }
 &nbsp;
   pushBytesFromArray(buffer, offset = 0, length = 4, fillValue = 255) <span class="fstat-no" title="function not covered" >{</span>
-    const data = <span class="cstat-no" title="statement not covered" >new DataView(new ArrayBuffer(8));</span>
-<span class="cstat-no" title="statement not covered" >    data.setUint32(0, this.floats.length * 4);</span>
-<span class="cstat-no" title="statement not covered" >    data.setUint8(4, (length &gt; 0) ? buffer[offset + 0] : fillValue);</span>
-<span class="cstat-no" title="statement not covered" >    data.setUint8(5, (length &gt; 1) ? buffer[offset + 1] : fillValue);</span>
-<span class="cstat-no" title="statement not covered" >    data.setUint8(6, (length &gt; 2) ? buffer[offset + 2] : fillValue);</span>
-<span class="cstat-no" title="statement not covered" >    data.setUint8(7, (length &gt; 3) ? buffer[offset + 3] : fillValue);</span>
-&nbsp;
+<span class="cstat-no" title="statement not covered" >    this.bytes.push(this.floats.length * 4);</span>
+<span class="cstat-no" title="statement not covered" >    this.bytes.push((length &gt; 0) ? buffer[offset + 0] : fillValue);</span>
+<span class="cstat-no" title="statement not covered" >    this.bytes.push((length &gt; 1) ? buffer[offset + 1] : fillValue);</span>
+<span class="cstat-no" title="statement not covered" >    this.bytes.push((length &gt; 2) ? buffer[offset + 2] : fillValue);</span>
+<span class="cstat-no" title="statement not covered" >    this.bytes.push((length &gt; 3) ? buffer[offset + 3] : fillValue);</span>
 <span class="cstat-no" title="statement not covered" >    this.floats.push(0); </span>// place holder
-<span class="cstat-no" title="statement not covered" >    this.bytes.push(data);</span>
   }
 &nbsp;
   getFrozenArray() <span class="fstat-no" title="function not covered" >{</span>
     const array = <span class="cstat-no" title="statement not covered" >Float32Array.from(this.floats);</span>
     const view = <span class="cstat-no" title="statement not covered" >new DataView(array.buffer);</span>
-<span class="cstat-no" title="statement not covered" >    this.bytes.forEach((entry) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
-<span class="cstat-no" title="statement not covered" >      view.setFloat32(entry.getUint32(0), entry.getFloat32(4));</span>
-    });
+<span class="cstat-no" title="statement not covered" >    for (let i = 0; i &lt; this.bytes.length; i += 5) {</span>
+<span class="cstat-no" title="statement not covered" >      view.setUint8(this.bytes[i], this.bytes[i + 1]);</span>
+<span class="cstat-no" title="statement not covered" >      view.setUint8(this.bytes[i] + 1, this.bytes[i + 2]);</span>
+<span class="cstat-no" title="statement not covered" >      view.setUint8(this.bytes[i] + 2, this.bytes[i + 3]);</span>
+<span class="cstat-no" title="statement not covered" >      view.setUint8(this.bytes[i] + 3, this.bytes[i + 4]);</span>
+    }
 <span class="cstat-no" title="statement not covered" >    return array;</span>
   }
 }
@@ -202,7 +193,7 @@
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Mar 03 2017 01:59:31 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Mar 03 2017 14:54:59 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>
