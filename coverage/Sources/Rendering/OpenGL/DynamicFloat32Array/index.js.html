@@ -22,12 +22,12 @@
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>0/25</span>
+        <span class='fraction'>0/28</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>0/12</span>
+        <span class='fraction'>0/20</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
@@ -37,7 +37,7 @@
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>0/25</span>
+        <span class='fraction'>0/28</span>
       </div>
     </div>
   </div>
@@ -91,7 +91,24 @@
 46
 47
 48
-49</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -100,8 +117,6 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -111,7 +126,20 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -124,67 +152,90 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">export default class DynamicFloat32Array {
-  constructor() <span class="fstat-no" title="function not covered" >{</span>
-<span class="cstat-no" title="statement not covered" >    this.reset();</span>
+  constructor(size = 2048) <span class="fstat-no" title="function not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >    this.reset(size);</span>
   }
 &nbsp;
-  reset() <span class="fstat-no" title="function not covered" >{</span>
-<span class="cstat-no" title="statement not covered" >    this.floats = [];</span>
-<span class="cstat-no" title="statement not covered" >    this.bytes = [];</span>
+  reset(size = 2048) <span class="fstat-no" title="function not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >    this.farray = new Float32Array(size);</span>
+<span class="cstat-no" title="statement not covered" >    this.view = new DataView(</span>
+      this.farray.buffer, 0, this.farray.buffer.byteLength);
+<span class="cstat-no" title="statement not covered" >    this.numberOfElements = 0;</span>
   }
 &nbsp;
   getNumberOfElements() <span class="fstat-no" title="function not covered" >{</span>
-<span class="cstat-no" title="statement not covered" >    return this.floats.length;</span>
+<span class="cstat-no" title="statement not covered" >    return this.numberOfElements;</span>
   }
 &nbsp;
   push(value) <span class="fstat-no" title="function not covered" >{</span>
-<span class="cstat-no" title="statement not covered" >    this.floats.push(value);</span>
+<span class="cstat-no" title="statement not covered" >    if (this.farray.length === this.numberOfElements) {</span>
+      // always double
+      const newf = <span class="cstat-no" title="statement not covered" >new Float32Array(this.farray.length * 2);</span>
+<span class="cstat-no" title="statement not covered" >      newf.set(this.farray);</span>
+<span class="cstat-no" title="statement not covered" >      this.farray = newf;</span>
+<span class="cstat-no" title="statement not covered" >      this.view = new DataView(</span>
+        this.farray.buffer, 0, this.farray.buffer.byteLength);
+    }
+<span class="cstat-no" title="statement not covered" >    this.farray[this.numberOfElements] = value;</span>
+<span class="cstat-no" title="statement not covered" >    this.numberOfElements++;</span>
   }
 &nbsp;
   pushBytes(r, g, b, a = 255) <span class="fstat-no" title="function not covered" >{</span>
-<span class="cstat-no" title="statement not covered" >    this.bytes.push(this.floats.length * 4);</span>
-<span class="cstat-no" title="statement not covered" >    this.bytes.push(r);</span>
-<span class="cstat-no" title="statement not covered" >    this.bytes.push(g);</span>
-<span class="cstat-no" title="statement not covered" >    this.bytes.push(b);</span>
-<span class="cstat-no" title="statement not covered" >    this.bytes.push(a);</span>
-<span class="cstat-no" title="statement not covered" >    this.floats.push(0); </span>// place holder
+<span class="cstat-no" title="statement not covered" >    if (this.farray.length === this.numberOfElements) {</span>
+      // always double
+      const newf = <span class="cstat-no" title="statement not covered" >new Float32Array(this.farray.length * 2);</span>
+<span class="cstat-no" title="statement not covered" >      newf.set(this.farray);</span>
+<span class="cstat-no" title="statement not covered" >      this.farray = newf;</span>
+<span class="cstat-no" title="statement not covered" >      this.view = new DataView(</span>
+        this.farray.buffer, 0, this.farray.buffer.byteLength);
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    this.view.setUint8((this.numberOfElements * 4), r);</span>
+<span class="cstat-no" title="statement not covered" >    this.view.setUint8((this.numberOfElements * 4) + 1, g);</span>
+<span class="cstat-no" title="statement not covered" >    this.view.setUint8((this.numberOfElements * 4) + 2, b);</span>
+<span class="cstat-no" title="statement not covered" >    this.view.setUint8((this.numberOfElements * 4) + 3, a);</span>
+<span class="cstat-no" title="statement not covered" >    this.numberOfElements++;</span>
   }
 &nbsp;
   pushBytesFromArray(buffer, offset = 0, length = 4, fillValue = 255) <span class="fstat-no" title="function not covered" >{</span>
-<span class="cstat-no" title="statement not covered" >    this.bytes.push(this.floats.length * 4);</span>
-<span class="cstat-no" title="statement not covered" >    this.bytes.push((length &gt; 0) ? buffer[offset + 0] : fillValue);</span>
-<span class="cstat-no" title="statement not covered" >    this.bytes.push((length &gt; 1) ? buffer[offset + 1] : fillValue);</span>
-<span class="cstat-no" title="statement not covered" >    this.bytes.push((length &gt; 2) ? buffer[offset + 2] : fillValue);</span>
-<span class="cstat-no" title="statement not covered" >    this.bytes.push((length &gt; 3) ? buffer[offset + 3] : fillValue);</span>
-<span class="cstat-no" title="statement not covered" >    this.floats.push(0); </span>// place holder
+<span class="cstat-no" title="statement not covered" >    this.pushBytes(</span>
+      (length &gt; 0) ? buffer[offset + 0] : fillValue,
+      (length &gt; 1) ? buffer[offset + 1] : fillValue,
+      (length &gt; 2) ? buffer[offset + 2] : fillValue,
+      (length &gt; 3) ? buffer[offset + 3] : fillValue);
   }
 &nbsp;
   getFrozenArray() <span class="fstat-no" title="function not covered" >{</span>
-    const array = <span class="cstat-no" title="statement not covered" >Float32Array.from(this.floats);</span>
-    const view = <span class="cstat-no" title="statement not covered" >new DataView(array.buffer);</span>
-<span class="cstat-no" title="statement not covered" >    for (let i = 0; i &lt; this.bytes.length; i += 5) {</span>
-<span class="cstat-no" title="statement not covered" >      view.setUint8(this.bytes[i], this.bytes[i + 1]);</span>
-<span class="cstat-no" title="statement not covered" >      view.setUint8(this.bytes[i] + 1, this.bytes[i + 2]);</span>
-<span class="cstat-no" title="statement not covered" >      view.setUint8(this.bytes[i] + 2, this.bytes[i + 3]);</span>
-<span class="cstat-no" title="statement not covered" >      view.setUint8(this.bytes[i] + 3, this.bytes[i + 4]);</span>
+    // shrink if needed
+<span class="cstat-no" title="statement not covered" >    if (this.numberOfElements !== this.farray.length) {</span>
+      const newf = <span class="cstat-no" title="statement not covered" >new Float32Array(this.farray.buffer.slice(0, this.numberOfElements * 4));</span>
+<span class="cstat-no" title="statement not covered" >      this.farray = newf;</span>
+<span class="cstat-no" title="statement not covered" >      this.view = new DataView(</span>
+        this.farray.buffer, 0, this.farray.buffer.byteLength);
     }
-<span class="cstat-no" title="statement not covered" >    return array;</span>
+<span class="cstat-no" title="statement not covered" >    return this.farray;</span>
   }
 }
 &nbsp;</pre></td></tr>
@@ -193,7 +244,7 @@
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Mar 03 2017 15:12:01 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Mar 03 2017 16:13:10 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>
