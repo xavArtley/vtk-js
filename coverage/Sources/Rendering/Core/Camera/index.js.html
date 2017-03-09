@@ -20,14 +20,14 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">1.66% </span>
+        <span class="strong">1.85% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>3/181</span>
+        <span class='fraction'>3/162</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>0/45</span>
+        <span class='fraction'>0/25</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
@@ -35,9 +35,9 @@
         <span class='fraction'>0/41</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">1.66% </span>
+        <span class="strong">1.85% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>3/181</span>
+        <span class='fraction'>3/162</span>
       </div>
     </div>
   </div>
@@ -522,35 +522,7 @@
 477
 478
 479
-480
-481
-482
-483
-484
-485
-486
-487
-488
-489
-490
-491
-492
-493
-494
-495
-496
-497
-498
-499
-500
-501
-502
-503
-504
-505
-506
-507
-508</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+480</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -979,36 +951,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1453,23 +1397,23 @@ function vtkCamera(publicAPI, model) <span class="fstat-no" title="function not 
 // ----------------------------------------------------------------------------
 &nbsp;
 export const DEFAULT_VALUES = {
-  position: null,
-  focalPoint: null,
-  viewUp: null,
-  directionOfProjection: null,
+  position: [0, 0, 1],
+  focalPoint: [0, 0, 0],
+  viewUp: [0, 1, 0],
+  directionOfProjection: [0, 0, -1],
   parallelProjection: false,
   useHorizontalViewAngle: false,
   viewAngle: 30,
   parallelScale: 1,
-  clippingRange: null,
+  clippingRange: [0.01, 1000.01],
   thickness: 1000,
-  windowCenter: null,
-  viewPlaneNormal: null,
+  windowCenter: [0, 0],
+  viewPlaneNormal: [0, 0, 1],
   focalDisk: 1,
   useOffAxisProjection: false,
-  screenBottomLeft: null,
-  screenBottomRight: null,
-  screenTopRight: null,
+  screenBottomLeft: [-0.5, -0.5, -0.5],
+  screenBottomRight: [0.5, -0.5, -0.5],
+  screenTopRight: [0.5, 0.5, -0.5],
   userViewTransform: null,
   userTransform: null,
   freezeFocalPoint: false,
@@ -1486,36 +1430,8 @@ export function extend(publicAPI, model, initialValues = {}) <span class="fstat-
   // Build VTK API
 <span class="cstat-no" title="statement not covered" >  macro.obj(publicAPI, model);</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  if (model.position === null) {</span>
-<span class="cstat-no" title="statement not covered" >    model.position = [0, 0, 1];</span>
-  }
-<span class="cstat-no" title="statement not covered" >  if (model.focalPoint === null) {</span>
-<span class="cstat-no" title="statement not covered" >    model.focalPoint = [0, 0, 0];</span>
-  }
-<span class="cstat-no" title="statement not covered" >  if (model.viewUp === null) {</span>
-<span class="cstat-no" title="statement not covered" >    model.viewUp = [0, 1, 0];</span>
-  }
-<span class="cstat-no" title="statement not covered" >  if (model.directionOfProjection === null) {</span>
-<span class="cstat-no" title="statement not covered" >    model.directionOfProjection = [0, 0, -1];</span>
-  }
-<span class="cstat-no" title="statement not covered" >  if (model.clippingRange === null) {</span>
-<span class="cstat-no" title="statement not covered" >    model.clippingRange = [0.01, 1000.01];</span>
-  }
-<span class="cstat-no" title="statement not covered" >  if (model.windowCenter) {</span>
-<span class="cstat-no" title="statement not covered" >    model.windowCenter = [0, 0];</span>
-  }
-<span class="cstat-no" title="statement not covered" >  if (model.viewPlaneNormal === null) {</span>
-<span class="cstat-no" title="statement not covered" >    model.viewPlaneNormal = [0, 0, 1];</span>
-  }
-<span class="cstat-no" title="statement not covered" >  if (model.screenBottomLeft === null) {</span>
-<span class="cstat-no" title="statement not covered" >    model.screenBottomLeft = [-0.5, -0.5, -0.5];</span>
-  }
-<span class="cstat-no" title="statement not covered" >  if (model.screenBottomRight === null) {</span>
-<span class="cstat-no" title="statement not covered" >    model.screenBottomRight = [0.5, -0.5, -0.5];</span>
-  }
-<span class="cstat-no" title="statement not covered" >  if (model.screenTopRight === null) {</span>
-<span class="cstat-no" title="statement not covered" >    model.screenTopRight = [0.5, 0.5, -0.5];</span>
-  }
+  // Ensure different references between instances for arrays
+<span class="cstat-no" title="statement not covered" >  macro.safeArrays(model);</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  macro.get(publicAPI, model, [</span>
     'thickness',
@@ -1570,7 +1486,7 @@ export default { newInstance, extend };
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Mar 09 2017 16:19:29 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Mar 09 2017 18:37:41 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>
