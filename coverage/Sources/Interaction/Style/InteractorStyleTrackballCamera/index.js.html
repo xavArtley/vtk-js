@@ -880,7 +880,7 @@ function vtkInteractorStyleTrackballCamera(publicAPI, model) <span class="fstat-
 &nbsp;
   // Public API methods
 <span class="cstat-no" title="statement not covered" >  publicAPI.handleAnimation = () =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
-    const pos = <span class="cstat-no" title="statement not covered" >model.interactor.getEventPosition(model.interactor.getPointerIndex());</span>
+    const pos = <span class="cstat-no" title="statement not covered" >model.interactor.getAnimationEventPosition(model.interactor.getPointerIndex());</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    switch (model.state) {</span>
       case States.IS_ROTATE:
@@ -1056,7 +1056,7 @@ function vtkInteractorStyleTrackballCamera(publicAPI, model) <span class="fstat-
   };
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  publicAPI.handleRotate = () =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
-    const pos = <span class="cstat-no" title="statement not covered" >model.interactor.getEventPosition(model.interactor.getPointerIndex());</span>
+    const pos = <span class="cstat-no" title="statement not covered" >model.interactor.getAnimationEventPosition(model.interactor.getPointerIndex());</span>
 <span class="cstat-no" title="statement not covered" >    publicAPI.findPokedRenderer(pos.x, pos.y);</span>
 <span class="cstat-no" title="statement not covered" >    if (model.currentRenderer === null) {</span>
 <span class="cstat-no" title="statement not covered" >      return;</span>
@@ -1081,8 +1081,8 @@ function vtkInteractorStyleTrackballCamera(publicAPI, model) <span class="fstat-
     const rwi = <span class="cstat-no" title="statement not covered" >model.interactor;</span>
 &nbsp;
     const lastPtr = <span class="cstat-no" title="statement not covered" >model.interactor.getPointerIndex();</span>
-    const pos = <span class="cstat-no" title="statement not covered" >model.interactor.getEventPosition(lastPtr);</span>
-    const lastPos = <span class="cstat-no" title="statement not covered" >model.interactor.getLastEventPosition(lastPtr);</span>
+    const pos = <span class="cstat-no" title="statement not covered" >model.interactor.getAnimationEventPosition(lastPtr);</span>
+    const lastPos = <span class="cstat-no" title="statement not covered" >model.interactor.getLastAnimationEventPosition(lastPtr);</span>
 &nbsp;
     const dx = <span class="cstat-no" title="statement not covered" >pos.x - lastPos.x;</span>
     const dy = <span class="cstat-no" title="statement not covered" >pos.y - lastPos.y;</span>
@@ -1126,8 +1126,8 @@ function vtkInteractorStyleTrackballCamera(publicAPI, model) <span class="fstat-
     const rwi = <span class="cstat-no" title="statement not covered" >model.interactor;</span>
 &nbsp;
     const lastPtr = <span class="cstat-no" title="statement not covered" >model.interactor.getPointerIndex();</span>
-    const pos = <span class="cstat-no" title="statement not covered" >model.interactor.getEventPosition(lastPtr);</span>
-    const lastPos = <span class="cstat-no" title="statement not covered" >model.interactor.getLastEventPosition(lastPtr);</span>
+    const pos = <span class="cstat-no" title="statement not covered" >model.interactor.getAnimationEventPosition(lastPtr);</span>
+    const lastPos = <span class="cstat-no" title="statement not covered" >model.interactor.getLastAnimationEventPosition(lastPtr);</span>
 &nbsp;
     const camera = <span class="cstat-no" title="statement not covered" >model.currentRenderer.getActiveCamera();</span>
     const center = <span class="cstat-no" title="statement not covered" >rwi.getView().getViewportCenter(model.currentRenderer);</span>
@@ -1155,8 +1155,8 @@ function vtkInteractorStyleTrackballCamera(publicAPI, model) <span class="fstat-
     const rwi = <span class="cstat-no" title="statement not covered" >model.interactor;</span>
 &nbsp;
     const lastPtr = <span class="cstat-no" title="statement not covered" >model.interactor.getPointerIndex();</span>
-    const pos = <span class="cstat-no" title="statement not covered" >model.interactor.getEventPosition(lastPtr);</span>
-    const lastPos = <span class="cstat-no" title="statement not covered" >model.interactor.getLastEventPosition(lastPtr);</span>
+    const pos = <span class="cstat-no" title="statement not covered" >model.interactor.getAnimationEventPosition(lastPtr);</span>
+    const lastPos = <span class="cstat-no" title="statement not covered" >model.interactor.getLastAnimationEventPosition(lastPtr);</span>
 &nbsp;
     const camera = <span class="cstat-no" title="statement not covered" >model.currentRenderer.getActiveCamera();</span>
 &nbsp;
@@ -1204,8 +1204,8 @@ function vtkInteractorStyleTrackballCamera(publicAPI, model) <span class="fstat-
     }
 &nbsp;
     const lastPtr = <span class="cstat-no" title="statement not covered" >model.interactor.getPointerIndex();</span>
-    const pos = <span class="cstat-no" title="statement not covered" >model.interactor.getEventPosition(lastPtr);</span>
-    const lastPos = <span class="cstat-no" title="statement not covered" >model.interactor.getLastEventPosition(lastPtr);</span>
+    const pos = <span class="cstat-no" title="statement not covered" >model.interactor.getAnimationEventPosition(lastPtr);</span>
+    const lastPos = <span class="cstat-no" title="statement not covered" >model.interactor.getLastAnimationEventPosition(lastPtr);</span>
 &nbsp;
     const dy = <span class="cstat-no" title="statement not covered" >pos.y - lastPos.y;</span>
     const rwi = <span class="cstat-no" title="statement not covered" >model.interactor;</span>
@@ -1279,7 +1279,7 @@ export default Object.assign({ newInstance, extend });
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Mar 09 2017 19:36:35 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Mar 10 2017 13:03:26 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>

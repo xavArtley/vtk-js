@@ -20,9 +20,9 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">1.29% </span>
+        <span class="strong">1.23% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>4/310</span>
+        <span class='fraction'>4/325</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
@@ -32,12 +32,12 @@
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>0/41</span>
+        <span class='fraction'>0/46</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">1.31% </span>
+        <span class="strong">1.26% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>4/305</span>
+        <span class='fraction'>4/318</span>
       </div>
     </div>
   </div>
@@ -738,7 +738,23 @@
 693
 694
 695
-696</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+696
+697
+698
+699
+700
+701
+702
+703
+704
+705
+706
+707
+708
+709
+710
+711
+712</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -858,6 +874,15 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -930,6 +955,10 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -943,10 +972,15 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1369,12 +1403,10 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -1548,13 +1580,22 @@ function vtkRenderWindowInteractor(publicAPI, model) <span class="fstat-no" titl
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  publicAPI.setEventPosition = (xv, yv, zv, pointer) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
 <span class="cstat-no" title="statement not covered" >    model.pointerIndex = pointer;</span>
-<span class="cstat-no" title="statement not covered" >    model.lastEventPositions[pointer] = model.eventPositions[pointer];</span>
-<span class="cstat-no" title="statement not covered" >    model.eventPositions[pointer] = { x: xv, y: yv, z: zv };</span>
+<span class="cstat-no" title="statement not covered" >    model.lastEventPositions.set(pointer, model.eventPositions.get(pointer));</span>
+<span class="cstat-no" title="statement not covered" >    model.eventPositions.set(pointer, { x: xv, y: yv, z: zv });</span>
   };
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  publicAPI.getEventPosition = pointer =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >model.eventPositions[pointer];</span></span></span>
+<span class="cstat-no" title="statement not covered" >  publicAPI.setAnimationEventPosition = (xv, yv, zv, pointer) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >    model.lastAnimationEventPositions.set(pointer, model.animationEventPositions.get(pointer));</span>
+<span class="cstat-no" title="statement not covered" >    model.animationEventPositions.set(pointer, { x: xv, y: yv, z: zv });</span>
+  };
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  publicAPI.getLastEventPosition = pointer =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >model.lastEventPositions[pointer];</span></span></span>
+<span class="cstat-no" title="statement not covered" >  publicAPI.getEventPosition = pointer =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >model.eventPositions.get(pointer);</span></span></span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  publicAPI.getLastEventPosition = pointer =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >model.lastEventPositions.get(pointer);</span></span></span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  publicAPI.getAnimationEventPosition = pointer =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >model.eventPositions.get(pointer);</span></span></span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  publicAPI.getLastAnimationEventPosition = pointer =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >model.lastAnimationEventPositions.get(pointer);</span></span></span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  publicAPI.bindEvents = (canvas) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
 <span class="cstat-no" title="statement not covered" >    model.canvas = canvas;</span>
@@ -1566,7 +1607,7 @@ function vtkRenderWindowInteractor(publicAPI, model) <span class="fstat-no" titl
 <span class="cstat-no" title="statement not covered" >    canvas.addEventListener('mousedown', publicAPI.handleMouseDown);</span>
 <span class="cstat-no" title="statement not covered" >    document.querySelector('body').addEventListener('keypress', publicAPI.handleKeyPress);</span>
 <span class="cstat-no" title="statement not covered" >    canvas.addEventListener('mouseup', publicAPI.handleMouseUp);</span>
-<span class="cstat-no" title="statement not covered" >    canvas.addEventListener('mousemove', publicAPI.updateMouseCoords);</span>
+<span class="cstat-no" title="statement not covered" >    canvas.addEventListener('mousemove', publicAPI.handleMouseMove);</span>
 <span class="cstat-no" title="statement not covered" >    canvas.addEventListener('touchstart', publicAPI.handleTouchStart, false);</span>
 <span class="cstat-no" title="statement not covered" >    canvas.addEventListener('touchend', publicAPI.handleTouchEnd, false);</span>
 <span class="cstat-no" title="statement not covered" >    canvas.addEventListener('touchcancel', publicAPI.handleTouchEnd, false);</span>
@@ -1582,7 +1623,7 @@ function vtkRenderWindowInteractor(publicAPI, model) <span class="fstat-no" titl
 <span class="cstat-no" title="statement not covered" >    canvas.removeEventListener('mousedown', publicAPI.handleMouseDown);</span>
 <span class="cstat-no" title="statement not covered" >    document.querySelector('body').removeEventListener('keypress', publicAPI.handleKeyPress);</span>
 <span class="cstat-no" title="statement not covered" >    canvas.removeEventListener('mouseup', publicAPI.handleMouseUp);</span>
-<span class="cstat-no" title="statement not covered" >    canvas.removeEventListener('mousemove', publicAPI.updateMouseCoords);</span>
+<span class="cstat-no" title="statement not covered" >    canvas.removeEventListener('mousemove', publicAPI.handleMouseMove);</span>
 <span class="cstat-no" title="statement not covered" >    canvas.removeEventListener('touchstart', publicAPI.handleTouchStart);</span>
 <span class="cstat-no" title="statement not covered" >    canvas.removeEventListener('touchend', publicAPI.handleTouchEnd);</span>
 <span class="cstat-no" title="statement not covered" >    canvas.removeEventListener('touchcancel', publicAPI.handleTouchEnd);</span>
@@ -1624,6 +1665,10 @@ function vtkRenderWindowInteractor(publicAPI, model) <span class="fstat-no" titl
   };
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  publicAPI.requestAnimation = (requestor) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >    model.eventPositions.forEach((value, key) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >      model.lastAnimationEventPositions.set(key, value);</span>
+<span class="cstat-no" title="statement not covered" >      model.animationEventPositions.set(key, value);</span>
+    });
 <span class="cstat-no" title="statement not covered" >    model.animationRequest = requestAnimationFrame(publicAPI.handleAnimation);</span>
   };
 &nbsp;
@@ -1634,14 +1679,19 @@ function vtkRenderWindowInteractor(publicAPI, model) <span class="fstat-no" titl
     }
   };
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  publicAPI.updateMouseCoords = (event) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
-<span class="cstat-no" title="statement not covered" >    model.mouseCoords[0] = [event.clientX, model.canvas.clientHeight - event.clientY + 1];</span>
+<span class="cstat-no" title="statement not covered" >  publicAPI.handleMouseMove = (event) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >    publicAPI.setEventPosition(event.clientX, model.canvas.clientHeight - event.clientY + 1, 0, 0);</span>
 <span class="cstat-no" title="statement not covered" >    event.stopPropagation();</span>
 <span class="cstat-no" title="statement not covered" >    event.preventDefault();</span>
+<span class="cstat-no" title="statement not covered" >    publicAPI.setPointerIndex(0);</span>
+<span class="cstat-no" title="statement not covered" >    publicAPI.mouseMoveEvent();</span>
   };
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  publicAPI.handleAnimation = () =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
-<span class="cstat-no" title="statement not covered" >    publicAPI.setEventPosition(model.mouseCoords[0][0], model.mouseCoords[0][1], 0, 0);</span>
+<span class="cstat-no" title="statement not covered" >    model.eventPositions.forEach((value, key) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >      model.lastAnimationEventPositions.set(key, model.animationEventPositions.get(key));</span>
+<span class="cstat-no" title="statement not covered" >      model.animationEventPositions.set(key, value);</span>
+    });
 <span class="cstat-no" title="statement not covered" >    publicAPI.animationEvent();</span>
 <span class="cstat-no" title="statement not covered" >    model.animationRequest = requestAnimationFrame(publicAPI.handleAnimation);</span>
   };
@@ -1815,8 +1865,8 @@ function vtkRenderWindowInteractor(publicAPI, model) <span class="fstat-no" titl
     // store the initial positions
 <span class="cstat-no" title="statement not covered" >    if (event === 'LeftButtonPress') {</span>
 <span class="cstat-no" title="statement not covered" >      Object.keys(model.pointersDown).forEach((key) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
-<span class="cstat-no" title="statement not covered" >        model.startingEventPositions[key] =</span>
-          model.eventPositions[key];
+<span class="cstat-no" title="statement not covered" >        model.startingEventPositions.set(key,</span>
+          model.eventPositions.get(key));
       });
       // we do not know what the gesture is yet
 <span class="cstat-no" title="statement not covered" >      model.currentGesture = 'Start';</span>
@@ -1843,8 +1893,8 @@ function vtkRenderWindowInteractor(publicAPI, model) <span class="fstat-no" titl
     const posVals = <span class="cstat-no" title="statement not covered" >[];</span>
     const startVals = <span class="cstat-no" title="statement not covered" >[];</span>
 <span class="cstat-no" title="statement not covered" >    Object.keys(model.pointersDown).forEach((key) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
-<span class="cstat-no" title="statement not covered" >      posVals[count] = model.eventPositions[key];</span>
-<span class="cstat-no" title="statement not covered" >      startVals[count] = model.startingEventPositions[key];</span>
+<span class="cstat-no" title="statement not covered" >      posVals[count] = model.eventPositions.get(key);</span>
+<span class="cstat-no" title="statement not covered" >      startVals[count] = model.startingEventPositions.get(key);</span>
 <span class="cstat-no" title="statement not covered" >      count++;</span>
     });
 &nbsp;
@@ -2007,14 +2057,14 @@ function vtkRenderWindowInteractor(publicAPI, model) <span class="fstat-no" titl
 <span class="cstat-no" title="statement not covered" >          publicAPI.recognizeGesture('LeftButtonRelease');</span>
         }
 <span class="cstat-no" title="statement not covered" >        delete model.pointersDown[model.pointerIndex];</span>
-<span class="cstat-no" title="statement not covered" >        if (model.startingEventPositions[model.pointerIndex]) {</span>
-<span class="cstat-no" title="statement not covered" >          delete model.startingEventPositions[model.pointerIndex];</span>
+<span class="cstat-no" title="statement not covered" >        if (model.startingEventPositions.get(model.pointerIndex)) {</span>
+<span class="cstat-no" title="statement not covered" >          model.startingEventPositions.delete(model.pointerIndex);</span>
         }
-<span class="cstat-no" title="statement not covered" >        if (model.eventPositions[model.pointerIndex]) {</span>
-<span class="cstat-no" title="statement not covered" >          delete model.eventPositions[model.pointerIndex];</span>
+<span class="cstat-no" title="statement not covered" >        if (model.eventPositions.get(model.pointerIndex)) {</span>
+<span class="cstat-no" title="statement not covered" >          model.eventPositions.delete(model.pointerIndex);</span>
         }
-<span class="cstat-no" title="statement not covered" >        if (model.lastEventPositions[model.pointerIndex]) {</span>
-<span class="cstat-no" title="statement not covered" >          delete model.lastEventPositions[model.pointerIndex];</span>
+<span class="cstat-no" title="statement not covered" >        if (model.lastEventPositions.get(model.pointerIndex)) {</span>
+<span class="cstat-no" title="statement not covered" >          model.lastEventPositions.delete(model.pointerIndex);</span>
         }
 <span class="cstat-no" title="statement not covered" >        model.pointersDownCount--;</span>
 <span class="cstat-no" title="statement not covered" >        publicAPI.invokeLeftButtonRelease({ type: 'LeftButtonRelease' });</span>
@@ -2030,8 +2080,6 @@ function vtkRenderWindowInteractor(publicAPI, model) <span class="fstat-no" titl
 // ----------------------------------------------------------------------------
 &nbsp;
 const DEFAULT_VALUES = {
-  eventPositions: null,
-  lastEventPositions: null,
   startingEventPositions: null,
   pointersDown: null,
   pointersDownCount: 0,
@@ -2061,7 +2109,6 @@ const DEFAULT_VALUES = {
   rotation: 0.0,
   lastRotation: 0.0,
   animationRequest: null,
-  mouseCoords: null,
 };
 &nbsp;
 // ----------------------------------------------------------------------------
@@ -2070,11 +2117,12 @@ export function extend(publicAPI, model, initialValues = {}) <span class="fstat-
 <span class="cstat-no" title="statement not covered" >  Object.assign(model, DEFAULT_VALUES, initialValues);</span>
 &nbsp;
   // Internal objects initialization
-<span class="cstat-no" title="statement not covered" >  model.eventPositions = {};</span>
-<span class="cstat-no" title="statement not covered" >  model.lastEventPositions = {};</span>
+<span class="cstat-no" title="statement not covered" >  model.eventPositions = new Map();</span>
+<span class="cstat-no" title="statement not covered" >  model.lastEventPositions = new Map();</span>
 <span class="cstat-no" title="statement not covered" >  model.pointersDown = {};</span>
-<span class="cstat-no" title="statement not covered" >  model.startingEventPositions = {};</span>
-<span class="cstat-no" title="statement not covered" >  model.mouseCoords = {};</span>
+<span class="cstat-no" title="statement not covered" >  model.startingEventPositions = new Map();</span>
+<span class="cstat-no" title="statement not covered" >  model.animationEventPositions = new Map();</span>
+<span class="cstat-no" title="statement not covered" >  model.lastAnimationEventPositions = new Map();</span>
 &nbsp;
   // Object methods
 <span class="cstat-no" title="statement not covered" >  macro.obj(publicAPI, model);</span>
@@ -2134,7 +2182,7 @@ export default Object.assign({ newInstance, extend });
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Mar 09 2017 19:36:35 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Mar 10 2017 13:03:26 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>
