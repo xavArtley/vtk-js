@@ -22,22 +22,22 @@
       <div class='fl pad1y space-right2'>
         <span class="strong">0.84% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>4/478</span>
+        <span class='fraction'>4/479</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>0/309</span>
+        <span class='fraction'>0/307</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>0/34</span>
+        <span class='fraction'>0/35</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0.84% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>4/477</span>
+        <span class='fraction'>4/478</span>
       </div>
     </div>
   </div>
@@ -1436,8 +1436,7 @@
 1391
 1392
 1393
-1394
-1395</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+1394</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1480,28 +1479,27 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -2870,32 +2868,31 @@ export function vtkOpenGLPolyDataMapper(publicAPI, model) <span class="fstat-no"
   // Set our className
 <span class="cstat-no" title="statement not covered" >  model.classHierarchy.push('vtkOpenGLPolyDataMapper');</span>
 &nbsp;
-  // Builds myself.
-<span class="cstat-no" title="statement not covered" >  publicAPI.build = (prepass) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+  // Renders myself
+<span class="cstat-no" title="statement not covered" >  publicAPI.translucentPass = (prepass) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
 <span class="cstat-no" title="statement not covered" >    if (prepass) {</span>
-<span class="cstat-no" title="statement not covered" >      if (!model.renderable) {</span>
-<span class="cstat-no" title="statement not covered" >        return;</span>
-      }
+<span class="cstat-no" title="statement not covered" >      publicAPI.render();</span>
     }
   };
 &nbsp;
-  // Renders myself
-<span class="cstat-no" title="statement not covered" >  publicAPI.render = (prepass) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >  publicAPI.opaquePass = (prepass) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
 <span class="cstat-no" title="statement not covered" >    if (prepass) {</span>
-<span class="cstat-no" title="statement not covered" >      model.openGLRenderWindow = publicAPI.getFirstAncestorOfType('vtkOpenGLRenderWindow');</span>
-<span class="cstat-no" title="statement not covered" >      model.context = model.openGLRenderWindow.getContext();</span>
-<span class="cstat-no" title="statement not covered" >      for (let i = primTypes.Start; i &lt; primTypes.End; i++) {</span>
-<span class="cstat-no" title="statement not covered" >        model.primitives[i].setContext(model.context);</span>
-      }
-<span class="cstat-no" title="statement not covered" >      model.openGLActor = publicAPI.getFirstAncestorOfType('vtkOpenGLActor');</span>
-      const actor = <span class="cstat-no" title="statement not covered" >model.openGLActor.getRenderable();</span>
-<span class="cstat-no" title="statement not covered" >      model.openGLRenderer = publicAPI.getFirstAncestorOfType('vtkOpenGLRenderer');</span>
-      const ren = <span class="cstat-no" title="statement not covered" >model.openGLRenderer.getRenderable();</span>
-<span class="cstat-no" title="statement not covered" >      model.openGLCamera = model.openGLRenderer.getViewNodeFor(ren.getActiveCamera());</span>
-<span class="cstat-no" title="statement not covered" >      publicAPI.renderPiece(ren, actor);</span>
-    } else {
-      // something
+<span class="cstat-no" title="statement not covered" >      publicAPI.render();</span>
     }
+  };
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  publicAPI.render = () =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >    model.openGLRenderWindow = publicAPI.getFirstAncestorOfType('vtkOpenGLRenderWindow');</span>
+<span class="cstat-no" title="statement not covered" >    model.context = model.openGLRenderWindow.getContext();</span>
+<span class="cstat-no" title="statement not covered" >    for (let i = primTypes.Start; i &lt; primTypes.End; i++) {</span>
+<span class="cstat-no" title="statement not covered" >      model.primitives[i].setContext(model.context);</span>
+    }
+<span class="cstat-no" title="statement not covered" >    model.openGLActor = publicAPI.getFirstAncestorOfType('vtkOpenGLActor');</span>
+    const actor = <span class="cstat-no" title="statement not covered" >model.openGLActor.getRenderable();</span>
+<span class="cstat-no" title="statement not covered" >    model.openGLRenderer = publicAPI.getFirstAncestorOfType('vtkOpenGLRenderer');</span>
+    const ren = <span class="cstat-no" title="statement not covered" >model.openGLRenderer.getRenderable();</span>
+<span class="cstat-no" title="statement not covered" >    model.openGLCamera = model.openGLRenderer.getViewNodeFor(ren.getActiveCamera());</span>
+<span class="cstat-no" title="statement not covered" >    publicAPI.renderPiece(ren, actor);</span>
   };
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  publicAPI.buildShaders = (shaders, ren, actor) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
@@ -4231,7 +4228,7 @@ export default { newInstance, extend };
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Mar 14 2017 15:39:33 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Mar 15 2017 17:10:59 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>

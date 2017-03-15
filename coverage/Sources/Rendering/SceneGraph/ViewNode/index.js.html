@@ -20,24 +20,24 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">5.48% </span>
+        <span class="strong">5.71% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>4/73</span>
+        <span class='fraction'>4/70</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>0/31</span>
+        <span class='fraction'>0/32</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>0/20</span>
+        <span class='fraction'>0/19</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">5.56% </span>
+        <span class="strong">5.8% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>4/72</span>
+        <span class='fraction'>4/69</span>
       </div>
     </div>
   </div>
@@ -210,10 +210,7 @@
 165
 166
 167
-168
-169
-170
-171</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+168</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -240,25 +237,13 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -275,6 +260,19 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -282,10 +280,6 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -405,6 +399,35 @@ function vtkViewNode(publicAPI, model) <span class="fstat-no" title="function no
 <span class="cstat-no" title="statement not covered" >  publicAPI.render = (prepass) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
   };
 &nbsp;
+<span class="cstat-no" title="statement not covered" >  publicAPI.traverse = (renderPass) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >    if (model.deleted) {</span>
+<span class="cstat-no" title="statement not covered" >      return;</span>
+    }
+&nbsp;
+    // we can choose to do special
+    // traversal here based on pass
+    const passTraversal = <span class="cstat-no" title="statement not covered" >`traverse${macro.capitalize(renderPass.getOperation())}`;</span>
+<span class="cstat-no" title="statement not covered" >    if (typeof publicAPI[passTraversal] === 'function') {</span>
+<span class="cstat-no" title="statement not covered" >      publicAPI[passTraversal](renderPass);</span>
+<span class="cstat-no" title="statement not covered" >      return;</span>
+    }
+&nbsp;
+    // default traversal
+<span class="cstat-no" title="statement not covered" >    publicAPI.apply(renderPass, true);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    publicAPI.getChildren().forEach((child) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >      child.traverse(renderPass);</span>
+    });
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    publicAPI.apply(renderPass, false);</span>
+  };
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  publicAPI.apply = (renderPass, prepass) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >    if (typeof publicAPI[renderPass.getOperation()] === 'function') {</span>
+<span class="cstat-no" title="statement not covered" >      publicAPI[renderPass.getOperation()](prepass, publicAPI);</span>
+    }
+  };
+&nbsp;
 <span class="cstat-no" title="statement not covered" >  publicAPI.getViewNodeFor = (dataObject) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
 <span class="cstat-no" title="statement not covered" >    if (model.renderable === dataObject) {</span>
 <span class="cstat-no" title="statement not covered" >      return publicAPI;</span>
@@ -424,38 +447,6 @@ function vtkViewNode(publicAPI, model) <span class="fstat-no" title="function no
 <span class="cstat-no" title="statement not covered" >      return model.parent;</span>
     }
 <span class="cstat-no" title="statement not covered" >    return model.parent.getFirstAncestorOfType(type);</span>
-  };
-&nbsp;
-<span class="cstat-no" title="statement not covered" >  publicAPI.traverse = (operation) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
-<span class="cstat-no" title="statement not covered" >    if (model.deleted) {</span>
-<span class="cstat-no" title="statement not covered" >      return;</span>
-    }
-&nbsp;
-<span class="cstat-no" title="statement not covered" >    publicAPI.apply(operation, true);</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >    model.children.forEach((child) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
-<span class="cstat-no" title="statement not covered" >      child.traverse(operation);</span>
-    });
-&nbsp;
-<span class="cstat-no" title="statement not covered" >    publicAPI.apply(operation, false);</span>
-  };
-&nbsp;
-<span class="cstat-no" title="statement not covered" >  publicAPI.traverseAllPasses = () =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
-<span class="cstat-no" title="statement not covered" >    publicAPI.traverse('Build');</span>
-<span class="cstat-no" title="statement not covered" >    publicAPI.traverse('Render');</span>
-  };
-&nbsp;
-<span class="cstat-no" title="statement not covered" >  publicAPI.apply = (operation, prepass) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
-<span class="cstat-no" title="statement not covered" >    switch (operation) {</span>
-      case 'Build':
-<span class="cstat-no" title="statement not covered" >        publicAPI.build(prepass);</span>
-<span class="cstat-no" title="statement not covered" >        break;</span>
-      case 'Render':
-<span class="cstat-no" title="statement not covered" >        publicAPI.render(prepass);</span>
-<span class="cstat-no" title="statement not covered" >        break;</span>
-      default:
-<span class="cstat-no" title="statement not covered" >        vtkErrorMacro(`UNKNOWN OPERATION  ${operation}`);</span>
-    }
   };
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  publicAPI.addMissingNode = (dataObj) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
@@ -559,7 +550,7 @@ export default { newInstance, extend, PASS_TYPES };
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Mar 14 2017 15:39:33 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Mar 15 2017 17:10:59 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>
