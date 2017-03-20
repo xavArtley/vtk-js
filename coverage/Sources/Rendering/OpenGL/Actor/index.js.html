@@ -20,24 +20,24 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">2.99% </span>
+        <span class="strong">2.56% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>2/67</span>
+        <span class='fraction'>2/78</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>0/29</span>
+        <span class='fraction'>0/37</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>0/14</span>
+        <span class='fraction'>0/17</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">2.99% </span>
+        <span class="strong">2.6% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>2/67</span>
+        <span class='fraction'>2/77</span>
       </div>
     </div>
   </div>
@@ -207,7 +207,26 @@
 162
 163
 164
-165</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -230,6 +249,10 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -277,6 +300,21 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -394,6 +432,10 @@ function vtkOpenGLActor(publicAPI, model) <span class="fstat-no" title="function
     }
   };
 &nbsp;
+<span class="cstat-no" title="statement not covered" >  publicAPI.traverseOpaqueZBufferPass = (renderPass) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >    publicAPI.traverseOpaquePass(renderPass);</span>
+  };
+&nbsp;
   // we draw textures, then mapper, then post pass textures
 <span class="cstat-no" title="statement not covered" >  publicAPI.traverseOpaquePass = (renderPass) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
 <span class="cstat-no" title="statement not covered" >    if (!model.renderable ||</span>
@@ -441,7 +483,22 @@ function vtkOpenGLActor(publicAPI, model) <span class="fstat-no" title="function
     });
   };
 &nbsp;
-  // Renders myself
+<span class="cstat-no" title="statement not covered" >  publicAPI.queryPass = (prepass, renderPass) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >    if (prepass) {</span>
+<span class="cstat-no" title="statement not covered" >      if (!model.renderable ||</span>
+          !model.renderable.getVisibility()) {
+<span class="cstat-no" title="statement not covered" >        return;</span>
+      }
+<span class="cstat-no" title="statement not covered" >      if (model.renderable.getIsOpaque()) {</span>
+<span class="cstat-no" title="statement not covered" >        renderPass.incrementOpaqueActorCount();</span>
+      } else {
+<span class="cstat-no" title="statement not covered" >        renderPass.incrementTranslucentActorCount();</span>
+      }
+    }
+  };
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  publicAPI.opaqueZBufferPass = (prepass, renderPass) =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >publicAPI.opaquePass(prepass, renderPass);</span></span></span>
+&nbsp;
 <span class="cstat-no" title="statement not covered" >  publicAPI.opaquePass = (prepass, renderPass) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
 <span class="cstat-no" title="statement not covered" >    if (prepass) {</span>
 <span class="cstat-no" title="statement not covered" >      model.context = publicAPI.getFirstAncestorOfType('vtkOpenGLRenderWindow').getContext();</span>
@@ -541,7 +598,7 @@ export default { newInstance, extend };
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Mar 15 2017 17:13:12 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Mar 20 2017 19:59:36 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>
