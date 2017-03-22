@@ -1,0 +1,2285 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for Sources/Rendering/OpenGL/VolumeMapper/index.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../../../prettify.css" />
+    <link rel="stylesheet" href="../../../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../../../index.html">all files</a> / <a href="index.html">Sources/Rendering/OpenGL/VolumeMapper/</a> index.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0.83% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>3/362</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>0/109</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>0/22</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0.83% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>3/362</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line low'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278
+279
+280
+281
+282
+283
+284
+285
+286
+287
+288
+289
+290
+291
+292
+293
+294
+295
+296
+297
+298
+299
+300
+301
+302
+303
+304
+305
+306
+307
+308
+309
+310
+311
+312
+313
+314
+315
+316
+317
+318
+319
+320
+321
+322
+323
+324
+325
+326
+327
+328
+329
+330
+331
+332
+333
+334
+335
+336
+337
+338
+339
+340
+341
+342
+343
+344
+345
+346
+347
+348
+349
+350
+351
+352
+353
+354
+355
+356
+357
+358
+359
+360
+361
+362
+363
+364
+365
+366
+367
+368
+369
+370
+371
+372
+373
+374
+375
+376
+377
+378
+379
+380
+381
+382
+383
+384
+385
+386
+387
+388
+389
+390
+391
+392
+393
+394
+395
+396
+397
+398
+399
+400
+401
+402
+403
+404
+405
+406
+407
+408
+409
+410
+411
+412
+413
+414
+415
+416
+417
+418
+419
+420
+421
+422
+423
+424
+425
+426
+427
+428
+429
+430
+431
+432
+433
+434
+435
+436
+437
+438
+439
+440
+441
+442
+443
+444
+445
+446
+447
+448
+449
+450
+451
+452
+453
+454
+455
+456
+457
+458
+459
+460
+461
+462
+463
+464
+465
+466
+467
+468
+469
+470
+471
+472
+473
+474
+475
+476
+477
+478
+479
+480
+481
+482
+483
+484
+485
+486
+487
+488
+489
+490
+491
+492
+493
+494
+495
+496
+497
+498
+499
+500
+501
+502
+503
+504
+505
+506
+507
+508
+509
+510
+511
+512
+513
+514
+515
+516
+517
+518
+519
+520
+521
+522
+523
+524
+525
+526
+527
+528
+529
+530
+531
+532
+533
+534
+535
+536
+537
+538
+539
+540
+541
+542
+543
+544
+545
+546
+547
+548
+549
+550
+551
+552
+553
+554
+555
+556
+557
+558
+559
+560
+561
+562
+563
+564
+565
+566
+567
+568
+569
+570
+571
+572
+573
+574
+575
+576
+577
+578
+579
+580
+581
+582
+583
+584
+585
+586
+587
+588
+589
+590
+591
+592
+593
+594
+595
+596
+597
+598
+599
+600
+601
+602
+603
+604
+605
+606
+607
+608
+609
+610
+611
+612
+613
+614
+615
+616
+617
+618
+619
+620
+621
+622
+623
+624
+625
+626
+627
+628
+629
+630
+631
+632
+633
+634
+635
+636
+637
+638
+639
+640
+641
+642
+643
+644
+645
+646
+647
+648
+649
+650
+651
+652
+653
+654
+655
+656
+657
+658
+659
+660
+661
+662
+663
+664
+665
+666
+667
+668
+669
+670
+671
+672
+673
+674
+675
+676
+677
+678
+679
+680
+681
+682
+683
+684
+685
+686
+687
+688
+689
+690
+691
+692
+693
+694
+695
+696
+697
+698
+699
+700
+701
+702
+703
+704
+705
+706
+707
+708
+709
+710
+711
+712
+713
+714
+715
+716
+717
+718
+719
+720
+721
+722
+723
+724
+725
+726
+727
+728
+729
+730
+731
+732
+733
+734
+735
+736
+737
+738
+739
+740
+741</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import macro              from 'vtk.js/Sources/macro';
+import { vec3, mat4 }     from 'gl-matrix';
+import vtkDataArray       from 'vtk.js/Sources/Common/Core/DataArray';
+import { VtkDataTypes }   from 'vtk.js/Sources/Common/Core/DataArray/Constants';
+import vtkHelper          from 'vtk.js/Sources/Rendering/OpenGL/Helper';
+import vtkMath            from 'vtk.js/Sources/Common/Core/Math';
+import vtkOpenGLFramebuffer from 'vtk.js/Sources/Rendering/OpenGL/Framebuffer';
+import vtkOpenGLTexture   from 'vtk.js/Sources/Rendering/OpenGL/Texture';
+import vtkShaderProgram   from 'vtk.js/Sources/Rendering/OpenGL/ShaderProgram';
+import vtkVertexArrayObject from 'vtk.js/Sources/Rendering/OpenGL/VertexArrayObject';
+import vtkViewNode        from 'vtk.js/Sources/Rendering/SceneGraph/ViewNode';
+import { Representation } from 'vtk.js/Sources/Rendering/Core/Property/Constants';
+import { Filter }         from 'vtk.js/Sources/Rendering/OpenGL/Texture/Constants';
+import { InterpolationType } from 'vtk.js/Sources/Rendering/Core/VolumeProperty/Constants';
+&nbsp;
+import vtkVolumeVS from 'vtk.js/Sources/Rendering/OpenGL/glsl/vtkVolumeVS.glsl';
+import vtkVolumeFS from 'vtk.js/Sources/Rendering/OpenGL/glsl/vtkVolumeFS.glsl';
+&nbsp;
+const { vtkWarningMacro, vtkErrorMacro } = macro;
+&nbsp;
+// ----------------------------------------------------------------------------
+// vtkOpenGLVolumeMapper methods
+// ----------------------------------------------------------------------------
+&nbsp;
+export function vtkOpenGLVolumeMapper(publicAPI, model) <span class="fstat-no" title="function not covered" >{</span>
+  // Set our className
+<span class="cstat-no" title="statement not covered" >  model.classHierarchy.push('vtkOpenGLVolumeMapper');</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  publicAPI.buildPass = () =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >    model.zBufferTexture = null;</span>
+  };
+&nbsp;
+  // ohh someone is doing a zbuffer pass, use that for
+  // intermixed volume rendering
+<span class="cstat-no" title="statement not covered" >  publicAPI.opaqueZBufferPass = (prepass, renderPass) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >    if (prepass) {</span>
+      const zbt = <span class="cstat-no" title="statement not covered" >renderPass.getZBufferTexture();</span>
+<span class="cstat-no" title="statement not covered" >      if (zbt !== model.zBufferTexture) {</span>
+<span class="cstat-no" title="statement not covered" >        model.zBufferTexture = zbt;</span>
+      }
+    }
+  };
+&nbsp;
+  // Renders myself
+<span class="cstat-no" title="statement not covered" >  publicAPI.volumePass = (prepass, renderPass) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >    if (prepass) {</span>
+<span class="cstat-no" title="statement not covered" >      model.openGLRenderWindow = publicAPI.getFirstAncestorOfType('vtkOpenGLRenderWindow');</span>
+<span class="cstat-no" title="statement not covered" >      model.context = model.openGLRenderWindow.getContext();</span>
+<span class="cstat-no" title="statement not covered" >      model.tris.setContext(model.context);</span>
+<span class="cstat-no" title="statement not covered" >      model.scalarTexture.setWindow(model.openGLRenderWindow);</span>
+<span class="cstat-no" title="statement not covered" >      model.scalarTexture.setContext(model.context);</span>
+<span class="cstat-no" title="statement not covered" >      model.colorTexture.setWindow(model.openGLRenderWindow);</span>
+<span class="cstat-no" title="statement not covered" >      model.colorTexture.setContext(model.context);</span>
+<span class="cstat-no" title="statement not covered" >      model.opacityTexture.setWindow(model.openGLRenderWindow);</span>
+<span class="cstat-no" title="statement not covered" >      model.opacityTexture.setContext(model.context);</span>
+<span class="cstat-no" title="statement not covered" >      model.framebuffer.setWindow(model.openGLRenderWindow);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >      model.openGLVolume = publicAPI.getFirstAncestorOfType('vtkOpenGLVolume');</span>
+      const actor = <span class="cstat-no" title="statement not covered" >model.openGLVolume.getRenderable();</span>
+<span class="cstat-no" title="statement not covered" >      model.openGLRenderer = publicAPI.getFirstAncestorOfType('vtkOpenGLRenderer');</span>
+      const ren = <span class="cstat-no" title="statement not covered" >model.openGLRenderer.getRenderable();</span>
+<span class="cstat-no" title="statement not covered" >      model.openGLCamera = model.openGLRenderer.getViewNodeFor(ren.getActiveCamera());</span>
+<span class="cstat-no" title="statement not covered" >      publicAPI.renderPiece(ren, actor);</span>
+    }
+  };
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  publicAPI.buildShaders = (shaders, ren, actor) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >    publicAPI.getShaderTemplate(shaders, ren, actor);</span>
+<span class="cstat-no" title="statement not covered" >    publicAPI.replaceShaderValues(shaders, ren, actor);</span>
+  };
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  publicAPI.getShaderTemplate = (shaders, ren, actor) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >    shaders.Vertex = vtkVolumeVS;</span>
+<span class="cstat-no" title="statement not covered" >    shaders.Fragment = vtkVolumeFS;</span>
+<span class="cstat-no" title="statement not covered" >    shaders.Geometry = '';</span>
+  };
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  publicAPI.replaceShaderValues = (shaders, ren, actor) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+    let FSSource = <span class="cstat-no" title="statement not covered" >shaders.Fragment;</span>
+&nbsp;
+    // insert the right function call for doing z interpolation
+    // if needed
+    const iType = <span class="cstat-no" title="statement not covered" >actor.getProperty().getInterpolationType();</span>
+<span class="cstat-no" title="statement not covered" >    if (iType === InterpolationType.LINEAR) {</span>
+<span class="cstat-no" title="statement not covered" >      FSSource = vtkShaderProgram.substitute(FSSource,</span>
+        '//VTK::VolumeColorFunctionCall',
+        'getVolumeColorLinearZ(vpos);').result;
+    } else {
+<span class="cstat-no" title="statement not covered" >      FSSource = vtkShaderProgram.substitute(FSSource,</span>
+        '//VTK::VolumeColorFunctionCall',
+        'getVolumeColor(vpos);').result;
+    }
+&nbsp;
+    // if we had to encode the scalar values into
+    // rgb then add the right call to decode them
+    // otherwise the generic texture lookup
+    const volInfo = <span class="cstat-no" title="statement not covered" >model.scalarTexture.getVolumeInfo();</span>
+<span class="cstat-no" title="statement not covered" >    if (volInfo.encodedScalars) {</span>
+<span class="cstat-no" title="statement not covered" >      FSSource = vtkShaderProgram.substitute(FSSource,</span>
+        '//VTK::ScalarValueFunction::Impl', [
+          '{ vec4 scalarComps = texture2D(texture1, tpos);',
+          'scalar = scalarComps.r + scalarComps.g/255.0 + scalarComps.b/65025.0; }',
+        ]).result;
+    } else {
+<span class="cstat-no" title="statement not covered" >      FSSource = vtkShaderProgram.substitute(FSSource,</span>
+        '//VTK::ScalarValueFunction::Impl',
+        'scalar = texture2D(texture1, tpos).r;').result;
+    }
+&nbsp;
+    // WebGL only supports loops over constants
+    // and does not support while loops so we
+    // have to hard code how many steps/samples to take
+    // wWe do a break so most systems will gracefully
+    // early terminate, but it is always possible
+    // a system will execute every step regardless
+<span class="cstat-no" title="statement not covered" >    FSSource = vtkShaderProgram.substitute(FSSource,</span>
+      '//VTK::MaximumSamplesValue',
+      `${model.renderable.getMaximumSamplesPerRay()}`).result;
+&nbsp;
+    // if we have a ztexture then declare it and use it
+<span class="cstat-no" title="statement not covered" >    if (model.zBufferTexture !== null) {</span>
+<span class="cstat-no" title="statement not covered" >      FSSource = vtkShaderProgram.substitute(FSSource,</span>
+        '//VTK::ZBuffer::Decl', [
+          'uniform sampler2D zBufferTexture;',
+          'uniform float vpWidth;',
+          'uniform float vpHeight;',
+        ]).result;
+<span class="cstat-no" title="statement not covered" >      FSSource = vtkShaderProgram.substitute(FSSource,</span>
+        '//VTK::ZBuffer::Impl', [
+          'vec4 depthVec = texture2D(zBufferTexture, vec2(gl_FragCoord.x / vpWidth, gl_FragCoord.y/vpHeight));',
+          'float zdepth = (depthVec.r*256.0 + depthVec.g)/257.0;',
+          'zdepth = zdepth * 2.0 - 1.0;',
+          'zdepth = -2.0 * camFar * camNear / (zdepth*(camFar-camNear)-(camFar+camNear)) - camNear;',
+          'zdepth = -zdepth/rayDir.z;',
+          'tbounds.y = min(zdepth,tbounds.y);',
+        ]).result;
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    shaders.Fragment = FSSource;</span>
+  };
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  publicAPI.getNeedToRebuildShaders = (cellBO, ren, actor) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+    // has something changed that would require us to recreate the shader?
+<span class="cstat-no" title="statement not covered" >    if (cellBO.getProgram() === 0 ||</span>
+        model.lastZBufferTexture !== model.zBufferTexture ||
+        cellBO.getShaderSourceTime().getMTime() &lt; publicAPI.getMTime() ||
+        cellBO.getShaderSourceTime().getMTime() &lt; actor.getMTime() ||
+        cellBO.getShaderSourceTime().getMTime() &lt; model.currentInput.getMTime()) {
+<span class="cstat-no" title="statement not covered" >      model.lastZBufferTexture = model.zBufferTexture;</span>
+<span class="cstat-no" title="statement not covered" >      return true;</span>
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    return false;</span>
+  };
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  publicAPI.updateShaders = (cellBO, ren, actor) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >    cellBO.getVAO().bind();</span>
+<span class="cstat-no" title="statement not covered" >    model.lastBoundBO = cellBO;</span>
+&nbsp;
+    // has something changed that would require us to recreate the shader?
+<span class="cstat-no" title="statement not covered" >    if (publicAPI.getNeedToRebuildShaders(cellBO, ren, actor)) {</span>
+      const shaders = <span class="cstat-no" title="statement not covered" >{ Vertex: null, Fragment: null, Geometry: null };</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >      publicAPI.buildShaders(shaders, ren, actor);</span>
+&nbsp;
+      // compile and bind the program if needed
+      const newShader =
+<span class="cstat-no" title="statement not covered" >        model.openGLRenderWindow.getShaderCache().readyShaderProgramArray(shaders.Vertex, shaders.Fragment, shaders.Geometry);</span>
+&nbsp;
+      // if the shader changed reinitialize the VAO
+<span class="cstat-no" title="statement not covered" >      if (newShader !== cellBO.getProgram()) {</span>
+<span class="cstat-no" title="statement not covered" >        cellBO.setProgram(newShader);</span>
+        // reset the VAO as the shader has changed
+<span class="cstat-no" title="statement not covered" >        cellBO.getVAO().releaseGraphicsResources();</span>
+      }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >      cellBO.getShaderSourceTime().modified();</span>
+    } else {
+<span class="cstat-no" title="statement not covered" >      model.openGLRenderWindow.getShaderCache().readyShaderProgram(cellBO.getProgram());</span>
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    publicAPI.setMapperShaderParameters(cellBO, ren, actor);</span>
+<span class="cstat-no" title="statement not covered" >    publicAPI.setCameraShaderParameters(cellBO, ren, actor);</span>
+<span class="cstat-no" title="statement not covered" >    publicAPI.setPropertyShaderParameters(cellBO, ren, actor);</span>
+  };
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  publicAPI.setMapperShaderParameters = (cellBO, ren, actor) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+    // Now to update the VAO too, if necessary.
+    const program = <span class="cstat-no" title="statement not covered" >cellBO.getProgram();</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    if (cellBO.getCABO().getElementCount() &amp;&amp;</span>
+        (model.VBOBuildTime.getMTime() &gt; cellBO.getAttributeUpdateTime().getMTime() ||
+        cellBO.getShaderSourceTime().getMTime() &gt; cellBO.getAttributeUpdateTime().getMTime())) {
+<span class="cstat-no" title="statement not covered" >      cellBO.getCABO().bind();</span>
+<span class="cstat-no" title="statement not covered" >      if (program.isAttributeUsed('vertexDC')) {</span>
+<span class="cstat-no" title="statement not covered" >        if (!cellBO.getVAO().addAttributeArray(program, cellBO.getCABO(),</span>
+                                           'vertexDC', cellBO.getCABO().getVertexOffset(),
+                                           cellBO.getCABO().getStride(), model.context.FLOAT, 3,
+                                           model.context.FALSE)) {
+<span class="cstat-no" title="statement not covered" >          vtkErrorMacro('Error setting vertexDC in shader VAO.');</span>
+        }
+      }
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    program.setUniformi('texture1',</span>
+      model.scalarTexture.getTextureUnit());
+<span class="cstat-no" title="statement not covered" >    program.setUniformf('sampleDistance',</span>
+      model.renderable.getSampleDistance());
+&nbsp;
+    // if we have a zbuffer texture then set it
+<span class="cstat-no" title="statement not covered" >    if (model.zBufferTexture !== null) {</span>
+<span class="cstat-no" title="statement not covered" >      program.setUniformi('zBufferTexture',</span>
+        model.zBufferTexture.getTextureUnit());
+      const size = <span class="cstat-no" title="statement not covered" >publicAPI.getRenderTargetSize();</span>
+<span class="cstat-no" title="statement not covered" >      program.setUniformf('vpWidth', size[0]);</span>
+<span class="cstat-no" title="statement not covered" >      program.setUniformf('vpHeight', size[1]);</span>
+    }
+  };
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  publicAPI.setCameraShaderParameters = (cellBO, ren, actor) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+    // // [WMVD]C == {world, model, view, display} coordinates
+    // // E.g., WCDC == world to display coordinate transformation
+    const keyMats = <span class="cstat-no" title="statement not covered" >model.openGLCamera.getKeyMatrices(ren);</span>
+&nbsp;
+    const program = <span class="cstat-no" title="statement not covered" >cellBO.getProgram();</span>
+&nbsp;
+    const cam = <span class="cstat-no" title="statement not covered" >model.openGLCamera.getRenderable();</span>
+    const crange = <span class="cstat-no" title="statement not covered" >cam.getClippingRange();</span>
+<span class="cstat-no" title="statement not covered" >    program.setUniformf('camThick', crange[1] - crange[0]);</span>
+<span class="cstat-no" title="statement not covered" >    program.setUniformf('camNear', crange[0]);</span>
+<span class="cstat-no" title="statement not covered" >    program.setUniformf('camFar', crange[1]);</span>
+&nbsp;
+    const bounds = <span class="cstat-no" title="statement not covered" >model.currentInput.getBounds();</span>
+    const dims = <span class="cstat-no" title="statement not covered" >model.currentInput.getDimensions();</span>
+&nbsp;
+    // compute the viewport bounds of the volume
+    // we will only render those fragments.
+    const pos = <span class="cstat-no" title="statement not covered" >vec3.create();</span>
+    const dir = <span class="cstat-no" title="statement not covered" >vec3.create();</span>
+    let dcxmin = <span class="cstat-no" title="statement not covered" >1.0;</span>
+    let dcxmax = <span class="cstat-no" title="statement not covered" >-1.0;</span>
+    let dcymin = <span class="cstat-no" title="statement not covered" >1.0;</span>
+    let dcymax = <span class="cstat-no" title="statement not covered" >-1.0;</span>
+<span class="cstat-no" title="statement not covered" >    for (let i = 0; i &lt; 8; ++i) {</span>
+<span class="cstat-no" title="statement not covered" >      vec3.set(pos, bounds[i % 2],</span>
+        bounds[2 + (Math.floor(i / 2) % 2)],
+        bounds[4 + Math.floor(i / 4)]);
+<span class="cstat-no" title="statement not covered" >      vec3.transformMat4(pos, pos, keyMats.wcvc);</span>
+<span class="cstat-no" title="statement not covered" >      vec3.normalize(dir, pos);</span>
+&nbsp;
+      // now find the projection of this point onto a
+      // nearZ distance plane. Since the camera is at 0,0,0
+      // in VC the ray is just t*pos and
+      // t is -nearZ/dir.z
+      // intersection becomes pos.x/pos.z
+      const t = <span class="cstat-no" title="statement not covered" >-crange[0] / pos[2];</span>
+<span class="cstat-no" title="statement not covered" >      vec3.scale(pos, dir, t);</span>
+&nbsp;
+      // now convert to DC
+<span class="cstat-no" title="statement not covered" >      vec3.transformMat4(pos, pos, keyMats.vcdc);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >      dcxmin = Math.min(pos[0], dcxmin);</span>
+<span class="cstat-no" title="statement not covered" >      dcxmax = Math.max(pos[0], dcxmax);</span>
+<span class="cstat-no" title="statement not covered" >      dcymin = Math.min(pos[1], dcymin);</span>
+<span class="cstat-no" title="statement not covered" >      dcymax = Math.max(pos[1], dcymax);</span>
+    }
+<span class="cstat-no" title="statement not covered" >    program.setUniformf('dcxmin', dcxmin);</span>
+<span class="cstat-no" title="statement not covered" >    program.setUniformf('dcxmax', dcxmax);</span>
+<span class="cstat-no" title="statement not covered" >    program.setUniformf('dcymin', dcymin);</span>
+<span class="cstat-no" title="statement not covered" >    program.setUniformf('dcymax', dcymax);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    vec3.set(pos, bounds[0], bounds[2], bounds[4]);</span>
+<span class="cstat-no" title="statement not covered" >    vec3.transformMat4(pos, pos, keyMats.wcvc);</span>
+<span class="cstat-no" title="statement not covered" >    program.setUniform3f('vOriginVC', pos);</span>
+    const vsize = <span class="cstat-no" title="statement not covered" >vec3.create();</span>
+<span class="cstat-no" title="statement not covered" >    vec3.set(vsize,</span>
+      bounds[1] - bounds[0],
+      bounds[3] - bounds[2],
+      bounds[5] - bounds[4]);
+<span class="cstat-no" title="statement not covered" >    program.setUniform3f('vSize', vsize);</span>
+&nbsp;
+    const maxSamples = <span class="cstat-no" title="statement not covered" >vec3.length(vsize) / model.renderable.getSampleDistance();</span>
+<span class="cstat-no" title="statement not covered" >    if (maxSamples &gt; model.renderable.getMaximumSamplesPerRay()) {</span>
+<span class="cstat-no" title="statement not covered" >      vtkWarningMacro(</span>
+        [`The number of steps required ${Math.ceil(maxSamples)} is larger than the `,
+        `specified maximum number of steps ${model.renderable.getMaximumSamplesPerRay()}.`,
+        'Please either change the ',
+        'volumeMapper sampleDistance or its maximum number of samples.'].join(''));
+    }
+    const vctoijk = <span class="cstat-no" title="statement not covered" >vec3.create();</span>
+<span class="cstat-no" title="statement not covered" >    vec3.set(vctoijk, dims[0] - 1.0, dims[1] - 1.0, dims[2] - 1.0);</span>
+<span class="cstat-no" title="statement not covered" >    vec3.divide(vctoijk, vctoijk, vsize);</span>
+<span class="cstat-no" title="statement not covered" >    program.setUniform3f('vVCToIJK', vctoijk);</span>
+&nbsp;
+    const volInfo = <span class="cstat-no" title="statement not covered" >model.scalarTexture.getVolumeInfo();</span>
+<span class="cstat-no" title="statement not covered" >    program.setUniformf('texWidth', model.scalarTexture.getWidth());</span>
+<span class="cstat-no" title="statement not covered" >    program.setUniformf('texHeight', model.scalarTexture.getHeight());</span>
+<span class="cstat-no" title="statement not covered" >    program.setUniformi('xreps', volInfo.xreps);</span>
+<span class="cstat-no" title="statement not covered" >    program.setUniformf('xstride', volInfo.xstride);</span>
+<span class="cstat-no" title="statement not covered" >    program.setUniformf('ystride', volInfo.ystride);</span>
+<span class="cstat-no" title="statement not covered" >    program.setUniformi('repWidth', volInfo.width);</span>
+<span class="cstat-no" title="statement not covered" >    program.setUniformi('repHeight', volInfo.height);</span>
+<span class="cstat-no" title="statement not covered" >    program.setUniformi('repDepth', dims[2]);</span>
+&nbsp;
+    // map normals through normal matrix
+    // then use a point on the plane to compute the distance
+<span class="cstat-no" title="statement not covered" >    for (let i = 0; i &lt; 6; ++i) {</span>
+      const normal = <span class="cstat-no" title="statement not covered" >vec3.create();</span>
+      const pos2 = <span class="cstat-no" title="statement not covered" >vec3.create();</span>
+<span class="cstat-no" title="statement not covered" >      switch (i) {</span>
+        default:
+        case 0: <span class="cstat-no" title="statement not covered" >vec3.set(normal, 1.0, 0.0, 0.0);</span>
+<span class="cstat-no" title="statement not covered" >          vec3.set(pos2, bounds[1], bounds[3], bounds[5]);</span>
+<span class="cstat-no" title="statement not covered" >          break;</span>
+        case 1: <span class="cstat-no" title="statement not covered" >vec3.set(normal, -1.0, 0.0, 0.0);</span>
+<span class="cstat-no" title="statement not covered" >          vec3.set(pos2, bounds[0], bounds[2], bounds[4]);</span>
+<span class="cstat-no" title="statement not covered" >          break;</span>
+        case 2: <span class="cstat-no" title="statement not covered" >vec3.set(normal, 0.0, 1.0, 0.0);</span>
+<span class="cstat-no" title="statement not covered" >          vec3.set(pos2, bounds[1], bounds[3], bounds[5]);</span>
+<span class="cstat-no" title="statement not covered" >          break;</span>
+        case 3: <span class="cstat-no" title="statement not covered" >vec3.set(normal, 0.0, -1.0, 0.0);</span>
+<span class="cstat-no" title="statement not covered" >          vec3.set(pos2, bounds[0], bounds[2], bounds[4]);</span>
+<span class="cstat-no" title="statement not covered" >          break;</span>
+        case 4: <span class="cstat-no" title="statement not covered" >vec3.set(normal, 0.0, 0.0, 1.0);</span>
+<span class="cstat-no" title="statement not covered" >          vec3.set(pos2, bounds[1], bounds[3], bounds[5]);</span>
+<span class="cstat-no" title="statement not covered" >          break;</span>
+        case 5: <span class="cstat-no" title="statement not covered" >vec3.set(normal, 0.0, 0.0, -1.0);</span>
+<span class="cstat-no" title="statement not covered" >          vec3.set(pos2, bounds[0], bounds[2], bounds[4]);</span>
+<span class="cstat-no" title="statement not covered" >          break;</span>
+      }
+<span class="cstat-no" title="statement not covered" >      vec3.transformMat3(normal, normal, keyMats.normalMatrix);</span>
+<span class="cstat-no" title="statement not covered" >      vec3.transformMat4(pos2, pos2, keyMats.wcvc);</span>
+      const dist = <span class="cstat-no" title="statement not covered" >-1.0 * vec3.dot(pos2, normal);</span>
+&nbsp;
+      // we have the plane in view coordinates
+      // specify the planes in view coordinates
+<span class="cstat-no" title="statement not covered" >      program.setUniform3f(`vPlaneNormal${i}`, normal);</span>
+<span class="cstat-no" title="statement not covered" >      program.setUniformf(`vPlaneDistance${i}`, dist);</span>
+    }
+&nbsp;
+    const dcvc = <span class="cstat-no" title="statement not covered" >mat4.create();</span>
+<span class="cstat-no" title="statement not covered" >    mat4.invert(dcvc, keyMats.vcdc);</span>
+<span class="cstat-no" title="statement not covered" >    program.setUniformMatrix('DCVCMatrix', dcvc);</span>
+  };
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  publicAPI.setPropertyShaderParameters = (cellBO, ren, actor) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+    const program = <span class="cstat-no" title="statement not covered" >cellBO.getProgram();</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    program.setUniformi('ctexture',</span>
+      model.colorTexture.getTextureUnit());
+<span class="cstat-no" title="statement not covered" >    program.setUniformi('otexture',</span>
+      model.opacityTexture.getTextureUnit());
+&nbsp;
+    const volInfo = <span class="cstat-no" title="statement not covered" >model.scalarTexture.getVolumeInfo();</span>
+    const sscale = <span class="cstat-no" title="statement not covered" >volInfo.max - volInfo.min;</span>
+&nbsp;
+    const vprop = <span class="cstat-no" title="statement not covered" >actor.getProperty();</span>
+    const ofun = <span class="cstat-no" title="statement not covered" >vprop.getScalarOpacity(0);</span>
+    const oRange = <span class="cstat-no" title="statement not covered" >ofun.getRange();</span>
+<span class="cstat-no" title="statement not covered" >    program.setUniformf('oshift', (volInfo.min - oRange[0]) / (oRange[1] - oRange[0]));</span>
+<span class="cstat-no" title="statement not covered" >    program.setUniformf('oscale', sscale / (oRange[1] - oRange[0]));</span>
+&nbsp;
+    const cfun = <span class="cstat-no" title="statement not covered" >vprop.getRGBTransferFunction(0);</span>
+    const cRange = <span class="cstat-no" title="statement not covered" >cfun.getRange();</span>
+<span class="cstat-no" title="statement not covered" >    program.setUniformf('cshift', (volInfo.min - cRange[0]) / (oRange[1] - oRange[0]));</span>
+<span class="cstat-no" title="statement not covered" >    program.setUniformf('cscale', sscale / (cRange[1] - cRange[0]));</span>
+  };
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  publicAPI.getRenderTargetSize = () =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >    if (model.lastXYF !== 1.0) {</span>
+<span class="cstat-no" title="statement not covered" >      return model.framebuffer.getSize();</span>
+    }
+<span class="cstat-no" title="statement not covered" >    return model.openGLRenderWindow.getSize();</span>
+  };
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  publicAPI.renderPieceStart = (ren, actor) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >    if (model.renderable.getAutoAdjustSampleDistances() &amp;&amp;</span>
+        ren.getVTKWindow().getInteractor().isAnimating()) {
+      // compute the image sample distance for the desired
+      // frame rate
+      const rwi = <span class="cstat-no" title="statement not covered" >ren.getVTKWindow().getInteractor();</span>
+      const rft = <span class="cstat-no" title="statement not covered" >rwi.getRecentFrameTime();</span>
+&nbsp;
+      // do a moving average
+      let txyf = <span class="cstat-no" title="statement not covered" >model.lastXYF * Math.sqrt(rwi.getDesiredUpdateRate() * rft);</span>
+      // limit subsampling to a factor of 8
+<span class="cstat-no" title="statement not covered" >      if (txyf &gt; 8.0) {</span>
+<span class="cstat-no" title="statement not covered" >        txyf = 8.0;</span>
+      }
+      // only use FBO for reasonable savings (at least 44% (1.2*1.2 - 1.0))
+<span class="cstat-no" title="statement not covered" >      if (txyf &lt; 1.2) {</span>
+<span class="cstat-no" title="statement not covered" >        txyf = 1.0;</span>
+      }
+<span class="cstat-no" title="statement not covered" >      model.targetXYF = (model.targetXYF * 0.75) + (0.25 * txyf);</span>
+      const factor = <span class="cstat-no" title="statement not covered" >model.targetXYF / model.lastXYF;</span>
+<span class="cstat-no" title="statement not covered" >      if (factor &gt; 1.3 || factor &lt; 0.8) {</span>
+<span class="cstat-no" title="statement not covered" >        model.lastXYF = model.targetXYF;</span>
+      }
+<span class="cstat-no" title="statement not covered" >      if (model.targetXYF &lt; 1.1) {</span>
+<span class="cstat-no" title="statement not covered" >        model.lastXYF = 1.0;</span>
+      }
+    } else {
+<span class="cstat-no" title="statement not covered" >      model.lastXYF = model.renderable.getImageSampleDistance();</span>
+    }
+&nbsp;
+    const xyf = <span class="cstat-no" title="statement not covered" >model.lastXYF;</span>
+&nbsp;
+    // create/resize framebuffer if needed
+<span class="cstat-no" title="statement not covered" >    if (xyf !== 1.0) {</span>
+<span class="cstat-no" title="statement not covered" >      model.framebuffer.saveCurrentBindingsAndBuffers();</span>
+      const size = <span class="cstat-no" title="statement not covered" >model.openGLRenderWindow.getSize();</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >      if (model.framebuffer.getGLFramebuffer() === null) {</span>
+<span class="cstat-no" title="statement not covered" >        model.framebuffer.create(</span>
+          Math.floor((size[0] / xyf) + 0.5),
+          Math.floor((size[1] / xyf) + 0.5));
+<span class="cstat-no" title="statement not covered" >        model.framebuffer.populateFramebuffer();</span>
+      } else {
+        const fbSize = <span class="cstat-no" title="statement not covered" >model.framebuffer.getSize();</span>
+<span class="cstat-no" title="statement not covered" >        if (fbSize[0] !== Math.floor((size[0] / xyf) + 0.5) ||</span>
+            fbSize[1] !== Math.floor((size[1] / xyf) + 0.5)) {
+<span class="cstat-no" title="statement not covered" >          model.framebuffer.create(</span>
+            Math.floor((size[0] / xyf) + 0.5),
+            Math.floor((size[1] / xyf) + 0.5));
+<span class="cstat-no" title="statement not covered" >          model.framebuffer.populateFramebuffer();</span>
+        }
+      }
+<span class="cstat-no" title="statement not covered" >      model.framebuffer.bind();</span>
+      const gl = <span class="cstat-no" title="statement not covered" >model.context;</span>
+<span class="cstat-no" title="statement not covered" >      gl.clearColor(0.0, 0.0, 0.0, 0.0);</span>
+<span class="cstat-no" title="statement not covered" >      gl.colorMask(true, true, true, true);</span>
+<span class="cstat-no" title="statement not covered" >      gl.clear(gl.COLOR_BUFFER_BIT);</span>
+<span class="cstat-no" title="statement not covered" >      gl.viewport(0, 0, size[0] / xyf, size[1] / xyf);</span>
+    }
+<span class="cstat-no" title="statement not covered" >    model.context.disable(model.context.DEPTH_TEST);</span>
+&nbsp;
+    // make sure the BOs are up to date
+<span class="cstat-no" title="statement not covered" >    publicAPI.updateBufferObjects(ren, actor);</span>
+&nbsp;
+    // set interpolation on the texture based on property setting
+    const iType = <span class="cstat-no" title="statement not covered" >actor.getProperty().getInterpolationType();</span>
+<span class="cstat-no" title="statement not covered" >    if (iType === InterpolationType.NEAREST) {</span>
+<span class="cstat-no" title="statement not covered" >      model.scalarTexture.setMinificationFilter(Filter.NEAREST);</span>
+<span class="cstat-no" title="statement not covered" >      model.scalarTexture.setMagnificationFilter(Filter.NEAREST);</span>
+    } else {
+<span class="cstat-no" title="statement not covered" >      model.scalarTexture.setMinificationFilter(Filter.LINEAR);</span>
+<span class="cstat-no" title="statement not covered" >      model.scalarTexture.setMagnificationFilter(Filter.LINEAR);</span>
+    }
+&nbsp;
+    // Bind the OpenGL, this is shared between the different primitive/cell types.
+<span class="cstat-no" title="statement not covered" >    model.lastBoundBO = null;</span>
+&nbsp;
+    // if we have a zbuffer texture then activate it
+<span class="cstat-no" title="statement not covered" >    if (model.zBufferTexture !== null) {</span>
+<span class="cstat-no" title="statement not covered" >      model.zBufferTexture.activate();</span>
+    }
+  };
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  publicAPI.renderPieceDraw = (ren, actor) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+    const gl = <span class="cstat-no" title="statement not covered" >model.context;</span>
+&nbsp;
+    // render the texture
+<span class="cstat-no" title="statement not covered" >    model.scalarTexture.activate();</span>
+<span class="cstat-no" title="statement not covered" >    model.opacityTexture.activate();</span>
+<span class="cstat-no" title="statement not covered" >    model.colorTexture.activate();</span>
+&nbsp;
+    // draw polygons
+<span class="cstat-no" title="statement not covered" >    if (model.tris.getCABO().getElementCount()) {</span>
+      // First we do the triangles, update the shader, set uniforms, etc.
+<span class="cstat-no" title="statement not covered" >      publicAPI.updateShaders(model.tris, ren, actor);</span>
+<span class="cstat-no" title="statement not covered" >      gl.drawArrays(gl.TRIANGLES, 0,</span>
+        model.tris.getCABO().getElementCount());
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    model.scalarTexture.deactivate();</span>
+<span class="cstat-no" title="statement not covered" >    model.colorTexture.deactivate();</span>
+<span class="cstat-no" title="statement not covered" >    model.opacityTexture.deactivate();</span>
+  };
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  publicAPI.renderPieceFinish = (ren, actor) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >    if (model.LastBoundBO) {</span>
+<span class="cstat-no" title="statement not covered" >      model.LastBoundBO.getVAO().release();</span>
+    }
+&nbsp;
+    // if we have a zbuffer texture then deactivate it
+<span class="cstat-no" title="statement not covered" >    if (model.zBufferTexture !== null) {</span>
+<span class="cstat-no" title="statement not covered" >      model.zBufferTexture.deactivate();</span>
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    if (model.lastXYF !== 1.0) {</span>
+//    if (model.renderable.getImageSampleDistance() !== 1.0) {
+      // now copy the frambuffer with the volume into the
+      // regular buffer
+<span class="cstat-no" title="statement not covered" >      model.framebuffer.restorePreviousBindingsAndBuffers();</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >      if (model.copyShader === null) {</span>
+<span class="cstat-no" title="statement not covered" >        model.copyShader =</span>
+          model.openGLRenderWindow.getShaderCache().readyShaderProgramArray(
+            ['//VTK::System::Dec',
+            'attribute vec4 vertexDC;',
+            'varying vec2 tcoord;',
+            'void main() { tcoord = vec2(vertexDC.x*0.5 + 0.5, vertexDC.y*0.5 + 0.5); gl_Position = vertexDC; }'].join('\n'),
+            ['//VTK::System::Dec',
+             '//VTK::Output::Dec',
+             'uniform sampler2D texture;',
+             'varying vec2 tcoord;',
+             'void main() { gl_FragData[0] = texture2D(texture,tcoord); }'].join('\n'),
+             '');
+        const program = <span class="cstat-no" title="statement not covered" >model.copyShader;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        model.copyVAO = vtkVertexArrayObject.newInstance();</span>
+<span class="cstat-no" title="statement not covered" >        model.copyVAO.setContext(model.context);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        model.tris.getCABO().bind();</span>
+<span class="cstat-no" title="statement not covered" >        if (!model.copyVAO.addAttributeArray(</span>
+            program, model.tris.getCABO(),
+           'vertexDC', model.tris.getCABO().getVertexOffset(),
+            model.tris.getCABO().getStride(), model.context.FLOAT, 3,
+           model.context.FALSE)) {
+<span class="cstat-no" title="statement not covered" >          vtkErrorMacro('Error setting vertexDC in copy shader VAO.');</span>
+        }
+      } else {
+<span class="cstat-no" title="statement not covered" >        model.openGLRenderWindow.getShaderCache().readyShaderProgram(model.copyShader);</span>
+      }
+&nbsp;
+      const size = <span class="cstat-no" title="statement not covered" >model.openGLRenderWindow.getSize();</span>
+<span class="cstat-no" title="statement not covered" >      model.context.viewport(0, 0, size[0], size[1]);</span>
+&nbsp;
+      // activate texture
+      const tex = <span class="cstat-no" title="statement not covered" >model.framebuffer.getColorTexture();</span>
+<span class="cstat-no" title="statement not covered" >      tex.activate();</span>
+<span class="cstat-no" title="statement not covered" >      model.copyShader.setUniformi('texture',</span>
+        tex.getTextureUnit());
+&nbsp;
+      const gl = <span class="cstat-no" title="statement not covered" >model.context;</span>
+<span class="cstat-no" title="statement not covered" >      gl.blendFuncSeparate(gl.ONE, gl.ONE_MINUS_SRC_ALPHA,</span>
+                       gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
+&nbsp;
+      // render quad
+<span class="cstat-no" title="statement not covered" >      model.context.drawArrays(model.context.TRIANGLES, 0,</span>
+        model.tris.getCABO().getElementCount());
+<span class="cstat-no" title="statement not covered" >      tex.deactivate();</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >      gl.blendFuncSeparate(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA,</span>
+                       gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
+    }
+  };
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  publicAPI.renderPiece = (ren, actor) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >    publicAPI.invokeEvent({ type: 'StartEvent' });</span>
+<span class="cstat-no" title="statement not covered" >    model.renderable.update();</span>
+<span class="cstat-no" title="statement not covered" >    model.currentInput = model.renderable.getInputData();</span>
+<span class="cstat-no" title="statement not covered" >    publicAPI.invokeEvent({ type: 'EndEvent' });</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    if (model.currentInput === null) {</span>
+<span class="cstat-no" title="statement not covered" >      vtkErrorMacro('No input!');</span>
+<span class="cstat-no" title="statement not covered" >      return;</span>
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    publicAPI.renderPieceStart(ren, actor);</span>
+<span class="cstat-no" title="statement not covered" >    publicAPI.renderPieceDraw(ren, actor);</span>
+<span class="cstat-no" title="statement not covered" >    publicAPI.renderPieceFinish(ren, actor);</span>
+  };
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  publicAPI.computeBounds = (ren, actor) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >    if (!publicAPI.getInput()) {</span>
+<span class="cstat-no" title="statement not covered" >      vtkMath.uninitializeBounds(model.Bounds);</span>
+<span class="cstat-no" title="statement not covered" >      return;</span>
+    }
+<span class="cstat-no" title="statement not covered" >    model.bounnds = publicAPI.getInput().getBounds();</span>
+  };
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  publicAPI.updateBufferObjects = (ren, actor) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+    // Rebuild buffers if needed
+<span class="cstat-no" title="statement not covered" >    if (publicAPI.getNeedToRebuildBufferObjects(ren, actor)) {</span>
+<span class="cstat-no" title="statement not covered" >      publicAPI.buildBufferObjects(ren, actor);</span>
+    }
+  };
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  publicAPI.getNeedToRebuildBufferObjects = (ren, actor) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+    // first do a coarse check
+<span class="cstat-no" title="statement not covered" >    if (model.VBOBuildTime.getMTime() &lt; publicAPI.getMTime() ||</span>
+        model.VBOBuildTime.getMTime() &lt; actor.getMTime() ||
+        model.VBOBuildTime.getMTime() &lt; model.renderable.getMTime() ||
+        model.VBOBuildTime.getMTime() &lt; actor.getProperty().getMTime() ||
+        model.VBOBuildTime.getMTime() &lt; model.currentInput.getMTime()) {
+<span class="cstat-no" title="statement not covered" >      return true;</span>
+    }
+<span class="cstat-no" title="statement not covered" >    return false;</span>
+  };
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  publicAPI.buildBufferObjects = (ren, actor) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+    const image = <span class="cstat-no" title="statement not covered" >model.currentInput;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    if (image === null) {</span>
+<span class="cstat-no" title="statement not covered" >      return;</span>
+    }
+&nbsp;
+    const vprop = <span class="cstat-no" title="statement not covered" >actor.getProperty();</span>
+&nbsp;
+    // rebuild opacity tfun?
+    const ofun = <span class="cstat-no" title="statement not covered" >vprop.getScalarOpacity(0);</span>
+    const opacityFactor = <span class="cstat-no" title="statement not covered" >model.renderable.getSampleDistance() /</span>
+      vprop.getScalarOpacityUnitDistance(0);
+    let toString = <span class="cstat-no" title="statement not covered" >`${ofun.getMTime()}A${opacityFactor}`;</span>
+<span class="cstat-no" title="statement not covered" >    if (model.opacityTextureString !== toString) {</span>
+      const oRange = <span class="cstat-no" title="statement not covered" >ofun.getRange();</span>
+      const oWidth = <span class="cstat-no" title="statement not covered" >1024;</span>
+      const ofTable = <span class="cstat-no" title="statement not covered" >new Float32Array(oWidth);</span>
+<span class="cstat-no" title="statement not covered" >      ofun.getTable(oRange[0], oRange[1], oWidth, ofTable, 1);</span>
+      const oTable = <span class="cstat-no" title="statement not covered" >new Uint8Array(oWidth);</span>
+<span class="cstat-no" title="statement not covered" >      for (let i = 0; i &lt; oWidth; ++i) {</span>
+<span class="cstat-no" title="statement not covered" >        oTable[i] = 255.0 * (1.0 - Math.pow(1.0 - ofTable[i], opacityFactor));</span>
+      }
+<span class="cstat-no" title="statement not covered" >      model.opacityTexture.setMinificationFilter(Filter.LINEAR);</span>
+<span class="cstat-no" title="statement not covered" >      model.opacityTexture.setMagnificationFilter(Filter.LINEAR);</span>
+<span class="cstat-no" title="statement not covered" >      model.opacityTexture.create2DFromRaw(oWidth, 1, 1,</span>
+        VtkDataTypes.UNSIGNED_CHAR, oTable);
+<span class="cstat-no" title="statement not covered" >      model.opacityTextureString = toString;</span>
+    }
+&nbsp;
+    // rebuild color tfun?
+    const cfun = <span class="cstat-no" title="statement not covered" >vprop.getRGBTransferFunction(0);</span>
+<span class="cstat-no" title="statement not covered" >    toString = `${cfun.getMTime()}`;</span>
+<span class="cstat-no" title="statement not covered" >    if (model.colorTextureString !== toString) {</span>
+      const cRange = <span class="cstat-no" title="statement not covered" >cfun.getRange();</span>
+      const cWidth = <span class="cstat-no" title="statement not covered" >1024;</span>
+      const cfTable = <span class="cstat-no" title="statement not covered" >new Float32Array(cWidth * 3);</span>
+<span class="cstat-no" title="statement not covered" >      cfun.getTable(cRange[0], cRange[1], cWidth, cfTable, 1);</span>
+      const cTable = <span class="cstat-no" title="statement not covered" >new Uint8Array(cWidth * 3);</span>
+<span class="cstat-no" title="statement not covered" >      for (let i = 0; i &lt; cWidth * 3; ++i) {</span>
+<span class="cstat-no" title="statement not covered" >        cTable[i] = 255.0 * cfTable[i];</span>
+      }
+<span class="cstat-no" title="statement not covered" >      model.colorTexture.setMinificationFilter(Filter.LINEAR);</span>
+<span class="cstat-no" title="statement not covered" >      model.colorTexture.setMagnificationFilter(Filter.LINEAR);</span>
+<span class="cstat-no" title="statement not covered" >      model.colorTexture.create2DFromRaw(cWidth, 1, 3,</span>
+        VtkDataTypes.UNSIGNED_CHAR, cTable);
+<span class="cstat-no" title="statement not covered" >      model.colorTextureString = toString;</span>
+    }
+&nbsp;
+    // rebuild the scalarTexture if the data has changed
+<span class="cstat-no" title="statement not covered" >    toString = `${image.getMTime()}`;</span>
+<span class="cstat-no" title="statement not covered" >    if (model.scalarTextureString !== toString) {</span>
+      // Build the textures
+      const dims = <span class="cstat-no" title="statement not covered" >image.getDimensions();</span>
+<span class="cstat-no" title="statement not covered" >      model.scalarTexture.resetFormatAndType();</span>
+<span class="cstat-no" title="statement not covered" >      model.scalarTexture.create3DOneComponentFromRaw(dims[0], dims[1], dims[2],</span>
+        image.getPointData().getScalars().getDataType(),
+        image.getPointData().getScalars().getData());
+<span class="cstat-no" title="statement not covered" >      model.scalarTextureString = toString;</span>
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    if (!model.tris.getCABO().getElementCount()) {</span>
+      // build the CABO
+      const ptsArray = <span class="cstat-no" title="statement not covered" >new Float32Array(12);</span>
+<span class="cstat-no" title="statement not covered" >      for (let i = 0; i &lt; 4; i++) {</span>
+<span class="cstat-no" title="statement not covered" >        ptsArray[(i * 3)] = ((i % 2) * 2) - 1.0;</span>
+<span class="cstat-no" title="statement not covered" >        ptsArray[(i * 3) + 1] = (i &gt; 1) ? 1.0 : -1.0;</span>
+<span class="cstat-no" title="statement not covered" >        ptsArray[(i * 3) + 2] = -1.0;</span>
+      }
+&nbsp;
+      const points = <span class="cstat-no" title="statement not covered" >vtkDataArray.newInstance({ numberOfComponents: 3, values: ptsArray });</span>
+<span class="cstat-no" title="statement not covered" >      points.setName('points');</span>
+&nbsp;
+      const cellArray = <span class="cstat-no" title="statement not covered" >new Uint16Array(8);</span>
+<span class="cstat-no" title="statement not covered" >      cellArray[0] = 3;</span>
+<span class="cstat-no" title="statement not covered" >      cellArray[1] = 0;</span>
+<span class="cstat-no" title="statement not covered" >      cellArray[2] = 1;</span>
+<span class="cstat-no" title="statement not covered" >      cellArray[3] = 3;</span>
+<span class="cstat-no" title="statement not covered" >      cellArray[4] = 3;</span>
+<span class="cstat-no" title="statement not covered" >      cellArray[5] = 0;</span>
+<span class="cstat-no" title="statement not covered" >      cellArray[6] = 3;</span>
+<span class="cstat-no" title="statement not covered" >      cellArray[7] = 2;</span>
+      const cells = <span class="cstat-no" title="statement not covered" >vtkDataArray.newInstance({ numberOfComponents: 1, values: cellArray });</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >      model.tris.getCABO().createVBO(cells,</span>
+        'polys', Representation.SURFACE,
+        { points, cellOffset: 0 });
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    model.VBOBuildTime.modified();</span>
+  };
+}
+&nbsp;
+// ----------------------------------------------------------------------------
+// Object factory
+// ----------------------------------------------------------------------------
+&nbsp;
+const DEFAULT_VALUES = {
+  context: null,
+  VBOBuildTime: null,
+  scalarTexture: null,
+  scalarTextureString: null,
+  opacityTexture: null,
+  opacityTextureString: null,
+  colorTexture: null,
+  colortextureString: null,
+  tris: null,
+  framebuffer: null,
+  copyShader: null,
+  copyVAO: null,
+  lastXYF: 1.0,
+  targetXYF: 1.0,
+  zBufferTexture: null,
+  lastZBufferTexture: null,
+};
+&nbsp;
+// ----------------------------------------------------------------------------
+&nbsp;
+export function extend(publicAPI, model, initialValues = {}) <span class="fstat-no" title="function not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >  Object.assign(model, DEFAULT_VALUES, initialValues);</span>
+&nbsp;
+  // Inheritance
+<span class="cstat-no" title="statement not covered" >  vtkViewNode.extend(publicAPI, model, initialValues);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  model.VBOBuildTime = {};</span>
+<span class="cstat-no" title="statement not covered" >  macro.obj(model.VBOBuildTime, { mtime: 0 });</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  model.tris = vtkHelper.newInstance();</span>
+<span class="cstat-no" title="statement not covered" >  model.scalarTexture = vtkOpenGLTexture.newInstance();</span>
+<span class="cstat-no" title="statement not covered" >  model.opacityTexture = vtkOpenGLTexture.newInstance();</span>
+<span class="cstat-no" title="statement not covered" >  model.colorTexture = vtkOpenGLTexture.newInstance();</span>
+<span class="cstat-no" title="statement not covered" >  model.framebuffer = vtkOpenGLFramebuffer.newInstance();</span>
+&nbsp;
+  // Build VTK API
+<span class="cstat-no" title="statement not covered" >  macro.setGet(publicAPI, model, [</span>
+    'context',
+  ]);
+&nbsp;
+  // Object methods
+<span class="cstat-no" title="statement not covered" >  vtkOpenGLVolumeMapper(publicAPI, model);</span>
+}
+&nbsp;
+// ----------------------------------------------------------------------------
+&nbsp;
+export const newInstance = macro.newInstance(extend, 'vtkOpenGLVolumeMapper');
+&nbsp;
+// ----------------------------------------------------------------------------
+&nbsp;
+export default { newInstance, extend };
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Mar 22 2017 18:14:55 GMT+0000 (UTC)
+</div>
+</div>
+<script src="../../../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../../../sorter.js"></script>
+</body>
+</html>
