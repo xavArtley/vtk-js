@@ -22,7 +22,7 @@
       <div class='fl pad1y space-right2'>
         <span class="strong">0.65% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>3/461</span>
+        <span class='fraction'>3/465</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
@@ -37,7 +37,7 @@
       <div class='fl pad1y space-right2'>
         <span class="strong">0.65% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>3/461</span>
+        <span class='fraction'>3/465</span>
       </div>
     </div>
   </div>
@@ -1031,7 +1031,15 @@
 986
 987
 988
-989</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+989
+990
+991
+992
+993
+994
+995
+996
+997</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1630,15 +1638,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1646,7 +1646,22 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -1964,6 +1979,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -2617,24 +2633,31 @@ export function vtkOpenGLVolumeMapper(publicAPI, model) <span class="fstat-no" t
   };
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  publicAPI.renderPieceStart = (ren, actor) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
-<span class="cstat-no" title="statement not covered" >    if (model.renderable.getAutoAdjustSampleDistances() &amp;&amp;</span>
-        ren.getVTKWindow().getInteractor().isAnimating()) {
-      // compute the image sample distance for the desired
-      // frame rate
+<span class="cstat-no" title="statement not covered" >    if (model.renderable.getAutoAdjustSampleDistances()) {</span>
       const rwi = <span class="cstat-no" title="statement not covered" >ren.getVTKWindow().getInteractor();</span>
       const rft = <span class="cstat-no" title="statement not covered" >rwi.getRecentFrameTime();</span>
+<span class="cstat-no" title="statement not covered" >      if (ren.getVTKWindow().getInteractor().isAnimating()) {</span>
+        // compute an estimate for the time it would take to
+        // render at full resolution in seconds
+        const fvt = <span class="cstat-no" title="statement not covered" >rft * model.lastXYF * model.lastXYF;</span>
+<span class="cstat-no" title="statement not covered" >        model.fullViewportTime = (model.fullViewportTime * 0.75) + (0.25 * fvt);</span>
 &nbsp;
-      // do a moving average
-      let txyf = <span class="cstat-no" title="statement not covered" >model.lastXYF * Math.sqrt(rwi.getDesiredUpdateRate() * rft);</span>
-      // limit subsampling to a factor of 8
-<span class="cstat-no" title="statement not covered" >      if (txyf &gt; 8.0) {</span>
-<span class="cstat-no" title="statement not covered" >        txyf = 8.0;</span>
+        // compute target xy factor
+        let txyf = <span class="cstat-no" title="statement not covered" >Math.sqrt(model.fullViewportTime * rwi.getDesiredUpdateRate());</span>
+&nbsp;
+        // limit subsampling to a factor of 10
+<span class="cstat-no" title="statement not covered" >        if (txyf &gt; 10.0) {</span>
+<span class="cstat-no" title="statement not covered" >          txyf = 10.0;</span>
+        }
+        // only use FBO for reasonable savings (at least 44% (1.2*1.2 - 1.0))
+<span class="cstat-no" title="statement not covered" >        if (txyf &lt; 1.2) {</span>
+<span class="cstat-no" title="statement not covered" >          txyf = 1.0;</span>
+        }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        model.targetXYF = txyf;</span>
+      } else {
+<span class="cstat-no" title="statement not covered" >        model.targetXYF = Math.sqrt(model.fullViewportTime * rwi.getStillUpdateRate());</span>
       }
-      // only use FBO for reasonable savings (at least 44% (1.2*1.2 - 1.0))
-<span class="cstat-no" title="statement not covered" >      if (txyf &lt; 1.2) {</span>
-<span class="cstat-no" title="statement not covered" >        txyf = 1.0;</span>
-      }
-<span class="cstat-no" title="statement not covered" >      model.targetXYF = (model.targetXYF * 0.75) + (0.25 * txyf);</span>
       const factor = <span class="cstat-no" title="statement not covered" >model.targetXYF / model.lastXYF;</span>
 <span class="cstat-no" title="statement not covered" >      if (factor &gt; 1.3 || factor &lt; 0.8) {</span>
 <span class="cstat-no" title="statement not covered" >        model.lastXYF = model.targetXYF;</span>
@@ -2645,7 +2668,7 @@ export function vtkOpenGLVolumeMapper(publicAPI, model) <span class="fstat-no" t
     } else {
 <span class="cstat-no" title="statement not covered" >      model.lastXYF = model.renderable.getImageSampleDistance();</span>
     }
-&nbsp;
+    // console.log(`XYF factor set to ${model.lastXYF}`);
     const xyf = <span class="cstat-no" title="statement not covered" >model.lastXYF;</span>
 &nbsp;
     // create/resize framebuffer if needed
@@ -2971,6 +2994,7 @@ const DEFAULT_VALUES = {
   zBufferTexture: null,
   lastZBufferTexture: null,
   lastLightComplexity: 0,
+  fullViewportTime: 1.0,
 };
 &nbsp;
 // ----------------------------------------------------------------------------
@@ -3013,7 +3037,7 @@ export default { newInstance, extend };
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Apr 06 2017 18:13:57 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Apr 06 2017 19:36:05 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>
