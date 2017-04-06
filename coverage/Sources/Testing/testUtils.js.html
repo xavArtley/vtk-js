@@ -20,24 +20,24 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">2.63% </span>
+        <span class="strong">2.44% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>1/38</span>
+        <span class='fraction'>1/41</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>0/19</span>
+        <span class='fraction'>0/21</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>0/12</span>
+        <span class='fraction'>0/13</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">2.7% </span>
+        <span class="strong">2.5% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>1/37</span>
+        <span class='fraction'>1/40</span>
       </div>
     </div>
   </div>
@@ -138,7 +138,14 @@
 93
 94
 95
-96</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+96
+97
+98
+99
+100
+101
+102
+103</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -146,15 +153,10 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -164,6 +166,18 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -238,28 +252,35 @@
 let REMOVE_DOM_ELEMENTS = true;
 &nbsp;
 function compareImages(image, baselines, testName, tapeContext, threshold = 0.5, nextCallback = null) <span class="fstat-no" title="function not covered" >{</span>
+  const nbBaselines = <span class="cstat-no" title="statement not covered" >baselines.length;</span>
   let minDelta = <span class="cstat-no" title="statement not covered" >100;</span>
   let isSameDimensions = <span class="cstat-no" title="statement not covered" >false;</span>
-<span class="cstat-no" title="statement not covered" >  baselines.forEach((baseline) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+&nbsp;
+  function done() <span class="fstat-no" title="function not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >    tapeContext.ok(minDelta &lt; threshold, `Matching image - delta ${minDelta}%`);</span>
+<span class="cstat-no" title="statement not covered" >    tapeContext.ok(isSameDimensions, 'Image match resolution');</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    if (minDelta &gt;= threshold) {</span>
+<span class="cstat-no" title="statement not covered" >      tapeContext.fail(`&lt;img src="${image}" width="100" /&gt; vs &lt;img src="${baselines[0]}" width="100" /&gt;`);</span>
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    if (nextCallback) {</span>
+<span class="cstat-no" title="statement not covered" >      nextCallback();</span>
+    } else {
+<span class="cstat-no" title="statement not covered" >      tapeContext.end();</span>
+    }
+  }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  baselines.forEach((baseline, idx) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
 <span class="cstat-no" title="statement not covered" >    resemble(baseline).compareTo(image).onComplete((data) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
 <span class="cstat-no" title="statement not covered" >      minDelta = (minDelta &lt; data.misMatchPercentage) ? minDelta : data.misMatchPercentage;</span>
 <span class="cstat-no" title="statement not covered" >      isSameDimensions = isSameDimensions || data.isSameDimensions;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >      if (idx + 1 === nbBaselines) {</span>
+<span class="cstat-no" title="statement not covered" >        done();</span>
+      }
     });
   });
-&nbsp;
-<span class="cstat-no" title="statement not covered" >  tapeContext.ok(minDelta &lt; threshold, `Matching image - delta ${minDelta}%`);</span>
-<span class="cstat-no" title="statement not covered" >  tapeContext.ok(isSameDimensions, 'Image match resolution');</span>
-&nbsp;
-&nbsp;
-<span class="cstat-no" title="statement not covered" >  if (minDelta &gt;= threshold) {</span>
-<span class="cstat-no" title="statement not covered" >    tapeContext.fail(`&lt;img src="${image}" width="100" /&gt; vs &lt;img src="${baselines[0]}" width="100" /&gt;`);</span>
-  }
-&nbsp;
-<span class="cstat-no" title="statement not covered" >  if (nextCallback) {</span>
-<span class="cstat-no" title="statement not covered" >    nextCallback();</span>
-  } else {
-<span class="cstat-no" title="statement not covered" >    tapeContext.end();</span>
-  }
 }
 &nbsp;
 function createGarbageCollector(testContext) <span class="fstat-no" title="function not covered" >{</span>
@@ -334,7 +355,7 @@ export default {
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Apr 06 2017 16:19:57 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Apr 06 2017 18:11:15 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../prettify.js"></script>
