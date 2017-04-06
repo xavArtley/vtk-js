@@ -20,24 +20,24 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">2.63% </span>
+        <span class="strong">2.33% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>2/76</span>
+        <span class='fraction'>2/86</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>0/90</span>
+        <span class='fraction'>0/96</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>0/10</span>
+        <span class='fraction'>0/13</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">2.63% </span>
+        <span class="strong">2.33% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>2/76</span>
+        <span class='fraction'>2/86</span>
       </div>
     </div>
   </div>
@@ -205,7 +205,29 @@
 160
 161
 162
-163</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -218,8 +240,29 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -356,6 +399,7 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -376,6 +420,27 @@ import { DataTypeByteSize } from 'vtk.js/Sources/Common/Core/DataArray/Constants
 const { vtkErrorMacro, vtkDebugMacro } = macro;
 &nbsp;
 let requestCount = 0;
+&nbsp;
+function fetchZipFile(url) <span class="fstat-no" title="function not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >  return new Promise((resolve, reject) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+    const xhr = <span class="cstat-no" title="statement not covered" >new XMLHttpRequest();</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    xhr.onreadystatechange = (e) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >      if (xhr.readyState === 4) {</span>
+<span class="cstat-no" title="statement not covered" >        if (xhr.status === 200 || xhr.status === 0) {</span>
+<span class="cstat-no" title="statement not covered" >          resolve(xhr.response);</span>
+        } else {
+<span class="cstat-no" title="statement not covered" >          reject(xhr, e);</span>
+        }
+      }
+    };
+&nbsp;
+    // Make request
+<span class="cstat-no" title="statement not covered" >    xhr.open('GET', url, true);</span>
+<span class="cstat-no" title="statement not covered" >    xhr.responseType = 'arraybuffer';</span>
+<span class="cstat-no" title="statement not covered" >    xhr.send();</span>
+  });
+}
 &nbsp;
 function fetchArray(instance = {}, baseURL, array, fetchGzip = false) <span class="fstat-no" title="function not covered" >{</span>
 <span class="cstat-no" title="statement not covered" >  if (array.ref &amp;&amp; !array.ref.pending) {</span>
@@ -528,6 +593,7 @@ export default {
   fetchArray,
   fetchJSON,
   fetchText,
+  fetchZipFile, // Only for HTTP
 };
 &nbsp;</pre></td></tr>
 </table></pre>
@@ -535,7 +601,7 @@ export default {
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Apr 06 2017 15:37:24 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Apr 06 2017 16:06:55 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>
