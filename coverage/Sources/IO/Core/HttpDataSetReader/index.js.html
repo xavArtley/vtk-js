@@ -20,24 +20,24 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">4.72% </span>
+        <span class="strong">4.63% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>5/106</span>
+        <span class='fraction'>5/108</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>0/26</span>
+        <span class='fraction'>0/29</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>0/35</span>
+        <span class='fraction'>0/36</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">4.85% </span>
+        <span class="strong">4.76% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>5/103</span>
+        <span class='fraction'>5/105</span>
       </div>
     </div>
   </div>
@@ -323,7 +323,15 @@
 278
 279
 280
-281</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+281
+282
+283
+284
+285
+286
+287
+288
+289</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -401,19 +409,27 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -655,7 +671,7 @@ const GEOMETRY_ARRAYS = {
   },
 };
 &nbsp;
-function processDataSet(publicAPI, model, dataset, fetchArray, resolve, reject) <span class="fstat-no" title="function not covered" >{</span>
+function processDataSet(publicAPI, model, dataset, fetchArray, resolve, reject, loadData) <span class="fstat-no" title="function not covered" >{</span>
   const enable = <span class="cstat-no" title="statement not covered" >model.enableArray;</span>
 &nbsp;
   // Generate array list
@@ -678,23 +694,31 @@ function processDataSet(publicAPI, model, dataset, fetchArray, resolve, reject) 
 <span class="cstat-no" title="statement not covered" >    pendingPromises.push(fetchArray(array, model.fetchGzip));</span>
   });
 &nbsp;
+  function success() <span class="fstat-no" title="function not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >    model.dataset = vtk(dataset);</span>
+<span class="cstat-no" title="statement not covered" >    if (!loadData) {</span>
+<span class="cstat-no" title="statement not covered" >      model.output[0] = model.dataset;</span>
+<span class="cstat-no" title="statement not covered" >      resolve(publicAPI, model.output[0]);</span>
+    } else {
+<span class="cstat-no" title="statement not covered" >      publicAPI.loadData().then(</span>
+        () =&gt; <span class="fstat-no" title="function not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >          model.output[0] = model.dataset;</span>
+<span class="cstat-no" title="statement not covered" >          resolve(publicAPI, model.output[0]);</span>
+        });
+    }
+  }
+&nbsp;
   // Wait for all geometry array to be fetched
 <span class="cstat-no" title="statement not covered" >  if (pendingPromises.length) {</span>
 <span class="cstat-no" title="statement not covered" >    Promise.all(pendingPromises)</span>
       .then(
-        (ok) =&gt; <span class="fstat-no" title="function not covered" >{</span>
-<span class="cstat-no" title="statement not covered" >          model.dataset = vtk(dataset);</span>
-<span class="cstat-no" title="statement not covered" >          model.output[0] = model.dataset;</span>
-<span class="cstat-no" title="statement not covered" >          resolve(publicAPI, model.output[0]);</span>
-        },
+        success,
         (err) =&gt; <span class="fstat-no" title="function not covered" >{</span>
 <span class="cstat-no" title="statement not covered" >          reject(err);</span>
         }
       );
   } else {
-<span class="cstat-no" title="statement not covered" >    model.dataset = vtk(dataset);</span>
-<span class="cstat-no" title="statement not covered" >    model.output[0] = model.dataset;</span>
-<span class="cstat-no" title="statement not covered" >    resolve(publicAPI, model.output[0]);</span>
+<span class="cstat-no" title="statement not covered" >    success();</span>
   }
 }
 &nbsp;
@@ -721,7 +745,7 @@ export function vtkHttpDataSetReader(publicAPI, model) <span class="fstat-no" ti
   }
 &nbsp;
   // Fetch dataset (metadata)
-<span class="cstat-no" title="statement not covered" >  publicAPI.updateMetadata = () =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >  publicAPI.updateMetadata = (loadData = false) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
 <span class="cstat-no" title="statement not covered" >    if (model.compression === 'zip') {</span>
 <span class="cstat-no" title="statement not covered" >      return new Promise((resolve, reject) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
 <span class="cstat-no" title="statement not covered" >        HTTP_DATA_ACCESS.fetchZipFile(model.url).then(</span>
@@ -736,7 +760,7 @@ export function vtkHttpDataSetReader(publicAPI, model) <span class="fstat-no" ti
                     .fetchJSON(publicAPI, 'index.json')
                     .then(
                       (dataset) =&gt; <span class="fstat-no" title="function not covered" >{</span>
-<span class="cstat-no" title="statement not covered" >                        processDataSet(publicAPI, model, dataset, fetchArray, resolve, reject);</span>
+<span class="cstat-no" title="statement not covered" >                        processDataSet(publicAPI, model, dataset, fetchArray, resolve, reject, loadData);</span>
                       },
                       (xhr, e) =&gt; <span class="fstat-no" title="function not covered" >{</span>
 <span class="cstat-no" title="statement not covered" >                        reject(xhr, e);</span>
@@ -758,7 +782,7 @@ export function vtkHttpDataSetReader(publicAPI, model) <span class="fstat-no" ti
         .fetchJSON(publicAPI, model.url)
         .then(
           (dataset) =&gt; <span class="fstat-no" title="function not covered" >{</span>
-<span class="cstat-no" title="statement not covered" >            processDataSet(publicAPI, model, dataset, fetchArray, resolve, reject);</span>
+<span class="cstat-no" title="statement not covered" >            processDataSet(publicAPI, model, dataset, fetchArray, resolve, reject, loadData);</span>
           },
           (xhr, e) =&gt; <span class="fstat-no" title="function not covered" >{</span>
 <span class="cstat-no" title="statement not covered" >            reject(xhr, e);</span>
@@ -784,7 +808,7 @@ export function vtkHttpDataSetReader(publicAPI, model) <span class="fstat-no" ti
 <span class="cstat-no" title="statement not covered" >    model.compression = options.compression;</span>
 &nbsp;
     // Fetch metadata
-<span class="cstat-no" title="statement not covered" >    return publicAPI.updateMetadata();</span>
+<span class="cstat-no" title="statement not covered" >    return publicAPI.updateMetadata(!!options.loadData);</span>
   };
 &nbsp;
   // Fetch the actual data arrays
@@ -889,7 +913,7 @@ export default { newInstance, extend };
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Apr 07 2017 14:23:15 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Apr 07 2017 14:46:28 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>
