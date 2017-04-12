@@ -22,12 +22,12 @@
       <div class='fl pad1y space-right2'>
         <span class="strong">0.56% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>3/531</span>
+        <span class='fraction'>3/535</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>0/193</span>
+        <span class='fraction'>0/195</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
@@ -37,7 +37,7 @@
       <div class='fl pad1y space-right2'>
         <span class="strong">0.56% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>3/531</span>
+        <span class='fraction'>3/535</span>
       </div>
     </div>
   </div>
@@ -1114,7 +1114,14 @@
 1069
 1070
 1071
-1072</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+1072
+1073
+1074
+1075
+1076
+1077
+1078
+1079</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1154,11 +1161,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -1166,6 +1168,13 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -1177,6 +1186,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -2140,9 +2150,13 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -2223,7 +2237,8 @@ function vtkOpenGLTexture(publicAPI, model) <span class="fstat-no" title="functi
 <span class="cstat-no" title="statement not covered" >      model.renderable.setImage(null);</span>
     }
     // create the texture if it is not done already
-<span class="cstat-no" title="statement not covered" >    if (!model.handle) {</span>
+<span class="cstat-no" title="statement not covered" >    if (!model.handle ||</span>
+        model.renderable.getMTime() &gt; model.textureBuildTime.getMTime()) {
       // if we have an Image
 <span class="cstat-no" title="statement not covered" >      if (model.renderable.getImage() !== null) {</span>
 <span class="cstat-no" title="statement not covered" >        if (model.renderable.getInterpolate()) {</span>
@@ -2235,6 +2250,7 @@ function vtkOpenGLTexture(publicAPI, model) <span class="fstat-no" title="functi
 <span class="cstat-no" title="statement not covered" >          publicAPI.create2DFromImage(model.renderable.getImage());</span>
 <span class="cstat-no" title="statement not covered" >          publicAPI.activate();</span>
 <span class="cstat-no" title="statement not covered" >          publicAPI.sendParameters();</span>
+<span class="cstat-no" title="statement not covered" >          model.textureBuildTime.modified();</span>
         }
       }
       // if we have Inputdata
@@ -2250,6 +2266,7 @@ function vtkOpenGLTexture(publicAPI, model) <span class="fstat-no" title="functi
           inScalars.getNumberOfComponents(), inScalars.getDataType(), inScalars.getData());
 <span class="cstat-no" title="statement not covered" >        publicAPI.activate();</span>
 <span class="cstat-no" title="statement not covered" >        publicAPI.sendParameters();</span>
+<span class="cstat-no" title="statement not covered" >        model.textureBuildTime.modified();</span>
       }
     }
 <span class="cstat-no" title="statement not covered" >    if (model.handle) {</span>
@@ -3187,6 +3204,7 @@ const DEFAULT_VALUES = {
   context: null,
   handle: 0,
   sendParametersTime: null,
+  textureBuildTime: null,
   numberOfDimensions: 0,
   target: 0,
   format: 0,
@@ -3217,7 +3235,10 @@ export function extend(publicAPI, model, initialValues = {}) <span class="fstat-
 <span class="cstat-no" title="statement not covered" >  vtkViewNode.extend(publicAPI, model, initialValues);</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  model.sendParametersTime = {};</span>
-<span class="cstat-no" title="statement not covered" >  macro.obj(model.sendParametersTime);</span>
+<span class="cstat-no" title="statement not covered" >  macro.obj(model.sendParametersTime, { mtime: 0 });</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  model.textureBuildTime = {};</span>
+<span class="cstat-no" title="statement not covered" >  macro.obj(model.textureBuildTime, { mtime: 0 });</span>
 &nbsp;
   // Build VTK API
 <span class="cstat-no" title="statement not covered" >  macro.set(publicAPI, model, [</span>
@@ -3262,7 +3283,7 @@ export default { newInstance, extend };
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Apr 11 2017 23:11:41 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Apr 12 2017 19:06:16 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>
