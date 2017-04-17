@@ -20,9 +20,9 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">1.86% </span>
+        <span class="strong">1.66% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>3/161</span>
+        <span class='fraction'>3/181</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
@@ -35,9 +35,9 @@
         <span class='fraction'>0/41</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">1.86% </span>
+        <span class="strong">1.66% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>3/161</span>
+        <span class='fraction'>3/181</span>
       </div>
     </div>
   </div>
@@ -517,7 +517,40 @@
 472
 473
 474
-475</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+475
+476
+477
+478
+479
+480
+481
+482
+483
+484
+485
+486
+487
+488
+489
+490
+491
+492
+493
+494
+495
+496
+497
+498
+499
+500
+501
+502
+503
+504
+505
+506
+507
+508</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -723,7 +756,44 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -746,10 +816,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -1197,7 +1263,22 @@ function vtkCamera(publicAPI, model) <span class="fstat-no" title="function not 
   };
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  publicAPI.yaw = (angle) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+    const newFocalPoint = <span class="cstat-no" title="statement not covered" >vec3.create();</span>
+    const position = <span class="cstat-no" title="statement not covered" >model.position;</span>
 &nbsp;
+    const trans = <span class="cstat-no" title="statement not covered" >mat4.create();</span>
+<span class="cstat-no" title="statement not covered" >    mat4.identity(trans);</span>
+&nbsp;
+    // translate the camera to the origin,
+    // rotate about axis,
+    // translate back again
+<span class="cstat-no" title="statement not covered" >    mat4.translate(trans, trans, vec3.fromValues(position[0], position[1], position[2]));</span>
+<span class="cstat-no" title="statement not covered" >    mat4.rotate(trans, trans, vtkMath.radiansFromDegrees(angle), vec3.fromValues(model.viewUp[0], model.viewUp[1], model.viewUp[2]));</span>
+<span class="cstat-no" title="statement not covered" >    mat4.translate(trans, trans, vec3.fromValues(-position[0], -position[1], -position[2]));</span>
+&nbsp;
+    // apply the transform to the position
+<span class="cstat-no" title="statement not covered" >    vec3.transformMat4(newFocalPoint, vec3.fromValues(model.focalPoint[0], model.focalPoint[1], model.focalPoint[2]), trans);</span>
+<span class="cstat-no" title="statement not covered" >    publicAPI.setFocalPoint(newFocalPoint[0], newFocalPoint[1], newFocalPoint[2]);</span>
   };
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  publicAPI.elevation = (angle) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
@@ -1223,7 +1304,25 @@ function vtkCamera(publicAPI, model) <span class="fstat-no" title="function not 
   };
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  publicAPI.pitch = (angle) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+    const newFocalPoint = <span class="cstat-no" title="statement not covered" >vec3.create();</span>
+    const position = <span class="cstat-no" title="statement not covered" >model.position;</span>
 &nbsp;
+    const vt = <span class="cstat-no" title="statement not covered" >publicAPI.getViewTransformMatrix();</span>
+    const axis = <span class="cstat-no" title="statement not covered" >[vt[0], vt[1], vt[2]];</span>
+&nbsp;
+    const trans = <span class="cstat-no" title="statement not covered" >mat4.create();</span>
+<span class="cstat-no" title="statement not covered" >    mat4.identity(trans);</span>
+&nbsp;
+    // translate the camera to the origin,
+    // rotate about axis,
+    // translate back again
+<span class="cstat-no" title="statement not covered" >    mat4.translate(trans, trans, vec3.fromValues(position[0], position[1], position[2]));</span>
+<span class="cstat-no" title="statement not covered" >    mat4.rotate(trans, trans, vtkMath.radiansFromDegrees(angle), vec3.fromValues(axis[0], axis[1], axis[2]));</span>
+<span class="cstat-no" title="statement not covered" >    mat4.translate(trans, trans, vec3.fromValues(-position[0], -position[1], -position[2]));</span>
+&nbsp;
+    // apply the transform to the position
+<span class="cstat-no" title="statement not covered" >    vec3.transformMat4(newFocalPoint, vec3.fromValues(model.focalPoint[0], model.focalPoint[1], model.focalPoint[2]), trans);</span>
+<span class="cstat-no" title="statement not covered" >    publicAPI.setFocalPoint(newFocalPoint[0], newFocalPoint[1], newFocalPoint[2]);</span>
   };
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  publicAPI.zoom = (factor) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
@@ -1471,7 +1570,7 @@ export default { newInstance, extend };
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Apr 14 2017 19:45:25 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Apr 17 2017 16:34:30 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>
