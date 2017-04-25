@@ -20,24 +20,24 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">3.7% </span>
+        <span class="strong">3.08% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>2/54</span>
+        <span class='fraction'>2/65</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>0/27</span>
+        <span class='fraction'>0/35</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>0/10</span>
+        <span class='fraction'>0/13</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">3.7% </span>
+        <span class="strong">3.13% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>2/54</span>
+        <span class='fraction'>2/64</span>
       </div>
     </div>
   </div>
@@ -180,7 +180,27 @@
 135
 136
 137
-138</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -209,6 +229,10 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -238,6 +262,22 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -346,7 +386,11 @@ function vtkOpenGLImageSlice(publicAPI, model) <span class="fstat-no" title="fun
     }
   };
 &nbsp;
-   // we draw textures, then mapper, then post pass textures
+<span class="cstat-no" title="statement not covered" >  publicAPI.traverseOpaqueZBufferPass = (renderPass) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >    publicAPI.traverseOpaquePass(renderPass);</span>
+  };
+&nbsp;
+  // we draw textures, then mapper, then post pass textures
 <span class="cstat-no" title="statement not covered" >  publicAPI.traverseOpaquePass = (renderPass) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
 <span class="cstat-no" title="statement not covered" >    if (!model.renderable ||</span>
         !model.renderable.getVisibility() ||
@@ -375,6 +419,22 @@ function vtkOpenGLImageSlice(publicAPI, model) <span class="fstat-no" title="fun
     });
 <span class="cstat-no" title="statement not covered" >    publicAPI.apply(renderPass, false);</span>
   };
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  publicAPI.queryPass = (prepass, renderPass) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >    if (prepass) {</span>
+<span class="cstat-no" title="statement not covered" >      if (!model.renderable ||</span>
+          !model.renderable.getVisibility()) {
+<span class="cstat-no" title="statement not covered" >        return;</span>
+      }
+<span class="cstat-no" title="statement not covered" >      if (model.renderable.getIsOpaque()) {</span>
+<span class="cstat-no" title="statement not covered" >        renderPass.incrementOpaqueActorCount();</span>
+      } else {
+<span class="cstat-no" title="statement not covered" >        renderPass.incrementTranslucentActorCount();</span>
+      }
+    }
+  };
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  publicAPI.opaqueZBufferPass = (prepass, renderPass) =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >publicAPI.opaquePass(prepass, renderPass);</span></span></span>
 &nbsp;
   // Renders myself
 <span class="cstat-no" title="statement not covered" >  publicAPI.opaquePass = (prepass, renderPass) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
@@ -460,7 +520,7 @@ export default { newInstance, extend };
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Apr 25 2017 14:19:47 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Apr 25 2017 19:40:49 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>
