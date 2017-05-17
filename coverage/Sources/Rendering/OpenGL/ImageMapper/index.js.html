@@ -20,24 +20,24 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">1.67% </span>
+        <span class="strong">1.59% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>3/180</span>
+        <span class='fraction'>3/189</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>0/61</span>
+        <span class='fraction'>0/66</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>0/21</span>
+        <span class='fraction'>0/22</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">1.67% </span>
+        <span class="strong">1.59% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>3/180</span>
+        <span class='fraction'>3/189</span>
       </div>
     </div>
   </div>
@@ -466,7 +466,22 @@
 421
 422
 423
-424</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+424
+425
+426
+427
+428
+429
+430
+431
+432
+433
+434
+435
+436
+437
+438
+439</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -492,24 +507,34 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -772,6 +797,7 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -789,6 +815,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -799,6 +826,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -912,6 +942,24 @@ function vtkOpenGLImageMapper(publicAPI, model) <span class="fstat-no" title="fu
   // Set our className
 <span class="cstat-no" title="statement not covered" >  model.classHierarchy.push('vtkOpenGLImageMapper');</span>
 &nbsp;
+<span class="cstat-no" title="statement not covered" >  publicAPI.buildPass = (prepass) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >    if (prepass) {</span>
+<span class="cstat-no" title="statement not covered" >      model.openGLRenderWindow = publicAPI.getFirstAncestorOfType('vtkOpenGLRenderWindow');</span>
+<span class="cstat-no" title="statement not covered" >      model.context = model.openGLRenderWindow.getContext();</span>
+<span class="cstat-no" title="statement not covered" >      model.tris.setContext(model.context);</span>
+<span class="cstat-no" title="statement not covered" >      model.openGLTexture.setWindow(model.openGLRenderWindow);</span>
+<span class="cstat-no" title="statement not covered" >      model.openGLTexture.setContext(model.context);</span>
+<span class="cstat-no" title="statement not covered" >      model.openGLImageSlice = publicAPI.getFirstAncestorOfType('vtkOpenGLImageSlice');</span>
+<span class="cstat-no" title="statement not covered" >      model.openGLRenderer = publicAPI.getFirstAncestorOfType('vtkOpenGLRenderer');</span>
+      const ren = <span class="cstat-no" title="statement not covered" >model.openGLRenderer.getRenderable();</span>
+<span class="cstat-no" title="statement not covered" >      model.openGLCamera = model.openGLRenderer.getViewNodeFor(ren.getActiveCamera());</span>
+      // is zslice set by the camera
+<span class="cstat-no" title="statement not covered" >      if (model.renderable.getSliceAtFocalPoint()) {</span>
+<span class="cstat-no" title="statement not covered" >        model.renderable.setZSliceFromCamera(ren.getActiveCamera());</span>
+      }
+    }
+  };
+&nbsp;
 <span class="cstat-no" title="statement not covered" >  publicAPI.translucentPass = (prepass) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
 <span class="cstat-no" title="statement not covered" >    if (prepass) {</span>
 <span class="cstat-no" title="statement not covered" >      publicAPI.render();</span>
@@ -926,16 +974,8 @@ function vtkOpenGLImageMapper(publicAPI, model) <span class="fstat-no" title="fu
 &nbsp;
   // Renders myself
 <span class="cstat-no" title="statement not covered" >  publicAPI.render = () =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
-<span class="cstat-no" title="statement not covered" >    model.openGLRenderWindow = publicAPI.getFirstAncestorOfType('vtkOpenGLRenderWindow');</span>
-<span class="cstat-no" title="statement not covered" >    model.context = model.openGLRenderWindow.getContext();</span>
-<span class="cstat-no" title="statement not covered" >    model.tris.setContext(model.context);</span>
-<span class="cstat-no" title="statement not covered" >    model.openGLTexture.setWindow(model.openGLRenderWindow);</span>
-<span class="cstat-no" title="statement not covered" >    model.openGLTexture.setContext(model.context);</span>
-<span class="cstat-no" title="statement not covered" >    model.openGLImageSlice = publicAPI.getFirstAncestorOfType('vtkOpenGLImageSlice');</span>
     const actor = <span class="cstat-no" title="statement not covered" >model.openGLImageSlice.getRenderable();</span>
-<span class="cstat-no" title="statement not covered" >    model.openGLRenderer = publicAPI.getFirstAncestorOfType('vtkOpenGLRenderer');</span>
     const ren = <span class="cstat-no" title="statement not covered" >model.openGLRenderer.getRenderable();</span>
-<span class="cstat-no" title="statement not covered" >    model.openGLCamera = model.openGLRenderer.getViewNodeFor(ren.getActiveCamera());</span>
 <span class="cstat-no" title="statement not covered" >    publicAPI.renderPiece(ren, actor);</span>
   };
 &nbsp;
@@ -1196,6 +1236,7 @@ function vtkOpenGLImageMapper(publicAPI, model) <span class="fstat-no" title="fu
     // first do a coarse check
 <span class="cstat-no" title="statement not covered" >    if (model.VBOBuildTime.getMTime() &lt; publicAPI.getMTime() ||</span>
         model.VBOBuildTime.getMTime() &lt; actor.getMTime() ||
+        model.VBOBuildTime.getMTime() &lt; model.renderable.getMTime() ||
         model.VBOBuildTime.getMTime() &lt; actor.getProperty().getMTime() ||
         model.VBOBuildTime.getMTime() &lt; model.currentInput.getMTime()) {
 <span class="cstat-no" title="statement not covered" >      return true;</span>
@@ -1211,7 +1252,8 @@ function vtkOpenGLImageMapper(publicAPI, model) <span class="fstat-no" title="fu
     }
 &nbsp;
     // rebuild the VBO if the data has changed
-    const toString = <span class="cstat-no" title="statement not covered" >`${image.getMTime()}A${image.getPointData().getScalars().getMTime()}B${publicAPI.getMTime()}`;</span>
+    const z = <span class="cstat-no" title="statement not covered" >model.renderable.getZSlice();</span>
+    const toString = <span class="cstat-no" title="statement not covered" >`${z}A${image.getMTime()}A${image.getPointData().getScalars().getMTime()}B${publicAPI.getMTime()}`;</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    if (model.VBOBuildString !== toString) {</span>
       // Build the VBOs
@@ -1225,10 +1267,13 @@ function vtkOpenGLImageMapper(publicAPI, model) <span class="fstat-no" title="fu
 <span class="cstat-no" title="statement not covered" >      model.openGLTexture.setMagnificationFilter(Filter.LINEAR);</span>
 <span class="cstat-no" title="statement not covered" >      model.openGLTexture.setWrapS(Wrap.CLAMP_TO_EDGE);</span>
 <span class="cstat-no" title="statement not covered" >      model.openGLTexture.setWrapT(Wrap.CLAMP_TO_EDGE);</span>
+      const numComp = <span class="cstat-no" title="statement not covered" >image.getPointData().getScalars().getNumberOfComponents();</span>
+      const sliceSize = <span class="cstat-no" title="statement not covered" >dims[0] * dims[1] * numComp;</span>
+      const scalars = <span class="cstat-no" title="statement not covered" >image.getPointData().getScalars().getData().subarray(z * sliceSize, (z + 1) * sliceSize);</span>
 <span class="cstat-no" title="statement not covered" >      model.openGLTexture.create2DFromRaw(dims[0], dims[1],</span>
-        image.getPointData().getScalars().getNumberOfComponents(),
+        numComp,
         image.getPointData().getScalars().getDataType(),
-        image.getPointData().getScalars().getData());
+        scalars);
 <span class="cstat-no" title="statement not covered" >      model.openGLTexture.activate();</span>
 <span class="cstat-no" title="statement not covered" >      model.openGLTexture.sendParameters();</span>
 <span class="cstat-no" title="statement not covered" >      model.openGLTexture.deactivate();</span>
@@ -1318,7 +1363,7 @@ export default { newInstance, extend };
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon May 08 2017 21:49:25 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed May 17 2017 03:14:39 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>

@@ -20,24 +20,24 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">2.61% </span>
+        <span class="strong">2.52% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>3/115</span>
+        <span class='fraction'>3/119</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>0/50</span>
+        <span class='fraction'>0/53</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>0/23</span>
+        <span class='fraction'>0/24</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">2.63% </span>
+        <span class="strong">2.54% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>3/114</span>
+        <span class='fraction'>3/118</span>
       </div>
     </div>
   </div>
@@ -308,7 +308,18 @@
 263
 264
 265
-266</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -493,6 +504,10 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -503,6 +518,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -529,6 +547,18 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -539,19 +569,11 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -758,19 +780,26 @@ function vtkOpenGLRenderWindow(publicAPI, model) <span class="fstat-no" title="f
     }
   };
 &nbsp;
+  function getCanvasDataURL(format = 'image/png') <span class="fstat-no" title="function not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >    return model.canvas.toDataURL(format);</span>
+  }
+&nbsp;
 <span class="cstat-no" title="statement not covered" >  publicAPI.captureImage = (format = 'image/png') =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
 <span class="cstat-no" title="statement not covered" >    if (model.deleted) {</span>
 <span class="cstat-no" title="statement not covered" >      return null;</span>
     }
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    publicAPI.traverseAllPasses();</span>
-<span class="cstat-no" title="statement not covered" >    return model.canvas.toDataURL(format);</span>
+<span class="cstat-no" title="statement not covered" >    return getCanvasDataURL(format);</span>
   };
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  publicAPI.traverseAllPasses = () =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
 <span class="cstat-no" title="statement not covered" >    model.renderPasses.forEach((val) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
 <span class="cstat-no" title="statement not covered" >      val.traverse(publicAPI, null);</span>
     });
+<span class="cstat-no" title="statement not covered" >    if (model.notifyImageReady) {</span>
+<span class="cstat-no" title="statement not covered" >      publicAPI.invokeImageReady(getCanvasDataURL());</span>
+    }
   };
 }
 &nbsp;
@@ -789,6 +818,7 @@ const DEFAULT_VALUES = {
   textureUnitManager: null,
   textureResourceIds: null,
   renderPasses: [],
+  notifyImageReady: false,
 };
 &nbsp;
 // ----------------------------------------------------------------------------
@@ -810,6 +840,8 @@ export function extend(publicAPI, model, initialValues = {}) <span class="fstat-
   // setup default forward pass rendering
 <span class="cstat-no" title="statement not covered" >  model.renderPasses[0] = vtkForwardPass.newInstance();</span>
 &nbsp;
+<span class="cstat-no" title="statement not covered" >  macro.event(publicAPI, model, 'imageReady');</span>
+&nbsp;
   // Build VTK API
 <span class="cstat-no" title="statement not covered" >  macro.get(publicAPI, model, [</span>
     'shaderCache',
@@ -821,6 +853,7 @@ export function extend(publicAPI, model, initialValues = {}) <span class="fstat-
     'context',
     'canvas',
     'renderPasses',
+    'notifyImageReady',
   ]);
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  macro.setGetArray(publicAPI, model, [</span>
@@ -844,7 +877,7 @@ export default { newInstance, extend };
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon May 08 2017 21:49:25 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed May 17 2017 03:14:39 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>

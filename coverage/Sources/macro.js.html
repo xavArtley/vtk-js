@@ -20,24 +20,24 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">76.53% </span>
+        <span class="strong">72.78% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>238/311</span>
+        <span class='fraction'>238/327</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">67.25% </span>
+        <span class="strong">62.5% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>115/171</span>
+        <span class='fraction'>115/184</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">75.28% </span>
+        <span class="strong">72.04% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>67/89</span>
+        <span class='fraction'>67/93</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">77.7% </span>
+        <span class="strong">73.6% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>223/287</span>
+        <span class='fraction'>223/303</span>
       </div>
     </div>
   </div>
@@ -695,7 +695,47 @@
 650
 651
 652
-653</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+653
+654
+655
+656
+657
+658
+659
+660
+661
+662
+663
+664
+665
+666
+667
+668
+669
+670
+671
+672
+673
+674
+675
+676
+677
+678
+679
+680
+681
+682
+683
+684
+685
+686
+687
+688
+689
+690
+691
+692
+693</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1317,6 +1357,46 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">73×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1972,6 +2052,44 @@ export function chain(...fn) {
 }
 &nbsp;
 // ----------------------------------------------------------------------------
+// Some utility methods for vtk objects
+// ----------------------------------------------------------------------------
+&nbsp;
+export function isVtkObject(instance) <span class="fstat-no" title="function not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >  return instance &amp;&amp; instance.isA &amp;&amp; instance.isA('vtkObject');</span>
+}
+&nbsp;
+export function traverseInstanceTree(instance, extractFunction, accumulator = [], visitedInstances = []) <span class="fstat-no" title="function not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >  if (isVtkObject(instance)) {</span>
+<span class="cstat-no" title="statement not covered" >    if (visitedInstances.indexOf(instance) &gt;= 0) {</span>
+      // avoid cycles
+<span class="cstat-no" title="statement not covered" >      return accumulator;</span>
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    visitedInstances.push(instance);</span>
+    const result = <span class="cstat-no" title="statement not covered" >extractFunction(instance);</span>
+<span class="cstat-no" title="statement not covered" >    if (result !== undefined) {</span>
+<span class="cstat-no" title="statement not covered" >      accumulator.push(result);</span>
+    }
+&nbsp;
+    // Now go through this instance's model
+    const model = <span class="cstat-no" title="statement not covered" >instance.get();</span>
+<span class="cstat-no" title="statement not covered" >    Object.keys(model).forEach((key) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+      const modelObj = <span class="cstat-no" title="statement not covered" >model[key];</span>
+<span class="cstat-no" title="statement not covered" >      if (Array.isArray(modelObj)) {</span>
+<span class="cstat-no" title="statement not covered" >        modelObj.forEach((subObj) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >          traverseInstanceTree(subObj, extractFunction, accumulator, visitedInstances);</span>
+        });
+      } else {
+<span class="cstat-no" title="statement not covered" >        traverseInstanceTree(modelObj, extractFunction, accumulator, visitedInstances);</span>
+      }
+    });
+  }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  return accumulator;</span>
+}
+&nbsp;
+// ----------------------------------------------------------------------------
 // Default export
 // ----------------------------------------------------------------------------
 &nbsp;
@@ -1985,6 +2103,7 @@ export default {
   getArray,
   getCurrentGlobalMTime,
   getStateArrayMapFunc,
+  isVtkObject,
   newInstance,
   obj,
   safeArrays,
@@ -1993,6 +2112,7 @@ export default {
   setGet,
   setGetArray,
   setLoggerFunction,
+  traverseInstanceTree,
   vtkDebugMacro,
   vtkErrorMacro,
   vtkInfoMacro,
@@ -2005,7 +2125,7 @@ export default {
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon May 08 2017 21:49:25 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed May 17 2017 03:14:39 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../prettify.js"></script>
