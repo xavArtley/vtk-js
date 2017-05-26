@@ -20,14 +20,14 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">1.07% </span>
+        <span class="strong">1.06% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>4/375</span>
+        <span class='fraction'>4/378</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>0/145</span>
+        <span class='fraction'>0/147</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
@@ -35,9 +35,9 @@
         <span class='fraction'>0/50</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">1.09% </span>
+        <span class="strong">1.08% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>4/367</span>
+        <span class='fraction'>4/370</span>
       </div>
     </div>
   </div>
@@ -825,7 +825,12 @@
 780
 781
 782
-783</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+783
+784
+785
+786
+787
+788</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1041,17 +1046,8 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -1059,6 +1055,18 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -1081,6 +1089,7 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1506,6 +1515,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1819,7 +1829,8 @@ function vtkRenderWindowInteractor(publicAPI, model) <span class="fstat-no" titl
   };
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  publicAPI.requestAnimation = (requestor) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
-<span class="cstat-no" title="statement not covered" >    if (!model.animationRequest) {</span>
+<span class="cstat-no" title="statement not covered" >    model.requestAnimationCount += 1;</span>
+<span class="cstat-no" title="statement not covered" >    if (model.requestAnimationCount === 1) {</span>
 <span class="cstat-no" title="statement not covered" >      model.eventPositions.forEach((value, key) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
 <span class="cstat-no" title="statement not covered" >        model.lastAnimationEventPositions.set(key, value);</span>
 <span class="cstat-no" title="statement not covered" >        model.animationEventPositions.set(key, value);</span>
@@ -1833,7 +1844,9 @@ function vtkRenderWindowInteractor(publicAPI, model) <span class="fstat-no" titl
 <span class="cstat-no" title="statement not covered" >  publicAPI.isAnimating = () =&gt; (<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >model.animationRequest !== null)</span></span>;</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  publicAPI.cancelAnimation = (requestor) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
-<span class="cstat-no" title="statement not covered" >    if (model.animationRequest) {</span>
+<span class="cstat-no" title="statement not covered" >    model.requestAnimationCount -= 1;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    if (model.animationRequest &amp;&amp; model.requestAnimationCount === 0) {</span>
 <span class="cstat-no" title="statement not covered" >      cancelAnimationFrame(model.animationRequest);</span>
 <span class="cstat-no" title="statement not covered" >      model.animationRequest = null;</span>
 <span class="cstat-no" title="statement not covered" >      model.recentFrameTime = 0.0;</span>
@@ -1864,6 +1877,7 @@ function vtkRenderWindowInteractor(publicAPI, model) <span class="fstat-no" titl
 <span class="cstat-no" title="statement not covered" >      model.animationEventPositions.set(key, value);</span>
     });
 <span class="cstat-no" title="statement not covered" >    publicAPI.animationEvent();</span>
+<span class="cstat-no" title="statement not covered" >    publicAPI.render();</span>
 <span class="cstat-no" title="statement not covered" >    model.animationRequest = requestAnimationFrame(publicAPI.handleAnimation);</span>
   };
 &nbsp;
@@ -2318,6 +2332,7 @@ const DEFAULT_VALUES = {
   rotation: 0.0,
   lastRotation: 0.0,
   animationRequest: null,
+  requestAnimationCount: 0,
 };
 &nbsp;
 // ----------------------------------------------------------------------------
@@ -2395,7 +2410,7 @@ export default Object.assign({ newInstance, extend });
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri May 26 2017 19:25:01 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri May 26 2017 20:32:01 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>
