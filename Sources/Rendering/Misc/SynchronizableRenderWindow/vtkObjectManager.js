@@ -1,12 +1,16 @@
 import vtkActor                   from 'vtk.js/Sources/Rendering/Core/Actor';
 import vtkCamera                  from 'vtk.js/Sources/Rendering/Core/Camera';
 import vtkColorTransferFunction   from 'vtk.js/Sources/Rendering/Core/ColorTransferFunction';
+import vtkImageData               from 'vtk.js/Sources/Common/DataModel/ImageData';
 import vtkLookupTable             from 'vtk.js/Sources/Common/Core/LookupTable';
 import vtkMapper                  from 'vtk.js/Sources/Rendering/Core/Mapper';
 import vtkPolyData                from 'vtk.js/Sources/Common/DataModel/PolyData';
 import vtkProperty                from 'vtk.js/Sources/Rendering/Core/Property';
 import vtkRenderer                from 'vtk.js/Sources/Rendering/Core/Renderer';
 import vtkRenderWindow            from 'vtk.js/Sources/Rendering/Core/RenderWindow';
+import vtkVolume                  from 'vtk.js/Sources/Rendering/Core/Volume';
+import vtkVolumeMapper            from 'vtk.js/Sources/Rendering/Core/VolumeMapper';
+import vtkVolumeProperty          from 'vtk.js/Sources/Rendering/Core/VolumeProperty';
 import vtkDataArray               from 'vtk.js/Sources/Common/Core/DataArray';
 
 // ----------------------------------------------------------------------------
@@ -312,6 +316,50 @@ function polydataUpdater(instance, state, context) {
 }
 
 // ----------------------------------------------------------------------------
+
+function imageDataUpdater(instance, state, context) {
+  context.start();
+  const props = state.properties;
+
+  instance.setSpacing(...props.spacing);
+  instance.setOrigin(...props.origin);
+  instance.setExtent(...props.extent);
+  instance.setDimensions(...props.dimensions);
+
+  const nbArrayToDownload = props.fields.length;
+  const arraysToBind = [
+    [instance.getPointData().removeAllArrays, []],
+    [instance.getCellData().removeAllArrays, []],
+  ];
+
+  function validateDataset() {
+    if ((arraysToBind.length - 2) === nbArrayToDownload) {
+      while (arraysToBind.length) {
+        const [fn, args] = arraysToBind.shift();
+        fn(...args);
+      }
+      instance.modified();
+      context.end();
+    }
+  }
+
+  // Fetch needed data arrays...
+  props.fields.forEach((arrayMetadata) => {
+    context.getArray(arrayMetadata.hash, arrayMetadata.dataType, context)
+      .then(
+        (values) => {
+          const array = vtkDataArray.newInstance(Object.assign({ values }, arrayMetadata));
+          const regMethod = arrayMetadata.registration ? arrayMetadata.registration : 'addArray';
+          arraysToBind.push([instance.get(arrayMetadata.location)[arrayMetadata.location][regMethod], [array]]);
+          validateDataset();
+        },
+        (error) => {
+          console.log('error field fetching array', error);
+        });
+  });
+}
+
+// ----------------------------------------------------------------------------
 // Construct the type mapping
 // ----------------------------------------------------------------------------
 
@@ -320,12 +368,20 @@ const DEFAULT_MAPPING = {
     build: vtkMapper.newInstance,
     update: genericUpdater,
   },
+  vtkSmartVolumeMapper: {
+    build: vtkVolumeMapper.newInstance,
+    update: genericUpdater,
+  },
   vtkLookupTable: {
     build: vtkLookupTable.newInstance,
     update: genericUpdater,
   },
   vtkOpenGLProperty: {
     build: vtkProperty.newInstance,
+    update: genericUpdater,
+  },
+  vtkVolumeProperty: {
+    build: vtkVolumeProperty.newInstance,
     update: genericUpdater,
   },
   vtkOpenGLRenderer: {
@@ -340,6 +396,10 @@ const DEFAULT_MAPPING = {
     build: vtkPolyData.newInstance,
     update: polydataUpdater,
   },
+  vtkImageData: {
+    build: vtkImageData.newInstance,
+    update: imageDataUpdater,
+  },
   vtkPVDiscretizableColorTransferFunction: {
     build: vtkColorTransferFunction.newInstance,
     update: colorTransferFunctionUpdater,
@@ -350,6 +410,10 @@ const DEFAULT_MAPPING = {
   },
   vtkOpenGLActor: {
     build: vtkActor.newInstance,
+    update: genericUpdater,
+  },
+  vtkPVLODVolume: {
+    build: vtkVolume.newInstance,
     update: genericUpdater,
   },
   vtkRenderWindow: {
