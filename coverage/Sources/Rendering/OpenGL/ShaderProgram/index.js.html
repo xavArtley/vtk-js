@@ -1439,10 +1439,10 @@ function vtkShaderProgram(publicAPI, model) <span class="fstat-no" title="functi
     }
     let array = <span class="cstat-no" title="statement not covered" >args;</span>
     // allow an array passed as a single argument
-<span class="cstat-no" title="statement not covered" >    if (array.length == 1 &amp;&amp; Array.isArray(array[0])){</span>
+<span class="cstat-no" title="statement not covered" >    if (array.length === 1 &amp;&amp; Array.isArray(array[0])) {</span>
 <span class="cstat-no" title="statement not covered" >      array = array[0];</span>
     }
-<span class="cstat-no" title="statement not covered" >    if (array.length !== 2){</span>
+<span class="cstat-no" title="statement not covered" >    if (array.length !== 2) {</span>
 <span class="cstat-no" title="statement not covered" >      throw new RangeError('Invalid number of values for array');</span>
     }
 <span class="cstat-no" title="statement not covered" >    model.context.uniform2f(location, array[0], array[1]);</span>
@@ -1467,10 +1467,10 @@ function vtkShaderProgram(publicAPI, model) <span class="fstat-no" title="functi
     }
     let array = <span class="cstat-no" title="statement not covered" >args;</span>
     // allow an array passed as a single argument
-<span class="cstat-no" title="statement not covered" >    if (array.length == 1 &amp;&amp; Array.isArray(array[0])){</span>
+<span class="cstat-no" title="statement not covered" >    if (array.length === 1 &amp;&amp; Array.isArray(array[0])) {</span>
 <span class="cstat-no" title="statement not covered" >      array = array[0];</span>
     }
-<span class="cstat-no" title="statement not covered" >    if (array.length !== 2){</span>
+<span class="cstat-no" title="statement not covered" >    if (array.length !== 2) {</span>
 <span class="cstat-no" title="statement not covered" >      throw new RangeError('Invalid number of values for array');</span>
     }
 <span class="cstat-no" title="statement not covered" >    model.context.uniform2i(location, array[0], array[1]);</span>
@@ -1495,17 +1495,17 @@ function vtkShaderProgram(publicAPI, model) <span class="fstat-no" title="functi
     }
     let array = <span class="cstat-no" title="statement not covered" >args;</span>
     // allow an array passed as a single argument
-<span class="cstat-no" title="statement not covered" >    if (array.length == 1 &amp;&amp; Array.isArray(array[0])){</span>
+<span class="cstat-no" title="statement not covered" >    if (array.length === 1 &amp;&amp; Array.isArray(array[0])) {</span>
 <span class="cstat-no" title="statement not covered" >      array = array[0];</span>
     }
-<span class="cstat-no" title="statement not covered" >    if (array.length !== 3){</span>
+<span class="cstat-no" title="statement not covered" >    if (array.length !== 3) {</span>
 <span class="cstat-no" title="statement not covered" >      throw new RangeError('Invalid number of values for array');</span>
     }
 <span class="cstat-no" title="statement not covered" >    model.context.uniform3f(location, array[0], array[1], array[2]);</span>
 <span class="cstat-no" title="statement not covered" >    return true;</span>
   };
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  publicAPI.setUniform3fv = (name,  v) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >  publicAPI.setUniform3fv = (name, v) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
     const location = <span class="cstat-no" title="statement not covered" >publicAPI.findUniform(name);</span>
 <span class="cstat-no" title="statement not covered" >    if (location === -1) {</span>
 <span class="cstat-no" title="statement not covered" >      model.error = `Could not set uniform ${name} . No such uniform.`;</span>
@@ -1523,10 +1523,10 @@ function vtkShaderProgram(publicAPI, model) <span class="fstat-no" title="functi
     }
     let array = <span class="cstat-no" title="statement not covered" >args;</span>
     // allow an array passed as a single argument
-<span class="cstat-no" title="statement not covered" >    if (array.length == 1 &amp;&amp; Array.isArray(array[0])){</span>
+<span class="cstat-no" title="statement not covered" >    if (array.length === 1 &amp;&amp; Array.isArray(array[0])) {</span>
 <span class="cstat-no" title="statement not covered" >      array = array[0];</span>
     }
-<span class="cstat-no" title="statement not covered" >    if (array.length !== 3){</span>
+<span class="cstat-no" title="statement not covered" >    if (array.length !== 3) {</span>
 <span class="cstat-no" title="statement not covered" >      throw new RangeError('Invalid number of values for array');</span>
     }
 <span class="cstat-no" title="statement not covered" >    model.context.uniform3i(location, array[0], array[1], array[2]);</span>
@@ -1551,10 +1551,10 @@ function vtkShaderProgram(publicAPI, model) <span class="fstat-no" title="functi
     }
     let array = <span class="cstat-no" title="statement not covered" >args;</span>
     // allow an array passed as a single argument
-<span class="cstat-no" title="statement not covered" >    if (array.length == 1 &amp;&amp; Array.isArray(array[0])){</span>
+<span class="cstat-no" title="statement not covered" >    if (array.length === 1 &amp;&amp; Array.isArray(array[0])) {</span>
 <span class="cstat-no" title="statement not covered" >      array = array[0];</span>
     }
-<span class="cstat-no" title="statement not covered" >    if (array.length !== 4){</span>
+<span class="cstat-no" title="statement not covered" >    if (array.length !== 4) {</span>
 <span class="cstat-no" title="statement not covered" >      throw new RangeError('Invalid number of values for array');</span>
     }
 <span class="cstat-no" title="statement not covered" >    model.context.uniform4f(location, array[0], array[1], array[2], array[3]);</span>
@@ -1579,10 +1579,10 @@ function vtkShaderProgram(publicAPI, model) <span class="fstat-no" title="functi
     }
     let array = <span class="cstat-no" title="statement not covered" >args;</span>
     // allow an array passed as a single argument
-<span class="cstat-no" title="statement not covered" >    if (array.length == 1 &amp;&amp; Array.isArray(array[0])){</span>
+<span class="cstat-no" title="statement not covered" >    if (array.length === 1 &amp;&amp; Array.isArray(array[0])) {</span>
 <span class="cstat-no" title="statement not covered" >      array = array[0];</span>
     }
-<span class="cstat-no" title="statement not covered" >    if (array.length !== 4){</span>
+<span class="cstat-no" title="statement not covered" >    if (array.length !== 4) {</span>
 <span class="cstat-no" title="statement not covered" >      throw new RangeError('Invalid number of values for array');</span>
     }
 <span class="cstat-no" title="statement not covered" >    model.context.uniform4i(location, array[0], array[1], array[2], array[3]);</span>
@@ -1852,7 +1852,7 @@ export default { newInstance, extend, substitute };
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon May 29 2017 16:30:32 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue May 30 2017 12:04:53 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>

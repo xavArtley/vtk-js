@@ -20,14 +20,14 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">4.26% </span>
+        <span class="strong">7.14% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>2/47</span>
+        <span class='fraction'>2/28</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>0/9</span>
+        <span class='fraction'>0/5</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
@@ -35,9 +35,9 @@
         <span class='fraction'>0/6</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">4.35% </span>
+        <span class="strong">7.41% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>2/46</span>
+        <span class='fraction'>2/27</span>
       </div>
     </div>
   </div>
@@ -136,24 +136,7 @@
 91
 92
 93
-94
-95
-96
-97
-98
-99
-100
-101
-102
-103
-104
-105
-106
-107
-108
-109
-110
-111</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+94</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -182,23 +165,6 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -206,14 +172,14 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -284,26 +250,9 @@ function vtkImageMapper(publicAPI, model) <span class="fstat-no" title="function
 &nbsp;
     const fp = <span class="cstat-no" title="statement not covered" >cam.getFocalPoint();</span>
 &nbsp;
-    const origin = <span class="cstat-no" title="statement not covered" >image.getOrigin();</span>
-    const spacing = <span class="cstat-no" title="statement not covered" >image.getSpacing();</span>
-    const ext = <span class="cstat-no" title="statement not covered" >image.getExtent();</span>
-&nbsp;
-    // compute the slice number
-<span class="cstat-no" title="statement not covered" >    fp[0] -= origin[0];</span>
-<span class="cstat-no" title="statement not covered" >    fp[1] -= origin[1];</span>
-<span class="cstat-no" title="statement not covered" >    fp[2] -= origin[2];</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >    fp[0] /= spacing[0];</span>
-<span class="cstat-no" title="statement not covered" >    fp[1] /= spacing[1];</span>
-<span class="cstat-no" title="statement not covered" >    fp[2] /= spacing[2];</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >    if (fp[2] &lt; ext[4]) {</span>
-<span class="cstat-no" title="statement not covered" >      fp[2] = ext[4];</span>
-    }
-<span class="cstat-no" title="statement not covered" >    if (fp[2] &gt; ext[5]) {</span>
-<span class="cstat-no" title="statement not covered" >      fp[2] = ext[5];</span>
-    }
-<span class="cstat-no" title="statement not covered" >    publicAPI.setZSlice(Math.floor(fp[2] + 0.5));</span>
+    const idx = <span class="cstat-no" title="statement not covered" >[];</span>
+<span class="cstat-no" title="statement not covered" >    image.worldToIndex(fp, idx);</span>
+<span class="cstat-no" title="statement not covered" >    publicAPI.setZSlice(Math.floor(idx[2] + 0.5));</span>
   };
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  publicAPI.getBounds = () =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
@@ -315,16 +264,16 @@ function vtkImageMapper(publicAPI, model) <span class="fstat-no" title="function
 <span class="cstat-no" title="statement not covered" >      return image.getBounds();</span>
     }
 &nbsp;
-    const origin = <span class="cstat-no" title="statement not covered" >image.getOrigin();</span>
-    const spacing = <span class="cstat-no" title="statement not covered" >image.getSpacing();</span>
-    const res = <span class="cstat-no" title="statement not covered" >[];</span>
-<span class="cstat-no" title="statement not covered" >    res[0] = origin[0] + (model.customDisplayExtent[0] * spacing[0]);</span>
-<span class="cstat-no" title="statement not covered" >    res[1] = origin[0] + (model.customDisplayExtent[1] * spacing[0]);</span>
-<span class="cstat-no" title="statement not covered" >    res[2] = origin[1] + (model.customDisplayExtent[2] * spacing[1]);</span>
-<span class="cstat-no" title="statement not covered" >    res[3] = origin[1] + (model.customDisplayExtent[3] * spacing[1]);</span>
-<span class="cstat-no" title="statement not covered" >    res[4] = origin[2] + (model.zSlice * spacing[2]);</span>
-<span class="cstat-no" title="statement not covered" >    res[5] = origin[2] + (model.zSlice * spacing[2]);</span>
-<span class="cstat-no" title="statement not covered" >    return res;</span>
+    const ex = <span class="cstat-no" title="statement not covered" >[</span>
+      model.customDisplayExtent[0],
+      model.customDisplayExtent[1],
+      model.customDisplayExtent[2],
+      model.customDisplayExtent[3],
+      model.zSlice,
+      model.zSlice,
+    ];
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    return image.extentToBounds(ex);</span>
   };
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  publicAPI.getIsOpaque = () =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >true;</span></span></span>
@@ -379,7 +328,7 @@ export default { newInstance, extend };
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon May 29 2017 16:30:32 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue May 30 2017 12:04:53 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>
