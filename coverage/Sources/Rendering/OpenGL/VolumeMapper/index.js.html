@@ -1055,7 +1055,10 @@
 1010
 1011
 1012
-1013</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+1013
+1014
+1015
+1016</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1516,7 +1519,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -1801,6 +1803,10 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -2298,7 +2304,7 @@ function vtkOpenGLVolumeMapper(publicAPI, model) <span class="fstat-no" title="f
             '  //VTK::Light::Impl',
             '  tcolor.rgb = tcolor.rgb*(diffuse*vDiffuse + vAmbient) + specular*vSpecular;',
           ],
-          false
+          false,
           ).result;
         let lightNum = <span class="cstat-no" title="statement not covered" >0;</span>
 <span class="cstat-no" title="statement not covered" >        ren.getLights().forEach((light) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
@@ -2321,7 +2327,7 @@ function vtkOpenGLVolumeMapper(publicAPI, model) <span class="fstat-no" title="f
               `    specular += ((sf${shadowFactor}) * lightColor${lightNum});`,
 //              '    }',
               '  //VTK::Light::Impl'],
-              false
+              false,
               ).result;
 <span class="cstat-no" title="statement not covered" >            lightNum++;</span>
           }
@@ -2523,11 +2529,10 @@ function vtkOpenGLVolumeMapper(publicAPI, model) <span class="fstat-no" title="f
 &nbsp;
     const maxSamples = <span class="cstat-no" title="statement not covered" >vec3.length(vsize) / model.renderable.getSampleDistance();</span>
 <span class="cstat-no" title="statement not covered" >    if (maxSamples &gt; model.renderable.getMaximumSamplesPerRay()) {</span>
-<span class="cstat-no" title="statement not covered" >      vtkWarningMacro(</span>
-        [`The number of steps required ${Math.ceil(maxSamples)} is larger than the `,
-        `specified maximum number of steps ${model.renderable.getMaximumSamplesPerRay()}.`,
-        'Please either change the ',
-        'volumeMapper sampleDistance or its maximum number of samples.'].join(''));
+<span class="cstat-no" title="statement not covered" >      vtkWarningMacro(`The number of steps required ${Math.ceil(maxSamples)} is larger than the</span>
+        specified maximum number of steps ${model.renderable.getMaximumSamplesPerRay()}.
+        Please either change the
+        volumeMapper sampleDistance or its maximum number of samples.`);
     }
     const vctoijk = <span class="cstat-no" title="statement not covered" >vec3.create();</span>
 <span class="cstat-no" title="statement not covered" >    vec3.set(vctoijk, dims[0] - 1.0, dims[1] - 1.0, dims[2] - 1.0);</span>
@@ -2814,16 +2819,20 @@ function vtkOpenGLVolumeMapper(publicAPI, model) <span class="fstat-no" title="f
 <span class="cstat-no" title="statement not covered" >      if (model.copyShader === null) {</span>
 <span class="cstat-no" title="statement not covered" >        model.copyShader =</span>
           model.openGLRenderWindow.getShaderCache().readyShaderProgramArray(
-            ['//VTK::System::Dec',
-            'attribute vec4 vertexDC;',
-            'varying vec2 tcoord;',
-            'void main() { tcoord = vec2(vertexDC.x*0.5 + 0.5, vertexDC.y*0.5 + 0.5); gl_Position = vertexDC; }'].join('\n'),
-            ['//VTK::System::Dec',
-             '//VTK::Output::Dec',
-             'uniform sampler2D texture;',
-             'varying vec2 tcoord;',
-             'void main() { gl_FragData[0] = texture2D(texture,tcoord); }'].join('\n'),
-             '');
+            [
+              '//VTK::System::Dec',
+              'attribute vec4 vertexDC;',
+              'varying vec2 tcoord;',
+              'void main() { tcoord = vec2(vertexDC.x*0.5 + 0.5, vertexDC.y*0.5 + 0.5); gl_Position = vertexDC; }',
+            ].join('\n'),
+            [
+              '//VTK::System::Dec',
+              '//VTK::Output::Dec',
+              'uniform sampler2D texture;',
+              'varying vec2 tcoord;',
+              'void main() { gl_FragData[0] = texture2D(texture,tcoord); }',
+            ].join('\n'),
+            '');
         const program = <span class="cstat-no" title="statement not covered" >model.copyShader;</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >        model.copyVAO = vtkVertexArrayObject.newInstance();</span>
@@ -3085,7 +3094,7 @@ export default { newInstance, extend };
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Jun 02 2017 12:13:34 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Jun 02 2017 23:48:01 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>

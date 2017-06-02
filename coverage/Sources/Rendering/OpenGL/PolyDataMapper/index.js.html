@@ -3543,7 +3543,7 @@ function vtkOpenGLPolyDataMapper(publicAPI, model) <span class="fstat-no" title=
 <span class="cstat-no" title="statement not covered" >        FSSource = vtkShaderProgram.substitute(FSSource, '//VTK::Light::Impl', [</span>
           '  gl_FragData[0] = vec4(ambientColor + diffuseColor, opacity);',
           '  //VTK::Light::Impl'],
-        false
+        false,
         ).result;
 <span class="cstat-no" title="statement not covered" >        break;</span>
 &nbsp;
@@ -3583,7 +3583,7 @@ function vtkOpenGLPolyDataMapper(publicAPI, model) <span class="fstat-no" title=
           '  specular = specular * specularColor;',
           '  gl_FragData[0] = vec4(ambientColor + diffuse + specular, opacity);',
           '  //VTK::Light::Impl'],
-          false
+          false,
           ).result;
 <span class="cstat-no" title="statement not covered" >        break;</span>
 &nbsp;
@@ -3599,7 +3599,7 @@ function vtkOpenGLPolyDataMapper(publicAPI, model) <span class="fstat-no" title=
           'uniform vec3 lightAttenuation[6];',
           'uniform float lightConeAngle[6];',
           'uniform float lightExponent[6];',
-          'uniform int lightPositional[6];']
+          'uniform int lightPositional[6];'],
         ).result;
 <span class="cstat-no" title="statement not covered" >        FSSource = vtkShaderProgram.substitute(FSSource, '//VTK::Light::Impl', [</span>
           '  vec3 diffuse = vec3(0,0,0);',
@@ -3648,7 +3648,7 @@ function vtkOpenGLPolyDataMapper(publicAPI, model) <span class="fstat-no" title=
           '  specular = specular * specularColor;',
           '  gl_FragData[0] = vec4(ambientColor + diffuse + specular, opacity);',
           '  //VTK::Light::Impl'],
-          false
+          false,
           ).result;
 <span class="cstat-no" title="statement not covered" >        break;</span>
       default:
@@ -3691,7 +3691,7 @@ function vtkOpenGLPolyDataMapper(publicAPI, model) <span class="fstat-no" title=
             'vec3 normalVCVSOutput = normalize(normalVCVSOutput);',
             //  if (!gl_FrontFacing) does not work in intel hd4000 mac
             //  if (int(gl_FrontFacing) == 0) does not work on mesa
-            '  if (gl_FrontFacing == false) { normalVCVSOutput = -normalVCVSOutput; }']
+            '  if (gl_FrontFacing == false) { normalVCVSOutput = -normalVCVSOutput; }'],
           ).result;
       } else {
 <span class="cstat-no" title="statement not covered" >        if (model.haveCellNormals) {</span>
@@ -3703,7 +3703,7 @@ function vtkOpenGLPolyDataMapper(publicAPI, model) <span class="fstat-no" title=
             '//VTK::Normal::Impl', [
               'vec3 normalVCVSOutput = normalize(normalMatrix *',
               '    texelFetchBuffer(textureN, gl_PrimitiveID + PrimitiveIDOffset).xyz);',
-              '  if (gl_FrontFacing == false) { normalVCVSOutput = -normalVCVSOutput; }']
+              '  if (gl_FrontFacing == false) { normalVCVSOutput = -normalVCVSOutput; }'],
             ).result;
         } else {
 <span class="cstat-no" title="statement not covered" >          if (publicAPI.getOpenGLMode(</span>
@@ -3723,7 +3723,7 @@ function vtkOpenGLPolyDataMapper(publicAPI, model) <span class="fstat-no" title=
 <span class="cstat-no" title="statement not covered" >            FSSource = vtkShaderProgram.substitute(FSSource, '//VTK::UniformFlow::Impl', [</span>
               '  vec3 fdx = vec3(dFdx(vertexVC.x),dFdx(vertexVC.y),dFdx(vertexVC.z));',
               '  vec3 fdy = vec3(dFdy(vertexVC.x),dFdy(vertexVC.y),dFdy(vertexVC.z));',
-              '  //VTK::UniformFlow::Impl'] // For further replacements
+              '  //VTK::UniformFlow::Impl'], // For further replacements
               ).result;
 <span class="cstat-no" title="statement not covered" >            FSSource = vtkShaderProgram.substitute(FSSource, '//VTK::Normal::Impl', [</span>
               'vec3 normalVCVSOutput;',
@@ -3731,7 +3731,7 @@ function vtkOpenGLPolyDataMapper(publicAPI, model) <span class="fstat-no" title=
               '  fdy = normalize(fdy);',
               '  if (abs(fdx.x) &gt; 0.0)',
               '    { normalVCVSOutput = normalize(cross(vec3(fdx.y, -fdx.x, 0.0), fdx)); }',
-              '  else { normalVCVSOutput = normalize(cross(vec3(fdy.y, -fdy.x, 0.0), fdy));}']
+              '  else { normalVCVSOutput = normalize(cross(vec3(fdy.y, -fdy.x, 0.0), fdy));}'],
               ).result;
           } else {
 <span class="cstat-no" title="statement not covered" >            FSSource = vtkShaderProgram.substitute(FSSource,</span>
@@ -3743,7 +3743,7 @@ function vtkOpenGLPolyDataMapper(publicAPI, model) <span class="fstat-no" title=
               // '  vec3 fdy = vec3(dFdy(vertexVC.x),dFdy(vertexVC.y),dFdy(vertexVC.z));',
               '  vec3 fdx = dFdx(vertexVC.xyz);',
               '  vec3 fdy = dFdy(vertexVC.xyz);',
-              '  //VTK::UniformFlow::Impl'] // For further replacements
+              '  //VTK::UniformFlow::Impl'], // For further replacements
               ).result;
 <span class="cstat-no" title="statement not covered" >            FSSource = vtkShaderProgram.substitute(FSSource, '//VTK::Normal::Impl', [</span>
               '  fdx = normalize(fdx);',
@@ -4873,7 +4873,7 @@ export default { newInstance, extend };
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Jun 02 2017 12:13:34 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Jun 02 2017 23:48:01 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>
