@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head prefix="og: http://ogp.me/ns#">
+  <meta charset="utf-8">
+  <title>vtk.js</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://kitware.github.io/vtk-js/coverage/tests.html">
+  <!-- Alternative links -->
+  
+    
+      <link rel="alternative" hreflang="en" href="https://kitware.github.io/vtk-js/coverage/tests.html">
+    
+  
+  <!-- Icon -->
+  <link rel="apple-touch-icon" sizes="57x57" href="/vtk-js/icon/apple-touch-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="/vtk-js/icon/apple-touch-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="/vtk-js/icon/apple-touch-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="/vtk-js/icon/apple-touch-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="/vtk-js/icon/apple-touch-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/vtk-js/icon/apple-touch-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/vtk-js/icon/apple-touch-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/vtk-js/icon/apple-touch-icon-152x152.png">
+  <link rel="icon" type="image/png" href="/vtk-js/icon/favicon-196x196.png" sizes="196x196">
+  <link rel="icon" type="image/png" href="/vtk-js/icon/favicon-160x160.png" sizes="160x160">
+  <link rel="icon" type="image/png" href="/vtk-js/icon/favicon-96x96.png" sizes="96x96">
+  <link rel="icon" type="image/png" href="/vtk-js/icon/favicon-16x16.png" sizes="16x16">
+  <link rel="icon" type="image/png" href="/vtk-js/icon/favicon-32x32.png" sizes="32x32">
+  <meta name="msapplication-TileColor" content="#2f83cd">
+  <meta name="msapplication-TileImage" content="/vtk-js/icon/mstile-144x144.png">
+  <!-- CSS -->
+  <!-- build:css build/css/navy.css -->
+  <link rel="stylesheet" href="/vtk-js/css/navy.css">
+  <!-- endbuild -->
+  <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css">
+  <!-- RSS -->
+  <link rel="alternate" href="/vtk-js/atom.xml" title="vtk.js">
+  <!-- Open Graph -->
+  <meta name="description" content="TAP version 13 Test vtkDataSetAttributes instanceok 1 Make sure the class definition existsok 2 Make sure the newInstance method exists.ok 3 Default number of arrays should be 0ok 4 Default Scalars sh">
+<meta property="og:type" content="website">
+<meta property="og:title" content="vtk.js">
+<meta property="og:url" content="https://kitware.github.io/vtk-js/coverage/tests.html">
+<meta property="og:site_name" content="vtk.js">
+<meta property="og:description" content="TAP version 13 Test vtkDataSetAttributes instanceok 1 Make sure the class definition existsok 2 Make sure the newInstance method exists.ok 3 Default number of arrays should be 0ok 4 Default Scalars sh">
+<meta property="og:updated_time" content="2017-06-02T23:53:38.622Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="vtk.js">
+<meta name="twitter:description" content="TAP version 13 Test vtkDataSetAttributes instanceok 1 Make sure the class definition existsok 2 Make sure the newInstance method exists.ok 3 Default number of arrays should be 0ok 4 Default Scalars sh">
+  <!-- Google Analytics -->
+  
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-90338862-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+</head>
+
+<body>
+  <div id="container">
+    <header id="header" class="wrapper">
+  <div id="header-inner" class="inner">
+    <h1 id="logo-wrap">
+      <a href="/vtk-js/" id="logo">ParaViewWeb</a>
+    </h1>
+    <nav id="main-nav">
+      <a href="/vtk-js/docs/" class="main-nav-link">Docs</a><a href="/vtk-js/api/" class="main-nav-link">API</a><a href="/vtk-js/examples/" class="main-nav-link">Examples</a>
+      <a href="https://github.com/kitware/vtk-js" class="main-nav-link"><i class="fa fa-github-alt"></i></a>
+      <div id="search-input-wrap">
+        <div id="search-input-icon">
+          <i class="fa fa-search"></i>
+        </div>
+        <input type="search" id="search-input" placeholder="Search...">
+      </div>
+    </nav>
+    <a id="mobile-nav-toggle">
+      <span class="mobile-nav-toggle-bar"></span>
+      <span class="mobile-nav-toggle-bar"></span>
+      <span class="mobile-nav-toggle-bar"></span>
+    </a>
+  </div>
+</header>
+
+    <div id="content-wrap">
+  <div id="content" class="wrapper">
+    <div id="content-inner">
+      <article class="article-container" itemscope itemtype="http://schema.org/Article">
+        <div class="article-inner">
+          <div class="article">
+            <div class="inner">
+              <header class="article-header">
+                <h1 class="article-title" itemprop="name"></h1>
+              </header>
+              <div class="article-content" itemprop="articleBody">
+                <p>TAP version 13</p>
+<h1 id="Test-vtkDataSetAttributes-instance" class="article-heading"><a href="#Test-vtkDataSetAttributes-instance" class="headerlink" title="Test vtkDataSetAttributes instance"></a>Test vtkDataSetAttributes instance<a class="article-anchor" href="#Test-vtkDataSetAttributes-instance" aria-hidden="true"></a></h1><p>ok 1 Make sure the class definition exists<br>ok 2 Make sure the newInstance method exists.<br>ok 3 Default number of arrays should be 0<br>ok 4 Default Scalars should be null<br>ok 5 Adding scalars empty DSA should return index of 0<br>ok 6 Setting scalars should return 0 (the index of the array).<br>ok 7 Setting scalars with an invalid name should return -1.<br>ok 8 Setting scalars with an invalid name should reset the attribute.<br>ok 9 Default Vectors should be null<br>ok 10 Adding vectors empty DSA should return index of 1<br>ok 11 Setting vectors should return 1 (the index of the array).<br>ok 12 Setting vectors with an invalid name should return -1.<br>ok 13 Setting vectors with an invalid name should reset the attribute.<br>ok 14 Default Normals should be null<br>ok 15 Adding normals empty DSA should return index of 2<br>ok 16 Setting normals should return 2 (the index of the array).<br>ok 17 Setting normals with an invalid name should return -1.<br>ok 18 Setting normals with an invalid name should reset the attribute.<br>ok 19 Default TCoords should be null<br>ok 20 Adding tcoords empty DSA should return index of 3<br>ok 21 Setting tcoords should return 3 (the index of the array).<br>ok 22 Setting tcoords with an invalid name should return -1.<br>ok 23 Setting tcoords with an invalid name should reset the attribute.<br>ok 24 Default Tensors should be null<br>ok 25 Adding tensors empty DSA should return index of 4<br>ok 26 Setting tensors should return 4 (the index of the array).<br>ok 27 Setting tensors with an invalid name should return -1.<br>ok 28 Setting tensors with an invalid name should reset the attribute.<br>ok 29 Default GlobalIds should be null<br>ok 30 Adding globalids empty DSA should return index of 5<br>ok 31 Setting globalids should return 5 (the index of the array).<br>ok 32 Setting globalids with an invalid name should return -1.<br>ok 33 Setting globalids with an invalid name should reset the attribute.<br>ok 34 Default PedigreeIds should be null<br>ok 35 Adding pedigreeids empty DSA should return index of 6<br>ok 36 Setting pedigreeids should return 6 (the index of the array).<br>ok 37 Setting pedigreeids with an invalid name should return -1.<br>ok 38 Setting pedigreeids with an invalid name should reset the attribute.</p>
+<h1 id="Test-vtkPlane-instance" class="article-heading"><a href="#Test-vtkPlane-instance" class="headerlink" title="Test vtkPlane instance"></a>Test vtkPlane instance<a class="article-anchor" href="#Test-vtkPlane-instance" aria-hidden="true"></a></h1><p>ok 39 Make sure the class definition exists<br>ok 40 should be truthy</p>
+<h1 id="Test-vtkPlane-projectVector" class="article-heading"><a href="#Test-vtkPlane-projectVector" class="headerlink" title="Test vtkPlane projectVector"></a>Test vtkPlane projectVector<a class="article-anchor" href="#Test-vtkPlane-projectVector" aria-hidden="true"></a></h1><p>ok 41 should be equal<br>ok 42 should be equal<br>ok 43 should be equal<br>ok 44 should be equal<br>ok 45 should be equal<br>ok 46 should be equal<br>ok 47 should be equal<br>ok 48 should be equal<br>ok 49 should be equal</p>
+<h1 id="Test-vtkPlane-projectPoint" class="article-heading"><a href="#Test-vtkPlane-projectPoint" class="headerlink" title="Test vtkPlane projectPoint"></a>Test vtkPlane projectPoint<a class="article-anchor" href="#Test-vtkPlane-projectPoint" aria-hidden="true"></a></h1><p>ok 50 should be equal<br>ok 51 should be equal<br>ok 52 should be equal</p>
+<h1 id="Test-vtkPlane-DistanceToPlane" class="article-heading"><a href="#Test-vtkPlane-DistanceToPlane" class="headerlink" title="Test vtkPlane DistanceToPlane"></a>Test vtkPlane DistanceToPlane<a class="article-anchor" href="#Test-vtkPlane-DistanceToPlane" aria-hidden="true"></a></h1><p>ok 53 should be equal<br>ok 54 should be equal</p>
+<h1 id="Test-vtkPlane-Push" class="article-heading"><a href="#Test-vtkPlane-Push" class="headerlink" title="Test vtkPlane Push"></a>Test vtkPlane Push<a class="article-anchor" href="#Test-vtkPlane-Push" aria-hidden="true"></a></h1><p>ok 55 should be equal<br>ok 56 should be equal<br>ok 57 should be equal</p>
+<h1 id="Test-vtkPlane-intersectWithLine" class="article-heading"><a href="#Test-vtkPlane-intersectWithLine" class="headerlink" title="Test vtkPlane intersectWithLine"></a>Test vtkPlane intersectWithLine<a class="article-anchor" href="#Test-vtkPlane-intersectWithLine" aria-hidden="true"></a></h1><p>ok 58 should be equal<br>ok 59 should be equal<br>ok 60 should be equal<br>ok 61 should be equal<br>ok 62 should be equal<br>ok 63 should be equal<br>ok 64 should be equal<br>ok 65 should be equal<br>ok 66 should be equal<br>ok 67 should be equal<br>ok 68 should be equal<br>ok 69 should be equal<br>ok 70 should be equal<br>ok 71 should be equal<br>ok 72 should be equal</p>
+<h1 id="Test-vtkPlane-evaluateFunction" class="article-heading"><a href="#Test-vtkPlane-evaluateFunction" class="headerlink" title="Test vtkPlane evaluateFunction"></a>Test vtkPlane evaluateFunction<a class="article-anchor" href="#Test-vtkPlane-evaluateFunction" aria-hidden="true"></a></h1><p>ok 73 should be equal<br>ok 74 should be equal<br>ok 75 should be equal</p>
+<h1 id="Test-vtkCalculator-instance" class="article-heading"><a href="#Test-vtkCalculator-instance" class="headerlink" title="Test vtkCalculator instance"></a>Test vtkCalculator instance<a class="article-anchor" href="#Test-vtkCalculator-instance" aria-hidden="true"></a></h1><p>ok 76 Make sure the class definition exists.<br>ok 77 Make sure an instance can be created.</p>
+<h1 id="Test-vtkCalculator-execution" class="article-heading"><a href="#Test-vtkCalculator-execution" class="headerlink" title="Test vtkCalculator execution"></a>Test vtkCalculator execution<a class="article-anchor" href="#Test-vtkCalculator-execution" aria-hidden="true"></a></h1><p>ok 78 Output dataset exists<br>ok 79 The output dataset should be a vtkPolydata<br>ok 80 The number of points did not change between input 66 and output 66<br>ok 81 Output point-scalars array exists.<br>ok 82 Output point-scalars is “sine wave”.<br>ok 83 Output field-data array exists.<br>ok 84 The uniform result variable should be 22.55; got 22.549999237060547.</p>
+<h1 id="Test-vtkImageStreamline-instance" class="article-heading"><a href="#Test-vtkImageStreamline-instance" class="headerlink" title="Test vtkImageStreamline instance"></a>Test vtkImageStreamline instance<a class="article-anchor" href="#Test-vtkImageStreamline-instance" aria-hidden="true"></a></h1><p>ok 85 Make sure the class definition exist<br>ok 86 Make sure the instance exist<br>ok 87 Default integrationStep should be 1<br>ok 88 Default MaximumNumberOfSteps should be 1000<br>ok 89 Updated value of integrationStep should be 0.1</p>
+<h1 id="Test-vtkImageStreamline-execution" class="article-heading"><a href="#Test-vtkImageStreamline-execution" class="headerlink" title="Test vtkImageStreamline execution"></a>Test vtkImageStreamline execution<a class="article-anchor" href="#Test-vtkImageStreamline-execution" aria-hidden="true"></a></h1><p>ok 90 Output dataset exist<br>ok 91 The output dataset should be a vtkPolydata<br>ok 92 The number of points should be 2228</p>
+<h1 id="Test-vtkWarpScalar-instance" class="article-heading"><a href="#Test-vtkWarpScalar-instance" class="headerlink" title="Test vtkWarpScalar instance"></a>Test vtkWarpScalar instance<a class="article-anchor" href="#Test-vtkWarpScalar-instance" aria-hidden="true"></a></h1><p>ok 93 Make sure the class definition exist<br>ok 94 Make sure the instance exist<br>ok 95 Default ScaleFactor should be 1<br>ok 96 Default UseNormal should be false<br>ok 97 Default xyPlane should be false<br>ok 98 Default normal should be [0, 0, 1]<br>ok 99 Updated value of ScaleFactor should be 2.5</p>
+<h1 id="Test-vtkWarpScalar-execution" class="article-heading"><a href="#Test-vtkWarpScalar-execution" class="headerlink" title="Test vtkWarpScalar execution"></a>Test vtkWarpScalar execution<a class="article-anchor" href="#Test-vtkWarpScalar-execution" aria-hidden="true"></a></h1><p>ok 100 Output dataset exist<br>ok 101 The output dataset should be a vtkPolydata<br>ok 102 The number of points do not change between input 50 and output 50</p>
+<h1 id="Test-vtkAbstractMapper-publicAPI" class="article-heading"><a href="#Test-vtkAbstractMapper-publicAPI" class="headerlink" title="Test vtkAbstractMapper publicAPI"></a>Test vtkAbstractMapper publicAPI<a class="article-anchor" href="#Test-vtkAbstractMapper-publicAPI" aria-hidden="true"></a></h1><p>ok 103 should be equal<br>ok 104 should be equal<br>ok 105 should be equal<br>ok 106 should be equal<br>ok 107 should be equal<br>ok 108 should be equal<br>ok 109 should be equal<br>ok 110 should be equal<br>ok 111 should be equal<br>ok 112 should be equal<br>ok 113 should be equal<br>ok 114 should be equal<br>ok 115 should be equal</p>
+<h1 id="Macro-methods-algo-tests" class="article-heading"><a href="#Macro-methods-algo-tests" class="headerlink" title="Macro methods algo tests"></a>Macro methods algo tests<a class="article-anchor" href="#Macro-methods-algo-tests" aria-hidden="true"></a></h1><p>ok 116 populate publicAPI<br>ok 117 return input data<br>ok 118 Add two input arrays<br>ok 119 Subtract two input arrays<br>ok 120 Multiply two input arrays<br>ok 121 Divide two input arrays, using outputPort</p>
+<h1 id="Macro-methods-scalar-tests" class="article-heading"><a href="#Macro-methods-scalar-tests" class="headerlink" title="Macro methods scalar tests"></a>Macro methods scalar tests<a class="article-anchor" href="#Macro-methods-scalar-tests" aria-hidden="true"></a></h1><p>ok 122 macro setget<br>ok 123 Initial gets should match defaults<br>ok 124 Bool get should match set<br>ok 125 Initial gets should match defaults<br>ok 126 Int get should match set<br>ok 127 mtime should increase after set<br>ok 128 mtime should not increase after idempotent set</p>
+<h1 id="Macro-methods-array-tests" class="article-heading"><a href="#Macro-methods-array-tests" class="headerlink" title="Macro methods array tests"></a>Macro methods array tests<a class="article-anchor" href="#Macro-methods-array-tests" aria-hidden="true"></a></h1><p>ok 129 Initial gets should match defaults<br>ok 130 Throw if no set method declared<br>ok 131 Array spread set OK<br>ok 132 Array spread set should match get<br>ok 133 OK to set a single array argument<br>ok 134 Array set should match get<br>ok 135 mtime should increase after set<br>ok 136 Invalid number of values should throw<br>ok 137 Keep default value after illegal set<br>ok 138 mtime should not increase after idempotent set<br>ok 139 Invalid number of values should throw<br>ok 140 Keep value after illegal set<br>ok 141 Invalid set with string should throw<br>ok 142 Keep value after illegal set</p>
+<h1 id="Macro-methods-enum-tests" class="article-heading"><a href="#Macro-methods-enum-tests" class="headerlink" title="Macro methods enum tests"></a>Macro methods enum tests<a class="article-anchor" href="#Macro-methods-enum-tests" aria-hidden="true"></a></h1><p>ok 143 Initial gets should match defaults<br>ok 144 Enum set should match get<br>ok 145 should be truthy<br>ok 146 Enum set by index should get matching enum value<br>ok 147 Setting idempotent value should return false<br>ok 148 Invalid enum index should throw<br>ok 149 Enum set out of range should be rejected<br>ok 150 Invalid enum string should throw<br>ok 151 Enum set string out of range should be rejected<br>ok 152 Invalid enum set with array/object should throw<br>ok 153 Enum set string out of range should be rejected</p>
+<h1 id="Macro-methods-object-tests" class="article-heading"><a href="#Macro-methods-object-tests" class="headerlink" title="Macro methods object tests"></a>Macro methods object tests<a class="article-anchor" href="#Macro-methods-object-tests" aria-hidden="true"></a></h1><p>ok 154 Get entire model<br>ok 155 Get defaults back test<br>ok 156 Object should be frozen<br>ok 157 should be truthy<br>ok 158 should be truthy<br>ok 159 Object modified fires<br>ok 160 Object modified does not fire after unsubscribe<br>ok 161 Test mult-set<br>ok 162 Float get should match multi-set<br>ok 163 Array multi-set should match get<br>ok 164 should be truthy<br>ok 165 should be truthy<br>ok 166 should be falsy<br>ok 167 should be equal<br>ok 168 should not throw<br>ok 169 All calls should do nothing after delete</p>
+<h1 id="Test-vtkDataArray-serialization-deserialization" class="article-heading"><a href="#Test-vtkDataArray-serialization-deserialization" class="headerlink" title="Test vtkDataArray serialization/deserialization"></a>Test vtkDataArray serialization/deserialization<a class="article-anchor" href="#Test-vtkDataArray-serialization-deserialization" aria-hidden="true"></a></h1><p>ok 170 Make sure the class definition exist<br>ok 171 Make sure the instance exist<br>ok 172 Make sure we can get serialize data<br>ok 173 Make sure we can get deserialize data<br>ok 174 We have two different instances<br>ok 175 But same serialized content</p>
+<h1 id="Test-vtkPoints-serialization-deserialization" class="article-heading"><a href="#Test-vtkPoints-serialization-deserialization" class="headerlink" title="Test vtkPoints serialization/deserialization"></a>Test vtkPoints serialization/deserialization<a class="article-anchor" href="#Test-vtkPoints-serialization-deserialization" aria-hidden="true"></a></h1><p>ok 176 Make sure the class definition exist<br>ok 177 Make sure the instance exist<br>ok 178 Make sure we can get serialize data<br>ok 179 Make sure we can get deserialize data<br>ok 180 We have two different instances<br>ok 181 But same serialized content</p>
+<h1 id="Test-vtkLookupTable-serialization-deserialization" class="article-heading"><a href="#Test-vtkLookupTable-serialization-deserialization" class="headerlink" title="Test vtkLookupTable serialization/deserialization"></a>Test vtkLookupTable serialization/deserialization<a class="article-anchor" href="#Test-vtkLookupTable-serialization-deserialization" aria-hidden="true"></a></h1><p>ok 182 Make sure the class definition exist<br>ok 183 Make sure the instance exist<br>ok 184 Make sure we can get serialize data<br>ok 185 Make sure we can get deserialize data<br>ok 186 We have two different instances<br>ok 187 But same serialized content</p>
+<h1 id="Test-vtkScalarsToColors-serialization-deserialization" class="article-heading"><a href="#Test-vtkScalarsToColors-serialization-deserialization" class="headerlink" title="Test vtkScalarsToColors serialization/deserialization"></a>Test vtkScalarsToColors serialization/deserialization<a class="article-anchor" href="#Test-vtkScalarsToColors-serialization-deserialization" aria-hidden="true"></a></h1><p>ok 188 Make sure the class definition exist<br>ok 189 Make sure the instance exist<br>ok 190 Make sure we can get serialize data<br>ok 191 Make sure we can get deserialize data<br>ok 192 We have two different instances<br>ok 193 But same serialized content</p>
+<h1 id="Test-vtkPolyData-serialization-deserialization" class="article-heading"><a href="#Test-vtkPolyData-serialization-deserialization" class="headerlink" title="Test vtkPolyData serialization/deserialization"></a>Test vtkPolyData serialization/deserialization<a class="article-anchor" href="#Test-vtkPolyData-serialization-deserialization" aria-hidden="true"></a></h1><p>ok 194 Make sure the class definition exist<br>ok 195 Make sure the instance exist<br>ok 196 Make sure we can get serialize data<br>ok 197 Make sure we can get deserialize data<br>ok 198 We have two different instances<br>ok 199 But same serialized content</p>
+<p>1..199</p>
+<h1 id="tests-199" class="article-heading"><a href="#tests-199" class="headerlink" title="tests 199"></a>tests 199<a class="article-anchor" href="#tests-199" aria-hidden="true"></a></h1><h1 id="pass-199" class="article-heading"><a href="#pass-199" class="headerlink" title="pass  199"></a>pass  199<a class="article-anchor" href="#pass-199" aria-hidden="true"></a></h1><h1 id="ok" class="article-heading"><a href="#ok" class="headerlink" title="ok"></a>ok<a class="article-anchor" href="#ok" aria-hidden="true"></a></h1>
+              </div>
+              <footer class="article-footer">
+                <time class="article-footer-updated" datetime="2017-06-02T23:53:38.622Z" itemprop="dateModified">Last updated: 2017-06-02</time>
+                
+              </footer>
+              
+            </div>
+          </div>
+          <aside id="article-toc" role="navigation">
+            <div id="article-toc-inner">
+              <strong class="sidebar-title">Contents</strong>
+              <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Test-vtkDataSetAttributes-instance"><span class="toc-text">Test vtkDataSetAttributes instance</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Test-vtkPlane-instance"><span class="toc-text">Test vtkPlane instance</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Test-vtkPlane-projectVector"><span class="toc-text">Test vtkPlane projectVector</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Test-vtkPlane-projectPoint"><span class="toc-text">Test vtkPlane projectPoint</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Test-vtkPlane-DistanceToPlane"><span class="toc-text">Test vtkPlane DistanceToPlane</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Test-vtkPlane-Push"><span class="toc-text">Test vtkPlane Push</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Test-vtkPlane-intersectWithLine"><span class="toc-text">Test vtkPlane intersectWithLine</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Test-vtkPlane-evaluateFunction"><span class="toc-text">Test vtkPlane evaluateFunction</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Test-vtkCalculator-instance"><span class="toc-text">Test vtkCalculator instance</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Test-vtkCalculator-execution"><span class="toc-text">Test vtkCalculator execution</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Test-vtkImageStreamline-instance"><span class="toc-text">Test vtkImageStreamline instance</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Test-vtkImageStreamline-execution"><span class="toc-text">Test vtkImageStreamline execution</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Test-vtkWarpScalar-instance"><span class="toc-text">Test vtkWarpScalar instance</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Test-vtkWarpScalar-execution"><span class="toc-text">Test vtkWarpScalar execution</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Test-vtkAbstractMapper-publicAPI"><span class="toc-text">Test vtkAbstractMapper publicAPI</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Macro-methods-algo-tests"><span class="toc-text">Macro methods algo tests</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Macro-methods-scalar-tests"><span class="toc-text">Macro methods scalar tests</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Macro-methods-array-tests"><span class="toc-text">Macro methods array tests</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Macro-methods-enum-tests"><span class="toc-text">Macro methods enum tests</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Macro-methods-object-tests"><span class="toc-text">Macro methods object tests</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Test-vtkDataArray-serialization-deserialization"><span class="toc-text">Test vtkDataArray serialization/deserialization</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Test-vtkPoints-serialization-deserialization"><span class="toc-text">Test vtkPoints serialization/deserialization</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Test-vtkLookupTable-serialization-deserialization"><span class="toc-text">Test vtkLookupTable serialization/deserialization</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Test-vtkScalarsToColors-serialization-deserialization"><span class="toc-text">Test vtkScalarsToColors serialization/deserialization</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Test-vtkPolyData-serialization-deserialization"><span class="toc-text">Test vtkPolyData serialization/deserialization</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#tests-199"><span class="toc-text">tests 199</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#pass-199"><span class="toc-text">pass  199</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#ok"><span class="toc-text">ok</span></a></li></ol>
+              <a href="#" id="article-toc-top">Back to Top</a>
+            </div>
+          </aside>
+        </div>
+      </article>
+      <aside id="sidebar" role="navigation">
+  <div class="inner"></div>
+</aside>
+    </div>
+  </div>
+</div>
+
+    <footer id="footer" class="wrapper">
+  <div class="inner">
+    <div id="footer-copyright">
+      &copy; 2017 <a href="http://www.kitware.com" target="_blank">Kitware Inc.</a>
+    </div>
+    <div id="footer-links">
+      <a href="https://github.com/kitware/vtk-js" class="footer-link" target="_blank"><i class="fa fa-github-alt"></i></a>
+    </div>
+  </div>
+</footer>
+
+  </div>
+  <div id="mobile-nav-dimmer"></div>
+  <nav id="mobile-nav">
+  <div id="mobile-nav-inner">
+    <ul id="mobile-nav-list">
+      <a href="/vtk-js/docs/" class="mobile-nav-link">Docs</a><a href="/vtk-js/api/" class="mobile-nav-link">API</a><a href="/vtk-js/examples/" class="mobile-nav-link">Examples</a>
+      <li class="mobile-nav-item">
+        <a href="https://github.com/kitware/vtk-js" class="mobile-nav-link" rel="external" target="_blank">GitHub</a>
+      </li>
+    </ul>
+    
+      
+    
+  </div>
+  <div id="mobile-lang-select-wrap">
+    <span id="mobile-lang-select-label"><i class="fa fa-globe"></i><span>English</span></span>
+    <select id="mobile-lang-select" data-canonical="">
+      
+        <option value="en" selected>English</option>
+      
+    </select>
+  </div>
+</nav>
+  <!-- Scripts -->
+<!-- build:js build/js/main.js -->
+<script src="/vtk-js/js/lang_select.js"></script>
+<script src="/vtk-js/js/toc.js"></script>
+<script src="/vtk-js/js/mobile_nav.js"></script>
+<!-- endbuild -->
+<script src="https://cdn.jsdelivr.net/retinajs/1.3.0/retina.min.js" async></script>
+
+
+
+</body>
+</html>
