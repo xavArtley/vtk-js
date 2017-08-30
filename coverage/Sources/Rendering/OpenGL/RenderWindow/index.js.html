@@ -20,9 +20,9 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">2.11% </span>
+        <span class="strong">1.92% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>3/142</span>
+        <span class='fraction'>3/156</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
@@ -32,12 +32,12 @@
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>0/24</span>
+        <span class='fraction'>0/28</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">2.13% </span>
+        <span class="strong">1.94% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>3/141</span>
+        <span class='fraction'>3/155</span>
       </div>
     </div>
   </div>
@@ -367,7 +367,29 @@
 322
 323
 324
-325</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+325
+326
+327
+328
+329
+330
+331
+332
+333
+334
+335
+336
+337
+338
+339
+340
+341
+342
+343
+344
+345
+346
+347</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -488,6 +510,28 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -813,6 +857,28 @@ function vtkOpenGLRenderWindow(publicAPI, model) <span class="fstat-no" title="f
 <span class="cstat-no" title="statement not covered" >  publicAPI.normalizedDisplayToDisplay = (x, y, z) =&gt;</span>
 <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >    [x * model.size[0], y * model.size[1], z];</span></span>
 &nbsp;
+<span class="cstat-no" title="statement not covered" >  publicAPI.worldToView = (x, y, z, renderer) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+    const dims = <span class="cstat-no" title="statement not covered" >publicAPI.getViewportSize(renderer);</span>
+<span class="cstat-no" title="statement not covered" >    return renderer.worldToView(y, y, z, dims[0] / dims[1]);</span>
+  };
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  publicAPI.viewToWorld = (x, y, z, renderer) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+    const dims = <span class="cstat-no" title="statement not covered" >publicAPI.getViewportSize(renderer);</span>
+<span class="cstat-no" title="statement not covered" >    return renderer.viewToWorld(y, y, z, dims[0] / dims[1]);</span>
+  };
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  publicAPI.worldToDisplay = (x, y, z, renderer) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+    const val = <span class="cstat-no" title="statement not covered" >publicAPI.worldToView(x, y, z, renderer);</span>
+    const val2 = <span class="cstat-no" title="statement not covered" >renderer.viewToNormalizedDisplay(val[0], val[1], val[2]);</span>
+<span class="cstat-no" title="statement not covered" >    return publicAPI.normalizedDisplayToDisplay(val2[0], val2[1], val2[2]);</span>
+  };
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  publicAPI.displayToWorld = (x, y, z, renderer) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+    const val = <span class="cstat-no" title="statement not covered" >publicAPI.displayToNormalized(x, y, z);</span>
+    const val2 = <span class="cstat-no" title="statement not covered" >renderer.normalizedDisplayToView(val[0], val[1], val[2]);</span>
+<span class="cstat-no" title="statement not covered" >    return publicAPI.viewToWorld(val2[0], val2[1], val2[2], renderer);</span>
+  };
+&nbsp;
 <span class="cstat-no" title="statement not covered" >  publicAPI.getPixelData = (x1, y1, x2, y2) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
     const pixels = <span class="cstat-no" title="statement not covered" >new Uint8Array((x2 - x1 + 1) * (y2 - y1 + 1) * 4);</span>
 <span class="cstat-no" title="statement not covered" >    model.context.readPixels(</span>
@@ -1021,7 +1087,7 @@ export default { newInstance, extend };
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Aug 29 2017 14:43:07 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Aug 30 2017 13:45:54 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>

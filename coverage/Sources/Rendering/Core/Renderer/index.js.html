@@ -659,7 +659,9 @@
 614
 615
 616
-617</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+617
+618
+619</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -861,11 +863,6 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -876,22 +873,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -904,6 +888,26 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1477,20 +1481,23 @@ function vtkRenderer(publicAPI, model) <span class="fstat-no" title="function no
 <span class="cstat-no" title="statement not covered" >    model.createdLight.setFocalPoint(publicAPI.getActiveCamera().getFocalPoint());</span>
   };
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  publicAPI.normalizedDisplayToWorld = (x, y, z) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+  // requires the aspect ratio of the viewport as X/Y
+<span class="cstat-no" title="statement not covered" >  publicAPI.normalizedDisplayToWorld = (x, y, z, aspect) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
     const vpd = <span class="cstat-no" title="statement not covered" >publicAPI.normalizedDisplayToView(x, y, z);</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    return publicAPI.viewToWorld(vpd[0], vpd[1], vpd[2]);</span>
+<span class="cstat-no" title="statement not covered" >    return publicAPI.viewToWorld(vpd[0], vpd[1], vpd[2], aspect);</span>
   };
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  publicAPI.worldToNormalizedDisplay = (x, y, z) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+  // requires the aspect ratio of the viewport as X/Y
+<span class="cstat-no" title="statement not covered" >  publicAPI.worldToNormalizedDisplay = (x, y, z, aspect) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
     const vpd = <span class="cstat-no" title="statement not covered" >publicAPI.worldToView(x, y, z);</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    return publicAPI.viewToNormalizedDisplay(vpd[0], vpd[1], vpd[2]);</span>
+<span class="cstat-no" title="statement not covered" >    return publicAPI.viewToNormalizedDisplay(vpd[0], vpd[1], vpd[2], aspect);</span>
   };
 &nbsp;
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  publicAPI.viewToWorld = (x, y, z) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+  // requires the aspect ratio of the viewport as X/Y
+<span class="cstat-no" title="statement not covered" >  publicAPI.viewToWorld = (x, y, z, aspect) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
 <span class="cstat-no" title="statement not covered" >    if (model.activeCamera === null) {</span>
 <span class="cstat-no" title="statement not covered" >      vtkErrorMacro('ViewToWorld: no active camera, cannot compute view to world, returning 0,0,0');</span>
 <span class="cstat-no" title="statement not covered" >      return [0, 0, 0];</span>
@@ -1498,8 +1505,7 @@ function vtkRenderer(publicAPI, model) <span class="fstat-no" title="function no
 &nbsp;
     // get the perspective transformation from the active camera
     const matrix = <span class="cstat-no" title="statement not covered" >model.activeCamera</span>
-      .getCompositeProjectionTransformMatrix(1.0, 0, 1);
-//                    publicAPI.getTiledAspectRatio(), 0, 1);
+      .getCompositeProjectionTransformMatrix(aspect, -1.0, 1.0);
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    mat4.invert(matrix, matrix);</span>
 <span class="cstat-no" title="statement not covered" >    mat4.transpose(matrix, matrix);</span>
@@ -1511,7 +1517,8 @@ function vtkRenderer(publicAPI, model) <span class="fstat-no" title="function no
   };
 &nbsp;
   // Convert world point coordinates to view coordinates.
-<span class="cstat-no" title="statement not covered" >  publicAPI.worldToView = (x, y, z) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+  // requires the aspect ratio of the viewport as X/Y
+<span class="cstat-no" title="statement not covered" >  publicAPI.worldToView = (x, y, z, aspect) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
 <span class="cstat-no" title="statement not covered" >    if (model.activeCamera === null) {</span>
 <span class="cstat-no" title="statement not covered" >      vtkErrorMacro('ViewToWorld: no active camera, cannot compute view to world, returning 0,0,0');</span>
 <span class="cstat-no" title="statement not covered" >      return [0, 0, 0];</span>
@@ -1519,8 +1526,7 @@ function vtkRenderer(publicAPI, model) <span class="fstat-no" title="function no
 &nbsp;
     // get the perspective transformation from the active camera
     const matrix = <span class="cstat-no" title="statement not covered" >model.activeCamera</span>
-      .getCompositeProjectionTransformMatrix(1.0, 0, 1);
-//                    publicAPI.getTiledAspectRatio(), 0, 1);
+      .getCompositeProjectionTransformMatrix(aspect, -1.0, 1.0);
 <span class="cstat-no" title="statement not covered" >    mat4.transpose(matrix, matrix);</span>
 &nbsp;
     const result = <span class="cstat-no" title="statement not covered" >vec3.fromValues(x, y, z);</span>
@@ -1897,7 +1903,7 @@ export default { newInstance, extend };
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Aug 29 2017 14:43:07 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Aug 30 2017 13:45:54 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>
