@@ -20,9 +20,9 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">1.16% </span>
+        <span class="strong">1.18% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>3/259</span>
+        <span class='fraction'>3/254</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
@@ -35,9 +35,9 @@
         <span class='fraction'>0/33</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">1.16% </span>
+        <span class="strong">1.18% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>3/259</span>
+        <span class='fraction'>3/254</span>
       </div>
     </div>
   </div>
@@ -613,13 +613,7 @@
 568
 569
 570
-571
-572
-573
-574
-575
-576
-577</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+571</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -906,12 +900,10 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -972,12 +964,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -1481,14 +1469,12 @@ function vtkCamera(publicAPI, model) <span class="fstat-no" title="function not 
     const at = <span class="cstat-no" title="statement not covered" >model.focalPoint;</span>
     const up = <span class="cstat-no" title="statement not covered" >model.viewUp;</span>
 &nbsp;
-    const result = <span class="cstat-no" title="statement not covered" >mat4.create();</span>
-<span class="cstat-no" title="statement not covered" >    mat4.lookAt(viewMatrix,</span>
+    const result = <span class="cstat-no" title="statement not covered" >mat4.lookAt(viewMatrix,</span>
       vec3.fromValues(eye[0], eye[1], eye[2]),  // eye
       vec3.fromValues(at[0], at[1], at[2]),     // at
       vec3.fromValues(up[0], up[1], up[2]));    // up
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    mat4.transpose(viewMatrix, viewMatrix);</span>
-<span class="cstat-no" title="statement not covered" >    mat4.copy(result, viewMatrix);</span>
+<span class="cstat-no" title="statement not covered" >    mat4.transpose(result, result);</span>
 <span class="cstat-no" title="statement not covered" >    return result;</span>
   };
 &nbsp;
@@ -1547,18 +1533,14 @@ function vtkCamera(publicAPI, model) <span class="fstat-no" title="function not 
 <span class="cstat-no" title="statement not covered" >      projectionMatrix[15] = 0.0;</span>
     }
 &nbsp;
-    const result = <span class="cstat-no" title="statement not covered" >mat4.create();</span>
-<span class="cstat-no" title="statement not covered" >    mat4.copy(result, projectionMatrix);</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >    return result;</span>
+<span class="cstat-no" title="statement not covered" >    return projectionMatrix;</span>
   };
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  publicAPI.getCompositeProjectionTransformMatrix = (aspect, nearz, farz) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
     const vMat = <span class="cstat-no" title="statement not covered" >publicAPI.getViewTransformMatrix();</span>
     const pMat = <span class="cstat-no" title="statement not covered" >publicAPI.getProjectionTransformMatrix(aspect, nearz, farz);</span>
-    const result = <span class="cstat-no" title="statement not covered" >mat4.create();</span>
-<span class="cstat-no" title="statement not covered" >    mat4.multiply(result, vMat, pMat);</span>
-<span class="cstat-no" title="statement not covered" >    return result;</span>
+<span class="cstat-no" title="statement not covered" >    mat4.multiply(pMat, vMat, pMat);</span>
+<span class="cstat-no" title="statement not covered" >    return pMat;</span>
   };
 &nbsp;
   // publicAPI.getProjectionTransformMatrix = renderer =&gt; {
@@ -1777,7 +1759,7 @@ export default { newInstance, extend };
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Sep 07 2017 17:52:26 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Sep 07 2017 18:33:31 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>
