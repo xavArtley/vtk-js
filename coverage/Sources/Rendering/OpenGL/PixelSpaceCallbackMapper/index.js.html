@@ -20,14 +20,14 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">5.88% </span>
+        <span class="strong">4.88% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>2/34</span>
+        <span class='fraction'>2/41</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>0/11</span>
+        <span class='fraction'>0/15</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
@@ -35,9 +35,9 @@
         <span class='fraction'>0/4</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">5.88% </span>
+        <span class="strong">4.88% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>2/34</span>
+        <span class='fraction'>2/41</span>
       </div>
     </div>
   </div>
@@ -147,17 +147,7 @@
 102
 103
 104
-105
-106
-107
-108
-109
-110
-111
-112
-113
-114
-115</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+105</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -193,6 +183,13 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -202,29 +199,12 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -306,7 +286,14 @@ function vtkOpenGLPixelSpaceCallbackMapper(publicAPI, model) <span class="fstat-
       const gl = <span class="cstat-no" title="statement not covered" >zbt.getContext();</span>
 <span class="cstat-no" title="statement not covered" >      zbt.bind();</span>
 &nbsp;
-      // Use vtkFramebuffer to save current settings (bindings/buffers)
+      // Here we need to use vtkFramebuffer to save current settings (bindings/buffers)
+      const fb = <span class="cstat-no" title="statement not covered" >renderPass.getFramebuffer();</span>
+<span class="cstat-no" title="statement not covered" >      if (!fb) {</span>
+<span class="cstat-no" title="statement not covered" >        console.error('Aghhh! No framebuffer?');</span>
+      } else {
+        // save framebuffer settings
+<span class="cstat-no" title="statement not covered" >        fb.saveCurrentBindingsAndBuffers();</span>
+      }
 &nbsp;
       const framebuffer = <span class="cstat-no" title="statement not covered" >gl.createFramebuffer();</span>
 <span class="cstat-no" title="statement not covered" >      gl.bindFramebuffer(gl.FRAMEBUFFER, framebuffer);</span>
@@ -316,30 +303,13 @@ function vtkOpenGLPixelSpaceCallbackMapper(publicAPI, model) <span class="fstat-
 <span class="cstat-no" title="statement not covered" >        texels = new Uint8Array(width * height * 4);</span>
 <span class="cstat-no" title="statement not covered" >        gl.viewport(0, 0, width, height);</span>
 <span class="cstat-no" title="statement not covered" >        gl.readPixels(0, 0, width, height, gl.RGBA, gl.UNSIGNED_BYTE, texels);</span>
-&nbsp;
-        // const matrix = camera.getProjectionTransformMatrix(aspectRatio, 1, -1);
-        // mat4.transpose(matrix, matrix);
-        // mat4.invert(matrix, matrix);
-&nbsp;
-        // depthValues = new Float32Array(width * height);
-&nbsp;
-        // for (let i = 0; i &lt; width * height; i += 1) {
-        //   const idx = i * 4;
-        //   const r = texels[idx] / 255;
-        //   const g = texels[idx + 1] / 255;
-        //   let z = ((r * 256) + g) / 257;
-        //   z = (z * 2) - 1;   // scale depths from [0, 1] into [-1, 1]
-        //   // depthValues[i] = z;
-        //   // const y = affine(Math.floor(i / width), 0, height - 1, -1, 1);
-        //   // const x = affine(i - (y * width), 0, width - 1, -1, 1);
-        //   const zvc = vec3.fromValues(0, 0, z);
-        //   vec3.transformMat4(zvc, zvc, matrix);
-&nbsp;
-        //   depthValues[i] = -zvc[2];
-        // }
+<span class="cstat-no" title="statement not covered" >        console.log(`Just read ${width} x ${height} region of texels`);</span>
       }
 &nbsp;
-      // Restore framebuffer bindings/buffers
+      // Now we need to restore framebuffer bindings/buffers
+<span class="cstat-no" title="statement not covered" >      if (fb) {</span>
+<span class="cstat-no" title="statement not covered" >        fb.restorePreviousBindingsAndBuffers();</span>
+      }
 &nbsp;
 <span class="cstat-no" title="statement not covered" >      zbt.unBind();</span>
 <span class="cstat-no" title="statement not covered" >      gl.deleteFramebuffer(framebuffer);</span>
@@ -391,7 +361,7 @@ export default { newInstance, extend };
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Sep 06 2017 05:53:21 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Sep 07 2017 05:16:51 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>
