@@ -20,9 +20,9 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">4.88% </span>
+        <span class="strong">7.32% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>2/41</span>
+        <span class='fraction'>3/41</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
@@ -35,9 +35,9 @@
         <span class='fraction'>0/4</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">4.88% </span>
+        <span class="strong">7.32% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>2/41</span>
+        <span class='fraction'>3/41</span>
       </div>
     </div>
   </div>
@@ -140,23 +140,12 @@
 95
 96
 97
-98
-99
-100
-101
-102
-103
-104
-105</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+98</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -171,7 +160,6 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -199,7 +187,6 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -209,7 +196,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -256,11 +242,7 @@
 import macro              from 'vtk.js/Sources/macro';
 import vtkViewNode        from 'vtk.js/Sources/Rendering/SceneGraph/ViewNode';
 &nbsp;
-&nbsp;
-// function affine(val, inMin, inMax, outMin, outMax) {
-//   return (((val - inMin) / (inMax - inMin)) * (outMax - outMin)) + outMin;
-// }
-&nbsp;
+const { vtkErrorMacro } = macro;
 &nbsp;
 // ----------------------------------------------------------------------------
 // vtkOpenGLPixelSpaceCallbackMapper methods
@@ -275,7 +257,6 @@ function vtkOpenGLPixelSpaceCallbackMapper(publicAPI, model) <span class="fstat-
     const ren = <span class="cstat-no" title="statement not covered" >publicAPI.getFirstAncestorOfType('vtkOpenGLRenderer');</span>
     const camera = <span class="cstat-no" title="statement not covered" >ren ? ren.getRenderable().getActiveCamera() : null;</span>
     const tsize = <span class="cstat-no" title="statement not covered" >ren.getTiledSizeAndOrigin();</span>
-    // let depthValues = null;
     let texels = <span class="cstat-no" title="statement not covered" >null;</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    if (model.renderable.getUseZValues()) {</span>
@@ -289,7 +270,7 @@ function vtkOpenGLPixelSpaceCallbackMapper(publicAPI, model) <span class="fstat-
       // Here we need to use vtkFramebuffer to save current settings (bindings/buffers)
       const fb = <span class="cstat-no" title="statement not covered" >renderPass.getFramebuffer();</span>
 <span class="cstat-no" title="statement not covered" >      if (!fb) {</span>
-<span class="cstat-no" title="statement not covered" >        console.error('Aghhh! No framebuffer?');</span>
+<span class="cstat-no" title="statement not covered" >        vtkErrorMacro('No framebuffer to save/restore');</span>
       } else {
         // save framebuffer settings
 <span class="cstat-no" title="statement not covered" >        fb.saveCurrentBindingsAndBuffers();</span>
@@ -303,7 +284,6 @@ function vtkOpenGLPixelSpaceCallbackMapper(publicAPI, model) <span class="fstat-
 <span class="cstat-no" title="statement not covered" >        texels = new Uint8Array(width * height * 4);</span>
 <span class="cstat-no" title="statement not covered" >        gl.viewport(0, 0, width, height);</span>
 <span class="cstat-no" title="statement not covered" >        gl.readPixels(0, 0, width, height, gl.RGBA, gl.UNSIGNED_BYTE, texels);</span>
-<span class="cstat-no" title="statement not covered" >        console.log(`Just read ${width} x ${height} region of texels`);</span>
       }
 &nbsp;
       // Now we need to restore framebuffer bindings/buffers
@@ -315,7 +295,6 @@ function vtkOpenGLPixelSpaceCallbackMapper(publicAPI, model) <span class="fstat-
 <span class="cstat-no" title="statement not covered" >      gl.deleteFramebuffer(framebuffer);</span>
     }
 &nbsp;
-    // model.renderable.invokeCallback(model.renderable.getInputData(), camera, aspectRatio, tsize, depthValues);
 <span class="cstat-no" title="statement not covered" >    model.renderable.invokeCallback(model.renderable.getInputData(), camera, aspectRatio, tsize, texels);</span>
   };
 &nbsp;
@@ -361,7 +340,7 @@ export default { newInstance, extend };
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Sep 08 2017 05:00:14 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Sep 08 2017 13:46:41 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>
