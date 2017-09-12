@@ -20,9 +20,9 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">5.71% </span>
+        <span class="strong">7.5% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>2/35</span>
+        <span class='fraction'>3/40</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
@@ -32,12 +32,12 @@
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>0/7</span>
+        <span class='fraction'>0/9</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">5.71% </span>
+        <span class="strong">7.5% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>2/35</span>
+        <span class='fraction'>3/40</span>
       </div>
     </div>
   </div>
@@ -205,7 +205,63 @@
 160
 161
 162
-163</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -370,6 +426,34 @@
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import macro from 'vtk.js/Sources/macro';
 &nbsp;
 // ----------------------------------------------------------------------------
+// Global methods
+// ----------------------------------------------------------------------------
+&nbsp;
+//----------------------------------------------------------------------------
+// Description:
+// Transform from world to display coordinates.
+function computeWorldToDisplay(renderer, x, y, z) <span class="fstat-no" title="function not covered" >{</span>
+  const view = <span class="cstat-no" title="statement not covered" >renderer.getRenderWindow().getView()[0];</span>
+<span class="cstat-no" title="statement not covered" >  return view.worldToDisplay(x, y, z, renderer);</span>
+}
+&nbsp;
+//----------------------------------------------------------------------------
+// Description:
+// Transform from display to world coordinates.
+function computeDisplayToWorld(renderer, x, y, z) <span class="fstat-no" title="function not covered" >{</span>
+  const view = <span class="cstat-no" title="statement not covered" >renderer.getRenderWindow().getView()[0];</span>
+<span class="cstat-no" title="statement not covered" >  return view.displayToWorld(x, y, z, renderer);</span>
+}
+&nbsp;
+// ----------------------------------------------------------------------------
+// Static API
+// ----------------------------------------------------------------------------
+export const STATIC = {
+  computeWorldToDisplay,
+  computeDisplayToWorld,
+};
+&nbsp;
+// ----------------------------------------------------------------------------
 // vtkInteractorObserver methods
 // ----------------------------------------------------------------------------
 &nbsp;
@@ -528,14 +612,14 @@ export const newInstance = macro.newInstance(extend, 'vtkInteractorObserver');
 &nbsp;
 // ----------------------------------------------------------------------------
 &nbsp;
-export default Object.assign({ newInstance, extend });
+export default Object.assign({ newInstance, extend }, STATIC);
 &nbsp;</pre></td></tr>
 </table></pre>
 <div class='push'></div><!-- for sticky footer -->
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Sep 12 2017 19:58:54 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Sep 12 2017 20:37:10 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>
