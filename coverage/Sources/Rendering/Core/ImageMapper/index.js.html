@@ -20,9 +20,9 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">7.14% </span>
+        <span class="strong">7.32% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>2/28</span>
+        <span class='fraction'>3/41</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
@@ -32,12 +32,12 @@
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>0/6</span>
+        <span class='fraction'>0/9</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">7.41% </span>
+        <span class="strong">7.5% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>2/27</span>
+        <span class='fraction'>3/40</span>
       </div>
     </div>
   </div>
@@ -136,8 +136,38 @@
 91
 92
 93
-94</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -157,6 +187,24 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -202,6 +250,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -209,6 +260,9 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -229,8 +283,11 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import macro   from 'vtk.js/Sources/macro';
-import vtkMath from 'vtk.js/Sources/Common/Core/Math';
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import macro     from 'vtk.js/Sources/macro';
+import Constants from 'vtk.js/Sources/Rendering/Core/ImageMapper/Constants';
+import vtkMath   from 'vtk.js/Sources/Common/Core/Math';
+&nbsp;
+const { SlicingMode } = Constants;
 &nbsp;
 // ----------------------------------------------------------------------------
 // vtkImageMapper methods
@@ -253,6 +310,24 @@ function vtkImageMapper(publicAPI, model) <span class="fstat-no" title="function
     const idx = <span class="cstat-no" title="statement not covered" >[];</span>
 <span class="cstat-no" title="statement not covered" >    image.worldToIndex(fp, idx);</span>
 <span class="cstat-no" title="statement not covered" >    publicAPI.setZSlice(Math.floor(idx[2] + 0.5));</span>
+  };
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  publicAPI.setZSliceIndex = (id) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >    model.currentSlicingMode = SlicingMode.Z;</span>
+<span class="cstat-no" title="statement not covered" >    publicAPI.update();</span>
+<span class="cstat-no" title="statement not covered" >    publicAPI.setZSlice(id);</span>
+  };
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  publicAPI.setYSliceIndex = (id) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >    model.currentSlicingMode = SlicingMode.Y;</span>
+<span class="cstat-no" title="statement not covered" >    publicAPI.update();</span>
+<span class="cstat-no" title="statement not covered" >    publicAPI.setYSlice(id);</span>
+  };
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  publicAPI.setXSliceIndex = (id) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >    model.currentSlicingMode = SlicingMode.X;</span>
+<span class="cstat-no" title="statement not covered" >    publicAPI.update();</span>
+<span class="cstat-no" title="statement not covered" >    publicAPI.setXSlice(id);</span>
   };
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  publicAPI.getBounds = () =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
@@ -287,7 +362,10 @@ const DEFAULT_VALUES = {
   displayExtent: [0, 0, 0, 0, 0, 0],
   customDisplayExtent: [0, 0, 0, 0],
   useCustomExtents: false,
+  xSlice: 0,
+  ySlice: 0,
   zSlice: 0,
+  currentSlicingMode: SlicingMode.NONE,
   renderToRectangle: false,
   sliceAtFocalPoint: false,
 };
@@ -302,6 +380,9 @@ export function extend(publicAPI, model, initialValues = {}) <span class="fstat-
 <span class="cstat-no" title="statement not covered" >  macro.algo(publicAPI, model, 1, 0);</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  macro.setGet(publicAPI, model, [</span>
+    'currentSlicingMode',
+    'xSlice',
+    'ySlice',
     'zSlice',
     'useCustomExtents',
     'renderToRectangle',
@@ -328,7 +409,7 @@ export default { newInstance, extend };
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sun Sep 24 2017 22:39:08 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sun Sep 24 2017 22:40:47 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>
