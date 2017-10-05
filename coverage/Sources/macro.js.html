@@ -20,24 +20,24 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">74.17% </span>
+        <span class="strong">71.8% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>247/333</span>
+        <span class='fraction'>247/344</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">64.77% </span>
+        <span class="strong">62.81% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>125/193</span>
+        <span class='fraction'>125/199</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">73.4% </span>
+        <span class="strong">71.13% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>69/94</span>
+        <span class='fraction'>69/97</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">75.32% </span>
+        <span class="strong">72.73% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>232/308</span>
+        <span class='fraction'>232/319</span>
       </div>
     </div>
   </div>
@@ -746,7 +746,33 @@
 701
 702
 703
-704</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+704
+705
+706
+707
+708
+709
+710
+711
+712
+713
+714
+715
+716
+717
+718
+719
+720
+721
+722
+723
+724
+725
+726
+727
+728
+729
+730</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1417,6 +1443,32 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -2123,6 +2175,31 @@ export function traverseInstanceTree(instance, extractFunction, accumulator = []
 }
 &nbsp;
 // ----------------------------------------------------------------------------
+// Returns a function, that, as long as it continues to be invoked, will not
+// be triggered. The function will be called after it stops being called for
+// N milliseconds. If `immediate` is passed, trigger the function on the
+// leading edge, instead of the trailing.
+&nbsp;
+export function debounce(func, wait, immediate) <span class="fstat-no" title="function not covered" >{</span>
+  var timeout;
+<span class="cstat-no" title="statement not covered" >  return (...args) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+    var context = <span class="cstat-no" title="statement not covered" >this;</span>
+    var later = <span class="cstat-no" title="statement not covered" >() =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >      timeout = null;</span>
+<span class="cstat-no" title="statement not covered" >      if (!immediate) {</span>
+<span class="cstat-no" title="statement not covered" >        func.apply(context, args);</span>
+      }
+    };
+    var callNow = <span class="cstat-no" title="statement not covered" >immediate &amp;&amp; !timeout;</span>
+<span class="cstat-no" title="statement not covered" >    clearTimeout(timeout);</span>
+<span class="cstat-no" title="statement not covered" >    timeout = setTimeout(later, wait);</span>
+<span class="cstat-no" title="statement not covered" >    if (callNow) {</span>
+<span class="cstat-no" title="statement not covered" >      func.apply(context, args);</span>
+    }
+  };
+}
+&nbsp;
+// ----------------------------------------------------------------------------
 // Default export
 // ----------------------------------------------------------------------------
 &nbsp;
@@ -2151,6 +2228,7 @@ export default {
   vtkInfoMacro,
   vtkLogMacro,
   vtkWarningMacro,
+  debounce,
 };
 &nbsp;</pre></td></tr>
 </table></pre>
@@ -2158,7 +2236,7 @@ export default {
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Oct 05 2017 18:26:25 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Oct 05 2017 22:53:13 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../prettify.js"></script>

@@ -22,12 +22,12 @@
       <div class='fl pad1y space-right2'>
         <span class="strong">0.5% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>3/598</span>
+        <span class='fraction'>3/604</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>0/251</span>
+        <span class='fraction'>0/259</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
@@ -37,7 +37,7 @@
       <div class='fl pad1y space-right2'>
         <span class="strong">0.5% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>3/596</span>
+        <span class='fraction'>3/602</span>
       </div>
     </div>
   </div>
@@ -1228,7 +1228,15 @@
 1183
 1184
 1185
-1186</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+1186
+1187
+1188
+1189
+1190
+1191
+1192
+1193
+1194</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -2003,13 +2011,20 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -2378,6 +2393,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -3173,9 +3189,9 @@ function vtkColorTransferFunction(publicAPI, model) <span class="fstat-no" title
   };
 &nbsp;
   //----------------------------------------------------------------------------
-<span class="cstat-no" title="statement not covered" >  publicAPI.getUint8Table = (xStart, xEnd, size) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >  publicAPI.getUint8Table = (xStart, xEnd, size, withAlpha = false) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
 <span class="cstat-no" title="statement not covered" >    if (publicAPI.getMTime() &lt;= model.buildTime &amp;&amp;</span>
-        model.tableSize === size) {
+        model.tableSize === size &amp;&amp; model.tableWithAlpha !== withAlpha) {
 <span class="cstat-no" title="statement not covered" >      return model.table;</span>
     }
 &nbsp;
@@ -3185,16 +3201,23 @@ function vtkColorTransferFunction(publicAPI, model) <span class="fstat-no" title
 <span class="cstat-no" title="statement not covered" >      return model.table;</span>
     }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    if (model.tableSize !== size) {</span>
-<span class="cstat-no" title="statement not covered" >      model.table = new Uint8Array(size * 3);</span>
+    const nbChannels = (<span class="cstat-no" title="statement not covered" >withAlpha ? 4 : 3)</span>;
+<span class="cstat-no" title="statement not covered" >    if (model.tableSize !== size || model.tableWithAlpha !== withAlpha) {</span>
+<span class="cstat-no" title="statement not covered" >      model.table = new Uint8Array(size * nbChannels);</span>
 <span class="cstat-no" title="statement not covered" >      model.tableSize = size;</span>
+<span class="cstat-no" title="statement not covered" >      model.tableWithAlpha = withAlpha;</span>
     }
 &nbsp;
     const tmpTable = <span class="cstat-no" title="statement not covered" >[];</span>
 <span class="cstat-no" title="statement not covered" >    publicAPI.getTable(xStart, xEnd, size, tmpTable);</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    for (let i = 0; i &lt; size * 3; i++) {</span>
-<span class="cstat-no" title="statement not covered" >      model.table[i] = Math.floor((tmpTable[i] * 255.0) + 0.5);</span>
+<span class="cstat-no" title="statement not covered" >    for (let i = 0; i &lt; size; i++) {</span>
+<span class="cstat-no" title="statement not covered" >      model.table[(i * nbChannels) + 0] = Math.floor((tmpTable[(i * 3) + 0] * 255.0) + 0.5);</span>
+<span class="cstat-no" title="statement not covered" >      model.table[(i * nbChannels) + 1] = Math.floor((tmpTable[(i * 3) + 1] * 255.0) + 0.5);</span>
+<span class="cstat-no" title="statement not covered" >      model.table[(i * nbChannels) + 2] = Math.floor((tmpTable[(i * 3) + 2] * 255.0) + 0.5);</span>
+<span class="cstat-no" title="statement not covered" >      if (withAlpha) {</span>
+<span class="cstat-no" title="statement not covered" >        model.table[(i * nbChannels) + 3] = 255;</span>
+      }
     }
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    model.buildTime.modified();</span>
@@ -3564,6 +3587,7 @@ export function extend(publicAPI, model, initialValues = {}) <span class="fstat-
   // Create get-only macros
 <span class="cstat-no" title="statement not covered" >  macro.get(publicAPI, model, [</span>
     'buildTime',
+    'mappingRange',
   ]);
 &nbsp;
   // Create get-set macros
@@ -3604,7 +3628,7 @@ export default Object.assign({ newInstance, extend });
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Oct 05 2017 18:26:25 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Oct 05 2017 22:53:13 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>
