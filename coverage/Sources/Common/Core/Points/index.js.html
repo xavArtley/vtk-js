@@ -20,9 +20,9 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">66.67% </span>
+        <span class="strong">42.22% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>18/27</span>
+        <span class='fraction'>19/45</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">25% </span>
@@ -35,13 +35,13 @@
         <span class='fraction'>3/5</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">66.67% </span>
+        <span class="strong">42.22% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>18/27</span>
+        <span class='fraction'>19/45</span>
       </div>
     </div>
   </div>
-  <div class='status-line medium'></div>
+  <div class='status-line low'></div>
 <pre><table class="coverage">
 <tr><td class="line-count quiet">1
 2
@@ -127,9 +127,27 @@
 82
 83
 84
-85</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -165,9 +183,15 @@
 <span class="cline-any cline-yes">36×</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -177,8 +201,15 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -190,6 +221,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -216,6 +248,8 @@ import vtkDataArray     from 'vtk.js/Sources/Common/Core/DataArray';
 import { VtkDataTypes } from 'vtk.js/Sources/Common/Core/DataArray/Constants';
 &nbsp;
 const { vtkErrorMacro } = macro;
+&nbsp;
+const INVALID_BOUNDS = [1, -1, 1, -1, 1, -1];
 &nbsp;
 // ----------------------------------------------------------------------------
 // vtkPoints methods
@@ -248,21 +282,34 @@ function vtkPoints(publicAPI, model) {
 &nbsp;
   publicAPI.getBounds = () =&gt; <span class="fstat-no" title="function not covered" >{</span>
 <span class="cstat-no" title="statement not covered" >    if (publicAPI.getNumberOfComponents() === 3) {</span>
-<span class="cstat-no" title="statement not covered" >      return [].concat(</span>
-        publicAPI.getRange(0),
-        publicAPI.getRange(1),
-        publicAPI.getRange(2));
+      const xRange = <span class="cstat-no" title="statement not covered" >publicAPI.getRange(0);</span>
+<span class="cstat-no" title="statement not covered" >      model.bounds[0] = xRange[0];</span>
+<span class="cstat-no" title="statement not covered" >      model.bounds[1] = xRange[1];</span>
+      const yRange = <span class="cstat-no" title="statement not covered" >publicAPI.getRange(1);</span>
+<span class="cstat-no" title="statement not covered" >      model.bounds[2] = yRange[0];</span>
+<span class="cstat-no" title="statement not covered" >      model.bounds[3] = yRange[1];</span>
+      const zRange = <span class="cstat-no" title="statement not covered" >publicAPI.getRange(2);</span>
+<span class="cstat-no" title="statement not covered" >      model.bounds[4] = zRange[0];</span>
+<span class="cstat-no" title="statement not covered" >      model.bounds[5] = zRange[1];</span>
+<span class="cstat-no" title="statement not covered" >      return model.bounds;</span>
     }
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    if (publicAPI.getNumberOfComponents() !== 2) {</span>
 <span class="cstat-no" title="statement not covered" >      vtkErrorMacro(`getBounds called on an array with components of</span>
         ${publicAPI.getNumberOfComponents()}`);
-<span class="cstat-no" title="statement not covered" >      return [1, -1, 1, -1, 1, -1];</span>
+<span class="cstat-no" title="statement not covered" >      return INVALID_BOUNDS;</span>
     }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    return [].concat(</span>
-      publicAPI.getRange(0),
-      publicAPI.getRange(1));
+    const xRange = <span class="cstat-no" title="statement not covered" >publicAPI.getRange(0);</span>
+<span class="cstat-no" title="statement not covered" >    model.bounds[0] = xRange[0];</span>
+<span class="cstat-no" title="statement not covered" >    model.bounds[1] = xRange[1];</span>
+    const yRange = <span class="cstat-no" title="statement not covered" >publicAPI.getRange(1);</span>
+<span class="cstat-no" title="statement not covered" >    model.bounds[2] = yRange[0];</span>
+<span class="cstat-no" title="statement not covered" >    model.bounds[3] = yRange[1];</span>
+<span class="cstat-no" title="statement not covered" >    model.bounds[4] = 0;</span>
+<span class="cstat-no" title="statement not covered" >    model.bounds[5] = 0;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    return model.bounds;</span>
   };
 &nbsp;
   // Trigger the computation of bounds
@@ -277,6 +324,7 @@ const DEFAULT_VALUES = {
   empty: true,
   numberOfComponents: 3,
   dataType: VtkDataTypes.FLOAT,
+  bounds: [1, -1, 1, -1, 1, -1],
 };
 &nbsp;
 // ----------------------------------------------------------------------------
@@ -301,7 +349,7 @@ export default { newInstance, extend };
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Oct 23 2017 14:24:30 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Oct 23 2017 14:37:51 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>
