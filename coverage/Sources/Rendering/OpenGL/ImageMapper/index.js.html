@@ -677,7 +677,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -704,17 +703,7 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -723,6 +712,16 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -730,6 +729,7 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -1168,7 +1168,6 @@ function vtkOpenGLImageMapper(publicAPI, model) <span class="fstat-no" title="fu
   };
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  publicAPI.updateShaders = (cellBO, ren, actor) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
-<span class="cstat-no" title="statement not covered" >    cellBO.getVAO().bind();</span>
 <span class="cstat-no" title="statement not covered" >    model.lastBoundBO = cellBO;</span>
 &nbsp;
     // has something changed that would require us to recreate the shader?
@@ -1193,6 +1192,7 @@ function vtkOpenGLImageMapper(publicAPI, model) <span class="fstat-no" title="fu
 <span class="cstat-no" title="statement not covered" >      model.openGLRenderWindow.getShaderCache().readyShaderProgram(cellBO.getProgram());</span>
     }
 &nbsp;
+<span class="cstat-no" title="statement not covered" >    cellBO.getVAO().bind();</span>
 <span class="cstat-no" title="statement not covered" >    publicAPI.setMapperShaderParameters(cellBO, ren, actor);</span>
 <span class="cstat-no" title="statement not covered" >    publicAPI.setCameraShaderParameters(cellBO, ren, actor);</span>
 <span class="cstat-no" title="statement not covered" >    publicAPI.setPropertyShaderParameters(cellBO, ren, actor);</span>
@@ -1203,7 +1203,6 @@ function vtkOpenGLImageMapper(publicAPI, model) <span class="fstat-no" title="fu
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    if (cellBO.getCABO().getElementCount() &amp;&amp; (model.VBOBuildTime &gt; cellBO.getAttributeUpdateTime().getMTime() ||</span>
         cellBO.getShaderSourceTime().getMTime() &gt; cellBO.getAttributeUpdateTime().getMTime())) {
-<span class="cstat-no" title="statement not covered" >      cellBO.getCABO().bind();</span>
 <span class="cstat-no" title="statement not covered" >      if (cellBO.getProgram().isAttributeUsed('vertexMC')) {</span>
 <span class="cstat-no" title="statement not covered" >        if (!cellBO.getVAO().addAttributeArray(cellBO.getProgram(), cellBO.getCABO(),</span>
                                            'vertexMC', cellBO.getCABO().getVertexOffset(),
@@ -1222,6 +1221,7 @@ function vtkOpenGLImageMapper(publicAPI, model) <span class="fstat-no" title="fu
 <span class="cstat-no" title="statement not covered" >          vtkErrorMacro('Error setting tcoordMC in shader VAO.');</span>
         }
       }
+<span class="cstat-no" title="statement not covered" >      cellBO.getAttributeUpdateTime().modified();</span>
     }
 &nbsp;
     const texUnit = <span class="cstat-no" title="statement not covered" >model.openGLTexture.getTextureUnit();</span>
@@ -1525,7 +1525,7 @@ export default { newInstance, extend };
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Oct 23 2017 18:15:58 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Oct 23 2017 22:28:28 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>
