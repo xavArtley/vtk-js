@@ -1486,7 +1486,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -1513,24 +1512,25 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -2578,7 +2578,6 @@ function vtkOpenGLVolumeMapper(publicAPI, model) <span class="fstat-no" title="f
   };
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  publicAPI.updateShaders = (cellBO, ren, actor) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
-<span class="cstat-no" title="statement not covered" >    cellBO.getVAO().bind();</span>
 <span class="cstat-no" title="statement not covered" >    model.lastBoundBO = cellBO;</span>
 &nbsp;
     // has something changed that would require us to recreate the shader?
@@ -2603,6 +2602,7 @@ function vtkOpenGLVolumeMapper(publicAPI, model) <span class="fstat-no" title="f
 <span class="cstat-no" title="statement not covered" >      model.openGLRenderWindow.getShaderCache().readyShaderProgram(cellBO.getProgram());</span>
     }
 &nbsp;
+<span class="cstat-no" title="statement not covered" >    cellBO.getVAO().bind();</span>
 <span class="cstat-no" title="statement not covered" >    publicAPI.setMapperShaderParameters(cellBO, ren, actor);</span>
 <span class="cstat-no" title="statement not covered" >    publicAPI.setCameraShaderParameters(cellBO, ren, actor);</span>
 <span class="cstat-no" title="statement not covered" >    publicAPI.setPropertyShaderParameters(cellBO, ren, actor);</span>
@@ -2615,7 +2615,6 @@ function vtkOpenGLVolumeMapper(publicAPI, model) <span class="fstat-no" title="f
 <span class="cstat-no" title="statement not covered" >    if (cellBO.getCABO().getElementCount() &amp;&amp;</span>
         (model.VBOBuildTime.getMTime() &gt; cellBO.getAttributeUpdateTime().getMTime() ||
         cellBO.getShaderSourceTime().getMTime() &gt; cellBO.getAttributeUpdateTime().getMTime())) {
-<span class="cstat-no" title="statement not covered" >      cellBO.getCABO().bind();</span>
 <span class="cstat-no" title="statement not covered" >      if (program.isAttributeUsed('vertexDC')) {</span>
 <span class="cstat-no" title="statement not covered" >        if (!cellBO.getVAO().addAttributeArray(program, cellBO.getCABO(),</span>
                                            'vertexDC', cellBO.getCABO().getVertexOffset(),
@@ -2624,6 +2623,7 @@ function vtkOpenGLVolumeMapper(publicAPI, model) <span class="fstat-no" title="f
 <span class="cstat-no" title="statement not covered" >          vtkErrorMacro('Error setting vertexDC in shader VAO.');</span>
         }
       }
+<span class="cstat-no" title="statement not covered" >      cellBO.getAttributeUpdateTime().modified();</span>
     }
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    program.setUniformi('texture1',</span>
@@ -2804,14 +2804,14 @@ function vtkOpenGLVolumeMapper(publicAPI, model) <span class="fstat-no" title="f
 <span class="cstat-no" title="statement not covered" >            lightColor[0] = dColor[0] * intensity;</span>
 <span class="cstat-no" title="statement not covered" >            lightColor[1] = dColor[1] * intensity;</span>
 <span class="cstat-no" title="statement not covered" >            lightColor[2] = dColor[2] * intensity;</span>
-<span class="cstat-no" title="statement not covered" >            program.setUniform3f(`lightColor${lightNum}`, lightColor);</span>
+<span class="cstat-no" title="statement not covered" >            program.setUniform3fArray(`lightColor${lightNum}`, lightColor);</span>
             const lightDir = <span class="cstat-no" title="statement not covered" >light.getDirection();</span>
-<span class="cstat-no" title="statement not covered" >            program.setUniform3f(`lightDirectionWC${lightNum}`, lightDir);</span>
+<span class="cstat-no" title="statement not covered" >            program.setUniform3fArray(`lightDirectionWC${lightNum}`, lightDir);</span>
             const halfAngle = <span class="cstat-no" title="statement not covered" >[</span>
               -0.5 * (lightDir[0] + camDOP[0]),
               -0.5 * (lightDir[1] + camDOP[1]),
               -0.5 * (lightDir[2] + camDOP[2])];
-<span class="cstat-no" title="statement not covered" >            program.setUniform3f(`lightHalfAngleWC${lightNum}`, halfAngle);</span>
+<span class="cstat-no" title="statement not covered" >            program.setUniform3fArray(`lightHalfAngleWC${lightNum}`, halfAngle);</span>
 <span class="cstat-no" title="statement not covered" >            lightNum++;</span>
           }
         });
@@ -3328,7 +3328,7 @@ export default { newInstance, extend };
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Oct 24 2017 21:07:23 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Oct 24 2017 23:14:17 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>
