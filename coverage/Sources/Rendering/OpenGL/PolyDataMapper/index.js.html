@@ -22,12 +22,12 @@
       <div class='fl pad1y space-right2'>
         <span class="strong">1.55% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>10/645</span>
+        <span class='fraction'>10/644</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>0/374</span>
+        <span class='fraction'>0/372</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
@@ -37,7 +37,7 @@
       <div class='fl pad1y space-right2'>
         <span class="strong">1.55% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>10/645</span>
+        <span class='fraction'>10/644</span>
       </div>
     </div>
   </div>
@@ -1665,9 +1665,7 @@
 1620
 1621
 1622
-1623
-1624
-1625</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+1623</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -2995,31 +2993,29 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -4619,6 +4615,7 @@ function vtkOpenGLPolyDataMapper(publicAPI, model) <span class="fstat-no" title=
 <span class="cstat-no" title="statement not covered" >        publicAPI.updateShaders(model.primitives[i], ren, actor);</span>
         const mode = <span class="cstat-no" title="statement not covered" >publicAPI.getOpenGLMode(representation, i);</span>
 <span class="cstat-no" title="statement not covered" >        gl.drawArrays(mode, 0, cabo.getElementCount());</span>
+<span class="cstat-no" title="statement not covered" >        model.primitives[i].getVAO().release();</span>
 &nbsp;
         const stride = (<span class="cstat-no" title="statement not covered" >mode === gl.POINTS ? 1 : (mode === gl.LINES ? 2 : 3))</span>;
 <span class="cstat-no" title="statement not covered" >        model.primitiveIDOffset += cabo.getElementCount() / stride;</span>
@@ -4641,9 +4638,6 @@ function vtkOpenGLPolyDataMapper(publicAPI, model) <span class="fstat-no" title=
   };
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  publicAPI.renderPieceFinish = (ren, actor) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
-<span class="cstat-no" title="statement not covered" >    if (model.LastBoundBO) {</span>
-<span class="cstat-no" title="statement not covered" >      model.LastBoundBO.getVAO().release();</span>
-    }
 <span class="cstat-no" title="statement not covered" >    if (model.renderable.getColorTextureMap()) {</span>
 <span class="cstat-no" title="statement not covered" >      model.internalColorTexture.deactivate();</span>
     }
@@ -4921,7 +4915,7 @@ export default { newInstance, extend };
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Oct 25 2017 12:58:31 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Oct 25 2017 15:24:24 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>
