@@ -20,9 +20,9 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">2.3% </span>
+        <span class="strong">2.35% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>2/87</span>
+        <span class='fraction'>2/85</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
@@ -32,12 +32,12 @@
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>0/12</span>
+        <span class='fraction'>0/16</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">2.33% </span>
+        <span class="strong">2.38% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>2/86</span>
+        <span class='fraction'>2/84</span>
       </div>
     </div>
   </div>
@@ -237,9 +237,7 @@
 192
 193
 194
-195
-196
-197</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+195</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -262,7 +260,6 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -318,7 +315,6 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -460,8 +456,7 @@ function vtkOpenGLActor(publicAPI, model) <span class="fstat-no" title="function
       // we store textures and mapper
 <span class="cstat-no" title="statement not covered" >      model.ogltextures = null;</span>
 <span class="cstat-no" title="statement not covered" >      model.activeTextures = null;</span>
-<span class="cstat-no" title="statement not covered" >      for (let index = 0; index &lt; model.children.length; index++) {</span>
-        const child = <span class="cstat-no" title="statement not covered" >model.children[index];</span>
+<span class="cstat-no" title="statement not covered" >      model.children.forEach((child) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
 <span class="cstat-no" title="statement not covered" >        if (child.isA('vtkOpenGLTexture')) {</span>
 <span class="cstat-no" title="statement not covered" >          if (!model.ogltextures) {</span>
 <span class="cstat-no" title="statement not covered" >            model.ogltextures = [];</span>
@@ -470,7 +465,7 @@ function vtkOpenGLActor(publicAPI, model) <span class="fstat-no" title="function
         } else {
 <span class="cstat-no" title="statement not covered" >          model.oglmapper = child;</span>
         }
-      }
+      });
     }
   };
 &nbsp;
@@ -515,13 +510,12 @@ function vtkOpenGLActor(publicAPI, model) <span class="fstat-no" title="function
     }
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    model.activeTextures = [];</span>
-<span class="cstat-no" title="statement not covered" >    for (let index = 0; index &lt; model.ogltextures.length; index++) {</span>
-      const child = <span class="cstat-no" title="statement not covered" >model.ogltextures[index];</span>
+<span class="cstat-no" title="statement not covered" >    model.ogltextures.forEach((child) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
 <span class="cstat-no" title="statement not covered" >      child.render();</span>
 <span class="cstat-no" title="statement not covered" >      if (child.getHandle()) {</span>
 <span class="cstat-no" title="statement not covered" >        model.activeTextures.push(child);</span>
       }
-    }
+    });
   };
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  publicAPI.queryPass = (prepass, renderPass) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
@@ -545,9 +539,9 @@ function vtkOpenGLActor(publicAPI, model) <span class="fstat-no" title="function
 <span class="cstat-no" title="statement not covered" >      model.context.depthMask(true);</span>
 <span class="cstat-no" title="statement not covered" >      publicAPI.activateTextures();</span>
     } else <span class="cstat-no" title="statement not covered" >if (model.activeTextures) {</span>
-<span class="cstat-no" title="statement not covered" >      for (let index = 0; index &lt; model.activeTextures.length; index++) {</span>
-<span class="cstat-no" title="statement not covered" >        model.activeTextures[index].deactivate();</span>
-      }
+<span class="cstat-no" title="statement not covered" >      model.activeTextures.forEach((activeTexture) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >        activeTexture.deactivate();</span>
+      });
     }
   };
 &nbsp;
@@ -557,9 +551,9 @@ function vtkOpenGLActor(publicAPI, model) <span class="fstat-no" title="function
 <span class="cstat-no" title="statement not covered" >      model.context.depthMask(false);</span>
 <span class="cstat-no" title="statement not covered" >      publicAPI.activateTextures();</span>
     } else <span class="cstat-no" title="statement not covered" >if (model.activeTextures) {</span>
-<span class="cstat-no" title="statement not covered" >      for (let index = 0; index &lt; model.activeTextures.length; index++) {</span>
-<span class="cstat-no" title="statement not covered" >        model.activeTextures[index].deactivate();</span>
-      }
+<span class="cstat-no" title="statement not covered" >      model.activeTextures.forEach((t) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >        t.deactivate();</span>
+      });
 <span class="cstat-no" title="statement not covered" >      model.context.depthMask(true);</span>
     } else {
 <span class="cstat-no" title="statement not covered" >      model.context.depthMask(true);</span>
@@ -637,7 +631,7 @@ export default { newInstance, extend };
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Oct 24 2017 23:14:17 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Oct 25 2017 02:49:12 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>

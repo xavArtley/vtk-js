@@ -20,9 +20,9 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">71.79% </span>
+        <span class="strong">70.19% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>252/351</span>
+        <span class='fraction'>252/359</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">62.93% </span>
@@ -30,14 +30,14 @@
         <span class='fraction'>129/205</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">69.79% </span>
+        <span class="strong">65.05% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>67/96</span>
+        <span class='fraction'>67/103</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">73.17% </span>
+        <span class="strong">71.64% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>240/328</span>
+        <span class='fraction'>240/335</span>
       </div>
     </div>
   </div>
@@ -788,7 +788,32 @@
 743
 744
 745
-746</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+746
+747
+748
+749
+750
+751
+752
+753
+754
+755
+756
+757
+758
+759
+760
+761
+762
+763
+764
+765
+766
+767
+768
+769
+770
+771</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1193,6 +1218,31 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">27×</span>
 <span class="cline-any cline-yes">27×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1941,6 +1991,31 @@ export function setGetArray(publicAPI, model, fieldNames, size, defaultVal = und
 }
 &nbsp;
 // ----------------------------------------------------------------------------
+// get{xxx}ByReference: add a fast getter with no check
+// ----------------------------------------------------------------------------
+&nbsp;
+export function getReference(publicAPI, model, fieldNames) <span class="fstat-no" title="function not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >  fieldNames.forEach((field) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >    publicAPI[`get${capitalize(field)}ByReference`] = () =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >model.field;</span></span></span>
+  });
+}
+&nbsp;
+// ----------------------------------------------------------------------------
+// set{xxx}From: add setter for arrays with no object creation or mark modified
+// ----------------------------------------------------------------------------
+&nbsp;
+export function setFrom(publicAPI, model, fieldNames) <span class="fstat-no" title="function not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >  fieldNames.forEach((field) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >    publicAPI[`set${capitalize(field)}From`] = (otherArray) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+      const target = <span class="cstat-no" title="statement not covered" >model[field];</span>
+<span class="cstat-no" title="statement not covered" >      otherArray.forEach((v, i) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >        target[i] = v;</span>
+      });
+    };
+  });
+}
+&nbsp;
+// ----------------------------------------------------------------------------
 // vtkAlgorithm: setInputData(), setInputConnection(), getOutput(), getOutputPort()
 // ----------------------------------------------------------------------------
 &nbsp;
@@ -2284,7 +2359,7 @@ export default {
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Oct 24 2017 23:14:17 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Oct 25 2017 02:49:12 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../prettify.js"></script>
