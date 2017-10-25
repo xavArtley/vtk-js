@@ -20,9 +20,9 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">24.07% </span>
+        <span class="strong">25% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>13/54</span>
+        <span class='fraction'>14/56</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
@@ -30,14 +30,14 @@
         <span class='fraction'>0/24</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">28.57% </span>
+        <span class="strong">25% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>2/7</span>
+        <span class='fraction'>2/8</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">25.49% </span>
+        <span class="strong">26.92% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>13/51</span>
+        <span class='fraction'>14/52</span>
       </div>
     </div>
   </div>
@@ -162,13 +162,16 @@
 117
 118
 119
-120</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+120
+121</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -193,7 +196,6 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -291,6 +293,8 @@ function vtkForwardPass(publicAPI, model) {
   // Set our className
   model.classHierarchy.push('vtkForwardPass');
 &nbsp;
+  publicAPI.getOperation = () =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >model.currentOperation;</span></span>
+&nbsp;
   // this pass implements a forward rendering pipeline
   // if both volumes and opaque geometry are present
   // it will mix the two together by capturing a zbuffer
@@ -304,15 +308,14 @@ function vtkForwardPass(publicAPI, model) {
 <span class="cstat-no" title="statement not covered" >    model.currentParent = parent;</span>
 &nbsp;
     // build
-<span class="cstat-no" title="statement not covered" >    publicAPI.setCurrentOperation('buildPass');</span>
+<span class="cstat-no" title="statement not covered" >    model.currentOperation = 'buildPass';</span>
 <span class="cstat-no" title="statement not covered" >    viewNode.traverse(publicAPI);</span>
 &nbsp;
     // check for both opaque and volume actors
 <span class="cstat-no" title="statement not covered" >    model.opaqueActorCount = 0;</span>
 <span class="cstat-no" title="statement not covered" >    model.translucentActorCount = 0;</span>
 <span class="cstat-no" title="statement not covered" >    model.volumeCount = 0;</span>
-<span class="cstat-no" title="statement not covered" >    publicAPI.setCurrentOperation('queryPass');</span>
-&nbsp;
+<span class="cstat-no" title="statement not covered" >    model.currentOperation = 'queryPass';</span>
 <span class="cstat-no" title="statement not covered" >    viewNode.traverse(publicAPI);</span>
 &nbsp;
     // do we need to capture a zbuffer?
@@ -331,23 +334,23 @@ function vtkForwardPass(publicAPI, model) {
 <span class="cstat-no" title="statement not covered" >        model.framebuffer.populateFramebuffer();</span>
       }
 <span class="cstat-no" title="statement not covered" >      model.framebuffer.bind();</span>
-<span class="cstat-no" title="statement not covered" >      publicAPI.setCurrentOperation('opaqueZBufferPass');</span>
+<span class="cstat-no" title="statement not covered" >      model.currentOperation = 'opaqueZBufferPass';</span>
 <span class="cstat-no" title="statement not covered" >      viewNode.traverse(publicAPI);</span>
 <span class="cstat-no" title="statement not covered" >      model.framebuffer.restorePreviousBindingsAndBuffers();</span>
     }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    publicAPI.setCurrentOperation('cameraPass');</span>
+<span class="cstat-no" title="statement not covered" >    model.currentOperation = 'cameraPass';</span>
 <span class="cstat-no" title="statement not covered" >    viewNode.traverse(publicAPI);</span>
 <span class="cstat-no" title="statement not covered" >    if (model.opaqueActorCount &gt; 0) {</span>
-<span class="cstat-no" title="statement not covered" >      publicAPI.setCurrentOperation('opaquePass');</span>
+<span class="cstat-no" title="statement not covered" >      model.currentOperation = 'opaquePass';</span>
 <span class="cstat-no" title="statement not covered" >      viewNode.traverse(publicAPI);</span>
     }
 <span class="cstat-no" title="statement not covered" >    if (model.translucentActorCount &gt; 0) {</span>
-<span class="cstat-no" title="statement not covered" >      publicAPI.setCurrentOperation('translucentPass');</span>
+<span class="cstat-no" title="statement not covered" >      model.currentOperation = 'translucentPass';</span>
 <span class="cstat-no" title="statement not covered" >      viewNode.traverse(publicAPI);</span>
     }
 <span class="cstat-no" title="statement not covered" >    if (model.volumeCount &gt; 0) {</span>
-<span class="cstat-no" title="statement not covered" >      publicAPI.setCurrentOperation('volumePass');</span>
+<span class="cstat-no" title="statement not covered" >      model.currentOperation = 'volumePass';</span>
 <span class="cstat-no" title="statement not covered" >      viewNode.traverse(publicAPI);</span>
     }
   };
@@ -406,7 +409,7 @@ export default { newInstance, extend };
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Oct 25 2017 15:24:24 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Oct 25 2017 16:15:40 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>
