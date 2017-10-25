@@ -20,9 +20,9 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">3.37% </span>
+        <span class="strong">3.33% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>3/89</span>
+        <span class='fraction'>3/90</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
@@ -32,12 +32,12 @@
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>0/10</span>
+        <span class='fraction'>0/9</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">3.37% </span>
+        <span class="strong">3.33% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>3/89</span>
+        <span class='fraction'>3/90</span>
       </div>
     </div>
   </div>
@@ -240,7 +240,8 @@
 195
 196
 197
-198</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+198
+199</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -278,6 +279,7 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -475,11 +477,12 @@ function vtkOpenGLRenderer(publicAPI, model) <span class="fstat-no" title="funct
 <span class="cstat-no" title="statement not covered" >  publicAPI.updateLights = () =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
     let count = <span class="cstat-no" title="statement not covered" >0;</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    model.renderable.getLights().forEach((light) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
-<span class="cstat-no" title="statement not covered" >      if (light.getSwitch() &gt; 0.0) {</span>
+    const lights = <span class="cstat-no" title="statement not covered" >model.renderable.getLights(true);</span>
+<span class="cstat-no" title="statement not covered" >    for (let index = 0; index &lt; lights.length; ++index) {</span>
+<span class="cstat-no" title="statement not covered" >      if (lights[index].getSwitch() &gt; 0.0) {</span>
 <span class="cstat-no" title="statement not covered" >        count++;</span>
       }
-    });
+    }
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    if (!count) {</span>
 <span class="cstat-no" title="statement not covered" >      vtkDebugMacro('No lights are on, creating one.');</span>
@@ -519,13 +522,13 @@ function vtkOpenGLRenderer(publicAPI, model) <span class="fstat-no" title="funct
   };
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  publicAPI.getAspectRatio = () =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
-    const size = <span class="cstat-no" title="statement not covered" >model.parent.getSize();</span>
-    const viewport = <span class="cstat-no" title="statement not covered" >model.renderable.getViewport();</span>
+    const size = <span class="cstat-no" title="statement not covered" >model.parent.getSize(true);</span>
+    const viewport = <span class="cstat-no" title="statement not covered" >model.renderable.getViewport(true);</span>
 <span class="cstat-no" title="statement not covered" >    return size[0] * (viewport[2] - viewport[0]) / ((viewport[3] - viewport[1]) * size[1]);</span>
   };
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  publicAPI.getTiledSizeAndOrigin = () =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
-    const vport = <span class="cstat-no" title="statement not covered" >model.renderable.getViewport();</span>
+    const vport = <span class="cstat-no" title="statement not covered" >model.renderable.getViewport(true);</span>
 &nbsp;
     // if there is no window assume 0 1
     const tileViewPort = <span class="cstat-no" title="statement not covered" >[0.0, 0.0, 1.0, 1.0];</span>
@@ -573,7 +576,7 @@ function vtkOpenGLRenderer(publicAPI, model) <span class="fstat-no" title="funct
     const gl = <span class="cstat-no" title="statement not covered" >model.context;</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    if (!model.renderable.getTransparent()) {</span>
-      const background = <span class="cstat-no" title="statement not covered" >model.renderable.getBackground();</span>
+      const background = <span class="cstat-no" title="statement not covered" >model.renderable.getBackground(true);</span>
       // renderable ensures that background has 4 entries.
 <span class="cstat-no" title="statement not covered" >      model.context.clearColor(...background);</span>
 <span class="cstat-no" title="statement not covered" >      clearMask |= gl.COLOR_BUFFER_BIT;</span>
@@ -640,7 +643,7 @@ export default { newInstance, extend };
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Oct 25 2017 16:15:40 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Oct 25 2017 16:48:57 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>
