@@ -3469,7 +3469,7 @@ function vtkOpenGLPolyDataMapper(publicAPI, model) <span class="fstat-no" title=
     let FSSource = <span class="cstat-no" title="statement not covered" >shaders.Fragment;</span>
 &nbsp;
     const lastLightComplexity =
-<span class="cstat-no" title="statement not covered" >      model.lastBoundBO.getOneProperty('lastLightComplexity');</span>
+<span class="cstat-no" title="statement not covered" >      model.lastBoundBO.getReferenceByName('lastLightComplexity');</span>
 &nbsp;
     // create the material/color property declarations, and VS implementation
     // these are always defined
@@ -3597,10 +3597,10 @@ function vtkOpenGLPolyDataMapper(publicAPI, model) <span class="fstat-no" title=
     const shadowFactor = <span class="cstat-no" title="statement not covered" >'';</span>
 &nbsp;
     const lastLightComplexity =
-<span class="cstat-no" title="statement not covered" >      model.lastBoundBO.getOneProperty('lastLightComplexity');</span>
+<span class="cstat-no" title="statement not covered" >      model.lastBoundBO.getReferenceByName('lastLightComplexity');</span>
 &nbsp;
     const lastLightCount =
-<span class="cstat-no" title="statement not covered" >      model.lastBoundBO.getOneProperty('lastLightCount');</span>
+<span class="cstat-no" title="statement not covered" >      model.lastBoundBO.getReferenceByName('lastLightCount');</span>
 &nbsp;
     let sstring = <span class="cstat-no" title="statement not covered" >[];</span>
 &nbsp;
@@ -3732,7 +3732,7 @@ function vtkOpenGLPolyDataMapper(publicAPI, model) <span class="fstat-no" title=
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  publicAPI.replaceShaderNormal = (shaders, ren, actor) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
     const lastLightComplexity =
-<span class="cstat-no" title="statement not covered" >      model.lastBoundBO.getOneProperty('lastLightComplexity');</span>
+<span class="cstat-no" title="statement not covered" >      model.lastBoundBO.getReferenceByName('lastLightComplexity');</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    if (lastLightComplexity &gt; 0) {</span>
       let VSSource = <span class="cstat-no" title="statement not covered" >shaders.Vertex;</span>
@@ -3851,7 +3851,7 @@ function vtkOpenGLPolyDataMapper(publicAPI, model) <span class="fstat-no" title=
 &nbsp;
     // do we need the vertex in the shader in View Coordinates
     const lastLightComplexity =
-<span class="cstat-no" title="statement not covered" >      model.lastBoundBO.getOneProperty('lastLightComplexity');</span>
+<span class="cstat-no" title="statement not covered" >      model.lastBoundBO.getReferenceByName('lastLightComplexity');</span>
 <span class="cstat-no" title="statement not covered" >    if (lastLightComplexity &gt; 0) {</span>
 <span class="cstat-no" title="statement not covered" >      VSSource = vtkShaderProgram.substitute(VSSource,</span>
         '//VTK::PositionVC::Dec', [
@@ -4194,7 +4194,7 @@ function vtkOpenGLPolyDataMapper(publicAPI, model) <span class="fstat-no" title=
       // consider the lighting complexity to determine which case applies
       // simple headlight, Light Kit, the whole feature set of VTK
 <span class="cstat-no" title="statement not covered" >      lightComplexity = 0;</span>
-      const lights = <span class="cstat-no" title="statement not covered" >ren.getLights(true);</span>
+      const lights = <span class="cstat-no" title="statement not covered" >ren.getLightsByReference();</span>
 <span class="cstat-no" title="statement not covered" >      for (let index = 0; index &lt; lights.length; ++index) {</span>
         const light = <span class="cstat-no" title="statement not covered" >lights[index];</span>
         const status = <span class="cstat-no" title="statement not covered" >light.getSwitch();</span>
@@ -4220,9 +4220,9 @@ function vtkOpenGLPolyDataMapper(publicAPI, model) <span class="fstat-no" title=
 &nbsp;
     let needRebuild = <span class="cstat-no" title="statement not covered" >false;</span>
     const lastLightComplexity =
-<span class="cstat-no" title="statement not covered" >      model.lastBoundBO.getOneProperty('lastLightComplexity');</span>
+<span class="cstat-no" title="statement not covered" >      model.lastBoundBO.getReferenceByName('lastLightComplexity');</span>
     const lastLightCount =
-<span class="cstat-no" title="statement not covered" >      model.lastBoundBO.getOneProperty('lastLightCount');</span>
+<span class="cstat-no" title="statement not covered" >      model.lastBoundBO.getReferenceByName('lastLightCount');</span>
 <span class="cstat-no" title="statement not covered" >    if (lastLightComplexity !== lightComplexity ||</span>
         lastLightCount !== numberOfLights) {
 <span class="cstat-no" title="statement not covered" >      model.lastBoundBO.set({ lastLightComplexity: lightComplexity }, true);</span>
@@ -4232,7 +4232,7 @@ function vtkOpenGLPolyDataMapper(publicAPI, model) <span class="fstat-no" title=
 &nbsp;
     const selector = <span class="cstat-no" title="statement not covered" >model.openGLRenderer.getSelector();</span>
     const selectionPass = (<span class="cstat-no" title="statement not covered" >selector === null ? -1 : selector.getCurrentPass())</span>;
-<span class="cstat-no" title="statement not covered" >    if (model.lastBoundBO.getOneProperty('lastSelectionPass') !==</span>
+<span class="cstat-no" title="statement not covered" >    if (model.lastBoundBO.getReferenceByName('lastSelectionPass') !==</span>
         selectionPass) {
 <span class="cstat-no" title="statement not covered" >      model.lastBoundBO.set({ lastSelectionPass: selectionPass }, true);</span>
 <span class="cstat-no" title="statement not covered" >      needRebuild = true;</span>
@@ -4309,7 +4309,7 @@ function vtkOpenGLPolyDataMapper(publicAPI, model) <span class="fstat-no" title=
         (model.VBOBuildTime.getMTime() &gt; cellBO.getAttributeUpdateTime().getMTime() ||
         cellBO.getShaderSourceTime().getMTime() &gt; cellBO.getAttributeUpdateTime().getMTime())) {
       const lastLightComplexity =
-<span class="cstat-no" title="statement not covered" >        model.lastBoundBO.getOneProperty('lastLightComplexity');</span>
+<span class="cstat-no" title="statement not covered" >        model.lastBoundBO.getReferenceByName('lastLightComplexity');</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >      if (cellBO.getProgram().isAttributeUsed('vertexMC')) {</span>
 <span class="cstat-no" title="statement not covered" >        if (!cellBO.getVAO().addAttributeArray(cellBO.getProgram(), cellBO.getCABO(),</span>
@@ -4418,7 +4418,7 @@ function vtkOpenGLPolyDataMapper(publicAPI, model) <span class="fstat-no" title=
 <span class="cstat-no" title="statement not covered" >  publicAPI.setLightingShaderParameters = (cellBO, ren, actor) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
     // for unlit and headlight there are no lighting parameters
     const lastLightComplexity =
-<span class="cstat-no" title="statement not covered" >      model.lastBoundBO.getOneProperty('lastLightComplexity');</span>
+<span class="cstat-no" title="statement not covered" >      model.lastBoundBO.getReferenceByName('lastLightComplexity');</span>
 <span class="cstat-no" title="statement not covered" >    if (lastLightComplexity &lt; 2) {</span>
 <span class="cstat-no" title="statement not covered" >      return;</span>
     }
@@ -4428,18 +4428,18 @@ function vtkOpenGLPolyDataMapper(publicAPI, model) <span class="fstat-no" title=
     // bind some light settings
     let numberOfLights = <span class="cstat-no" title="statement not covered" >0;</span>
 &nbsp;
-    const lights = <span class="cstat-no" title="statement not covered" >ren.getLights(true);</span>
+    const lights = <span class="cstat-no" title="statement not covered" >ren.getLightsByReference();</span>
 <span class="cstat-no" title="statement not covered" >    for (let index = 0; index &lt; lights.length; ++index) {</span>
       const light = <span class="cstat-no" title="statement not covered" >lights[index];</span>
       const status = <span class="cstat-no" title="statement not covered" >light.getSwitch();</span>
 <span class="cstat-no" title="statement not covered" >      if (status &gt; 0.0) {</span>
-        const dColor = <span class="cstat-no" title="statement not covered" >light.getColor(true);</span>
+        const dColor = <span class="cstat-no" title="statement not covered" >light.getColorByReference();</span>
         const intensity = <span class="cstat-no" title="statement not covered" >light.getIntensity();</span>
 <span class="cstat-no" title="statement not covered" >        model.lightColor[0] = dColor[0] * intensity;</span>
 <span class="cstat-no" title="statement not covered" >        model.lightColor[1] = dColor[1] * intensity;</span>
 <span class="cstat-no" title="statement not covered" >        model.lightColor[2] = dColor[2] * intensity;</span>
         // get required info from light
-        const ld = <span class="cstat-no" title="statement not covered" >light.getDirection(true);</span>
+        const ld = <span class="cstat-no" title="statement not covered" >light.getDirection();</span>
 <span class="cstat-no" title="statement not covered" >        model.lightDirection[0] = ld[0];</span>
 <span class="cstat-no" title="statement not covered" >        model.lightDirection[1] = ld[1];</span>
 <span class="cstat-no" title="statement not covered" >        model.lightDirection[2] = ld[2];</span>
@@ -4473,7 +4473,7 @@ function vtkOpenGLPolyDataMapper(publicAPI, model) <span class="fstat-no" title=
         const lp = <span class="cstat-no" title="statement not covered" >light.getTransformedPosition();</span>
         const np = <span class="cstat-no" title="statement not covered" >vec3.fromValues(lp[0], lp[1], lp[2]);</span>
 <span class="cstat-no" title="statement not covered" >        vec3.transformMat4(np, np, viewTF);</span>
-<span class="cstat-no" title="statement not covered" >        program.setUniform3fArray(`lightAttenuation${numberOfLights}`, light.getAttenuationValues(true));</span>
+<span class="cstat-no" title="statement not covered" >        program.setUniform3fArray(`lightAttenuation${numberOfLights}`, light.getAttenuationValuesByReference());</span>
 <span class="cstat-no" title="statement not covered" >        program.setUniformi(`lightPositional${numberOfLights}`, light.getPositional());</span>
 <span class="cstat-no" title="statement not covered" >        program.setUniformf(`lightExponent${numberOfLights}`, light.getExponent());</span>
 <span class="cstat-no" title="statement not covered" >        program.setUniformf(`lightConeAngle${numberOfLights}`, light.getConeAngle());</span>
@@ -4527,14 +4527,14 @@ function vtkOpenGLPolyDataMapper(publicAPI, model) <span class="fstat-no" title=
     const ppty = <span class="cstat-no" title="statement not covered" >actor.getProperty();</span>
 &nbsp;
     const opacity = <span class="cstat-no" title="statement not covered" >ppty.getOpacity();</span>
-    const aColor = <span class="cstat-no" title="statement not covered" >model.drawingEdges ? ppty.getEdgeColor(true)</span>
-      : ppty.getAmbientColor(true);
+    const aColor = <span class="cstat-no" title="statement not covered" >model.drawingEdges ? ppty.getEdgeColorByReference()</span>
+      : ppty.getAmbientColorByReference();
     const aIntensity = <span class="cstat-no" title="statement not covered" >ppty.getAmbient();</span>
 <span class="cstat-no" title="statement not covered" >    model.ambientColor[0] = aColor[0] * aIntensity;</span>
 <span class="cstat-no" title="statement not covered" >    model.ambientColor[1] = aColor[1] * aIntensity;</span>
 <span class="cstat-no" title="statement not covered" >    model.ambientColor[2] = aColor[2] * aIntensity;</span>
-    const dColor = <span class="cstat-no" title="statement not covered" >model.drawingEdges ? ppty.getEdgeColor(true)</span>
-      : ppty.getDiffuseColor(true);
+    const dColor = <span class="cstat-no" title="statement not covered" >model.drawingEdges ? ppty.getEdgeColorByReference()</span>
+      : ppty.getDiffuseColorByReference();
     const dIntensity = <span class="cstat-no" title="statement not covered" >ppty.getDiffuse();</span>
 <span class="cstat-no" title="statement not covered" >    model.diffuseColor[0] = dColor[0] * dIntensity;</span>
 <span class="cstat-no" title="statement not covered" >    model.diffuseColor[1] = dColor[1] * dIntensity;</span>
@@ -4545,11 +4545,11 @@ function vtkOpenGLPolyDataMapper(publicAPI, model) <span class="fstat-no" title=
 <span class="cstat-no" title="statement not covered" >    program.setUniform3fArray('diffuseColorUniform', model.diffuseColor);</span>
     // we are done unless we have lighting
     const lastLightComplexity =
-<span class="cstat-no" title="statement not covered" >      model.lastBoundBO.getOneProperty('lastLightComplexity');</span>
+<span class="cstat-no" title="statement not covered" >      model.lastBoundBO.getReferenceByName('lastLightComplexity');</span>
 <span class="cstat-no" title="statement not covered" >    if (lastLightComplexity &lt; 1) {</span>
 <span class="cstat-no" title="statement not covered" >      return;</span>
     }
-    const sColor = <span class="cstat-no" title="statement not covered" >ppty.getSpecularColor(true);</span>
+    const sColor = <span class="cstat-no" title="statement not covered" >ppty.getSpecularColorByReference();</span>
     const sIntensity = <span class="cstat-no" title="statement not covered" >ppty.getSpecular();</span>
 <span class="cstat-no" title="statement not covered" >    model.specularColor[0] = sColor[0] * sIntensity;</span>
 <span class="cstat-no" title="statement not covered" >    model.specularColor[1] = sColor[1] * sIntensity;</span>
@@ -4942,7 +4942,7 @@ export default { newInstance, extend };
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Oct 25 2017 17:14:33 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Oct 26 2017 01:10:22 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>
