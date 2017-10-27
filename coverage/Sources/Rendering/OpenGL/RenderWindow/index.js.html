@@ -20,24 +20,24 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">43.18% </span>
+        <span class="strong">41.67% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>76/176</span>
+        <span class='fraction'>80/192</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">16.87% </span>
+        <span class="strong">15.38% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>14/83</span>
+        <span class='fraction'>14/91</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">37.5% </span>
+        <span class="strong">33.33% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>12/32</span>
+        <span class='fraction'>12/36</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">43.43% </span>
+        <span class="strong">41.88% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>76/175</span>
+        <span class='fraction'>80/191</span>
       </div>
     </div>
   </div>
@@ -419,7 +419,37 @@
 374
 375
 376
-377</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+377
+378
+379
+380
+381
+382
+383
+384
+385
+386
+387
+388
+389
+390
+391
+392
+393
+394
+395
+396
+397
+398
+399
+400
+401
+402
+403
+404
+405
+406
+407</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -716,12 +746,42 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1091,6 +1151,34 @@ function vtkOpenGLRenderWindow(publicAPI, model) {
 <span class="cstat-no" title="statement not covered" >      publicAPI.invokeImageReady(getCanvasDataURL());</span>
     }
   };
+&nbsp;
+  publicAPI.disableDepthMask = () =&gt; <span class="fstat-no" title="function not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >    if (model.depthMaskEnabled) {</span>
+<span class="cstat-no" title="statement not covered" >      model.context.depthMask(false);</span>
+<span class="cstat-no" title="statement not covered" >      model.depthMaskEnabled = false;</span>
+    }
+  };
+&nbsp;
+  publicAPI.enableDepthMask = () =&gt; <span class="fstat-no" title="function not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >    if (!model.depthMaskEnabled) {</span>
+<span class="cstat-no" title="statement not covered" >      model.context.depthMask(true);</span>
+<span class="cstat-no" title="statement not covered" >      model.depthMaskEnabled = true;</span>
+    }
+  };
+&nbsp;
+  publicAPI.disableCullFace = () =&gt; <span class="fstat-no" title="function not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >    if (model.cullFaceEnabled) {</span>
+<span class="cstat-no" title="statement not covered" >      model.context.disable(model.context.CULL_FACE);</span>
+<span class="cstat-no" title="statement not covered" >      model.cullFaceEnabled = false;</span>
+    }
+  };
+&nbsp;
+  publicAPI.enableCullFace = () =&gt; <span class="fstat-no" title="function not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >    if (!model.cullFaceEnabled) {</span>
+<span class="cstat-no" title="statement not covered" >      model.context.enable(model.context.CULL_FACE);</span>
+<span class="cstat-no" title="statement not covered" >      model.cullFaceEnabled = true;</span>
+    }
+  };
 }
 &nbsp;
 // ----------------------------------------------------------------------------
@@ -1098,6 +1186,8 @@ function vtkOpenGLRenderWindow(publicAPI, model) {
 // ----------------------------------------------------------------------------
 &nbsp;
 const DEFAULT_VALUES = {
+  cullFaceEnabled: false,
+  depthMaskEnabled: true,
   shaderCache: null,
   initialized: false,
   context: null,
@@ -1177,7 +1267,7 @@ export default { newInstance, extend };
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Oct 27 2017 02:23:43 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Oct 27 2017 18:17:55 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>
