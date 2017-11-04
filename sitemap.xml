@@ -2,6 +2,27 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://kitware.github.io/vtk-js/examples/VolumeViewer.html</loc>
+    
+    <lastmod>2017-11-03T23:49:37.485Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://kitware.github.io/vtk-js/api/Rendering_OpenGL_glsl.html</loc>
+    
+    <lastmod>2017-11-03T23:49:36.957Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://kitware.github.io/vtk-js/api/Rendering_OpenGL_VolumeMapper.html</loc>
+    
+    <lastmod>2017-11-03T23:49:36.953Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://kitware.github.io/vtk-js/examples/PiecewiseGaussianWidget.html</loc>
     
     <lastmod>2017-11-03T14:52:48.737Z</lastmod>
@@ -19,13 +40,6 @@
     <loc>https://kitware.github.io/vtk-js/examples/GeometryViewer.html</loc>
     
     <lastmod>2017-11-01T22:42:36.524Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://kitware.github.io/vtk-js/examples/VolumeViewer.html</loc>
-    
-    <lastmod>2017-10-31T14:48:04.462Z</lastmod>
     
   </url>
   
@@ -114,14 +128,14 @@
   </url>
   
   <url>
-    <loc>https://kitware.github.io/vtk-js/examples/SceneExplorer.html</loc>
+    <loc>https://kitware.github.io/vtk-js/examples/OBJViewer.html</loc>
     
     <lastmod>2017-10-27T02:23:45.972Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://kitware.github.io/vtk-js/examples/OBJViewer.html</loc>
+    <loc>https://kitware.github.io/vtk-js/examples/SceneExplorer.html</loc>
     
     <lastmod>2017-10-27T02:23:45.972Z</lastmod>
     
@@ -152,13 +166,6 @@
     <loc>https://kitware.github.io/vtk-js/examples/VolumeContour.html</loc>
     
     <lastmod>2017-10-26T20:06:01.727Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://kitware.github.io/vtk-js/api/Rendering_OpenGL_VolumeMapper.html</loc>
-    
-    <lastmod>2017-10-26T20:06:01.171Z</lastmod>
     
   </url>
   
@@ -198,7 +205,7 @@
   </url>
   
   <url>
-    <loc>https://kitware.github.io/vtk-js/examples/PolyDataSerialization.html</loc>
+    <loc>https://kitware.github.io/vtk-js/examples/PipelineExecution.html</loc>
     
     <lastmod>2017-10-26T15:45:47.479Z</lastmod>
     
@@ -212,7 +219,7 @@
   </url>
   
   <url>
-    <loc>https://kitware.github.io/vtk-js/examples/PipelineExecution.html</loc>
+    <loc>https://kitware.github.io/vtk-js/examples/PolyDataSerialization.html</loc>
     
     <lastmod>2017-10-26T15:45:47.479Z</lastmod>
     
@@ -268,6 +275,13 @@
   </url>
   
   <url>
+    <loc>https://kitware.github.io/vtk-js/examples/ElevationReader.html</loc>
+    
+    <lastmod>2017-10-26T15:45:47.463Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://kitware.github.io/vtk-js/examples/PolyDataReader.html</loc>
     
     <lastmod>2017-10-26T15:45:47.463Z</lastmod>
@@ -282,9 +296,9 @@
   </url>
   
   <url>
-    <loc>https://kitware.github.io/vtk-js/examples/ElevationReader.html</loc>
+    <loc>https://kitware.github.io/vtk-js/examples/HttpDataSetReader.html</loc>
     
-    <lastmod>2017-10-26T15:45:47.463Z</lastmod>
+    <lastmod>2017-10-26T15:45:47.459Z</lastmod>
     
   </url>
   
@@ -296,23 +310,9 @@
   </url>
   
   <url>
-    <loc>https://kitware.github.io/vtk-js/examples/HttpDataSetReader.html</loc>
-    
-    <lastmod>2017-10-26T15:45:47.459Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://kitware.github.io/vtk-js/examples/STLReader.html</loc>
     
     <lastmod>2017-10-26T15:45:47.459Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://kitware.github.io/vtk-js/examples/DeviceOrientationToCamera.html</loc>
-    
-    <lastmod>2017-10-26T15:45:47.451Z</lastmod>
     
   </url>
   
@@ -331,14 +331,21 @@
   </url>
   
   <url>
-    <loc>https://kitware.github.io/vtk-js/examples/SLICSource.html</loc>
+    <loc>https://kitware.github.io/vtk-js/examples/DeviceOrientationToCamera.html</loc>
+    
+    <lastmod>2017-10-26T15:45:47.451Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://kitware.github.io/vtk-js/examples/SphereSource.html</loc>
     
     <lastmod>2017-10-26T15:45:47.447Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://kitware.github.io/vtk-js/examples/SphereSource.html</loc>
+    <loc>https://kitware.github.io/vtk-js/examples/SLICSource.html</loc>
     
     <lastmod>2017-10-26T15:45:47.447Z</lastmod>
     
@@ -359,14 +366,14 @@
   </url>
   
   <url>
-    <loc>https://kitware.github.io/vtk-js/examples/LineSource.html</loc>
+    <loc>https://kitware.github.io/vtk-js/examples/ConeSource.html</loc>
     
     <lastmod>2017-10-26T15:45:47.431Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://kitware.github.io/vtk-js/examples/ConeSource.html</loc>
+    <loc>https://kitware.github.io/vtk-js/examples/LineSource.html</loc>
     
     <lastmod>2017-10-26T15:45:47.431Z</lastmod>
     
@@ -380,13 +387,6 @@
   </url>
   
   <url>
-    <loc>https://kitware.github.io/vtk-js/examples/ImageStreamline.html</loc>
-    
-    <lastmod>2017-10-26T15:45:47.427Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://kitware.github.io/vtk-js/examples/OutlineFilter.html</loc>
     
     <lastmod>2017-10-26T15:45:47.427Z</lastmod>
@@ -394,7 +394,14 @@
   </url>
   
   <url>
-    <loc>https://kitware.github.io/vtk-js/examples/ZipHttpReader.html</loc>
+    <loc>https://kitware.github.io/vtk-js/examples/ImageStreamline.html</loc>
+    
+    <lastmod>2017-10-26T15:45:47.427Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://kitware.github.io/vtk-js/examples/ImplicitBoolean.html</loc>
     
     <lastmod>2017-10-26T15:45:47.423Z</lastmod>
     
@@ -408,21 +415,21 @@
   </url>
   
   <url>
-    <loc>https://kitware.github.io/vtk-js/examples/ImplicitBoolean.html</loc>
+    <loc>https://kitware.github.io/vtk-js/examples/ZipHttpReader.html</loc>
     
     <lastmod>2017-10-26T15:45:47.423Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://kitware.github.io/vtk-js/examples/MultiSliceImageMapper.html</loc>
+    <loc>https://kitware.github.io/vtk-js/examples/Texture.html</loc>
     
     <lastmod>2017-10-26T15:45:47.419Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://kitware.github.io/vtk-js/examples/Texture.html</loc>
+    <loc>https://kitware.github.io/vtk-js/examples/MultiSliceImageMapper.html</loc>
     
     <lastmod>2017-10-26T15:45:47.419Z</lastmod>
     
@@ -842,13 +849,6 @@
   </url>
   
   <url>
-    <loc>https://kitware.github.io/vtk-js/api/IO_Misc_OBJReader.html</loc>
-    
-    <lastmod>2017-10-06T19:54:42.093Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://kitware.github.io/vtk-js/api/IO_Misc_PDBReader.html</loc>
     
     <lastmod>2017-10-06T19:54:42.093Z</lastmod>
@@ -856,14 +856,21 @@
   </url>
   
   <url>
-    <loc>https://kitware.github.io/vtk-js/api/IO_Misc_MTLReader.html</loc>
+    <loc>https://kitware.github.io/vtk-js/api/IO_Misc_OBJReader.html</loc>
+    
+    <lastmod>2017-10-06T19:54:42.093Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://kitware.github.io/vtk-js/api/IO_Legacy_PolyDataReader.html</loc>
     
     <lastmod>2017-10-06T19:54:42.089Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://kitware.github.io/vtk-js/api/IO_Legacy_PolyDataReader.html</loc>
+    <loc>https://kitware.github.io/vtk-js/api/IO_Misc_MTLReader.html</loc>
     
     <lastmod>2017-10-06T19:54:42.089Z</lastmod>
     
@@ -919,14 +926,14 @@
   </url>
   
   <url>
-    <loc>https://kitware.github.io/vtk-js/api/Testing_Examples_PipelineExecution.html</loc>
+    <loc>https://kitware.github.io/vtk-js/api/Testing_Examples_ActorSerialization.html</loc>
     
     <lastmod>2017-10-05T18:26:28.596Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://kitware.github.io/vtk-js/api/Testing_Examples_ActorSerialization.html</loc>
+    <loc>https://kitware.github.io/vtk-js/api/Testing_Examples_PipelineExecution.html</loc>
     
     <lastmod>2017-10-05T18:26:28.596Z</lastmod>
     
@@ -943,13 +950,6 @@
     <loc>https://kitware.github.io/vtk-js/api/Testing_Examples_StandaloneSceneLoader.html</loc>
     
     <lastmod>2017-10-05T18:26:28.596Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://kitware.github.io/vtk-js/api/Rendering_OpenGL_glsl.html</loc>
-    
-    <lastmod>2017-10-05T18:26:28.588Z</lastmod>
     
   </url>
   
