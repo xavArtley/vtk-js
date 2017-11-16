@@ -1154,7 +1154,35 @@
 1109
 1110
 1111
-1112</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+1112
+1113
+1114
+1115
+1116
+1117
+1118
+1119
+1120
+1121
+1122
+1123
+1124
+1125
+1126
+1127
+1128
+1129
+1130
+1131
+1132
+1133
+1134
+1135
+1136
+1137
+1138
+1139
+1140</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1948,6 +1976,9 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -2172,7 +2203,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -2180,10 +2210,36 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -3059,6 +3115,9 @@ function vtkOpenGLVolumeMapper(publicAPI, model) <span class="fstat-no" title="f
 <span class="cstat-no" title="statement not covered" >    publicAPI.updateShaders(model.tris, ren, actor);</span>
 &nbsp;
     // First we do the triangles, update the shader, set uniforms, etc.
+    // for (let i = 0; i &lt; 11; ++i) {
+    //   gl.drawArrays(gl.TRIANGLES, 66 * i, 66);
+    // }
 <span class="cstat-no" title="statement not covered" >    gl.drawArrays(gl.TRIANGLES, 0,</span>
       model.tris.getCABO().getElementCount());
 <span class="cstat-no" title="statement not covered" >    model.tris.getVAO().release();</span>
@@ -3281,9 +3340,6 @@ function vtkOpenGLVolumeMapper(publicAPI, model) <span class="fstat-no" title="f
 <span class="cstat-no" title="statement not covered" >        ptsArray[(i * 3) + 2] = -1.0;</span>
       }
 &nbsp;
-      const points = <span class="cstat-no" title="statement not covered" >vtkDataArray.newInstance({ numberOfComponents: 3, values: ptsArray });</span>
-<span class="cstat-no" title="statement not covered" >      points.setName('points');</span>
-&nbsp;
       const cellArray = <span class="cstat-no" title="statement not covered" >new Uint16Array(8);</span>
 <span class="cstat-no" title="statement not covered" >      cellArray[0] = 3;</span>
 <span class="cstat-no" title="statement not covered" >      cellArray[1] = 0;</span>
@@ -3293,8 +3349,36 @@ function vtkOpenGLVolumeMapper(publicAPI, model) <span class="fstat-no" title="f
 <span class="cstat-no" title="statement not covered" >      cellArray[5] = 0;</span>
 <span class="cstat-no" title="statement not covered" >      cellArray[6] = 3;</span>
 <span class="cstat-no" title="statement not covered" >      cellArray[7] = 2;</span>
-      const cells = <span class="cstat-no" title="statement not covered" >vtkDataArray.newInstance({ numberOfComponents: 1, values: cellArray });</span>
 &nbsp;
+      // const dim = 12.0;
+      // const ptsArray = new Float32Array(3 * dim * dim);
+      // for (let i = 0; i &lt; dim; i++) {
+      //   for (let j = 0; j &lt; dim; j++) {
+      //     const offset = ((i * dim) + j) * 3;
+      //     ptsArray[offset] = (2.0 * (i / (dim - 1.0))) - 1.0;
+      //     ptsArray[offset + 1] = (2.0 * (j / (dim - 1.0))) - 1.0;
+      //     ptsArray[offset + 2] = -1.0;
+      //   }
+      // }
+&nbsp;
+      // const cellArray = new Uint16Array(8 * (dim - 1) * (dim - 1));
+      // for (let i = 0; i &lt; dim - 1; i++) {
+      //   for (let j = 0; j &lt; dim - 1; j++) {
+      //     const offset = 8 * ((i * (dim - 1)) + j);
+      //     cellArray[offset] = 3;
+      //     cellArray[offset + 1] = (i * dim) + j;
+      //     cellArray[offset + 2] = (i * dim) + 1 + j;
+      //     cellArray[offset + 3] = ((i + 1) * dim) + 1 + j;
+      //     cellArray[offset + 4] = 3;
+      //     cellArray[offset + 5] = (i * dim) + j;
+      //     cellArray[offset + 6] = ((i + 1) * dim) + 1 + j;
+      //     cellArray[offset + 7] = ((i + 1) * dim) + j;
+      //   }
+      // }
+&nbsp;
+      const points = <span class="cstat-no" title="statement not covered" >vtkDataArray.newInstance({ numberOfComponents: 3, values: ptsArray });</span>
+<span class="cstat-no" title="statement not covered" >      points.setName('points');</span>
+      const cells = <span class="cstat-no" title="statement not covered" >vtkDataArray.newInstance({ numberOfComponents: 1, values: cellArray });</span>
 <span class="cstat-no" title="statement not covered" >      model.tris.getCABO().createVBO(cells,</span>
         'polys', Representation.SURFACE,
         { points, cellOffset: 0 });
@@ -3382,7 +3466,7 @@ export default { newInstance, extend };
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Nov 16 2017 17:42:11 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Nov 16 2017 18:37:30 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>
