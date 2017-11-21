@@ -20,9 +20,9 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">25.82% </span>
+        <span class="strong">24.79% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>63/244</span>
+        <span class='fraction'>58/234</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">1.12% </span>
@@ -30,14 +30,14 @@
         <span class='fraction'>1/89</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">17.07% </span>
+        <span class="strong">19.44% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>7/41</span>
+        <span class='fraction'>7/36</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">27.75% </span>
+        <span class="strong">26.13% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>63/227</span>
+        <span class='fraction'>58/222</span>
       </div>
     </div>
   </div>
@@ -604,15 +604,7 @@
 559
 560
 561
-562
-563
-564
-565
-566
-567
-568
-569
-570</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+562</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1024,12 +1016,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1134,7 +1120,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1146,7 +1131,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1193,7 +1177,7 @@ import CoincidentTopologyHelper from 'vtk.js/Sources/Rendering/Core/Mapper/Coinc
 import otherStaticMethods       from 'vtk.js/Sources/Rendering/Core/Mapper/Static';
 import Constants                from 'vtk.js/Sources/Rendering/Core/Mapper/Constants';
 &nbsp;
-const { ColorMode, ScalarMode, MaterialMode, GetArray } = Constants;
+const { ColorMode, ScalarMode, GetArray } = Constants;
 const { VectorMode } = vtkScalarsToColors;
 &nbsp;
 // ----------------------------------------------------------------------------
@@ -1592,12 +1576,6 @@ function vtkMapper(publicAPI, model) {
     }
   };
 &nbsp;
-  publicAPI.setScalarMaterialModeToDefault = () =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >publicAPI.setScalarMaterialMode(MaterialMode.DEFAULT);</span></span>
-  publicAPI.setScalarMaterialModeToAmbient = () =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >publicAPI.setScalarMaterialMode(MaterialMode.AMBIENT);</span></span>
-  publicAPI.setScalarMaterialModeToDiffuse = () =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >publicAPI.setScalarMaterialMode(MaterialMode.DIFFUSE);</span></span>
-  publicAPI.setScalarMaterialModeToAmbientAndDiffuse = () =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >publicAPI.setScalarMaterialMode(MaterialMode.AMBIENT_AND_DIFFUSE);</span></span>
-  publicAPI.getScalarMaterialModeAsString = () =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >macro.enumToString(MaterialMode, model.scalarMaterialMode);</span></span>
-&nbsp;
   publicAPI.getIsOpaque = () =&gt; <span class="fstat-no" title="function not covered" >{</span>
     const lut = <span class="cstat-no" title="statement not covered" >publicAPI.getLookupTable();</span>
 <span class="cstat-no" title="statement not covered" >    if (lut) {</span>
@@ -1678,7 +1656,6 @@ const DEFAULT_VALUES = {
 &nbsp;
   colorMode: 0,
   scalarMode: 0,
-  scalarMaterialMode: 0,
   arrayAccessMode: 1, // By_NAME
 &nbsp;
   renderTime: 0,
@@ -1724,7 +1701,6 @@ export function extend(publicAPI, model, initialValues = {}) {
     'lookupTable',
     'renderTime',
     'resolveCoincidentTopology',
-    'scalarMaterialMode',
     'scalarMode',
     'scalarVisibility',
     'static',
@@ -1756,7 +1732,7 @@ export default Object.assign({ newInstance, extend }, staticOffsetAPI, otherStat
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Nov 21 2017 21:14:39 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Nov 21 2017 22:01:53 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>
