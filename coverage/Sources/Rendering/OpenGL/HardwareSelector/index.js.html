@@ -953,18 +953,18 @@ function vtkOpenGLHardwareSelector(publicAPI, model) <span class="fstat-no" titl
 &nbsp;
   //----------------------------------------------------------------------------
 <span class="cstat-no" title="statement not covered" >  publicAPI.beginSelection = () =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
-<span class="cstat-no" title="statement not covered" >    model.oglrenderer = model.oglwindow.getViewNodeFor(model.renderer);</span>
+<span class="cstat-no" title="statement not covered" >    model.openGLRenderer = model.openGLRenderWindow.getViewNodeFor(model.renderer);</span>
 <span class="cstat-no" title="statement not covered" >    model.maxAttributeId = 0;</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    model.framebuffer = vtkOpenGLFramebuffer.newInstance();</span>
-<span class="cstat-no" title="statement not covered" >    model.framebuffer.setWindow(model.oglwindow);</span>
+<span class="cstat-no" title="statement not covered" >    model.framebuffer.setOpenGLRenderWindow(model.openGLRenderWindow);</span>
 <span class="cstat-no" title="statement not covered" >    model.framebuffer.saveCurrentBindingsAndBuffers();</span>
-    const size = <span class="cstat-no" title="statement not covered" >model.oglwindow.getSize();</span>
+    const size = <span class="cstat-no" title="statement not covered" >model.openGLRenderWindow.getSize();</span>
 <span class="cstat-no" title="statement not covered" >    model.framebuffer.create(size[0], size[1]);</span>
 <span class="cstat-no" title="statement not covered" >    model.framebuffer.populateFramebuffer();</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    model.oglrenderer.clear();</span>
-<span class="cstat-no" title="statement not covered" >    model.oglrenderer.setSelector(publicAPI);</span>
+<span class="cstat-no" title="statement not covered" >    model.openGLRenderer.clear();</span>
+<span class="cstat-no" title="statement not covered" >    model.openGLRenderer.setSelector(publicAPI);</span>
 <span class="cstat-no" title="statement not covered" >    model.renderer.setPreserveDepthBuffer(1);</span>
 <span class="cstat-no" title="statement not covered" >    model.hitProps = [];</span>
 <span class="cstat-no" title="statement not covered" >    model.props = [];</span>
@@ -974,7 +974,7 @@ function vtkOpenGLHardwareSelector(publicAPI, model) <span class="fstat-no" titl
   //----------------------------------------------------------------------------
 <span class="cstat-no" title="statement not covered" >  publicAPI.endSelection = () =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
 <span class="cstat-no" title="statement not covered" >    model.hitProps = [];</span>
-<span class="cstat-no" title="statement not covered" >    model.oglrenderer.setSelector(null);</span>
+<span class="cstat-no" title="statement not covered" >    model.openGLRenderer.setSelector(null);</span>
 <span class="cstat-no" title="statement not covered" >    model.renderer.setPreserveDepthBuffer(0);</span>
 <span class="cstat-no" title="statement not covered" >    model.framebuffer.restorePreviousBindingsAndBuffers();</span>
   };
@@ -999,12 +999,12 @@ function vtkOpenGLHardwareSelector(publicAPI, model) <span class="fstat-no" titl
 &nbsp;
   //----------------------------------------------------------------------------
 <span class="cstat-no" title="statement not covered" >  publicAPI.captureBuffers = () =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
-<span class="cstat-no" title="statement not covered" >    if (!model.renderer || !model.oglwindow) {</span>
+<span class="cstat-no" title="statement not covered" >    if (!model.renderer || !model.openGLRenderWindow) {</span>
 <span class="cstat-no" title="statement not covered" >      vtkErrorMacro('Renderer and view must be set before calling Select.');</span>
 <span class="cstat-no" title="statement not covered" >      return false;</span>
     }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    model.oglrenderer = model.oglwindow.getViewNodeFor(model.renderer);</span>
+<span class="cstat-no" title="statement not covered" >    model.openGLRenderer = model.openGLRenderWindow.getViewNodeFor(model.renderer);</span>
 &nbsp;
     // int rgba[4];
     // rwin.getColorBufferSizes(rgba);
@@ -1025,7 +1025,7 @@ function vtkOpenGLHardwareSelector(publicAPI, model) <span class="fstat-no" titl
       model.currentPass &lt;= PassTypes.MAX_KNOWN_PASS; model.currentPass++) {
 <span class="cstat-no" title="statement not covered" >      if (publicAPI.passRequired(model.currentPass)) {</span>
 <span class="cstat-no" title="statement not covered" >        publicAPI.preCapturePass(model.currentPass);</span>
-<span class="cstat-no" title="statement not covered" >        model.oglwindow.traverseAllPasses();</span>
+<span class="cstat-no" title="statement not covered" >        model.openGLRenderWindow.traverseAllPasses();</span>
 <span class="cstat-no" title="statement not covered" >        publicAPI.postCapturePass(model.currentPass);</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >        publicAPI.savePixelBuffer(model.currentPass);</span>
@@ -1038,7 +1038,7 @@ function vtkOpenGLHardwareSelector(publicAPI, model) <span class="fstat-no" titl
 <span class="cstat-no" title="statement not covered" >    publicAPI.invokeEvent({ type: 'EndEvent' });</span>
 &nbsp;
     // restore image
-<span class="cstat-no" title="statement not covered" >    model.oglwindow.traverseAllPasses();</span>
+<span class="cstat-no" title="statement not covered" >    model.openGLRenderWindow.traverseAllPasses();</span>
 <span class="cstat-no" title="statement not covered" >    return true;</span>
   };
 &nbsp;
@@ -1047,7 +1047,7 @@ function vtkOpenGLHardwareSelector(publicAPI, model) <span class="fstat-no" titl
 &nbsp;
   //----------------------------------------------------------------------------
 <span class="cstat-no" title="statement not covered" >  publicAPI.savePixelBuffer = (passNo) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
-<span class="cstat-no" title="statement not covered" >    model.pixBuffer[passNo] = model.oglwindow.getPixelData(</span>
+<span class="cstat-no" title="statement not covered" >    model.pixBuffer[passNo] = model.openGLRenderWindow.getPixelData(</span>
       model.area[0], model.area[1], model.area[2], model.area[3]);
 <span class="cstat-no" title="statement not covered" >    if (passNo === PassTypes.ACTOR_PASS) {</span>
 <span class="cstat-no" title="statement not covered" >      publicAPI.buildPropHitList(model.pixBuffer[passNo]);</span>
@@ -1311,7 +1311,7 @@ function vtkOpenGLHardwareSelector(publicAPI, model) <span class="fstat-no" titl
   };
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  publicAPI.attach = (w, r) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
-<span class="cstat-no" title="statement not covered" >    model.oglwindow = w;</span>
+<span class="cstat-no" title="statement not covered" >    model.openGLRenderWindow = w;</span>
 <span class="cstat-no" title="statement not covered" >    model.renderer = r;</span>
   };
 }
@@ -1324,8 +1324,8 @@ const DEFAULT_VALUES = {
   fieldAssociation: FieldAssociations.FIELD_ASSOCIATION_CELLS,
   renderer: null,
   area: null,
-  oglwindow: null,
-  oglrenderer: null,
+  openGLRenderWindow: null,
+  openGLRenderer: null,
   currentPass: -1,
   propColorValue: null,
   props: null,
@@ -1375,7 +1375,7 @@ export default Object.assign({ newInstance, extend }, Constants);
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Nov 22 2017 16:34:14 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Nov 27 2017 17:38:28 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>

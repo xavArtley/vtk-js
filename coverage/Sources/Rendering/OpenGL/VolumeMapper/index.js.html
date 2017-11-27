@@ -20,9 +20,9 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">0.59% </span>
+        <span class="strong">0.6% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>3/505</span>
+        <span class='fraction'>3/500</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
@@ -35,9 +35,9 @@
         <span class='fraction'>0/26</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">0.59% </span>
+        <span class="strong">0.6% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>3/505</span>
+        <span class='fraction'>3/500</span>
       </div>
     </div>
   </div>
@@ -1177,12 +1177,7 @@
 1132
 1133
 1134
-1135
-1136
-1137
-1138
-1139
-1140</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+1135</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1228,11 +1223,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -2371,18 +2361,13 @@ function vtkOpenGLVolumeMapper(publicAPI, model) <span class="fstat-no" title="f
 <span class="cstat-no" title="statement not covered" >    if (prepass) {</span>
 <span class="cstat-no" title="statement not covered" >      model.openGLRenderWindow = publicAPI.getFirstAncestorOfType('vtkOpenGLRenderWindow');</span>
 <span class="cstat-no" title="statement not covered" >      model.context = model.openGLRenderWindow.getContext();</span>
-<span class="cstat-no" title="statement not covered" >      model.tris.setWindow(model.openGLRenderWindow);</span>
-<span class="cstat-no" title="statement not covered" >      model.scalarTexture.setWindow(model.openGLRenderWindow);</span>
-<span class="cstat-no" title="statement not covered" >      model.scalarTexture.setContext(model.context);</span>
-<span class="cstat-no" title="statement not covered" >      model.colorTexture.setWindow(model.openGLRenderWindow);</span>
-<span class="cstat-no" title="statement not covered" >      model.colorTexture.setContext(model.context);</span>
-<span class="cstat-no" title="statement not covered" >      model.opacityTexture.setWindow(model.openGLRenderWindow);</span>
-<span class="cstat-no" title="statement not covered" >      model.opacityTexture.setContext(model.context);</span>
-<span class="cstat-no" title="statement not covered" >      model.lightingTexture.setWindow(model.openGLRenderWindow);</span>
-<span class="cstat-no" title="statement not covered" >      model.lightingTexture.setContext(model.context);</span>
-<span class="cstat-no" title="statement not covered" >      model.jitterTexture.setWindow(model.openGLRenderWindow);</span>
-<span class="cstat-no" title="statement not covered" >      model.jitterTexture.setContext(model.context);</span>
-<span class="cstat-no" title="statement not covered" >      model.framebuffer.setWindow(model.openGLRenderWindow);</span>
+<span class="cstat-no" title="statement not covered" >      model.tris.setOpenGLRenderWindow(model.openGLRenderWindow);</span>
+<span class="cstat-no" title="statement not covered" >      model.scalarTexture.setOpenGLRenderWindow(model.openGLRenderWindow);</span>
+<span class="cstat-no" title="statement not covered" >      model.colorTexture.setOpenGLRenderWindow(model.openGLRenderWindow);</span>
+<span class="cstat-no" title="statement not covered" >      model.opacityTexture.setOpenGLRenderWindow(model.openGLRenderWindow);</span>
+<span class="cstat-no" title="statement not covered" >      model.lightingTexture.setOpenGLRenderWindow(model.openGLRenderWindow);</span>
+<span class="cstat-no" title="statement not covered" >      model.jitterTexture.setOpenGLRenderWindow(model.openGLRenderWindow);</span>
+<span class="cstat-no" title="statement not covered" >      model.framebuffer.setOpenGLRenderWindow(model.openGLRenderWindow);</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >      model.openGLVolume = publicAPI.getFirstAncestorOfType('vtkOpenGLVolume');</span>
       const actor = <span class="cstat-no" title="statement not covered" >model.openGLVolume.getRenderable();</span>
@@ -3466,7 +3451,7 @@ export default { newInstance, extend };
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Nov 22 2017 16:34:14 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Nov 27 2017 17:38:28 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>

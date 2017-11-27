@@ -20,24 +20,24 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">3.33% </span>
+        <span class="strong">2.97% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>3/90</span>
+        <span class='fraction'>3/101</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>0/31</span>
+        <span class='fraction'>0/37</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>0/9</span>
+        <span class='fraction'>0/11</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">3.33% </span>
+        <span class="strong">2.97% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>3/90</span>
+        <span class='fraction'>3/101</span>
       </div>
     </div>
   </div>
@@ -241,7 +241,25 @@
 196
 197
 198
-199</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -402,6 +420,24 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -415,16 +451,16 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -599,6 +635,24 @@ function vtkOpenGLRenderer(publicAPI, model) <span class="fstat-no" title="funct
 <span class="cstat-no" title="statement not covered" >    gl.enable(gl.DEPTH_TEST);</span>
     /* eslint-enable no-bitwise */
   };
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  publicAPI.releaseGraphicsResources = () =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >    if (model.selector !== null) {</span>
+<span class="cstat-no" title="statement not covered" >      model.selector.releaseGraphicsResources();</span>
+    }
+  };
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  publicAPI.setOpenGLRenderWindow = (rw) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >    if (model.openGLRenderWindow === rw) {</span>
+<span class="cstat-no" title="statement not covered" >      return;</span>
+    }
+<span class="cstat-no" title="statement not covered" >    publicAPI.releaseGraphicsResources();</span>
+<span class="cstat-no" title="statement not covered" >    model.openGLRenderWindow = rw;</span>
+<span class="cstat-no" title="statement not covered" >    model.context = null;</span>
+<span class="cstat-no" title="statement not covered" >    if (rw) {</span>
+<span class="cstat-no" title="statement not covered" >      model.context = model.openGLRenderWindow.getContext();</span>
+    }
+  };
 }
 &nbsp;
 // ----------------------------------------------------------------------------
@@ -607,6 +661,7 @@ function vtkOpenGLRenderer(publicAPI, model) <span class="fstat-no" title="funct
 &nbsp;
 const DEFAULT_VALUES = {
   context: null,
+  openGLRenderWindow: null,
   selector: null,
 };
 &nbsp;
@@ -622,7 +677,6 @@ export function extend(publicAPI, model, initialValues = {}) <span class="fstat-
 <span class="cstat-no" title="statement not covered" >  macro.get(publicAPI, model, ['shaderCache']);</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  macro.setGet(publicAPI, model, [</span>
-    'context',
     'selector',
   ]);
 &nbsp;
@@ -643,7 +697,7 @@ export default { newInstance, extend };
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Nov 22 2017 16:34:14 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Nov 27 2017 17:38:28 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>

@@ -22,12 +22,12 @@
       <div class='fl pad1y space-right2'>
         <span class="strong">0.83% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>5/603</span>
+        <span class='fraction'>5/605</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>0/234</span>
+        <span class='fraction'>0/236</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
@@ -37,7 +37,7 @@
       <div class='fl pad1y space-right2'>
         <span class="strong">0.83% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>5/603</span>
+        <span class='fraction'>5/605</span>
       </div>
     </div>
   </div>
@@ -1424,8 +1424,6 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1447,7 +1445,6 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -1456,17 +1453,10 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -2377,6 +2367,7 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -2385,9 +2376,20 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -2452,8 +2454,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -2503,10 +2503,10 @@ function vtkOpenGLTexture(publicAPI, model) <span class="fstat-no" title="functi
 <span class="cstat-no" title="statement not covered" >  model.classHierarchy.push('vtkOpenGLTexture');</span>
   // Renders myself
 <span class="cstat-no" title="statement not covered" >  publicAPI.render = () =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
-    const oglren = <span class="cstat-no" title="statement not covered" >publicAPI.getFirstAncestorOfType('vtkOpenGLRenderer');</span>
+<span class="cstat-no" title="statement not covered" >    model.openGLRenderer = publicAPI.getFirstAncestorOfType('vtkOpenGLRenderer');</span>
     // sync renderable properties
-<span class="cstat-no" title="statement not covered" >    model.window = oglren.getParent();</span>
-<span class="cstat-no" title="statement not covered" >    model.context = model.window.getContext();</span>
+<span class="cstat-no" title="statement not covered" >    model.openGLRenderWindow = model.openGLRenderer.getParent();</span>
+<span class="cstat-no" title="statement not covered" >    model.context = model.openGLRenderWindow.getContext();</span>
 <span class="cstat-no" title="statement not covered" >    if (model.renderable.getInterpolate()) {</span>
 <span class="cstat-no" title="statement not covered" >      if (model.generateMipmap) {</span>
 <span class="cstat-no" title="statement not covered" >        publicAPI.setMinificationFilter(Filter.LINEAR_MIPMAP_LINEAR);</span>
@@ -2627,8 +2627,8 @@ function vtkOpenGLTexture(publicAPI, model) <span class="fstat-no" title="functi
 &nbsp;
   //---------------------------------------------------------------------------
 <span class="cstat-no" title="statement not covered" >  publicAPI.getTextureUnit = () =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
-<span class="cstat-no" title="statement not covered" >    if (model.window) {</span>
-<span class="cstat-no" title="statement not covered" >      return model.window.getTextureUnitForTexture(publicAPI);</span>
+<span class="cstat-no" title="statement not covered" >    if (model.openGLRenderWindow) {</span>
+<span class="cstat-no" title="statement not covered" >      return model.openGLRenderWindow.getTextureUnitForTexture(publicAPI);</span>
     }
 <span class="cstat-no" title="statement not covered" >    return -1;</span>
   };
@@ -2636,16 +2636,14 @@ function vtkOpenGLTexture(publicAPI, model) <span class="fstat-no" title="functi
   //---------------------------------------------------------------------------
 <span class="cstat-no" title="statement not covered" >  publicAPI.activate = () =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
     // activate a free texture unit for this texture
-<span class="cstat-no" title="statement not covered" >    model.window.activateTexture(publicAPI);</span>
+<span class="cstat-no" title="statement not covered" >    model.openGLRenderWindow.activateTexture(publicAPI);</span>
 <span class="cstat-no" title="statement not covered" >    publicAPI.bind();</span>
   };
 &nbsp;
   //---------------------------------------------------------------------------
 <span class="cstat-no" title="statement not covered" >  publicAPI.deactivate = () =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
-<span class="cstat-no" title="statement not covered" >    if (model.window) {</span>
-<span class="cstat-no" title="statement not covered" >      model.window.activateTexture(publicAPI);</span>
-<span class="cstat-no" title="statement not covered" >      publicAPI.unBind();</span>
-<span class="cstat-no" title="statement not covered" >      model.window.deactivateTexture(publicAPI);</span>
+<span class="cstat-no" title="statement not covered" >    if (model.openGLRenderWindow) {</span>
+<span class="cstat-no" title="statement not covered" >      model.openGLRenderWindow.deactivateTexture(publicAPI);</span>
     }
   };
 &nbsp;
@@ -2655,7 +2653,6 @@ function vtkOpenGLTexture(publicAPI, model) <span class="fstat-no" title="functi
 <span class="cstat-no" title="statement not covered" >      rwin.makeCurrent();</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >      rwin.activateTexture(publicAPI);</span>
-<span class="cstat-no" title="statement not covered" >      publicAPI.unBind();</span>
 <span class="cstat-no" title="statement not covered" >      rwin.deactivateTexture(publicAPI);</span>
 <span class="cstat-no" title="statement not covered" >      model.context.deleteTexture(model.handle);</span>
 <span class="cstat-no" title="statement not covered" >      model.handle = 0;</span>
@@ -2684,13 +2681,6 @@ function vtkOpenGLTexture(publicAPI, model) <span class="fstat-no" title="functi
   };
 &nbsp;
   //----------------------------------------------------------------------------
-<span class="cstat-no" title="statement not covered" >  publicAPI.unBind = () =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
-<span class="cstat-no" title="statement not covered" >    if (model.target) {</span>
-<span class="cstat-no" title="statement not covered" >      model.context.bindTexture(model.target, null);</span>
-    }
-  };
-&nbsp;
-  //----------------------------------------------------------------------------
 <span class="cstat-no" title="statement not covered" >  publicAPI.isBound = () =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
     let result = <span class="cstat-no" title="statement not covered" >false;</span>
 <span class="cstat-no" title="statement not covered" >    if (model.context &amp;&amp; model.handle) {</span>
@@ -2715,7 +2705,7 @@ function vtkOpenGLTexture(publicAPI, model) <span class="fstat-no" title="functi
       publicAPI.getOpenGLWrapMode(model.wrapS));
 <span class="cstat-no" title="statement not covered" >    model.context.texParameteri(model.target, model.context.TEXTURE_WRAP_T,</span>
       publicAPI.getOpenGLWrapMode(model.wrapT));
-<span class="cstat-no" title="statement not covered" >    if (model.window.getWebgl2()) {</span>
+<span class="cstat-no" title="statement not covered" >    if (model.openGLRenderWindow.getWebgl2()) {</span>
 <span class="cstat-no" title="statement not covered" >      model.context.texParameteri(model.target, model.context.TEXTURE_WRAP_R,</span>
         publicAPI.getOpenGLWrapMode(model.wrapR));
     }
@@ -2759,14 +2749,14 @@ function vtkOpenGLTexture(publicAPI, model) <span class="fstat-no" title="functi
     let result = <span class="cstat-no" title="statement not covered" >0;</span>
 &nbsp;
     // try default next
-<span class="cstat-no" title="statement not covered" >    result = model.window.getDefaultTextureInternalFormat(</span>
+<span class="cstat-no" title="statement not covered" >    result = model.openGLRenderWindow.getDefaultTextureInternalFormat(</span>
       vtktype, numComps, false);
 <span class="cstat-no" title="statement not covered" >    if (result) {</span>
 <span class="cstat-no" title="statement not covered" >      return result;</span>
     }
 &nbsp;
     // try floating point
-<span class="cstat-no" title="statement not covered" >    result = this.window.getDefaultTextureInternalFormat(</span>
+<span class="cstat-no" title="statement not covered" >    result = this.openGLRenderWindow.getDefaultTextureInternalFormat(</span>
       vtktype, numComps, true);
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    if (!result) {</span>
@@ -2796,7 +2786,7 @@ function vtkOpenGLTexture(publicAPI, model) <span class="fstat-no" title="functi
 &nbsp;
   //----------------------------------------------------------------------------
 <span class="cstat-no" title="statement not covered" >  publicAPI.getDefaultFormat = (vtktype, numComps) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
-<span class="cstat-no" title="statement not covered" >    if (model.window.getWebgl2()) {</span>
+<span class="cstat-no" title="statement not covered" >    if (model.openGLRenderWindow.getWebgl2()) {</span>
 <span class="cstat-no" title="statement not covered" >      switch (numComps) {</span>
         case 1:
 <span class="cstat-no" title="statement not covered" >          return model.context.RED;</span>
@@ -2835,7 +2825,7 @@ function vtkOpenGLTexture(publicAPI, model) <span class="fstat-no" title="functi
   //----------------------------------------------------------------------------
 <span class="cstat-no" title="statement not covered" >  publicAPI.getDefaultDataType = (vtkScalarType) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
     // DON'T DEAL with VTK_CHAR as this is platform dependent.
-<span class="cstat-no" title="statement not covered" >    if (model.window.getWebgl2()) {</span>
+<span class="cstat-no" title="statement not covered" >    if (model.openGLRenderWindow.getWebgl2()) {</span>
 <span class="cstat-no" title="statement not covered" >      switch (vtkScalarType) {</span>
         // case VtkDataTypes.SIGNED_CHAR:
         //   return model.context.BYTE;
@@ -3093,7 +3083,7 @@ function vtkOpenGLTexture(publicAPI, model) <span class="fstat-no" title="functi
 <span class="cstat-no" title="statement not covered" >    model.height = height;</span>
 <span class="cstat-no" title="statement not covered" >    model.depth = 1;</span>
 <span class="cstat-no" title="statement not covered" >    model.numberOfDimensions = 2;</span>
-<span class="cstat-no" title="statement not covered" >    model.window.activateTexture(publicAPI);</span>
+<span class="cstat-no" title="statement not covered" >    model.openGLRenderWindow.activateTexture(publicAPI);</span>
 <span class="cstat-no" title="statement not covered" >    publicAPI.createTexture();</span>
 <span class="cstat-no" title="statement not covered" >    publicAPI.bind();</span>
 &nbsp;
@@ -3142,7 +3132,7 @@ function vtkOpenGLTexture(publicAPI, model) <span class="fstat-no" title="functi
 <span class="cstat-no" title="statement not covered" >    model.height = height;</span>
 <span class="cstat-no" title="statement not covered" >    model.depth = 1;</span>
 <span class="cstat-no" title="statement not covered" >    model.numberOfDimensions = 2;</span>
-<span class="cstat-no" title="statement not covered" >    model.window.activateTexture(publicAPI);</span>
+<span class="cstat-no" title="statement not covered" >    model.openGLRenderWindow.activateTexture(publicAPI);</span>
 <span class="cstat-no" title="statement not covered" >    publicAPI.createTexture();</span>
 <span class="cstat-no" title="statement not covered" >    publicAPI.bind();</span>
 &nbsp;
@@ -3188,7 +3178,7 @@ function vtkOpenGLTexture(publicAPI, model) <span class="fstat-no" title="functi
 <span class="cstat-no" title="statement not covered" >    model.height = height;</span>
 <span class="cstat-no" title="statement not covered" >    model.depth = 1;</span>
 <span class="cstat-no" title="statement not covered" >    model.numberOfDimensions = 2;</span>
-<span class="cstat-no" title="statement not covered" >    model.window.activateTexture(publicAPI);</span>
+<span class="cstat-no" title="statement not covered" >    model.openGLRenderWindow.activateTexture(publicAPI);</span>
 <span class="cstat-no" title="statement not covered" >    publicAPI.createTexture();</span>
 <span class="cstat-no" title="statement not covered" >    publicAPI.bind();</span>
 &nbsp;
@@ -3232,7 +3222,7 @@ function vtkOpenGLTexture(publicAPI, model) <span class="fstat-no" title="functi
 <span class="cstat-no" title="statement not covered" >    model.height = image.height;</span>
 <span class="cstat-no" title="statement not covered" >    model.depth = 1;</span>
 <span class="cstat-no" title="statement not covered" >    model.numberOfDimensions = 2;</span>
-<span class="cstat-no" title="statement not covered" >    model.window.activateTexture(publicAPI);</span>
+<span class="cstat-no" title="statement not covered" >    model.openGLRenderWindow.activateTexture(publicAPI);</span>
 <span class="cstat-no" title="statement not covered" >    publicAPI.createTexture();</span>
 <span class="cstat-no" title="statement not covered" >    publicAPI.bind();</span>
 &nbsp;
@@ -3285,7 +3275,7 @@ function vtkOpenGLTexture(publicAPI, model) <span class="fstat-no" title="functi
 <span class="cstat-no" title="statement not covered" >    model.height = height;</span>
 <span class="cstat-no" title="statement not covered" >    model.depth = depth;</span>
 <span class="cstat-no" title="statement not covered" >    model.numberOfDimensions = 3;</span>
-<span class="cstat-no" title="statement not covered" >    model.window.activateTexture(publicAPI);</span>
+<span class="cstat-no" title="statement not covered" >    model.openGLRenderWindow.activateTexture(publicAPI);</span>
 <span class="cstat-no" title="statement not covered" >    publicAPI.createTexture();</span>
 <span class="cstat-no" title="statement not covered" >    publicAPI.bind();</span>
 &nbsp;
@@ -3339,7 +3329,7 @@ function vtkOpenGLTexture(publicAPI, model) <span class="fstat-no" title="functi
 <span class="cstat-no" title="statement not covered" >    if (dataType === VtkDataTypes.UNSIGNED_CHAR) {</span>
 <span class="cstat-no" title="statement not covered" >      model.volumeInfo.min = 0.0;</span>
 <span class="cstat-no" title="statement not covered" >      model.volumeInfo.max = 255.0;</span>
-    } else <span class="cstat-no" title="statement not covered" >if (model.window.getWebgl2() ||</span>
+    } else <span class="cstat-no" title="statement not covered" >if (model.openGLRenderWindow.getWebgl2() ||</span>
         (model.context.getExtension('OES_texture_float') &amp;&amp;
          model.context.getExtension('OES_texture_float_linear'))) {
 <span class="cstat-no" title="statement not covered" >      dataTypeToUse = VtkDataTypes.FLOAT;</span>
@@ -3363,7 +3353,7 @@ function vtkOpenGLTexture(publicAPI, model) <span class="fstat-no" title="functi
       };
     }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    if (model.window.getWebgl2()) {</span>
+<span class="cstat-no" title="statement not covered" >    if (model.openGLRenderWindow.getWebgl2()) {</span>
 <span class="cstat-no" title="statement not covered" >      if (dataType !== VtkDataTypes.UNSIGNED_CHAR) {</span>
         const newArray = <span class="cstat-no" title="statement not covered" >new Float32Array(numPixelsIn);</span>
 <span class="cstat-no" title="statement not covered" >        for (let i = 0; i &lt; numPixelsIn; ++i) {</span>
@@ -3408,7 +3398,7 @@ function vtkOpenGLTexture(publicAPI, model) <span class="fstat-no" title="functi
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    model.width = targetWidth;</span>
 <span class="cstat-no" title="statement not covered" >    model.height = targetHeight;</span>
-<span class="cstat-no" title="statement not covered" >    model.window.activateTexture(publicAPI);</span>
+<span class="cstat-no" title="statement not covered" >    model.openGLRenderWindow.activateTexture(publicAPI);</span>
 <span class="cstat-no" title="statement not covered" >    publicAPI.createTexture();</span>
 <span class="cstat-no" title="statement not covered" >    publicAPI.bind();</span>
 &nbsp;
@@ -3527,7 +3517,7 @@ function vtkOpenGLTexture(publicAPI, model) <span class="fstat-no" title="functi
 <span class="cstat-no" title="statement not covered" >    model.volumeInfo = { min: minMag, max: maxMag };</span>
     let outIdx = <span class="cstat-no" title="statement not covered" >0;</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    if (model.window.getWebgl2()) {</span>
+<span class="cstat-no" title="statement not covered" >    if (model.openGLRenderWindow.getWebgl2()) {</span>
       const numPixelsIn = <span class="cstat-no" title="statement not covered" >width * height * depth;</span>
       const newArray = <span class="cstat-no" title="statement not covered" >new Uint8Array(numPixelsIn * 4);</span>
 <span class="cstat-no" title="statement not covered" >      for (let p = 0; p &lt; numPixelsIn; ++p) {</span>
@@ -3588,7 +3578,7 @@ function vtkOpenGLTexture(publicAPI, model) <span class="fstat-no" title="functi
       }
     }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    model.window.activateTexture(publicAPI);</span>
+<span class="cstat-no" title="statement not covered" >    model.openGLRenderWindow.activateTexture(publicAPI);</span>
 <span class="cstat-no" title="statement not covered" >    publicAPI.createTexture();</span>
 <span class="cstat-no" title="statement not covered" >    publicAPI.bind();</span>
 &nbsp;
@@ -3610,6 +3600,18 @@ function vtkOpenGLTexture(publicAPI, model) <span class="fstat-no" title="functi
 <span class="cstat-no" title="statement not covered" >    return true;</span>
   };
 &nbsp;
+<span class="cstat-no" title="statement not covered" >  publicAPI.setOpenGLRenderWindow = (rw) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >    if (model.openGLRenderWindow === rw) {</span>
+<span class="cstat-no" title="statement not covered" >      return;</span>
+    }
+<span class="cstat-no" title="statement not covered" >    publicAPI.releaseGraphicsResources();</span>
+<span class="cstat-no" title="statement not covered" >    model.openGLRenderWindow = rw;</span>
+<span class="cstat-no" title="statement not covered" >    model.context = null;</span>
+<span class="cstat-no" title="statement not covered" >    if (rw) {</span>
+<span class="cstat-no" title="statement not covered" >      model.context = model.openGLRenderWindow.getContext();</span>
+    }
+  };
+&nbsp;
   //----------------------------------------------------------------------------
 <span class="cstat-no" title="statement not covered" >  publicAPI.getMaximumTextureSize = (ctx) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
 <span class="cstat-no" title="statement not covered" >    if (ctx &amp;&amp; ctx.isCurrent()) {</span>
@@ -3625,7 +3627,7 @@ function vtkOpenGLTexture(publicAPI, model) <span class="fstat-no" title="functi
 // ----------------------------------------------------------------------------
 &nbsp;
 const DEFAULT_VALUES = {
-  window: null,
+  openGLRenderWindow: null,
   context: null,
   handle: 0,
   sendParametersTime: null,
@@ -3672,8 +3674,6 @@ export function extend(publicAPI, model, initialValues = {}) <span class="fstat-
   ]);
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  macro.setGet(publicAPI, model, [</span>
-    'window',
-    'context',
     'keyMatrixTime',
     'minificationFilter',
     'magnificationFilter',
@@ -3709,7 +3709,7 @@ export default Object.assign({ newInstance, extend }, Constants);
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Nov 22 2017 16:34:14 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Nov 27 2017 17:38:28 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>

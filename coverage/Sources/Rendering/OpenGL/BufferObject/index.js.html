@@ -20,24 +20,24 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">6.9% </span>
+        <span class="strong">6.06% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>4/58</span>
+        <span class='fraction'>4/66</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>0/17</span>
+        <span class='fraction'>0/21</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>0/13</span>
+        <span class='fraction'>0/14</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">7.41% </span>
+        <span class="strong">6.45% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>4/54</span>
+        <span class='fraction'>4/62</span>
       </div>
     </div>
   </div>
@@ -179,7 +179,20 @@
 134
 135
 136
-137</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
@@ -282,6 +295,18 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -289,6 +314,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -417,6 +443,18 @@ function vtkOpenGLBufferObject(publicAPI, model) <span class="fstat-no" title="f
     }
   };
 &nbsp;
+<span class="cstat-no" title="statement not covered" >  publicAPI.setOpenGLRenderWindow = (rw) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >    if (model.openGLRenderWindow === rw) {</span>
+<span class="cstat-no" title="statement not covered" >      return;</span>
+    }
+<span class="cstat-no" title="statement not covered" >    publicAPI.releaseGraphicsResources();</span>
+<span class="cstat-no" title="statement not covered" >    model.openGLRenderWindow = rw;</span>
+<span class="cstat-no" title="statement not covered" >    model.context = null;</span>
+<span class="cstat-no" title="statement not covered" >    if (rw) {</span>
+<span class="cstat-no" title="statement not covered" >      model.context = model.openGLRenderWindow.getContext();</span>
+    }
+  };
+&nbsp;
 <span class="cstat-no" title="statement not covered" >  publicAPI.getError = () =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >error;</span></span></span>
 }
 &nbsp;
@@ -426,6 +464,7 @@ function vtkOpenGLBufferObject(publicAPI, model) <span class="fstat-no" title="f
 &nbsp;
 const DEFAULT_VALUES = {
   objectType: ObjectType.ARRAY_BUFFER,
+  openGLRenderWindow: null,
   context: null,
 };
 &nbsp;
@@ -437,8 +476,8 @@ export function extend(publicAPI, model, initialValues = {}) <span class="fstat-
   // Object methods
 <span class="cstat-no" title="statement not covered" >  macro.obj(publicAPI, model);</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  macro.setGet(publicAPI, model, [</span>
-    'context',
+<span class="cstat-no" title="statement not covered" >  macro.get(publicAPI, model, [</span>
+    'openGLRenderWindow',
   ]);
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  vtkOpenGLBufferObject(publicAPI, model);</span>
@@ -457,7 +496,7 @@ export default Object.assign({ newInstance, extend }, STATIC, Constants);
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Nov 22 2017 16:34:14 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Nov 27 2017 17:38:28 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>

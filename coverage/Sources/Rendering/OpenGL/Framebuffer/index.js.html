@@ -20,24 +20,24 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">3.23% </span>
+        <span class="strong">2.74% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>2/62</span>
+        <span class='fraction'>2/73</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>0/9</span>
+        <span class='fraction'>0/19</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>0/16</span>
+        <span class='fraction'>0/17</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">3.33% </span>
+        <span class="strong">2.82% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>2/60</span>
+        <span class='fraction'>2/71</span>
       </div>
     </div>
   </div>
@@ -191,7 +191,23 @@
 146
 147
 148
-149</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -263,19 +279,17 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -283,6 +297,26 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -318,14 +352,12 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -410,12 +442,31 @@ function vtkFramebuffer(publicAPI, model) <span class="fstat-no" title="function
   //   gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.DEPTH_ATTACHMENT, gl.TEXTURE_2D, texture.getHandle(), 0);
   // };
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  publicAPI.setWindow = (win) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
-<span class="cstat-no" title="statement not covered" >    model.window = win;</span>
-<span class="cstat-no" title="statement not covered" >    model.context = win.getContext();</span>
+<span class="cstat-no" title="statement not covered" >  publicAPI.getGLFramebuffer = () =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >model.glFramebuffer;</span></span></span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  publicAPI.setOpenGLRenderWindow = (rw) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >    if (model.openGLRenderWindow === rw) {</span>
+<span class="cstat-no" title="statement not covered" >      return;</span>
+    }
+<span class="cstat-no" title="statement not covered" >    publicAPI.releaseGraphicsResources();</span>
+<span class="cstat-no" title="statement not covered" >    model.openGLRenderWindow = rw;</span>
+<span class="cstat-no" title="statement not covered" >    model.context = null;</span>
+<span class="cstat-no" title="statement not covered" >    if (rw) {</span>
+<span class="cstat-no" title="statement not covered" >      model.context = model.openGLRenderWindow.getContext();</span>
+    }
   };
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  publicAPI.getGLFramebuffer = () =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >model.glFramebuffer;</span></span></span>
+<span class="cstat-no" title="statement not covered" >  publicAPI.releaseGraphicsResources = () =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >    if (model.glFramebuffer) {</span>
+<span class="cstat-no" title="statement not covered" >      model.context.deleteFramebuffer(model.glFramebuffer);</span>
+    }
+<span class="cstat-no" title="statement not covered" >    if (model.depthTexture) {</span>
+<span class="cstat-no" title="statement not covered" >      model.depthTexture.releaseGraphicsResources();</span>
+    }
+<span class="cstat-no" title="statement not covered" >    if (model.colorTexture) {</span>
+<span class="cstat-no" title="statement not covered" >      model.colorTexture.releaseGraphicsResources();</span>
+    }
+  };
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  publicAPI.getSize = () =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
     const size = <span class="cstat-no" title="statement not covered" >[0, 0];</span>
@@ -431,8 +482,7 @@ function vtkFramebuffer(publicAPI, model) <span class="fstat-no" title="function
     const gl = <span class="cstat-no" title="statement not covered" >model.context;</span>
 &nbsp;
     const texture = <span class="cstat-no" title="statement not covered" >vtkOpenGLTexture.newInstance();</span>
-<span class="cstat-no" title="statement not covered" >    texture.setWindow(model.window);</span>
-<span class="cstat-no" title="statement not covered" >    texture.setContext(model.context);</span>
+<span class="cstat-no" title="statement not covered" >    texture.setOpenGLRenderWindow(model.openGLRenderWindow);</span>
 <span class="cstat-no" title="statement not covered" >    texture.setMinificationFilter(Filter.LINEAR);</span>
 <span class="cstat-no" title="statement not covered" >    texture.setMagnificationFilter(Filter.LINEAR);</span>
 <span class="cstat-no" title="statement not covered" >    texture.create2DFromRaw(</span>
@@ -454,8 +504,7 @@ function vtkFramebuffer(publicAPI, model) <span class="fstat-no" title="function
 // Object factory
 // ----------------------------------------------------------------------------
 const DEFAULT_VALUES = {
-  window: null,
-  context: null,
+  openGLRenderWindow: null,
   glFramebuffer: null,
   colorTexture: null,
   depthTexture: null,
@@ -473,7 +522,6 @@ export function extend(publicAPI, model, initialValues = {}) <span class="fstat-
 <span class="cstat-no" title="statement not covered" >  macro.obj(publicAPI, model);</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  macro.setGet(publicAPI, model, [</span>
-    'context',
     'colorTexture',
   ]);
 &nbsp;
@@ -493,7 +541,7 @@ export default Object.assign({ newInstance, extend });
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Nov 22 2017 16:34:14 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Nov 27 2017 17:38:28 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>
