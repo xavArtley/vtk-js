@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <title>Code coverage report for Sources/Rendering/Core/ImageMapper/Constants.js</title>
+    <title>Code coverage report for Sources/Rendering/Core/Glyph3DMapper/Constants.js</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../../../../prettify.css" />
     <link rel="stylesheet" href="../../../../base.css" />
@@ -16,13 +16,13 @@
 <div class='wrapper'>
   <div class='pad1'>
     <h1>
-      <a href="../../../../index.html">all files</a> / <a href="index.html">Sources/Rendering/Core/ImageMapper/</a> Constants.js
+      <a href="../../../../index.html">all files</a> / <a href="index.html">Sources/Rendering/Core/Glyph3DMapper/</a> Constants.js
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>1/1</span>
+        <span class='fraction'>2/2</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
@@ -37,7 +37,7 @@
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>1/1</span>
+        <span class='fraction'>2/2</span>
       </div>
     </div>
   </div>
@@ -53,7 +53,17 @@
 8
 9
 10
-11</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1×</span>
+11
+12
+13
+14
+15
+16</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -63,15 +73,20 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">export const SlicingMode = {
-  NONE: -1,
-  X: 0,
-  Y: 1,
-  Z: 2,
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">export const OrientationModes = {
+  DIRECTION: 0,
+  ROTATION: 1,
+};
+&nbsp;
+export const ScaleModes = {
+  SCALE_BY_CONSTANT: 0,
+  SCALE_BY_MAGNITUDE: 1,
+  SCALE_BY_COMPONENTS: 2,
 };
 &nbsp;
 export default {
-  SlicingMode,
+  OrientationModes,
+  ScaleModes,
 };
 &nbsp;</pre></td></tr>
 </table></pre>
