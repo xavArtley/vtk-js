@@ -1,0 +1,58 @@
+{
+  "origin": [
+    0.0, 
+    0.0, 
+    0.0
+  ], 
+  "cellData": {
+    "arrays": [], 
+    "vtkClass": "vtkDataSetAttributes"
+  }, 
+  "FieldData": {
+    "arrays": [], 
+    "vtkClass": "vtkDataSetAttributes"
+  }, 
+  "vtkClass": "vtkImageData", 
+  "pointData": {
+    "arrays": [
+      {
+        "data": {
+          "numberOfComponents": 1, 
+          "name": "RTData", 
+          "vtkClass": "vtkDataArray", 
+          "dataType": "Float32Array", 
+          "ranges": [
+            {
+              "max": 276.8288269042969, 
+              "component": null, 
+              "min": 37.35310363769531
+            }
+          ], 
+          "ref": {
+            "encode": "LittleEndian", 
+            "basepath": "data", 
+            "id": "d42f855c14d32707570a50f67ab96952"
+          }, 
+          "size": 9261
+        }
+      }
+    ], 
+    "vtkClass": "vtkDataSetAttributes"
+  }, 
+  "spacing": [
+    1.0, 
+    1.0, 
+    1.0
+  ], 
+  "extent": [
+    -10, 
+    10, 
+    -10, 
+    10, 
+    -10, 
+    10
+  ], 
+  "metadata": {
+    "name": "Wavelet.vti"
+  }
+}
