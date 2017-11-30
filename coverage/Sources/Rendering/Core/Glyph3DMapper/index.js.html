@@ -20,14 +20,14 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">2.4% </span>
+        <span class="strong">2.29% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>4/167</span>
+        <span class='fraction'>4/175</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>0/74</span>
+        <span class='fraction'>0/78</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
@@ -35,9 +35,9 @@
         <span class='fraction'>0/13</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">2.4% </span>
+        <span class="strong">2.29% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>4/167</span>
+        <span class='fraction'>4/175</span>
       </div>
     </div>
   </div>
@@ -371,7 +371,19 @@
 326
 327
 328
-329</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+329
+330
+331
+332
+333
+334
+335
+336
+337
+338
+339
+340
+341</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -475,12 +487,24 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -798,17 +822,29 @@ function vtkGlyph3DMapper(publicAPI, model) <span class="fstat-no" title="functi
     }
 <span class="cstat-no" title="statement not covered" >    if (sArray &amp;&amp; model.scaleMode !== ScaleModes.SCALE_BY_CONSTANT) {</span>
       const numC = <span class="cstat-no" title="statement not covered" >sArray.getNumberOfComponents();</span>
-      let maxScale = <span class="cstat-no" title="statement not covered" >0.0;</span>
-<span class="cstat-no" title="statement not covered" >      for (let i = 0; i &lt; numC; ++i) {</span>
-        const srange = <span class="cstat-no" title="statement not covered" >sArray.getRange(i);</span>
-<span class="cstat-no" title="statement not covered" >        if (-srange[0] &gt; maxScale) {</span>
-<span class="cstat-no" title="statement not covered" >          maxScale = -srange[0];</span>
+<span class="cstat-no" title="statement not covered" >      if (model.scaleMode === ScaleModes.SCALE_BY_COMPONENTS) {</span>
+        let maxScale = <span class="cstat-no" title="statement not covered" >0.0;</span>
+<span class="cstat-no" title="statement not covered" >        for (let i = 0; i &lt; numC; ++i) {</span>
+          const srange = <span class="cstat-no" title="statement not covered" >sArray.getRange(i);</span>
+<span class="cstat-no" title="statement not covered" >          if (-srange[0] &gt; maxScale) {</span>
+<span class="cstat-no" title="statement not covered" >            maxScale = -srange[0];</span>
+          }
+<span class="cstat-no" title="statement not covered" >          if (srange[1] &gt; maxScale) {</span>
+<span class="cstat-no" title="statement not covered" >            maxScale = srange[1];</span>
+          }
         }
-<span class="cstat-no" title="statement not covered" >        if (srange[1] &gt; maxScale) {</span>
-<span class="cstat-no" title="statement not covered" >          maxScale = srange[1];</span>
+<span class="cstat-no" title="statement not covered" >        scale *= maxScale;</span>
+      } else {
+        const maxScale = <span class="cstat-no" title="statement not covered" >[];</span>
+<span class="cstat-no" title="statement not covered" >        for (let i = 0; i &lt; numC; ++i) {</span>
+          const srange = <span class="cstat-no" title="statement not covered" >sArray.getRange(i);</span>
+<span class="cstat-no" title="statement not covered" >          maxScale[i] = -srange[0];</span>
+<span class="cstat-no" title="statement not covered" >          if (srange[1] &gt; maxScale[i]) {</span>
+<span class="cstat-no" title="statement not covered" >            maxScale[i] = srange[1];</span>
+          }
         }
+<span class="cstat-no" title="statement not covered" >        scale *= vtkMath.norm(maxScale, numC);</span>
       }
-<span class="cstat-no" title="statement not covered" >      scale *= maxScale;</span>
     }
 &nbsp;
     // if orienting then use the radius
@@ -901,9 +937,9 @@ function vtkGlyph3DMapper(publicAPI, model) <span class="fstat-no" title="functi
 &nbsp;
         // scale data if appropriate
 <span class="cstat-no" title="statement not covered" >        if (model.scaling) {</span>
-<span class="cstat-no" title="statement not covered" >          scale[0] = 1.0;</span>
-<span class="cstat-no" title="statement not covered" >          scale[1] = 1.0;</span>
-<span class="cstat-no" title="statement not covered" >          scale[2] = 1.0;</span>
+<span class="cstat-no" title="statement not covered" >          scale[0] = model.scaleFactor;</span>
+<span class="cstat-no" title="statement not covered" >          scale[1] = model.scaleFactor;</span>
+<span class="cstat-no" title="statement not covered" >          scale[2] = model.scaleFactor;</span>
           // Get the scalar and vector data
 <span class="cstat-no" title="statement not covered" >          if (sArray) {</span>
 <span class="cstat-no" title="statement not covered" >            switch (model.scaleMode) {</span>
@@ -911,7 +947,7 @@ function vtkGlyph3DMapper(publicAPI, model) <span class="fstat-no" title="functi
 <span class="cstat-no" title="statement not covered" >                for (let t = 0; t &lt; numSComp; ++t) {</span>
 <span class="cstat-no" title="statement not covered" >                  tuple[t] = sData[(i * numSComp) + t];</span>
                 }
-<span class="cstat-no" title="statement not covered" >                scale[0] = vtkMath.norm(tuple, numSComp);</span>
+<span class="cstat-no" title="statement not covered" >                scale[0] *= vtkMath.norm(tuple, numSComp);</span>
 <span class="cstat-no" title="statement not covered" >                scale[1] = scale[0];</span>
 <span class="cstat-no" title="statement not covered" >                scale[2] = scale[0];</span>
 <span class="cstat-no" title="statement not covered" >                break;</span>
@@ -919,9 +955,9 @@ function vtkGlyph3DMapper(publicAPI, model) <span class="fstat-no" title="functi
 <span class="cstat-no" title="statement not covered" >                for (let t = 0; t &lt; numSComp; ++t) {</span>
 <span class="cstat-no" title="statement not covered" >                  tuple[t] = sData[(i * numSComp) + t];</span>
                 }
-<span class="cstat-no" title="statement not covered" >                scale[0] = tuple[0];</span>
-<span class="cstat-no" title="statement not covered" >                scale[1] = tuple[1];</span>
-<span class="cstat-no" title="statement not covered" >                scale[2] = tuple[2];</span>
+<span class="cstat-no" title="statement not covered" >                scale[0] *= tuple[0];</span>
+<span class="cstat-no" title="statement not covered" >                scale[1] *= tuple[1];</span>
+<span class="cstat-no" title="statement not covered" >                scale[2] *= tuple[2];</span>
 <span class="cstat-no" title="statement not covered" >                break;</span>
               case ScaleModes.SCALE_BY_CONSTANT:
               default:
@@ -1033,7 +1069,7 @@ export default Object.assign({ newInstance, extend }, Constants);
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Nov 29 2017 19:56:13 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Nov 30 2017 16:13:58 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>
