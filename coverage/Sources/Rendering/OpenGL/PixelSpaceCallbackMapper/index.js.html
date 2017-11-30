@@ -159,26 +159,6 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -186,13 +166,33 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -251,6 +251,7 @@ function vtkOpenGLPixelSpaceCallbackMapper(publicAPI, model) <span class="fstat-
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  publicAPI.opaquePass = (prepass, renderPass) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
 <span class="cstat-no" title="statement not covered" >    model.openGLRenderer = publicAPI.getFirstAncestorOfType('vtkOpenGLRenderer');</span>
+<span class="cstat-no" title="statement not covered" >    model.openGLRenderWindow = model.openGLRenderer.getParent();</span>
     const aspectRatio = <span class="cstat-no" title="statement not covered" >model.openGLRenderer.getAspectRatio();</span>
     const camera = <span class="cstat-no" title="statement not covered" >model.openGLRenderer ? model.openGLRenderer.getRenderable().getActiveCamera() : null;</span>
     const tsize = <span class="cstat-no" title="statement not covered" >model.openGLRenderer.getTiledSizeAndOrigin();</span>
@@ -261,7 +262,7 @@ function vtkOpenGLPixelSpaceCallbackMapper(publicAPI, model) <span class="fstat-
       const width = <span class="cstat-no" title="statement not covered" >Math.floor(zbt.getWidth());</span>
       const height = <span class="cstat-no" title="statement not covered" >Math.floor(zbt.getHeight());</span>
 &nbsp;
-      const gl = <span class="cstat-no" title="statement not covered" >zbt.getContext();</span>
+      const gl = <span class="cstat-no" title="statement not covered" >model.openGLRenderWindow.getContext();</span>
 <span class="cstat-no" title="statement not covered" >      zbt.bind();</span>
 &nbsp;
       // Here we need to use vtkFramebuffer to save current settings (bindings/buffers)
@@ -288,7 +289,6 @@ function vtkOpenGLPixelSpaceCallbackMapper(publicAPI, model) <span class="fstat-
 <span class="cstat-no" title="statement not covered" >        fb.restorePreviousBindingsAndBuffers();</span>
       }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      zbt.unBind();</span>
 <span class="cstat-no" title="statement not covered" >      gl.deleteFramebuffer(framebuffer);</span>
     }
 &nbsp;
@@ -337,7 +337,7 @@ export default { newInstance, extend };
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Nov 29 2017 19:55:26 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Nov 29 2017 19:56:13 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>
