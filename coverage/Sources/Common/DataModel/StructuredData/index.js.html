@@ -20,14 +20,14 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">36.36% </span>
+        <span class="strong">54.55% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>8/22</span>
+        <span class='fraction'>12/22</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">28.57% </span>
+        <span class="strong">52.38% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>6/21</span>
+        <span class='fraction'>11/21</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
@@ -35,13 +35,13 @@
         <span class='fraction'>1/1</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">36.36% </span>
+        <span class="strong">54.55% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>8/22</span>
+        <span class='fraction'>12/22</span>
       </div>
     </div>
   </div>
-  <div class='status-line low'></div>
+  <div class='status-line medium'></div>
 <pre><table class="coverage">
 <tr><td class="line-count quiet">1
 2
@@ -86,26 +86,26 @@
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-yes">3×</span>
-<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">144×</span>
+<span class="cline-any cline-yes">144×</span>
+<span class="cline-any cline-yes">432×</span>
+<span class="cline-any cline-yes">290×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">144×</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">144×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">142×</span>
+<span class="cline-any cline-yes">142×</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">142×</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">142×</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -126,7 +126,7 @@ const { StructuredType } = Constants;
 export function getDataDescriptionFromExtent(inExt) {
   let dataDim = 0;
   for (let i = 0; i &lt; 3; ++i) {
-    <span class="missing-if-branch" title="else path not taken" >E</span>if (inExt[i * 2] &lt; inExt[(i * 2) + 1]) {
+    if (inExt[i * 2] &lt; inExt[(i * 2) + 1]) {
       dataDim++;
     }
   }
@@ -135,15 +135,15 @@ export function getDataDescriptionFromExtent(inExt) {
 <span class="cstat-no" title="statement not covered" >    return StructuredType.EMPTY;</span>
   }
 &nbsp;
-  <span class="missing-if-branch" title="else path not taken" >E</span>if (dataDim === 3) {
+  if (dataDim === 3) {
     return StructuredType.XYZ_GRID;
-  } else <span class="cstat-no" title="statement not covered" >if (dataDim === 2) {</span>
-<span class="cstat-no" title="statement not covered" >    if (inExt[0] === inExt[1]) {</span>
+  } else <span class="missing-if-branch" title="else path not taken" >E</span>if (dataDim === 2) {
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (inExt[0] === inExt[1]) {
 <span class="cstat-no" title="statement not covered" >      return StructuredType.YZ_PLANE;</span>
-    } else <span class="cstat-no" title="statement not covered" >if (inExt[2] === inExt[3]) {</span>
+    } else <span class="missing-if-branch" title="if path not taken" >I</span>if (inExt[2] === inExt[3]) {
 <span class="cstat-no" title="statement not covered" >      return StructuredType.XZ_PLANE;</span>
     }
-<span class="cstat-no" title="statement not covered" >    return StructuredType.XY_PLANE;</span>
+    return StructuredType.XY_PLANE;
   } else <span class="cstat-no" title="statement not covered" >if (dataDim === 1) {</span>
 <span class="cstat-no" title="statement not covered" >    if (inExt[0] &lt; inExt[1]) {</span>
 <span class="cstat-no" title="statement not covered" >      return StructuredType.X_LINE;</span>
@@ -163,7 +163,7 @@ export default Object.assign({ getDataDescriptionFromExtent }, Constants);
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Dec 05 2017 23:28:40 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sun Nov 05 2017 12:54:33 GMT-0700 (MST)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>

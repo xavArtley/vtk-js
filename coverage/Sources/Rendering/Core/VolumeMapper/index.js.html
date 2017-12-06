@@ -20,28 +20,28 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">11.11% </span>
+        <span class="strong">94.44% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>2/18</span>
+        <span class='fraction'>17/18</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">0% </span>
+        <span class="strong">40% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>0/5</span>
+        <span class='fraction'>2/5</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">0% </span>
+        <span class="strong">100% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>0/4</span>
+        <span class='fraction'>4/4</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">11.11% </span>
+        <span class="strong">94.44% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>2/18</span>
+        <span class='fraction'>17/18</span>
       </div>
     </div>
   </div>
-  <div class='status-line low'></div>
+  <div class='status-line high'></div>
 <pre><table class="coverage">
 <tr><td class="line-count quiet">1
 2
@@ -120,23 +120,23 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-yes">7×</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-yes">7×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">7×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">7×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">13×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -155,21 +155,21 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">4×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -186,25 +186,25 @@ import vtkMath from 'vtk.js/Sources/Common/Core/Math';
 // vtkVolumeMapper methods
 // ----------------------------------------------------------------------------
 &nbsp;
-function vtkVolumeMapper(publicAPI, model) <span class="fstat-no" title="function not covered" >{</span>
+function vtkVolumeMapper(publicAPI, model) {
   // Set our className
-<span class="cstat-no" title="statement not covered" >  model.classHierarchy.push('vtkVolumeMapper');</span>
+  model.classHierarchy.push('vtkVolumeMapper');
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  publicAPI.getBounds = () =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
-    const input = <span class="cstat-no" title="statement not covered" >publicAPI.getInputData();</span>
-<span class="cstat-no" title="statement not covered" >    if (!input) {</span>
+  publicAPI.getBounds = () =&gt; {
+    const input = publicAPI.getInputData();
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (!input) {
 <span class="cstat-no" title="statement not covered" >      model.bounds = vtkMath.createUninitializedBounds();</span>
     } else {
-<span class="cstat-no" title="statement not covered" >      if (!model.static) {</span>
-<span class="cstat-no" title="statement not covered" >        publicAPI.update();</span>
+      <span class="missing-if-branch" title="else path not taken" >E</span>if (!model.static) {
+        publicAPI.update();
       }
-<span class="cstat-no" title="statement not covered" >      model.bounds = input.getBounds();</span>
+      model.bounds = input.getBounds();
     }
-<span class="cstat-no" title="statement not covered" >    return model.bounds;</span>
+    return model.bounds;
   };
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  publicAPI.update = () =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
-<span class="cstat-no" title="statement not covered" >    publicAPI.getInputData();</span>
+  publicAPI.update = () =&gt; {
+    publicAPI.getInputData();
   };
 }
 &nbsp;
@@ -222,14 +222,14 @@ const DEFAULT_VALUES = {
 &nbsp;
 // ----------------------------------------------------------------------------
 &nbsp;
-export function extend(publicAPI, model, initialValues = {}) <span class="fstat-no" title="function not covered" >{</span>
-<span class="cstat-no" title="statement not covered" >  Object.assign(model, DEFAULT_VALUES, initialValues);</span>
+export function extend(publicAPI, model, initialValues = {}) {
+  Object.assign(model, DEFAULT_VALUES, initialValues);
 &nbsp;
   // Build VTK API
-<span class="cstat-no" title="statement not covered" >  macro.obj(publicAPI, model);</span>
-<span class="cstat-no" title="statement not covered" >  macro.algo(publicAPI, model, 1, 0);</span>
+  macro.obj(publicAPI, model);
+  macro.algo(publicAPI, model, 1, 0);
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  macro.setGet(publicAPI, model, [</span>
+  macro.setGet(publicAPI, model, [
     'sampleDistance',
     'imageSampleDistance',
     'maximumSamplesPerRay',
@@ -237,7 +237,7 @@ export function extend(publicAPI, model, initialValues = {}) <span class="fstat-
   ]);
 &nbsp;
   // Object methods
-<span class="cstat-no" title="statement not covered" >  vtkVolumeMapper(publicAPI, model);</span>
+  vtkVolumeMapper(publicAPI, model);
 }
 &nbsp;
 // ----------------------------------------------------------------------------
@@ -253,7 +253,7 @@ export default { newInstance, extend };
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Dec 05 2017 23:28:40 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sun Nov 05 2017 12:54:33 GMT-0700 (MST)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>
