@@ -20,9 +20,9 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">59.26% </span>
+        <span class="strong">44.44% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>16/27</span>
+        <span class='fraction'>12/27</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
@@ -30,18 +30,18 @@
         <span class='fraction'>0/4</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">55.56% </span>
+        <span class="strong">22.22% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>5/9</span>
+        <span class='fraction'>2/9</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">56% </span>
+        <span class="strong">48% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>14/25</span>
+        <span class='fraction'>12/25</span>
       </div>
     </div>
   </div>
-  <div class='status-line medium'></div>
+  <div class='status-line low'></div>
 <pre><table class="coverage">
 <tr><td class="line-count quiet">1
 2
@@ -132,22 +132,22 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">31×</span>
+<span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">6664×</span>
+<span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">31×</span>
-<span class="cline-any cline-yes">187×</span>
-<span class="cline-any cline-yes">187×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3332×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">31×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -184,22 +184,22 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">31×</span>
+<span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">31×</span>
-<span class="cline-any cline-yes">31×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">31×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">31×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -217,14 +217,14 @@ function vtkRenderPass(publicAPI, model) {
   // Set our className
   model.classHierarchy.push('vtkRenderPass');
 &nbsp;
-  publicAPI.getOperation = () =&gt; model.currentOperation;
+  publicAPI.getOperation = () =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >model.currentOperation;</span></span>
 &nbsp;
-  publicAPI.setCurrentOperation = (val) =&gt; {
-    model.currentOperation = val;
-    model.currentTraverseOperation = `traverse${macro.capitalize(model.currentOperation)}`;
+  publicAPI.setCurrentOperation = (val) =&gt; <span class="fstat-no" title="function not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >    model.currentOperation = val;</span>
+<span class="cstat-no" title="statement not covered" >    model.currentTraverseOperation = `traverse${macro.capitalize(model.currentOperation)}`;</span>
   };
 &nbsp;
-  publicAPI.getTraverseOperation = () =&gt; model.currentTraverseOperation;
+  publicAPI.getTraverseOperation = () =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >model.currentTraverseOperation;</span></span>
 &nbsp;
   // by default this class will traverse all of its
   // preDelegateOperations, then call its delegate render passes
@@ -298,7 +298,7 @@ export default { newInstance, extend };
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sun Nov 05 2017 12:54:33 GMT-0700 (MST)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Dec 06 2017 00:25:46 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>
