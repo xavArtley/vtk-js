@@ -20,9 +20,9 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">30.22% </span>
+        <span class="strong">29.11% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>97/321</span>
+        <span class='fraction'>92/316</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">9.52% </span>
@@ -30,14 +30,14 @@
         <span class='fraction'>4/42</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">13.16% </span>
+        <span class="strong">15.15% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>5/38</span>
+        <span class='fraction'>5/33</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">30.22% </span>
+        <span class="strong">29.11% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>97/321</span>
+        <span class='fraction'>92/316</span>
       </div>
     </div>
   </div>
@@ -695,33 +695,7 @@
 650
 651
 652
-653
-654
-655
-656
-657
-658
-659
-660
-661
-662
-663
-664
-665
-666
-667
-668
-669
-670
-671
-672
-673
-674
-675
-676
-677
-678
-679</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+653</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -782,7 +756,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -799,7 +772,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1187,10 +1159,6 @@
 <span class="cline-any cline-yes">41×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1286,26 +1254,6 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1438,7 +1386,7 @@ function vtkCamera(publicAPI, model) {
   const tmpvec3 = vec3.create();
 &nbsp;
   publicAPI.orthogonalizeViewUp = () =&gt; <span class="fstat-no" title="function not covered" >{</span>
-    const vt = <span class="cstat-no" title="statement not covered" >publicAPI.getViewTransformMatrix();</span>
+    const vt = <span class="cstat-no" title="statement not covered" >publicAPI.getViewMatrix();</span>
 <span class="cstat-no" title="statement not covered" >    model.viewUp[0] = vt[4];</span>
 <span class="cstat-no" title="statement not covered" >    model.viewUp[1] = vt[5];</span>
 <span class="cstat-no" title="statement not covered" >    model.viewUp[2] = vt[6];</span>
@@ -1459,7 +1407,6 @@ function vtkCamera(publicAPI, model) {
 &nbsp;
     // recompute the focal distance
 <span class="cstat-no" title="statement not covered" >    publicAPI.computeDistance();</span>
-    // publicAPI.computeCameraLightTransform();
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    publicAPI.modified();</span>
   };
@@ -1477,7 +1424,6 @@ function vtkCamera(publicAPI, model) {
 &nbsp;
     // recompute the focal distance
 <span class="cstat-no" title="statement not covered" >    publicAPI.computeDistance();</span>
-    // publicAPI.computeCameraLightTransform();
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    publicAPI.modified();</span>
   };
@@ -1627,7 +1573,7 @@ function vtkCamera(publicAPI, model) {
     const newPosition = <span class="cstat-no" title="statement not covered" >vec3.create();</span>
     const fp = <span class="cstat-no" title="statement not covered" >model.focalPoint;</span>
 &nbsp;
-    const vt = <span class="cstat-no" title="statement not covered" >publicAPI.getViewTransformMatrix();</span>
+    const vt = <span class="cstat-no" title="statement not covered" >publicAPI.getViewMatrix();</span>
     const axis = <span class="cstat-no" title="statement not covered" >[-vt[0], -vt[1], -vt[2]];</span>
 &nbsp;
     const trans = <span class="cstat-no" title="statement not covered" >mat4.create();</span>
@@ -1649,7 +1595,7 @@ function vtkCamera(publicAPI, model) {
     const newFocalPoint = <span class="cstat-no" title="statement not covered" >vec3.create();</span>
     const position = <span class="cstat-no" title="statement not covered" >model.position;</span>
 &nbsp;
-    const vt = <span class="cstat-no" title="statement not covered" >publicAPI.getViewTransformMatrix();</span>
+    const vt = <span class="cstat-no" title="statement not covered" >publicAPI.getViewMatrix();</span>
     const axis = <span class="cstat-no" title="statement not covered" >[vt[0], vt[1], vt[2]];</span>
 &nbsp;
     const trans = <span class="cstat-no" title="statement not covered" >mat4.create();</span>
@@ -1764,7 +1710,7 @@ function vtkCamera(publicAPI, model) {
 <span class="cstat-no" title="statement not covered" >    publicAPI.setDistance(oldDist);</span>
   };
 &nbsp;
-  publicAPI.getViewTransformMatrix = () =&gt; {
+  publicAPI.getViewMatrix = () =&gt; {
     const eye = model.position;
     const at = model.focalPoint;
     const up = model.viewUp;
@@ -1785,7 +1731,7 @@ function vtkCamera(publicAPI, model) {
 <span class="cstat-no" title="statement not covered" >    model.projectionMatrix = mat;</span>
   };
 &nbsp;
-  publicAPI.getProjectionTransformMatrix = (aspect, nearz, farz) =&gt; {
+  publicAPI.getProjectionMatrix = (aspect, nearz, farz) =&gt; {
     const result = mat4.create();
 &nbsp;
     <span class="missing-if-branch" title="if path not taken" >I</span>if (model.projectionMatrix) {
@@ -1857,17 +1803,13 @@ function vtkCamera(publicAPI, model) {
     return result;
   };
 &nbsp;
-  publicAPI.getCompositeProjectionTransformMatrix = (aspect, nearz, farz) =&gt; {
-    const vMat = publicAPI.getViewTransformMatrix();
-    const pMat = publicAPI.getProjectionTransformMatrix(aspect, nearz, farz);
+  publicAPI.getCompositeProjectionMatrix = (aspect, nearz, farz) =&gt; {
+    const vMat = publicAPI.getViewMatrix();
+    const pMat = publicAPI.getProjectionMatrix(aspect, nearz, farz);
     const result = mat4.create();
     mat4.multiply(result, vMat, pMat);
     return result;
   };
-&nbsp;
-  // publicAPI.getProjectionTransformMatrix = renderer =&gt; {
-  //   // return glmatrix object
-  // };
 &nbsp;
   publicAPI.getFrustumPlanes = (aspect) =&gt; <span class="fstat-no" title="function not covered" >{</span>
     // Return array of 24 params (4 params for each of 6 plane equations)
@@ -1964,26 +1906,6 @@ function vtkCamera(publicAPI, model) {
 <span class="cstat-no" title="statement not covered" >    publicAPI.setDirectionOfProjection(newdop[0], newdop[1], newdop[2]);</span>
 <span class="cstat-no" title="statement not covered" >    publicAPI.setViewUp(newvup[0], newvup[1], newvup[2]);</span>
 <span class="cstat-no" title="statement not covered" >    publicAPI.modified();</span>
-  };
-&nbsp;
-  publicAPI.getCameraLightTransformMatrix = () =&gt; <span class="fstat-no" title="function not covered" >{</span>
-&nbsp;
-  };
-&nbsp;
-  publicAPI.updateViewport = () =&gt; <span class="fstat-no" title="function not covered" >{</span>
-&nbsp;
-  };
-&nbsp;
-  publicAPI.shallowCopy = (sourceCamera) =&gt; <span class="fstat-no" title="function not covered" >{</span>
-&nbsp;
-  };
-&nbsp;
-  publicAPI.setScissorRect = (rect) =&gt; <span class="fstat-no" title="function not covered" >{</span>
-    // rect is a vtkRect
-  };
-&nbsp;
-  publicAPI.getScissorRect = () =&gt; <span class="fstat-no" title="function not covered" >{</span>
-&nbsp;
   };
 }
 &nbsp;
@@ -2083,7 +2005,7 @@ export default { newInstance, extend };
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Dec 08 2017 14:55:14 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Dec 08 2017 15:43:15 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>
