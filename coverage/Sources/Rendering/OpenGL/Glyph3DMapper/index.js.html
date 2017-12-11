@@ -20,14 +20,14 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">2.72% </span>
+        <span class="strong">2.63% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>7/257</span>
+        <span class='fraction'>7/266</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>0/77</span>
+        <span class='fraction'>0/85</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
@@ -35,9 +35,9 @@
         <span class='fraction'>0/12</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">2.82% </span>
+        <span class="strong">2.72% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>7/248</span>
+        <span class='fraction'>7/257</span>
       </div>
     </div>
   </div>
@@ -531,7 +531,21 @@
 486
 487
 488
-489</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+489
+490
+491
+492
+493
+494
+495
+496
+497
+498
+499
+500
+501
+502
+503</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -584,7 +598,15 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -643,6 +665,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -661,6 +684,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -881,6 +905,10 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -1066,6 +1094,14 @@ function vtkOpenGLGlyph3DMapper(publicAPI, model) <span class="fstat-no" title="
 &nbsp;
     // apply faceCulling
     const gl = <span class="cstat-no" title="statement not covered" >model.context;</span>
+<span class="cstat-no" title="statement not covered" >    if (model.openGLRenderWindow.getWebgl2()) {</span>
+<span class="cstat-no" title="statement not covered" >      model.hardwareSupport = true;</span>
+<span class="cstat-no" title="statement not covered" >      model.extension = null;</span>
+    } else <span class="cstat-no" title="statement not covered" >if (!model.extension) {</span>
+<span class="cstat-no" title="statement not covered" >      model.extension = model.context.getExtension('ANGLE_instanced_arrays');</span>
+<span class="cstat-no" title="statement not covered" >      model.hardwareSupport = !(!(model.extension));</span>
+    }
+&nbsp;
     const backfaceCulling = <span class="cstat-no" title="statement not covered" >actor.getProperty().getBackfaceCulling();</span>
     const frontfaceCulling = <span class="cstat-no" title="statement not covered" >actor.getProperty().getFrontfaceCulling();</span>
 <span class="cstat-no" title="statement not covered" >    if (!backfaceCulling &amp;&amp; !frontfaceCulling) {</span>
@@ -1131,31 +1167,33 @@ function vtkOpenGLGlyph3DMapper(publicAPI, model) <span class="fstat-no" title="
   };
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  publicAPI.replaceShaderNormal = (shaders, ren, actor) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
-    const lastLightComplexity =
-<span class="cstat-no" title="statement not covered" >      model.lastBoundBO.getReferenceByName('lastLightComplexity');</span>
+<span class="cstat-no" title="statement not covered" >    if (model.hardwareSupport) {</span>
+      const lastLightComplexity =
+<span class="cstat-no" title="statement not covered" >        model.lastBoundBO.getReferenceByName('lastLightComplexity');</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    if (lastLightComplexity &gt; 0) {</span>
-      let VSSource = <span class="cstat-no" title="statement not covered" >shaders.Vertex;</span>
+<span class="cstat-no" title="statement not covered" >      if (lastLightComplexity &gt; 0) {</span>
+        let VSSource = <span class="cstat-no" title="statement not covered" >shaders.Vertex;</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      if (model.lastBoundBO.getCABO().getNormalOffset()) {</span>
-<span class="cstat-no" title="statement not covered" >        VSSource = vtkShaderProgram.substitute(VSSource,</span>
-          '//VTK::Normal::Dec', [
-            'attribute vec3 normalMC;',
-            'attribute mat3 gNormal;',
-            'uniform mat3 normalMatrix;',
-            'varying vec3 normalVCVSOutput;']).result;
-<span class="cstat-no" title="statement not covered" >        VSSource = vtkShaderProgram.substitute(VSSource,</span>
-          '//VTK::Normal::Impl', [
-            'normalVCVSOutput = normalMatrix * gNormal * normalMC;']).result;
+<span class="cstat-no" title="statement not covered" >        if (model.lastBoundBO.getCABO().getNormalOffset()) {</span>
+<span class="cstat-no" title="statement not covered" >          VSSource = vtkShaderProgram.substitute(VSSource,</span>
+            '//VTK::Normal::Dec', [
+              'attribute vec3 normalMC;',
+              'attribute mat3 gNormal;',
+              'uniform mat3 normalMatrix;',
+              'varying vec3 normalVCVSOutput;']).result;
+<span class="cstat-no" title="statement not covered" >          VSSource = vtkShaderProgram.substitute(VSSource,</span>
+            '//VTK::Normal::Impl', [
+              'normalVCVSOutput = normalMatrix * gNormal * normalMC;']).result;
+        }
+<span class="cstat-no" title="statement not covered" >        shaders.Vertex = VSSource;</span>
       }
-<span class="cstat-no" title="statement not covered" >      shaders.Vertex = VSSource;</span>
     }
 <span class="cstat-no" title="statement not covered" >    superClass.replaceShaderNormal(shaders, ren, actor);</span>
   };
 &nbsp;
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  publicAPI.replaceShaderColor = (shaders, ren, actor) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
-<span class="cstat-no" title="statement not covered" >    if (model.openGLRenderWindow.getWebgl2() &amp;&amp; model.renderable.getColorArray()) {</span>
+<span class="cstat-no" title="statement not covered" >    if (model.hardwareSupport &amp;&amp; model.renderable.getColorArray()) {</span>
       let VSSource = <span class="cstat-no" title="statement not covered" >shaders.Vertex;</span>
       let GSSource = <span class="cstat-no" title="statement not covered" >shaders.Geometry;</span>
       let FSSource = <span class="cstat-no" title="statement not covered" >shaders.Fragment;</span>
@@ -1230,7 +1268,7 @@ function vtkOpenGLGlyph3DMapper(publicAPI, model) <span class="fstat-no" title="
   };
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  publicAPI.replaceShaderPositionVC = (shaders, ren, actor) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
-<span class="cstat-no" title="statement not covered" >    if (model.openGLRenderWindow.getWebgl2()) {</span>
+<span class="cstat-no" title="statement not covered" >    if (model.hardwareSupport) {</span>
       let VSSource = <span class="cstat-no" title="statement not covered" >shaders.Vertex;</span>
 &nbsp;
       // do we need the vertex in the shader in View Coordinates
@@ -1367,8 +1405,12 @@ function vtkOpenGLGlyph3DMapper(publicAPI, model) <span class="fstat-no" title="
         const normalMatrixUsed = <span class="cstat-no" title="statement not covered" >program.isUniformUsed('normalMatrix');</span>
         const mcvcMatrixUsed = <span class="cstat-no" title="statement not covered" >program.isUniformUsed('MCVCMatrix');</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >        if (model.openGLRenderWindow.getWebgl2()) {</span>
-<span class="cstat-no" title="statement not covered" >          gl.drawArraysInstanced(mode, 0, cabo.getElementCount(), numPts);</span>
+<span class="cstat-no" title="statement not covered" >        if (model.hardwareSupport) {</span>
+<span class="cstat-no" title="statement not covered" >          if (model.extension) {</span>
+<span class="cstat-no" title="statement not covered" >            model.extension.drawArraysInstancedANGLE(mode, 0, cabo.getElementCount(), numPts);</span>
+          } else {
+<span class="cstat-no" title="statement not covered" >            gl.drawArraysInstanced(mode, 0, cabo.getElementCount(), numPts);</span>
+          }
         } else {
           // draw the array multiple times with different cam matrix
 <span class="cstat-no" title="statement not covered" >          for (let p = 0; p &lt; numPts; ++p) {</span>
@@ -1441,7 +1483,7 @@ function vtkOpenGLGlyph3DMapper(publicAPI, model) <span class="fstat-no" title="
 &nbsp;
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  publicAPI.buildBufferObjects = (ren, actor) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
-<span class="cstat-no" title="statement not covered" >    if (model.openGLRenderWindow.getWebgl2()) {</span>
+<span class="cstat-no" title="statement not covered" >    if (model.hardwareSupport) {</span>
       // update the buffer objects if needed
       const garray = <span class="cstat-no" title="statement not covered" >model.renderable.getMatrixArray();</span>
       const narray = <span class="cstat-no" title="statement not covered" >model.renderable.getNormalArray();</span>
@@ -1513,7 +1555,7 @@ export default { newInstance, extend };
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sat Dec 09 2017 19:38:32 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Dec 11 2017 22:52:28 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>
