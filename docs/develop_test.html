@@ -46,7 +46,7 @@
 <meta property="og:site_name" content="vtk.js">
 <meta property="og:description" content="This guide illustrates how to add tests to the vtk.js repository and how to run and debug them. First each VTK class can have several tests spread among several files but we also have infrastructure f">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2017-11-30T16:14:00.160Z">
+<meta property="og:updated_time" content="2017-12-28T17:51:53.522Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Creating a test in vtk.js">
 <meta name="twitter:description" content="This guide illustrates how to add tests to the vtk.js repository and how to run and debug them. First each VTK class can have several tests spread among several files but we also have infrastructure f">
@@ -117,10 +117,19 @@
 <figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">$ npm run <span class="built_in">test</span>:debug</span><br></pre></td></tr></table></figure>
 <p>This will automatically open a browser and run the test. But you can manually open <code>http://localhost:9876/debug.html</code> with any browser and start debugging.</p>
 <p>Moreover, when doing some rendering that’s a great way for building your baseline image.</p>
+<h2 id="Creating-a-new-baseline-image" class="article-heading"><a href="#Creating-a-new-baseline-image" class="headerlink" title="Creating a new baseline image"></a>Creating a new baseline image<a class="article-anchor" href="#Creating-a-new-baseline-image" aria-hidden="true"></a></h2><p>Follow the following procedure to create a new baseline or change an existing baseline for a test.</p>
+<ul>
+<li>Add an invalid baseline (any PNG file) and rename it as the required baseline.<br>For example, to create a baseline for <code>testCylinder.js</code> copy <em>testCone.png</em> to <em>Sources/Filters/Sources/CylinderSource/test/testCylinder.png</em>.</li>
+<li>Run the test as per <a href="#Running-a-single-test-for-debugging">Running a single test for debugging</a>. The test should fail because of the invalid baseline. </li>
+<li>The test execution creates a file <strong>Documentation/content/coverage/tests.md</strong>.<br>Rename this file as <strong>tests.html</strong> and open it in the browser.</li>
+<li>The file should show the test output versus the invalid baseline image.<br>Right-click on the test output image and save it as the valid baseline.</li>
+<li>Re-run the test to ensure that it passes with the valid baseline.</li>
+<li>Commit the baseline image to the git source tree. </li>
+</ul>
 
               </div>
               <footer class="article-footer">
-                <time class="article-footer-updated" datetime="2017-11-30T16:14:00.160Z" itemprop="dateModified">Last updated: 2017-11-30</time>
+                <time class="article-footer-updated" datetime="2017-12-28T17:51:53.522Z" itemprop="dateModified">Last updated: 2017-12-28</time>
                 <a href="develop_example.html" class="article-footer-prev" title="Create example"><i class="fa fa-chevron-left"></i><span>Prev</span></a><a href="develop_build.html" class="article-footer-next" title="Build library"><span>Next</span><i class="fa fa-chevron-right"></i></a>
               </footer>
               
@@ -129,7 +138,7 @@
           <aside id="article-toc" role="navigation">
             <div id="article-toc-inner">
               <strong class="sidebar-title">Contents</strong>
-              <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Class-tests"><span class="toc-text">Class tests</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Testing-plain-JavaScript"><span class="toc-text">Testing plain JavaScript</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Testing-rendering-with-image-comparison"><span class="toc-text">Testing rendering with image comparison</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Registering-a-test"><span class="toc-text">Registering a test</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Running-all-the-tests"><span class="toc-text">Running all the tests</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Running-a-single-test-for-debugging"><span class="toc-text">Running a single test for debugging</span></a></li></ol>
+              <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Class-tests"><span class="toc-text">Class tests</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Testing-plain-JavaScript"><span class="toc-text">Testing plain JavaScript</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Testing-rendering-with-image-comparison"><span class="toc-text">Testing rendering with image comparison</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Registering-a-test"><span class="toc-text">Registering a test</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Running-all-the-tests"><span class="toc-text">Running all the tests</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Running-a-single-test-for-debugging"><span class="toc-text">Running a single test for debugging</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Creating-a-new-baseline-image"><span class="toc-text">Creating a new baseline image</span></a></li></ol>
               <a href="#" id="article-toc-top">Back to Top</a>
             </div>
           </aside>
