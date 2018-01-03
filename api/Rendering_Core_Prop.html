@@ -39,14 +39,14 @@
   <!-- RSS -->
   <link rel="alternate" href="/vtk-js/atom.xml" title="vtk.js">
   <!-- Open Graph -->
-  <meta name="description" content="IntroductionvtkProp is an abstract superclass for any objects that can exist in arendered scene (either 2D or 3D). Instances of vtkProp may respond tovarious re">
+  <meta name="description" content="IntroductionvtkProp is an abstract superclass for any objects that can exist in arendered scene (either 2D or 3D). Instances of vtkProp may respond tovarious render methods (e.g., RenderOpaqueGeometry">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Prop">
 <meta property="og:url" content="https://kitware.github.io/vtk-js/api/Rendering_Core_Prop.html">
 <meta property="og:site_name" content="vtk.js">
 <meta property="og:description" content="IntroductionvtkProp is an abstract superclass for any objects that can exist in arendered scene (either 2D or 3D). Instances of vtkProp may respond tovarious render methods (e.g., RenderOpaqueGeometry">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2017-11-30T16:14:00.592Z">
+<meta property="og:updated_time" content="2018-01-03T15:42:31.148Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Prop">
 <meta name="twitter:description" content="IntroductionvtkProp is an abstract superclass for any objects that can exist in arendered scene (either 2D or 3D). Instances of vtkProp may respond tovarious render methods (e.g., RenderOpaqueGeometry">
@@ -100,7 +100,8 @@
                 <h1 class="article-title" itemprop="name">Prop</h1>
               </header>
               <div class="article-content" itemprop="articleBody">
-                <h2 id="Introduction" class="article-heading"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction<a class="article-anchor" href="#Introduction" aria-hidden="true"></a></h2><p>vtkProp is an abstract superclass for any objects that can exist in a<br>rendered scene (either 2D or 3D). Instances of vtkProp may respond to<br>various render methods (e.g., RenderOpaqueGeometry()). vtkProp also<br>defines the API for picking, LOD manipulation, and common instance<br>variables that control visibility, picking, and dragging.</p>
+                <h2 id="Introduction" class="article-heading"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction<a class="article-anchor" href="#Introduction" aria-hidden="true"></a></h2><p>vtkProp is an abstract superclass for any objects that can exist in a<br>rendered scene (either 2D or 3D). Instances of vtkProp may respond to<br>various render methods (e.g., RenderOpaqueGeometry()). vtkProp also</p>
+<p>defines the API for picking, LOD manipulation, and common instance<br>variables that control visibility, picking, and dragging.</p>
 <h2 id="newInstance" class="article-heading"><a href="#newInstance" class="headerlink" title="newInstance()"></a>newInstance()<a class="article-anchor" href="#newInstance" aria-hidden="true"></a></h2><h3 id="visibility" class="article-heading"><a href="#visibility" class="headerlink" title="visibility"></a>visibility<a class="article-anchor" href="#visibility" aria-hidden="true"></a></h3><p>Set/Get visibility of this vtkProp. Initial value is true.</p>
 <h3 id="pickable" class="article-heading"><a href="#pickable" class="headerlink" title="pickable"></a>pickable<a class="article-anchor" href="#pickable" aria-hidden="true"></a></h3><p>Set/Get the pickable instance variable. This determines if the vtkProp<br>can be picked (typically using the mouse). Also see dragable.<br>Initial value is true.</p>
 <h3 id="dragable" class="article-heading"><a href="#dragable" class="headerlink" title="dragable"></a>dragable<a class="article-anchor" href="#dragable" aria-hidden="true"></a></h3><p>Set/Get the value of the dragable instance variable. This determines if<br>an Prop, once picked, can be dragged (translated) through space.<br>This is typically done through an interactive mouse interface.<br>This does not affect methods such as SetPosition, which will continue<br>to work. It is just intended to prevent some vtkProp’ss from being<br>dragged from within a user interface.<br>Initial value is true.</p>
@@ -110,7 +111,7 @@
 
               </div>
               <footer class="article-footer">
-                <time class="article-footer-updated" datetime="2017-11-30T16:14:00.592Z" itemprop="dateModified">Last updated: 2017-11-30</time>
+                <time class="article-footer-updated" datetime="2018-01-03T15:42:31.148Z" itemprop="dateModified">Last updated: 2018-01-03</time>
                 <a href="Rendering_Core_PointPicker.html" class="article-footer-prev" title="PointPicker"><i class="fa fa-chevron-left"></i><span>Prev</span></a><a href="Rendering_Core_Prop3D.html" class="article-footer-next" title="Prop3D"><span>Next</span><i class="fa fa-chevron-right"></i></a>
               </footer>
               
