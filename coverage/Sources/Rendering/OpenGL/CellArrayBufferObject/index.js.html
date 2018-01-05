@@ -341,7 +341,11 @@
 296
 297
 298
-299</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+299
+300
+301
+302
+303</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -379,7 +383,11 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -639,10 +647,10 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import macro               from 'vtk.js/Sources/macro';
-import vtkBufferObject     from 'vtk.js/Sources/Rendering/OpenGL/BufferObject';
-import { ObjectType }      from 'vtk.js/Sources/Rendering/OpenGL/BufferObject/Constants';
-import { Representation }  from 'vtk.js/Sources/Rendering/Core/Property/Constants';
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import macro from 'vtk.js/Sources/macro';
+import vtkBufferObject from 'vtk.js/Sources/Rendering/OpenGL/BufferObject';
+import { ObjectType } from 'vtk.js/Sources/Rendering/OpenGL/BufferObject/Constants';
+import { Representation } from 'vtk.js/Sources/Rendering/Core/Property/Constants';
 &nbsp;
 const { vtkDebugMacro, vtkErrorMacro } = macro;
 &nbsp;
@@ -676,8 +684,12 @@ function vtkOpenGLCellArrayBufferObject(publicAPI, model) <span class="fstat-no"
     let tcoordData = <span class="cstat-no" title="statement not covered" >null;</span>
     let colorData = <span class="cstat-no" title="statement not covered" >null;</span>
 &nbsp;
-    const colorComponents = (<span class="cstat-no" title="statement not covered" >options.colors ? options.colors.getNumberOfComponents() : 0)</span>;
-    const textureComponents = (<span class="cstat-no" title="statement not covered" >options.tcoords ? options.tcoords.getNumberOfComponents() : 0)</span>;
+    const colorComponents = <span class="cstat-no" title="statement not covered" >options.colors</span>
+      ? options.colors.getNumberOfComponents()
+      : 0;
+    const textureComponents = <span class="cstat-no" title="statement not covered" >options.tcoords</span>
+      ? options.tcoords.getNumberOfComponents()
+      : 0;
 &nbsp;
     // the values of 4 below are because floats are 4 bytes
 &nbsp;
@@ -732,7 +744,7 @@ function vtkOpenGLCellArrayBufferObject(publicAPI, model) <span class="fstat-no"
         // for polys we add a bunch of segments and close it
 <span class="cstat-no" title="statement not covered" >        for (let i = 0; i &lt; numPoints; ++i) {</span>
 <span class="cstat-no" title="statement not covered" >          addAPoint(cellPts[offset + i]);</span>
-<span class="cstat-no" title="statement not covered" >          addAPoint(cellPts[offset + ((i + 1) % numPoints)]);</span>
+<span class="cstat-no" title="statement not covered" >          addAPoint(cellPts[offset + (i + 1) % numPoints]);</span>
         }
       },
       stripsToWireframe(numPoints, cellPts, offset) {
@@ -761,8 +773,8 @@ function vtkOpenGLCellArrayBufferObject(publicAPI, model) <span class="fstat-no"
       stripsToSurface(npts, cellPts, offset) {
 <span class="cstat-no" title="statement not covered" >        for (let i = 0; i &lt; npts - 2; i++) {</span>
 <span class="cstat-no" title="statement not covered" >          addAPoint(cellPts[offset + i]);</span>
-<span class="cstat-no" title="statement not covered" >          addAPoint(cellPts[offset + i + 1 + (i % 2)]);</span>
-<span class="cstat-no" title="statement not covered" >          addAPoint(cellPts[offset + i + 1 + ((i + 1) % 2)]);</span>
+<span class="cstat-no" title="statement not covered" >          addAPoint(cellPts[offset + i + 1 + i % 2]);</span>
+<span class="cstat-no" title="statement not covered" >          addAPoint(cellPts[offset + i + 1 + (i + 1) % 2]);</span>
         }
       },
     };
@@ -779,7 +791,7 @@ function vtkOpenGLCellArrayBufferObject(publicAPI, model) <span class="fstat-no"
 <span class="cstat-no" title="statement not covered" >        return numPoints * 2;</span>
       },
       stripsToWireframe(numPoints, cellPts) {
-<span class="cstat-no" title="statement not covered" >        return (numPoints * 4) - 6;</span>
+<span class="cstat-no" title="statement not covered" >        return numPoints * 4 - 6;</span>
       },
       polysToSurface(npts, cellPts) {
 <span class="cstat-no" title="statement not covered" >        if (npts &lt; 3) {</span>
@@ -808,9 +820,9 @@ function vtkOpenGLCellArrayBufferObject(publicAPI, model) <span class="fstat-no"
     const array = <span class="cstat-no" title="statement not covered" >cellArray.getData();</span>
     const size = <span class="cstat-no" title="statement not covered" >array.length;</span>
     let caboCount = <span class="cstat-no" title="statement not covered" >0;</span>
-<span class="cstat-no" title="statement not covered" >    for (let index = 0; index &lt; size;) {</span>
+<span class="cstat-no" title="statement not covered" >    for (let index = 0; index &lt; size; ) {</span>
 <span class="cstat-no" title="statement not covered" >      caboCount += countFunc(array[index], array);</span>
-<span class="cstat-no" title="statement not covered" >      index += (array[index] + 1);</span>
+<span class="cstat-no" title="statement not covered" >      index += array[index] + 1;</span>
     }
 &nbsp;
     let packedUCVBO = <span class="cstat-no" title="statement not covered" >null;</span>
@@ -857,13 +869,13 @@ function vtkOpenGLCellArrayBufferObject(publicAPI, model) <span class="fstat-no"
 <span class="cstat-no" title="statement not covered" >        packedUCVBO[ucidx++] = colorData[colorIdx++];</span>
 <span class="cstat-no" title="statement not covered" >        packedUCVBO[ucidx++] = colorData[colorIdx++];</span>
 <span class="cstat-no" title="statement not covered" >        packedUCVBO[ucidx++] =</span>
-          (colorComponents === 4 ? colorData[colorIdx++] : 255);
+          colorComponents === 4 ? colorData[colorIdx++] : 255;
       }
     };
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    for (let index = 0; index &lt; size;) {</span>
+<span class="cstat-no" title="statement not covered" >    for (let index = 0; index &lt; size; ) {</span>
 <span class="cstat-no" title="statement not covered" >      func(array[index], array, index + 1);</span>
-<span class="cstat-no" title="statement not covered" >      index += (array[index] + 1);</span>
+<span class="cstat-no" title="statement not covered" >      index += array[index] + 1;</span>
 <span class="cstat-no" title="statement not covered" >      cellCount++;</span>
     }
 <span class="cstat-no" title="statement not covered" >    model.elementCount = caboCount;</span>
@@ -943,7 +955,7 @@ export default { newInstance, extend };
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Jan 03 2018 19:31:35 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Jan 05 2018 16:03:50 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>

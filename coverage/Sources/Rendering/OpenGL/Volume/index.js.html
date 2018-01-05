@@ -162,9 +162,7 @@
 117
 118
 119
-120
-121
-122</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+120</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -192,7 +190,6 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -201,7 +198,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -219,6 +215,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -271,8 +269,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -287,7 +283,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { mat3, mat4 } from 'gl-matrix';
 &nbsp;
-import macro       from 'vtk.js/Sources/macro';
+import macro from 'vtk.js/Sources/macro';
 import vtkViewNode from 'vtk.js/Sources/Rendering/SceneGraph/ViewNode';
 &nbsp;
 // ----------------------------------------------------------------------------
@@ -312,8 +308,7 @@ function vtkOpenGLVolume(publicAPI, model) <span class="fstat-no" title="functio
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  publicAPI.queryPass = (prepass, renderPass) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
 <span class="cstat-no" title="statement not covered" >    if (prepass) {</span>
-<span class="cstat-no" title="statement not covered" >      if (!model.renderable ||</span>
-          !model.renderable.getVisibility()) {
+<span class="cstat-no" title="statement not covered" >      if (!model.renderable || !model.renderable.getVisibility()) {</span>
 <span class="cstat-no" title="statement not covered" >        return;</span>
       }
 <span class="cstat-no" title="statement not covered" >      renderPass.incrementVolumeCount();</span>
@@ -321,8 +316,7 @@ function vtkOpenGLVolume(publicAPI, model) <span class="fstat-no" title="functio
   };
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  publicAPI.traverseVolumePass = (renderPass) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
-<span class="cstat-no" title="statement not covered" >    if (!model.renderable ||</span>
-        !model.renderable.getVisibility()) {
+<span class="cstat-no" title="statement not covered" >    if (!model.renderable || !model.renderable.getVisibility()) {</span>
 <span class="cstat-no" title="statement not covered" >      return;</span>
     }
 &nbsp;
@@ -339,7 +333,9 @@ function vtkOpenGLVolume(publicAPI, model) <span class="fstat-no" title="functio
 <span class="cstat-no" title="statement not covered" >      return;</span>
     }
 <span class="cstat-no" title="statement not covered" >    if (prepass) {</span>
-<span class="cstat-no" title="statement not covered" >      model.context = publicAPI.getFirstAncestorOfType('vtkOpenGLRenderWindow').getContext();</span>
+<span class="cstat-no" title="statement not covered" >      model.context = publicAPI</span>
+        .getFirstAncestorOfType('vtkOpenGLRenderWindow')
+        .getContext();
 <span class="cstat-no" title="statement not covered" >      model.context.depthMask(false);</span>
     } else {
 <span class="cstat-no" title="statement not covered" >      model.context.depthMask(true);</span>
@@ -391,9 +387,7 @@ export function extend(publicAPI, model, initialValues = {}) <span class="fstat-
 <span class="cstat-no" title="statement not covered" >  model.MCWCMatrix = mat4.create();</span>
 &nbsp;
   // Build VTK API
-<span class="cstat-no" title="statement not covered" >  macro.setGet(publicAPI, model, [</span>
-    'context',
-  ]);
+<span class="cstat-no" title="statement not covered" >  macro.setGet(publicAPI, model, ['context']);</span>
 &nbsp;
   // Object methods
 <span class="cstat-no" title="statement not covered" >  vtkOpenGLVolume(publicAPI, model);</span>
@@ -412,7 +406,7 @@ export default { newInstance, extend };
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Jan 03 2018 19:31:35 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Jan 05 2018 16:03:50 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>

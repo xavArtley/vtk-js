@@ -20,14 +20,14 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">2.9% </span>
+        <span class="strong">2.78% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>2/69</span>
+        <span class='fraction'>2/72</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>0/17</span>
+        <span class='fraction'>0/21</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
@@ -35,9 +35,9 @@
         <span class='fraction'>0/8</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">2.94% </span>
+        <span class="strong">2.82% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>2/68</span>
+        <span class='fraction'>2/71</span>
       </div>
     </div>
   </div>
@@ -244,7 +244,14 @@
 199
 200
 201
-202</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+202
+203
+204
+205
+206
+207
+208
+209</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -267,7 +274,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -293,7 +302,6 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -429,13 +437,19 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -445,11 +459,11 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import macro            from 'vtk.js/Sources/macro';
-import vtkMolecule      from 'vtk.js/Sources/Common/DataModel/Molecule';
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import macro from 'vtk.js/Sources/macro';
+import vtkMolecule from 'vtk.js/Sources/Common/DataModel/Molecule';
 import DataAccessHelper from 'vtk.js/Sources/IO/Core/DataAccessHelper';
 &nbsp;
-import ATOMS            from 'vtk.js/Utilities/XMLConverter/chemistry-mapper/elements.json';
+import ATOMS from 'vtk.js/Utilities/XMLConverter/chemistry-mapper/elements.json';
 &nbsp;
 // ----------------------------------------------------------------------------
 // vtkPDBReader methods
@@ -466,9 +480,11 @@ function vtkPDBReader(publicAPI, model) <span class="fstat-no" title="function n
 &nbsp;
   // Internal method to fetch Array
   function fetchPDB(url) <span class="fstat-no" title="function not covered" >{</span>
-    const compression = <span class="cstat-no" title="statement not covered" >model.compression;</span>
-    const progressCallback = <span class="cstat-no" title="statement not covered" >model.progressCallback;</span>
-<span class="cstat-no" title="statement not covered" >    return model.dataAccessHelper.fetchText(publicAPI, url, { compression, progressCallback });</span>
+    const { compression, progressCallback } = <span class="cstat-no" title="statement not covered" >model;</span>
+<span class="cstat-no" title="statement not covered" >    return model.dataAccessHelper.fetchText(publicAPI, url, {</span>
+      compression,
+      progressCallback,
+    });
   }
 &nbsp;
   // Set DataSet url
@@ -493,16 +509,15 @@ function vtkPDBReader(publicAPI, model) <span class="fstat-no" title="function n
 <span class="cstat-no" title="statement not covered" >  publicAPI.loadData = () =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
     const promise = <span class="cstat-no" title="statement not covered" >fetchPDB(model.url);</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    promise.then(</span>
-      (pdb) =&gt; <span class="fstat-no" title="function not covered" >{</span>
-<span class="cstat-no" title="statement not covered" >        model.pdb = pdb;</span>
-<span class="cstat-no" title="statement not covered" >        model.molecule = [];</span>
+<span class="cstat-no" title="statement not covered" >    promise.then((pdb) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >      model.pdb = pdb;</span>
+<span class="cstat-no" title="statement not covered" >      model.molecule = [];</span>
 &nbsp;
-        // Parse data
-<span class="cstat-no" title="statement not covered" >        model.molecule = model.pdb.split('\n');</span>
+      // Parse data
+<span class="cstat-no" title="statement not covered" >      model.molecule = model.pdb.split('\n');</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >        publicAPI.modified();</span>
-      });
+<span class="cstat-no" title="statement not covered" >      publicAPI.modified();</span>
+    });
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    return promise;</span>
   };
@@ -526,26 +541,26 @@ function vtkPDBReader(publicAPI, model) <span class="fstat-no" title="function n
         const iSize = <span class="cstat-no" title="statement not covered" >model.molecule[j].length;</span>
         const linebuf = <span class="cstat-no" title="statement not covered" >model.molecule[j];</span>
 &nbsp;
-        const command = <span class="cstat-no" title="statement not covered" >(linebuf.substr(0, 6)).replace(/\s+/g, '');</span>
+        const command = <span class="cstat-no" title="statement not covered" >linebuf.substr(0, 6).replace(/\s+/g, '');</span>
 <span class="cstat-no" title="statement not covered" >        command.toUpperCase();</span>
 &nbsp;
         // Parse lines
 <span class="cstat-no" title="statement not covered" >        if (command === 'ATOM' || command === 'HETATM') {</span>
-          const dum1 = <span class="cstat-no" title="statement not covered" >(linebuf.substr(12, 4)).replace(/\s+/g, '');</span>
+          const dum1 = <span class="cstat-no" title="statement not covered" >linebuf.substr(12, 4).replace(/\s+/g, '');</span>
           // const dum2 = (linebuf.substr(17, 3)).replace(/\s+/g, '');
           // const chain = (linebuf.substr(21, 1)).replace(/\s+/g, '');
           // const resi = ((linebuf.substr(22, 8)).replace(/\s+/g, '')).replace(/\D/g, '');
-          const x = <span class="cstat-no" title="statement not covered" >(linebuf.substr(30, 8)).replace(/\s+/g, '');</span>
-          const y = <span class="cstat-no" title="statement not covered" >(linebuf.substr(38, 8)).replace(/\s+/g, '');</span>
-          const z = <span class="cstat-no" title="statement not covered" >(linebuf.substr(46, 8)).replace(/\s+/g, '');</span>
+          const x = <span class="cstat-no" title="statement not covered" >linebuf.substr(30, 8).replace(/\s+/g, '');</span>
+          const y = <span class="cstat-no" title="statement not covered" >linebuf.substr(38, 8).replace(/\s+/g, '');</span>
+          const z = <span class="cstat-no" title="statement not covered" >linebuf.substr(46, 8).replace(/\s+/g, '');</span>
 &nbsp;
           let elem = <span class="cstat-no" title="statement not covered" >'';</span>
 <span class="cstat-no" title="statement not covered" >          if (iSize &gt;= 78) {</span>
-<span class="cstat-no" title="statement not covered" >            elem = (linebuf.substr(76, 2)).replace(/\s+/g, '');</span>
+<span class="cstat-no" title="statement not covered" >            elem = linebuf.substr(76, 2).replace(/\s+/g, '');</span>
           }
 <span class="cstat-no" title="statement not covered" >          if (elem === '') {</span>
             // if element symbol was not specified, just use the "Atom name".
-<span class="cstat-no" title="statement not covered" >            elem = (dum1.substr(0, 2)).replace(/\d/g, '');</span>
+<span class="cstat-no" title="statement not covered" >            elem = dum1.substr(0, 2).replace(/\d/g, '');</span>
           }
 &nbsp;
           // fill polydata
@@ -629,14 +644,20 @@ export function extend(publicAPI, model, initialValues = {}) <span class="fstat-
     'numberOfAtoms',
     'requestCount',
   ]);
-<span class="cstat-no" title="statement not covered" >  macro.setGet(publicAPI, model, [</span>
-    'dataAccessHelper',
-  ]);
+<span class="cstat-no" title="statement not covered" >  macro.setGet(publicAPI, model, ['dataAccessHelper']);</span>
 <span class="cstat-no" title="statement not covered" >  macro.algo(publicAPI, model, 0, 1);</span>
 <span class="cstat-no" title="statement not covered" >  macro.event(publicAPI, model, 'busy');</span>
 &nbsp;
   // Object methods
 <span class="cstat-no" title="statement not covered" >  vtkPDBReader(publicAPI, model);</span>
+&nbsp;
+  // To support destructuring
+<span class="cstat-no" title="statement not covered" >  if (!model.compression) {</span>
+<span class="cstat-no" title="statement not covered" >    model.compression = null;</span>
+  }
+<span class="cstat-no" title="statement not covered" >  if (!model.progressCallback) {</span>
+<span class="cstat-no" title="statement not covered" >    model.progressCallback = null;</span>
+  }
 }
 &nbsp;
 // ----------------------------------------------------------------------------
@@ -652,7 +673,7 @@ export default { newInstance, extend };
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Jan 03 2018 19:31:35 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Jan 05 2018 16:03:50 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>

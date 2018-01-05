@@ -167,7 +167,8 @@
 122
 123
 124
-125</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+125
+126</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -202,6 +203,8 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -274,11 +277,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -287,6 +286,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -325,7 +327,9 @@ function vtkOpenGLTextureUnitManager(publicAPI, model) <span class="fstat-no" ti
       }
 <span class="cstat-no" title="statement not covered" >      model.context = ctx;</span>
 <span class="cstat-no" title="statement not covered" >      if (model.context) {</span>
-<span class="cstat-no" title="statement not covered" >        model.numberOfTextureUnits = ctx.getParameter(ctx.MAX_TEXTURE_IMAGE_UNITS);</span>
+<span class="cstat-no" title="statement not covered" >        model.numberOfTextureUnits = ctx.getParameter(</span>
+          ctx.MAX_TEXTURE_IMAGE_UNITS
+        );
 <span class="cstat-no" title="statement not covered" >        for (let i = 0; i &lt; model.numberOfTextureUnits; ++i) {</span>
 <span class="cstat-no" title="statement not covered" >          model.textureUnits[i] = false;</span>
         }
@@ -364,7 +368,7 @@ function vtkOpenGLTextureUnitManager(publicAPI, model) <span class="fstat-no" ti
   // Description:
   // Tell if texture unit `textureUnitId' is already allocated.
   // \pre valid_id_range : textureUnitId&gt;=0 &amp;&amp; textureUnitId&lt;this-&gt;GetNumberOfTextureUnits()
-<span class="cstat-no" title="statement not covered" >  publicAPI.isAllocated = textureUnitId =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >model.textureUnits[textureUnitId];</span></span></span>
+<span class="cstat-no" title="statement not covered" >  publicAPI.isAllocated = (textureUnitId) =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >model.textureUnits[textureUnitId];</span></span></span>
 &nbsp;
   // ----------------------------------------------------------------------------
   // Description:
@@ -396,13 +400,9 @@ export function extend(publicAPI, model, initialValues = {}) <span class="fstat-
 <span class="cstat-no" title="statement not covered" >  model.textureUnits = [];</span>
 &nbsp;
   // Build VTK API
-<span class="cstat-no" title="statement not covered" >  macro.get(publicAPI, model, [</span>
-    'numberOfTextureUnits',
-  ]);
+<span class="cstat-no" title="statement not covered" >  macro.get(publicAPI, model, ['numberOfTextureUnits']);</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  macro.setGet(publicAPI, model, [</span>
-    'context',
-  ]);
+<span class="cstat-no" title="statement not covered" >  macro.setGet(publicAPI, model, ['context']);</span>
 &nbsp;
   // Object methods
 <span class="cstat-no" title="statement not covered" >  vtkOpenGLTextureUnitManager(publicAPI, model);</span>
@@ -410,7 +410,10 @@ export function extend(publicAPI, model, initialValues = {}) <span class="fstat-
 &nbsp;
 // ----------------------------------------------------------------------------
 &nbsp;
-export const newInstance = macro.newInstance(extend, 'vtkOpenGLTextureUnitManager');
+export const newInstance = macro.newInstance(
+  extend,
+  'vtkOpenGLTextureUnitManager'
+);
 &nbsp;
 // ----------------------------------------------------------------------------
 &nbsp;
@@ -421,7 +424,7 @@ export default { newInstance, extend };
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Jan 03 2018 19:31:35 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Jan 05 2018 16:03:50 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>

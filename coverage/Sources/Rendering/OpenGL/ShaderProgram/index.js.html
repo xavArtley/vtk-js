@@ -653,7 +653,19 @@
 608
 609
 610
-611</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+611
+612
+613
+614
+615
+616
+617
+618
+619
+620
+621
+622
+623</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
@@ -688,7 +700,10 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -696,8 +711,11 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -759,6 +777,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -767,6 +786,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -1050,6 +1072,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1076,6 +1100,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1238,8 +1264,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1263,7 +1287,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import macro     from 'vtk.js/Sources/macro';
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import macro from 'vtk.js/Sources/macro';
 import vtkShader from 'vtk.js/Sources/Rendering/OpenGL/Shader';
 &nbsp;
 const { vtkErrorMacro } = macro;
@@ -1271,7 +1295,7 @@ const { vtkErrorMacro } = macro;
 // perform in place string substitutions, indicate if a substitution was done
 // this is useful for building up shader strings which typically involve
 // lots of string substitutions. Return true if a substitution was done.
-export function substitute(source, search, replace, all = true) <span class="fstat-no" title="function not covered" >{</span>
+function substitute(source, search, replace, all = true) <span class="fstat-no" title="function not covered" >{</span>
   const replaceStr = <span class="cstat-no" title="statement not covered" >Array.isArray(replace) ? replace.join('\n') : replace;</span>
   let replaced = <span class="cstat-no" title="statement not covered" >false;</span>
 <span class="cstat-no" title="statement not covered" >  if (source.search(search) !== -1) {</span>
@@ -1296,18 +1320,24 @@ function vtkShaderProgram(publicAPI, model) <span class="fstat-no" title="functi
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  publicAPI.compileShader = () =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
 <span class="cstat-no" title="statement not covered" >    if (!model.vertexShader.compile()) {</span>
-<span class="cstat-no" title="statement not covered" >      vtkErrorMacro(model.vertexShader.getSource()</span>
-        .split('\n')
-        .map((line, index) =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >`${index}: ${line}`)</span></span>
-        .join('\n'));
+<span class="cstat-no" title="statement not covered" >      vtkErrorMacro(</span>
+        model.vertexShader
+          .getSource()
+          .split('\n')
+          .map((line, index) =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >`${index}: ${line}`)</span></span>
+          .join('\n')
+      );
 <span class="cstat-no" title="statement not covered" >      vtkErrorMacro(model.vertexShader.getError());</span>
 <span class="cstat-no" title="statement not covered" >      return 0;</span>
     }
 <span class="cstat-no" title="statement not covered" >    if (!model.fragmentShader.compile()) {</span>
-<span class="cstat-no" title="statement not covered" >      vtkErrorMacro(model.fragmentShader.getSource()</span>
-        .split('\n')
-        .map((line, index) =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >`${index}: ${line}`)</span></span>
-        .join('\n'));
+<span class="cstat-no" title="statement not covered" >      vtkErrorMacro(</span>
+        model.fragmentShader
+          .getSource()
+          .split('\n')
+          .map((line, index) =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >`${index}: ${line}`)</span></span>
+          .join('\n')
+      );
 <span class="cstat-no" title="statement not covered" >      vtkErrorMacro(model.fragmentShader.getError());</span>
 <span class="cstat-no" title="statement not covered" >      return 0;</span>
     }
@@ -1368,7 +1398,8 @@ function vtkShaderProgram(publicAPI, model) <span class="fstat-no" title="functi
     }
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    if (model.handle === 0) {</span>
-<span class="cstat-no" title="statement not covered" >      model.error = 'Program has not been initialized, and/or does not have shaders.';</span>
+<span class="cstat-no" title="statement not covered" >      model.error =</span>
+        'Program has not been initialized, and/or does not have shaders.';
 <span class="cstat-no" title="statement not covered" >      return false;</span>
     }
 &nbsp;
@@ -1376,7 +1407,10 @@ function vtkShaderProgram(publicAPI, model) <span class="fstat-no" title="functi
 <span class="cstat-no" title="statement not covered" >    model.uniformLocs = {};</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    model.context.linkProgram(model.handle);</span>
-    const isCompiled = <span class="cstat-no" title="statement not covered" >model.context.getProgramParameter(model.handle, model.context.LINK_STATUS);</span>
+    const isCompiled = <span class="cstat-no" title="statement not covered" >model.context.getProgramParameter(</span>
+      model.handle,
+      model.context.LINK_STATUS
+    );
 <span class="cstat-no" title="statement not covered" >    if (!isCompiled) {</span>
       const lastError = <span class="cstat-no" title="statement not covered" >model.context.getProgramInfoLog(model.handle);</span>
 <span class="cstat-no" title="statement not covered" >      vtkErrorMacro(`Error linking shader ${lastError}`);</span>
@@ -1655,11 +1689,13 @@ function vtkShaderProgram(publicAPI, model) <span class="fstat-no" title="functi
     // see if we have cached the result
     let loc = <span class="cstat-no" title="statement not covered" >model.uniformLocs[name];</span>
 <span class="cstat-no" title="statement not covered" >    if (loc !== undefined) {</span>
-<span class="cstat-no" title="statement not covered" >      return (loc !== null);</span>
+<span class="cstat-no" title="statement not covered" >      return loc !== null;</span>
     }
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    if (!model.linked) {</span>
-<span class="cstat-no" title="statement not covered" >      vtkErrorMacro('attempt to find uniform when the shader program is not linked');</span>
+<span class="cstat-no" title="statement not covered" >      vtkErrorMacro(</span>
+        'attempt to find uniform when the shader program is not linked'
+      );
 <span class="cstat-no" title="statement not covered" >      return false;</span>
     }
 &nbsp;
@@ -1685,7 +1721,9 @@ function vtkShaderProgram(publicAPI, model) <span class="fstat-no" title="functi
     }
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    if (!model.linked) {</span>
-<span class="cstat-no" title="statement not covered" >      vtkErrorMacro('attempt to find uniform when the shader program is not linked');</span>
+<span class="cstat-no" title="statement not covered" >      vtkErrorMacro(</span>
+        'attempt to find uniform when the shader program is not linked'
+      );
 <span class="cstat-no" title="statement not covered" >      return false;</span>
     }
 &nbsp;
@@ -1832,7 +1870,7 @@ const DEFAULT_VALUES = {
 &nbsp;
 // ----------------------------------------------------------------------------
 &nbsp;
-export function extend(publicAPI, model, initialValues = {}) <span class="fstat-no" title="function not covered" >{</span>
+function extend(publicAPI, model, initialValues = {}) <span class="fstat-no" title="function not covered" >{</span>
 <span class="cstat-no" title="statement not covered" >  Object.assign(model, DEFAULT_VALUES, initialValues);</span>
 &nbsp;
   // Instanciate internal objects
@@ -1847,9 +1885,7 @@ export function extend(publicAPI, model, initialValues = {}) <span class="fstat-
 &nbsp;
   // Build VTK API
 <span class="cstat-no" title="statement not covered" >  macro.obj(publicAPI, model);</span>
-<span class="cstat-no" title="statement not covered" >  macro.get(publicAPI, model, [</span>
-    'lastCameraMTime',
-  ]);
+<span class="cstat-no" title="statement not covered" >  macro.get(publicAPI, model, ['lastCameraMTime']);</span>
 <span class="cstat-no" title="statement not covered" >  macro.setGet(publicAPI, model, [</span>
     'error',
     'handle',
@@ -1868,7 +1904,7 @@ export function extend(publicAPI, model, initialValues = {}) <span class="fstat-
 &nbsp;
 // ----------------------------------------------------------------------------
 &nbsp;
-export const newInstance = macro.newInstance(extend, 'vtkShaderProgram');
+const newInstance = macro.newInstance(extend, 'vtkShaderProgram');
 &nbsp;
 // ----------------------------------------------------------------------------
 &nbsp;
@@ -1879,7 +1915,7 @@ export default { newInstance, extend, substitute };
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Jan 03 2018 19:31:35 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Jan 05 2018 16:03:50 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>

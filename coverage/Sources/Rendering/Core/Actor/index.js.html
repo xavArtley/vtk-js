@@ -35,9 +35,9 @@
         <span class='fraction'>0/14</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">3.7% </span>
+        <span class="strong">3.61% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>3/81</span>
+        <span class='fraction'>3/83</span>
       </div>
     </div>
   </div>
@@ -254,7 +254,16 @@
 209
 210
 211
-212</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -353,9 +362,12 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -365,7 +377,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -377,25 +388,16 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -405,6 +407,21 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -415,6 +432,7 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -466,9 +484,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { vec3, mat4 } from 'gl-matrix';
-import macro          from 'vtk.js/Sources/macro';
-import vtkProp3D      from 'vtk.js/Sources/Rendering/Core/Prop3D';
-import vtkProperty    from 'vtk.js/Sources/Rendering/Core/Property';
+import macro from 'vtk.js/Sources/macro';
+import vtkProp3D from 'vtk.js/Sources/Rendering/Core/Prop3D';
+import vtkProperty from 'vtk.js/Sources/Rendering/Core/Property';
 &nbsp;
 const { vtkDebugMacro } = macro;
 &nbsp;
@@ -498,7 +516,7 @@ function vtkActor(publicAPI, model) <span class="fstat-no" title="function not c
 <span class="cstat-no" title="statement not covered" >      publicAPI.getProperty();</span>
     }
 &nbsp;
-    let isOpaque = (<span class="cstat-no" title="statement not covered" >model.property.getOpacity() &gt;= 1.0)</span>;
+    let isOpaque = <span class="cstat-no" title="statement not covered" >model.property.getOpacity() &gt;= 1.0;</span>
 &nbsp;
     // are we using an opaque texture, if any?
 <span class="cstat-no" title="statement not covered" >    isOpaque = isOpaque &amp;&amp; (!model.texture || !model.texture.isTranslucent());</span>
@@ -556,14 +574,16 @@ function vtkActor(publicAPI, model) <span class="fstat-no" title="function not c
     // of caching. If the values returned this time are different, or
     // the modified time of this class is newer than the cached time,
     // then we need to rebuild.
-<span class="cstat-no" title="statement not covered" >    if (!model.mapperBounds</span>
-     || bds[0] !== model.mapperBounds[0]
-     || bds[1] !== model.mapperBounds[1]
-     || bds[2] !== model.mapperBounds[2]
-     || bds[3] !== model.mapperBounds[3]
-     || bds[4] !== model.mapperBounds[4]
-     || bds[5] !== model.mapperBounds[5]
-     || publicAPI.getMTime() &gt; model.boundsMTime.getMTime()) {
+<span class="cstat-no" title="statement not covered" >    if (</span>
+      !model.mapperBounds ||
+      bds[0] !== model.mapperBounds[0] ||
+      bds[1] !== model.mapperBounds[1] ||
+      bds[2] !== model.mapperBounds[2] ||
+      bds[3] !== model.mapperBounds[3] ||
+      bds[4] !== model.mapperBounds[4] ||
+      bds[5] !== model.mapperBounds[5] ||
+      publicAPI.getMTime() &gt; model.boundsMTime.getMTime()
+    ) {
 <span class="cstat-no" title="statement not covered" >      vtkDebugMacro('Recomputing bounds...');</span>
 <span class="cstat-no" title="statement not covered" >      model.mapperBounds = bds.concat(); </span>// copy the mapper's bounds
       const bbox = <span class="cstat-no" title="statement not covered" >[</span>
@@ -580,16 +600,22 @@ function vtkActor(publicAPI, model) <span class="fstat-no" title="function not c
 <span class="cstat-no" title="statement not covered" >      publicAPI.computeMatrix();</span>
       const tmp4 = <span class="cstat-no" title="statement not covered" >mat4.create();</span>
 <span class="cstat-no" title="statement not covered" >      mat4.transpose(tmp4, model.matrix);</span>
-<span class="cstat-no" title="statement not covered" >      bbox.forEach(pt =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >vec3.transformMat4(pt, pt, tmp4))</span></span>;</span>
+<span class="cstat-no" title="statement not covered" >      bbox.forEach((pt) =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >vec3.transformMat4(pt, pt, tmp4))</span></span>;</span>
 &nbsp;
       /* eslint-disable no-multi-assign */
 <span class="cstat-no" title="statement not covered" >      model.bounds[0] = model.bounds[2] = model.bounds[4] = Number.MAX_VALUE;</span>
 <span class="cstat-no" title="statement not covered" >      model.bounds[1] = model.bounds[3] = model.bounds[5] = -Number.MAX_VALUE;</span>
       /* eslint-enable no-multi-assign */
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      model.bounds = model.bounds.map((d, i) =&gt; (<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(i % 2 === 0) ?</span></span></span>
-        bbox.reduce((a, b) =&gt; (<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >a &gt; b[i / 2] ? b[i / 2] : a)</span></span>, d) :
-        bbox.reduce((a, b) =&gt; (<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >a &lt; b[(i - 1) / 2] ? b[(i - 1) / 2] : a)</span></span>, d)));
+<span class="cstat-no" title="statement not covered" >      model.bounds = model.bounds.map(</span>
+        (d, i) =&gt;
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >          i % 2 === 0</span></span>
+            ? bbox.reduce((a, b) =&gt; (<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >a &gt; b[i / 2] ? b[i / 2] : a)</span></span>, d)
+            : bbox.reduce(
+                (a, b) =&gt; (<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >a &lt; b[(i - 1) / 2] ? b[(i - 1) / 2] : a)</span></span>,
+                d
+              )
+      );
 &nbsp;
 <span class="cstat-no" title="statement not covered" >      model.boundsMTime.modified();</span>
     }
@@ -600,12 +626,12 @@ function vtkActor(publicAPI, model) <span class="fstat-no" title="function not c
     let mt = <span class="cstat-no" title="statement not covered" >superClass.getMTime();</span>
 <span class="cstat-no" title="statement not covered" >    if (model.property !== null) {</span>
       const time = <span class="cstat-no" title="statement not covered" >model.property.getMTime();</span>
-<span class="cstat-no" title="statement not covered" >      mt = (time &gt; mt ? time : mt);</span>
+<span class="cstat-no" title="statement not covered" >      mt = time &gt; mt ? time : mt;</span>
     }
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    if (model.backfaceProperty !== null) {</span>
       const time = <span class="cstat-no" title="statement not covered" >model.backfaceProperty.getMTime();</span>
-<span class="cstat-no" title="statement not covered" >      mt = (time &gt; mt ? time : mt);</span>
+<span class="cstat-no" title="statement not covered" >      mt = time &gt; mt ? time : mt;</span>
     }
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    return mt;</span>
@@ -615,18 +641,19 @@ function vtkActor(publicAPI, model) <span class="fstat-no" title="function not c
     let mt = <span class="cstat-no" title="statement not covered" >model.mtime;</span>
 <span class="cstat-no" title="statement not covered" >    if (model.mapper !== null) {</span>
       let time = <span class="cstat-no" title="statement not covered" >model.mapper.getMTime();</span>
-<span class="cstat-no" title="statement not covered" >      mt = (time &gt; mt ? time : mt);</span>
+<span class="cstat-no" title="statement not covered" >      mt = time &gt; mt ? time : mt;</span>
 <span class="cstat-no" title="statement not covered" >      if (model.mapper.getInput() !== null) {</span>
         // FIXME !!! getInputAlgorithm / getInput
 <span class="cstat-no" title="statement not covered" >        model.mapper.getInputAlgorithm().update();</span>
 <span class="cstat-no" title="statement not covered" >        time = model.mapper.getInput().getMTime();</span>
-<span class="cstat-no" title="statement not covered" >        mt = (time &gt; mt ? time : mt);</span>
+<span class="cstat-no" title="statement not covered" >        mt = time &gt; mt ? time : mt;</span>
       }
     }
 <span class="cstat-no" title="statement not covered" >    return mt;</span>
   };
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  publicAPI.getSupportsSelection = () =&gt; (<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >model.mapper ? model.mapper.getSupportsSelection() : false)</span></span>;</span>
+<span class="cstat-no" title="statement not covered" >  publicAPI.getSupportsSelection = () =&gt;</span>
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >    model.mapper ? model.mapper.getSupportsSelection() : false;</span></span>
 }
 &nbsp;
 // ----------------------------------------------------------------------------
@@ -682,7 +709,7 @@ export default { newInstance, extend };
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Jan 03 2018 19:31:35 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Jan 05 2018 16:03:50 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>

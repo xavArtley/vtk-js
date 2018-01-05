@@ -245,13 +245,7 @@
 200
 201
 202
-203
-204
-205
-206
-207
-208
-209</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+203</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -269,9 +263,7 @@
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -334,6 +326,7 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -355,6 +348,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -439,13 +433,7 @@
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -463,7 +451,7 @@
 &nbsp;
 const { vtkErrorMacro } = macro;
 &nbsp;
-export const PASS_TYPES = ['Build', 'Render'];
+const PASS_TYPES = ['Build', 'Render'];
 &nbsp;
 // ----------------------------------------------------------------------------
 // vtkViewNode methods
@@ -474,12 +462,10 @@ function vtkViewNode(publicAPI, model) {
   model.classHierarchy.push('vtkViewNode');
 &nbsp;
   // Builds myself.
-  publicAPI.build = (prepass) =&gt; <span class="fstat-no" title="function not covered" >{</span>
-  };
+  publicAPI.build = (prepass) =&gt; <span class="fstat-no" title="function not covered" >{};</span>
 &nbsp;
   // Renders myself
-  publicAPI.render = (prepass) =&gt; <span class="fstat-no" title="function not covered" >{</span>
-  };
+  publicAPI.render = (prepass) =&gt; <span class="fstat-no" title="function not covered" >{};</span>
 &nbsp;
   publicAPI.traverse = (renderPass) =&gt; <span class="fstat-no" title="function not covered" >{</span>
     // we can choose to do special
@@ -541,7 +527,8 @@ function vtkViewNode(publicAPI, model) {
     // if found just mark as visited
 <span class="cstat-no" title="statement not covered" >    if (result !== undefined) {</span>
 <span class="cstat-no" title="statement not covered" >      result.setVisited(true);</span>
-    } else { // otherwise create a node
+    } else {
+      // otherwise create a node
       const newNode = <span class="cstat-no" title="statement not covered" >publicAPI.createViewNode(dobj);</span>
 <span class="cstat-no" title="statement not covered" >      if (newNode) {</span>
 <span class="cstat-no" title="statement not covered" >        newNode.setParent(publicAPI);</span>
@@ -563,7 +550,8 @@ function vtkViewNode(publicAPI, model) {
       // if found just mark as visited
 <span class="cstat-no" title="statement not covered" >      if (result !== undefined) {</span>
 <span class="cstat-no" title="statement not covered" >        result.setVisited(true);</span>
-      } else { // otherwise create a node
+      } else {
+        // otherwise create a node
         const newNode = <span class="cstat-no" title="statement not covered" >publicAPI.createViewNode(dobj);</span>
 <span class="cstat-no" title="statement not covered" >        if (newNode) {</span>
 <span class="cstat-no" title="statement not covered" >          newNode.setParent(publicAPI);</span>
@@ -606,7 +594,7 @@ function vtkViewNode(publicAPI, model) {
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    if (deleted) {</span>
       // slow does alloc but not as common
-<span class="cstat-no" title="statement not covered" >      model.children = model.children.filter(el =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >!deleted.includes(el))</span></span>;</span>
+<span class="cstat-no" title="statement not covered" >      model.children = model.children.filter((el) =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >!deleted.includes(el))</span></span>;</span>
     }
   };
 &nbsp;
@@ -637,7 +625,7 @@ const DEFAULT_VALUES = {
 &nbsp;
 // ----------------------------------------------------------------------------
 &nbsp;
-export function extend(publicAPI, model, initialValues = {}) {
+function extend(publicAPI, model, initialValues = {}) {
   Object.assign(model, DEFAULT_VALUES, initialValues);
 &nbsp;
   // Build VTK API
@@ -646,14 +634,8 @@ export function extend(publicAPI, model, initialValues = {}) {
 &nbsp;
   model.renderableChildMap = new Map();
 &nbsp;
-  macro.get(publicAPI, model, [
-    'visited',
-  ]);
-  macro.setGet(publicAPI, model, [
-    'parent',
-    'renderable',
-    'myFactory',
-  ]);
+  macro.get(publicAPI, model, ['visited']);
+  macro.setGet(publicAPI, model, ['parent', 'renderable', 'myFactory']);
   macro.getArray(publicAPI, model, ['children']);
 &nbsp;
   // Object methods
@@ -662,7 +644,7 @@ export function extend(publicAPI, model, initialValues = {}) {
 &nbsp;
 // ----------------------------------------------------------------------------
 &nbsp;
-export const newInstance = macro.newInstance(extend, 'vtkViewNode');
+const newInstance = macro.newInstance(extend, 'vtkViewNode');
 &nbsp;
 // ----------------------------------------------------------------------------
 &nbsp;
@@ -673,7 +655,7 @@ export default { newInstance, extend, PASS_TYPES };
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Jan 03 2018 19:31:35 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Jan 05 2018 16:03:50 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>

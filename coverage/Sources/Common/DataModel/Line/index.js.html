@@ -278,7 +278,14 @@
 233
 234
 235
-236</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+236
+237
+238
+239
+240
+241
+242
+243</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -296,6 +303,7 @@
 <span class="cline-any cline-yes">28×</span>
 <span class="cline-any cline-yes">28×</span>
 <span class="cline-any cline-yes">28×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">28×</span>
@@ -493,17 +501,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">5×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">5×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">5×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -513,7 +513,21 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import macro            from 'vtk.js/Sources/macro';
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import macro from 'vtk.js/Sources/macro';
 import Constants from 'vtk.js/Sources/Common/DataModel/Line/Constants';
 import vtkCell from 'vtk.js/Sources/Common/DataModel/Cell';
 import vtkMath from 'vtk.js/Sources/Common/Core/Math';
@@ -533,11 +547,12 @@ function distanceToLine(x, p1, p2, closestPoint = null) {
   p21[2] = p2[2] - p1[2];
 &nbsp;
   // Get parametric location
-  const num = (p21[0] * (x[0] - p1[0])) + (p21[1] * (x[1] - p1[1])) + (p21[2] * (x[2] - p1[2]));
+  const num =
+    p21[0] * (x[0] - p1[0]) + p21[1] * (x[1] - p1[1]) + p21[2] * (x[2] - p1[2]);
   const denom = vtkMath.dot(p21, p21);
 &nbsp;
   // trying to avoid an expensive fabs
-  let tolerance = 1.e-05 * num;
+  let tolerance = 1e-5 * num;
   if (denom !== 0.0) {
     outObj.t = num / denom;
   }
@@ -554,9 +569,9 @@ function distanceToLine(x, p1, p2, closestPoint = null) {
     closest = p2;
   } else {
     closest = p21;
-    p21[0] = p1[0] + (outObj.t * p21[0]);
-    p21[1] = p1[1] + (outObj.t * p21[1]);
-    p21[2] = p1[2] + (outObj.t * p21[2]);
+    p21[0] = p1[0] + outObj.t * p21[0];
+    p21[1] = p1[1] + outObj.t * p21[1];
+    p21[2] = p1[2] + outObj.t * p21[2];
   }
 &nbsp;
   if (closestPoint) {
@@ -622,7 +637,7 @@ function intersection(a1, a2, b1, b2, u, v) {
   v[0] = c[1];
 &nbsp;
   // Check parametric coordinates for intersection.
-  if ((u[0] &gt;= 0.0) &amp;&amp; (u[0] &lt;= 1.0) &amp;&amp; (v[0] &gt;= 0.0) &amp;&amp; (v[0] &lt;= 1.0)) {
+  if (u[0] &gt;= 0.0 &amp;&amp; u[0] &lt;= 1.0 &amp;&amp; v[0] &gt;= 0.0 &amp;&amp; v[0] &lt;= 1.0) {
     return IntersectionState.YES_INTERSECTION;
   }
 &nbsp;
@@ -667,10 +682,10 @@ function vtkLine(publicAPI, model) {
     if (intersect === IntersectionState.YES_INTERSECTION) {
       // make sure we are within tolerance
       for (let i = 0; i &lt; 3; i++) {
-        x[i] = a1[i] + (pcoords[0] * (a2[i] - a1[i]));
-        projXYZ[i] = p1[i] + (outObj.t * (p2[i] - p1[i]));
+        x[i] = a1[i] + pcoords[0] * (a2[i] - a1[i]);
+        projXYZ[i] = p1[i] + outObj.t * (p2[i] - p1[i]);
       }
-      <span class="missing-if-branch" title="else path not taken" >E</span>if (vtkMath.distance2BetweenPoints(x, projXYZ) &lt;= (tol * tol)) {
+      <span class="missing-if-branch" title="else path not taken" >E</span>if (vtkMath.distance2BetweenPoints(x, projXYZ) &lt;= tol * tol) {
         outObj.intersect = 1;
         return outObj;
       }
@@ -682,7 +697,7 @@ function vtkLine(publicAPI, model) {
 <span class="cstat-no" title="statement not covered" >        outObj.t = 0.0;</span>
 <span class="cstat-no" title="statement not covered" >        outDistance = distanceToLine(p1, a1, a2, x);</span>
 <span class="cstat-no" title="statement not covered" >        pcoords[0] = outDistance.t;</span>
-<span class="cstat-no" title="statement not covered" >        if (outDistance.distance &lt;= (tol * tol)) {</span>
+<span class="cstat-no" title="statement not covered" >        if (outDistance.distance &lt;= tol * tol) {</span>
 <span class="cstat-no" title="statement not covered" >          outObj.intersect = 1;</span>
 <span class="cstat-no" title="statement not covered" >          return outObj;</span>
         }
@@ -692,7 +707,7 @@ function vtkLine(publicAPI, model) {
         outObj.t = 1.0;
         outDistance = distanceToLine(p2, a1, a2, x);
         pcoords[0] = outDistance.t;
-        <span class="missing-if-branch" title="if path not taken" >I</span>if (outDistance.distance &lt;= (tol * tol)) {
+        <span class="missing-if-branch" title="if path not taken" >I</span>if (outDistance.distance &lt;= tol * tol) {
 <span class="cstat-no" title="statement not covered" >          outObj.intersect = 1;</span>
 <span class="cstat-no" title="statement not covered" >          return outObj;</span>
         }
@@ -702,7 +717,7 @@ function vtkLine(publicAPI, model) {
 <span class="cstat-no" title="statement not covered" >        pcoords[0] = 0.0;</span>
 <span class="cstat-no" title="statement not covered" >        outDistance = distanceToLine(a1, p1, p2, x);</span>
 <span class="cstat-no" title="statement not covered" >        outObj.t = outDistance.t;</span>
-<span class="cstat-no" title="statement not covered" >        if (outDistance.distance &lt;= (tol * tol)) {</span>
+<span class="cstat-no" title="statement not covered" >        if (outDistance.distance &lt;= tol * tol) {</span>
 <span class="cstat-no" title="statement not covered" >          outObj.intersect = 1;</span>
 <span class="cstat-no" title="statement not covered" >          return outObj;</span>
         }
@@ -712,7 +727,7 @@ function vtkLine(publicAPI, model) {
 <span class="cstat-no" title="statement not covered" >        pcoords[1] = 1.0;</span>
 <span class="cstat-no" title="statement not covered" >        outDistance = distanceToLine(a2, p1, p2, x);</span>
 <span class="cstat-no" title="statement not covered" >        outObj.t = outDistance.t;</span>
-<span class="cstat-no" title="statement not covered" >        if (outDistance.distance &lt;= (tol * tol)) {</span>
+<span class="cstat-no" title="statement not covered" >        if (outDistance.distance &lt;= tol * tol) {</span>
 <span class="cstat-no" title="statement not covered" >          outObj.intersect = 1;</span>
 <span class="cstat-no" title="statement not covered" >          return outObj;</span>
         }
@@ -721,15 +736,21 @@ function vtkLine(publicAPI, model) {
     }
     return outObj;
   };
-  publicAPI.evaluatePosition = (x, closestPoint, subId, pcoords, dist2, weights) =&gt; <span class="fstat-no" title="function not covered" >{};</span> // virtual
+  publicAPI.evaluatePosition = (
+    x,
+    closestPoint,
+    subId,
+    pcoords,
+    dist2,
+    weights
+  ) =&gt; <span class="fstat-no" title="function not covered" >{};</span> // virtual
 }
 &nbsp;
 // ----------------------------------------------------------------------------
 // Object factory
 // ----------------------------------------------------------------------------
 &nbsp;
-const DEFAULT_VALUES = {
-};
+const DEFAULT_VALUES = {};
 &nbsp;
 // ----------------------------------------------------------------------------
 &nbsp;
@@ -754,7 +775,7 @@ export default Object.assign({ newInstance, extend }, STATIC, Constants);
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Jan 03 2018 19:31:35 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Jan 05 2018 16:03:50 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>

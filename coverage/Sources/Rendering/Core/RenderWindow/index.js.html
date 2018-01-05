@@ -35,9 +35,9 @@
         <span class='fraction'>6/20</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">50% </span>
+        <span class="strong">49.09% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>27/54</span>
+        <span class='fraction'>27/55</span>
       </div>
     </div>
   </div>
@@ -257,11 +257,15 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -286,10 +290,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-yes">1×</span>
@@ -335,11 +335,11 @@ function vtkRenderWindow(publicAPI, model) {
 &nbsp;
   // Remove renderer
   publicAPI.removeRenderer = (renderer) =&gt; <span class="fstat-no" title="function not covered" >{</span>
-<span class="cstat-no" title="statement not covered" >    model.renderers = model.renderers.filter(r =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >r !== renderer)</span></span>;</span>
+<span class="cstat-no" title="statement not covered" >    model.renderers = model.renderers.filter((r) =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >r !== renderer)</span></span>;</span>
 <span class="cstat-no" title="statement not covered" >    publicAPI.modified();</span>
   };
 &nbsp;
-  publicAPI.hasRenderer = ren =&gt; model.renderers.indexOf(ren) !== -1;
+  publicAPI.hasRenderer = (ren) =&gt; model.renderers.indexOf(ren) !== -1;
 &nbsp;
   // Add renderer
   publicAPI.addView = (view) =&gt; {
@@ -353,17 +353,17 @@ function vtkRenderWindow(publicAPI, model) {
 &nbsp;
   // Remove renderer
   publicAPI.removeView = (view) =&gt; <span class="fstat-no" title="function not covered" >{</span>
-<span class="cstat-no" title="statement not covered" >    model.views = model.views.filter(r =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >r !== view)</span></span>;</span>
+<span class="cstat-no" title="statement not covered" >    model.views = model.views.filter((r) =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >r !== view)</span></span>;</span>
 <span class="cstat-no" title="statement not covered" >    publicAPI.modified();</span>
   };
 &nbsp;
-  publicAPI.hasView = view =&gt; model.views.indexOf(view) !== -1;
+  publicAPI.hasView = (view) =&gt; model.views.indexOf(view) !== -1;
 &nbsp;
   publicAPI.render = () =&gt; <span class="fstat-no" title="function not covered" >{</span>
 <span class="cstat-no" title="statement not covered" >    if (model.interactor) {</span>
 <span class="cstat-no" title="statement not covered" >      model.interactor.render();</span>
     } else {
-<span class="cstat-no" title="statement not covered" >      model.views.forEach(view =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >view.traverseAllPasses())</span></span>;</span>
+<span class="cstat-no" title="statement not covered" >      model.views.forEach((view) =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >view.traverseAllPasses())</span></span>;</span>
     }
   };
 &nbsp;
@@ -385,15 +385,19 @@ function vtkRenderWindow(publicAPI, model) {
         }
       });
     });
-<span class="cstat-no" title="statement not covered" >    results.str = Object.keys(results).map(keyName =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >`${keyName}: ${results[keyName]}`)</span></span>.join('\n');</span>
+<span class="cstat-no" title="statement not covered" >    results.str = Object.keys(results)</span>
+      .map((keyName) =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >`${keyName}: ${results[keyName]}`)</span></span>
+      .join('\n');
 <span class="cstat-no" title="statement not covered" >    return results;</span>
   };
 &nbsp;
   publicAPI.captureImages = (format = 'image/png') =&gt; <span class="fstat-no" title="function not covered" >{</span>
 <span class="cstat-no" title="statement not covered" >    publicAPI.render();</span>
 <span class="cstat-no" title="statement not covered" >    return model.views</span>
-      .map(view =&gt; (<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >view.captureImage ? view.captureImage(format) : undefined)</span></span>)
-      .filter(i =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >!!i)</span></span>;
+      .map(
+        (view) =&gt; (<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >view.captureImage ? view.captureImage(format) : undefined)</span></span>
+      )
+      .filter((i) =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >!!i)</span></span>;
   };
 }
 &nbsp;
@@ -416,11 +420,7 @@ export function extend(publicAPI, model, initialValues = {}) {
 &nbsp;
   // Build VTK API
   macro.obj(publicAPI, model);
-  macro.setGet(publicAPI, model, [
-    'interactor',
-    'numberOfLayers',
-    'views',
-  ]);
+  macro.setGet(publicAPI, model, ['interactor', 'numberOfLayers', 'views']);
   macro.get(publicAPI, model, ['neverRendered']);
   macro.getArray(publicAPI, model, ['renderers']);
   macro.event(publicAPI, model, 'completion');
@@ -442,7 +442,7 @@ export default { newInstance, extend };
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Jan 03 2018 19:31:35 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Jan 05 2018 16:03:50 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>

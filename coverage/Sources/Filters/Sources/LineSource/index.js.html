@@ -144,11 +144,7 @@
 99
 100
 101
-102
-103
-104
-105
-106</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+102</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -171,6 +167,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -190,7 +188,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -236,12 +233,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -253,9 +245,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import macro       from 'vtk.js/Sources/macro';
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import macro from 'vtk.js/Sources/macro';
 import vtkPolyData from 'vtk.js/Sources/Common/DataModel/PolyData';
-import vtkMath     from 'vtk.js/Sources/Common/Core/Math';
+import vtkMath from 'vtk.js/Sources/Common/Core/Math';
 &nbsp;
 const { vtkWarningMacro } = macro;
 &nbsp;
@@ -275,7 +267,9 @@ function vtkLineSource(publicAPI, model) <span class="fstat-no" title="function 
     const dataset = <span class="cstat-no" title="statement not covered" >outData[0];</span>
 &nbsp;
     // Check input
-    const pointDataType = <span class="cstat-no" title="statement not covered" >dataset ? dataset.getPoints().getDataType() : 'Float32Array';</span>
+    const pointDataType = <span class="cstat-no" title="statement not covered" >dataset</span>
+      ? dataset.getPoints().getDataType()
+      : 'Float32Array';
     const pd = <span class="cstat-no" title="statement not covered" >vtkPolyData.newInstance();</span>
     const v21 = <span class="cstat-no" title="statement not covered" >new Float32Array(3);</span>
 <span class="cstat-no" title="statement not covered" >    vtkMath.subtract(model.point2, model.point1, v21);</span>
@@ -296,15 +290,14 @@ function vtkLineSource(publicAPI, model) <span class="fstat-no" title="function 
     const lines = <span class="cstat-no" title="statement not covered" >new Uint32Array(numPts + 1);</span>
 <span class="cstat-no" title="statement not covered" >    pd.getLines().setData(lines, 1);</span>
 &nbsp;
-&nbsp;
     let idx = <span class="cstat-no" title="statement not covered" >0;</span>
     let t = <span class="cstat-no" title="statement not covered" >0.0;</span>
-<span class="cstat-no" title="statement not covered" >    for (let i = 0; i &lt; (xres + 1); i++) {</span>
+<span class="cstat-no" title="statement not covered" >    for (let i = 0; i &lt; xres + 1; i++) {</span>
 <span class="cstat-no" title="statement not covered" >      t = i / xres;</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      points[(idx * 3)] = model.point1[0] + (t * v21[0]);</span>
-<span class="cstat-no" title="statement not covered" >      points[(idx * 3) + 1] = model.point1[1] + (t * v21[1]);</span>
-<span class="cstat-no" title="statement not covered" >      points[(idx * 3) + 2] = model.point1[2] + (t * v21[2]);</span>
+<span class="cstat-no" title="statement not covered" >      points[idx * 3] = model.point1[0] + t * v21[0];</span>
+<span class="cstat-no" title="statement not covered" >      points[idx * 3 + 1] = model.point1[1] + t * v21[1];</span>
+<span class="cstat-no" title="statement not covered" >      points[idx * 3 + 2] = model.point1[2] + t * v21[2];</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >      idx++;</span>
     }
@@ -340,13 +333,8 @@ export function extend(publicAPI, model, initialValues = {}) <span class="fstat-
 &nbsp;
   // Build VTK API
 <span class="cstat-no" title="statement not covered" >  macro.obj(publicAPI, model);</span>
-<span class="cstat-no" title="statement not covered" >  macro.setGet(publicAPI, model, [</span>
-    'resolution',
-  ]);
-<span class="cstat-no" title="statement not covered" >  macro.setGetArray(publicAPI, model, [</span>
-    'point1',
-    'point2',
-  ], 3);
+<span class="cstat-no" title="statement not covered" >  macro.setGet(publicAPI, model, ['resolution']);</span>
+<span class="cstat-no" title="statement not covered" >  macro.setGetArray(publicAPI, model, ['point1', 'point2'], 3);</span>
 <span class="cstat-no" title="statement not covered" >  macro.algo(publicAPI, model, 0, 1);</span>
 <span class="cstat-no" title="statement not covered" >  vtkLineSource(publicAPI, model);</span>
 }
@@ -364,7 +352,7 @@ export default { newInstance, extend };
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Jan 03 2018 19:31:35 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Jan 05 2018 16:03:50 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>

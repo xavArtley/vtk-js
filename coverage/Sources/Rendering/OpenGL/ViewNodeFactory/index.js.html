@@ -116,7 +116,32 @@
 71
 72
 73
-74</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -153,7 +178,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -167,19 +191,6 @@
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -187,26 +198,65 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import macro                   from 'vtk.js/Sources/macro';
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import macro from 'vtk.js/Sources/macro';
 import vtkGenericWidgetRepresentation from 'vtk.js/Sources/Rendering/SceneGraph/GenericWidgetRepresentation';
-import vtkViewNodeFactory      from 'vtk.js/Sources/Rendering/SceneGraph/ViewNodeFactory';
-import vtkOpenGLActor          from 'vtk.js/Sources/Rendering/OpenGL/Actor';
-import vtkOpenGLActor2D        from 'vtk.js/Sources/Rendering/OpenGL/Actor2D';
-import vtkOpenGLCamera         from 'vtk.js/Sources/Rendering/OpenGL/Camera';
-import vtkOpenGLGlyph3DMapper  from 'vtk.js/Sources/Rendering/OpenGL/Glyph3DMapper';
-import vtkOpenGLImageMapper    from 'vtk.js/Sources/Rendering/OpenGL/ImageMapper';
-import vtkOpenGLImageSlice     from 'vtk.js/Sources/Rendering/OpenGL/ImageSlice';
+import vtkViewNodeFactory from 'vtk.js/Sources/Rendering/SceneGraph/ViewNodeFactory';
+import vtkOpenGLActor from 'vtk.js/Sources/Rendering/OpenGL/Actor';
+import vtkOpenGLActor2D from 'vtk.js/Sources/Rendering/OpenGL/Actor2D';
+import vtkOpenGLCamera from 'vtk.js/Sources/Rendering/OpenGL/Camera';
+import vtkOpenGLGlyph3DMapper from 'vtk.js/Sources/Rendering/OpenGL/Glyph3DMapper';
+import vtkOpenGLImageMapper from 'vtk.js/Sources/Rendering/OpenGL/ImageMapper';
+import vtkOpenGLImageSlice from 'vtk.js/Sources/Rendering/OpenGL/ImageSlice';
 import vtkOpenGLPixelSpaceCallbackMapper from 'vtk.js/Sources/Rendering/OpenGL/PixelSpaceCallbackMapper';
 import vtkOpenGLPolyDataMapper from 'vtk.js/Sources/Rendering/OpenGL/PolyDataMapper';
-import vtkOpenGLRenderWindow   from 'vtk.js/Sources/Rendering/OpenGL/RenderWindow';
-import vtkOpenGLRenderer       from 'vtk.js/Sources/Rendering/OpenGL/Renderer';
-import vtkOpenGLSphereMapper   from 'vtk.js/Sources/Rendering/OpenGL/SphereMapper';
-import vtkOpenGLStickMapper    from 'vtk.js/Sources/Rendering/OpenGL/StickMapper';
-import vtkOpenGLTexture        from 'vtk.js/Sources/Rendering/OpenGL/Texture';
-import vtkOpenGLVolume         from 'vtk.js/Sources/Rendering/OpenGL/Volume';
-import vtkOpenGLVolumeMapper   from 'vtk.js/Sources/Rendering/OpenGL/VolumeMapper';
+import vtkOpenGLRenderWindow from 'vtk.js/Sources/Rendering/OpenGL/RenderWindow';
+import vtkOpenGLRenderer from 'vtk.js/Sources/Rendering/OpenGL/Renderer';
+import vtkOpenGLSphereMapper from 'vtk.js/Sources/Rendering/OpenGL/SphereMapper';
+import vtkOpenGLStickMapper from 'vtk.js/Sources/Rendering/OpenGL/StickMapper';
+import vtkOpenGLTexture from 'vtk.js/Sources/Rendering/OpenGL/Texture';
+import vtkOpenGLVolume from 'vtk.js/Sources/Rendering/OpenGL/Volume';
+import vtkOpenGLVolumeMapper from 'vtk.js/Sources/Rendering/OpenGL/VolumeMapper';
 &nbsp;
 // ----------------------------------------------------------------------------
 // vtkOpenGLViewNodeFactory methods
@@ -221,8 +271,7 @@ function vtkOpenGLViewNodeFactory(publicAPI, model) {
 // Object factory
 // ----------------------------------------------------------------------------
 &nbsp;
-const DEFAULT_VALUES = {
-};
+const DEFAULT_VALUES = {};
 &nbsp;
 // ----------------------------------------------------------------------------
 &nbsp;
@@ -239,36 +288,62 @@ export function extend(publicAPI, model, initialValues = {}) {
   publicAPI.registerOverride('vtkActor', vtkOpenGLActor.newInstance);
   publicAPI.registerOverride('vtkActor2D', vtkOpenGLActor2D.newInstance);
   publicAPI.registerOverride('vtkCamera', vtkOpenGLCamera.newInstance);
-  publicAPI.registerOverride('vtkGlyph3DMapper', vtkOpenGLGlyph3DMapper.newInstance);
-  publicAPI.registerOverride('vtkImageMapper', vtkOpenGLImageMapper.newInstance);
+  publicAPI.registerOverride(
+    'vtkGlyph3DMapper',
+    vtkOpenGLGlyph3DMapper.newInstance
+  );
+  publicAPI.registerOverride(
+    'vtkImageMapper',
+    vtkOpenGLImageMapper.newInstance
+  );
   publicAPI.registerOverride('vtkImageSlice', vtkOpenGLImageSlice.newInstance);
   publicAPI.registerOverride('vtkMapper', vtkOpenGLPolyDataMapper.newInstance);
-  publicAPI.registerOverride('vtkPixelSpaceCallbackMapper', vtkOpenGLPixelSpaceCallbackMapper.newInstance);
-  publicAPI.registerOverride('vtkRenderWindow', vtkOpenGLRenderWindow.newInstance);
+  publicAPI.registerOverride(
+    'vtkPixelSpaceCallbackMapper',
+    vtkOpenGLPixelSpaceCallbackMapper.newInstance
+  );
+  publicAPI.registerOverride(
+    'vtkRenderWindow',
+    vtkOpenGLRenderWindow.newInstance
+  );
   publicAPI.registerOverride('vtkRenderer', vtkOpenGLRenderer.newInstance);
-  publicAPI.registerOverride('vtkSphereMapper', vtkOpenGLSphereMapper.newInstance);
-  publicAPI.registerOverride('vtkStickMapper', vtkOpenGLStickMapper.newInstance);
+  publicAPI.registerOverride(
+    'vtkSphereMapper',
+    vtkOpenGLSphereMapper.newInstance
+  );
+  publicAPI.registerOverride(
+    'vtkStickMapper',
+    vtkOpenGLStickMapper.newInstance
+  );
   publicAPI.registerOverride('vtkTexture', vtkOpenGLTexture.newInstance);
   publicAPI.registerOverride('vtkVolume', vtkOpenGLVolume.newInstance);
-  publicAPI.registerOverride('vtkVolumeMapper', vtkOpenGLVolumeMapper.newInstance);
-  publicAPI.registerOverride('vtkWidgetRepresentation', vtkGenericWidgetRepresentation.newInstance);
+  publicAPI.registerOverride(
+    'vtkVolumeMapper',
+    vtkOpenGLVolumeMapper.newInstance
+  );
+  publicAPI.registerOverride(
+    'vtkWidgetRepresentation',
+    vtkGenericWidgetRepresentation.newInstance
+  );
 }
 &nbsp;
 // ----------------------------------------------------------------------------
 &nbsp;
-export const newInstance = macro.newInstance(extend, 'vtkOpenGLViewNodeFactory');
+export const newInstance = macro.newInstance(
+  extend,
+  'vtkOpenGLViewNodeFactory'
+);
 &nbsp;
 // ----------------------------------------------------------------------------
 &nbsp;
 export default { newInstance, extend };
-&nbsp;
 &nbsp;</pre></td></tr>
 </table></pre>
 <div class='push'></div><!-- for sticky footer -->
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Jan 03 2018 19:31:35 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Jan 05 2018 16:03:50 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>

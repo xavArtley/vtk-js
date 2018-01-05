@@ -35,9 +35,9 @@
         <span class='fraction'>0/14</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">6% </span>
+        <span class="strong">5.77% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>3/50</span>
+        <span class='fraction'>3/52</span>
       </div>
     </div>
   </div>
@@ -167,7 +167,11 @@
 122
 123
 124
-125</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+125
+126
+127
+128
+129</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -217,7 +221,9 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -264,6 +270,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -307,7 +315,7 @@ function vtkStringArray(publicAPI, model) <span class="fstat-no" title="function
   // Return the data component at the location specified by tupleIdx and
   // compIdx.
 <span class="cstat-no" title="statement not covered" >  publicAPI.getComponent = (tupleIdx, compIdx = 0) =&gt;</span>
-<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >    model.values[(tupleIdx * model.numberOfComponents) + compIdx];</span></span>
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >    model.values[tupleIdx * model.numberOfComponents + compIdx];</span></span>
 &nbsp;
   // Description:
   // Set the data component at the location specified by tupleIdx and compIdx
@@ -316,8 +324,8 @@ function vtkStringArray(publicAPI, model) <span class="fstat-no" title="function
   //  NumberOfComponents. Make sure enough memory has been allocated
   // (use SetNumberOfTuples() and SetNumberOfComponents()).
 <span class="cstat-no" title="statement not covered" >  publicAPI.setComponent = (tupleIdx, compIdx, value) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
-<span class="cstat-no" title="statement not covered" >    if (value !== model.values[(tupleIdx * model.numberOfComponents) + compIdx]) {</span>
-<span class="cstat-no" title="statement not covered" >      model.values[(tupleIdx * model.numberOfComponents) + compIdx] = value;</span>
+<span class="cstat-no" title="statement not covered" >    if (value !== model.values[tupleIdx * model.numberOfComponents + compIdx]) {</span>
+<span class="cstat-no" title="statement not covered" >      model.values[tupleIdx * model.numberOfComponents + compIdx] = value;</span>
 <span class="cstat-no" title="statement not covered" >      publicAPI.modified();</span>
     }
   };
@@ -339,13 +347,15 @@ function vtkStringArray(publicAPI, model) <span class="fstat-no" title="function
 <span class="cstat-no" title="statement not covered" >  publicAPI.getTupleLocation = (idx = 1) =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >idx * model.numberOfComponents;</span></span></span>
 <span class="cstat-no" title="statement not covered" >  publicAPI.getNumberOfComponents = () =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >model.numberOfComponents;</span></span></span>
 <span class="cstat-no" title="statement not covered" >  publicAPI.getNumberOfValues = () =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >model.values.length;</span></span></span>
-<span class="cstat-no" title="statement not covered" >  publicAPI.getNumberOfTuples = () =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >model.values.length / model.numberOfComponents;</span></span></span>
+<span class="cstat-no" title="statement not covered" >  publicAPI.getNumberOfTuples = () =&gt;</span>
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >    model.values.length / model.numberOfComponents;</span></span>
 <span class="cstat-no" title="statement not covered" >  publicAPI.getDataType = () =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >model.dataType;</span></span></span>
   /* eslint-disable no-use-before-define */
-<span class="cstat-no" title="statement not covered" >  publicAPI.newClone = () =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >newInstance({</span></span></span>
-    name: model.name,
-    numberOfComponents: model.numberOfComponents,
-  });
+<span class="cstat-no" title="statement not covered" >  publicAPI.newClone = () =&gt;</span>
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >    newInstance({</span></span>
+      name: model.name,
+      numberOfComponents: model.numberOfComponents,
+    });
   /* eslint-enable no-use-before-define */
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  publicAPI.getName = () =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
@@ -386,8 +396,10 @@ const DEFAULT_VALUES = {
 export function extend(publicAPI, model, initialValues = {}) <span class="fstat-no" title="function not covered" >{</span>
 <span class="cstat-no" title="statement not covered" >  Object.assign(model, DEFAULT_VALUES, initialValues);</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  if ((!model.empty &amp;&amp; !model.values &amp;&amp; !model.size)) {</span>
-<span class="cstat-no" title="statement not covered" >    throw new TypeError('Cannot create vtkStringArray object without: size &gt; 0, values');</span>
+<span class="cstat-no" title="statement not covered" >  if (!model.empty &amp;&amp; !model.values &amp;&amp; !model.size) {</span>
+<span class="cstat-no" title="statement not covered" >    throw new TypeError(</span>
+      'Cannot create vtkStringArray object without: size &gt; 0, values'
+    );
   }
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  if (!model.values) {</span>
@@ -421,7 +433,7 @@ export default { newInstance, extend };
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Jan 03 2018 19:31:35 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Jan 05 2018 16:03:50 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>

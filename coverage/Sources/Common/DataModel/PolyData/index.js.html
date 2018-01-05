@@ -35,9 +35,9 @@
         <span class='fraction'>5/8</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">94.12% </span>
+        <span class="strong">84.21% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>16/17</span>
+        <span class='fraction'>16/19</span>
       </div>
     </div>
   </div>
@@ -109,8 +109,15 @@
 64
 65
 66
-67</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+67
+68
+69
+70
+71
+72
+73
+74
+75</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -127,12 +134,18 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">112×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">112×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">28×</span>
 <span class="cline-any cline-yes">112×</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">112×</span>
 <span class="cline-any cline-yes">107×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -142,6 +155,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">28×</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -175,11 +191,10 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import macro        from 'vtk.js/Sources/macro';
-import vtk          from 'vtk.js/Sources/vtk';
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import macro from 'vtk.js/Sources/macro';
+import vtk from 'vtk.js/Sources/vtk';
 import vtkCellArray from 'vtk.js/Sources/Common/Core/CellArray';
-import vtkPointSet  from 'vtk.js/Sources/Common/DataModel/PointSet';
-&nbsp;
+import vtkPointSet from 'vtk.js/Sources/Common/DataModel/PointSet';
 &nbsp;
 const POLYDATA_FIELDS = ['verts', 'lines', 'polys', 'strips'];
 &nbsp;
@@ -192,13 +207,19 @@ function vtkPolyData(publicAPI, model) {
   model.classHierarchy.push('vtkPolyData');
 &nbsp;
   function camelize(str) {
-    return str.replace(/(?:^\w|[A-Z]|\b\w)/g, (letter, index) =&gt;
-      (index === 0 ? letter.toLowerCase() : <span class="branch-1 cbranch-no" title="branch not covered" >letter.toUpperCase())</span>).replace(/\s+/g, '');
+    return str
+      .replace(
+        /(?:^\w|[A-Z]|\b\w)/g,
+        (letter, index) =&gt;
+          index === 0 ? letter.toLowerCase() : <span class="branch-1 cbranch-no" title="branch not covered" >letter.toUpperCase()</span>
+      )
+      .replace(/\s+/g, '');
   }
 &nbsp;
   // build empty cell arrays and set methods
   POLYDATA_FIELDS.forEach((type) =&gt; {
-    publicAPI[`getNumberOf${camelize(type)}`] = () =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >model[type].getNumberOfCells();</span></span>
+    publicAPI[`getNumberOf${camelize(type)}`] = () =&gt;
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >      model[type].getNumberOfCells();</span></span>
     if (!model[type]) {
       model[type] = vtkCellArray.newInstance();
     } else {
@@ -206,8 +227,11 @@ function vtkPolyData(publicAPI, model) {
     }
   });
 &nbsp;
-  publicAPI.getNumberOfCells = () =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >POLYDATA_FIELDS.reduce(</span></span>
-    (num, cellType) =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >num + model[cellType].getNumberOfCells(),</span></span> 0);
+  publicAPI.getNumberOfCells = () =&gt;
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >    POLYDATA_FIELDS.reduce(</span></span>
+      (num, cellType) =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >num + model[cellType].getNumberOfCells(),</span></span>
+      0
+    );
 }
 &nbsp;
 // ----------------------------------------------------------------------------
@@ -247,7 +271,7 @@ export default { newInstance, extend };
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Jan 03 2018 19:31:35 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Jan 05 2018 16:03:50 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>

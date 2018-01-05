@@ -145,11 +145,31 @@
 100
 101
 102
-103</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -162,6 +182,8 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -171,7 +193,12 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -238,7 +265,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -251,7 +277,14 @@
 &nbsp;
 let REMOVE_DOM_ELEMENTS = true;
 &nbsp;
-function compareImages(image, baselines, testName, tapeContext, threshold = 0.5, nextCallback = null) <span class="fstat-no" title="function not covered" >{</span>
+function compareImages(
+  image,
+  baselines,
+  testName,
+  tapeContext,
+  threshold = 0.5,
+  nextCallback = null
+) <span class="fstat-no" title="function not covered" >{</span>
   const nbBaselines = <span class="cstat-no" title="statement not covered" >baselines.length;</span>
   let minDelta = <span class="cstat-no" title="statement not covered" >100;</span>
   let isSameDimensions = <span class="cstat-no" title="statement not covered" >false;</span>
@@ -261,7 +294,9 @@ function compareImages(image, baselines, testName, tapeContext, threshold = 0.5,
 <span class="cstat-no" title="statement not covered" >    tapeContext.ok(isSameDimensions, 'Image match resolution');</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    if (minDelta &gt;= threshold) {</span>
-<span class="cstat-no" title="statement not covered" >      tapeContext.fail(`&lt;img src="${image}" /&gt; vs &lt;img src="${baselines[0]}" /&gt;`);</span>
+<span class="cstat-no" title="statement not covered" >      tapeContext.fail(</span>
+        `&lt;img src="${image}" /&gt; vs &lt;img src="${baselines[0]}" /&gt;`
+      );
     }
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    if (nextCallback) {</span>
@@ -272,14 +307,19 @@ function compareImages(image, baselines, testName, tapeContext, threshold = 0.5,
   }
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  baselines.forEach((baseline, idx) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
-<span class="cstat-no" title="statement not covered" >    resemble(baseline).compareTo(image).onComplete((data) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
-<span class="cstat-no" title="statement not covered" >      minDelta = (minDelta &lt; data.misMatchPercentage) ? minDelta : data.misMatchPercentage;</span>
-<span class="cstat-no" title="statement not covered" >      isSameDimensions = isSameDimensions || data.isSameDimensions;</span>
+<span class="cstat-no" title="statement not covered" >    resemble(baseline)</span>
+      .compareTo(image)
+      .onComplete((data) =&gt; <span class="fstat-no" title="function not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >        minDelta =</span>
+          minDelta &lt; data.misMatchPercentage
+            ? minDelta
+            : data.misMatchPercentage;
+<span class="cstat-no" title="statement not covered" >        isSameDimensions = isSameDimensions || data.isSameDimensions;</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      if (idx + 1 === nbBaselines) {</span>
-<span class="cstat-no" title="statement not covered" >        done();</span>
-      }
-    });
+<span class="cstat-no" title="statement not covered" >        if (idx + 1 === nbBaselines) {</span>
+<span class="cstat-no" title="statement not covered" >          done();</span>
+        }
+      });
   });
 }
 &nbsp;
@@ -311,7 +351,7 @@ function createGarbageCollector(testContext) {
     }
 &nbsp;
     // vtkObject handling
-<span class="cstat-no" title="statement not covered" >    resources.sort((a, b) =&gt; (<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >b.priority - a.priority)</span></span>);</span>
+<span class="cstat-no" title="statement not covered" >    resources.sort((a, b) =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >b.priority - a.priority)</span></span>;</span>
 <span class="cstat-no" title="statement not covered" >    resources.forEach(({ vtkObj }) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
 <span class="cstat-no" title="statement not covered" >      if (vtkObj) {</span>
 <span class="cstat-no" title="statement not covered" >        vtkObj.delete();</span>
@@ -342,7 +382,6 @@ function removeDOM() <span class="fstat-no" title="function not covered" >{</spa
 <span class="cstat-no" title="statement not covered" >  REMOVE_DOM_ELEMENTS = true;</span>
 }
 &nbsp;
-&nbsp;
 export default {
   compareImages,
   createGarbageCollector,
@@ -355,7 +394,7 @@ export default {
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Jan 03 2018 19:31:35 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Jan 05 2018 16:03:50 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../prettify.js"></script>

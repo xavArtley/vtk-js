@@ -103,16 +103,7 @@
 58
 59
 60
-61
-62
-63
-64
-65
-66
-67
-68</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+61</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -133,18 +124,15 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -165,8 +153,6 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -177,18 +163,16 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import macro    from   'vtk.js/Sources/macro';
-import vtkMath  from   'vtk.js/Sources/Common/Core/Math';
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import macro from 'vtk.js/Sources/macro';
+import vtkMath from 'vtk.js/Sources/Common/Core/Math';
 &nbsp;
 // ----------------------------------------------------------------------------
 // Global methods
 // ----------------------------------------------------------------------------
 &nbsp;
-&nbsp;
 // ----------------------------------------------------------------------------
 // Static API
 // ----------------------------------------------------------------------------
-&nbsp;
 &nbsp;
 // ----------------------------------------------------------------------------
 // vtkCone methods
@@ -200,18 +184,15 @@ function vtkCone(publicAPI, model) <span class="fstat-no" title="function not co
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  publicAPI.evaluateFunction = (x) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
     const tanTheta = <span class="cstat-no" title="statement not covered" >Math.tan(vtkMath.radiansFromDegrees(model.angle));</span>
-    const retVal = <span class="cstat-no" title="statement not covered" >(x[1] * x[1]) + (x[2] * x[2]) - (x[0] * x[0] * tanTheta * tanTheta);</span>
+    const retVal =
+<span class="cstat-no" title="statement not covered" >      x[1] * x[1] + x[2] * x[2] - x[0] * x[0] * tanTheta * tanTheta;</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    return retVal;</span>
   };
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  publicAPI.evaluateGradient = (x) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
     const tanTheta = <span class="cstat-no" title="statement not covered" >Math.tan(vtkMath.radiansFromDegrees(model.angle));</span>
-    const retVal = <span class="cstat-no" title="statement not covered" >[</span>
-      -2.0 * x[0] * tanTheta * tanTheta,
-      2.0 * x[1],
-      2.0 * x[2],
-    ];
+    const retVal = <span class="cstat-no" title="statement not covered" >[-2.0 * x[0] * tanTheta * tanTheta, 2.0 * x[1], 2.0 * x[2]];</span>
 <span class="cstat-no" title="statement not covered" >    return retVal;</span>
   };
 }
@@ -230,9 +211,7 @@ export function extend(publicAPI, model, initialValues = {}) <span class="fstat-
 &nbsp;
   // Object methods
 <span class="cstat-no" title="statement not covered" >  macro.obj(publicAPI, model);</span>
-<span class="cstat-no" title="statement not covered" >  macro.setGet(publicAPI, model, [</span>
-    'angle',
-  ]);
+<span class="cstat-no" title="statement not covered" >  macro.setGet(publicAPI, model, ['angle']);</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  vtkCone(publicAPI, model);</span>
 }
@@ -250,7 +229,7 @@ export default Object.assign({ newInstance, extend });
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Jan 03 2018 19:31:35 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Jan 05 2018 16:03:50 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>

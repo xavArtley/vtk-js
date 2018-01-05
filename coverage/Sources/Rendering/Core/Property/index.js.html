@@ -35,9 +35,9 @@
         <span class='fraction'>0/14</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">8.33% </span>
+        <span class="strong">6.82% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>3/36</span>
+        <span class='fraction'>3/44</span>
       </div>
     </div>
   </div>
@@ -174,7 +174,16 @@
 129
 130
 131
-132</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
@@ -219,16 +228,25 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -305,7 +323,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import macro     from 'vtk.js/Sources/macro';
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import macro from 'vtk.js/Sources/macro';
 import Constants from 'vtk.js/Sources/Rendering/Core/Property/Constants';
 &nbsp;
 const { Representation, Interpolation } = Constants;
@@ -339,15 +357,16 @@ function vtkProperty(publicAPI, model) <span class="fstat-no" title="function no
 <span class="cstat-no" title="statement not covered" >  publicAPI.getColor = () =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
     // Inline computeCompositeColor
     let norm = <span class="cstat-no" title="statement not covered" >0.0;</span>
-<span class="cstat-no" title="statement not covered" >    if ((model.ambient + model.diffuse + model.specular) &gt; 0) {</span>
+<span class="cstat-no" title="statement not covered" >    if (model.ambient + model.diffuse + model.specular &gt; 0) {</span>
 <span class="cstat-no" title="statement not covered" >      norm = 1.0 / (model.ambient + model.diffuse + model.specular);</span>
     }
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    for (let i = 0; i &lt; 3; i++) {</span>
-<span class="cstat-no" title="statement not covered" >      model.color[i] = norm * (</span>
-        (model.ambient * model.ambientColor[i]) +
-        (model.diffuse * model.diffuseColor[i]) +
-        (model.specular * model.specularColor[i]));
+<span class="cstat-no" title="statement not covered" >      model.color[i] =</span>
+        norm *
+        (model.ambient * model.ambientColor[i] +
+          model.diffuse * model.diffuseColor[i] +
+          model.specular * model.specularColor[i]);
     }
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    return [].concat(model.color);</span>
@@ -355,15 +374,23 @@ function vtkProperty(publicAPI, model) <span class="fstat-no" title="function no
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  publicAPI.addShaderVariable = notImplemented('AddShaderVariable');</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  publicAPI.setInterpolationToFlat = () =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >publicAPI.setInterpolation(Interpolation.FLAT);</span></span></span>
-<span class="cstat-no" title="statement not covered" >  publicAPI.setInterpolationToGouraud = () =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >publicAPI.setInterpolation(Interpolation.GOURAUD);</span></span></span>
-<span class="cstat-no" title="statement not covered" >  publicAPI.setInterpolationToPhong = () =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >publicAPI.setInterpolation(Interpolation.PHONG);</span></span></span>
-<span class="cstat-no" title="statement not covered" >  publicAPI.getInterpolationAsString = () =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >macro.enumToString(Interpolation, model.interpolation);</span></span></span>
+<span class="cstat-no" title="statement not covered" >  publicAPI.setInterpolationToFlat = () =&gt;</span>
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >    publicAPI.setInterpolation(Interpolation.FLAT);</span></span>
+<span class="cstat-no" title="statement not covered" >  publicAPI.setInterpolationToGouraud = () =&gt;</span>
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >    publicAPI.setInterpolation(Interpolation.GOURAUD);</span></span>
+<span class="cstat-no" title="statement not covered" >  publicAPI.setInterpolationToPhong = () =&gt;</span>
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >    publicAPI.setInterpolation(Interpolation.PHONG);</span></span>
+<span class="cstat-no" title="statement not covered" >  publicAPI.getInterpolationAsString = () =&gt;</span>
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >    macro.enumToString(Interpolation, model.interpolation);</span></span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  publicAPI.setRepresentationToWireframe = () =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >publicAPI.setRepresentation(Representation.WIREFRAME);</span></span></span>
-<span class="cstat-no" title="statement not covered" >  publicAPI.setRepresentationToSurface = () =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >publicAPI.setRepresentation(Representation.SURFACE);</span></span></span>
-<span class="cstat-no" title="statement not covered" >  publicAPI.setRepresentationToPoints = () =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >publicAPI.setRepresentation(Representation.POINTS);</span></span></span>
-<span class="cstat-no" title="statement not covered" >  publicAPI.getRepresentationAsString = () =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >macro.enumToString(Representation, model.representation);</span></span></span>
+<span class="cstat-no" title="statement not covered" >  publicAPI.setRepresentationToWireframe = () =&gt;</span>
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >    publicAPI.setRepresentation(Representation.WIREFRAME);</span></span>
+<span class="cstat-no" title="statement not covered" >  publicAPI.setRepresentationToSurface = () =&gt;</span>
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >    publicAPI.setRepresentation(Representation.SURFACE);</span></span>
+<span class="cstat-no" title="statement not covered" >  publicAPI.setRepresentationToPoints = () =&gt;</span>
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >    publicAPI.setRepresentation(Representation.POINTS);</span></span>
+<span class="cstat-no" title="statement not covered" >  publicAPI.getRepresentationAsString = () =&gt;</span>
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >    macro.enumToString(Representation, model.representation);</span></span>
 }
 &nbsp;
 // ----------------------------------------------------------------------------
@@ -418,12 +445,12 @@ export function extend(publicAPI, model, initialValues = {}) <span class="fstat-
     'frontfaceCulling',
     'representation',
   ]);
-<span class="cstat-no" title="statement not covered" >  macro.setGetArray(publicAPI, model, [</span>
-    'ambientColor',
-    'specularColor',
-    'diffuseColor',
-    'edgeColor',
-  ], 3);
+<span class="cstat-no" title="statement not covered" >  macro.setGetArray(</span>
+    publicAPI,
+    model,
+    ['ambientColor', 'specularColor', 'diffuseColor', 'edgeColor'],
+    3
+  );
 &nbsp;
   // Object methods
 <span class="cstat-no" title="statement not covered" >  vtkProperty(publicAPI, model);</span>
@@ -442,7 +469,7 @@ export default Object.assign({ newInstance, extend }, Constants);
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Jan 03 2018 19:31:35 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Jan 05 2018 16:03:50 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>

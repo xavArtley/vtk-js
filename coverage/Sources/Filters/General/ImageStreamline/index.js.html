@@ -332,7 +332,26 @@
 287
 288
 289
-290</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+290
+291
+292
+293
+294
+295
+296
+297
+298
+299
+300
+301
+302
+303
+304
+305
+306
+307
+308
+309</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
@@ -378,6 +397,10 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">6724×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -404,6 +427,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">20172×</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -411,6 +436,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">20172×</span>
 <span class="cline-any cline-yes">16×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -441,6 +468,14 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2×</span>
 <span class="cline-any cline-yes">6724×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">16×</span>
@@ -534,6 +569,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -555,6 +591,11 @@
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-yes">16×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">16×</span>
 <span class="cline-any cline-yes">16×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -608,9 +649,6 @@
 <span class="cline-any cline-yes">2×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -621,7 +659,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import macro       from 'vtk.js/Sources/macro';
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import macro from 'vtk.js/Sources/macro';
 import vtkPolyData from 'vtk.js/Sources/Common/DataModel/PolyData';
 &nbsp;
 const { vtkErrorMacro } = macro;
@@ -661,11 +699,15 @@ function vtkImageStreamline(publicAPI, model) {
     sf[7] = r * s * t;
   };
 &nbsp;
-  publicAPI.computeStructuredCoordinates = (x, ijk, pcoords,
-                                            extent,
-                                            spacing,
-                                            origin,
-                                            bounds) =&gt; {
+  publicAPI.computeStructuredCoordinates = (
+    x,
+    ijk,
+    pcoords,
+    extent,
+    spacing,
+    origin,
+    bounds
+  ) =&gt; {
     // tolerance is needed for 2D data (this is squared tolerance)
     const tol2 = 1e-12;
     //
@@ -681,7 +723,7 @@ function vtkImageStreamline(publicAPI, model) {
 &nbsp;
       let tmpInBounds = false;
       const minExt = extent[i * 2];
-      const maxExt = extent[(i * 2) + 1];
+      const maxExt = extent[i * 2 + 1];
 &nbsp;
       // check if data is one pixel thick
       <span class="missing-if-branch" title="if path not taken" >I</span>if (minExt === maxExt) {
@@ -692,15 +734,19 @@ function vtkImageStreamline(publicAPI, model) {
 <span class="cstat-no" title="statement not covered" >          tmpInBounds = true;</span>
         }
       } else <span class="missing-if-branch" title="if path not taken" >I</span>if (ijk[i] &lt; minExt) {
-<span class="cstat-no" title="statement not covered" >        if ((spacing[i] &gt;= 0 &amp;&amp; x[i] &gt;= bounds[i * 2]) ||</span>
-             (spacing[i] &lt; 0 &amp;&amp; x[i] &lt;= bounds[(i * 2) + 1])) {
+<span class="cstat-no" title="statement not covered" >        if (</span>
+          (spacing[i] &gt;= 0 &amp;&amp; x[i] &gt;= bounds[i * 2]) ||
+          (spacing[i] &lt; 0 &amp;&amp; x[i] &lt;= bounds[i * 2 + 1])
+        ) {
 <span class="cstat-no" title="statement not covered" >          pcoords[i] = 0.0;</span>
 <span class="cstat-no" title="statement not covered" >          ijk[i] = minExt;</span>
 <span class="cstat-no" title="statement not covered" >          tmpInBounds = true;</span>
         }
       } else if (ijk[i] &gt;= maxExt) {
-        <span class="missing-if-branch" title="if path not taken" >I</span>if ((spacing[i] &gt;= 0 &amp;&amp; x[i] &lt;= bounds[(i * 2) + 1]) ||
-             (spacing[i] &lt; 0 &amp;&amp; <span class="branch-3 cbranch-no" title="branch not covered" >x[i] &gt;= bounds[(i * 2)])</span>) {
+        <span class="missing-if-branch" title="if path not taken" >I</span>if (
+          (spacing[i] &gt;= 0 &amp;&amp; x[i] &lt;= bounds[i * 2 + 1]) ||
+          (spacing[i] &lt; 0 &amp;&amp; <span class="branch-3 cbranch-no" title="branch not covered" >x[i] &gt;= bounds[i * 2])</span>
+        ) {
           // make sure index is within the allowed cell index range
 <span class="cstat-no" title="statement not covered" >          pcoords[i] = 1.0;</span>
 <span class="cstat-no" title="statement not covered" >          ijk[i] = maxExt - 1;</span>
@@ -718,20 +764,28 @@ function vtkImageStreamline(publicAPI, model) {
   };
 &nbsp;
   publicAPI.getVoxelIndices = (ijk, dims, ids) =&gt; {
-    ids[0] = (ijk[2] * dims[0] * dims[1]) + (ijk[1] * dims[0]) + ijk[0];
+    ids[0] = ijk[2] * dims[0] * dims[1] + ijk[1] * dims[0] + ijk[0];
     ids[1] = ids[0] + 1; // i+1, j, k
     ids[2] = ids[0] + dims[0]; // i, j+1, k
     ids[3] = ids[2] + 1; // i+1, j+1, k
-    ids[4] = ids[0] + (dims[0] * dims[1]); // i, j, k+1
+    ids[4] = ids[0] + dims[0] * dims[1]; // i, j, k+1
     ids[5] = ids[4] + 1; // i+1, j, k+1
     ids[6] = ids[4] + dims[0]; // i, j+1, k+1
     ids[7] = ids[6] + 1; // i+1, j+1, k+1
   };
 &nbsp;
   publicAPI.vectorAt = (xyz, velArray, image, velAtArg) =&gt; {
-    if (!publicAPI.computeStructuredCoordinates(xyz, indices, paramCoords,
-      image.getExtent(), image.getSpacing(),
-      image.getOrigin(), image.getBounds())) {
+    if (
+      !publicAPI.computeStructuredCoordinates(
+        xyz,
+        indices,
+        paramCoords,
+        image.getExtent(),
+        image.getSpacing(),
+        image.getOrigin(),
+        image.getBounds()
+      )
+    ) {
       return false;
     }
 &nbsp;
@@ -763,7 +817,7 @@ function vtkImageStreamline(publicAPI, model) {
     }
     // Now find the mid point
     for (let i = 0; i &lt; 3; i++) {
-      xtmp[i] = xyz[i] + ((delT / 2.0) * velAt[i]);
+      xtmp[i] = xyz[i] + delT / 2.0 * velAt[i];
     }
     // Use the velocity @ that point to project
     if (!publicAPI.vectorAt(xtmp, velArray, image, velAt)) {
@@ -798,7 +852,7 @@ function vtkImageStreamline(publicAPI, model) {
         break;
       }
       for (let i = 0; i &lt; 3; i++) {
-        pointsBuffer[(3 * step) + i] = xyz[i];
+        pointsBuffer[3 * step + i] = xyz[i];
       }
     }
 &nbsp;
@@ -822,7 +876,8 @@ function vtkImageStreamline(publicAPI, model) {
     return retVal;
   };
 &nbsp;
-  publicAPI.requestData = (inData, outData) =&gt; { // implement requestData
+  publicAPI.requestData = (inData, outData) =&gt; {
+    // implement requestData
     const input = inData[0];
     const seeds = inData[1];
 &nbsp;
@@ -843,7 +898,12 @@ function vtkImageStreamline(publicAPI, model) {
     const datas = [];
     const vectors = input.getPointData().getVectors();
     for (let i = 0; i &lt; nSeeds; i++) {
-      const retVal = publicAPI.streamIntegrate(vectors, input, seedPts.getTuple(i), offset);
+      const retVal = publicAPI.streamIntegrate(
+        vectors,
+        input,
+        seedPts.getTuple(i),
+        offset
+      );
       offset += retVal[0].length / 3;
       datas.push(retVal);
     }
@@ -894,10 +954,7 @@ export function extend(publicAPI, model, initialValues = {}) {
   macro.algo(publicAPI, model, 2, 1);
 &nbsp;
   // Generate macros for properties
-  macro.setGet(publicAPI, model, [
-    'integrationStep',
-    'maximumNumberOfSteps',
-  ]);
+  macro.setGet(publicAPI, model, ['integrationStep', 'maximumNumberOfSteps']);
 &nbsp;
   // Object specific methods
   vtkImageStreamline(publicAPI, model);
@@ -916,7 +973,7 @@ export default { newInstance, extend };
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Jan 03 2018 19:31:35 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Jan 05 2018 16:03:50 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>

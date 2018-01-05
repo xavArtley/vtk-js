@@ -290,7 +290,8 @@
 245
 246
 247
-248</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+248
+249</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -382,6 +383,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -537,9 +539,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import macro                 from 'vtk.js/Sources/macro';
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import macro from 'vtk.js/Sources/macro';
 import vtkInteractorObserver from 'vtk.js/Sources/Rendering/Core/InteractorObserver';
-import Constants             from 'vtk.js/Sources/Rendering/Core/InteractorStyle/Constants';
+import Constants from 'vtk.js/Sources/Rendering/Core/InteractorStyle/Constants';
 &nbsp;
 const { States } = Constants;
 const { vtkWarningMacro } = macro;
@@ -619,11 +621,12 @@ function vtkInteractorStyle(publicAPI, model) <span class="fstat-no" title="func
 <span class="cstat-no" title="statement not covered" >    if (i) {</span>
 <span class="cstat-no" title="statement not covered" >      events.forEach((eventName) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
 <span class="cstat-no" title="statement not covered" >        model.unsubscribes.push(</span>
-        i[`on${eventName}`]((data) =&gt; <span class="fstat-no" title="function not covered" >{</span>
-<span class="cstat-no" title="statement not covered" >          if (publicAPI[`handle${eventName}`]) {</span>
-<span class="cstat-no" title="statement not covered" >            publicAPI[`handle${eventName}`](data);</span>
-          }
-        }));
+          i[`on${eventName}`]((data) =&gt; <span class="fstat-no" title="function not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >            if (publicAPI[`handle${eventName}`]) {</span>
+<span class="cstat-no" title="statement not covered" >              publicAPI[`handle${eventName}`](data);</span>
+            }
+          })
+        );
       });
     }
   };
@@ -651,8 +654,8 @@ function vtkInteractorStyle(publicAPI, model) <span class="fstat-no" title="func
     let pos = <span class="cstat-no" title="statement not covered" >null;</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    switch (rwi.getKeyCode()) {</span>
-      case 'r' :
-      case 'R' :
+      case 'r':
+      case 'R':
 <span class="cstat-no" title="statement not covered" >        pos = model.interactor.getEventPosition(rwi.getPointerIndex());</span>
 <span class="cstat-no" title="statement not covered" >        publicAPI.findPokedRenderer(pos.x, pos.y);</span>
 <span class="cstat-no" title="statement not covered" >        if (model.currentRenderer !== 0) {</span>
@@ -663,8 +666,8 @@ function vtkInteractorStyle(publicAPI, model) <span class="fstat-no" title="func
 <span class="cstat-no" title="statement not covered" >        rwi.render();</span>
 <span class="cstat-no" title="statement not covered" >        break;</span>
 &nbsp;
-      case 'w' :
-      case 'W' :
+      case 'w':
+      case 'W':
 <span class="cstat-no" title="statement not covered" >        pos = model.interactor.getEventPosition(rwi.getPointerIndex());</span>
 <span class="cstat-no" title="statement not covered" >        publicAPI.findPokedRenderer(pos.x, pos.y);</span>
 <span class="cstat-no" title="statement not covered" >        if (model.currentRenderer !== 0) {</span>
@@ -678,8 +681,8 @@ function vtkInteractorStyle(publicAPI, model) <span class="fstat-no" title="func
 <span class="cstat-no" title="statement not covered" >        rwi.render();</span>
 <span class="cstat-no" title="statement not covered" >        break;</span>
 &nbsp;
-      case 's' :
-      case 'S' :
+      case 's':
+      case 'S':
 <span class="cstat-no" title="statement not covered" >        pos = model.interactor.getEventPosition(rwi.getPointerIndex());</span>
 <span class="cstat-no" title="statement not covered" >        publicAPI.findPokedRenderer(pos.x, pos.y);</span>
 <span class="cstat-no" title="statement not covered" >        if (model.currentRenderer !== 0) {</span>
@@ -693,8 +696,8 @@ function vtkInteractorStyle(publicAPI, model) <span class="fstat-no" title="func
 <span class="cstat-no" title="statement not covered" >        rwi.render();</span>
 <span class="cstat-no" title="statement not covered" >        break;</span>
 &nbsp;
-      case 'v' :
-      case 'V' :
+      case 'v':
+      case 'V':
 <span class="cstat-no" title="statement not covered" >        pos = model.interactor.getEventPosition(rwi.getPointerIndex());</span>
 <span class="cstat-no" title="statement not covered" >        publicAPI.findPokedRenderer(pos.x, pos.y);</span>
 <span class="cstat-no" title="statement not covered" >        if (model.currentRenderer !== 0) {</span>
@@ -790,7 +793,7 @@ export default Object.assign({ newInstance, extend }, Constants);
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Jan 03 2018 19:31:35 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Jan 05 2018 16:03:50 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>

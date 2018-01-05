@@ -35,9 +35,9 @@
         <span class='fraction'>0/22</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">4.08% </span>
+        <span class="strong">4% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>2/49</span>
+        <span class='fraction'>2/50</span>
       </div>
     </div>
   </div>
@@ -167,9 +167,7 @@
 122
 123
 124
-125
-126
-127</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+125</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -225,6 +223,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -273,9 +272,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -352,7 +348,8 @@ function vtkProp(publicAPI, model) <span class="fstat-no" title="function not co
 <span class="cstat-no" title="statement not covered" >  publicAPI.getSupportsSelection = () =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >false;</span></span></span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  publicAPI.getTextures = () =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >model.textures;</span></span></span>
-<span class="cstat-no" title="statement not covered" >  publicAPI.hasTexture = texture =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >!!model.textures.filter(item =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >item === texture)</span></span>.length;</span></span></span>
+<span class="cstat-no" title="statement not covered" >  publicAPI.hasTexture = (texture) =&gt;</span>
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >    !!model.textures.filter((item) =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >item === texture)</span></span>.length;</span></span>
 <span class="cstat-no" title="statement not covered" >  publicAPI.addTexture = (texture) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
 <span class="cstat-no" title="statement not covered" >    if (texture &amp;&amp; !publicAPI.hasTexture(texture)) {</span>
 <span class="cstat-no" title="statement not covered" >      model.textures = model.textures.concat(texture);</span>
@@ -361,7 +358,7 @@ function vtkProp(publicAPI, model) <span class="fstat-no" title="function not co
   };
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  publicAPI.removeTexture = (texture) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
-    const newTextureList = <span class="cstat-no" title="statement not covered" >model.textures.filter(item =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >item === texture)</span></span>;</span>
+    const newTextureList = <span class="cstat-no" title="statement not covered" >model.textures.filter((item) =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >item === texture)</span></span>;</span>
 <span class="cstat-no" title="statement not covered" >    if (model.texture.length !== newTextureList.length) {</span>
 <span class="cstat-no" title="statement not covered" >      model.textures = newTextureList;</span>
 <span class="cstat-no" title="statement not covered" >      publicAPI.modified();</span>
@@ -398,10 +395,7 @@ export function extend(publicAPI, model, initialValues = {}) <span class="fstat-
 &nbsp;
   // Build VTK API
 <span class="cstat-no" title="statement not covered" >  macro.obj(publicAPI, model);</span>
-<span class="cstat-no" title="statement not covered" >  macro.get(publicAPI, model, [</span>
-    'estimatedRenderTime',
-    'allocatedRenderTime',
-  ]);
+<span class="cstat-no" title="statement not covered" >  macro.get(publicAPI, model, ['estimatedRenderTime', 'allocatedRenderTime']);</span>
 <span class="cstat-no" title="statement not covered" >  macro.setGet(publicAPI, model, [</span>
     'visibility',
     'pickable',
@@ -427,7 +421,7 @@ export default { newInstance, extend };
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Jan 03 2018 19:31:35 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Jan 05 2018 16:03:50 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>
