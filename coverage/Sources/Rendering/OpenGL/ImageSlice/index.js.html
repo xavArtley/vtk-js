@@ -20,14 +20,14 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">3.39% </span>
+        <span class="strong">3.08% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>2/59</span>
+        <span class='fraction'>2/65</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>0/33</span>
+        <span class='fraction'>0/35</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
@@ -35,9 +35,9 @@
         <span class='fraction'>0/13</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">3.39% </span>
+        <span class="strong">3.08% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>2/59</span>
+        <span class='fraction'>2/65</span>
       </div>
     </div>
   </div>
@@ -198,7 +198,15 @@
 153
 154
 155
-156</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+156
+157
+158
+159
+160
+161
+162
+163
+164</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -308,6 +316,14 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -328,16 +344,16 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -353,7 +369,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { mat4 } from 'gl-matrix';
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { mat3, mat4 } from 'gl-matrix';
 &nbsp;
 import macro from 'vtk.js/Sources/macro';
 import vtkViewNode from 'vtk.js/Sources/Rendering/SceneGraph/ViewNode';
@@ -461,12 +477,20 @@ function vtkOpenGLImageSlice(publicAPI, model) <span class="fstat-no" title="fun
 <span class="cstat-no" title="statement not covered" >  publicAPI.getKeyMatrices = () =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
     // has the actor changed?
 <span class="cstat-no" title="statement not covered" >    if (model.renderable.getMTime() &gt; model.keyMatrixTime.getMTime()) {</span>
-<span class="cstat-no" title="statement not covered" >      mat4.copy(model.keyMatrices.mcwc, model.renderable.getMatrix());</span>
-<span class="cstat-no" title="statement not covered" >      mat4.transpose(model.keyMatrices.mcwc, model.keyMatrices.mcwc);</span>
+<span class="cstat-no" title="statement not covered" >      model.renderable.computeMatrix();</span>
+<span class="cstat-no" title="statement not covered" >      mat4.copy(model.MCWCMatrix, model.renderable.getMatrix());</span>
+<span class="cstat-no" title="statement not covered" >      mat4.transpose(model.MCWCMatrix, model.MCWCMatrix);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >      if (model.renderable.getIsIdentity()) {</span>
+<span class="cstat-no" title="statement not covered" >        mat3.identity(model.normalMatrix);</span>
+      } else {
+<span class="cstat-no" title="statement not covered" >        mat3.fromMat4(model.normalMatrix, model.MCWCMatrix);</span>
+<span class="cstat-no" title="statement not covered" >        mat3.invert(model.normalMatrix, model.normalMatrix);</span>
+      }
 <span class="cstat-no" title="statement not covered" >      model.keyMatrixTime.modified();</span>
     }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    return model.keyMatrices;</span>
+<span class="cstat-no" title="statement not covered" >    return { mcwc: model.MCWCMatrix, normalMatrix: model.normalMatrix };</span>
   };
 }
 &nbsp;
@@ -477,7 +501,8 @@ function vtkOpenGLImageSlice(publicAPI, model) <span class="fstat-no" title="fun
 const DEFAULT_VALUES = {
   context: null,
   keyMatrixTime: null,
-  keyMatrices: null,
+  normalMatrix: null,
+  MCWCMatrix: null,
 };
 &nbsp;
 // ----------------------------------------------------------------------------
@@ -489,10 +514,9 @@ export function extend(publicAPI, model, initialValues = {}) <span class="fstat-
 <span class="cstat-no" title="statement not covered" >  vtkViewNode.extend(publicAPI, model, initialValues);</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  model.keyMatrixTime = {};</span>
-<span class="cstat-no" title="statement not covered" >  macro.obj(model.keyMatrixTime, { mtime: 0 });</span>
-<span class="cstat-no" title="statement not covered" >  model.keyMatrices = {</span>
-    mcwc: mat4.create(),
-  };
+<span class="cstat-no" title="statement not covered" >  macro.obj(model.keyMatrixTime);</span>
+<span class="cstat-no" title="statement not covered" >  model.normalMatrix = mat3.create();</span>
+<span class="cstat-no" title="statement not covered" >  model.MCWCMatrix = mat4.create();</span>
 &nbsp;
   // Build VTK API
 <span class="cstat-no" title="statement not covered" >  macro.setGet(publicAPI, model, ['context']);</span>
@@ -514,7 +538,7 @@ export default { newInstance, extend };
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Jan 09 2018 19:38:45 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Jan 09 2018 19:56:56 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>
