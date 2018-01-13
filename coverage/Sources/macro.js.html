@@ -20,14 +20,14 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">57.73% </span>
+        <span class="strong">56.38% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>295/511</span>
+        <span class='fraction'>296/525</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">59.35% </span>
+        <span class="strong">56.15% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>146/246</span>
+        <span class='fraction'>146/260</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">63.11% </span>
@@ -35,9 +35,9 @@
         <span class='fraction'>77/122</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">58.39% </span>
+        <span class="strong">56.71% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>282/483</span>
+        <span class='fraction'>283/499</span>
       </div>
     </div>
   </div>
@@ -1189,7 +1189,36 @@
 1144
 1145
 1146
-1147</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+1147
+1148
+1149
+1150
+1151
+1152
+1153
+1154
+1155
+1156
+1157
+1158
+1159
+1160
+1161
+1162
+1163
+1164
+1165
+1166
+1167
+1168
+1169
+1170
+1171
+1172
+1173
+1174
+1175
+1176</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -2077,6 +2106,32 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -2088,10 +2143,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -2178,6 +2229,13 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -3223,6 +3281,7 @@ export function debounce(func, wait, immediate) <span class="fstat-no" title="fu
 //  getProxySection() =&gt; List of properties for UI generation
 // ----------------------------------------------------------------------------
 let nextProxyId = 1;
+const ROOT_GROUP_NAME = '__root__';
 &nbsp;
 export function proxy(publicAPI, model, sectionName, uiDescription = []) <span class="fstat-no" title="function not covered" >{</span>
   const parentDelete = <span class="cstat-no" title="statement not covered" >publicAPI.delete;</span>
@@ -3231,9 +3290,30 @@ export function proxy(publicAPI, model, sectionName, uiDescription = []) <span c
 <span class="cstat-no" title="statement not covered" >  model.proxyId = `${nextProxyId++}`;</span>
 <span class="cstat-no" title="statement not covered" >  publicAPI.getProxyId = () =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >model.proxyId;</span></span></span>
 &nbsp;
+  // group properties
+  const groupChildrenNames = <span class="cstat-no" title="statement not covered" >{};</span>
+  function registerProperties(descriptionList, currentGroupName) <span class="fstat-no" title="function not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >    if (!groupChildrenNames[currentGroupName]) {</span>
+<span class="cstat-no" title="statement not covered" >      groupChildrenNames[currentGroupName] = [];</span>
+    }
+    const childrenNames = <span class="cstat-no" title="statement not covered" >groupChildrenNames[currentGroupName];</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    for (let i = 0; i &lt; descriptionList.length; i++) {</span>
+<span class="cstat-no" title="statement not covered" >      childrenNames.push(descriptionList[i].name);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >      if (descriptionList[i].children &amp;&amp; descriptionList[i].children.length) {</span>
+<span class="cstat-no" title="statement not covered" >        registerProperties(</span>
+          descriptionList[i].children,
+          descriptionList[i].name
+        );
+      }
+    }
+  }
+<span class="cstat-no" title="statement not covered" >  registerProperties(uiDescription, ROOT_GROUP_NAME);</span>
+&nbsp;
   // list
-  const propertyNames = <span class="cstat-no" title="statement not covered" >uiDescription.map((p) =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >p.name)</span></span>;</span>
-<span class="cstat-no" title="statement not covered" >  publicAPI.listProxyProperties = () =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >propertyNames;</span></span></span>
+<span class="cstat-no" title="statement not covered" >  publicAPI.listProxyProperties = (gName = ROOT_GROUP_NAME) =&gt;</span>
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >    groupChildrenNames[gName];</span></span>
 &nbsp;
   // ui handling
   const ui = <span class="cstat-no" title="statement not covered" >uiDescription.map((i) =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >Object.assign({}, i))</span></span>;</span>
@@ -3318,13 +3398,20 @@ export function proxy(publicAPI, model, sectionName, uiDescription = []) <span c
   };
 &nbsp;
   // extract values
-  function getProperties() <span class="fstat-no" title="function not covered" >{</span>
+  function getProperties(groupName = ROOT_GROUP_NAME) <span class="fstat-no" title="function not covered" >{</span>
     const values = <span class="cstat-no" title="statement not covered" >[];</span>
     const id = <span class="cstat-no" title="statement not covered" >model.proxyId;</span>
+    const propertyNames = <span class="cstat-no" title="statement not covered" >publicAPI.listProxyProperties(groupName) || [];</span>
 <span class="cstat-no" title="statement not covered" >    for (let i = 0; i &lt; propertyNames.length; i++) {</span>
       const name = <span class="cstat-no" title="statement not covered" >propertyNames[i];</span>
-      const value = <span class="cstat-no" title="statement not covered" >publicAPI[`get${capitalize(name)}`]();</span>
-<span class="cstat-no" title="statement not covered" >      values.push({ id, name, value });</span>
+      const method = <span class="cstat-no" title="statement not covered" >publicAPI[`get${capitalize(name)}`];</span>
+      const value = <span class="cstat-no" title="statement not covered" >method ? method() : undefined;</span>
+      const prop = <span class="cstat-no" title="statement not covered" >{ id, name, value };</span>
+      const children = <span class="cstat-no" title="statement not covered" >getProperties(name);</span>
+<span class="cstat-no" title="statement not covered" >      if (children.length) {</span>
+<span class="cstat-no" title="statement not covered" >        prop.children = children;</span>
+      }
+<span class="cstat-no" title="statement not covered" >      values.push(prop);</span>
     }
 <span class="cstat-no" title="statement not covered" >    return values;</span>
   }
@@ -3487,7 +3574,7 @@ export default {
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Jan 12 2018 21:13:35 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sat Jan 13 2018 00:37:54 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../prettify.js"></script>
