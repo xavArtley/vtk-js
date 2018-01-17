@@ -20,24 +20,24 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">5.19% </span>
+        <span class="strong">5.08% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>53/1021</span>
+        <span class='fraction'>53/1044</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">2.56% </span>
+        <span class="strong">2.5% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>8/313</span>
+        <span class='fraction'>8/320</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">13.41% </span>
+        <span class="strong">13.25% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>11/82</span>
+        <span class='fraction'>11/83</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">5.19% </span>
+        <span class="strong">5.08% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>52/1001</span>
+        <span class='fraction'>52/1024</span>
       </div>
     </div>
   </div>
@@ -2090,7 +2090,41 @@
 2045
 2046
 2047
-2048</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+2048
+2049
+2050
+2051
+2052
+2053
+2054
+2055
+2056
+2057
+2058
+2059
+2060
+2061
+2062
+2063
+2064
+2065
+2066
+2067
+2068
+2069
+2070
+2071
+2072
+2073
+2074
+2075
+2076
+2077
+2078
+2079
+2080
+2081
+2082</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
@@ -3650,6 +3684,39 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -4029,6 +4096,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -5696,6 +5764,39 @@ function solveLeastSquares(
 <span class="cstat-no" title="statement not covered" >  return successFlag;</span>
 }
 &nbsp;
+function hex2float(hexStr, outFloatArray = [0, 0.5, 1]) <span class="fstat-no" title="function not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >  switch (hexStr.length) {</span>
+    case 3: // abc =&gt; #aabbcc
+<span class="cstat-no" title="statement not covered" >      outFloatArray[0] = parseInt(hexStr[0], 16) * 17 / 255;</span>
+<span class="cstat-no" title="statement not covered" >      outFloatArray[1] = parseInt(hexStr[1], 16) * 17 / 255;</span>
+<span class="cstat-no" title="statement not covered" >      outFloatArray[2] = parseInt(hexStr[2], 16) * 17 / 255;</span>
+<span class="cstat-no" title="statement not covered" >      return outFloatArray;</span>
+    case 4: // #abc =&gt; #aabbcc
+<span class="cstat-no" title="statement not covered" >      outFloatArray[0] = parseInt(hexStr[1], 16) * 17 / 255;</span>
+<span class="cstat-no" title="statement not covered" >      outFloatArray[1] = parseInt(hexStr[2], 16) * 17 / 255;</span>
+<span class="cstat-no" title="statement not covered" >      outFloatArray[2] = parseInt(hexStr[3], 16) * 17 / 255;</span>
+<span class="cstat-no" title="statement not covered" >      return outFloatArray;</span>
+    case 6: // ab01df =&gt; #ab01df
+<span class="cstat-no" title="statement not covered" >      outFloatArray[0] = parseInt(hexStr.substr(0, 2), 16) / 255;</span>
+<span class="cstat-no" title="statement not covered" >      outFloatArray[1] = parseInt(hexStr.substr(2, 2), 16) / 255;</span>
+<span class="cstat-no" title="statement not covered" >      outFloatArray[2] = parseInt(hexStr.substr(4, 2), 16) / 255;</span>
+<span class="cstat-no" title="statement not covered" >      return outFloatArray;</span>
+    case 7: // #ab01df
+<span class="cstat-no" title="statement not covered" >      outFloatArray[0] = parseInt(hexStr.substr(1, 2), 16) / 255;</span>
+<span class="cstat-no" title="statement not covered" >      outFloatArray[1] = parseInt(hexStr.substr(3, 2), 16) / 255;</span>
+<span class="cstat-no" title="statement not covered" >      outFloatArray[2] = parseInt(hexStr.substr(5, 2), 16) / 255;</span>
+<span class="cstat-no" title="statement not covered" >      return outFloatArray;</span>
+    case 9: // #ab01df00
+<span class="cstat-no" title="statement not covered" >      outFloatArray[0] = parseInt(hexStr.substr(1, 2), 16) / 255;</span>
+<span class="cstat-no" title="statement not covered" >      outFloatArray[1] = parseInt(hexStr.substr(3, 2), 16) / 255;</span>
+<span class="cstat-no" title="statement not covered" >      outFloatArray[2] = parseInt(hexStr.substr(5, 2), 16) / 255;</span>
+<span class="cstat-no" title="statement not covered" >      outFloatArray[3] = parseInt(hexStr.substr(7, 2), 16) / 255;</span>
+<span class="cstat-no" title="statement not covered" >      return outFloatArray;</span>
+    default:
+<span class="cstat-no" title="statement not covered" >      return outFloatArray;</span>
+  }
+}
+&nbsp;
 function rgb2hsv(rgb, hsv) <span class="fstat-no" title="function not covered" >{</span>
   let h;
   let s;
@@ -6156,6 +6257,7 @@ export default {
   jacobiN,
   solveHomogeneousLeastSquares,
   solveLeastSquares,
+  hex2float,
   rgb2hsv,
   hsv2rgb,
   lab2xyz,
@@ -6190,7 +6292,7 @@ export default {
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Jan 17 2018 15:54:52 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Jan 17 2018 22:37:05 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>
