@@ -20,14 +20,14 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">3.57% </span>
+        <span class="strong">2.88% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>3/84</span>
+        <span class='fraction'>3/104</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>0/25</span>
+        <span class='fraction'>0/29</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
@@ -35,9 +35,9 @@
         <span class='fraction'>0/10</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">3.61% </span>
+        <span class="strong">2.91% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>3/83</span>
+        <span class='fraction'>3/103</span>
       </div>
     </div>
   </div>
@@ -272,7 +272,33 @@
 227
 228
 229
-230</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -295,7 +321,33 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -519,12 +571,38 @@ function vtkImageMapper(publicAPI, model) <span class="fstat-no" title="function
   // Set our className
 <span class="cstat-no" title="statement not covered" >  model.classHierarchy.push('vtkImageMapper');</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  publicAPI.setZSliceFromCamera = (cam) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >  publicAPI.setSliceFromCamera = (cam) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
     const image = <span class="cstat-no" title="statement not covered" >publicAPI.getInputData();</span>
     const fp = <span class="cstat-no" title="statement not covered" >cam.getFocalPoint();</span>
     const idx = <span class="cstat-no" title="statement not covered" >[];</span>
 <span class="cstat-no" title="statement not covered" >    image.worldToIndex(fp, idx);</span>
-<span class="cstat-no" title="statement not covered" >    publicAPI.setZSlice(Math.floor(idx[2] + 0.5));</span>
+&nbsp;
+    let id = <span class="cstat-no" title="statement not covered" >0;</span>
+    const bds = <span class="cstat-no" title="statement not covered" >publicAPI.getBounds();</span>
+<span class="cstat-no" title="statement not covered" >    switch (publicAPI.getCurrentSlicingMode()) {</span>
+      case SlicingMode.X:
+<span class="cstat-no" title="statement not covered" >        id = idx[0];</span>
+<span class="cstat-no" title="statement not covered" >        id = Math.floor(id + 0.5);</span>
+<span class="cstat-no" title="statement not covered" >        id = Math.min(id, bds[1]);</span>
+<span class="cstat-no" title="statement not covered" >        id = Math.max(id, bds[0]);</span>
+<span class="cstat-no" title="statement not covered" >        publicAPI.setXSlice(id);</span>
+<span class="cstat-no" title="statement not covered" >        break;</span>
+      case SlicingMode.Y:
+<span class="cstat-no" title="statement not covered" >        id = idx[1];</span>
+<span class="cstat-no" title="statement not covered" >        id = Math.floor(id + 0.5);</span>
+<span class="cstat-no" title="statement not covered" >        id = Math.min(id, bds[3]);</span>
+<span class="cstat-no" title="statement not covered" >        id = Math.max(id, bds[2]);</span>
+<span class="cstat-no" title="statement not covered" >        publicAPI.setYSlice(id);</span>
+<span class="cstat-no" title="statement not covered" >        break;</span>
+      case SlicingMode.Z:
+<span class="cstat-no" title="statement not covered" >        id = idx[2];</span>
+<span class="cstat-no" title="statement not covered" >        id = Math.floor(id + 0.5);</span>
+<span class="cstat-no" title="statement not covered" >        id = Math.min(id, bds[5]);</span>
+<span class="cstat-no" title="statement not covered" >        id = Math.max(id, bds[4]);</span>
+<span class="cstat-no" title="statement not covered" >        publicAPI.setZSlice(id);</span>
+<span class="cstat-no" title="statement not covered" >        break;</span>
+      default:
+    }
   };
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  publicAPI.setZSliceIndex = (id) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
@@ -736,7 +814,7 @@ export default Object.assign({ newInstance, extend }, Constants);
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Jan 17 2018 22:37:05 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Jan 18 2018 00:52:09 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>
