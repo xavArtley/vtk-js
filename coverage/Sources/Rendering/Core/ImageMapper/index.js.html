@@ -20,14 +20,14 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">2.88% </span>
+        <span class="strong">2.46% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>3/104</span>
+        <span class='fraction'>3/122</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>0/29</span>
+        <span class='fraction'>0/47</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
@@ -35,9 +35,9 @@
         <span class='fraction'>0/10</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">2.91% </span>
+        <span class="strong">2.48% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>3/103</span>
+        <span class='fraction'>3/121</span>
       </div>
     </div>
   </div>
@@ -298,7 +298,34 @@
 253
 254
 255
-256</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278
+279
+280
+281
+282
+283</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -353,16 +380,43 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -606,18 +660,45 @@ function vtkImageMapper(publicAPI, model) <span class="fstat-no" title="function
   };
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  publicAPI.setZSliceIndex = (id) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
-<span class="cstat-no" title="statement not covered" >    model.currentSlicingMode = SlicingMode.Z;</span>
+    const mtime = <span class="cstat-no" title="statement not covered" >publicAPI.getMTime();</span>
+    let changeDetected = <span class="cstat-no" title="statement not covered" >false;</span>
+<span class="cstat-no" title="statement not covered" >    if (model.currentSlicingMode !== SlicingMode.Z) {</span>
+<span class="cstat-no" title="statement not covered" >      model.currentSlicingMode = SlicingMode.Z;</span>
+<span class="cstat-no" title="statement not covered" >      changeDetected = true;</span>
+    }
 <span class="cstat-no" title="statement not covered" >    publicAPI.setZSlice(id);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    if (changeDetected &amp;&amp; mtime === publicAPI.getMTime()) {</span>
+<span class="cstat-no" title="statement not covered" >      publicAPI.modified();</span>
+    }
   };
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  publicAPI.setYSliceIndex = (id) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
-<span class="cstat-no" title="statement not covered" >    model.currentSlicingMode = SlicingMode.Y;</span>
+    const mtime = <span class="cstat-no" title="statement not covered" >publicAPI.getMTime();</span>
+    let changeDetected = <span class="cstat-no" title="statement not covered" >false;</span>
+<span class="cstat-no" title="statement not covered" >    if (model.currentSlicingMode !== SlicingMode.Y) {</span>
+<span class="cstat-no" title="statement not covered" >      model.currentSlicingMode = SlicingMode.Y;</span>
+<span class="cstat-no" title="statement not covered" >      changeDetected = true;</span>
+    }
 <span class="cstat-no" title="statement not covered" >    publicAPI.setYSlice(id);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    if (changeDetected &amp;&amp; mtime === publicAPI.getMTime()) {</span>
+<span class="cstat-no" title="statement not covered" >      publicAPI.modified();</span>
+    }
   };
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  publicAPI.setXSliceIndex = (id) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
-<span class="cstat-no" title="statement not covered" >    model.currentSlicingMode = SlicingMode.X;</span>
+    const mtime = <span class="cstat-no" title="statement not covered" >publicAPI.getMTime();</span>
+    let changeDetected = <span class="cstat-no" title="statement not covered" >false;</span>
+<span class="cstat-no" title="statement not covered" >    if (model.currentSlicingMode !== SlicingMode.X) {</span>
+<span class="cstat-no" title="statement not covered" >      model.currentSlicingMode = SlicingMode.X;</span>
+<span class="cstat-no" title="statement not covered" >      changeDetected = true;</span>
+    }
 <span class="cstat-no" title="statement not covered" >    publicAPI.setXSlice(id);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    if (changeDetected &amp;&amp; mtime === publicAPI.getMTime()) {</span>
+<span class="cstat-no" title="statement not covered" >      publicAPI.modified();</span>
+    }
   };
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  publicAPI.getBounds = () =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
@@ -814,7 +895,7 @@ export default Object.assign({ newInstance, extend }, Constants);
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Jan 19 2018 22:16:11 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sat Jan 20 2018 00:53:02 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>
