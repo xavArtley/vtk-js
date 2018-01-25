@@ -22,12 +22,12 @@
       <div class='fl pad1y space-right2'>
         <span class="strong">1.36% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>3/220</span>
+        <span class='fraction'>3/221</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>0/90</span>
+        <span class='fraction'>0/92</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
@@ -37,7 +37,7 @@
       <div class='fl pad1y space-right2'>
         <span class="strong">1.36% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>3/220</span>
+        <span class='fraction'>3/221</span>
       </div>
     </div>
   </div>
@@ -551,7 +551,10 @@
 506
 507
 508
-509</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+509
+510
+511
+512</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -736,6 +739,8 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -755,6 +760,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1244,25 +1250,28 @@ function vtkInteractorStyleTrackballCamera(publicAPI, model) <span class="fstat-
     const pos = <span class="cstat-no" title="statement not covered" >model.interactor.getEventPosition(</span>
       model.interactor.getPointerIndex()
     );
-<span class="cstat-no" title="statement not covered" >    publicAPI.findPokedRenderer(pos.x, pos.y);</span>
-<span class="cstat-no" title="statement not covered" >    if (model.currentRenderer === null) {</span>
-<span class="cstat-no" title="statement not covered" >      return;</span>
-    }
 &nbsp;
-    const camera = <span class="cstat-no" title="statement not covered" >model.currentRenderer.getActiveCamera();</span>
-&nbsp;
-    const dyf = <span class="cstat-no" title="statement not covered" >model.interactor.getScale() / model.interactor.getLastScale();</span>
-<span class="cstat-no" title="statement not covered" >    if (camera.getParallelProjection()) {</span>
-<span class="cstat-no" title="statement not covered" >      camera.setParallelScale(camera.getParallelScale() / dyf);</span>
-    } else {
-<span class="cstat-no" title="statement not covered" >      camera.dolly(dyf);</span>
-<span class="cstat-no" title="statement not covered" >      if (model.autoAdjustCameraClippingRange) {</span>
-<span class="cstat-no" title="statement not covered" >        model.currentRenderer.resetCameraClippingRange();</span>
+<span class="cstat-no" title="statement not covered" >    if (pos) {</span>
+<span class="cstat-no" title="statement not covered" >      publicAPI.findPokedRenderer(pos.x, pos.y);</span>
+<span class="cstat-no" title="statement not covered" >      if (model.currentRenderer === null) {</span>
+<span class="cstat-no" title="statement not covered" >        return;</span>
       }
-    }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    if (model.interactor.getLightFollowCamera()) {</span>
-<span class="cstat-no" title="statement not covered" >      model.currentRenderer.updateLightsGeometryToFollowCamera();</span>
+      const camera = <span class="cstat-no" title="statement not covered" >model.currentRenderer.getActiveCamera();</span>
+&nbsp;
+      const dyf = <span class="cstat-no" title="statement not covered" >model.interactor.getScale() / model.interactor.getLastScale();</span>
+<span class="cstat-no" title="statement not covered" >      if (camera.getParallelProjection()) {</span>
+<span class="cstat-no" title="statement not covered" >        camera.setParallelScale(camera.getParallelScale() / dyf);</span>
+      } else {
+<span class="cstat-no" title="statement not covered" >        camera.dolly(dyf);</span>
+<span class="cstat-no" title="statement not covered" >        if (model.autoAdjustCameraClippingRange) {</span>
+<span class="cstat-no" title="statement not covered" >          model.currentRenderer.resetCameraClippingRange();</span>
+        }
+      }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >      if (model.interactor.getLightFollowCamera()) {</span>
+<span class="cstat-no" title="statement not covered" >        model.currentRenderer.updateLightsGeometryToFollowCamera();</span>
+      }
     }
   };
 &nbsp;
@@ -1573,7 +1582,7 @@ export default Object.assign({ newInstance, extend });
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Jan 24 2018 23:20:36 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Jan 25 2018 15:08:58 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>
