@@ -20,14 +20,14 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">64.55% </span>
+        <span class="strong">60.16% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>71/110</span>
+        <span class='fraction'>74/123</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">62.5% </span>
+        <span class="strong">53.57% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>30/48</span>
+        <span class='fraction'>30/56</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">41.67% </span>
@@ -35,9 +35,9 @@
         <span class='fraction'>20/48</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">71.28% </span>
+        <span class="strong">65.42% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>67/94</span>
+        <span class='fraction'>70/107</span>
       </div>
     </div>
   </div>
@@ -217,7 +217,37 @@
 172
 173
 174
-175</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -255,8 +285,8 @@
 <span class="cline-any cline-yes">97×</span>
 <span class="cline-any cline-yes">97×</span>
 <span class="cline-any cline-yes">97×</span>
-<span class="cline-any cline-yes">25×</span>
-<span class="cline-any cline-yes">25×</span>
+<span class="cline-any cline-yes">23×</span>
+<span class="cline-any cline-yes">23×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">97×</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -276,7 +306,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">97×</span>
 <span class="cline-any cline-yes">34×</span>
-<span class="cline-any cline-yes">60×</span>
+<span class="cline-any cline-yes">32×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">97×</span>
@@ -307,9 +337,37 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">32×</span>
 <span class="cline-any cline-yes">32×</span>
-<span class="cline-any cline-yes">4×</span>
-<span class="cline-any cline-yes">28×</span>
-<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">30×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">30×</span>
+<span class="cline-any cline-yes">30×</span>
+<span class="cline-any cline-yes">30×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -393,6 +451,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import vtk from 'vtk.js/Sources/vtk';
 import macro from 'vtk.js/Sources/macro';
+import vtkDataArray from 'vtk.js/Sources/Common/Core/DataArray';
 &nbsp;
 // ----------------------------------------------------------------------------
 // vtkFieldData methods
@@ -472,18 +531,46 @@ function vtkFieldData(publicAPI, model) {
   publicAPI.getCopyFieldFlags = () =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >model.copyFieldFlags;</span></span>
   publicAPI.getFlag = (arrayName) =&gt; model.copyFieldFlags[arrayName];
   publicAPI.passData = (other, fromId = -1, toId = -1) =&gt; {
-    other.getArrays().forEach((arr, idx) =&gt; {
+    other.getArrays().forEach((arr) =&gt; {
       const copyFlag = publicAPI.getFlag(arr.getName());
       <span class="missing-if-branch" title="else path not taken" >E</span>if (
         copyFlag !== false &amp;&amp;
         !(model.doCopyAllOff &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >copyFlag !== true)</span> &amp;&amp;
         arr
       ) {
-        const destArr = publicAPI.getArrayByName(arr.getName());
-        if ((fromId &lt; 1 &amp;&amp; toId &lt; 1) || !destArr) {
-          publicAPI.addArray(arr);
-        } else if (idx &gt;= fromId &amp;&amp; (toId &gt; -1 || <span class="branch-2 cbranch-no" title="branch not covered" >idx &lt; toId)</span>) {
-          destArr.setTuple(idx, arr.getTuple(idx));
+        let destArr = publicAPI.getArrayByName(arr.getName());
+        if (!destArr) {
+          <span class="missing-if-branch" title="else path not taken" >E</span>if (fromId &lt; 0 || <span class="branch-1 cbranch-no" title="branch not covered" >fromId &gt; arr.getNumberOfTuples())</span> {
+            publicAPI.addArray(arr);
+          } else {
+            const ncomps = <span class="cstat-no" title="statement not covered" >arr.getNumberOfComponents();</span>
+            let newSize = <span class="cstat-no" title="statement not covered" >arr.getNumberOfValues();</span>
+            const tId = <span class="cstat-no" title="statement not covered" >toId &gt; -1 ? toId : fromId;</span>
+<span class="cstat-no" title="statement not covered" >            if (newSize &lt; tId * ncomps) {</span>
+<span class="cstat-no" title="statement not covered" >              newSize = (tId + 1) * ncomps;</span>
+            }
+<span class="cstat-no" title="statement not covered" >            destArr = vtkDataArray.newInstance({</span>
+              name: arr.getName(),
+              dataType: arr.getDataType(),
+              numberOfComponents: arr.getNumberOfComponents(),
+              size: newSize,
+            });
+<span class="cstat-no" title="statement not covered" >            destArr.setTuple(tId, arr.getTuple(fromId));</span>
+<span class="cstat-no" title="statement not covered" >            publicAPI.addArray(destArr);</span>
+          }
+        } else <span class="missing-if-branch" title="else path not taken" >E</span>if (
+          arr.getNumberOfComponents() === destArr.getNumberOfComponents()
+        ) {
+          <span class="missing-if-branch" title="else path not taken" >E</span>if (fromId &gt; -1 &amp;&amp; fromId &lt; arr.getNumberOfTuples()) {
+            const tId = toId &gt; -1 ? toId : <span class="branch-1 cbranch-no" title="branch not covered" >fromId;</span>
+            destArr.setTuple(tId, arr.getTuple(fromId));
+          } else {
+            // if fromId and not provided, just copy all (or as much possible)
+            // of arr to destArr.
+<span class="cstat-no" title="statement not covered" >            for (let i = 0; i &lt; arr.getNumberOfTuples(); ++i) {</span>
+<span class="cstat-no" title="statement not covered" >              destArr.setTuple(i, arr.getTuple(i));</span>
+            }
+          }
         }
       }
     });
@@ -571,7 +658,7 @@ export default { newInstance, extend };
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Feb 01 2018 03:14:51 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Feb 01 2018 20:37:57 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>
