@@ -20,14 +20,14 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">2.93% </span>
+        <span class="strong">2.9% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>6/205</span>
+        <span class='fraction'>6/207</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>0/76</span>
+        <span class='fraction'>0/80</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
@@ -35,9 +35,9 @@
         <span class='fraction'>0/26</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">2.99% </span>
+        <span class="strong">2.96% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>6/201</span>
+        <span class='fraction'>6/203</span>
       </div>
     </div>
   </div>
@@ -562,11 +562,9 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -790,14 +788,16 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1035,7 +1035,6 @@ function vtkOpenGLHardwareSelector(publicAPI, model) <span class="fstat-no" titl
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    model.openGLRenderer.clear();</span>
 <span class="cstat-no" title="statement not covered" >    model.openGLRenderer.setSelector(publicAPI);</span>
-<span class="cstat-no" title="statement not covered" >    model.renderer.setPreserveDepthBuffer(1);</span>
 <span class="cstat-no" title="statement not covered" >    model.hitProps = [];</span>
 <span class="cstat-no" title="statement not covered" >    model.props = [];</span>
 <span class="cstat-no" title="statement not covered" >    publicAPI.releasePixBuffers();</span>
@@ -1045,7 +1044,6 @@ function vtkOpenGLHardwareSelector(publicAPI, model) <span class="fstat-no" titl
 <span class="cstat-no" title="statement not covered" >  publicAPI.endSelection = () =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
 <span class="cstat-no" title="statement not covered" >    model.hitProps = [];</span>
 <span class="cstat-no" title="statement not covered" >    model.openGLRenderer.setSelector(null);</span>
-<span class="cstat-no" title="statement not covered" >    model.renderer.setPreserveDepthBuffer(0);</span>
 <span class="cstat-no" title="statement not covered" >    model.framebuffer.restorePreviousBindingsAndBuffers();</span>
   };
 &nbsp;
@@ -1159,8 +1157,8 @@ function vtkOpenGLHardwareSelector(publicAPI, model) <span class="fstat-no" titl
 &nbsp;
   //----------------------------------------------------------------------------
 <span class="cstat-no" title="statement not covered" >  publicAPI.renderCompositeIndex = (index) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
-<span class="cstat-no" title="statement not covered" >    if (index &gt; 0xffffff) {</span>
-<span class="cstat-no" title="statement not covered" >      vtkErrorMacro('Indices &gt; 0xffffff are not supported.');</span>
+<span class="cstat-no" title="statement not covered" >    if (model.currentPass === PassTypes.COMPOSITE_INDEX_PASS) {</span>
+<span class="cstat-no" title="statement not covered" >      publicAPI.setPropColorValueFromInt(index + model.idOffset);</span>
     }
   };
 &nbsp;
@@ -1267,13 +1265,15 @@ function vtkOpenGLHardwareSelector(publicAPI, model) <span class="fstat-no" titl
 <span class="cstat-no" title="statement not covered" >      info.propID = actorid - model.idOffset;</span>
 <span class="cstat-no" title="statement not covered" >      info.prop = publicAPI.getPropFromID(info.propID);</span>
 &nbsp;
-      // let compositeID = publicAPI.convert(
-      //   displayPosition[0], displayPosition[1],
-      //   model.pixBuffer[PassTypes.COMPOSITE_INDEX_PASS]);
-      // if (compositeID &lt; 0 || compositeID &gt; 0xffffff) {
-      //   compositeID = 0;
-      // }
-      // info.compositeID = compositeID - model.idOffset;
+      let compositeID = <span class="cstat-no" title="statement not covered" >publicAPI.convert(</span>
+        displayPosition[0],
+        displayPosition[1],
+        model.pixBuffer[PassTypes.COMPOSITE_INDEX_PASS]
+      );
+<span class="cstat-no" title="statement not covered" >      if (compositeID &lt; 0 || compositeID &gt; 0xffffff) {</span>
+<span class="cstat-no" title="statement not covered" >        compositeID = 0;</span>
+      }
+<span class="cstat-no" title="statement not covered" >      info.compositeID = compositeID - model.idOffset;</span>
 &nbsp;
       // const low24 = publicAPI.convert(
       //   displayPosition[0], displayPosition[1], model.pixBuffer[PassTypes.ID_LOW24]);
@@ -1477,7 +1477,7 @@ export default Object.assign({ newInstance, extend }, Constants);
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Feb 05 2018 18:56:35 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Feb 06 2018 14:57:13 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>
