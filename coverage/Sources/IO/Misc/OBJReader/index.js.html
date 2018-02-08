@@ -20,14 +20,14 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">1.95% </span>
+        <span class="strong">2.04% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>3/154</span>
+        <span class='fraction'>3/147</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>0/58</span>
+        <span class='fraction'>0/54</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
@@ -35,9 +35,9 @@
         <span class='fraction'>0/16</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">2% </span>
+        <span class="strong">2.1% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>3/150</span>
+        <span class='fraction'>3/143</span>
       </div>
     </div>
   </div>
@@ -324,23 +324,7 @@
 279
 280
 281
-282
-283
-284
-285
-286
-287
-288
-289
-290
-291
-292
-293
-294
-295
-296
-297
-298</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+282</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -536,10 +520,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -556,8 +536,6 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -565,9 +543,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -576,6 +551,7 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -620,14 +596,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -832,11 +800,7 @@ function vtkOBJReader(publicAPI, model) <span class="fstat-no" title="function n
 &nbsp;
   // Internal method to fetch Array
   function fetchData(url, option = {}) <span class="fstat-no" title="function not covered" >{</span>
-    const { compression, progressCallback } = <span class="cstat-no" title="statement not covered" >model;</span>
-<span class="cstat-no" title="statement not covered" >    return model.dataAccessHelper.fetchText(publicAPI, url, {</span>
-      compression,
-      progressCallback,
-    });
+<span class="cstat-no" title="statement not covered" >    return model.dataAccessHelper.fetchText(publicAPI, url, option);</span>
   }
 &nbsp;
   // Set DataSet url
@@ -853,22 +817,17 @@ function vtkOBJReader(publicAPI, model) <span class="fstat-no" title="function n
 <span class="cstat-no" title="statement not covered" >      model.baseURL = path.join('/');</span>
     }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    model.compression = option.compression;</span>
-&nbsp;
     // Fetch metadata
-<span class="cstat-no" title="statement not covered" >    return publicAPI.loadData({ progressCallback: option.progressCallback });</span>
+<span class="cstat-no" title="statement not covered" >    return publicAPI.loadData(option);</span>
   };
 &nbsp;
   // Fetch the actual data arrays
-<span class="cstat-no" title="statement not covered" >  publicAPI.loadData = (option = {}) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
-    const promise = <span class="cstat-no" title="statement not covered" >fetchData(model.url, option);</span>
-<span class="cstat-no" title="statement not covered" >    promise.then(publicAPI.parse);</span>
-<span class="cstat-no" title="statement not covered" >    return promise;</span>
-  };
+<span class="cstat-no" title="statement not covered" >  publicAPI.loadData = (option = {}) =&gt;</span>
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >    fetchData(model.url, option).then(publicAPI.parseAsText);</span></span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  publicAPI.parse = (content) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >  publicAPI.parseAsText = (content) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
 <span class="cstat-no" title="statement not covered" >    if (!content) {</span>
-<span class="cstat-no" title="statement not covered" >      return;</span>
+<span class="cstat-no" title="statement not covered" >      return true;</span>
     }
 <span class="cstat-no" title="statement not covered" >    if (content !== model.parseData) {</span>
 <span class="cstat-no" title="statement not covered" >      publicAPI.modified();</span>
@@ -878,10 +837,11 @@ function vtkOBJReader(publicAPI, model) <span class="fstat-no" title="function n
 <span class="cstat-no" title="statement not covered" >    begin(model.splitMode);</span>
 <span class="cstat-no" title="statement not covered" >    content.split('\n').forEach(parseLine);</span>
 <span class="cstat-no" title="statement not covered" >    end(model);</span>
+<span class="cstat-no" title="statement not covered" >    return true;</span>
   };
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  publicAPI.requestData = (inData, outData) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
-<span class="cstat-no" title="statement not covered" >    publicAPI.parse(model.parseData);</span>
+<span class="cstat-no" title="statement not covered" >    publicAPI.parseAsText(model.parseData);</span>
   };
 &nbsp;
   // return Busy state
@@ -917,14 +877,6 @@ export function extend(publicAPI, model, initialValues = {}) <span class="fstat-
 &nbsp;
   // Object methods
 <span class="cstat-no" title="statement not covered" >  vtkOBJReader(publicAPI, model);</span>
-&nbsp;
-  // To support destructuring
-<span class="cstat-no" title="statement not covered" >  if (!model.compression) {</span>
-<span class="cstat-no" title="statement not covered" >    model.compression = null;</span>
-  }
-<span class="cstat-no" title="statement not covered" >  if (!model.progressCallback) {</span>
-<span class="cstat-no" title="statement not covered" >    model.progressCallback = null;</span>
-  }
 }
 &nbsp;
 // ----------------------------------------------------------------------------
@@ -940,7 +892,7 @@ export default { newInstance, extend };
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Feb 08 2018 03:40:16 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Feb 08 2018 03:40:22 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>
