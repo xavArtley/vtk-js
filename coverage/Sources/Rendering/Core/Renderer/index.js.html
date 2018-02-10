@@ -20,14 +20,14 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">28.77% </span>
+        <span class="strong">30.26% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>82/285</span>
+        <span class='fraction'>82/271</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">6.19% </span>
+        <span class="strong">6.45% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>6/97</span>
+        <span class='fraction'>6/93</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">17.07% </span>
@@ -35,9 +35,9 @@
         <span class='fraction'>7/41</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">29.56% </span>
+        <span class="strong">31.15% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>81/274</span>
+        <span class='fraction'>81/260</span>
       </div>
     </div>
   </div>
@@ -697,35 +697,7 @@
 652
 653
 654
-655
-656
-657
-658
-659
-660
-661
-662
-663
-664
-665
-666
-667
-668
-669
-670
-671
-672
-673
-674
-675
-676
-677
-678
-679
-680
-681
-682
-683</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+655</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1165,36 +1137,8 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1847,36 +1791,8 @@ function vtkRenderer(publicAPI, model) {
 <span class="cstat-no" title="statement not covered" >      return false;</span>
     }
 &nbsp;
-    let vn = <span class="cstat-no" title="statement not covered" >null;</span>
-    let position = <span class="cstat-no" title="statement not covered" >null;</span>
-<span class="cstat-no" title="statement not covered" >    vn = model.activeCamera.getViewPlaneNormalByReference();</span>
-<span class="cstat-no" title="statement not covered" >    position = model.activeCamera.getPositionByReference();</span>
-&nbsp;
-    const a = <span class="cstat-no" title="statement not covered" >-vn[0];</span>
-    const b = <span class="cstat-no" title="statement not covered" >-vn[1];</span>
-    const c = <span class="cstat-no" title="statement not covered" >-vn[2];</span>
-    const d = <span class="cstat-no" title="statement not covered" >-(a * position[0] + b * position[1] + c * position[2]);</span>
-&nbsp;
-    // Set the max near clipping plane and the min far clipping plane
-    const range = <span class="cstat-no" title="statement not covered" >[</span>
-      a * boundsToUse[0] + b * boundsToUse[2] + c * boundsToUse[4] + d,
-      1e-18,
-    ];
-&nbsp;
-    // Find the closest / farthest bounding box vertex
-<span class="cstat-no" title="statement not covered" >    for (let k = 0; k &lt; 2; k++) {</span>
-<span class="cstat-no" title="statement not covered" >      for (let j = 0; j &lt; 2; j++) {</span>
-<span class="cstat-no" title="statement not covered" >        for (let i = 0; i &lt; 2; i++) {</span>
-          const dist =
-<span class="cstat-no" title="statement not covered" >            a * boundsToUse[i] +</span>
-            b * boundsToUse[2 + j] +
-            c * boundsToUse[4 + k] +
-            d;
-<span class="cstat-no" title="statement not covered" >          range[0] = dist &lt; range[0] ? dist : range[0];</span>
-<span class="cstat-no" title="statement not covered" >          range[1] = dist &gt; range[1] ? dist : range[1];</span>
-        }
-      }
-    }
+    // Get the exact range for the bounds
+    const range = <span class="cstat-no" title="statement not covered" >model.activeCamera.computeClippingRange(boundsToUse);</span>
 &nbsp;
     // do not let far - near be less than 0.1 of the window height
     // this is for cases such as 2D images which may have zero range
@@ -2095,7 +2011,7 @@ export default { newInstance, extend };
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Feb 09 2018 19:50:01 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sat Feb 10 2018 00:00:53 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>

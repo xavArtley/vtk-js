@@ -20,24 +20,24 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">2.97% </span>
+        <span class="strong">2.52% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>3/101</span>
+        <span class='fraction'>3/119</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>0/46</span>
+        <span class='fraction'>0/59</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>0/26</span>
+        <span class='fraction'>0/31</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">3.26% </span>
+        <span class="strong">2.75% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>3/92</span>
+        <span class='fraction'>3/109</span>
       </div>
     </div>
   </div>
@@ -261,7 +261,52 @@
 216
 217
 218
-219</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -361,6 +406,51 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -584,6 +674,51 @@ function vtkImageSlice(publicAPI, model) <span class="fstat-no" title="function 
 <span class="cstat-no" title="statement not covered" >    return model.bounds;</span>
   };
 &nbsp;
+<span class="cstat-no" title="statement not covered" >  publicAPI.getBoundsForSlice = (slice, thickness = 0) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+    // Check for the special case when the mapper's bounds are unknown
+    const bds = <span class="cstat-no" title="statement not covered" >model.mapper.getBoundsForSlice(slice, thickness);</span>
+<span class="cstat-no" title="statement not covered" >    if (!bds || bds.length !== 6) {</span>
+<span class="cstat-no" title="statement not covered" >      return bds;</span>
+    }
+&nbsp;
+    // Check for the special case when the actor is empty.
+<span class="cstat-no" title="statement not covered" >    if (bds[0] &gt; bds[1]) {</span>
+<span class="cstat-no" title="statement not covered" >      return bds;</span>
+    }
+&nbsp;
+    const bbox = <span class="cstat-no" title="statement not covered" >[</span>
+      vec3.fromValues(bds[1], bds[3], bds[5]),
+      vec3.fromValues(bds[1], bds[2], bds[5]),
+      vec3.fromValues(bds[0], bds[2], bds[5]),
+      vec3.fromValues(bds[0], bds[3], bds[5]),
+      vec3.fromValues(bds[1], bds[3], bds[4]),
+      vec3.fromValues(bds[1], bds[2], bds[4]),
+      vec3.fromValues(bds[0], bds[2], bds[4]),
+      vec3.fromValues(bds[0], bds[3], bds[4]),
+    ];
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    publicAPI.computeMatrix();</span>
+    const tmp4 = <span class="cstat-no" title="statement not covered" >mat4.create();</span>
+<span class="cstat-no" title="statement not covered" >    mat4.transpose(tmp4, model.matrix);</span>
+<span class="cstat-no" title="statement not covered" >    bbox.forEach((pt) =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >vec3.transformMat4(pt, pt, tmp4))</span></span>;</span>
+&nbsp;
+    let newBounds = <span class="cstat-no" title="statement not covered" >[</span>
+      Number.MAX_VALUE,
+      -Number.MAX_VALUE,
+      Number.MAX_VALUE,
+      -Number.MAX_VALUE,
+      Number.MAX_VALUE,
+      -Number.MAX_VALUE,
+    ];
+<span class="cstat-no" title="statement not covered" >    newBounds = newBounds.map(</span>
+      (d, i) =&gt;
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >        i % 2 === 0</span></span>
+          ? bbox.reduce((a, b) =&gt; (<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >a &gt; b[i / 2] ? b[i / 2] : a)</span></span>, d)
+          : bbox.reduce((a, b) =&gt; (<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >a &lt; b[(i - 1) / 2] ? b[(i - 1) / 2] : a)</span></span>, d)
+    );
+<span class="cstat-no" title="statement not covered" >    return newBounds;</span>
+  };
+&nbsp;
   //----------------------------------------------------------------------------
   // Get the minimum X bound
 <span class="cstat-no" title="statement not covered" >  publicAPI.getMinXBound = () =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
@@ -703,7 +838,7 @@ export default { newInstance, extend };
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Feb 09 2018 19:50:01 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sat Feb 10 2018 00:00:53 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>
