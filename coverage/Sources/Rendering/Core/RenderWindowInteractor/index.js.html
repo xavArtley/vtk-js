@@ -20,9 +20,9 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">1.56% </span>
+        <span class="strong">1.55% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>6/385</span>
+        <span class='fraction'>6/386</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
@@ -37,7 +37,7 @@
       <div class='fl pad1y space-right2'>
         <span class="strong">1.57% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>6/382</span>
+        <span class='fraction'>6/383</span>
       </div>
     </div>
   </div>
@@ -972,7 +972,9 @@
 927
 928
 929
-930</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+930
+931
+932</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1039,6 +1041,9 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -1826,7 +1831,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1966,6 +1970,9 @@ function preventDefault(event) <span class="fstat-no" title="function not covere
 function vtkRenderWindowInteractor(publicAPI, model) <span class="fstat-no" title="function not covered" >{</span>
   // Set our className
 <span class="cstat-no" title="statement not covered" >  model.classHierarchy.push('vtkRenderWindowInteractor');</span>
+&nbsp;
+  // Initialize list of requesters
+  const animationRequesters = <span class="cstat-no" title="statement not covered" >new Set();</span>
 &nbsp;
   // Public API methods
 &nbsp;
@@ -2168,11 +2175,11 @@ function vtkRenderWindowInteractor(publicAPI, model) <span class="fstat-no" titl
 <span class="cstat-no" title="statement not covered" >      vtkErrorMacro(`undefined requester, can not start animating`);</span>
 <span class="cstat-no" title="statement not covered" >      return;</span>
     }
-<span class="cstat-no" title="statement not covered" >    if (model.animationRequesters.has(requestor)) {</span>
+<span class="cstat-no" title="statement not covered" >    if (animationRequesters.has(requestor)) {</span>
 <span class="cstat-no" title="statement not covered" >      return;</span>
     }
-<span class="cstat-no" title="statement not covered" >    model.animationRequesters.add(requestor);</span>
-<span class="cstat-no" title="statement not covered" >    if (model.animationRequesters.size === 1) {</span>
+<span class="cstat-no" title="statement not covered" >    animationRequesters.add(requestor);</span>
+<span class="cstat-no" title="statement not covered" >    if (animationRequesters.size === 1) {</span>
 <span class="cstat-no" title="statement not covered" >      model.lastFrameTime = 0.1;</span>
 <span class="cstat-no" title="statement not covered" >      model.lastFrameStart = Date.now();</span>
 <span class="cstat-no" title="statement not covered" >      model.animationRequest = requestAnimationFrame(publicAPI.handleAnimation);</span>
@@ -2184,12 +2191,12 @@ function vtkRenderWindowInteractor(publicAPI, model) <span class="fstat-no" titl
 <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >    model.vrAnimation || model.animationRequest !== null;</span></span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  publicAPI.cancelAnimation = (requestor) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
-<span class="cstat-no" title="statement not covered" >    if (!model.animationRequesters.has(requestor)) {</span>
+<span class="cstat-no" title="statement not covered" >    if (!animationRequesters.has(requestor)) {</span>
 <span class="cstat-no" title="statement not covered" >      vtkWarningMacro(`${requestor} did not request an animation`);</span>
 <span class="cstat-no" title="statement not covered" >      return;</span>
     }
-<span class="cstat-no" title="statement not covered" >    model.animationRequesters.delete(requestor);</span>
-<span class="cstat-no" title="statement not covered" >    if (model.animationRequest &amp;&amp; model.animationRequesters.size === 0) {</span>
+<span class="cstat-no" title="statement not covered" >    animationRequesters.delete(requestor);</span>
+<span class="cstat-no" title="statement not covered" >    if (model.animationRequest &amp;&amp; animationRequesters.size === 0) {</span>
 <span class="cstat-no" title="statement not covered" >      cancelAnimationFrame(model.animationRequest);</span>
 <span class="cstat-no" title="statement not covered" >      model.animationRequest = null;</span>
 <span class="cstat-no" title="statement not covered" >      publicAPI.endAnimationEvent();</span>
@@ -2771,7 +2778,6 @@ const DEFAULT_VALUES = {
   recognizeGestures: true,
   currentGesture: 'Start',
   animationRequest: null,
-  animationRequesters: new Set(),
   lastFrameTime: 0.1,
   wheelTimeoutID: 0,
   moveTimeoutID: 0,
@@ -2836,7 +2842,7 @@ export default Object.assign({ newInstance, extend, handledEvents }, Constants);
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Feb 12 2018 15:21:05 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Feb 13 2018 00:30:38 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>
