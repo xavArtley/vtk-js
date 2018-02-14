@@ -20,14 +20,14 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">48.33% </span>
+        <span class="strong">46.77% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>29/60</span>
+        <span class='fraction'>29/62</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">12.5% </span>
+        <span class="strong">11.11% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>2/16</span>
+        <span class='fraction'>2/18</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">30% </span>
@@ -35,9 +35,9 @@
         <span class='fraction'>6/20</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">49.09% </span>
+        <span class="strong">47.37% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>27/55</span>
+        <span class='fraction'>27/57</span>
       </div>
     </div>
   </div>
@@ -175,7 +175,11 @@
 130
 131
 132
-133</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+133
+134
+135
+136
+137</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -249,9 +253,13 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -370,20 +378,24 @@ function vtkRenderWindow(publicAPI, model) {
   };
 &nbsp;
   publicAPI.getStatistics = () =&gt; <span class="fstat-no" title="function not covered" >{</span>
-    const results = <span class="cstat-no" title="statement not covered" >{ propCount: 0 };</span>
+    const results = <span class="cstat-no" title="statement not covered" >{ propCount: 0, invisiblePropCount: 0 };</span>
 <span class="cstat-no" title="statement not covered" >    model.renderers.forEach((ren) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
       const props = <span class="cstat-no" title="statement not covered" >ren.getViewProps();</span>
 <span class="cstat-no" title="statement not covered" >      props.forEach((prop) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
-<span class="cstat-no" title="statement not covered" >        results.propCount += 1;</span>
-        const mpr = <span class="cstat-no" title="statement not covered" >prop.getMapper();</span>
-<span class="cstat-no" title="statement not covered" >        if (mpr &amp;&amp; mpr.getPrimativeCount) {</span>
-          const pcount = <span class="cstat-no" title="statement not covered" >mpr.getPrimativeCount();</span>
-<span class="cstat-no" title="statement not covered" >          Object.keys(pcount).forEach((keyName) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
-<span class="cstat-no" title="statement not covered" >            if (!results[keyName]) {</span>
-<span class="cstat-no" title="statement not covered" >              results[keyName] = 0;</span>
-            }
-<span class="cstat-no" title="statement not covered" >            results[keyName] += pcount[keyName];</span>
-          });
+<span class="cstat-no" title="statement not covered" >        if (prop.getVisibility()) {</span>
+<span class="cstat-no" title="statement not covered" >          results.propCount += 1;</span>
+          const mpr = <span class="cstat-no" title="statement not covered" >prop.getMapper();</span>
+<span class="cstat-no" title="statement not covered" >          if (mpr &amp;&amp; mpr.getPrimativeCount) {</span>
+            const pcount = <span class="cstat-no" title="statement not covered" >mpr.getPrimativeCount();</span>
+<span class="cstat-no" title="statement not covered" >            Object.keys(pcount).forEach((keyName) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >              if (!results[keyName]) {</span>
+<span class="cstat-no" title="statement not covered" >                results[keyName] = 0;</span>
+              }
+<span class="cstat-no" title="statement not covered" >              results[keyName] += pcount[keyName];</span>
+            });
+          }
+        } else {
+<span class="cstat-no" title="statement not covered" >          results.invisiblePropCount += 1;</span>
         }
       });
     });
@@ -445,7 +457,7 @@ export default { newInstance, extend };
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Feb 13 2018 23:50:09 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Feb 14 2018 16:20:18 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>
