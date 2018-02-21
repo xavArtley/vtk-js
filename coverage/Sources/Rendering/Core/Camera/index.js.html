@@ -20,9 +20,9 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">27.93% </span>
+        <span class="strong">29.48% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>93/333</span>
+        <span class='fraction'>97/329</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">8.7% </span>
@@ -35,9 +35,9 @@
         <span class='fraction'>5/34</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">27.93% </span>
+        <span class="strong">29.48% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>93/333</span>
+        <span class='fraction'>97/329</span>
       </div>
     </div>
   </div>
@@ -810,10 +810,7 @@
 765
 766
 767
-768
-769
-770
-771</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+768</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -852,6 +849,11 @@
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -1009,9 +1011,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1037,9 +1037,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1081,12 +1079,10 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1112,12 +1108,10 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1621,6 +1615,11 @@ function vtkCamera(publicAPI, model) {
   const tmpvec2 = vec3.create();
   const tmpvec3 = vec3.create();
 &nbsp;
+  const rotateMatrix = mat4.create();
+  const trans = mat4.create();
+  const newPosition = vec3.create();
+  const newFocalPoint = vec3.create();
+&nbsp;
   publicAPI.orthogonalizeViewUp = () =&gt; <span class="fstat-no" title="function not covered" >{</span>
     const vt = <span class="cstat-no" title="statement not covered" >publicAPI.getViewMatrix();</span>
 <span class="cstat-no" title="statement not covered" >    model.viewUp[0] = vt[4];</span>
@@ -1756,7 +1755,7 @@ function vtkCamera(publicAPI, model) {
     const up = <span class="cstat-no" title="statement not covered" >model.viewUp;</span>
     const viewUpVec4 = <span class="cstat-no" title="statement not covered" >vec4.fromValues(up[0], up[1], up[2], 0.0);</span>
 &nbsp;
-    const rotateMatrix = <span class="cstat-no" title="statement not covered" >mat4.create();</span> // FIXME: don't create a new one each time?
+<span class="cstat-no" title="statement not covered" >    mat4.identity(rotateMatrix);</span>
     const viewDir = <span class="cstat-no" title="statement not covered" >vec3.fromValues(</span>
       at[0] - eye[0],
       at[1] - eye[1],
@@ -1778,10 +1777,8 @@ function vtkCamera(publicAPI, model) {
   };
 &nbsp;
   publicAPI.azimuth = (angle) =&gt; <span class="fstat-no" title="function not covered" >{</span>
-    const newPosition = <span class="cstat-no" title="statement not covered" >vec3.create();</span>
     const fp = <span class="cstat-no" title="statement not covered" >model.focalPoint;</span>
 &nbsp;
-    const trans = <span class="cstat-no" title="statement not covered" >mat4.create();</span>
 <span class="cstat-no" title="statement not covered" >    mat4.identity(trans);</span>
 &nbsp;
     // translate the focal point to the origin,
@@ -1806,10 +1803,8 @@ function vtkCamera(publicAPI, model) {
   };
 &nbsp;
   publicAPI.yaw = (angle) =&gt; <span class="fstat-no" title="function not covered" >{</span>
-    const newFocalPoint = <span class="cstat-no" title="statement not covered" >vec3.create();</span>
     const position = <span class="cstat-no" title="statement not covered" >model.position;</span>
 &nbsp;
-    const trans = <span class="cstat-no" title="statement not covered" >mat4.create();</span>
 <span class="cstat-no" title="statement not covered" >    mat4.identity(trans);</span>
 &nbsp;
     // translate the camera to the origin,
@@ -1850,13 +1845,11 @@ function vtkCamera(publicAPI, model) {
   };
 &nbsp;
   publicAPI.elevation = (angle) =&gt; <span class="fstat-no" title="function not covered" >{</span>
-    const newPosition = <span class="cstat-no" title="statement not covered" >vec3.create();</span>
     const fp = <span class="cstat-no" title="statement not covered" >model.focalPoint;</span>
 &nbsp;
     const vt = <span class="cstat-no" title="statement not covered" >publicAPI.getViewMatrix();</span>
     const axis = <span class="cstat-no" title="statement not covered" >[-vt[0], -vt[1], -vt[2]];</span>
 &nbsp;
-    const trans = <span class="cstat-no" title="statement not covered" >mat4.create();</span>
 <span class="cstat-no" title="statement not covered" >    mat4.identity(trans);</span>
 &nbsp;
     // translate the focal point to the origin,
@@ -1881,13 +1874,11 @@ function vtkCamera(publicAPI, model) {
   };
 &nbsp;
   publicAPI.pitch = (angle) =&gt; <span class="fstat-no" title="function not covered" >{</span>
-    const newFocalPoint = <span class="cstat-no" title="statement not covered" >vec3.create();</span>
     const position = <span class="cstat-no" title="statement not covered" >model.position;</span>
 &nbsp;
     const vt = <span class="cstat-no" title="statement not covered" >publicAPI.getViewMatrix();</span>
     const axis = <span class="cstat-no" title="statement not covered" >[vt[0], vt[1], vt[2]];</span>
 &nbsp;
-    const trans = <span class="cstat-no" title="statement not covered" >mat4.create();</span>
 <span class="cstat-no" title="statement not covered" >    mat4.identity(trans);</span>
 &nbsp;
     // translate the camera to the origin,
@@ -2359,7 +2350,7 @@ export default { newInstance, extend };
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Feb 21 2018 14:58:25 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Feb 21 2018 16:03:50 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>
