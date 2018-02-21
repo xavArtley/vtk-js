@@ -20,28 +20,28 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">57.14% </span>
+        <span class="strong">41.79% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>28/49</span>
+        <span class='fraction'>28/67</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">81.48% </span>
+        <span class="strong">70.97% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>22/27</span>
+        <span class='fraction'>22/31</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">69.23% </span>
+        <span class="strong">64.29% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>9/13</span>
+        <span class='fraction'>9/14</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">58.33% </span>
+        <span class="strong">42.42% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>28/48</span>
+        <span class='fraction'>28/66</span>
       </div>
     </div>
   </div>
-  <div class='status-line medium'></div>
+  <div class='status-line low'></div>
 <pre><table class="coverage">
 <tr><td class="line-count quiet">1
 2
@@ -165,7 +165,29 @@
 120
 121
 122
-123</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -270,6 +292,28 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -395,6 +439,28 @@ class Transform {
   getMatrix() <span class="fstat-no" title="function not covered" >{</span>
 <span class="cstat-no" title="statement not covered" >    return this.matrix;</span>
   }
+&nbsp;
+  setMatrix(mat4x4) <span class="fstat-no" title="function not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >    if (Array.isArray(mat4x4) &amp;&amp; mat4x4.length === 16) {</span>
+<span class="cstat-no" title="statement not covered" >      this.matrix[0] = mat4x4[0];</span>
+<span class="cstat-no" title="statement not covered" >      this.matrix[1] = mat4x4[1];</span>
+<span class="cstat-no" title="statement not covered" >      this.matrix[2] = mat4x4[2];</span>
+<span class="cstat-no" title="statement not covered" >      this.matrix[3] = mat4x4[3];</span>
+<span class="cstat-no" title="statement not covered" >      this.matrix[4] = mat4x4[4];</span>
+<span class="cstat-no" title="statement not covered" >      this.matrix[5] = mat4x4[5];</span>
+<span class="cstat-no" title="statement not covered" >      this.matrix[6] = mat4x4[6];</span>
+<span class="cstat-no" title="statement not covered" >      this.matrix[7] = mat4x4[7];</span>
+<span class="cstat-no" title="statement not covered" >      this.matrix[8] = mat4x4[8];</span>
+<span class="cstat-no" title="statement not covered" >      this.matrix[9] = mat4x4[9];</span>
+<span class="cstat-no" title="statement not covered" >      this.matrix[10] = mat4x4[10];</span>
+<span class="cstat-no" title="statement not covered" >      this.matrix[11] = mat4x4[11];</span>
+<span class="cstat-no" title="statement not covered" >      this.matrix[12] = mat4x4[12];</span>
+<span class="cstat-no" title="statement not covered" >      this.matrix[13] = mat4x4[13];</span>
+<span class="cstat-no" title="statement not covered" >      this.matrix[14] = mat4x4[14];</span>
+<span class="cstat-no" title="statement not covered" >      this.matrix[15] = mat4x4[15];</span>
+    }
+<span class="cstat-no" title="statement not covered" >    return this;</span>
+  }
 }
 &nbsp;
 function buildFromDegree() {
@@ -415,7 +481,7 @@ export default {
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Feb 21 2018 16:03:50 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Feb 21 2018 23:31:47 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>
