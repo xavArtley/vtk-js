@@ -20,24 +20,24 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">58.06% </span>
+        <span class="strong">56.53% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>342/589</span>
+        <span class='fraction'>342/605</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">53.85% </span>
+        <span class="strong">52.92% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>154/286</span>
+        <span class='fraction'>154/291</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">63.83% </span>
+        <span class="strong">62.94% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>90/141</span>
+        <span class='fraction'>90/143</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">57.81% </span>
+        <span class="strong">56.2% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>322/557</span>
+        <span class='fraction'>322/573</span>
       </div>
     </div>
   </div>
@@ -1359,7 +1359,41 @@
 1314
 1315
 1316
-1317</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+1317
+1318
+1319
+1320
+1321
+1322
+1323
+1324
+1325
+1326
+1327
+1328
+1329
+1330
+1331
+1332
+1333
+1334
+1335
+1336
+1337
+1338
+1339
+1340
+1341
+1342
+1343
+1344
+1345
+1346
+1347
+1348
+1349
+1350
+1351</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1435,6 +1469,38 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">3144×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -2675,6 +2741,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import vtk from './vtk';
 &nbsp;
 let globalMTime = 0;
@@ -2751,6 +2819,38 @@ export function vtkWarningMacro(...args) {
 &nbsp;
 export function capitalize(str) {
   return str.charAt(0).toUpperCase() + str.slice(1);
+}
+&nbsp;
+// ----------------------------------------------------------------------------
+// Convert byte size into a well formatted string
+// ----------------------------------------------------------------------------
+&nbsp;
+export function formatBytesToProperUnit(size, precision = 2, chunkSize = 1000) <span class="fstat-no" title="function not covered" >{</span>
+  const units = <span class="cstat-no" title="statement not covered" >['TB', 'GB', 'MB', 'KB'];</span>
+  let value = <span class="cstat-no" title="statement not covered" >Number(size);</span>
+  let currentUnit = <span class="cstat-no" title="statement not covered" >'B';</span>
+<span class="cstat-no" title="statement not covered" >  while (value &gt; chunkSize) {</span>
+<span class="cstat-no" title="statement not covered" >    value /= chunkSize;</span>
+<span class="cstat-no" title="statement not covered" >    currentUnit = units.pop();</span>
+  }
+<span class="cstat-no" title="statement not covered" >  return `${value.toFixed(precision)} ${currentUnit}`;</span>
+}
+// ----------------------------------------------------------------------------
+// Convert thousand number with proper seperator
+// ----------------------------------------------------------------------------
+&nbsp;
+export function formatNumbersWithThousandSeparator(n, separator = ' ') <span class="fstat-no" title="function not covered" >{</span>
+  const sections = <span class="cstat-no" title="statement not covered" >[];</span>
+  let size = <span class="cstat-no" title="statement not covered" >n;</span>
+<span class="cstat-no" title="statement not covered" >  while (size &gt; 1000) {</span>
+<span class="cstat-no" title="statement not covered" >    sections.push(`000${size % 1000}`.slice(-3));</span>
+<span class="cstat-no" title="statement not covered" >    size = Math.floor(size / 1000);</span>
+  }
+<span class="cstat-no" title="statement not covered" >  if (size &gt; 0) {</span>
+<span class="cstat-no" title="statement not covered" >    sections.push(size);</span>
+  }
+<span class="cstat-no" title="statement not covered" >  sections.reverse();</span>
+<span class="cstat-no" title="statement not covered" >  return sections.join(separator);</span>
 }
 &nbsp;
 // ----------------------------------------------------------------------------
@@ -3990,6 +4090,8 @@ export default {
   proxy,
   proxyPropertyMapping,
   proxyPropertyState,
+  formatBytesToProperUnit,
+  formatNumbersWithThousandSeparator,
 };
 &nbsp;</pre></td></tr>
 </table></pre>
@@ -3997,7 +4099,7 @@ export default {
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Feb 28 2018 01:27:51 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Feb 28 2018 02:00:21 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../prettify.js"></script>
