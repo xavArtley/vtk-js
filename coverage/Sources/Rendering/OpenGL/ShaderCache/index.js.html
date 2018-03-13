@@ -314,18 +314,12 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -333,6 +327,11 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -501,6 +500,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -538,7 +538,7 @@ import vtkShaderProgram from 'vtk.js/Sources/Rendering/OpenGL/ShaderProgram';
 &nbsp;
 // ----------------------------------------------------------------------------
 &nbsp;
-const SET_GET_FIELDS = ['lastShaderBound', 'context'];
+const SET_GET_FIELDS = ['lastShaderBound', 'context', 'openGLRenderWindow'];
 &nbsp;
 // ----------------------------------------------------------------------------
 // vtkShaderCache methods
@@ -555,21 +555,15 @@ function vtkShaderCache(publicAPI, model) {
     // have a Geometry shader we rename the frament shader inputs
     // to come from the geometry shader
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    model.context.getExtension('OES_standard_derivatives');</span>
     let nFSSource = <span class="cstat-no" title="statement not covered" >FSSource;</span>
 <span class="cstat-no" title="statement not covered" >    if (GSSource.length &gt; 0) {</span>
 <span class="cstat-no" title="statement not covered" >      nFSSource = vtkShaderProgram.substitute(nFSSource, 'VSOut', 'GSOut')</span>
         .result;
     }
 &nbsp;
-    let fragDepthString = <span class="cstat-no" title="statement not covered" >'\n';</span>
-<span class="cstat-no" title="statement not covered" >    if (model.context.getExtension('EXT_frag_depth')) {</span>
-<span class="cstat-no" title="statement not covered" >      fragDepthString = '#extension GL_EXT_frag_depth : enable\n';</span>
-    }
+    const gl2 = <span class="cstat-no" title="statement not covered" >model.openGLRenderWindow.getWebgl2();</span>
 &nbsp;
-    const gl2 =
-<span class="cstat-no" title="statement not covered" >      model.context.getParameter(model.context.VERSION).indexOf('WebGL 2.0') !==</span>
-      -1;
+    let fragDepthString = <span class="cstat-no" title="statement not covered" >'\n';</span>
 &nbsp;
     let version = <span class="cstat-no" title="statement not covered" >'#version 100\n';</span>
 <span class="cstat-no" title="statement not covered" >    if (gl2) {</span>
@@ -578,6 +572,11 @@ function vtkShaderCache(publicAPI, model) {
         '#define attribute in\n' +
         '#define textureCube texture\n' +
         '#define texture2D texture\n';
+    } else {
+<span class="cstat-no" title="statement not covered" >      model.context.getExtension('OES_standard_derivatives');</span>
+<span class="cstat-no" title="statement not covered" >      if (model.context.getExtension('EXT_frag_depth')) {</span>
+<span class="cstat-no" title="statement not covered" >        fragDepthString = '#extension GL_EXT_frag_depth : enable\n';</span>
+      }
     }
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    nFSSource = vtkShaderProgram.substitute(nFSSource, '//VTK::System::Dec', [</span>
@@ -748,6 +747,7 @@ const DEFAULT_VALUES = {
   lastShaderBound: null,
   shaderPrograms: null,
   context: null,
+  openGLRenderWindow: null,
 };
 &nbsp;
 // ----------------------------------------------------------------------------
@@ -781,7 +781,7 @@ export default { newInstance, extend };
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Mar 12 2018 16:00:30 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Mar 13 2018 16:29:06 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>
