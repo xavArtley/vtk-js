@@ -20,14 +20,14 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">53.24% </span>
+        <span class="strong">51.63% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>74/139</span>
+        <span class='fraction'>79/153</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">36.36% </span>
+        <span class="strong">38.1% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>20/55</span>
+        <span class='fraction'>24/63</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">59.26% </span>
@@ -35,9 +35,9 @@
         <span class='fraction'>16/27</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">53.03% </span>
+        <span class="strong">51.37% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>70/132</span>
+        <span class='fraction'>75/146</span>
       </div>
     </div>
   </div>
@@ -354,7 +354,25 @@
 309
 310
 311
-312</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+312
+313
+314
+315
+316
+317
+318
+319
+320
+321
+322
+323
+324
+325
+326
+327
+328
+329
+330</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -530,11 +548,29 @@
 <span class="cline-any cline-yes">199×</span>
 <span class="cline-any cline-yes">53802×</span>
 <span class="cline-any cline-yes">53802×</span>
-<span class="cline-any cline-yes">53756×</span>
+<span class="cline-any cline-yes">47×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">53802×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">53802×</span>
-<span class="cline-any cline-yes">161346×</span>
+<span class="cline-any cline-yes">30×</span>
+<span class="cline-any cline-yes">53772×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">53772×</span>
+<span class="cline-any cline-yes">53772×</span>
+<span class="cline-any cline-yes">53772×</span>
+<span class="cline-any cline-yes">53772×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">53802×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -840,12 +876,30 @@ function vtkDataArray(publicAPI, model) {
 &nbsp;
   publicAPI.getTuple = (idx, tupleToFill = TUPLE_HOLDER) =&gt; {
     const numberOfComponents = model.numberOfComponents || <span class="branch-1 cbranch-no" title="branch not covered" >1;</span>
-    if (tupleToFill.length) {
+    if (tupleToFill.length !== numberOfComponents) {
       tupleToFill.length = numberOfComponents;
     }
     const offset = idx * numberOfComponents;
-    for (let i = 0; i &lt; numberOfComponents; i++) {
-      tupleToFill[i] = model.values[offset + i];
+    // Check most common component sizes first
+    // to avoid doing a for loop if possible
+    if (numberOfComponents === 1) {
+      tupleToFill[0] = model.values[offset];
+    } else <span class="missing-if-branch" title="if path not taken" >I</span>if (numberOfComponents === 2) {
+<span class="cstat-no" title="statement not covered" >      tupleToFill[0] = model.values[offset];</span>
+<span class="cstat-no" title="statement not covered" >      tupleToFill[1] = model.values[offset + 1];</span>
+    } else <span class="missing-if-branch" title="else path not taken" >E</span>if (numberOfComponents === 3) {
+      tupleToFill[0] = model.values[offset];
+      tupleToFill[1] = model.values[offset + 1];
+      tupleToFill[2] = model.values[offset + 2];
+    } else <span class="cstat-no" title="statement not covered" >if (numberOfComponents === 4) {</span>
+<span class="cstat-no" title="statement not covered" >      tupleToFill[0] = model.values[offset];</span>
+<span class="cstat-no" title="statement not covered" >      tupleToFill[1] = model.values[offset + 1];</span>
+<span class="cstat-no" title="statement not covered" >      tupleToFill[2] = model.values[offset + 2];</span>
+<span class="cstat-no" title="statement not covered" >      tupleToFill[3] = model.values[offset + 3];</span>
+    } else {
+<span class="cstat-no" title="statement not covered" >      for (let i = 0; i &lt; numberOfComponents; i++) {</span>
+<span class="cstat-no" title="statement not covered" >        tupleToFill[i] = model.values[offset + i];</span>
+      }
     }
     return tupleToFill;
   };
@@ -982,7 +1036,7 @@ export default Object.assign({ newInstance, extend }, STATIC, Constants);
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Mar 15 2018 19:38:16 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Mar 15 2018 19:43:10 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>
