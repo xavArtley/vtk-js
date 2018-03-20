@@ -20,14 +20,14 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">1.54% </span>
+        <span class="strong">1.56% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>6/389</span>
+        <span class='fraction'>6/384</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>0/169</span>
+        <span class='fraction'>0/167</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
@@ -35,9 +35,9 @@
         <span class='fraction'>0/47</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">1.55% </span>
+        <span class="strong">1.57% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>6/386</span>
+        <span class='fraction'>6/381</span>
       </div>
     </div>
   </div>
@@ -977,22 +977,19 @@
 932
 933
 934
-935</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+935
+936
+937
+938
+939
+940</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1007,6 +1004,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1030,6 +1028,14 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -1384,20 +1390,24 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1915,6 +1925,7 @@
 import vtkMath from 'vtk.js/Sources/Common/Core/Math';
 import vtkInteractorStyleTrackballCamera from 'vtk.js/Sources/Interaction/Style/InteractorStyleTrackballCamera';
 import Constants from 'vtk.js/Sources/Rendering/Core/RenderWindowInteractor/Constants';
+import normalizeWheel from 'normalize-wheel';
 &nbsp;
 const { Device, Input } = Constants;
 const { vtkWarningMacro, vtkErrorMacro } = macro;
@@ -2108,7 +2119,7 @@ function vtkRenderWindowInteractor(publicAPI, model) <span class="fstat-no" titl
 <span class="cstat-no" title="statement not covered" >    model.canvas = canvas;</span>
 <span class="cstat-no" title="statement not covered" >    canvas.addEventListener('contextmenu', preventDefault);</span>
 <span class="cstat-no" title="statement not covered" >    canvas.addEventListener('click', preventDefault);</span>
-<span class="cstat-no" title="statement not covered" >    canvas.addEventListener('mousewheel', publicAPI.handleWheel);</span>
+<span class="cstat-no" title="statement not covered" >    canvas.addEventListener('wheel', publicAPI.handleWheel);</span>
 <span class="cstat-no" title="statement not covered" >    canvas.addEventListener('DOMMouseScroll', publicAPI.handleWheel);</span>
 <span class="cstat-no" title="statement not covered" >    canvas.addEventListener('mousemove', publicAPI.handleMouseMove);</span>
 <span class="cstat-no" title="statement not covered" >    canvas.addEventListener('mousedown', publicAPI.handleMouseDown);</span>
@@ -2126,7 +2137,7 @@ function vtkRenderWindowInteractor(publicAPI, model) <span class="fstat-no" titl
 <span class="cstat-no" title="statement not covered" >    interactionRegistration(false);</span>
 <span class="cstat-no" title="statement not covered" >    model.canvas.removeEventListener('contextmenu', preventDefault);</span>
 <span class="cstat-no" title="statement not covered" >    model.canvas.removeEventListener('click', preventDefault);</span>
-<span class="cstat-no" title="statement not covered" >    model.canvas.removeEventListener('mousewheel', publicAPI.handleWheel);</span>
+<span class="cstat-no" title="statement not covered" >    model.canvas.removeEventListener('wheel', publicAPI.handleWheel);</span>
 <span class="cstat-no" title="statement not covered" >    model.canvas.removeEventListener('DOMMouseScroll', publicAPI.handleWheel);</span>
 <span class="cstat-no" title="statement not covered" >    model.canvas.removeEventListener('mousemove', publicAPI.handleMouseMove);</span>
 <span class="cstat-no" title="statement not covered" >    model.canvas.removeEventListener('mousedown', publicAPI.handleMouseDown);</span>
@@ -2318,22 +2329,26 @@ function vtkRenderWindowInteractor(publicAPI, model) <span class="fstat-no" titl
 <span class="cstat-no" title="statement not covered" >    event.stopPropagation();</span>
 <span class="cstat-no" title="statement not covered" >    event.preventDefault();</span>
 &nbsp;
-    let wheelDelta = <span class="cstat-no" title="statement not covered" >0;</span>
-    // let mode = '';
-<span class="cstat-no" title="statement not covered" >    if (event.wheelDeltaX === undefined) {</span>
-      // mode = 'detail';
-<span class="cstat-no" title="statement not covered" >      wheelDelta = -event.detail * 2;</span>
-    } else {
-      // mode = 'wheelDeltaY';
-<span class="cstat-no" title="statement not covered" >      wheelDelta = event.wheelDeltaY;</span>
-    }
-    const callData = <span class="cstat-no" title="statement not covered" >{</span>
-      wheelDelta: Math.max(0.01, (wheelDelta + 1000.0) / 1000.0),
-    };
+    /**
+     * wheel event values can vary significantly across browsers, platforms and
+     * devices [1]. `normalize-wheel` is a npm package that exposes facebook's
+     * solution to that issue from their fixed-data-table repository [2].
+     *
+     * [1] https://developer.mozilla.org/en-US/docs/Web/Events/mousewheel
+     * [2] https://github.com/facebookarchive/fixed-data-table/blob/master/src/vendor_upstream/dom/normalizeWheel.js
+     *
+     * This code will return an object with properties:
+     *
+     *   spinX   -- normalized spin speed (use for zoom) - x plane
+     *   spinY   -- " - y plane
+     *   pixelX  -- normalized distance (to pixels) - x plane
+     *   pixelY  -- " - y plane
+     *
+     */
+    const callData = <span class="cstat-no" title="statement not covered" >normalizeWheel(event);</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    if (model.wheelTimeoutID === 0) {</span>
 <span class="cstat-no" title="statement not covered" >      publicAPI.startMouseWheelEvent(callData);</span>
-<span class="cstat-no" title="statement not covered" >      publicAPI.mouseWheelEvent(callData);</span>
     } else {
 <span class="cstat-no" title="statement not covered" >      publicAPI.mouseWheelEvent(callData);</span>
 <span class="cstat-no" title="statement not covered" >      clearTimeout(model.wheelTimeoutID);</span>
@@ -2851,7 +2866,7 @@ export default Object.assign({ newInstance, extend, handledEvents }, Constants);
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Mar 16 2018 21:57:46 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Mar 20 2018 15:54:45 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>
