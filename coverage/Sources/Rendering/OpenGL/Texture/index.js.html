@@ -20,9 +20,9 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">0.79% </span>
+        <span class="strong">0.8% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>5/630</span>
+        <span class='fraction'>5/628</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
@@ -35,9 +35,9 @@
         <span class='fraction'>0/44</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">0.79% </span>
+        <span class="strong">0.8% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>5/629</span>
+        <span class='fraction'>5/627</span>
       </div>
     </div>
   </div>
@@ -1500,10 +1500,7 @@
 1455
 1456
 1457
-1458
-1459
-1460
-1461</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+1458</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -2246,18 +2243,15 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -3703,21 +3697,18 @@ function vtkOpenGLTexture(publicAPI, model) <span class="fstat-no" title="functi
     // invert the data because opengl is messed up with cube maps
     // and uses the old renderman standard with Y going down
     // even though it is completely at odds with OpenGL standards
-    const halfHeight = <span class="cstat-no" title="statement not covered" >model.height / 2;</span>
-    const tmpData = <span class="cstat-no" title="statement not covered" >new window[dataType](model.width * model.components);</span>
+    const invertedData = <span class="cstat-no" title="statement not covered" >[];</span>
 <span class="cstat-no" title="statement not covered" >    for (let i = 0; i &lt; scaledData.length; i++) {</span>
-<span class="cstat-no" title="statement not covered" >      for (let y = 0; y &lt; halfHeight; ++y) {</span>
+<span class="cstat-no" title="statement not covered" >      invertedData[i] = new window[dataType](</span>
+        model.height * model.width * model.components
+      );
+<span class="cstat-no" title="statement not covered" >      for (let y = 0; y &lt; model.height; ++y) {</span>
         const row1 = <span class="cstat-no" title="statement not covered" >y * model.width * model.components;</span>
         const row2 = <span class="cstat-no" title="statement not covered" >(model.height - y - 1) * model.width * model.components;</span>
-<span class="cstat-no" title="statement not covered" >        tmpData.set(</span>
-          scaledData[i].slice(row1, row1 + model.width * model.components)
+<span class="cstat-no" title="statement not covered" >        invertedData[i].set(</span>
+          scaledData[i].slice(row2, row2 + model.width * model.components),
+          row1
         );
-<span class="cstat-no" title="statement not covered" >        scaledData[i].copyWithin(</span>
-          row1,
-          row2,
-          row2 + model.width * model.components
-        );
-<span class="cstat-no" title="statement not covered" >        scaledData[i].set(tmpData, row2);</span>
       }
     }
 &nbsp;
@@ -3725,7 +3716,7 @@ function vtkOpenGLTexture(publicAPI, model) <span class="fstat-no" title="functi
 <span class="cstat-no" title="statement not covered" >    model.context.pixelStorei(model.context.UNPACK_ALIGNMENT, 1);</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    for (let i = 0; i &lt; 6; i++) {</span>
-<span class="cstat-no" title="statement not covered" >      if (scaledData[i]) {</span>
+<span class="cstat-no" title="statement not covered" >      if (invertedData[i]) {</span>
 <span class="cstat-no" title="statement not covered" >        model.context.texImage2D(</span>
           model.context.TEXTURE_CUBE_MAP_POSITIVE_X + i,
           0,
@@ -3735,7 +3726,7 @@ function vtkOpenGLTexture(publicAPI, model) <span class="fstat-no" title="functi
           0,
           model.format,
           model.openGLDataType,
-          scaledData[i]
+          invertedData[i]
         );
       }
     }
@@ -4429,7 +4420,7 @@ export default Object.assign({ newInstance, extend }, Constants);
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Mar 21 2018 16:28:16 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Mar 21 2018 17:13:08 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>
