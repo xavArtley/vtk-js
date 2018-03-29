@@ -20,9 +20,9 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">1.56% </span>
+        <span class="strong">1.54% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>6/384</span>
+        <span class='fraction'>6/389</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
@@ -32,12 +32,12 @@
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>0/47</span>
+        <span class='fraction'>0/48</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">1.57% </span>
+        <span class="strong">1.55% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>6/381</span>
+        <span class='fraction'>6/386</span>
       </div>
     </div>
   </div>
@@ -981,7 +981,19 @@
 936
 937
 938
-939</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+939
+940
+941
+942
+943
+944
+945
+946
+947
+948
+949
+950
+951</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1034,6 +1046,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -1182,6 +1195,9 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1192,6 +1208,8 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -1199,13 +1217,19 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1954,6 +1978,7 @@ const handledEvents = [
   'RightButtonPress',
   'RightButtonRelease',
   'KeyPress',
+  'KeyDown',
   'KeyUp',
   'StartMouseWheel',
   'MouseWheel',
@@ -2125,6 +2150,9 @@ function vtkRenderWindowInteractor(publicAPI, model) <span class="fstat-no" titl
       .addEventListener('keypress', publicAPI.handleKeyPress);
 <span class="cstat-no" title="statement not covered" >    document</span>
       .querySelector('body')
+      .addEventListener('keydown', publicAPI.handleKeyDown);
+<span class="cstat-no" title="statement not covered" >    document</span>
+      .querySelector('body')
       .addEventListener('keyup', publicAPI.handleKeyUp);
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    canvas.addEventListener('touchstart', publicAPI.handleTouchStart, false);</span>
@@ -2143,6 +2171,9 @@ function vtkRenderWindowInteractor(publicAPI, model) <span class="fstat-no" titl
       .removeEventListener('keypress', publicAPI.handleKeyPress);
 <span class="cstat-no" title="statement not covered" >    document</span>
       .querySelector('body')
+      .removeEventListener('keydown', publicAPI.handleKeyDown);
+<span class="cstat-no" title="statement not covered" >    document</span>
+      .querySelector('body')
       .removeEventListener('keyup', publicAPI.handleKeyUp);
 <span class="cstat-no" title="statement not covered" >    model.canvas.removeEventListener('touchstart', publicAPI.handleTouchStart);</span>
 <span class="cstat-no" title="statement not covered" >    model.canvas = null;</span>
@@ -2151,6 +2182,11 @@ function vtkRenderWindowInteractor(publicAPI, model) <span class="fstat-no" titl
 <span class="cstat-no" title="statement not covered" >  publicAPI.handleKeyPress = (event) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
     const data = <span class="cstat-no" title="statement not covered" >getKeysFor(event);</span>
 <span class="cstat-no" title="statement not covered" >    publicAPI.keyPressEvent(data);</span>
+  };
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  publicAPI.handleKeyDown = (event) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+    const data = <span class="cstat-no" title="statement not covered" >getKeysFor(event);</span>
+<span class="cstat-no" title="statement not covered" >    publicAPI.keyDownEvent(data);</span>
   };
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  publicAPI.handleKeyUp = (event) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
@@ -2863,7 +2899,7 @@ export default Object.assign({ newInstance, extend, handledEvents }, Constants);
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Mar 28 2018 14:17:28 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Mar 29 2018 14:26:43 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>
