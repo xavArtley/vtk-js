@@ -20,9 +20,9 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">1.54% </span>
+        <span class="strong">1.55% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>6/389</span>
+        <span class='fraction'>6/387</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
@@ -35,9 +35,9 @@
         <span class='fraction'>0/48</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">1.55% </span>
+        <span class="strong">1.56% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>6/386</span>
+        <span class='fraction'>6/384</span>
       </div>
     </div>
   </div>
@@ -993,15 +993,7 @@
 948
 949
 950
-951
-952
-953
-954
-955
-956
-957
-958
-959</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+951</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1144,8 +1136,6 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1224,9 +1214,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -1239,9 +1226,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -2099,13 +2083,11 @@ function vtkRenderWindowInteractor(publicAPI, model) <span class="fstat-no" titl
   };
 &nbsp;
   function getScreenEventPositionFor(source) <span class="fstat-no" title="function not covered" >{</span>
-    const bounds = <span class="cstat-no" title="statement not covered" >model.container.getBoundingClientRect();</span>
-    const canvas = <span class="cstat-no" title="statement not covered" >model.view.getCanvas();</span>
-    const scaleX = <span class="cstat-no" title="statement not covered" >canvas.width / bounds.width;</span>
-    const scaleY = <span class="cstat-no" title="statement not covered" >canvas.height / bounds.height;</span>
+    const c = <span class="cstat-no" title="statement not covered" >model.canvas;</span>
+    const bounds = <span class="cstat-no" title="statement not covered" >c.getBoundingClientRect();</span>
     const position = <span class="cstat-no" title="statement not covered" >{</span>
-      x: scaleX * (source.clientX - bounds.left),
-      y: scaleY * (bounds.height - source.clientY + bounds.top),
+      x: source.clientX - bounds.left,
+      y: bounds.height - source.clientY + bounds.top,
       z: 0,
     };
 <span class="cstat-no" title="statement not covered" >    updateCurrentRenderer(position.x, position.y);</span>
@@ -2144,8 +2126,8 @@ function vtkRenderWindowInteractor(publicAPI, model) <span class="fstat-no" titl
     const method = <span class="cstat-no" title="statement not covered" >addListeners ? 'addEventListener' : 'removeEventListener';</span>
     const invMethod = <span class="cstat-no" title="statement not covered" >addListeners ? 'removeEventListener' : 'addEventListener';</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    if (model.container) {</span>
-<span class="cstat-no" title="statement not covered" >      model.container[invMethod]('mousemove', publicAPI.handleMouseMove);</span>
+<span class="cstat-no" title="statement not covered" >    if (model.canvas) {</span>
+<span class="cstat-no" title="statement not covered" >      model.canvas[invMethod]('mousemove', publicAPI.handleMouseMove);</span>
     }
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    rootElm[method]('mouseup', publicAPI.handleMouseUp);</span>
@@ -2155,14 +2137,14 @@ function vtkRenderWindowInteractor(publicAPI, model) <span class="fstat-no" titl
 <span class="cstat-no" title="statement not covered" >    rootElm[method]('touchmove', publicAPI.handleTouchMove, false);</span>
   }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  publicAPI.bindEvents = (container) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
-<span class="cstat-no" title="statement not covered" >    model.container = container;</span>
-<span class="cstat-no" title="statement not covered" >    container.addEventListener('contextmenu', preventDefault);</span>
-    // container.addEventListener('click', preventDefault); // Avoid stopping event propagation
-<span class="cstat-no" title="statement not covered" >    container.addEventListener('wheel', publicAPI.handleWheel);</span>
-<span class="cstat-no" title="statement not covered" >    container.addEventListener('DOMMouseScroll', publicAPI.handleWheel);</span>
-<span class="cstat-no" title="statement not covered" >    container.addEventListener('mousemove', publicAPI.handleMouseMove);</span>
-<span class="cstat-no" title="statement not covered" >    container.addEventListener('mousedown', publicAPI.handleMouseDown);</span>
+<span class="cstat-no" title="statement not covered" >  publicAPI.bindEvents = (canvas) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >    model.canvas = canvas;</span>
+<span class="cstat-no" title="statement not covered" >    canvas.addEventListener('contextmenu', preventDefault);</span>
+    // canvas.addEventListener('click', preventDefault); // Avoid stopping event propagation
+<span class="cstat-no" title="statement not covered" >    canvas.addEventListener('wheel', publicAPI.handleWheel);</span>
+<span class="cstat-no" title="statement not covered" >    canvas.addEventListener('DOMMouseScroll', publicAPI.handleWheel);</span>
+<span class="cstat-no" title="statement not covered" >    canvas.addEventListener('mousemove', publicAPI.handleMouseMove);</span>
+<span class="cstat-no" title="statement not covered" >    canvas.addEventListener('mousedown', publicAPI.handleMouseDown);</span>
 <span class="cstat-no" title="statement not covered" >    document</span>
       .querySelector('body')
       .addEventListener('keypress', publicAPI.handleKeyPress);
@@ -2173,20 +2155,17 @@ function vtkRenderWindowInteractor(publicAPI, model) <span class="fstat-no" titl
       .querySelector('body')
       .addEventListener('keyup', publicAPI.handleKeyUp);
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    container.addEventListener('touchstart', publicAPI.handleTouchStart, false);</span>
+<span class="cstat-no" title="statement not covered" >    canvas.addEventListener('touchstart', publicAPI.handleTouchStart, false);</span>
   };
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  publicAPI.unbindEvents = () =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
 <span class="cstat-no" title="statement not covered" >    interactionRegistration(false);</span>
-<span class="cstat-no" title="statement not covered" >    model.container.removeEventListener('contextmenu', preventDefault);</span>
-    // model.container.removeEventListener('click', preventDefault); // Avoid stopping event propagation
-<span class="cstat-no" title="statement not covered" >    model.container.removeEventListener('wheel', publicAPI.handleWheel);</span>
-<span class="cstat-no" title="statement not covered" >    model.container.removeEventListener(</span>
-      'DOMMouseScroll',
-      publicAPI.handleWheel
-    );
-<span class="cstat-no" title="statement not covered" >    model.container.removeEventListener('mousemove', publicAPI.handleMouseMove);</span>
-<span class="cstat-no" title="statement not covered" >    model.container.removeEventListener('mousedown', publicAPI.handleMouseDown);</span>
+<span class="cstat-no" title="statement not covered" >    model.canvas.removeEventListener('contextmenu', preventDefault);</span>
+    // model.canvas.removeEventListener('click', preventDefault); // Avoid stopping event propagation
+<span class="cstat-no" title="statement not covered" >    model.canvas.removeEventListener('wheel', publicAPI.handleWheel);</span>
+<span class="cstat-no" title="statement not covered" >    model.canvas.removeEventListener('DOMMouseScroll', publicAPI.handleWheel);</span>
+<span class="cstat-no" title="statement not covered" >    model.canvas.removeEventListener('mousemove', publicAPI.handleMouseMove);</span>
+<span class="cstat-no" title="statement not covered" >    model.canvas.removeEventListener('mousedown', publicAPI.handleMouseDown);</span>
 <span class="cstat-no" title="statement not covered" >    document</span>
       .querySelector('body')
       .removeEventListener('keypress', publicAPI.handleKeyPress);
@@ -2196,11 +2175,8 @@ function vtkRenderWindowInteractor(publicAPI, model) <span class="fstat-no" titl
 <span class="cstat-no" title="statement not covered" >    document</span>
       .querySelector('body')
       .removeEventListener('keyup', publicAPI.handleKeyUp);
-<span class="cstat-no" title="statement not covered" >    model.container.removeEventListener(</span>
-      'touchstart',
-      publicAPI.handleTouchStart
-    );
-<span class="cstat-no" title="statement not covered" >    model.container = null;</span>
+<span class="cstat-no" title="statement not covered" >    model.canvas.removeEventListener('touchstart', publicAPI.handleTouchStart);</span>
+<span class="cstat-no" title="statement not covered" >    model.canvas = null;</span>
   };
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  publicAPI.handleKeyPress = (event) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
@@ -2769,8 +2745,8 @@ function vtkRenderWindowInteractor(publicAPI, model) <span class="fstat-no" titl
         let thresh =
 <span class="cstat-no" title="statement not covered" >          0.01 *</span>
           Math.sqrt(
-            model.container.clientWidth * model.container.clientWidth +
-              model.container.clientHeight * model.container.clientHeight
+            model.canvas.clientWidth * model.canvas.clientWidth +
+              model.canvas.clientHeight * model.canvas.clientHeight
           );
 <span class="cstat-no" title="statement not covered" >        if (thresh &lt; 15.0) {</span>
 <span class="cstat-no" title="statement not covered" >          thresh = 15.0;</span>
@@ -2854,7 +2830,7 @@ const DEFAULT_VALUES = {
   lightFollowCamera: true,
   desiredUpdateRate: 30.0,
   stillUpdateRate: 2.0,
-  container: null,
+  canvas: null,
   view: null,
   recognizeGestures: true,
   currentGesture: 'Start',
@@ -2881,7 +2857,7 @@ export function extend(publicAPI, model, initialValues = {}) <span class="fstat-
   // Create get-only macros
 <span class="cstat-no" title="statement not covered" >  macro.get(publicAPI, model, [</span>
     'initialized',
-    'container',
+    'canvas',
     'enabled',
     'enableRender',
     'interactorStyle',
@@ -2923,7 +2899,7 @@ export default Object.assign({ newInstance, extend, handledEvents }, Constants);
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Apr 20 2018 17:50:57 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Apr 20 2018 19:52:05 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>
