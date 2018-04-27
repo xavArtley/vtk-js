@@ -1,6 +1,6 @@
 import { mat3, mat4 } from 'gl-matrix';
 
-import * as macro from '../../../macro';
+import macro from '../../../macro';
 import vtkViewNode from '../../SceneGraph/ViewNode';
 
 // ----------------------------------------------------------------------------

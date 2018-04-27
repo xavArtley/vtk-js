@@ -1,4 +1,5 @@
-import macro from 'vtk.js/Sources/macro';
+import { newInstance } from 'vtk.js/Sources/macro/Core/NewInstance';
+import { obj } from 'vtk.js/Sources/macro/Core/VtkObject';
 import vtkBoundingBox from 'vtk.js/Sources/Common/DataModel/BoundingBox';
 
 // ----------------------------------------------------------------------------
@@ -200,7 +201,7 @@ export function extend(publicAPI, model, initialValues = {}) {
   Object.assign(model, DEFAULT_VALUES, initialValues);
 
   // Object methods
-  macro.obj(publicAPI, model);
+  obj(publicAPI, model);
 
   if (!model.bbox) {
     model.bbox = vtkBoundingBox.newInstance();
@@ -211,8 +212,7 @@ export function extend(publicAPI, model, initialValues = {}) {
 
 // ----------------------------------------------------------------------------
 
-export const newInstance = macro.newInstance(extend, 'vtkBox');
-
-// ----------------------------------------------------------------------------
-
-export default Object.assign({ newInstance, extend }, STATIC);
+export default Object.assign(
+  { newInstance: newInstance(extend, 'vtkBox'), extend },
+  STATIC
+);

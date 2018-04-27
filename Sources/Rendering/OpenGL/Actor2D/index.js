@@ -1,4 +1,4 @@
-import * as macro from '../../../macro';
+import macro from '../../../macro';
 import vtkViewNode from '../../SceneGraph/ViewNode';
 
 // ----------------------------------------------------------------------------

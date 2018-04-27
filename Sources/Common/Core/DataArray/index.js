@@ -1,6 +1,8 @@
 import Constants from 'vtk.js/Sources/Common/Core/DataArray/Constants';
-import macro from 'vtk.js/Sources/macro';
 import vtkMath from 'vtk.js/Sources/Common/Core/Math';
+import { newInstance } from 'vtk.js/Sources/macro/Core/NewInstance';
+import { obj } from 'vtk.js/Sources/macro/Core/VtkObject';
+import { set } from 'vtk.js/Sources/macro/Core/GetterAndSetter';
 
 const { DefaultDataType } = Constants;
 const TUPLE_HOLDER = [];
@@ -313,8 +315,8 @@ export function extend(publicAPI, model, initialValues = {}) {
   }
 
   // Object methods
-  macro.obj(publicAPI, model);
-  macro.set(publicAPI, model, ['name', 'numberOfComponents']);
+  obj(publicAPI, model);
+  set(publicAPI, model, ['name', 'numberOfComponents']);
 
   // Object specific methods
   vtkDataArray(publicAPI, model);
@@ -322,8 +324,8 @@ export function extend(publicAPI, model, initialValues = {}) {
 
 // ----------------------------------------------------------------------------
 
-export const newInstance = macro.newInstance(extend, 'vtkDataArray');
-
-// ----------------------------------------------------------------------------
-
-export default Object.assign({ newInstance, extend }, STATIC, Constants);
+export default Object.assign(
+  { newInstance: newInstance(extend, 'vtkDataArray'), extend },
+  STATIC,
+  Constants
+);

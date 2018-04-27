@@ -1,4 +1,4 @@
-import macro from 'vtk.js/Sources/macro';
+import { newInstance } from 'vtk.js/Sources/macro/Core/NewInstance';
 import vtkDataArray from 'vtk.js/Sources/Common/Core/DataArray';
 import { VtkDataTypes } from 'vtk.js/Sources/Common/Core/DataArray/Constants';
 
@@ -79,8 +79,7 @@ export function extend(publicAPI, model, initialValues = {}) {
 
 // ----------------------------------------------------------------------------
 
-export const newInstance = macro.newInstance(extend, 'vtkCellArray');
-
-// ----------------------------------------------------------------------------
-
-export default Object.assign({ newInstance, extend }, STATIC);
+export default Object.assign(
+  { newInstance: newInstance(extend, 'vtkCellArray'), extend },
+  STATIC
+);

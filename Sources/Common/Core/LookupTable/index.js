@@ -1,7 +1,14 @@
-import macro from 'vtk.js/Sources/macro';
 import vtkMath from 'vtk.js/Sources/Common/Core/Math';
 import vtkScalarsToColors from 'vtk.js/Sources/Common/Core/ScalarsToColors';
+import { newInstance } from 'vtk.js/Sources/macro/Core/NewInstance';
+import { obj } from 'vtk.js/Sources/macro/Core/VtkObject';
 import { ScalarMappingTarget } from 'vtk.js/Sources/Common/Core/ScalarsToColors/Constants';
+import {
+  get,
+  getArray,
+  setArray,
+  setGet,
+} from 'vtk.js/Sources/macro/Core/GetterAndSetter';
 
 // ----------------------------------------------------------------------------
 // Global methods
@@ -304,30 +311,30 @@ export function extend(publicAPI, model, initialValues = {}) {
   }
 
   model.buildTime = {};
-  macro.obj(model.buildTime);
+  obj(model.buildTime);
 
   model.opaqueFlagBuildTime = {};
-  macro.obj(model.opaqueFlagBuildTime, { mtime: 0 });
+  obj(model.opaqueFlagBuildTime, { mtime: 0 });
 
   // Create get-only macros
-  macro.get(publicAPI, model, ['buildTime']);
+  get(publicAPI, model, ['buildTime']);
 
   // Create get-set macros
-  macro.setGet(publicAPI, model, [
+  setGet(publicAPI, model, [
     'numberOfColors',
     'useAboveRangeColor',
     'useBelowRangeColor',
   ]);
 
   // Create set macros for array (needs to know size)
-  macro.setArray(
+  setArray(
     publicAPI,
     model,
     ['alphaRange', 'hueRange', 'saturationRange', 'valueRange'],
     2
   );
 
-  macro.setArray(
+  setArray(
     publicAPI,
     model,
     ['nanColor', 'belowRangeColor', 'aboveRangeColor'],
@@ -335,7 +342,7 @@ export function extend(publicAPI, model, initialValues = {}) {
   );
 
   // Create get macros for array
-  macro.getArray(publicAPI, model, [
+  getArray(publicAPI, model, [
     'hueRange',
     'saturationRange',
     'valueRange',
@@ -345,16 +352,13 @@ export function extend(publicAPI, model, initialValues = {}) {
     'aboveRangeColor',
   ]);
 
-  // For more macro methods, see "Sources/macro.js"
-
   // Object specific methods
   vtkLookupTable(publicAPI, model);
 }
 
 // ----------------------------------------------------------------------------
 
-export const newInstance = macro.newInstance(extend, 'vtkLookupTable');
-
-// ----------------------------------------------------------------------------
-
-export default Object.assign({ newInstance, extend });
+export default Object.assign({
+  newInstance: newInstance(extend, 'vtkLookupTable'),
+  extend,
+});

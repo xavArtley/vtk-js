@@ -1,4 +1,6 @@
-import macro from 'vtk.js/Sources/macro';
+import { newInstance } from 'vtk.js/Sources/macro/Core/NewInstance';
+import { obj } from 'vtk.js/Sources/macro/Core/VtkObject';
+import { set } from 'vtk.js/Sources/macro/Core/GetterAndSetter';
 
 const TUPLE_HOLDER = [];
 
@@ -112,8 +114,8 @@ export function extend(publicAPI, model, initialValues = {}) {
   }
 
   // Object methods
-  macro.obj(publicAPI, model);
-  macro.set(publicAPI, model, ['name']);
+  obj(publicAPI, model);
+  set(publicAPI, model, ['name']);
 
   // Object specific methods
   vtkStringArray(publicAPI, model);
@@ -121,8 +123,7 @@ export function extend(publicAPI, model, initialValues = {}) {
 
 // ----------------------------------------------------------------------------
 
-export const newInstance = macro.newInstance(extend, 'vtkStringArray');
-
-// ----------------------------------------------------------------------------
-
-export default { newInstance, extend };
+export default {
+  newInstance: newInstance(extend, 'vtkStringArray'),
+  extend,
+};

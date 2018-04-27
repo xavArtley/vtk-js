@@ -1,4 +1,4 @@
-import * as macro from '../../../macro';
+import macro from '../../../macro';
 import DataAccessHelper from '../../Core/DataAccessHelper';
 import vtkTexture from '../../../Rendering/Core/Texture';
 

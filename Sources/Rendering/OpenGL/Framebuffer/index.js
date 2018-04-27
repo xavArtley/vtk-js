@@ -1,4 +1,4 @@
-import * as macro from 'vtk.js/Sources/macro';
+import macro from 'vtk.js/Sources/macro';
 import vtkOpenGLTexture from 'vtk.js/Sources/Rendering/OpenGL/Texture';
 import { VtkDataTypes } from 'vtk.js/Sources/Common/Core/DataArray/Constants';
 import { Filter } from 'vtk.js/Sources/Rendering/OpenGL/Texture/Constants';

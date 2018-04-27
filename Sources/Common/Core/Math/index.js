@@ -1,7 +1,8 @@
 import seedrandom from 'seedrandom';
-import macro from 'vtk.js/Sources/macro';
-
-const { vtkErrorMacro, vtkWarningMacro } = macro;
+import {
+  vtkErrorMacro,
+  vtkWarningMacro,
+} from 'vtk.js/Sources/macro/Core/Logger';
 
 // ----------------------------------------------------------------------------
 /* eslint-disable camelcase                                                  */

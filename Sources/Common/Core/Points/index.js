@@ -1,8 +1,7 @@
-import macro from 'vtk.js/Sources/macro';
 import vtkDataArray from 'vtk.js/Sources/Common/Core/DataArray';
+import { newInstance } from 'vtk.js/Sources/macro/Core/NewInstance';
 import { VtkDataTypes } from 'vtk.js/Sources/Common/Core/DataArray/Constants';
-
-const { vtkErrorMacro } = macro;
+import { vtkErrorMacro } from 'vtk.js/Sources/macro/Core/Logger';
 
 const INVALID_BOUNDS = [1, -1, 1, -1, 1, -1];
 
@@ -93,8 +92,4 @@ export function extend(publicAPI, model, initialValues = {}) {
 
 // ----------------------------------------------------------------------------
 
-export const newInstance = macro.newInstance(extend, 'vtkPoints');
-
-// ----------------------------------------------------------------------------
-
-export default { newInstance, extend };
+export default { newInstance: newInstance(extend, 'vtkPoints'), extend };

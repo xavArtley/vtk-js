@@ -1,4 +1,6 @@
-import macro from 'vtk.js/Sources/macro';
+import { newInstance } from 'vtk.js/Sources/macro/Core/NewInstance';
+import { obj } from 'vtk.js/Sources/macro/Core/VtkObject';
+import { setGet } from 'vtk.js/Sources/macro/Core/GetterAndSetter';
 import vtkPlane from 'vtk.js/Sources/Common/DataModel/Plane';
 
 const INIT_BOUNDS = [
@@ -461,15 +463,14 @@ export function extend(publicAPI, model, initialValues = {}) {
   Object.assign(model, DEFAULT_VALUES, initialValues);
 
   // Object methods
-  macro.obj(publicAPI, model);
-  macro.setGet(publicAPI, model, ['bounds']);
+  obj(publicAPI, model);
+  setGet(publicAPI, model, ['bounds']);
   vtkBoundingBox(publicAPI, model);
 }
 
 // ----------------------------------------------------------------------------
 
-export const newInstance = macro.newInstance(extend, 'vtkBoundingBox');
-
-// ----------------------------------------------------------------------------
-
-export default Object.assign({ newInstance, extend }, STATIC);
+export default Object.assign(
+  { newInstance: newInstance(extend, 'vtkBoundingBox'), extend },
+  STATIC
+);

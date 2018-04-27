@@ -1,12 +1,19 @@
-import macro from 'vtk.js/Sources/macro';
+import { newInstance } from 'vtk.js/Sources/macro/Core/NewInstance';
+import { obj } from 'vtk.js/Sources/macro/Core/VtkObject';
+import { vtkErrorMacro } from 'vtk.js/Sources/macro/Core/Logger';
+import {
+  getArray,
+  setArray,
+  setGet,
+} from 'vtk.js/Sources/macro/Core/GetterAndSetter';
+
 import vtkDataArray from 'vtk.js/Sources/Common/Core/DataArray';
 import Constants from 'vtk.js/Sources/Common/Core/ScalarsToColors/Constants';
 import vtkMapper from 'vtk.js/Sources/Rendering/Core/Mapper/Constants'; // Need to go inside Constants otherwise dependency loop
 
-const { ScalarMappingTarget, VectorMode } = Constants;
 const { VtkDataTypes } = vtkDataArray;
 const { ColorMode } = vtkMapper;
-const { vtkErrorMacro } = macro;
+const { ScalarMappingTarget, VectorMode } = Constants;
 
 // ----------------------------------------------------------------------------
 // Global methods
@@ -535,14 +542,14 @@ export function extend(publicAPI, model, initialValues = {}) {
   Object.assign(model, DEFAULT_VALUES, initialValues);
 
   // Object methods
-  macro.obj(publicAPI, model);
+  obj(publicAPI, model);
 
   model.mappingRange = [0, 255];
   model.annotationArray = [];
   model.annotatedValueMap = [];
 
   // Create get-set macros
-  macro.setGet(publicAPI, model, [
+  setGet(publicAPI, model, [
     'vectorSize',
     'vectorComponent',
     'vectorMode',
@@ -551,12 +558,10 @@ export function extend(publicAPI, model, initialValues = {}) {
   ]);
 
   // Create set macros for array (needs to know size)
-  macro.setArray(publicAPI, model, ['mappingRange'], 2);
+  setArray(publicAPI, model, ['mappingRange'], 2);
 
   // Create get macros for array
-  macro.getArray(publicAPI, model, ['mappingRange']);
-
-  // For more macro methods, see "Sources/macro.js"
+  getArray(publicAPI, model, ['mappingRange']);
 
   // Object specific methods
   vtkScalarsToColors(publicAPI, model);
@@ -564,8 +569,7 @@ export function extend(publicAPI, model, initialValues = {}) {
 
 // ----------------------------------------------------------------------------
 
-export const newInstance = macro.newInstance(extend, 'vtkScalarsToColors');
-
-// ----------------------------------------------------------------------------
-
-export default Object.assign({ newInstance, extend }, Constants);
+export default Object.assign(
+  { newInstance: newInstance(extend, 'vtkScalarsToColors'), extend },
+  Constants
+);

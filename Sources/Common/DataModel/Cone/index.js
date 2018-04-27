@@ -1,4 +1,6 @@
-import macro from 'vtk.js/Sources/macro';
+import { newInstance } from 'vtk.js/Sources/macro/Core/NewInstance';
+import { obj } from 'vtk.js/Sources/macro/Core/VtkObject';
+import { setGet } from 'vtk.js/Sources/macro/Core/GetterAndSetter';
 import vtkMath from 'vtk.js/Sources/Common/Core/Math';
 
 // ----------------------------------------------------------------------------
@@ -45,16 +47,15 @@ export function extend(publicAPI, model, initialValues = {}) {
   Object.assign(model, DEFAULT_VALUES, initialValues);
 
   // Object methods
-  macro.obj(publicAPI, model);
-  macro.setGet(publicAPI, model, ['angle']);
+  obj(publicAPI, model);
+  setGet(publicAPI, model, ['angle']);
 
   vtkCone(publicAPI, model);
 }
 
 // ----------------------------------------------------------------------------
 
-export const newInstance = macro.newInstance(extend, 'vtkCone');
-
-// ----------------------------------------------------------------------------
-
-export default Object.assign({ newInstance, extend });
+export default Object.assign({
+  newInstance: newInstance(extend, 'vtkCone'),
+  extend,
+});

@@ -1,4 +1,6 @@
-import macro from 'vtk.js/Sources/macro';
+import { newInstance } from 'vtk.js/Sources/macro/Core/NewInstance';
+import { obj } from 'vtk.js/Sources/macro/Core/VtkObject';
+import { get } from 'vtk.js/Sources/macro/Core/GetterAndSetter';
 import vtkMath from 'vtk.js/Sources/Common/Core/Math';
 import vtkPoints from 'vtk.js/Sources/Common/Core/Points';
 
@@ -110,19 +112,18 @@ const DEFAULT_VALUES = {
 export function extend(publicAPI, model, initialValues = {}) {
   Object.assign(model, DEFAULT_VALUES, initialValues);
 
-  macro.obj(publicAPI, model);
+  obj(publicAPI, model);
 
   model.points = vtkPoints.newInstance();
 
-  macro.get(publicAPI, model, ['points', 'pointsIds']);
+  get(publicAPI, model, ['points', 'pointsIds']);
 
   vtkCell(publicAPI, model);
 }
 
 // ----------------------------------------------------------------------------
 
-export const newInstance = macro.newInstance(extend, 'vtkCell');
-
-// ----------------------------------------------------------------------------
-
-export default Object.assign({ newInstance, extend });
+export default Object.assign({
+  newInstance: newInstance(extend, 'vtkCell'),
+  extend,
+});

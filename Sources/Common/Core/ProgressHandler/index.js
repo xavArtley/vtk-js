@@ -1,4 +1,7 @@
-import macro from 'vtk.js/Sources/macro';
+import { event } from 'vtk.js/Sources/macro/Core/Event';
+import { get } from 'vtk.js/Sources/macro/Core/GetterAndSetter';
+import { newInstance } from 'vtk.js/Sources/macro/Core/NewInstance';
+import { obj } from 'vtk.js/Sources/macro/Core/VtkObject';
 
 // ----------------------------------------------------------------------------
 // vtkProgressHandler methods
@@ -28,13 +31,13 @@ function vtkProgressHandler(publicAPI, model) {
     publicAPI.startWork();
     return new Promise((resolve, reject) => {
       promise.then(
-        (...resolveArgs) => {
+        (resolveArgs) => {
           publicAPI.stopWork();
-          resolve(...resolveArgs);
+          resolve(resolveArgs);
         },
-        (...rejectArgs) => {
+        (rejectArgs) => {
           publicAPI.stopWork();
-          reject(...rejectArgs);
+          reject(rejectArgs);
         }
       );
     });
@@ -58,9 +61,9 @@ export function extend(publicAPI, model, initialValues = {}) {
   Object.assign(model, DEFAULT_VALUES, initialValues);
 
   // Object methods
-  macro.obj(publicAPI, model);
-  macro.event(publicAPI, model, 'change');
-  macro.get(publicAPI, model, ['workCount']);
+  obj(publicAPI, model);
+  event(publicAPI, model, 'change');
+  get(publicAPI, model, ['workCount']);
 
   // Object specific methods
   vtkProgressHandler(publicAPI, model);
@@ -68,8 +71,7 @@ export function extend(publicAPI, model, initialValues = {}) {
 
 // ----------------------------------------------------------------------------
 
-export const newInstance = macro.newInstance(extend, 'vtkProgressHandler');
-
-// ----------------------------------------------------------------------------
-
-export default { newInstance, extend };
+export default {
+  newInstance: newInstance(extend, 'vtkProgressHandler'),
+  extend,
+};
