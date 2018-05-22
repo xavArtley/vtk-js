@@ -22,12 +22,12 @@
       <div class='fl pad1y space-right2'>
         <span class="strong">1.54% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>6/389</span>
+        <span class='fraction'>6/390</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>0/167</span>
+        <span class='fraction'>0/169</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
@@ -37,7 +37,7 @@
       <div class='fl pad1y space-right2'>
         <span class="strong">1.55% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>6/386</span>
+        <span class='fraction'>6/387</span>
       </div>
     </div>
   </div>
@@ -1001,7 +1001,9 @@
 956
 957
 958
-959</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+959
+960
+961</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1286,6 +1288,18 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -1633,28 +1647,18 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -2244,6 +2248,18 @@ function vtkRenderWindowInteractor(publicAPI, model) <span class="fstat-no" titl
     }
   };
 &nbsp;
+  //----------------------------------------------------------------------
+  function forceRender() <span class="fstat-no" title="function not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >    if (model.view &amp;&amp; model.enabled &amp;&amp; model.enableRender) {</span>
+<span class="cstat-no" title="statement not covered" >      model.inRender = true;</span>
+<span class="cstat-no" title="statement not covered" >      model.view.traverseAllPasses();</span>
+<span class="cstat-no" title="statement not covered" >      model.inRender = false;</span>
+    }
+    // outside the above test so that third-party code can redirect
+    // the render to the appropriate class
+<span class="cstat-no" title="statement not covered" >    publicAPI.invokeRenderEvent();</span>
+  }
+&nbsp;
 <span class="cstat-no" title="statement not covered" >  publicAPI.requestAnimation = (requestor) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
 <span class="cstat-no" title="statement not covered" >    if (requestor === undefined) {</span>
 <span class="cstat-no" title="statement not covered" >      vtkErrorMacro(`undefined requester, can not start animating`);</span>
@@ -2275,7 +2291,7 @@ function vtkRenderWindowInteractor(publicAPI, model) <span class="fstat-no" titl
 <span class="cstat-no" title="statement not covered" >      cancelAnimationFrame(model.animationRequest);</span>
 <span class="cstat-no" title="statement not covered" >      model.animationRequest = null;</span>
 <span class="cstat-no" title="statement not covered" >      publicAPI.endAnimationEvent();</span>
-<span class="cstat-no" title="statement not covered" >      publicAPI.forceRender();</span>
+<span class="cstat-no" title="statement not covered" >      publicAPI.render();</span>
     }
   };
 &nbsp;
@@ -2378,7 +2394,7 @@ function vtkRenderWindowInteractor(publicAPI, model) <span class="fstat-no" titl
 <span class="cstat-no" title="statement not covered" >    model.lastFrameTime = Math.max(0.01, model.lastFrameTime);</span>
 <span class="cstat-no" title="statement not covered" >    model.lastFrameStart = currTime;</span>
 <span class="cstat-no" title="statement not covered" >    publicAPI.animationEvent();</span>
-<span class="cstat-no" title="statement not covered" >    publicAPI.forceRender();</span>
+<span class="cstat-no" title="statement not covered" >    forceRender();</span>
 <span class="cstat-no" title="statement not covered" >    model.animationRequest = requestAnimationFrame(publicAPI.handleAnimation);</span>
   };
 &nbsp;
@@ -2608,23 +2624,13 @@ function vtkRenderWindowInteractor(publicAPI, model) <span class="fstat-no" titl
 <span class="cstat-no" title="statement not covered" >    return currentRenderer;</span>
   };
 &nbsp;
-  //----------------------------------------------------------------------
-<span class="cstat-no" title="statement not covered" >  publicAPI.forceRender = () =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
-<span class="cstat-no" title="statement not covered" >    if (model.view &amp;&amp; model.enabled &amp;&amp; model.enableRender) {</span>
-<span class="cstat-no" title="statement not covered" >      model.view.traverseAllPasses();</span>
-    }
-    // outside the above test so that third-party code can redirect
-    // the render to the appropriate class
-<span class="cstat-no" title="statement not covered" >    publicAPI.invokeRenderEvent();</span>
-  };
-&nbsp;
   // only render if we are not animating. If we are animating
   // then renders will happen naturally anyhow and we definitely
   // do not want extra renders as the make the apparent interaction
   // rate slower.
 <span class="cstat-no" title="statement not covered" >  publicAPI.render = () =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
-<span class="cstat-no" title="statement not covered" >    if (model.animationRequest === null) {</span>
-<span class="cstat-no" title="statement not covered" >      publicAPI.forceRender();</span>
+<span class="cstat-no" title="statement not covered" >    if (model.animationRequest === null &amp;&amp; !model.inRender) {</span>
+<span class="cstat-no" title="statement not covered" >      forceRender();</span>
     }
   };
 &nbsp;
@@ -2923,7 +2929,7 @@ export default Object.assign({ newInstance, extend, handledEvents }, Constants);
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue May 15 2018 23:35:38 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue May 22 2018 13:24:55 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>
