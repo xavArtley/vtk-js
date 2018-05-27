@@ -20,9 +20,9 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">15.38% </span>
+        <span class="strong">15% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>2/13</span>
+        <span class='fraction'>3/20</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
@@ -32,12 +32,12 @@
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>0/3</span>
+        <span class='fraction'>0/6</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">15.38% </span>
+        <span class="strong">15% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>2/13</span>
+        <span class='fraction'>3/20</span>
       </div>
     </div>
   </div>
@@ -104,7 +104,26 @@
 59
 60
 61
-62</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -112,6 +131,17 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -130,12 +160,14 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -166,6 +198,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import macro from 'vtk.js/Sources/macro';
+import Constants from 'vtk.js/Sources/Rendering/Core/ImageProperty/Constants';
+&nbsp;
+const { InterpolationType } = Constants;
 &nbsp;
 // ----------------------------------------------------------------------------
 // vtkImageProperty methods
@@ -174,12 +209,24 @@
 function vtkImageProperty(publicAPI, model) <span class="fstat-no" title="function not covered" >{</span>
   // Set our className
 <span class="cstat-no" title="statement not covered" >  model.classHierarchy.push('vtkImageProperty');</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  publicAPI.setInterpolationTypeToNearest = () =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >    publicAPI.setInterpolationType(InterpolationType.NEAREST);</span>
+  };
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  publicAPI.setInterpolationTypeToLinear = () =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >    publicAPI.setInterpolationType(InterpolationType.LINEAR);</span>
+  };
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  publicAPI.getInterpolationTypeAsString = () =&gt;</span>
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >    macro.enumToString(InterpolationType, model.interpolationType);</span></span>
 }
 &nbsp;
 // ----------------------------------------------------------------------------
 // Object factory
 // ----------------------------------------------------------------------------
 const DEFAULT_VALUES = {
+  interpolationType: InterpolationType.LINEAR,
   colorWindow: 255,
   colorLevel: 127.5,
   ambient: 1.0,
@@ -197,6 +244,7 @@ export function extend(publicAPI, model, initialValues = {}) <span class="fstat-
 <span class="cstat-no" title="statement not covered" >  macro.obj(publicAPI, model);</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  macro.setGet(publicAPI, model, [</span>
+    'interpolationType',
     'colorWindow',
     'colorLevel',
     'ambient',
@@ -232,7 +280,7 @@ export default { newInstance, extend };
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri May 25 2018 19:29:53 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sat May 26 2018 23:54:35 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>
