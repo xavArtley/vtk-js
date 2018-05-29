@@ -20,14 +20,14 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">1.24% </span>
+        <span class="strong">1.27% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>4/323</span>
+        <span class='fraction'>4/316</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>0/103</span>
+        <span class='fraction'>0/101</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
@@ -35,9 +35,9 @@
         <span class='fraction'>0/23</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">1.24% </span>
+        <span class="strong">1.27% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>4/323</span>
+        <span class='fraction'>4/316</span>
       </div>
     </div>
   </div>
@@ -767,13 +767,7 @@
 722
 723
 724
-725
-726
-727
-728
-729
-730
-731</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+725</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1205,6 +1199,16 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -1218,15 +1222,6 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1244,14 +1239,6 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1290,9 +1277,10 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1889,7 +1877,7 @@ function vtkOpenGLImageMapper(publicAPI, model) <span class="fstat-no" title="fu
 <span class="cstat-no" title="statement not covered" >    model.currentInput = model.renderable.getInputData();</span>
 <span class="cstat-no" title="statement not covered" >    publicAPI.invokeEvent({ type: 'EndEvent' });</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    if (model.currentInput === null) {</span>
+<span class="cstat-no" title="statement not covered" >    if (!model.currentInput) {</span>
 <span class="cstat-no" title="statement not covered" >      vtkErrorMacro('No input!');</span>
 <span class="cstat-no" title="statement not covered" >      return;</span>
     }
@@ -1935,6 +1923,16 @@ function vtkOpenGLImageMapper(publicAPI, model) <span class="fstat-no" title="fu
 <span class="cstat-no" title="statement not covered" >      return;</span>
     }
 &nbsp;
+    // set interpolation on the texture based on property setting
+    const iType = <span class="cstat-no" title="statement not covered" >actor.getProperty().getInterpolationType();</span>
+<span class="cstat-no" title="statement not covered" >    if (iType === InterpolationType.NEAREST) {</span>
+<span class="cstat-no" title="statement not covered" >      model.colorTexture.setMinificationFilter(Filter.NEAREST);</span>
+<span class="cstat-no" title="statement not covered" >      model.colorTexture.setMagnificationFilter(Filter.NEAREST);</span>
+    } else {
+<span class="cstat-no" title="statement not covered" >      model.colorTexture.setMinificationFilter(Filter.LINEAR);</span>
+<span class="cstat-no" title="statement not covered" >      model.colorTexture.setMagnificationFilter(Filter.LINEAR);</span>
+    }
+&nbsp;
     const cWidth = <span class="cstat-no" title="statement not covered" >1024;</span>
     const cTable = <span class="cstat-no" title="statement not covered" >new Uint8Array(cWidth * 3);</span>
     const cfun = <span class="cstat-no" title="statement not covered" >actor.getProperty().getRGBTransferFunction();</span>
@@ -1948,15 +1946,6 @@ function vtkOpenGLImageMapper(publicAPI, model) <span class="fstat-no" title="fu
 <span class="cstat-no" title="statement not covered" >          cTable[i] = 255.0 * cfTable[i];</span>
         }
 <span class="cstat-no" title="statement not covered" >        model.colorTextureString = cfunToString;</span>
-        // set interpolation on the texture based on property setting
-        const iType = <span class="cstat-no" title="statement not covered" >actor.getProperty().getInterpolationType();</span>
-<span class="cstat-no" title="statement not covered" >        if (iType === InterpolationType.NEAREST) {</span>
-<span class="cstat-no" title="statement not covered" >          model.colorTexture.setMinificationFilter(Filter.NEAREST);</span>
-<span class="cstat-no" title="statement not covered" >          model.colorTexture.setMagnificationFilter(Filter.NEAREST);</span>
-        } else {
-<span class="cstat-no" title="statement not covered" >          model.colorTexture.setMinificationFilter(Filter.LINEAR);</span>
-<span class="cstat-no" title="statement not covered" >          model.colorTexture.setMagnificationFilter(Filter.LINEAR);</span>
-        }
 <span class="cstat-no" title="statement not covered" >        model.colorTexture.create2DFromRaw(</span>
           cWidth,
           1,
@@ -1974,14 +1963,6 @@ function vtkOpenGLImageMapper(publicAPI, model) <span class="fstat-no" title="fu
 <span class="cstat-no" title="statement not covered" >          cTable[i + 2] = 255.0 * i / ((cWidth - 1) * 3);</span>
         }
 <span class="cstat-no" title="statement not covered" >        model.colorTextureString = cfunToString;</span>
-        const iType = <span class="cstat-no" title="statement not covered" >actor.getProperty().getInterpolationType();</span>
-<span class="cstat-no" title="statement not covered" >        if (iType === InterpolationType.NEAREST) {</span>
-<span class="cstat-no" title="statement not covered" >          model.colorTexture.setMinificationFilter(Filter.NEAREST);</span>
-<span class="cstat-no" title="statement not covered" >          model.colorTexture.setMagnificationFilter(Filter.NEAREST);</span>
-        } else {
-<span class="cstat-no" title="statement not covered" >          model.colorTexture.setMinificationFilter(Filter.LINEAR);</span>
-<span class="cstat-no" title="statement not covered" >          model.colorTexture.setMagnificationFilter(Filter.LINEAR);</span>
-        }
 <span class="cstat-no" title="statement not covered" >        model.colorTexture.create2DFromRaw(</span>
           cWidth,
           1,
@@ -2019,11 +2000,12 @@ function vtkOpenGLImageMapper(publicAPI, model) <span class="fstat-no" title="fu
     const toString = <span class="cstat-no" title="statement not covered" >`${nSlice}A${image.getMTime()}A${image</span>
       .getPointData()
       .getScalars()
-      .getMTime()}B${publicAPI.getMTime()}C${model.renderable.getSlicingMode()}`;
+      .getMTime()}B${publicAPI.getMTime()}C${model.renderable.getSlicingMode()}D${actor
+      .getProperty()
+      .getMTime()}`;
 <span class="cstat-no" title="statement not covered" >    if (model.VBOBuildString !== toString) {</span>
       // Build the VBOs
       const dims = <span class="cstat-no" title="statement not covered" >image.getDimensions();</span>
-      const iType = <span class="cstat-no" title="statement not covered" >actor.getProperty().getInterpolationType();</span>
       const numComponents = <span class="cstat-no" title="statement not covered" >image</span>
         .getPointData()
         .getScalars()
@@ -2239,7 +2221,7 @@ export default { newInstance, extend };
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sat May 26 2018 23:54:35 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue May 29 2018 15:41:51 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>
