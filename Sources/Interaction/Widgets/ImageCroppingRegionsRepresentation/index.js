@@ -177,7 +177,7 @@ function vtkImageCroppingRegionsRepresentation(publicAPI, model) {
       outlinePoints.set(model.bboxCorners[i], i * 3);
     }
 
-    model.outline.polydata.getPoints().setData(outlinePoints);
+    model.outline.polydata.getPoints().modified();
     model.outline.actor.getProperty().setEdgeColor(...model.edgeColor);
 
     model.outline.polydata.modified();

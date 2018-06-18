@@ -287,6 +287,11 @@ function vtkImageCroppingRegionsWidget(publicAPI, model) {
         handleSizes,
       });
 
+      // publicAPI
+      //   .getInteractor()
+      //   .getCurrentRenderer()
+      //   .resetCameraClippingRange();
+
       publicAPI.render();
     }
   };
