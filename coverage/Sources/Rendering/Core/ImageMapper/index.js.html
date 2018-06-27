@@ -20,24 +20,24 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">1.8% </span>
+        <span class="strong">1.67% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>4/222</span>
+        <span class='fraction'>4/240</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>0/88</span>
+        <span class='fraction'>0/98</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>0/20</span>
+        <span class='fraction'>0/22</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">1.81% </span>
+        <span class="strong">1.67% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>4/221</span>
+        <span class='fraction'>4/239</span>
       </div>
     </div>
   </div>
@@ -515,7 +515,40 @@
 470
 471
 472
-473</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+473
+474
+475
+476
+477
+478
+479
+480
+481
+482
+483
+484
+485
+486
+487
+488
+489
+490
+491
+492
+493
+494
+495
+496
+497
+498
+499
+500
+501
+502
+503
+504
+505
+506</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -816,6 +849,39 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -1290,6 +1356,39 @@ function vtkImageMapper(publicAPI, model) <span class="fstat-no" title="function
 <span class="cstat-no" title="statement not covered" >    return image.extentToBounds(extent);</span>
   };
 &nbsp;
+<span class="cstat-no" title="statement not covered" >  publicAPI.getSliceThickness = () =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+    const image = <span class="cstat-no" title="statement not covered" >publicAPI.getInputData();</span>
+<span class="cstat-no" title="statement not covered" >    if (!image) {</span>
+<span class="cstat-no" title="statement not covered" >      return 1;</span>
+    }
+    const { ijkMode } = <span class="cstat-no" title="statement not covered" >publicAPI.getClosestIJKAxis();</span>
+<span class="cstat-no" title="statement not covered" >    switch (ijkMode) {</span>
+      case SlicingMode.I:
+<span class="cstat-no" title="statement not covered" >        return image.getSpacing()[0];</span>
+      case SlicingMode.J:
+<span class="cstat-no" title="statement not covered" >        return image.getSpacing()[1];</span>
+      case SlicingMode.K:
+<span class="cstat-no" title="statement not covered" >        return image.getSpacing()[2];</span>
+      default:
+<span class="cstat-no" title="statement not covered" >        return 1;</span>
+    }
+  };
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  publicAPI.getSliceLocation = () =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+    const sliceBound = <span class="cstat-no" title="statement not covered" >publicAPI.getBoundsForSlice();</span>
+    const { ijkMode } = <span class="cstat-no" title="statement not covered" >publicAPI.getClosestIJKAxis();</span>
+<span class="cstat-no" title="statement not covered" >    switch (ijkMode) {</span>
+      case SlicingMode.I:
+<span class="cstat-no" title="statement not covered" >        return sliceBound[0];</span>
+      case SlicingMode.J:
+<span class="cstat-no" title="statement not covered" >        return sliceBound[2];</span>
+      case SlicingMode.K:
+<span class="cstat-no" title="statement not covered" >        return sliceBound[4];</span>
+      default:
+<span class="cstat-no" title="statement not covered" >        return 0;</span>
+    }
+  };
+&nbsp;
 <span class="cstat-no" title="statement not covered" >  publicAPI.getIsOpaque = () =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >true;</span></span></span>
 &nbsp;
   function doPicking(p1, p2) <span class="fstat-no" title="function not covered" >{</span>
@@ -1465,7 +1564,7 @@ export default Object.assign({ newInstance, extend }, Constants);
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sat Jun 23 2018 16:19:55 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Jun 27 2018 23:15:31 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>
