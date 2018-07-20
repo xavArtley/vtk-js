@@ -263,7 +263,11 @@
 218
 219
 220
-221</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+221
+222
+223
+224
+225</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -300,6 +304,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -378,6 +383,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -472,6 +478,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -480,6 +487,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -519,86 +527,88 @@ export default function addStateAPI(publicAPI, model) {
         );
       });
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      Promise.all(sourcePromises).then(() =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
-        const views = <span class="cstat-no" title="statement not covered" >publicAPI.getViews();</span>
-<span class="cstat-no" title="statement not covered" >        state.views.forEach(({ id, group, name, props, camera }) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
-          let proxy = <span class="cstat-no" title="statement not covered" >null;</span>
-<span class="cstat-no" title="statement not covered" >          if (state.options.recycleViews) {</span>
-<span class="cstat-no" title="statement not covered" >            proxy = views.find(</span>
-              (v) =&gt;
-<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >                v.getProxyGroup() === group &amp;&amp;</span></span>
-                v.getProxyName() === name &amp;&amp;
-                v.getName() === props.name
-            );
-          }
-<span class="cstat-no" title="statement not covered" >          if (!proxy) {</span>
-<span class="cstat-no" title="statement not covered" >            proxy = publicAPI.createProxy(group, name, {</span>
-              disableAnimation: true,
-            });
-          } else {
-<span class="cstat-no" title="statement not covered" >            proxy.setDisableAnimation(true);</span>
-          }
+<span class="cstat-no" title="statement not covered" >      Promise.all(sourcePromises)</span>
+        .then(() =&gt; <span class="fstat-no" title="function not covered" >{</span>
+          const views = <span class="cstat-no" title="statement not covered" >publicAPI.getViews();</span>
+<span class="cstat-no" title="statement not covered" >          state.views.forEach(({ id, group, name, props, camera }) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+            let proxy = <span class="cstat-no" title="statement not covered" >null;</span>
+<span class="cstat-no" title="statement not covered" >            if (state.options.recycleViews) {</span>
+<span class="cstat-no" title="statement not covered" >              proxy = views.find(</span>
+                (v) =&gt;
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >                  v.getProxyGroup() === group &amp;&amp;</span></span>
+                  v.getProxyName() === name &amp;&amp;
+                  v.getName() === props.name
+              );
+            }
+<span class="cstat-no" title="statement not covered" >            if (!proxy) {</span>
+<span class="cstat-no" title="statement not covered" >              proxy = publicAPI.createProxy(group, name, {</span>
+                disableAnimation: true,
+              });
+            } else {
+<span class="cstat-no" title="statement not covered" >              proxy.setDisableAnimation(true);</span>
+            }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >          proxy.set(props, true);</span>
-<span class="cstat-no" title="statement not covered" >          proxyMapping[id] = proxy;</span>
-<span class="cstat-no" title="statement not covered" >          cameras[id] = camera;</span>
-        });
-&nbsp;
-<span class="cstat-no" title="statement not covered" >        Object.keys(state.fields).forEach((fieldName) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
-          const { lookupTable, piecewiseFunction } = <span class="cstat-no" title="statement not covered" >state.fields[fieldName];</span>
-          const lutProxy = <span class="cstat-no" title="statement not covered" >publicAPI.getLookupTable(fieldName, lookupTable);</span>
-<span class="cstat-no" title="statement not covered" >          lutProxy.setPresetName(lookupTable.presetName);</span>
-<span class="cstat-no" title="statement not covered" >          lutProxy.setDataRange(lookupTable.dataRange);</span>
-          const pwfProxy = <span class="cstat-no" title="statement not covered" >publicAPI.getPiecewiseFunction(</span>
-            fieldName,
-            piecewiseFunction
-          );
-<span class="cstat-no" title="statement not covered" >          switch (piecewiseFunction.mode) {</span>
-            case vtkPiecewiseFunctionProxy.Mode.Gaussians:
-<span class="cstat-no" title="statement not covered" >              pwfProxy.setGaussians(piecewiseFunction.gaussians);</span>
-<span class="cstat-no" title="statement not covered" >              break;</span>
-            case vtkPiecewiseFunctionProxy.Mode.Points:
-<span class="cstat-no" title="statement not covered" >              pwfProxy.setPoints(piecewiseFunction.points);</span>
-<span class="cstat-no" title="statement not covered" >              break;</span>
-            case vtkPiecewiseFunctionProxy.Mode.Nodes:
-<span class="cstat-no" title="statement not covered" >              pwfProxy.setNodes(piecewiseFunction.nodes);</span>
-<span class="cstat-no" title="statement not covered" >              break;</span>
-            default:
-              // nothing that we can do
-<span class="cstat-no" title="statement not covered" >              break;</span>
-          }
-<span class="cstat-no" title="statement not covered" >          pwfProxy.setMode(piecewiseFunction.mode);</span>
-<span class="cstat-no" title="statement not covered" >          pwfProxy.setDataRange(piecewiseFunction.dataRange);</span>
-        });
-&nbsp;
-<span class="cstat-no" title="statement not covered" >        state.representations.forEach(({ source, view, props }) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
-          const proxy = <span class="cstat-no" title="statement not covered" >publicAPI.getRepresentation(</span>
-            proxyMapping[source],
-            proxyMapping[view]
-          );
-<span class="cstat-no" title="statement not covered" >          proxy.set(props, true);</span>
-<span class="cstat-no" title="statement not covered" >          proxyMapping[view].resetOrientation().then(() =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
-<span class="cstat-no" title="statement not covered" >            proxyMapping[view].getCamera().set(cameras[view]);</span>
-<span class="cstat-no" title="statement not covered" >            proxyMapping[view]</span>
-              .getRenderer()
-              .updateLightsGeometryToFollowCamera();
-<span class="cstat-no" title="statement not covered" >            proxyMapping[view].renderLater();</span>
+<span class="cstat-no" title="statement not covered" >            proxy.set(props, true);</span>
+<span class="cstat-no" title="statement not covered" >            proxyMapping[id] = proxy;</span>
+<span class="cstat-no" title="statement not covered" >            cameras[id] = camera;</span>
           });
-        });
 &nbsp;
-        // Create id mapping
-<span class="cstat-no" title="statement not covered" >        Object.keys(proxyMapping).forEach((originalId) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
-          const newId = <span class="cstat-no" title="statement not covered" >proxyMapping[originalId].getProxyId();</span>
-<span class="cstat-no" title="statement not covered" >          $oldToNewIdMapping[originalId] = newId;</span>
-        });
+<span class="cstat-no" title="statement not covered" >          Object.keys(state.fields).forEach((fieldName) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+            const { lookupTable, piecewiseFunction } = <span class="cstat-no" title="statement not covered" >state.fields[fieldName];</span>
+            const lutProxy = <span class="cstat-no" title="statement not covered" >publicAPI.getLookupTable(fieldName, lookupTable);</span>
+<span class="cstat-no" title="statement not covered" >            lutProxy.setPresetName(lookupTable.presetName);</span>
+<span class="cstat-no" title="statement not covered" >            lutProxy.setDataRange(lookupTable.dataRange);</span>
+            const pwfProxy = <span class="cstat-no" title="statement not covered" >publicAPI.getPiecewiseFunction(</span>
+              fieldName,
+              piecewiseFunction
+            );
+<span class="cstat-no" title="statement not covered" >            switch (piecewiseFunction.mode) {</span>
+              case vtkPiecewiseFunctionProxy.Mode.Gaussians:
+<span class="cstat-no" title="statement not covered" >                pwfProxy.setGaussians(piecewiseFunction.gaussians);</span>
+<span class="cstat-no" title="statement not covered" >                break;</span>
+              case vtkPiecewiseFunctionProxy.Mode.Points:
+<span class="cstat-no" title="statement not covered" >                pwfProxy.setPoints(piecewiseFunction.points);</span>
+<span class="cstat-no" title="statement not covered" >                break;</span>
+              case vtkPiecewiseFunctionProxy.Mode.Nodes:
+<span class="cstat-no" title="statement not covered" >                pwfProxy.setNodes(piecewiseFunction.nodes);</span>
+<span class="cstat-no" title="statement not covered" >                break;</span>
+              default:
+                // nothing that we can do
+<span class="cstat-no" title="statement not covered" >                break;</span>
+            }
+<span class="cstat-no" title="statement not covered" >            pwfProxy.setMode(piecewiseFunction.mode);</span>
+<span class="cstat-no" title="statement not covered" >            pwfProxy.setDataRange(piecewiseFunction.dataRange);</span>
+          });
 &nbsp;
-        // Re-enable animation on views
-<span class="cstat-no" title="statement not covered" >        state.views.forEach(({ id }) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
-<span class="cstat-no" title="statement not covered" >          proxyMapping[id].setDisableAnimation(false);</span>
-        });
+<span class="cstat-no" title="statement not covered" >          state.representations.forEach(({ source, view, props }) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+            const proxy = <span class="cstat-no" title="statement not covered" >publicAPI.getRepresentation(</span>
+              proxyMapping[source],
+              proxyMapping[view]
+            );
+<span class="cstat-no" title="statement not covered" >            proxy.set(props, true);</span>
+<span class="cstat-no" title="statement not covered" >            proxyMapping[view].resetOrientation().then(() =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >              proxyMapping[view].getCamera().set(cameras[view]);</span>
+<span class="cstat-no" title="statement not covered" >              proxyMapping[view]</span>
+                .getRenderer()
+                .updateLightsGeometryToFollowCamera();
+<span class="cstat-no" title="statement not covered" >              proxyMapping[view].renderLater();</span>
+            });
+          });
 &nbsp;
-<span class="cstat-no" title="statement not covered" >        resolve(Object.assign({}, state.userData, { $oldToNewIdMapping }));</span>
-      });
+          // Create id mapping
+<span class="cstat-no" title="statement not covered" >          Object.keys(proxyMapping).forEach((originalId) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+            const newId = <span class="cstat-no" title="statement not covered" >proxyMapping[originalId].getProxyId();</span>
+<span class="cstat-no" title="statement not covered" >            $oldToNewIdMapping[originalId] = newId;</span>
+          });
+&nbsp;
+          // Re-enable animation on views
+<span class="cstat-no" title="statement not covered" >          state.views.forEach(({ id }) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >            proxyMapping[id].setDisableAnimation(false);</span>
+          });
+&nbsp;
+<span class="cstat-no" title="statement not covered" >          resolve(Object.assign({}, state.userData, { $oldToNewIdMapping }));</span>
+        })
+        .catch(reject);
     });
 &nbsp;
   publicAPI.saveState = (options = {}, userData = {}) =&gt;
@@ -690,17 +700,19 @@ export default function addStateAPI(publicAPI, model) {
         };
       });
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      Promise.all(datasets).then(() =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
-        // Patch datasets in state to the result of the promises
-<span class="cstat-no" title="statement not covered" >        for (let i = 0; i &lt; state.sources.length; i++) {</span>
-<span class="cstat-no" title="statement not covered" >          state.sources[i].props.dataset.then((value) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
-<span class="cstat-no" title="statement not covered" >            state.sources[i].props.dataset = value;</span>
-          });
-        }
+<span class="cstat-no" title="statement not covered" >      Promise.all(datasets)</span>
+        .then(() =&gt; <span class="fstat-no" title="function not covered" >{</span>
+          // Patch datasets in state to the result of the promises
+<span class="cstat-no" title="statement not covered" >          for (let i = 0; i &lt; state.sources.length; i++) {</span>
+<span class="cstat-no" title="statement not covered" >            state.sources[i].props.dataset.then((value) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >              state.sources[i].props.dataset = value;</span>
+            });
+          }
 &nbsp;
-        // provide valide state
-<span class="cstat-no" title="statement not covered" >        resolve(state);</span>
-      });
+          // provide valide state
+<span class="cstat-no" title="statement not covered" >          resolve(state);</span>
+        })
+        .catch(reject);
     });
 }
 &nbsp;</pre></td></tr>
@@ -709,7 +721,7 @@ export default function addStateAPI(publicAPI, model) {
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Jul 19 2018 22:16:35 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Jul 20 2018 19:25:07 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>
