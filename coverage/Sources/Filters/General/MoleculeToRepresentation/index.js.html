@@ -20,9 +20,9 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">3.49% </span>
+        <span class="strong">3.57% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>6/172</span>
+        <span class='fraction'>6/168</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
@@ -35,9 +35,9 @@
         <span class='fraction'>1/5</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">3.49% </span>
+        <span class="strong">3.57% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>6/172</span>
+        <span class='fraction'>6/168</span>
       </div>
     </div>
   </div>
@@ -495,25 +495,7 @@
 450
 451
 452
-453
-454
-455
-456
-457
-458
-459
-460
-461
-462
-463
-464
-465
-466
-467
-468
-469
-470
-471</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+453</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -738,16 +720,6 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -778,9 +750,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -859,11 +828,6 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1208,16 +1172,6 @@ function vtkMoleculeToRepresentation(publicAPI, model) <span class="fstat-no" ti
 <span class="cstat-no" title="statement not covered" >      diff[2] -= pointsArray[iPtsIdx + 2];</span>
       const diffsq = <span class="cstat-no" title="statement not covered" >diff[0] * diff[0] + diff[1] * diff[1] + diff[2] * diff[2];</span>
 &nbsp;
-      const radiusJsq =
-<span class="cstat-no" title="statement not covered" >        radiusArray[j] *</span>
-        model.atomicRadiusScaleFactor *
-        radiusArray[j] *
-        model.atomicRadiusScaleFactor;
-      const radiusIsq =
-<span class="cstat-no" title="statement not covered" >        radiusArray[i] *</span>
-        model.atomicRadiusScaleFactor *
-        radiusArray[i] *
-        model.atomicRadiusScaleFactor;
       let bondDelta = <span class="cstat-no" title="statement not covered" >(2 + model.deltaBondFactor) * model.bondRadius;</span> // distance between 2 bonds
 &nbsp;
       // scale bonds if total distance from bonds is bigger than 2r*factor with r = min(r_i, r_j)
@@ -1248,9 +1202,6 @@ function vtkMoleculeToRepresentation(publicAPI, model) <span class="fstat-no" ti
         // dist from center to bond depending of number of bond
         let offset = <span class="cstat-no" title="statement not covered" >(Math.floor(k / 2) * 2 + 1 - oddOrEven) * bondDelta / 2;</span>
 &nbsp;
-        // offset between center of SphereJ (resp. SphereI) and the start of the bond
-        const offsetJ = <span class="cstat-no" title="statement not covered" >Math.sqrt(radiusJsq - (model.bondRadius + offset) ** 2);</span>
-        const offsetI = <span class="cstat-no" title="statement not covered" >Math.sqrt(radiusIsq - (model.bondRadius + offset) ** 2);</span>
         const vectUnitJI = <span class="cstat-no" title="statement not covered" >[</span>
           diff[0] / Math.sqrt(diffsq),
           diff[1] / Math.sqrt(diffsq),
@@ -1287,17 +1238,17 @@ function vtkMoleculeToRepresentation(publicAPI, model) <span class="fstat-no" ti
           atomicNumber[i] !== atomicNumber[j] &amp;&amp;
           colorArray.length &gt; 0
         ) {
-          const bondLength = <span class="cstat-no" title="statement not covered" >(Math.sqrt(diffsq) - offsetJ - offsetI) / 2.0;</span>
+          const bondLength = <span class="cstat-no" title="statement not covered" >Math.sqrt(diffsq) / 2.0;</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >          bondPos = [</span>
             pointsArray[jPtsIdx] -
-              (offsetJ + bondLength / 2.0) * vectUnitJI[0] / 1.0 +
+              bondLength * vectUnitJI[0] / 2.0 +
               offset * vectUnitJIperp[0],
             pointsArray[jPtsIdx + 1] -
-              (offsetJ + bondLength / 2.0) * vectUnitJI[1] / 1.0 +
+              bondLength * vectUnitJI[1] / 2.0 +
               offset * vectUnitJIperp[1],
             pointsArray[jPtsIdx + 2] -
-              (offsetJ + bondLength / 2.0) * vectUnitJI[2] / 1.0 +
+              bondLength * vectUnitJI[2] / 2.0 +
               offset * vectUnitJIperp[2],
           ];
 &nbsp;
@@ -1310,13 +1261,13 @@ function vtkMoleculeToRepresentation(publicAPI, model) <span class="fstat-no" ti
 &nbsp;
 <span class="cstat-no" title="statement not covered" >          bondPos = [</span>
             pointsArray[iPtsIdx] +
-              (offsetI + bondLength / 2.0) * vectUnitJI[0] / 1.0 +
+              bondLength * vectUnitJI[0] / 2.0 +
               offset * vectUnitJIperp[0],
             pointsArray[iPtsIdx + 1] +
-              (offsetI + bondLength / 2.0) * vectUnitJI[1] / 1.0 +
+              bondLength * vectUnitJI[1] / 2.0 +
               offset * vectUnitJIperp[1],
             pointsArray[iPtsIdx + 2] +
-              (offsetI + bondLength / 2.0) * vectUnitJI[2] / 1.0 +
+              bondLength * vectUnitJI[2] / 2.0 +
               offset * vectUnitJIperp[2],
           ];
 <span class="cstat-no" title="statement not covered" >          addBond(</span>
@@ -1326,19 +1277,14 @@ function vtkMoleculeToRepresentation(publicAPI, model) <span class="fstat-no" ti
             colorArray.slice(iPtsIdx, iPtsIdx + 3)
           );
         } else {
-          const bondLength = <span class="cstat-no" title="statement not covered" >Math.sqrt(diffsq) - offsetJ - offsetI;</span>
+          const bondLength = <span class="cstat-no" title="statement not covered" >Math.sqrt(diffsq);</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >          bondPos = [</span>
-            pointsArray[jPtsIdx] -
-              (offsetJ - offsetI) * vectUnitJI[0] / 2.0 -
-              diff[0] / 2.0 +
-              offset * vectUnitJIperp[0],
+            pointsArray[jPtsIdx] - diff[0] / 2.0 + offset * vectUnitJIperp[0],
             pointsArray[jPtsIdx + 1] -
-              (offsetJ - offsetI) * vectUnitJI[1] / 2.0 -
               diff[1] / 2.0 +
               offset * vectUnitJIperp[1],
             pointsArray[jPtsIdx + 2] -
-              (offsetJ - offsetI) * vectUnitJI[2] / 2.0 -
               diff[2] / 2.0 +
               offset * vectUnitJIperp[2],
           ];
@@ -1459,7 +1405,7 @@ export default { newInstance, extend };
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Aug 09 2018 18:27:57 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Aug 10 2018 19:36:13 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>
