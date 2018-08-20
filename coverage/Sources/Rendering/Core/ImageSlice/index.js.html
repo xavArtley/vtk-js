@@ -20,14 +20,14 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">2.52% </span>
+        <span class="strong">2.34% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>3/119</span>
+        <span class='fraction'>3/128</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>0/59</span>
+        <span class='fraction'>0/71</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
@@ -35,9 +35,9 @@
         <span class='fraction'>0/31</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">2.75% </span>
+        <span class="strong">2.52% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>3/109</span>
+        <span class='fraction'>3/119</span>
       </div>
     </div>
   </div>
@@ -306,7 +306,29 @@
 261
 262
 263
-264</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278
+279
+280
+281
+282
+283
+284
+285
+286</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -325,6 +347,28 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -587,7 +631,29 @@ function vtkImageSlice(publicAPI, model) <span class="fstat-no" title="function 
 <span class="cstat-no" title="statement not covered" >  publicAPI.getActors = () =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >publicAPI;</span></span></span>
 <span class="cstat-no" title="statement not covered" >  publicAPI.getImages = () =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >publicAPI;</span></span></span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  publicAPI.getIsOpaque = () =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >true;</span></span></span>
+<span class="cstat-no" title="statement not covered" >  publicAPI.getIsOpaque = () =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >    if (model.forceOpaque) {</span>
+<span class="cstat-no" title="statement not covered" >      return true;</span>
+    }
+<span class="cstat-no" title="statement not covered" >    if (model.forceTranslucent) {</span>
+<span class="cstat-no" title="statement not covered" >      return false;</span>
+    }
+    // make sure we have a property
+<span class="cstat-no" title="statement not covered" >    if (!model.property) {</span>
+      // force creation of a property
+<span class="cstat-no" title="statement not covered" >      publicAPI.getProperty();</span>
+    }
+&nbsp;
+    let isOpaque = <span class="cstat-no" title="statement not covered" >model.property.getOpacity() &gt;= 1.0;</span>
+&nbsp;
+    // are we using an opaque texture, if any?
+<span class="cstat-no" title="statement not covered" >    isOpaque = isOpaque &amp;&amp; (!model.texture || !model.texture.isTranslucent());</span>
+&nbsp;
+    // are we using an opaque scalar array, if any?
+<span class="cstat-no" title="statement not covered" >    isOpaque = isOpaque &amp;&amp; (!model.mapper || model.mapper.getIsOpaque());</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    return isOpaque;</span>
+  };
 &nbsp;
   // Always render during opaque pass, to keep the behavior
   // predictable and because depth-peeling kills alpha-blending.
@@ -838,7 +904,7 @@ export default { newInstance, extend };
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Aug 14 2018 22:15:20 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Aug 20 2018 20:02:36 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>
