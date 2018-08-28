@@ -22,12 +22,12 @@
       <div class='fl pad1y space-right2'>
         <span class="strong">1.56% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>10/642</span>
+        <span class='fraction'>10/643</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>0/368</span>
+        <span class='fraction'>0/372</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
@@ -37,7 +37,7 @@
       <div class='fl pad1y space-right2'>
         <span class="strong">1.56% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>10/642</span>
+        <span class='fraction'>10/643</span>
       </div>
     </div>
   </div>
@@ -1997,7 +1997,9 @@
 1952
 1953
 1954
-1955</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+1955
+1956
+1957</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -2742,16 +2744,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -2766,6 +2758,18 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -4695,35 +4699,37 @@ function vtkOpenGLPolyDataMapper(publicAPI, model) <span class="fstat-no" title=
           'varying vec2 tcoordVCVSOutput;',
           'uniform sampler2D texture1;',
         ]).result;
-<span class="cstat-no" title="statement not covered" >        switch (tNumComp) {</span>
-          case 1:
-<span class="cstat-no" title="statement not covered" >            FSSource = vtkShaderProgram.substitute(</span>
-              FSSource,
-              '//VTK::TCoord::Impl',
-              [
-                'vec4 tcolor = texture2D(texture1, tcoordVCVSOutput);',
-                'gl_FragData[0] = clamp(gl_FragData[0],0.0,1.0)*',
-                '  vec4(tcolor.r,tcolor.r,tcolor.r,1.0);',
-              ]
-            ).result;
-<span class="cstat-no" title="statement not covered" >            break;</span>
-          case 2:
-<span class="cstat-no" title="statement not covered" >            FSSource = vtkShaderProgram.substitute(</span>
-              FSSource,
-              '//VTK::TCoord::Impl',
-              [
-                'vec4 tcolor = texture2D(texture1, tcoordVCVSOutput);',
-                'gl_FragData[0] = clamp(gl_FragData[0],0.0,1.0)*',
-                '  vec4(tcolor.r,tcolor.r,tcolor.r,tcolor.g);',
-              ]
-            ).result;
-<span class="cstat-no" title="statement not covered" >            break;</span>
-          default:
-<span class="cstat-no" title="statement not covered" >            FSSource = vtkShaderProgram.substitute(</span>
-              FSSource,
-              '//VTK::TCoord::Impl',
-              'gl_FragData[0] = clamp(gl_FragData[0],0.0,1.0)*texture2D(texture1, tcoordVCVSOutput.st);'
-            ).result;
+<span class="cstat-no" title="statement not covered" >        if (tus &amp;&amp; tus.length &gt;= 1) {</span>
+<span class="cstat-no" title="statement not covered" >          switch (tNumComp) {</span>
+            case 1:
+<span class="cstat-no" title="statement not covered" >              FSSource = vtkShaderProgram.substitute(</span>
+                FSSource,
+                '//VTK::TCoord::Impl',
+                [
+                  'vec4 tcolor = texture2D(texture1, tcoordVCVSOutput);',
+                  'gl_FragData[0] = clamp(gl_FragData[0],0.0,1.0)*',
+                  '  vec4(tcolor.r,tcolor.r,tcolor.r,1.0);',
+                ]
+              ).result;
+<span class="cstat-no" title="statement not covered" >              break;</span>
+            case 2:
+<span class="cstat-no" title="statement not covered" >              FSSource = vtkShaderProgram.substitute(</span>
+                FSSource,
+                '//VTK::TCoord::Impl',
+                [
+                  'vec4 tcolor = texture2D(texture1, tcoordVCVSOutput);',
+                  'gl_FragData[0] = clamp(gl_FragData[0],0.0,1.0)*',
+                  '  vec4(tcolor.r,tcolor.r,tcolor.r,tcolor.g);',
+                ]
+              ).result;
+<span class="cstat-no" title="statement not covered" >              break;</span>
+            default:
+<span class="cstat-no" title="statement not covered" >              FSSource = vtkShaderProgram.substitute(</span>
+                FSSource,
+                '//VTK::TCoord::Impl',
+                'gl_FragData[0] = clamp(gl_FragData[0],0.0,1.0)*texture2D(texture1, tcoordVCVSOutput.st);'
+              ).result;
+          }
         }
       } else {
 <span class="cstat-no" title="statement not covered" >        VSSource = vtkShaderProgram.substitute(</span>
@@ -5911,7 +5917,7 @@ export default { newInstance, extend };
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Aug 21 2018 16:08:55 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Aug 28 2018 15:57:47 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>
