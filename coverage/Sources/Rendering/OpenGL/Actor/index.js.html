@@ -20,14 +20,14 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">2.35% </span>
+        <span class="strong">2.33% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>2/85</span>
+        <span class='fraction'>2/86</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>0/41</span>
+        <span class='fraction'>0/45</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
@@ -35,9 +35,9 @@
         <span class='fraction'>0/12</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">2.35% </span>
+        <span class="strong">2.33% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>2/85</span>
+        <span class='fraction'>2/86</span>
       </div>
     </div>
   </div>
@@ -243,7 +243,12 @@
 198
 199
 200
-201</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+201
+202
+203
+204
+205
+206</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -263,6 +268,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -296,19 +304,21 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -462,6 +472,9 @@ function vtkOpenGLActor(publicAPI, model) <span class="fstat-no" title="function
 <span class="cstat-no" title="statement not covered" >      model.openGLRenderWindow = publicAPI.getFirstAncestorOfType(</span>
         'vtkOpenGLRenderWindow'
       );
+<span class="cstat-no" title="statement not covered" >      model.openGLRenderer = publicAPI.getFirstAncestorOfType(</span>
+        'vtkOpenGLRenderer'
+      );
 <span class="cstat-no" title="statement not covered" >      model.context = model.openGLRenderWindow.getContext();</span>
 <span class="cstat-no" title="statement not covered" >      publicAPI.prepareNodes();</span>
 <span class="cstat-no" title="statement not covered" >      publicAPI.addMissingNodes(model.renderable.getTextures());</span>
@@ -494,7 +507,8 @@ function vtkOpenGLActor(publicAPI, model) <span class="fstat-no" title="function
 <span class="cstat-no" title="statement not covered" >    if (</span>
       !model.renderable ||
       !model.renderable.getVisibility() ||
-      !model.renderable.getIsOpaque()
+      !model.renderable.getIsOpaque() ||
+      (model.openGLRenderer.getSelector() &amp;&amp; !model.renderable.getPickable())
     ) {
 <span class="cstat-no" title="statement not covered" >      return;</span>
     }
@@ -511,7 +525,8 @@ function vtkOpenGLActor(publicAPI, model) <span class="fstat-no" title="function
 <span class="cstat-no" title="statement not covered" >    if (</span>
       !model.renderable ||
       !model.renderable.getVisibility() ||
-      model.renderable.getIsOpaque()
+      model.renderable.getIsOpaque() ||
+      (model.openGLRenderer.getSelector() &amp;&amp; !model.renderable.getPickable())
     ) {
 <span class="cstat-no" title="statement not covered" >      return;</span>
     }
@@ -649,7 +664,7 @@ export default { newInstance, extend };
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Aug 28 2018 15:57:47 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Aug 29 2018 20:30:25 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>

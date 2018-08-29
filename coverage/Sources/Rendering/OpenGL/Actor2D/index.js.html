@@ -20,14 +20,14 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">3.7% </span>
+        <span class="strong">3.64% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>2/54</span>
+        <span class='fraction'>2/55</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>0/27</span>
+        <span class='fraction'>0/31</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
@@ -35,9 +35,9 @@
         <span class='fraction'>0/13</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">3.7% </span>
+        <span class="strong">3.64% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>2/54</span>
+        <span class='fraction'>2/55</span>
       </div>
     </div>
   </div>
@@ -186,7 +186,11 @@
 141
 142
 143
-144</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+144
+145
+146
+147
+148</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -203,21 +207,6 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -227,12 +216,31 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -346,7 +354,9 @@ function vtkOpenGLActor2D(publicAPI, model) <span class="fstat-no" title="functi
 <span class="cstat-no" title="statement not covered" >      if (!model.renderable) {</span>
 <span class="cstat-no" title="statement not covered" >        return;</span>
       }
-&nbsp;
+<span class="cstat-no" title="statement not covered" >      model.openGLRenderer = publicAPI.getFirstAncestorOfType(</span>
+        'vtkOpenGLRenderer'
+      );
 <span class="cstat-no" title="statement not covered" >      publicAPI.prepareNodes();</span>
 <span class="cstat-no" title="statement not covered" >      publicAPI.addMissingNodes(model.renderable.getTextures());</span>
 <span class="cstat-no" title="statement not covered" >      publicAPI.addMissingNode(model.renderable.getMapper());</span>
@@ -359,7 +369,8 @@ function vtkOpenGLActor2D(publicAPI, model) <span class="fstat-no" title="functi
 <span class="cstat-no" title="statement not covered" >    if (</span>
       !model.renderable ||
       !model.renderable.getVisibility() ||
-      !model.renderable.getIsOpaque()
+      !model.renderable.getIsOpaque() ||
+      (model.openGLRenderer.getSelector() &amp;&amp; !model.renderable.getPickable())
     ) {
 <span class="cstat-no" title="statement not covered" >      return;</span>
     }
@@ -378,7 +389,8 @@ function vtkOpenGLActor2D(publicAPI, model) <span class="fstat-no" title="functi
 <span class="cstat-no" title="statement not covered" >    if (</span>
       !model.renderable ||
       !model.renderable.getVisibility() ||
-      model.renderable.getIsOpaque()
+      model.renderable.getIsOpaque() ||
+      (model.openGLRenderer.getSelector() &amp;&amp; !model.renderable.getPickable())
     ) {
 <span class="cstat-no" title="statement not covered" >      return;</span>
     }
@@ -478,7 +490,7 @@ export default { newInstance, extend };
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Aug 28 2018 15:57:47 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Aug 29 2018 20:30:25 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>

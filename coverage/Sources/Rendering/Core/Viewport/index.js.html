@@ -20,24 +20,24 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">49.23% </span>
+        <span class="strong">46.38% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>32/65</span>
+        <span class='fraction'>32/69</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>0/9</span>
+        <span class='fraction'>0/10</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">20.83% </span>
+        <span class="strong">20% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>5/24</span>
+        <span class='fraction'>5/25</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">51.72% </span>
+        <span class="strong">48.39% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>30/58</span>
+        <span class='fraction'>30/62</span>
       </div>
     </div>
   </div>
@@ -210,7 +210,15 @@
 165
 166
 167
-168</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+168
+169
+170
+171
+172
+173
+174
+175
+176</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -248,13 +256,21 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -415,15 +431,23 @@ function vtkViewport(publicAPI, model) {
   };
 &nbsp;
   // this method get all the props including any nested props
-  publicAPI.getViewPropsWithNestedProps = () =&gt; <span class="fstat-no" title="function not covered" >{</span>
-<span class="cstat-no" title="statement not covered" >    model.allprops = model.props;</span>
-<span class="cstat-no" title="statement not covered" >    for (let index = 0; index &lt; model.props.length; ++index) {</span>
-      const prop = <span class="cstat-no" title="statement not covered" >model.props[index];</span>
-<span class="cstat-no" title="statement not covered" >      if (prop.getNestedProps()) {</span>
-<span class="cstat-no" title="statement not covered" >        model.allprops = model.allprops.concat(prop.getNestedProps());</span>
+  function gatherProps(prop, allProps = []) <span class="fstat-no" title="function not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >    allProps.push(prop);</span>
+    const children = <span class="cstat-no" title="statement not covered" >prop.getNestedProps();</span>
+<span class="cstat-no" title="statement not covered" >    if (children) {</span>
+<span class="cstat-no" title="statement not covered" >      for (let i = 0; i &lt; children.length; i++) {</span>
+<span class="cstat-no" title="statement not covered" >        gatherProps(children[i], allProps);</span>
       }
     }
-<span class="cstat-no" title="statement not covered" >    return model.allprops;</span>
+<span class="cstat-no" title="statement not covered" >    return allProps;</span>
+  }
+&nbsp;
+  publicAPI.getViewPropsWithNestedProps = () =&gt; <span class="fstat-no" title="function not covered" >{</span>
+    const allPropsArray = <span class="cstat-no" title="statement not covered" >[];</span>
+<span class="cstat-no" title="statement not covered" >    for (let i = 0; i &lt; model.props.length; i++) {</span>
+<span class="cstat-no" title="statement not covered" >      gatherProps(model.props[i], allPropsArray);</span>
+    }
+<span class="cstat-no" title="statement not covered" >    return allPropsArray;</span>
   };
 &nbsp;
   publicAPI.addActor2D = publicAPI.addViewProp;
@@ -550,7 +574,7 @@ export default { newInstance, extend };
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Aug 28 2018 15:57:47 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Aug 29 2018 20:30:25 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>
