@@ -20,14 +20,14 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">2.55% </span>
+        <span class="strong">2.61% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>8/314</span>
+        <span class='fraction'>8/307</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>0/106</span>
+        <span class='fraction'>0/101</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
@@ -35,9 +35,9 @@
         <span class='fraction'>0/13</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">2.55% </span>
+        <span class="strong">2.61% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>8/314</span>
+        <span class='fraction'>8/307</span>
       </div>
     </div>
   </div>
@@ -747,40 +747,7 @@
 702
 703
 704
-705
-706
-707
-708
-709
-710
-711
-712
-713
-714
-715
-716
-717
-718
-719
-720
-721
-722
-723
-724
-725
-726
-727
-728
-729
-730
-731
-732
-733
-734
-735
-736
-737
-738</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+705</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1085,16 +1052,7 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1113,31 +1071,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1819,64 +1753,31 @@ function vtkOpenGLGlyph3DMapper(publicAPI, model) <span class="fstat-no" title="
   };
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  publicAPI.replaceShaderPicking = (shaders, ren, actor) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
-<span class="cstat-no" title="statement not covered" >    if (model.openGLRenderer.getSelector()) {</span>
+<span class="cstat-no" title="statement not covered" >    if (model.hardwareSupport) {</span>
       let FSSource = <span class="cstat-no" title="statement not covered" >shaders.Fragment;</span>
-<span class="cstat-no" title="statement not covered" >      switch (model.openGLRenderer.getSelector().getCurrentPass()) {</span>
-        case PassTypes.ID_LOW24:
-<span class="cstat-no" title="statement not covered" >          break;</span>
-        case PassTypes.COMPOSITE_INDEX_PASS:
-<span class="cstat-no" title="statement not covered" >          if (model.hardwareSupport) {</span>
-            let VSSource = <span class="cstat-no" title="statement not covered" >shaders.Vertex;</span>
-<span class="cstat-no" title="statement not covered" >            VSSource = vtkShaderProgram.substitute(</span>
-              VSSource,
-              '//VTK::Picking::Dec',
-              [
-                'attribute vec3 mapperIndexVS;',
-                'varying vec3 mapperIndexVSOutput;',
-              ]
-            ).result;
-<span class="cstat-no" title="statement not covered" >            VSSource = vtkShaderProgram.substitute(</span>
-              VSSource,
-              '//VTK::Picking::Impl',
-              '  mapperIndexVSOutput = mapperIndexVS;'
-            ).result;
-<span class="cstat-no" title="statement not covered" >            shaders.Vertex = VSSource;</span>
-<span class="cstat-no" title="statement not covered" >            FSSource = vtkShaderProgram.substitute(</span>
-              FSSource,
-              '//VTK::Picking::Dec',
-              'varying vec3 mapperIndexVSOutput;'
-            ).result;
-<span class="cstat-no" title="statement not covered" >            FSSource = vtkShaderProgram.substitute(</span>
-              FSSource,
-              '//VTK::Picking::Impl',
-              '  gl_FragData[0] = vec4(mapperIndexVSOutput,1.0);'
-            ).result;
-          } else {
-<span class="cstat-no" title="statement not covered" >            FSSource = vtkShaderProgram.substitute(</span>
-              FSSource,
-              '//VTK::Picking::Dec',
-              'uniform vec3 mapperIndex;'
-            ).result;
-<span class="cstat-no" title="statement not covered" >            FSSource = vtkShaderProgram.substitute(</span>
-              FSSource,
-              '//VTK::Picking::Impl',
-              '  gl_FragData[0] = vec4(mapperIndex,1.0);'
-            ).result;
-          }
-<span class="cstat-no" title="statement not covered" >          break;</span>
-        default:
-<span class="cstat-no" title="statement not covered" >          FSSource = vtkShaderProgram.substitute(</span>
-            FSSource,
-            '//VTK::Picking::Dec',
-            'uniform vec3 mapperIndex;'
-          ).result;
-<span class="cstat-no" title="statement not covered" >          FSSource = vtkShaderProgram.substitute(</span>
-            FSSource,
-            '//VTK::Picking::Impl',
-            '  gl_FragData[0] = vec4(mapperIndex,1.0);'
-          ).result;
-      }
+      let VSSource = <span class="cstat-no" title="statement not covered" >shaders.Vertex;</span>
+<span class="cstat-no" title="statement not covered" >      VSSource = vtkShaderProgram.substitute(VSSource, '//VTK::Picking::Dec', [</span>
+        'attribute vec3 mapperIndexVS;',
+        'varying vec3 mapperIndexVSOutput;',
+      ]).result;
+<span class="cstat-no" title="statement not covered" >      VSSource = vtkShaderProgram.substitute(</span>
+        VSSource,
+        '//VTK::Picking::Impl',
+        '  mapperIndexVSOutput = mapperIndexVS;'
+      ).result;
+<span class="cstat-no" title="statement not covered" >      shaders.Vertex = VSSource;</span>
+<span class="cstat-no" title="statement not covered" >      FSSource = vtkShaderProgram.substitute(FSSource, '//VTK::Picking::Dec', [</span>
+        'varying vec3 mapperIndexVSOutput;',
+        'uniform vec3 mapperIndex;',
+        'uniform int picking;',
+      ]).result;
+<span class="cstat-no" title="statement not covered" >      FSSource = vtkShaderProgram.substitute(FSSource, '//VTK::Picking::Impl', [</span>
+        '  vec4 pickColor = picking == 2 ? vec4(mapperIndexVSOutput,1.0) : vec4(mapperIndex,1.0);',
+        '  gl_FragData[0] = picking != 0 ? pickColor : gl_FragData[0];',
+      ]).result;
 <span class="cstat-no" title="statement not covered" >      shaders.Fragment = FSSource;</span>
+    } else {
+<span class="cstat-no" title="statement not covered" >      superClass.replaceShaderPicking(shaders, ren, actor);</span>
     }
   };
 &nbsp;
@@ -2260,7 +2161,7 @@ export default { newInstance, extend };
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Aug 29 2018 20:30:25 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Aug 30 2018 15:09:29 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>
