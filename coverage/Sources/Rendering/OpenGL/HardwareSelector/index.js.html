@@ -20,14 +20,14 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">2.88% </span>
+        <span class="strong">2.8% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>6/208</span>
+        <span class='fraction'>6/214</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>0/80</span>
+        <span class='fraction'>0/86</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
@@ -35,9 +35,9 @@
         <span class='fraction'>0/26</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">2.94% </span>
+        <span class="strong">2.86% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>6/204</span>
+        <span class='fraction'>6/210</span>
       </div>
     </div>
   </div>
@@ -520,7 +520,17 @@
 475
 476
 477
-478</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+478
+479
+480
+481
+482
+483
+484
+485
+486
+487
+488</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -557,6 +567,16 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -638,7 +658,7 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1028,12 +1048,22 @@ function vtkOpenGLHardwareSelector(publicAPI, model) <span class="fstat-no" titl
     );
 <span class="cstat-no" title="statement not covered" >    model.maxAttributeId = 0;</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    model.framebuffer = vtkOpenGLFramebuffer.newInstance();</span>
-<span class="cstat-no" title="statement not covered" >    model.framebuffer.setOpenGLRenderWindow(model.openGLRenderWindow);</span>
-<span class="cstat-no" title="statement not covered" >    model.framebuffer.saveCurrentBindingsAndBuffers();</span>
     const size = <span class="cstat-no" title="statement not covered" >model.openGLRenderWindow.getSize();</span>
-<span class="cstat-no" title="statement not covered" >    model.framebuffer.create(size[0], size[1]);</span>
-<span class="cstat-no" title="statement not covered" >    model.framebuffer.populateFramebuffer();</span>
+<span class="cstat-no" title="statement not covered" >    if (!model.framebuffer) {</span>
+<span class="cstat-no" title="statement not covered" >      model.framebuffer = vtkOpenGLFramebuffer.newInstance();</span>
+<span class="cstat-no" title="statement not covered" >      model.framebuffer.setOpenGLRenderWindow(model.openGLRenderWindow);</span>
+<span class="cstat-no" title="statement not covered" >      model.framebuffer.saveCurrentBindingsAndBuffers();</span>
+<span class="cstat-no" title="statement not covered" >      model.framebuffer.create(size[0], size[1]);</span>
+<span class="cstat-no" title="statement not covered" >      model.framebuffer.populateFramebuffer();</span>
+    } else {
+<span class="cstat-no" title="statement not covered" >      model.framebuffer.setOpenGLRenderWindow(model.openGLRenderWindow);</span>
+<span class="cstat-no" title="statement not covered" >      model.framebuffer.saveCurrentBindingsAndBuffers();</span>
+      const fbSize = <span class="cstat-no" title="statement not covered" >model.framebuffer.getSize();</span>
+<span class="cstat-no" title="statement not covered" >      if (fbSize[0] !== size[0] || fbSize[1] !== size[1]) {</span>
+<span class="cstat-no" title="statement not covered" >        model.framebuffer.create(size[0], size[1]);</span>
+<span class="cstat-no" title="statement not covered" >        model.framebuffer.populateFramebuffer();</span>
+      }
+    }
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    model.openGLRenderer.clear();</span>
 <span class="cstat-no" title="statement not covered" >    model.openGLRenderer.setSelector(publicAPI);</span>
@@ -1114,8 +1144,8 @@ function vtkOpenGLHardwareSelector(publicAPI, model) <span class="fstat-no" titl
 <span class="cstat-no" title="statement not covered" >    model.renderer.setBackground(model.originalBackground);</span>
 <span class="cstat-no" title="statement not covered" >    publicAPI.invokeEvent({ type: 'EndEvent' });</span>
 &nbsp;
-    // restore image
-<span class="cstat-no" title="statement not covered" >    model.openGLRenderWindow.traverseAllPasses();</span>
+    // restore image, not needed?
+    // model.openGLRenderWindow.traverseAllPasses();
 <span class="cstat-no" title="statement not covered" >    return true;</span>
   };
 &nbsp;
@@ -1480,7 +1510,7 @@ export default Object.assign({ newInstance, extend }, Constants);
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Aug 30 2018 15:09:29 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Aug 31 2018 14:36:04 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>
