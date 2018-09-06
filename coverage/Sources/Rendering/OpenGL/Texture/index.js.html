@@ -20,14 +20,14 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">0.78% </span>
+        <span class="strong">0.77% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>5/639</span>
+        <span class='fraction'>5/646</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>0/246</span>
+        <span class='fraction'>0/250</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
@@ -37,7 +37,7 @@
       <div class='fl pad1y space-right2'>
         <span class="strong">0.78% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>5/638</span>
+        <span class='fraction'>5/645</span>
       </div>
     </div>
   </div>
@@ -1526,7 +1526,18 @@
 1481
 1482
 1483
-1484</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+1484
+1485
+1486
+1487
+1488
+1489
+1490
+1491
+1492
+1493
+1494
+1495</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1817,12 +1828,14 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -2306,10 +2319,16 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -2320,6 +2339,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -3299,17 +3321,19 @@ function vtkOpenGLTexture(publicAPI, model) <span class="fstat-no" title="functi
       publicAPI.getOpenGLFilterMode(model.magnificationFilter)
     );
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    model.context.texParameteri(</span>
-      model.target,
-      model.context.TEXTURE_BASE_LEVEL,
-      model.baseLevel
-    );
+<span class="cstat-no" title="statement not covered" >    if (model.openGLRenderWindow.getWebgl2()) {</span>
+<span class="cstat-no" title="statement not covered" >      model.context.texParameteri(</span>
+        model.target,
+        model.context.TEXTURE_BASE_LEVEL,
+        model.baseLevel
+      );
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    model.context.texParameteri(</span>
-      model.target,
-      model.context.TEXTURE_MAX_LEVEL,
-      model.maxLevel
-    );
+<span class="cstat-no" title="statement not covered" >      model.context.texParameteri(</span>
+        model.target,
+        model.context.TEXTURE_MAX_LEVEL,
+        model.maxLevel
+      );
+    }
 &nbsp;
     // model.context.texParameterf(model.target, model.context.TEXTURE_MIN_LOD, model.minLOD);
     // model.context.texParameterf(model.target, model.context.TEXTURE_MAX_LOD, model.maxLOD);
@@ -3787,22 +3811,31 @@ function vtkOpenGLTexture(publicAPI, model) <span class="fstat-no" title="functi
     // We get the 6 images
 <span class="cstat-no" title="statement not covered" >    for (let i = 0; i &lt; 6; i++) {</span>
       // For each mipmap level
-<span class="cstat-no" title="statement not covered" >      for (let j = 0; j &lt;= model.maxLevel; j++) {</span>
-<span class="cstat-no" title="statement not covered" >        if (invertedData[6 * j + i]) {</span>
-          const w = <span class="cstat-no" title="statement not covered" >model.width / 2 ** j;</span>
-          const h = <span class="cstat-no" title="statement not covered" >model.height / 2 ** j;</span>
-<span class="cstat-no" title="statement not covered" >          model.context.texImage2D(</span>
-            model.context.TEXTURE_CUBE_MAP_POSITIVE_X + i,
-            j,
-            model.internalFormat,
-            w,
-            h,
-            0,
-            model.format,
-            model.openGLDataType,
-            invertedData[6 * j + i]
-          );
+      let j = <span class="cstat-no" title="statement not covered" >0;</span>
+      let w = <span class="cstat-no" title="statement not covered" >model.width;</span>
+      let h = <span class="cstat-no" title="statement not covered" >model.height;</span>
+<span class="cstat-no" title="statement not covered" >      while (w &gt;= 1 &amp;&amp; h &gt;= 1) {</span>
+        // In webgl 1, all levels need to be defined. So if the latest level size is
+        // 8x8, we have to add 3 more null textures (4x4, 2x2, 1x1)
+        // In webgl 2, the attribtue maxLevel will be use.
+        let tempData = <span class="cstat-no" title="statement not covered" >null;</span>
+<span class="cstat-no" title="statement not covered" >        if (j &lt;= model.maxLevel) {</span>
+<span class="cstat-no" title="statement not covered" >          tempData = invertedData[6 * j + i];</span>
         }
+<span class="cstat-no" title="statement not covered" >        model.context.texImage2D(</span>
+          model.context.TEXTURE_CUBE_MAP_POSITIVE_X + i,
+          j,
+          model.internalFormat,
+          w,
+          h,
+          0,
+          model.format,
+          model.openGLDataType,
+          tempData
+        );
+<span class="cstat-no" title="statement not covered" >        j++;</span>
+<span class="cstat-no" title="statement not covered" >        w /= 2;</span>
+<span class="cstat-no" title="statement not covered" >        h /= 2;</span>
       }
     }
 &nbsp;
@@ -4498,7 +4531,7 @@ export default Object.assign({ newInstance, extend }, Constants);
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sat Sep 01 2018 21:05:00 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Sep 06 2018 12:24:12 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>
