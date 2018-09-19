@@ -20,24 +20,24 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">31.97% </span>
+        <span class="strong">29.75% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>94/294</span>
+        <span class='fraction'>94/316</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">7.65% </span>
+        <span class="strong">7.57% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>14/183</span>
+        <span class='fraction'>14/185</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">26.53% </span>
+        <span class="strong">25.49% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>13/49</span>
+        <span class='fraction'>13/51</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">32.08% </span>
+        <span class="strong">29.84% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>94/293</span>
+        <span class='fraction'>94/315</span>
       </div>
     </div>
   </div>
@@ -1086,7 +1086,46 @@
 1041
 1042
 1043
-1044</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+1044
+1045
+1046
+1047
+1048
+1049
+1050
+1051
+1052
+1053
+1054
+1055
+1056
+1057
+1058
+1059
+1060
+1061
+1062
+1063
+1064
+1065
+1066
+1067
+1068
+1069
+1070
+1071
+1072
+1073
+1074
+1075
+1076
+1077
+1078
+1079
+1080
+1081
+1082
+1083</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1576,6 +1615,45 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -2619,7 +2697,46 @@ function vtkOpenGLRenderWindow(publicAPI, model) {
   };
 &nbsp;
   function getCanvasDataURL(format = model.imageFormat) <span class="fstat-no" title="function not covered" >{</span>
-<span class="cstat-no" title="statement not covered" >    return model.canvas.toDataURL(format);</span>
+    // Copy current canvas to not modify the original
+    const temporaryCanvas = <span class="cstat-no" title="statement not covered" >document.createElement('canvas');</span>
+    const temporaryContext = <span class="cstat-no" title="statement not covered" >temporaryCanvas.getContext('2d');</span>
+<span class="cstat-no" title="statement not covered" >    temporaryCanvas.width = model.canvas.width;</span>
+<span class="cstat-no" title="statement not covered" >    temporaryCanvas.height = model.canvas.height;</span>
+<span class="cstat-no" title="statement not covered" >    temporaryContext.drawImage(model.canvas, 0, 0);</span>
+&nbsp;
+    // Get current client rect to place canvas
+    const mainBoundingClientRect = <span class="cstat-no" title="statement not covered" >model.canvas.getBoundingClientRect();</span>
+&nbsp;
+    const renderWindow = <span class="cstat-no" title="statement not covered" >model.renderable;</span>
+    const renderers = <span class="cstat-no" title="statement not covered" >renderWindow.getRenderers();</span>
+<span class="cstat-no" title="statement not covered" >    renderers.forEach((renderer) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+      const viewProps = <span class="cstat-no" title="statement not covered" >renderer.getViewProps();</span>
+<span class="cstat-no" title="statement not covered" >      viewProps.forEach((viewProp) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+        // Check if the prop has a container that should have canvas
+<span class="cstat-no" title="statement not covered" >        if (viewProp.getContainer) {</span>
+          const container = <span class="cstat-no" title="statement not covered" >viewProp.getContainer();</span>
+          const canvasList = <span class="cstat-no" title="statement not covered" >container.getElementsByTagName('canvas');</span>
+          // Go throughout all canvas and copy it into temporary main canvas
+<span class="cstat-no" title="statement not covered" >          for (let i = 0; i &lt; canvasList.length; i++) {</span>
+            const currentCanvas = <span class="cstat-no" title="statement not covered" >canvasList[i];</span>
+            const boundingClientRect = <span class="cstat-no" title="statement not covered" >currentCanvas.getBoundingClientRect();</span>
+            const newXPosition =
+<span class="cstat-no" title="statement not covered" >              boundingClientRect.x - mainBoundingClientRect.x;</span>
+            const newYPosition =
+<span class="cstat-no" title="statement not covered" >              boundingClientRect.y - mainBoundingClientRect.y;</span>
+<span class="cstat-no" title="statement not covered" >            temporaryContext.drawImage(</span>
+              currentCanvas,
+              newXPosition,
+              newYPosition
+            );
+          }
+        }
+      });
+    });
+&nbsp;
+    const screenshot = <span class="cstat-no" title="statement not covered" >temporaryCanvas.toDataURL(format);</span>
+<span class="cstat-no" title="statement not covered" >    temporaryCanvas.remove();</span>
+<span class="cstat-no" title="statement not covered" >    publicAPI.invokeImageReady(screenshot);</span>
   }
 &nbsp;
   publicAPI.captureNextImage = (format = 'image/png') =&gt; <span class="fstat-no" title="function not covered" >{</span>
@@ -2627,12 +2744,12 @@ function vtkOpenGLRenderWindow(publicAPI, model) {
 <span class="cstat-no" title="statement not covered" >      return null;</span>
     }
 <span class="cstat-no" title="statement not covered" >    model.imageFormat = format;</span>
-    const previous = <span class="cstat-no" title="statement not covered" >model.notifyImageReady;</span>
-<span class="cstat-no" title="statement not covered" >    model.notifyImageReady = true;</span>
+    const previous = <span class="cstat-no" title="statement not covered" >model.notifyStartCaptureImage;</span>
+<span class="cstat-no" title="statement not covered" >    model.notifyStartCaptureImage = true;</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    return new Promise((resolve, reject) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
       const subscription = <span class="cstat-no" title="statement not covered" >publicAPI.onImageReady((imageURL) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
-<span class="cstat-no" title="statement not covered" >        model.notifyImageReady = previous;</span>
+<span class="cstat-no" title="statement not covered" >        model.notifyStartCaptureImage = previous;</span>
 <span class="cstat-no" title="statement not covered" >        subscription.unsubscribe();</span>
 <span class="cstat-no" title="statement not covered" >        resolve(imageURL);</span>
       });
@@ -3050,8 +3167,8 @@ function vtkOpenGLRenderWindow(publicAPI, model) {
 <span class="cstat-no" title="statement not covered" >        model.renderPasses[index].traverse(publicAPI, null);</span>
       }
     }
-<span class="cstat-no" title="statement not covered" >    if (model.notifyImageReady) {</span>
-<span class="cstat-no" title="statement not covered" >      publicAPI.invokeImageReady(getCanvasDataURL());</span>
+<span class="cstat-no" title="statement not covered" >    if (model.notifyStartCaptureImage) {</span>
+<span class="cstat-no" title="statement not covered" >      getCanvasDataURL();</span>
     }
   };
 &nbsp;
@@ -3101,7 +3218,7 @@ const DEFAULT_VALUES = {
   textureUnitManager: null,
   textureResourceIds: null,
   renderPasses: [],
-  notifyImageReady: false,
+  notifyStartCaptureImage: false,
   webgl2: false,
   defaultToWebgl2: true, // attempt webgl2 on by default
   vrResolution: [2160, 1200],
@@ -3148,7 +3265,7 @@ export function extend(publicAPI, model, initialValues = {}) {
     'context',
     'canvas',
     'renderPasses',
-    'notifyImageReady',
+    'notifyStartCaptureImage',
     'defaultToWebgl2',
     'cursor',
     'queryVRSize',
@@ -3178,7 +3295,7 @@ export default { newInstance, extend };
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Sep 18 2018 21:35:14 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Sep 19 2018 12:31:10 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>
