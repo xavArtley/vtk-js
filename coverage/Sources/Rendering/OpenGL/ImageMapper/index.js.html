@@ -20,9 +20,9 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">1.27% </span>
+        <span class="strong">1.26% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>4/316</span>
+        <span class='fraction'>4/318</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
@@ -35,9 +35,9 @@
         <span class='fraction'>0/23</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">1.27% </span>
+        <span class="strong">1.26% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>4/316</span>
+        <span class='fraction'>4/318</span>
       </div>
     </div>
   </div>
@@ -768,7 +768,9 @@
 723
 724
 725
-726</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+726
+727
+728</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1333,14 +1335,13 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -1360,6 +1361,9 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -2054,13 +2058,14 @@ function vtkOpenGLImageMapper(publicAPI, model) <span class="fstat-no" title="fu
       let scalars = <span class="cstat-no" title="statement not covered" >null;</span>
       // Get right scalars according to slicing mode
 <span class="cstat-no" title="statement not covered" >      if (ijkMode === SlicingMode.I) {</span>
-<span class="cstat-no" title="statement not covered" >        scalars = new basicScalars.constructor(dims[2] * dims[1]);</span>
+<span class="cstat-no" title="statement not covered" >        scalars = new basicScalars.constructor(dims[2] * dims[1] * numComp);</span>
         let id = <span class="cstat-no" title="statement not covered" >0;</span>
 <span class="cstat-no" title="statement not covered" >        for (let k = 0; k &lt; dims[2]; k++) {</span>
 <span class="cstat-no" title="statement not covered" >          for (let j = 0; j &lt; dims[1]; j++) {</span>
-<span class="cstat-no" title="statement not covered" >            id = k * dims[1] + j;</span>
-<span class="cstat-no" title="statement not covered" >            scalars[id] =</span>
-              basicScalars[sliceOffset + j * dims[0] + k * dims[0] * dims[1]];
+            const bsIdx =
+<span class="cstat-no" title="statement not covered" >              (sliceOffset + j * dims[0] + k * dims[0] * dims[1]) * numComp;</span>
+<span class="cstat-no" title="statement not covered" >            id = (k * dims[1] + j) * numComp;</span>
+<span class="cstat-no" title="statement not covered" >            scalars.set(basicScalars.subarray(bsIdx, bsIdx + numComp), id);</span>
           }
         }
 <span class="cstat-no" title="statement not covered" >        dims[0] = dims[1];</span>
@@ -2078,13 +2083,14 @@ function vtkOpenGLImageMapper(publicAPI, model) <span class="fstat-no" title="fu
 <span class="cstat-no" title="statement not covered" >        ptsArray[10] = ext[3];</span>
 <span class="cstat-no" title="statement not covered" >        ptsArray[11] = ext[5];</span>
       } else <span class="cstat-no" title="statement not covered" >if (ijkMode === SlicingMode.J) {</span>
-<span class="cstat-no" title="statement not covered" >        scalars = new basicScalars.constructor(dims[2] * dims[0]);</span>
+<span class="cstat-no" title="statement not covered" >        scalars = new basicScalars.constructor(dims[2] * dims[0] * numComp);</span>
         let id = <span class="cstat-no" title="statement not covered" >0;</span>
 <span class="cstat-no" title="statement not covered" >        for (let k = 0; k &lt; dims[2]; k++) {</span>
 <span class="cstat-no" title="statement not covered" >          for (let i = 0; i &lt; dims[0]; i++) {</span>
-<span class="cstat-no" title="statement not covered" >            id = k * dims[0] + i;</span>
-<span class="cstat-no" title="statement not covered" >            scalars[id] =</span>
-              basicScalars[i + sliceOffset * dims[0] + k * dims[0] * dims[1]];
+            const bsIdx =
+<span class="cstat-no" title="statement not covered" >              (i + sliceOffset * dims[0] + k * dims[0] * dims[1]) * numComp;</span>
+<span class="cstat-no" title="statement not covered" >            id = (k * dims[0] + i) * numComp;</span>
+<span class="cstat-no" title="statement not covered" >            scalars.set(basicScalars.subarray(bsIdx, bsIdx + numComp), id);</span>
           }
         }
 <span class="cstat-no" title="statement not covered" >        dims[1] = dims[2];</span>
@@ -2224,7 +2230,7 @@ export default { newInstance, extend };
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Sep 19 2018 12:31:10 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Sep 20 2018 17:56:22 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>
