@@ -20,24 +20,24 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">6.03% </span>
+        <span class="strong">5.98% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>64/1062</span>
+        <span class='fraction'>64/1071</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">3.68% </span>
+        <span class="strong">3.54% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>12/326</span>
+        <span class='fraction'>12/339</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">17.44% </span>
+        <span class="strong">16.67% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>15/86</span>
+        <span class='fraction'>15/90</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">6.05% </span>
+        <span class="strong">5.99% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>63/1042</span>
+        <span class='fraction'>63/1051</span>
       </div>
     </div>
   </div>
@@ -2164,7 +2164,35 @@
 2119
 2120
 2121
-2122</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+2122
+2123
+2124
+2125
+2126
+2127
+2128
+2129
+2130
+2131
+2132
+2133
+2134
+2135
+2136
+2137
+2138
+2139
+2140
+2141
+2142
+2143
+2144
+2145
+2146
+2147
+2148
+2149
+2150</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
@@ -4180,6 +4208,34 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -6303,6 +6359,31 @@ function getMajorAxisIndex(vector) <span class="fstat-no" title="function not co
 <span class="cstat-no" title="statement not covered" >  return axisIndex;</span>
 }
 &nbsp;
+function floatToHex2(value) <span class="fstat-no" title="function not covered" >{</span>
+  const integer = <span class="cstat-no" title="statement not covered" >Math.floor(value * 255);</span>
+<span class="cstat-no" title="statement not covered" >  if (integer &gt; 15) {</span>
+<span class="cstat-no" title="statement not covered" >    return integer.toString(16);</span>
+  }
+<span class="cstat-no" title="statement not covered" >  return `0${integer.toString(16)}`;</span>
+}
+&nbsp;
+function floatRGB2HexCode(rgbArray, prefix = '#') <span class="fstat-no" title="function not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >  return `${prefix}${rgbArray.map(floatToHex2).join('')}`;</span>
+}
+&nbsp;
+function floatToChar(f) <span class="fstat-no" title="function not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >  return Math.round(f * 255);</span>
+}
+&nbsp;
+function float2CssRGBA(rgbArray) <span class="fstat-no" title="function not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >  if (rgbArray.length === 3) {</span>
+<span class="cstat-no" title="statement not covered" >    return `rgb(${rgbArray.map(floatToChar).join(', ')})`;</span>
+  }
+<span class="cstat-no" title="statement not covered" >  return `rgba(${floatToChar(rgbArray[0] || 0)}, ${floatToChar(</span>
+    rgbArray[1] || 0
+  )}, ${floatToChar(rgbArray[2] || 0)}, ${rgbArray[3] || 0})`;
+}
+&nbsp;
 // ----------------------------------------------------------------------------
 // Only Static API
 // ----------------------------------------------------------------------------
@@ -6405,6 +6486,9 @@ export default {
   // JS add-on
   createUninitializedBounds,
   getMajorAxisIndex,
+  floatToHex2,
+  floatRGB2HexCode,
+  float2CssRGBA,
 };
 &nbsp;</pre></td></tr>
 </table></pre>
@@ -6412,7 +6496,7 @@ export default {
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Sep 25 2018 18:33:44 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Oct 02 2018 19:05:37 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>
