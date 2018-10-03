@@ -46,7 +46,7 @@
 <meta property="og:site_name" content="vtk.js">
 <meta property="og:description" content="ImageStreamLive exampleThis example aims to provide an example on how to configure a vtk.js RenderWindow to support remote rendering via a ParaView over WebSocket using WSLink while still having local">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2018-09-22T19:17:50.843Z">
+<meta property="og:updated_time" content="2018-10-03T15:13:18.527Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="vtk.js">
 <meta name="twitter:description" content="ImageStreamLive exampleThis example aims to provide an example on how to configure a vtk.js RenderWindow to support remote rendering via a ParaView over WebSocket using WSLink while still having local">
@@ -101,7 +101,7 @@
               </header>
               <div class="article-content" itemprop="articleBody">
                 <h2 id="ImageStream" class="article-heading"><a href="#ImageStream" class="headerlink" title="ImageStream"></a>ImageStream<a class="article-anchor" href="#ImageStream" aria-hidden="true"></a></h2><h3 id="Live-example" class="article-heading"><a href="#Live-example" class="headerlink" title="Live example"></a><a href="./ImageStream/index.html">Live example</a><a class="article-anchor" href="#Live-example" aria-hidden="true"></a></h3><p><iframe src="./ImageStream/index.html" width="100%" height="500px"></iframe><br>This example aims to provide an example on how to configure a vtk.js RenderWindow to support remote rendering via a ParaView over WebSocket using WSLink while still having local 3D overlay.</p>
-<p>In order to run the server, you will need a ParaView (5.6+) binary and run the following command line where the Python file provided as argument is available <a href="/Kitware/vtk-js/Source/IO/Core/ImageStream/example/pvw-server.py">here</a></p>
+<p>In order to run the server, you will need a ParaView (5.6+) binary and run the following command line where the Python file provided as argument is available <a href="https://github.com/Kitware/vtk-js/blob/master/Sources/IO/Core/ImageStream/example/pvw-server.py" target="_blank" rel="noopener">here</a></p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">/.../pvpython ./pvw-server.py --port 1234</span><br></pre></td></tr></table></figure>
 <p>The important part on the client code is the following section:</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">const imageStream = vtkImageStream.newInstance();</span><br><span class="line">const config = &#123; sessionURL: &apos;ws://0.0.0.0:1234/ws&apos; &#125;;</span><br><span class="line">const smartConnect = SmartConnect.newInstance(&#123; config &#125;);</span><br><span class="line">smartConnect.onConnectionReady((connection) =&gt; &#123;</span><br><span class="line">  // Network</span><br><span class="line">  const session = connection.getSession();</span><br><span class="line"></span><br><span class="line">  // Image</span><br><span class="line">  imageStream.connect(session);</span><br><span class="line">  const viewStream = imageStream.createViewStream(&apos;-1&apos;);</span><br><span class="line">  fullScreenRenderer.getOpenGLRenderWindow().setViewStream(viewStream);</span><br><span class="line"></span><br><span class="line">  // Configure image quality</span><br><span class="line">  viewStream.setInteractiveQuality(75);</span><br><span class="line">  viewStream.setInteractiveRatio(0.5);</span><br><span class="line">  viewStream.setCamera(renderer.getActiveCamera());</span><br><span class="line">  viewStream.pushCamera();</span><br><span class="line"></span><br><span class="line">  // Bind user input</span><br><span class="line">  renderWindow.getInteractor().onStartAnimation(viewStream.startInteraction);</span><br><span class="line">  renderWindow.getInteractor().onEndAnimation(viewStream.endInteraction);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">smartConnect.onConnectionError(console.error);</span><br><span class="line">smartConnect.onConnectionClose(console.error);</span><br><span class="line">smartConnect.connect();</span><br></pre></td></tr></table></figure>
@@ -109,7 +109,7 @@
 
               </div>
               <footer class="article-footer">
-                <time class="article-footer-updated" datetime="2018-09-22T19:17:50.843Z" itemprop="dateModified">Last updated: 2018-09-22</time>
+                <time class="article-footer-updated" datetime="2018-10-03T15:13:18.527Z" itemprop="dateModified">Last updated: 2018-10-03</time>
                 <a href="HttpSceneLoader.html" class="article-footer-prev" title="HttpSceneLoader"><i class="fa fa-chevron-left"></i><span>Prev</span></a><a href="STLReader.html" class="article-footer-next" title="STLReader"><span>Next</span><i class="fa fa-chevron-right"></i></a>
               </footer>
               
