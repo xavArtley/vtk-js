@@ -2192,7 +2192,8 @@
 2147
 2148
 2149
-2150</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+2150
+2151</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
@@ -2515,7 +2516,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -3479,6 +3479,8 @@
 <span class="cline-any cline-yes">4×</span>
 <span class="cline-any cline-yes">4×</span>
 <span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -4381,8 +4383,8 @@ function createArray(size = 3) {
 // ----------------------------------------------------------------------------
 &nbsp;
 const Pi = () =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >Math.PI;</span></span>
-const radiansFromDegrees = (deg) =&gt; deg / 180 * Math.PI;
-const degreesFromRadians = (rad) =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >rad * 180 / Math.PI;</span></span>
+const radiansFromDegrees = (deg) =&gt; (deg / 180) * Math.PI;
+const degreesFromRadians = (rad) =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(rad * 180) / Math.PI;</span></span>
 const { round, floor, ceil, min, max } = Math;
 &nbsp;
 function arrayMin(arr) <span class="fstat-no" title="function not covered" >{</span>
@@ -4597,9 +4599,9 @@ function perpendiculars(x, y, z, theta) <span class="fstat-no" title="function n
     }
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    if (z) {</span>
-<span class="cstat-no" title="statement not covered" >      z[dx] = -a * b / tmp;</span>
+<span class="cstat-no" title="statement not covered" >      z[dx] = (-a * b) / tmp;</span>
 <span class="cstat-no" title="statement not covered" >      z[dy] = tmp;</span>
-<span class="cstat-no" title="statement not covered" >      z[dz] = -b * c / tmp;</span>
+<span class="cstat-no" title="statement not covered" >      z[dz] = (-b * c) / tmp;</span>
     }
   }
 }
@@ -4664,8 +4666,7 @@ function angleBetweenVectors(v1, v2) <span class="fstat-no" title="function not 
 function gaussianAmplitude(mean, variance, position) <span class="fstat-no" title="function not covered" >{</span>
   const distanceFromMean = <span class="cstat-no" title="statement not covered" >Math.abs(mean - position);</span>
 <span class="cstat-no" title="statement not covered" >  return (</span>
-    1 /
-    Math.sqrt(2 * Math.PI * variance) *
+    (1 / Math.sqrt(2 * Math.PI * variance)) *
     Math.exp(-(distanceFromMean ** 2) / (2 * variance))
   );
 }
@@ -5054,7 +5055,7 @@ function jacobiN(a, n, w, v) <span class="fstat-no" title="function not covered"
 &nbsp;
     // first 3 sweeps
 <span class="cstat-no" title="statement not covered" >    if (i &lt; 3) {</span>
-<span class="cstat-no" title="statement not covered" >      tresh = 0.2 * sm / (n * n);</span>
+<span class="cstat-no" title="statement not covered" >      tresh = (0.2 * sm) / (n * n);</span>
     } else {
 <span class="cstat-no" title="statement not covered" >      tresh = 0.0;</span>
     }
@@ -5075,7 +5076,7 @@ function jacobiN(a, n, w, v) <span class="fstat-no" title="function not covered"
 <span class="cstat-no" title="statement not covered" >          if (Math.abs(h) + g === Math.abs(h)) {</span>
 <span class="cstat-no" title="statement not covered" >            t = a[ip][iq] / h;</span>
           } else {
-<span class="cstat-no" title="statement not covered" >            theta = 0.5 * h / a[ip][iq];</span>
+<span class="cstat-no" title="statement not covered" >            theta = (0.5 * h) / a[ip][iq];</span>
 <span class="cstat-no" title="statement not covered" >            t = 1.0 / (Math.abs(theta) + Math.sqrt(1.0 + theta * theta));</span>
 <span class="cstat-no" title="statement not covered" >            if (theta &lt; 0.0) {</span>
 <span class="cstat-no" title="statement not covered" >              t = -t;</span>
@@ -5628,7 +5629,9 @@ function solveLinearSystem(A, x, size) {
     x[0] = y[0];
     x[1] = y[1];
     return 1;
-  } else <span class="cstat-no" title="statement not covered" >if (size === 1) {</span>
+  }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  if (size === 1) {</span>
 <span class="cstat-no" title="statement not covered" >    if (A[0][0] === 0.0) {</span>
       // Unable to solve linear system
 <span class="cstat-no" title="statement not covered" >      return 0;</span>
@@ -5926,14 +5929,14 @@ function solveLeastSquares(
 function hex2float(hexStr, outFloatArray = [0, 0.5, 1]) <span class="fstat-no" title="function not covered" >{</span>
 <span class="cstat-no" title="statement not covered" >  switch (hexStr.length) {</span>
     case 3: // abc =&gt; #aabbcc
-<span class="cstat-no" title="statement not covered" >      outFloatArray[0] = parseInt(hexStr[0], 16) * 17 / 255;</span>
-<span class="cstat-no" title="statement not covered" >      outFloatArray[1] = parseInt(hexStr[1], 16) * 17 / 255;</span>
-<span class="cstat-no" title="statement not covered" >      outFloatArray[2] = parseInt(hexStr[2], 16) * 17 / 255;</span>
+<span class="cstat-no" title="statement not covered" >      outFloatArray[0] = (parseInt(hexStr[0], 16) * 17) / 255;</span>
+<span class="cstat-no" title="statement not covered" >      outFloatArray[1] = (parseInt(hexStr[1], 16) * 17) / 255;</span>
+<span class="cstat-no" title="statement not covered" >      outFloatArray[2] = (parseInt(hexStr[2], 16) * 17) / 255;</span>
 <span class="cstat-no" title="statement not covered" >      return outFloatArray;</span>
     case 4: // #abc =&gt; #aabbcc
-<span class="cstat-no" title="statement not covered" >      outFloatArray[0] = parseInt(hexStr[1], 16) * 17 / 255;</span>
-<span class="cstat-no" title="statement not covered" >      outFloatArray[1] = parseInt(hexStr[2], 16) * 17 / 255;</span>
-<span class="cstat-no" title="statement not covered" >      outFloatArray[2] = parseInt(hexStr[3], 16) * 17 / 255;</span>
+<span class="cstat-no" title="statement not covered" >      outFloatArray[0] = (parseInt(hexStr[1], 16) * 17) / 255;</span>
+<span class="cstat-no" title="statement not covered" >      outFloatArray[1] = (parseInt(hexStr[2], 16) * 17) / 255;</span>
+<span class="cstat-no" title="statement not covered" >      outFloatArray[2] = (parseInt(hexStr[3], 16) * 17) / 255;</span>
 <span class="cstat-no" title="statement not covered" >      return outFloatArray;</span>
     case 6: // ab01df =&gt; #ab01df
 <span class="cstat-no" title="statement not covered" >      outFloatArray[0] = parseInt(hexStr.substr(0, 2), 16) / 255;</span>
@@ -5986,11 +5989,11 @@ function rgb2hsv(rgb, hsv) <span class="fstat-no" title="function not covered" >
   }
 <span class="cstat-no" title="statement not covered" >  if (s &gt; 0) {</span>
 <span class="cstat-no" title="statement not covered" >    if (r === cmax) {</span>
-<span class="cstat-no" title="statement not covered" >      h = onesixth * (g - b) / (cmax - cmin);</span>
+<span class="cstat-no" title="statement not covered" >      h = (onesixth * (g - b)) / (cmax - cmin);</span>
     } else <span class="cstat-no" title="statement not covered" >if (g === cmax) {</span>
-<span class="cstat-no" title="statement not covered" >      h = onethird + onesixth * (b - r) / (cmax - cmin);</span>
+<span class="cstat-no" title="statement not covered" >      h = onethird + (onesixth * (b - r)) / (cmax - cmin);</span>
     } else {
-<span class="cstat-no" title="statement not covered" >      h = twothird + onesixth * (r - g) / (cmax - cmin);</span>
+<span class="cstat-no" title="statement not covered" >      h = twothird + (onesixth * (r - g)) / (cmax - cmin);</span>
     }
 <span class="cstat-no" title="statement not covered" >    if (h &lt; 0.0) {</span>
 <span class="cstat-no" title="statement not covered" >      h += 1.0;</span>
@@ -6313,12 +6316,12 @@ function solve3PointCircle(p1, p2, p3, center) <span class="fstat-no" title="fun
 <span class="cstat-no" title="statement not covered" >  cross(v21, v32, crossv21v32);</span>
   const normCross = <span class="cstat-no" title="statement not covered" >norm(crossv21v32);</span>
 &nbsp;
-  const radius = <span class="cstat-no" title="statement not covered" >norm12 * norm23 * norm13 / (2 * normCross);</span>
+  const radius = <span class="cstat-no" title="statement not covered" >(norm12 * norm23 * norm13) / (2 * normCross);</span>
 &nbsp;
   const normCross22 = <span class="cstat-no" title="statement not covered" >2 * normCross * normCross;</span>
-  const alpha = <span class="cstat-no" title="statement not covered" >norm23 * norm23 * dot(v21, v31) / normCross22;</span>
-  const beta = <span class="cstat-no" title="statement not covered" >norm13 * norm13 * dot(v12, v32) / normCross22;</span>
-  const gamma = <span class="cstat-no" title="statement not covered" >norm12 * norm12 * dot(v13, v23) / normCross22;</span>
+  const alpha = <span class="cstat-no" title="statement not covered" >(norm23 * norm23 * dot(v21, v31)) / normCross22;</span>
+  const beta = <span class="cstat-no" title="statement not covered" >(norm13 * norm13 * dot(v12, v32)) / normCross22;</span>
+  const gamma = <span class="cstat-no" title="statement not covered" >(norm12 * norm12 * dot(v13, v23)) / normCross22;</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  for (let i = 0; i &lt; 3; ++i) {</span>
 <span class="cstat-no" title="statement not covered" >    center[i] = alpha * p1[i] + beta * p2[i] + gamma * p3[i];</span>
@@ -6496,7 +6499,7 @@ export default {
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Oct 05 2018 03:51:49 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Oct 09 2018 14:53:33 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>
