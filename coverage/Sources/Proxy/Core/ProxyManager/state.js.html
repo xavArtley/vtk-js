@@ -280,7 +280,9 @@
 235
 236
 237
-238</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+238
+239
+240</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -345,6 +347,30 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -367,28 +393,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -582,33 +586,6 @@ export default function addStateAPI(publicAPI, model) {
 <span class="cstat-no" title="statement not covered" >            cameras[id] = camera;</span>
           });
 &nbsp;
-<span class="cstat-no" title="statement not covered" >          Object.keys(state.fields).forEach((fieldName) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
-            const { lookupTable, piecewiseFunction } = <span class="cstat-no" title="statement not covered" >state.fields[fieldName];</span>
-            const lutProxy = <span class="cstat-no" title="statement not covered" >publicAPI.getLookupTable(fieldName, lookupTable);</span>
-<span class="cstat-no" title="statement not covered" >            lutProxy.setPresetName(lookupTable.presetName);</span>
-<span class="cstat-no" title="statement not covered" >            lutProxy.setDataRange(lookupTable.dataRange);</span>
-            const pwfProxy = <span class="cstat-no" title="statement not covered" >publicAPI.getPiecewiseFunction(</span>
-              fieldName,
-              piecewiseFunction
-            );
-<span class="cstat-no" title="statement not covered" >            switch (piecewiseFunction.mode) {</span>
-              case vtkPiecewiseFunctionProxy.Mode.Gaussians:
-<span class="cstat-no" title="statement not covered" >                pwfProxy.setGaussians(piecewiseFunction.gaussians);</span>
-<span class="cstat-no" title="statement not covered" >                break;</span>
-              case vtkPiecewiseFunctionProxy.Mode.Points:
-<span class="cstat-no" title="statement not covered" >                pwfProxy.setPoints(piecewiseFunction.points);</span>
-<span class="cstat-no" title="statement not covered" >                break;</span>
-              case vtkPiecewiseFunctionProxy.Mode.Nodes:
-<span class="cstat-no" title="statement not covered" >                pwfProxy.setNodes(piecewiseFunction.nodes);</span>
-<span class="cstat-no" title="statement not covered" >                break;</span>
-              default:
-                // nothing that we can do
-<span class="cstat-no" title="statement not covered" >                break;</span>
-            }
-<span class="cstat-no" title="statement not covered" >            pwfProxy.setMode(piecewiseFunction.mode);</span>
-<span class="cstat-no" title="statement not covered" >            pwfProxy.setDataRange(piecewiseFunction.dataRange);</span>
-          });
-&nbsp;
           function updateView(view) <span class="fstat-no" title="function not covered" >{</span>
 <span class="cstat-no" title="statement not covered" >            if (!proxyMapping[view] || !cameras[view]) {</span>
 <span class="cstat-no" title="statement not covered" >              return;</span>
@@ -629,6 +606,35 @@ export default function addStateAPI(publicAPI, model) {
             );
 <span class="cstat-no" title="statement not covered" >            proxy.set(props, true);</span>
 <span class="cstat-no" title="statement not covered" >            updateView(view);</span>
+          });
+&nbsp;
+          // restore luts and pwfs after restoring reps to avoid
+          // rep initialization from resetting restored luts/pwfs
+<span class="cstat-no" title="statement not covered" >          Object.keys(state.fields).forEach((fieldName) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+            const { lookupTable, piecewiseFunction } = <span class="cstat-no" title="statement not covered" >state.fields[fieldName];</span>
+            const lutProxy = <span class="cstat-no" title="statement not covered" >publicAPI.getLookupTable(fieldName, lookupTable);</span>
+<span class="cstat-no" title="statement not covered" >            lutProxy.setPresetName(lookupTable.presetName);</span>
+<span class="cstat-no" title="statement not covered" >            lutProxy.setDataRange(...lookupTable.dataRange);</span>
+            const pwfProxy = <span class="cstat-no" title="statement not covered" >publicAPI.getPiecewiseFunction(</span>
+              fieldName,
+              piecewiseFunction
+            );
+<span class="cstat-no" title="statement not covered" >            switch (piecewiseFunction.mode) {</span>
+              case vtkPiecewiseFunctionProxy.Mode.Gaussians:
+<span class="cstat-no" title="statement not covered" >                pwfProxy.setGaussians(piecewiseFunction.gaussians);</span>
+<span class="cstat-no" title="statement not covered" >                break;</span>
+              case vtkPiecewiseFunctionProxy.Mode.Points:
+<span class="cstat-no" title="statement not covered" >                pwfProxy.setPoints(piecewiseFunction.points);</span>
+<span class="cstat-no" title="statement not covered" >                break;</span>
+              case vtkPiecewiseFunctionProxy.Mode.Nodes:
+<span class="cstat-no" title="statement not covered" >                pwfProxy.setNodes(piecewiseFunction.nodes);</span>
+<span class="cstat-no" title="statement not covered" >                break;</span>
+              default:
+                // nothing that we can do
+<span class="cstat-no" title="statement not covered" >                break;</span>
+            }
+<span class="cstat-no" title="statement not covered" >            pwfProxy.setMode(piecewiseFunction.mode);</span>
+<span class="cstat-no" title="statement not covered" >            pwfProxy.setDataRange(...piecewiseFunction.dataRange);</span>
           });
 &nbsp;
           // Apply camera no matter what
@@ -760,7 +766,7 @@ export default function addStateAPI(publicAPI, model) {
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Nov 02 2018 20:24:54 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Nov 07 2018 21:29:09 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>
