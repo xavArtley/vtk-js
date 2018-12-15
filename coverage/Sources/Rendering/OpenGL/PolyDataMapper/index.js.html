@@ -20,14 +20,14 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">1.42% </span>
+        <span class="strong">1.41% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>9/633</span>
+        <span class='fraction'>9/640</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>0/362</span>
+        <span class='fraction'>0/364</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
@@ -35,9 +35,9 @@
         <span class='fraction'>0/35</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">1.42% </span>
+        <span class="strong">1.41% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>9/633</span>
+        <span class='fraction'>9/640</span>
       </div>
     </div>
   </div>
@@ -1976,7 +1976,20 @@
 1931
 1932
 1933
-1934</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+1934
+1935
+1936
+1937
+1938
+1939
+1940
+1941
+1942
+1943
+1944
+1945
+1946
+1947</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -3363,6 +3376,19 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -5296,9 +5322,22 @@ function vtkOpenGLPolyDataMapper(publicAPI, model) <span class="fstat-no" title=
 <span class="cstat-no" title="statement not covered" >        model.lightColor[2] = dColor[2] * intensity;</span>
         // get required info from light
         const ld = <span class="cstat-no" title="statement not covered" >light.getDirection();</span>
-<span class="cstat-no" title="statement not covered" >        model.lightDirection[0] = ld[0];</span>
-<span class="cstat-no" title="statement not covered" >        model.lightDirection[1] = ld[1];</span>
-<span class="cstat-no" title="statement not covered" >        model.lightDirection[2] = ld[2];</span>
+        const transform = <span class="cstat-no" title="statement not covered" >ren.getActiveCamera().getViewMatrix();</span>
+&nbsp;
+        const newLightDirection = <span class="cstat-no" title="statement not covered" >[...ld];</span>
+<span class="cstat-no" title="statement not covered" >        if (light.lightTypeIsSceneLight()) {</span>
+<span class="cstat-no" title="statement not covered" >          newLightDirection[0] =</span>
+            transform[0] * ld[0] + transform[1] * ld[1] + transform[2] * ld[2];
+<span class="cstat-no" title="statement not covered" >          newLightDirection[1] =</span>
+            transform[4] * ld[0] + transform[5] * ld[1] + transform[6] * ld[2];
+<span class="cstat-no" title="statement not covered" >          newLightDirection[2] =</span>
+            transform[8] * ld[0] + transform[9] * ld[1] + transform[10] * ld[2];
+<span class="cstat-no" title="statement not covered" >          vtkMath.normalize(newLightDirection);</span>
+        }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        model.lightDirection[0] = newLightDirection[0];</span>
+<span class="cstat-no" title="statement not covered" >        model.lightDirection[1] = newLightDirection[1];</span>
+<span class="cstat-no" title="statement not covered" >        model.lightDirection[2] = newLightDirection[2];</span>
 <span class="cstat-no" title="statement not covered" >        model.lightHalfAngle[0] = -model.lightDirection[0];</span>
 <span class="cstat-no" title="statement not covered" >        model.lightHalfAngle[1] = -model.lightDirection[1];</span>
 <span class="cstat-no" title="statement not covered" >        model.lightHalfAngle[2] = -model.lightDirection[2] + 1.0;</span>
@@ -5848,7 +5887,7 @@ export default { newInstance, extend };
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Dec 10 2018 15:31:35 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sat Dec 15 2018 01:04:33 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>
