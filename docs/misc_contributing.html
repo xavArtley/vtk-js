@@ -46,7 +46,7 @@
 <meta property="og:site_name" content="vtk.js">
 <meta property="og:description" content="We welcome you to join the development of vtk.js. This document will help you through the process. Before You StartPlease follow the coding style:  Follow Airbnb JavaScript Style Guide. Use soft-tabs">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2019-01-17T18:07:32.636Z">
+<meta property="og:updated_time" content="2019-02-11T23:52:51.779Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Contributing">
 <meta name="twitter:description" content="We welcome you to join the development of vtk.js. This document will help you through the process. Before You StartPlease follow the coding style:  Follow Airbnb JavaScript Style Guide. Use soft-tabs">
@@ -108,36 +108,44 @@
 <li>Don’t put commas first.</li>
 </ul>
 <h2 id="Workflow" class="article-heading"><a href="#Workflow" class="headerlink" title="Workflow"></a>Workflow<a class="article-anchor" href="#Workflow" aria-hidden="true"></a></h2><ol>
-<li>Fork [kitware/vtk-js].</li>
-<li><p>Clone the repository to your computer and install dependencies.</p>
- <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ git clone https://github.com/&lt;username&gt;/vtk-js.git</span><br><span class="line">$ cd vtk-js</span><br><span class="line">$ npm install</span><br></pre></td></tr></table></figure>
+<li>The vtk.js source is maintained <a href="https://github.com/kitware/vtk-js" target="_blank" rel="noopener">on GitHub</a>.</li>
+<li><a href="https://help.github.com/articles/fork-a-repo/" target="_blank" rel="noopener">Fork vtk.js</a> into your user’s namespace on GitHub.</li>
+<li><p>Clone the repository to your computer.</p>
+ <figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">$ git <span class="built_in">clone</span> https://github.com/&lt;username&gt;/vtk-js.git</span><br><span class="line">$ <span class="built_in">cd</span> vtk-js</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Run the install script for vtk.js dependencies:</p>
+ <figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">$ npm install</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>Create a feature branch.</p>
  <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ git checkout -b new_feature</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>Start hacking.</p>
+<li><p>Start hacking. Additional informations on how to create classe/test/example can be found<br><a href="https://kitware.github.io/vtk-js/docs/">here</a> in the <strong>Development</strong> section.</p>
+ <figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">$ edit file1 file2 file3</span><br><span class="line">$ git add file1 file2 file3</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>Use Commitizen for commit message</p>
- <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ npm run commit</span><br></pre></td></tr></table></figure>
+<li><p>Use Commitizen to create commits</p>
+ <figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">$ npm run commit</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>Push the branch:</p>
- <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ git push origin new_feature</span><br></pre></td></tr></table></figure>
+<li><p>Push commits in your feature branch to your fork in GitHub:</p>
+ <figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">$ git push origin new_feature</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>Create a pull request and describe the change.</p>
+<li><p>Visit your fork in Github, browse to the “<strong>Pull Requests</strong>“ link on the left, and use the<br>“<strong>New Pull Request</strong>“ button in the upper right to create a Pull Request.</p>
+<p> For more information see:<br> <a href="https://help.github.com/articles/creating-a-pull-request/" target="_blank" rel="noopener">Create a Pull Request</a></p>
+</li>
+<li><p>vtk.js uses GitHub for code review and Travis-CI to test proposed patches before they are merged.</p>
 </li>
 </ol>
 <h2 id="Notice" class="article-heading"><a href="#Notice" class="headerlink" title="Notice"></a>Notice<a class="article-anchor" href="#Notice" aria-hidden="true"></a></h2><ul>
-<li>Don’t modify version number in <code>package.json</code>.</li>
-<li><p>Your pull request will only get merged when tests passed. Don’t forget to run tests before submission.</p>
+<li>Don’t modify the version number in <code>package.json</code>.</li>
+<li><p>Your pull request will only get merged when tests passed. Don’t forget to run tests before<br>submission.</p>
   <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ npm test</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
-<h2 id="Updating-Documentation" class="article-heading"><a href="#Updating-Documentation" class="headerlink" title="Updating Documentation"></a>Updating Documentation<a class="article-anchor" href="#Updating-Documentation" aria-hidden="true"></a></h2><p>The vtk.js documentation is part of the code repository and is entirely written in <a href="https://daringfireball.net/projects/markdown/" target="_blank" rel="noopener">markdown</a>. The source for this page for example is located at <a href="https://github.com/Kitware/vtk-js/blob/master/Documentation/content/docs/misc_contributing.md" target="_blank" rel="noopener"><code>Documentation/content/docs/misc_contributing.md</code></a>.</p>
-<h2 id="Reporting-Issues" class="article-heading"><a href="#Reporting-Issues" class="headerlink" title="Reporting Issues"></a>Reporting Issues<a class="article-anchor" href="#Reporting-Issues" aria-hidden="true"></a></h2><p>When you encounter problems using vtk.js you may be able to find the solutions in <a href="troubleshooting.html">Troubleshooting</a>, on<a href="https://github.com/kitware/vtk-js/issues" target="_blank" rel="noopener">GitHub</a>, or via the <a href="https://www.vtk.org/mailman/listinfo/vtkusers" target="_blank" rel="noopener">Mailing list</a>. If you can’t find the answer, please report it on GitHub.</p>
+<h2 id="Updating-Documentation" class="article-heading"><a href="#Updating-Documentation" class="headerlink" title="Updating Documentation"></a>Updating Documentation<a class="article-anchor" href="#Updating-Documentation" aria-hidden="true"></a></h2><p>The vtk.js documentation is part of the code repository and is entirely written in<br><a href="https://daringfireball.net/projects/markdown/" target="_blank" rel="noopener">markdown</a>.</p>
+<h2 id="Reporting-Issues" class="article-heading"><a href="#Reporting-Issues" class="headerlink" title="Reporting Issues"></a>Reporting Issues<a class="article-anchor" href="#Reporting-Issues" aria-hidden="true"></a></h2><p>If you encounter problems using vtk.js you may be able to find the solutions in the<br><a href="https://kitware.github.io/vtk-js/docs/misc_troubleshooting.html">troubleshooting docs</a>, in an<br>existing <a href="https://github.com/kitware/vtk-js/issues" target="_blank" rel="noopener">GitHub issue</a>, or via the<br><a href="http://www.vtk.org/VTK/help/mailing.html" target="_blank" rel="noopener">mailing list</a>.<br>If you can’t find the answer, please<br><a href="https://github.com/Kitware/vtk-js/issues/new" target="_blank" rel="noopener">report a new issue on GitHub</a>.</p>
 
               </div>
               <footer class="article-footer">
-                <time class="article-footer-updated" datetime="2019-01-17T18:07:32.636Z" itemprop="dateModified">Last updated: 2019-01-17</time>
+                <time class="article-footer-updated" datetime="2019-02-11T23:52:51.779Z" itemprop="dateModified">Last updated: 2019-02-11</time>
                 <a href="misc_troubleshooting.html" class="article-footer-prev" title="Troubleshooting"><i class="fa fa-chevron-left"></i><span>Prev</span></a><a href="structures.html" class="article-footer-next" title="Introduction"><span>Next</span><i class="fa fa-chevron-right"></i></a>
               </footer>
               
