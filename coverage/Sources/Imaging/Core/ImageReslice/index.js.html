@@ -20,9 +20,9 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">0.67% </span>
+        <span class="strong">0.64% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>3/448</span>
+        <span class='fraction'>3/466</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
@@ -2072,7 +2072,7 @@ function vtkImageReslice(publicAPI, model) <span class="fstat-no" title="functio
 <span class="cstat-no" title="statement not covered" >      maxBounds = publicAPI.getAutoCroppedOutputBounds(input);</span>
     }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    for (let i = 0; i &lt; 3; i++) {</span>
+<span class="cstat-no" title="statement not covered" >    for (let i = <span class="cstat-no" title="statement not covered" >0;</span> i &lt; 3; i++) {</span>
       let s = <span class="cstat-no" title="statement not covered" >0;</span> // default output spacing
       let d = <span class="cstat-no" title="statement not covered" >0;</span> // default linear dimension
       let e = <span class="cstat-no" title="statement not covered" >0;</span> // default extent start
@@ -2080,7 +2080,7 @@ function vtkImageReslice(publicAPI, model) <span class="fstat-no" title="functio
 &nbsp;
 <span class="cstat-no" title="statement not covered" >      if (model.transformInputSampling) {</span>
         let r = <span class="cstat-no" title="statement not covered" >0.0;</span>
-<span class="cstat-no" title="statement not covered" >        for (let j = 0; j &lt; 3; j++) {</span>
+<span class="cstat-no" title="statement not covered" >        for (let j = <span class="cstat-no" title="statement not covered" >0;</span> j &lt; 3; j++) {</span>
 <span class="cstat-no" title="statement not covered" >          c += imatrix[4 * j + i] * (inCenter[j] - matrix[4 * 3 + j]);</span>
           const tmp = <span class="cstat-no" title="statement not covered" >matrix[4 * i + j] * matrix[4 * i + j];</span>
 <span class="cstat-no" title="statement not covered" >          s += tmp * Math.abs(inSpacing[j]);</span>
@@ -2282,7 +2282,7 @@ function vtkImageReslice(publicAPI, model) <span class="fstat-no" title="functio
     const yAxis = <span class="cstat-no" title="statement not covered" >[0, 0, 0, 0];</span>
     const zAxis = <span class="cstat-no" title="statement not covered" >[0, 0, 0, 0];</span>
     const origin = <span class="cstat-no" title="statement not covered" >[0, 0, 0, 0];</span>
-<span class="cstat-no" title="statement not covered" >    for (let i = 0; i &lt; 4; ++i) {</span>
+<span class="cstat-no" title="statement not covered" >    for (let i = <span class="cstat-no" title="statement not covered" >0;</span> i &lt; 4; ++i) {</span>
 <span class="cstat-no" title="statement not covered" >      xAxis[i] = newmat[4 * 0 + i];</span>
 <span class="cstat-no" title="statement not covered" >      yAxis[i] = newmat[4 * 1 + i];</span>
 <span class="cstat-no" title="statement not covered" >      zAxis[i] = newmat[4 * 2 + i];</span>
@@ -2401,7 +2401,7 @@ function vtkImageReslice(publicAPI, model) <span class="fstat-no" title="functio
 &nbsp;
               let sampleCount = <span class="cstat-no" title="statement not covered" >0;</span>
               let interpolatedPtr = <span class="cstat-no" title="statement not covered" >tmpPtr;</span>
-<span class="cstat-no" title="statement not covered" >              for (let sample = 0; sample &lt; nsamples; ++sample) {</span>
+<span class="cstat-no" title="statement not covered" >              for (let sample = <span class="cstat-no" title="statement not covered" >0;</span> sample &lt; nsamples; ++sample) {</span>
 <span class="cstat-no" title="statement not covered" >                if (nsamples &gt; 1) {</span>
                   let s = <span class="cstat-no" title="statement not covered" >sample - 0.5 * (nsamples - 1);</span>
 <span class="cstat-no" title="statement not covered" >                  s *= slabSampleSpacing;</span>
@@ -2514,7 +2514,7 @@ function vtkImageReslice(publicAPI, model) <span class="fstat-no" title="functio
           let isInBounds = <span class="cstat-no" title="statement not covered" >false;</span>
           const bytesPerPixel = <span class="cstat-no" title="statement not covered" >inputScalarSize * inComponents;</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >          for (let iidX = idXmin; iidX &lt;= idXmax; iidX++) {</span>
+<span class="cstat-no" title="statement not covered" >          for (let iidX = <span class="cstat-no" title="statement not covered" >idXmin;</span> iidX &lt;= idXmax; iidX++) {</span>
             const inPoint = <span class="cstat-no" title="statement not covered" >[</span>
               inPoint1[0] + iidX * xAxis[0],
               inPoint1[1] + iidX * xAxis[1],
@@ -2632,7 +2632,7 @@ function vtkImageReslice(publicAPI, model) <span class="fstat-no" title="functio
 &nbsp;
     // the outMatrix takes OutputData indices to OutputData coordinates,
     // the inMatrix takes InputData coordinates to InputData indices
-<span class="cstat-no" title="statement not covered" >    for (let i = 0; i &lt; 3; i++) {</span>
+<span class="cstat-no" title="statement not covered" >    for (let i = <span class="cstat-no" title="statement not covered" >0;</span> i &lt; 3; i++) {</span>
 <span class="cstat-no" title="statement not covered" >      if (</span>
         (optimizedTransform === null &amp;&amp;
           (inSpacing[i] !== outSpacing[i] || inOrigin[i] !== outOrigin[i])) ||
@@ -2687,7 +2687,7 @@ function vtkImageReslice(publicAPI, model) <span class="fstat-no" title="functio
     ];
 &nbsp;
     const point = <span class="cstat-no" title="statement not covered" >[0, 0, 0, 0];</span>
-<span class="cstat-no" title="statement not covered" >    for (let i = 0; i &lt; 8; ++i) {</span>
+<span class="cstat-no" title="statement not covered" >    for (let i = <span class="cstat-no" title="statement not covered" >0;</span> i &lt; 8; ++i) {</span>
 <span class="cstat-no" title="statement not covered" >      point[0] = inOrigin[0] + inWholeExt[i % 2] * inSpacing[0];</span>
 <span class="cstat-no" title="statement not covered" >      point[1] =</span>
         inOrigin[1] + inWholeExt[2 + (Math.floor(i / 2) % 2)] * inSpacing[1];
@@ -2706,7 +2706,7 @@ function vtkImageReslice(publicAPI, model) <span class="fstat-no" title="functio
 <span class="cstat-no" title="statement not covered" >      point[1] *= f;</span>
 <span class="cstat-no" title="statement not covered" >      point[2] *= f;</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      for (let j = 0; j &lt; 3; ++j) {</span>
+<span class="cstat-no" title="statement not covered" >      for (let j = <span class="cstat-no" title="statement not covered" >0;</span> j &lt; 3; ++j) {</span>
 <span class="cstat-no" title="statement not covered" >        if (point[j] &gt; bounds[2 * j + 1]) {</span>
 <span class="cstat-no" title="statement not covered" >          bounds[2 * j + 1] = point[j];</span>
         }
@@ -2743,7 +2743,7 @@ function vtkImageReslice(publicAPI, model) <span class="fstat-no" title="functio
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  publicAPI.clamp = (outPtr, inPtr, numscalars, n, min, max) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
     const count = <span class="cstat-no" title="statement not covered" >n * numscalars;</span>
-<span class="cstat-no" title="statement not covered" >    for (let i = 0; i &lt; count; ++i) {</span>
+<span class="cstat-no" title="statement not covered" >    for (let i = <span class="cstat-no" title="statement not covered" >0;</span> i &lt; count; ++i) {</span>
 <span class="cstat-no" title="statement not covered" >      outPtr[i] = vtkInterpolationMathClamp(inPtr[i], min, max);</span>
     }
 <span class="cstat-no" title="statement not covered" >    return outPtr.subarray(n * numscalars);</span>
@@ -2751,7 +2751,7 @@ function vtkImageReslice(publicAPI, model) <span class="fstat-no" title="functio
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  publicAPI.convert = (outPtr, inPtr, numscalars, n) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
     const count = <span class="cstat-no" title="statement not covered" >n * numscalars;</span>
-<span class="cstat-no" title="statement not covered" >    for (let i = 0; i &lt; count; ++i) {</span>
+<span class="cstat-no" title="statement not covered" >    for (let i = <span class="cstat-no" title="statement not covered" >0;</span> i &lt; count; ++i) {</span>
 <span class="cstat-no" title="statement not covered" >      outPtr[i] = Math.round(inPtr[i]);</span>
     }
 <span class="cstat-no" title="statement not covered" >    return outPtr.subarray(n * numscalars);</span>
@@ -2799,7 +2799,7 @@ function vtkImageReslice(publicAPI, model) <span class="fstat-no" title="functio
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  publicAPI.set = (outPtr, inPtr, numscalars, n) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
     const source = <span class="cstat-no" title="statement not covered" >inPtr.subarray(0, numscalars);</span>
-<span class="cstat-no" title="statement not covered" >    for (let i = 0; i &lt; n; ++i) {</span>
+<span class="cstat-no" title="statement not covered" >    for (let i = <span class="cstat-no" title="statement not covered" >0;</span> i &lt; n; ++i) {</span>
 <span class="cstat-no" title="statement not covered" >      outPtr.set(source, i * numscalars);</span>
     }
 <span class="cstat-no" title="statement not covered" >    return outPtr.subarray(numscalars * n);</span>
@@ -2834,13 +2834,13 @@ function vtkImageReslice(publicAPI, model) <span class="fstat-no" title="functio
     scalarScale
   ) =&gt; <span class="fstat-no" title="function not covered" >{</span>
     const m = <span class="cstat-no" title="statement not covered" >n * components;</span>
-<span class="cstat-no" title="statement not covered" >    for (let i = 0; i &lt; m; ++i) {</span>
+<span class="cstat-no" title="statement not covered" >    for (let i = <span class="cstat-no" title="statement not covered" >0;</span> i &lt; m; ++i) {</span>
 <span class="cstat-no" title="statement not covered" >      floatData[i] = (floatData[i] + scalarShift) * scalarScale;</span>
     }
   };
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  publicAPI.isPermutationMatrix = (matrix) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
-<span class="cstat-no" title="statement not covered" >    for (let i = 0; i &lt; 3; i++) {</span>
+<span class="cstat-no" title="statement not covered" >    for (let i = <span class="cstat-no" title="statement not covered" >0;</span> i &lt; 3; i++) {</span>
 <span class="cstat-no" title="statement not covered" >      if (matrix[4 * i + 3] !== 0) {</span>
 <span class="cstat-no" title="statement not covered" >        return false;</span>
       }
@@ -2848,9 +2848,9 @@ function vtkImageReslice(publicAPI, model) <span class="fstat-no" title="functio
 <span class="cstat-no" title="statement not covered" >    if (matrix[4 * 3 + 3] !== 1) {</span>
 <span class="cstat-no" title="statement not covered" >      return false;</span>
     }
-<span class="cstat-no" title="statement not covered" >    for (let j = 0; j &lt; 3; j++) {</span>
+<span class="cstat-no" title="statement not covered" >    for (let j = <span class="cstat-no" title="statement not covered" >0;</span> j &lt; 3; j++) {</span>
       let k = <span class="cstat-no" title="statement not covered" >0;</span>
-<span class="cstat-no" title="statement not covered" >      for (let i = 0; i &lt; 3; i++) {</span>
+<span class="cstat-no" title="statement not covered" >      for (let i = <span class="cstat-no" title="statement not covered" >0;</span> i &lt; 3; i++) {</span>
 <span class="cstat-no" title="statement not covered" >        if (matrix[4 * j + i] !== 0) {</span>
 <span class="cstat-no" title="statement not covered" >          k++;</span>
         }
@@ -2863,8 +2863,8 @@ function vtkImageReslice(publicAPI, model) <span class="fstat-no" title="functio
   };
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  publicAPI.isIdentityMatrix = (matrix) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
-<span class="cstat-no" title="statement not covered" >    for (let i = 0; i &lt; 4; ++i) {</span>
-<span class="cstat-no" title="statement not covered" >      for (let j = 0; j &lt; 4; ++j) {</span>
+<span class="cstat-no" title="statement not covered" >    for (let i = <span class="cstat-no" title="statement not covered" >0;</span> i &lt; 4; ++i) {</span>
+<span class="cstat-no" title="statement not covered" >      for (let j = <span class="cstat-no" title="statement not covered" >0;</span> j &lt; 4; ++j) {</span>
 <span class="cstat-no" title="statement not covered" >        if ((i === j ? 1.0 : 0.0) !== matrix[4 * j + i]) {</span>
 <span class="cstat-no" title="statement not covered" >          return false;</span>
         }
@@ -2881,7 +2881,7 @@ function vtkImageReslice(publicAPI, model) <span class="fstat-no" title="functio
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  publicAPI.canUseNearestNeighbor = (matrix, outExt) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
     // loop through dimensions
-<span class="cstat-no" title="statement not covered" >    for (let i = 0; i &lt; 3; i++) {</span>
+<span class="cstat-no" title="statement not covered" >    for (let i = <span class="cstat-no" title="statement not covered" >0;</span> i &lt; 3; i++) {</span>
       let j;
 <span class="cstat-no" title="statement not covered" >      for (j = 0; j &lt; 3; j++) {</span>
 <span class="cstat-no" title="statement not covered" >        if (matrix[4 * j + i] !== 0) {</span>
@@ -2983,7 +2983,7 @@ export default { newInstance, extend };
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Mar 04 2019 01:56:48 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Mar 07 2019 15:41:40 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>

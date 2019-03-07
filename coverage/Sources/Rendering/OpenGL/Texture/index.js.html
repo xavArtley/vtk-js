@@ -20,9 +20,9 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">0.77% </span>
+        <span class="strong">0.75% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>5/647</span>
+        <span class='fraction'>5/670</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
@@ -37,7 +37,7 @@
       <div class='fl pad1y space-right2'>
         <span class="strong">0.77% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>5/646</span>
+        <span class='fraction'>5/647</span>
       </div>
     </div>
   </div>
@@ -2824,7 +2824,7 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -3121,7 +3121,7 @@ function vtkOpenGLTexture(publicAPI, model) <span class="fstat-no" title="functi
 &nbsp;
         // do we have a cube map? Six inputs
         const data = <span class="cstat-no" title="statement not covered" >[];</span>
-<span class="cstat-no" title="statement not covered" >        for (let i = 0; i &lt; model.renderable.getNumberOfInputPorts(); ++i) {</span>
+<span class="cstat-no" title="statement not covered" >        for (let i = <span class="cstat-no" title="statement not covered" >0;</span> i &lt; model.renderable.getNumberOfInputPorts(); ++i) {</span>
           const indata = <span class="cstat-no" title="statement not covered" >model.renderable.getInputData(i);</span>
           const scalars = <span class="cstat-no" title="statement not covered" >indata</span>
             ? indata
@@ -3596,9 +3596,9 @@ function vtkOpenGLTexture(publicAPI, model) <span class="fstat-no" title="functi
       model.openGLDataType === model.context.FLOAT
     ) {
       const pixCount = <span class="cstat-no" title="statement not covered" >model.width * model.height * model.components;</span>
-<span class="cstat-no" title="statement not covered" >      for (let idx = 0; idx &lt; data.length; idx++) {</span>
+<span class="cstat-no" title="statement not covered" >      for (let idx = <span class="cstat-no" title="statement not covered" >0;</span> idx &lt; data.length; idx++) {</span>
         const newArray = <span class="cstat-no" title="statement not covered" >new Float32Array(pixCount);</span>
-<span class="cstat-no" title="statement not covered" >        for (let i = 0; i &lt; pixCount; i++) {</span>
+<span class="cstat-no" title="statement not covered" >        for (let i = <span class="cstat-no" title="statement not covered" >0;</span> i &lt; pixCount; i++) {</span>
 <span class="cstat-no" title="statement not covered" >          newArray[i] = data[idx][i];</span>
         }
 <span class="cstat-no" title="statement not covered" >        pixData.push(newArray);</span>
@@ -3612,9 +3612,9 @@ function vtkOpenGLTexture(publicAPI, model) <span class="fstat-no" title="functi
       model.openGLDataType === model.context.UNSIGNED_BYTE
     ) {
       const pixCount = <span class="cstat-no" title="statement not covered" >model.width * model.height * model.components;</span>
-<span class="cstat-no" title="statement not covered" >      for (let idx = 0; idx &lt; data.length; idx++) {</span>
+<span class="cstat-no" title="statement not covered" >      for (let idx = <span class="cstat-no" title="statement not covered" >0;</span> idx &lt; data.length; idx++) {</span>
         const newArray = <span class="cstat-no" title="statement not covered" >new Uint8Array(pixCount);</span>
-<span class="cstat-no" title="statement not covered" >        for (let i = 0; i &lt; pixCount; i++) {</span>
+<span class="cstat-no" title="statement not covered" >        for (let i = <span class="cstat-no" title="statement not covered" >0;</span> i &lt; pixCount; i++) {</span>
 <span class="cstat-no" title="statement not covered" >          newArray[i] = data[idx][i];</span>
         }
 <span class="cstat-no" title="statement not covered" >        pixData.push(newArray);</span>
@@ -3623,7 +3623,7 @@ function vtkOpenGLTexture(publicAPI, model) <span class="fstat-no" title="functi
 &nbsp;
     // The output has to be filled
 <span class="cstat-no" title="statement not covered" >    if (pixData.length === 0) {</span>
-<span class="cstat-no" title="statement not covered" >      for (let i = 0; i &lt; data.length; i++) {</span>
+<span class="cstat-no" title="statement not covered" >      for (let i = <span class="cstat-no" title="statement not covered" >0;</span> i &lt; data.length; i++) {</span>
 <span class="cstat-no" title="statement not covered" >        pixData.push(data[i]);</span>
       }
     }
@@ -3649,7 +3649,7 @@ function vtkOpenGLTexture(publicAPI, model) <span class="fstat-no" title="functi
       const newWidth = <span class="cstat-no" title="statement not covered" >vtkMath.nearestPowerOfTwo(width);</span>
       const newHeight = <span class="cstat-no" title="statement not covered" >vtkMath.nearestPowerOfTwo(height);</span>
       const pixCount = <span class="cstat-no" title="statement not covered" >newWidth * newHeight * model.components;</span>
-<span class="cstat-no" title="statement not covered" >      for (let idx = 0; idx &lt; data.length; idx++) {</span>
+<span class="cstat-no" title="statement not covered" >      for (let idx = <span class="cstat-no" title="statement not covered" >0;</span> idx &lt; data.length; idx++) {</span>
 <span class="cstat-no" title="statement not covered" >        if (data[idx] !== null) {</span>
           let newArray = <span class="cstat-no" title="statement not covered" >null;</span>
 <span class="cstat-no" title="statement not covered" >          switch (model.openGLDataType) {</span>
@@ -3663,7 +3663,7 @@ function vtkOpenGLTexture(publicAPI, model) <span class="fstat-no" title="functi
           }
           const jFactor = <span class="cstat-no" title="statement not covered" >height / newHeight;</span>
           const iFactor = <span class="cstat-no" title="statement not covered" >width / newWidth;</span>
-<span class="cstat-no" title="statement not covered" >          for (let j = 0; j &lt; newHeight; j++) {</span>
+<span class="cstat-no" title="statement not covered" >          for (let j = <span class="cstat-no" title="statement not covered" >0;</span> j &lt; newHeight; j++) {</span>
             const joff = <span class="cstat-no" title="statement not covered" >j * newWidth * numComps;</span>
             const jidx = <span class="cstat-no" title="statement not covered" >j * jFactor;</span>
             let jlow = <span class="cstat-no" title="statement not covered" >Math.floor(jidx);</span>
@@ -3675,7 +3675,7 @@ function vtkOpenGLTexture(publicAPI, model) <span class="fstat-no" title="functi
             const jmix1 = <span class="cstat-no" title="statement not covered" >1.0 - jmix;</span>
 <span class="cstat-no" title="statement not covered" >            jlow = jlow * width * numComps;</span>
 <span class="cstat-no" title="statement not covered" >            jhi = jhi * width * numComps;</span>
-<span class="cstat-no" title="statement not covered" >            for (let i = 0; i &lt; newWidth; i++) {</span>
+<span class="cstat-no" title="statement not covered" >            for (let i = <span class="cstat-no" title="statement not covered" >0;</span> i &lt; newWidth; i++) {</span>
               const ioff = <span class="cstat-no" title="statement not covered" >i * numComps;</span>
               const iidx = <span class="cstat-no" title="statement not covered" >i * iFactor;</span>
               let ilow = <span class="cstat-no" title="statement not covered" >Math.floor(iidx);</span>
@@ -3686,7 +3686,7 @@ function vtkOpenGLTexture(publicAPI, model) <span class="fstat-no" title="functi
               const imix = <span class="cstat-no" title="statement not covered" >iidx - ilow;</span>
 <span class="cstat-no" title="statement not covered" >              ilow *= numComps;</span>
 <span class="cstat-no" title="statement not covered" >              ihi *= numComps;</span>
-<span class="cstat-no" title="statement not covered" >              for (let c = 0; c &lt; numComps; c++) {</span>
+<span class="cstat-no" title="statement not covered" >              for (let c = <span class="cstat-no" title="statement not covered" >0;</span> c &lt; numComps; c++) {</span>
 <span class="cstat-no" title="statement not covered" >                newArray[joff + ioff + c] =</span>
                   data[idx][jlow + ilow + c] * jmix1 * (1.0 - imix) +
                   data[idx][jlow + ihi + c] * jmix1 * imix +
@@ -3706,7 +3706,7 @@ function vtkOpenGLTexture(publicAPI, model) <span class="fstat-no" title="functi
 &nbsp;
     // The output has to be filled
 <span class="cstat-no" title="statement not covered" >    if (pixData.length === 0) {</span>
-<span class="cstat-no" title="statement not covered" >      for (let i = 0; i &lt; data.length; i++) {</span>
+<span class="cstat-no" title="statement not covered" >      for (let i = <span class="cstat-no" title="statement not covered" >0;</span> i &lt; data.length; i++) {</span>
 <span class="cstat-no" title="statement not covered" >        pixData.push(data[i]);</span>
       }
     }
@@ -3797,7 +3797,7 @@ function vtkOpenGLTexture(publicAPI, model) <span class="fstat-no" title="functi
     const invertedData = <span class="cstat-no" title="statement not covered" >[];</span>
     let widthLevel = <span class="cstat-no" title="statement not covered" >model.width;</span>
     let heightLevel = <span class="cstat-no" title="statement not covered" >model.height;</span>
-<span class="cstat-no" title="statement not covered" >    for (let i = 0; i &lt; scaledData.length; i++) {</span>
+<span class="cstat-no" title="statement not covered" >    for (let i = <span class="cstat-no" title="statement not covered" >0;</span> i &lt; scaledData.length; i++) {</span>
 <span class="cstat-no" title="statement not covered" >      if (i % 6 === 0 &amp;&amp; i !== 0) {</span>
 <span class="cstat-no" title="statement not covered" >        widthLevel /= 2;</span>
 <span class="cstat-no" title="statement not covered" >        heightLevel /= 2;</span>
@@ -3805,7 +3805,7 @@ function vtkOpenGLTexture(publicAPI, model) <span class="fstat-no" title="functi
 <span class="cstat-no" title="statement not covered" >      invertedData[i] = new window[dataType](</span>
         heightLevel * widthLevel * model.components
       );
-<span class="cstat-no" title="statement not covered" >      for (let y = 0; y &lt; heightLevel; ++y) {</span>
+<span class="cstat-no" title="statement not covered" >      for (let y = <span class="cstat-no" title="statement not covered" >0;</span> y &lt; heightLevel; ++y) {</span>
         const row1 = <span class="cstat-no" title="statement not covered" >y * widthLevel * model.components;</span>
         const row2 = <span class="cstat-no" title="statement not covered" >(heightLevel - y - 1) * widthLevel * model.components;</span>
 <span class="cstat-no" title="statement not covered" >        invertedData[i].set(</span>
@@ -3819,7 +3819,7 @@ function vtkOpenGLTexture(publicAPI, model) <span class="fstat-no" title="functi
 <span class="cstat-no" title="statement not covered" >    model.context.pixelStorei(model.context.UNPACK_ALIGNMENT, 1);</span>
 &nbsp;
     // We get the 6 images
-<span class="cstat-no" title="statement not covered" >    for (let i = 0; i &lt; 6; i++) {</span>
+<span class="cstat-no" title="statement not covered" >    for (let i = <span class="cstat-no" title="statement not covered" >0;</span> i &lt; 6; i++) {</span>
       // For each mipmap level
       let j = <span class="cstat-no" title="statement not covered" >0;</span>
       let w = <span class="cstat-no" title="statement not covered" >model.width;</span>
@@ -4090,7 +4090,7 @@ function vtkOpenGLTexture(publicAPI, model) <span class="fstat-no" title="functi
 <span class="cstat-no" title="statement not covered" >    if (model.openGLRenderWindow.getWebgl2()) {</span>
 <span class="cstat-no" title="statement not covered" >      if (dataType !== VtkDataTypes.UNSIGNED_CHAR) {</span>
         const newArray = <span class="cstat-no" title="statement not covered" >new Float32Array(numPixelsIn);</span>
-<span class="cstat-no" title="statement not covered" >        for (let i = 0; i &lt; numPixelsIn; ++i) {</span>
+<span class="cstat-no" title="statement not covered" >        for (let i = <span class="cstat-no" title="statement not covered" >0;</span> i &lt; numPixelsIn; ++i) {</span>
 <span class="cstat-no" title="statement not covered" >          newArray[i] = (data[i] - min) / (max - min);</span>
         }
 <span class="cstat-no" title="statement not covered" >        return publicAPI.create3DFromRaw(</span>
@@ -4188,14 +4188,14 @@ function vtkOpenGLTexture(publicAPI, model) <span class="fstat-no" title="functi
     // for stride
     let outIdx = <span class="cstat-no" title="statement not covered" >0;</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    for (let yRep = 0; yRep &lt; yreps; yRep++) {</span>
+<span class="cstat-no" title="statement not covered" >    for (let yRep = <span class="cstat-no" title="statement not covered" >0;</span> yRep &lt; yreps; yRep++) {</span>
       const xrepsThisRow = <span class="cstat-no" title="statement not covered" >Math.min(xreps, depth - yRep * xreps);</span>
       const outXContIncr =
 <span class="cstat-no" title="statement not covered" >        model.width - xrepsThisRow * Math.floor(width / xstride);</span>
-<span class="cstat-no" title="statement not covered" >      for (let inY = 0; inY &lt; height; inY += ystride) {</span>
-<span class="cstat-no" title="statement not covered" >        for (let xRep = 0; xRep &lt; xrepsThisRow; xRep++) {</span>
+<span class="cstat-no" title="statement not covered" >      for (let inY = <span class="cstat-no" title="statement not covered" >0;</span> inY &lt; height; inY += ystride) {</span>
+<span class="cstat-no" title="statement not covered" >        for (let xRep = <span class="cstat-no" title="statement not covered" >0;</span> xRep &lt; xrepsThisRow; xRep++) {</span>
           const inOffset = <span class="cstat-no" title="statement not covered" >(yRep * xreps + xRep) * width * height + inY * width;</span>
-<span class="cstat-no" title="statement not covered" >          for (let inX = 0; inX &lt; width; inX += xstride) {</span>
+<span class="cstat-no" title="statement not covered" >          for (let inX = <span class="cstat-no" title="statement not covered" >0;</span> inX &lt; width; inX += xstride) {</span>
             // copy value
 <span class="cstat-no" title="statement not covered" >            volCopyData(newArray, outIdx, data[inOffset + inX], min, max);</span>
 <span class="cstat-no" title="statement not covered" >            outIdx += numCompsToUse;</span>
@@ -4260,7 +4260,7 @@ function vtkOpenGLTexture(publicAPI, model) <span class="fstat-no" title="functi
             // start and end depths are inclusive
             const numWorkerVoxels =
 <span class="cstat-no" title="statement not covered" >              width * height * (subDepthEnd - subDepthStart + 1);</span>
-<span class="cstat-no" title="statement not covered" >            for (let vp = 0; vp &lt; numWorkerVoxels; ++vp) {</span>
+<span class="cstat-no" title="statement not covered" >            for (let vp = <span class="cstat-no" title="statement not covered" >0;</span> vp &lt; numWorkerVoxels; ++vp) {</span>
 <span class="cstat-no" title="statement not covered" >              reformattedGradients[outIdx++] = subGradients[inIdx++];</span>
 <span class="cstat-no" title="statement not covered" >              reformattedGradients[outIdx++] = subGradients[inIdx++];</span>
 <span class="cstat-no" title="statement not covered" >              reformattedGradients[outIdx++] = subGradients[inIdx++];</span>
@@ -4315,7 +4315,7 @@ function vtkOpenGLTexture(publicAPI, model) <span class="fstat-no" title="functi
             subDepthEnd,
           }) =&gt; <span class="fstat-no" title="function not covered" >{</span>
             // start and end depths are inclusive
-<span class="cstat-no" title="statement not covered" >            for (let zpin = subDepthStart; zpin &lt;= subDepthEnd; ++zpin) {</span>
+<span class="cstat-no" title="statement not covered" >            for (let zpin = <span class="cstat-no" title="statement not covered" >subDepthStart;</span> zpin &lt;= subDepthEnd; ++zpin) {</span>
               // map xyz to 2d x y
               let zyout = <span class="cstat-no" title="statement not covered" >Math.floor(zpin / vinfo.xreps);</span> // y offset in reps
               let zxout = <span class="cstat-no" title="statement not covered" >zpin - zyout * vinfo.xreps;</span> // x offset in reps
@@ -4323,14 +4323,14 @@ function vtkOpenGLTexture(publicAPI, model) <span class="fstat-no" title="functi
 <span class="cstat-no" title="statement not covered" >              zyout *= Math.floor(height / vinfo.ystride); </span>// in pixels
               let ypout = <span class="cstat-no" title="statement not covered" >zyout;</span>
 <span class="cstat-no" title="statement not covered" >              for (</span>
-                let ypin = 0;
+                let ypin = <span class="cstat-no" title="statement not covered" >0;</span>
                 ypin &lt; height;
                 ypin += vinfo.ystride, ypout++
               ) {
                 let outIdx = <span class="cstat-no" title="statement not covered" >(ypout * model.width + zxout) * 4;</span>
                 let inMagIdx = <span class="cstat-no" title="statement not covered" >((zpin - subDepthStart) * height + ypin) * width;</span>
                 let inIdx = <span class="cstat-no" title="statement not covered" >inMagIdx * 3;</span>
-<span class="cstat-no" title="statement not covered" >                for (let xpin = 0; xpin &lt; width; xpin += vinfo.xstride) {</span>
+<span class="cstat-no" title="statement not covered" >                for (let xpin = <span class="cstat-no" title="statement not covered" >0;</span> xpin &lt; width; xpin += vinfo.xstride) {</span>
 <span class="cstat-no" title="statement not covered" >                  reformattedGradients[outIdx++] = subGradients[inIdx];</span>
 <span class="cstat-no" title="statement not covered" >                  reformattedGradients[outIdx++] = subGradients[inIdx + 1];</span>
 <span class="cstat-no" title="statement not covered" >                  reformattedGradients[outIdx++] = subGradients[inIdx + 2];</span>
@@ -4546,7 +4546,7 @@ export default Object.assign({ newInstance, extend }, Constants);
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Mar 04 2019 01:56:48 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Mar 07 2019 15:41:40 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>

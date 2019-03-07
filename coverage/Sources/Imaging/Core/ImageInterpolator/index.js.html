@@ -20,9 +20,9 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">8.94% </span>
+        <span class="strong">8.51% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>16/179</span>
+        <span class='fraction'>16/188</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
@@ -772,9 +772,9 @@ function vtkImageInterpolator(publicAPI, model) {
     ) {
 <span class="cstat-no" title="statement not covered" >      return size;</span>
     }
-<span class="cstat-no" title="statement not covered" >    for (let i = 0; i &lt; 3; ++i) {</span>
+<span class="cstat-no" title="statement not covered" >    for (let i = <span class="cstat-no" title="statement not covered" >0;</span> i &lt; 3; ++i) {</span>
       let integerRow = <span class="cstat-no" title="statement not covered" >true;</span>
-<span class="cstat-no" title="statement not covered" >      for (let j = 0; j &lt; 3; ++j) {</span>
+<span class="cstat-no" title="statement not covered" >      for (let j = <span class="cstat-no" title="statement not covered" >0;</span> j &lt; 3; ++j) {</span>
 <span class="cstat-no" title="statement not covered" >        integerRow = integerRow &amp;&amp; Number.isInteger(matrix[4 * i + j]);</span>
       }
 <span class="cstat-no" title="statement not covered" >      if (integerRow) {</span>
@@ -850,7 +850,7 @@ function vtkImageInterpolator(publicAPI, model) {
     const numscalars = <span class="cstat-no" title="statement not covered" >weights.numberOfComponents;</span>
 &nbsp;
     // This is a hot loop.
-<span class="cstat-no" title="statement not covered" >    for (let i = 0; i &lt; n; ++i) {</span>
+<span class="cstat-no" title="statement not covered" >    for (let i = <span class="cstat-no" title="statement not covered" >0;</span> i &lt; n; ++i) {</span>
 <span class="cstat-no" title="statement not covered" >      outPtr.set(inPtr0.subarray(iX[i], numscalars), i * numscalars);</span>
     }
   };
@@ -894,7 +894,7 @@ function vtkImageInterpolator(publicAPI, model) {
 <span class="cstat-no" title="statement not covered" >    weights.weightType = 'Float32Array';</span>
     const interpMode = <span class="cstat-no" title="statement not covered" >weights.interpolationMode;</span>
     let validClip = <span class="cstat-no" title="statement not covered" >true;</span>
-<span class="cstat-no" title="statement not covered" >    for (let j = 0; j &lt; 3; ++j) {</span>
+<span class="cstat-no" title="statement not covered" >    for (let j = <span class="cstat-no" title="statement not covered" >0;</span> j &lt; 3; ++j) {</span>
       // set k to the row for which the element in column j is nonzero
       let k;
 <span class="cstat-no" title="statement not covered" >      for (k = 0; k &lt; 3; ++k) {</span>
@@ -944,7 +944,7 @@ function vtkImageInterpolator(publicAPI, model) {
 <span class="cstat-no" title="statement not covered" >      weights.weights[j] = constants; </span>// TODO: check pointers
 &nbsp;
       let region = <span class="cstat-no" title="statement not covered" >0;</span>
-<span class="cstat-no" title="statement not covered" >      for (let i = outExt[2 * j]; i &lt;= outExt[2 * j + 1]; ++i) {</span>
+<span class="cstat-no" title="statement not covered" >      for (let i = <span class="cstat-no" title="statement not covered" >outExt[2 * j];</span> i &lt;= outExt[2 * j + 1]; ++i) {</span>
         const point = <span class="cstat-no" title="statement not covered" >matrix[4 * 3 + k] + i * matrix[4 * j + k];</span>
         let lcount = <span class="cstat-no" title="statement not covered" >step;</span>
         let inId0 = <span class="cstat-no" title="statement not covered" >0;</span>
@@ -998,18 +998,18 @@ function vtkImageInterpolator(publicAPI, model) {
           } else <span class="cstat-no" title="statement not covered" >if (interpMode === InterpolationMode.CUBIC) {</span>
             const g = <span class="cstat-no" title="statement not covered" >publicAPI.vtkTricubicInterpWeights(f);</span>
 <span class="cstat-no" title="statement not covered" >            if (step === 4) {</span>
-<span class="cstat-no" title="statement not covered" >              for (let ll = 0; ll &lt; 4; ll++) {</span>
+<span class="cstat-no" title="statement not covered" >              for (let ll = <span class="cstat-no" title="statement not covered" >0;</span> ll &lt; 4; ll++) {</span>
 <span class="cstat-no" title="statement not covered" >                positions[step * i + ll - startPositions] = inId[ll] * inInc;</span>
 <span class="cstat-no" title="statement not covered" >                constants[step * i + ll - startPositions] = g[ll];</span>
               }
             } else {
               // it gets tricky if there are fewer than 4 slices
               const gg = <span class="cstat-no" title="statement not covered" >[0, 0, 0, 0];</span>
-<span class="cstat-no" title="statement not covered" >              for (let ll = 0; ll &lt; 4; ll++) {</span>
+<span class="cstat-no" title="statement not covered" >              for (let ll = <span class="cstat-no" title="statement not covered" >0;</span> ll &lt; 4; ll++) {</span>
                 const rIdx = <span class="cstat-no" title="statement not covered" >inId[ll] - minExt;</span>
 <span class="cstat-no" title="statement not covered" >                gg[rIdx] += g[ll];</span>
               }
-<span class="cstat-no" title="statement not covered" >              for (let jj = 0; jj &lt; step; jj++) {</span>
+<span class="cstat-no" title="statement not covered" >              for (let jj = <span class="cstat-no" title="statement not covered" >0;</span> jj &lt; step; jj++) {</span>
 <span class="cstat-no" title="statement not covered" >                positions[step * i + jj - startPositions] = minExt + jj;</span>
 <span class="cstat-no" title="statement not covered" >                constants[step * i + jj - startPositions] = gg[jj];</span>
               }
@@ -1036,7 +1036,7 @@ function vtkImageInterpolator(publicAPI, model) {
     }
 <span class="cstat-no" title="statement not covered" >    if (!validClip) {</span>
       // output extent doesn't itersect input extent
-<span class="cstat-no" title="statement not covered" >      for (let j = 0; j &lt; 3; j++) {</span>
+<span class="cstat-no" title="statement not covered" >      for (let j = <span class="cstat-no" title="statement not covered" >0;</span> j &lt; 3; j++) {</span>
 <span class="cstat-no" title="statement not covered" >        clipExt[2 * j] = outExt[2 * j];</span>
 <span class="cstat-no" title="statement not covered" >        clipExt[2 * j + 1] = outExt[2 * j] - 1;</span>
       }
@@ -1078,7 +1078,7 @@ export default { newInstance, extend };
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Mar 04 2019 01:56:48 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Mar 07 2019 15:41:40 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>

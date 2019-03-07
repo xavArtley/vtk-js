@@ -20,9 +20,9 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">14.29% </span>
+        <span class="strong">13.48% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>12/84</span>
+        <span class='fraction'>12/89</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
@@ -35,9 +35,9 @@
         <span class='fraction'>2/4</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">14.29% </span>
+        <span class="strong">14.12% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>12/84</span>
+        <span class='fraction'>12/85</span>
       </div>
     </div>
   </div>
@@ -299,7 +299,7 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -454,7 +454,7 @@ function vtkPointPicker(publicAPI, model) {
     }
 &nbsp;
     const ray = <span class="cstat-no" title="statement not covered" >[];</span>
-<span class="cstat-no" title="statement not covered" >    for (let i = 0; i &lt; 3; i++) {</span>
+<span class="cstat-no" title="statement not covered" >    for (let i = <span class="cstat-no" title="statement not covered" >0;</span> i &lt; 3; i++) {</span>
 <span class="cstat-no" title="statement not covered" >      ray[i] = p2[i] - p1[i];</span>
     }
 &nbsp;
@@ -478,12 +478,12 @@ function vtkPointPicker(publicAPI, model) {
       const nbPointsPerCell = <span class="cstat-no" title="statement not covered" >cellData[0];</span>
       const nbCells = <span class="cstat-no" title="statement not covered" >input.getPolys().getNumberOfCells();</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      for (let cellID = 0; cellID &lt; nbCells; cellID++) {</span>
+<span class="cstat-no" title="statement not covered" >      for (let cellID = <span class="cstat-no" title="statement not covered" >0;</span> cellID &lt; nbCells; cellID++) {</span>
         const firstPointIndex = <span class="cstat-no" title="statement not covered" >cellID * nbPointsPerCell + 1;</span>
         const lastPointIndex = <span class="cstat-no" title="statement not covered" >firstPointIndex + nbPointsPerCell;</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >        for (</span>
-          let pointIndex = firstPointIndex;
+          let pointIndex = <span class="cstat-no" title="statement not covered" >firstPointIndex;</span>
           pointIndex &lt; lastPointIndex;
           pointIndex++
         ) {
@@ -502,7 +502,7 @@ function vtkPointPicker(publicAPI, model) {
           // nearly the same distance away.)
 <span class="cstat-no" title="statement not covered" >          if (t &gt;= 0.0 &amp;&amp; t &lt;= 1.0 &amp;&amp; t &lt;= tMin + model.tolerance) {</span>
             let maxDist = <span class="cstat-no" title="statement not covered" >0.0;</span>
-<span class="cstat-no" title="statement not covered" >            for (let i = 0; i &lt; 3; i++) {</span>
+<span class="cstat-no" title="statement not covered" >            for (let i = <span class="cstat-no" title="statement not covered" >0;</span> i &lt; 3; i++) {</span>
 <span class="cstat-no" title="statement not covered" >              projXYZ[i] = p1[i] + t * ray[i];</span>
               const dist = <span class="cstat-no" title="statement not covered" >Math.abs(x[i] - projXYZ[i]);</span>
 <span class="cstat-no" title="statement not covered" >              if (dist &gt; maxDist) {</span>
@@ -538,7 +538,7 @@ function vtkPointPicker(publicAPI, model) {
         // nearly the same distance away.)
 <span class="cstat-no" title="statement not covered" >        if (t &gt;= 0.0 &amp;&amp; t &lt;= 1.0 &amp;&amp; t &lt;= tMin + model.tolerance) {</span>
           let maxDist = <span class="cstat-no" title="statement not covered" >0.0;</span>
-<span class="cstat-no" title="statement not covered" >          for (let i = 0; i &lt; 3; i++) {</span>
+<span class="cstat-no" title="statement not covered" >          for (let i = <span class="cstat-no" title="statement not covered" >0;</span> i &lt; 3; i++) {</span>
 <span class="cstat-no" title="statement not covered" >            projXYZ[i] = p1[i] + t * ray[i];</span>
             const dist = <span class="cstat-no" title="statement not covered" >Math.abs(x[i] - projXYZ[i]);</span>
 <span class="cstat-no" title="statement not covered" >            if (dist &gt; maxDist) {</span>
@@ -601,7 +601,7 @@ export default { newInstance, extend };
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Mar 04 2019 01:56:48 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Mar 07 2019 15:41:40 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>

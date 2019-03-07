@@ -20,9 +20,9 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">18.11% </span>
+        <span class="strong">17.56% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>46/254</span>
+        <span class='fraction'>46/262</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
@@ -1253,7 +1253,7 @@ function vtkScalarsToColors(publicAPI, model) {
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    if (annotations &amp;&amp; values) {</span>
       const num = <span class="cstat-no" title="statement not covered" >annotations.getNumberOfTuples();</span>
-<span class="cstat-no" title="statement not covered" >      for (let i = 0; i &lt; num; i++) {</span>
+<span class="cstat-no" title="statement not covered" >      for (let i = <span class="cstat-no" title="statement not covered" >0;</span> i &lt; num; i++) {</span>
 <span class="cstat-no" title="statement not covered" >        model.annotationArray.push({</span>
           value: values[i],
           annotation: annotations[i],
@@ -1367,7 +1367,7 @@ function vtkScalarsToColors(publicAPI, model) {
 <span class="cstat-no" title="statement not covered" >    model.annotatedValueMap = [];</span>
 &nbsp;
     const na = <span class="cstat-no" title="statement not covered" >model.annotationArray.length;</span>
-<span class="cstat-no" title="statement not covered" >    for (let i = 0; i &lt; na; ++i) {</span>
+<span class="cstat-no" title="statement not covered" >    for (let i = <span class="cstat-no" title="statement not covered" >0;</span> i &lt; na; ++i) {</span>
 <span class="cstat-no" title="statement not covered" >      model.annotatedValueMap[model.annotationArray[i].value] = i;</span>
     }
   };
@@ -1458,9 +1458,9 @@ function vtkScalarsToColors(publicAPI, model) {
     const outputV = <span class="cstat-no" title="statement not covered" >output.getData();</span>
     const inputV = <span class="cstat-no" title="statement not covered" >input.getData();</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    for (let i = 0; i &lt; length; i++) {</span>
+<span class="cstat-no" title="statement not covered" >    for (let i = <span class="cstat-no" title="statement not covered" >0;</span> i &lt; length; i++) {</span>
       let sum = <span class="cstat-no" title="statement not covered" >0.0;</span>
-<span class="cstat-no" title="statement not covered" >      for (let j = 0; j &lt; compsToUse; j++) {</span>
+<span class="cstat-no" title="statement not covered" >      for (let j = <span class="cstat-no" title="statement not covered" >0;</span> j &lt; compsToUse; j++) {</span>
 <span class="cstat-no" title="statement not covered" >        sum += inputV[i * inIncr + j] * inputV[i * inIncr + j];</span>
       }
 <span class="cstat-no" title="statement not covered" >      outputV[i] = Math.sqrt(sum);</span>
@@ -1571,7 +1571,7 @@ function vtkScalarsToColors(publicAPI, model) {
     const tuple = <span class="cstat-no" title="statement not covered" >1;</span>
 &nbsp;
     let count = <span class="cstat-no" title="statement not covered" >0;</span>
-<span class="cstat-no" title="statement not covered" >    for (let i = component; i &lt; size; i += tuple) {</span>
+<span class="cstat-no" title="statement not covered" >    for (let i = <span class="cstat-no" title="statement not covered" >component;</span> i &lt; size; i += tuple) {</span>
       const l = <span class="cstat-no" title="statement not covered" >convtFun(values[i]);</span>
 <span class="cstat-no" title="statement not covered" >      newValues[count * 4] = l;</span>
 <span class="cstat-no" title="statement not covered" >      newValues[count * 4 + 1] = l;</span>
@@ -1589,7 +1589,7 @@ function vtkScalarsToColors(publicAPI, model) {
     const tuple = <span class="cstat-no" title="statement not covered" >2;</span>
 &nbsp;
     let count = <span class="cstat-no" title="statement not covered" >0;</span>
-<span class="cstat-no" title="statement not covered" >    for (let i = component; i &lt; size; i += tuple) {</span>
+<span class="cstat-no" title="statement not covered" >    for (let i = <span class="cstat-no" title="statement not covered" >component;</span> i &lt; size; i += tuple) {</span>
       const l = <span class="cstat-no" title="statement not covered" >convtFun(values[i]);</span>
 <span class="cstat-no" title="statement not covered" >      newValues[count] = l;</span>
 <span class="cstat-no" title="statement not covered" >      newValues[count + 1] = l;</span>
@@ -1609,7 +1609,7 @@ function vtkScalarsToColors(publicAPI, model) {
     const tuple = <span class="cstat-no" title="statement not covered" >3;</span>
 &nbsp;
     let count = <span class="cstat-no" title="statement not covered" >0;</span>
-<span class="cstat-no" title="statement not covered" >    for (let i = component; i &lt; size; i += tuple) {</span>
+<span class="cstat-no" title="statement not covered" >    for (let i = <span class="cstat-no" title="statement not covered" >component;</span> i &lt; size; i += tuple) {</span>
 <span class="cstat-no" title="statement not covered" >      newValues[count * 4] = convtFun(values[i]);</span>
 <span class="cstat-no" title="statement not covered" >      newValues[count * 4 + 1] = convtFun(values[i + 1]);</span>
 <span class="cstat-no" title="statement not covered" >      newValues[count * 4 + 2] = convtFun(values[i + 2]);</span>
@@ -1626,7 +1626,7 @@ function vtkScalarsToColors(publicAPI, model) {
     const tuple = <span class="cstat-no" title="statement not covered" >4;</span>
 &nbsp;
     let count = <span class="cstat-no" title="statement not covered" >0;</span>
-<span class="cstat-no" title="statement not covered" >    for (let i = component; i &lt; size; i += tuple) {</span>
+<span class="cstat-no" title="statement not covered" >    for (let i = <span class="cstat-no" title="statement not covered" >component;</span> i &lt; size; i += tuple) {</span>
 <span class="cstat-no" title="statement not covered" >      newValues[count * 4] = convtFun(values[i]);</span>
 <span class="cstat-no" title="statement not covered" >      newValues[count * 4 + 1] = convtFun(values[i + 1]);</span>
 <span class="cstat-no" title="statement not covered" >      newValues[count * 4 + 2] = convtFun(values[i + 2]);</span>
@@ -1762,7 +1762,7 @@ export default Object.assign({ newInstance, extend }, Constants);
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Mar 04 2019 01:56:48 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Mar 07 2019 15:41:40 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>

@@ -20,9 +20,9 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">9.01% </span>
+        <span class="strong">9.2% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>43/477</span>
+        <span class='fraction'>45/489</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">6.94% </span>
@@ -30,9 +30,9 @@
         <span class='fraction'>12/173</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">3.77% </span>
+        <span class="strong">3.51% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>2/53</span>
+        <span class='fraction'>2/57</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">9.15% </span>
@@ -2204,15 +2204,15 @@ const TOUCH_CLICK = [];
 // ----------------------------------------------------------------------------
 &nbsp;
 const ACTIONS = {
-  adjustPosition(x, y, originalXY, gaussian, originalGaussian) {
+  adjustPosition(x, y, originalXY, gaussian, originalGaussian) <span class="fstat-no" title="function not covered" >{</span>
     const xOffset = <span class="cstat-no" title="statement not covered" >originalGaussian.position - originalXY[0];</span>
 <span class="cstat-no" title="statement not covered" >    gaussian.position = x + xOffset;</span>
   },
-  adjustHeight(x, y, originalXY, gaussian, originalGaussian) {
+  adjustHeight(x, y, originalXY, gaussian, originalGaussian) <span class="fstat-no" title="function not covered" >{</span>
 <span class="cstat-no" title="statement not covered" >    gaussian.height = 1 - y;</span>
 <span class="cstat-no" title="statement not covered" >    gaussian.height = Math.min(1, Math.max(0, gaussian.height));</span>
   },
-  adjustBias(x, y, originalXY, gaussian, originalGaussian) {
+  adjustBias(x, y, originalXY, gaussian, originalGaussian) <span class="fstat-no" title="function not covered" >{</span>
 <span class="cstat-no" title="statement not covered" >    gaussian.xBias =</span>
       originalGaussian.xBias - (originalXY[0] - x) / gaussian.height;
 <span class="cstat-no" title="statement not covered" >    gaussian.yBias =</span>
@@ -2221,7 +2221,7 @@ const ACTIONS = {
 <span class="cstat-no" title="statement not covered" >    gaussian.xBias = Math.max(-1, Math.min(1, gaussian.xBias));</span>
 <span class="cstat-no" title="statement not covered" >    gaussian.yBias = Math.max(0, Math.min(2, gaussian.yBias));</span>
   },
-  adjustWidth(x, y, originalXY, gaussian, originalGaussian, side) {
+  adjustWidth(x, y, originalXY, gaussian, originalGaussian, side) <span class="fstat-no" title="function not covered" >{</span>
 <span class="cstat-no" title="statement not covered" >    gaussian.width =</span>
       side &lt; 0
         ? originalGaussian.width - (originalXY[0] - x)
@@ -2348,7 +2348,7 @@ function drawChart(
 <span class="cstat-no" title="statement not covered" >  ctx.beginPath();</span>
 <span class="cstat-no" title="statement not covered" >  ctx.moveTo(area[0], height - area[1]);</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  for (let index = 0; index &lt; values.length; index++) {</span>
+<span class="cstat-no" title="statement not covered" >  for (let index = <span class="cstat-no" title="statement not covered" >0;</span> index &lt; values.length; index++) {</span>
 <span class="cstat-no" title="statement not covered" >    ctx.lineTo(</span>
       area[0] + index * horizontalScale,
       Math.max(area[1], height - (area[1] + values[index] * verticalScale))
@@ -2384,13 +2384,13 @@ function updateColorCanvas(colorTransferFunction, width, rangeToUse, canvas) <sp
     4
   );
   const pixelsArea = <span class="cstat-no" title="statement not covered" >ctx.getImageData(0, 0, width, 256);</span>
-<span class="cstat-no" title="statement not covered" >  for (let lineIdx = 0; lineIdx &lt; 256; lineIdx++) {</span>
+<span class="cstat-no" title="statement not covered" >  for (let lineIdx = <span class="cstat-no" title="statement not covered" >0;</span> lineIdx &lt; 256; lineIdx++) {</span>
 <span class="cstat-no" title="statement not covered" >    pixelsArea.data.set(rgba, lineIdx * 4 * width);</span>
   }
 &nbsp;
   const nbValues = <span class="cstat-no" title="statement not covered" >256 * width * 4;</span>
   const lineSize = <span class="cstat-no" title="statement not covered" >width * 4;</span>
-<span class="cstat-no" title="statement not covered" >  for (let i = 3; i &lt; nbValues; i += 4) {</span>
+<span class="cstat-no" title="statement not covered" >  for (let i = <span class="cstat-no" title="statement not covered" >3;</span> i &lt; nbValues; i += 4) {</span>
 <span class="cstat-no" title="statement not covered" >    pixelsArea.data[i] = 255 - Math.floor(i / lineSize);</span>
   }
 &nbsp;
@@ -2647,7 +2647,7 @@ function vtkPiecewiseGaussianWidget(publicAPI, model) <span class="fstat-no" tit
 <span class="cstat-no" title="statement not covered" >      model.histogram = new Float32Array(model.numberOfBins);</span>
 <span class="cstat-no" title="statement not covered" >      model.histogram.fill(0);</span>
 <span class="cstat-no" title="statement not covered" >      workerResults.forEach((subHistogram) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
-<span class="cstat-no" title="statement not covered" >        for (let i = 0, len = subHistogram.length; i &lt; len; ++i) {</span>
+<span class="cstat-no" title="statement not covered" >        for (let i = <span class="cstat-no" title="statement not covered" >0,</span> len = <span class="cstat-no" title="statement not covered" >subHistogram.length;</span> i &lt; len; ++i) {</span>
 <span class="cstat-no" title="statement not covered" >          model.histogram[i] += subHistogram[i];</span>
         }
       });
@@ -2659,7 +2659,7 @@ function vtkPiecewiseGaussianWidget(publicAPI, model) <span class="fstat-no" tit
       );
       const sortedArray = <span class="cstat-no" title="statement not covered" >Array.from(model.histogram);</span>
 <span class="cstat-no" title="statement not covered" >      sortedArray.sort((a, b) =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >Number(a) - Number(b))</span></span>;</span>
-<span class="cstat-no" title="statement not covered" >      for (let i = 0; i &lt; numberOfBinsToSkip; i++) {</span>
+<span class="cstat-no" title="statement not covered" >      for (let i = <span class="cstat-no" title="statement not covered" >0;</span> i &lt; numberOfBinsToSkip; i++) {</span>
 <span class="cstat-no" title="statement not covered" >        sortedArray.pop();</span>
       }
 <span class="cstat-no" title="statement not covered" >      while (sortedArray.length &gt; sampleSize) {</span>
@@ -2667,7 +2667,7 @@ function vtkPiecewiseGaussianWidget(publicAPI, model) <span class="fstat-no" tit
       }
       const mean = <span class="cstat-no" title="statement not covered" >sortedArray.reduce((a, b) =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >a + b,</span></span> 0) / sampleSize;</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      for (let i = 0, len = model.histogram.length; i &lt; len; ++i) {</span>
+<span class="cstat-no" title="statement not covered" >      for (let i = <span class="cstat-no" title="statement not covered" >0,</span> len = <span class="cstat-no" title="statement not covered" >model.histogram.length;</span> i &lt; len; ++i) {</span>
 <span class="cstat-no" title="statement not covered" >        model.histogram[i] /= mean;</span>
       }
 <span class="cstat-no" title="statement not covered" >      publicAPI.modified();</span>
@@ -3140,7 +3140,7 @@ function vtkPiecewiseGaussianWidget(publicAPI, model) <span class="fstat-no" tit
     const nodes = <span class="cstat-no" title="statement not covered" >[];</span>
     const midpoint = <span class="cstat-no" title="statement not covered" >0.5;</span>
     const sharpness = <span class="cstat-no" title="statement not covered" >0;</span>
-<span class="cstat-no" title="statement not covered" >    for (let index = 0; index &lt; model.opacities.length; index++) {</span>
+<span class="cstat-no" title="statement not covered" >    for (let index = <span class="cstat-no" title="statement not covered" >0;</span> index &lt; model.opacities.length; index++) {</span>
       const x = <span class="cstat-no" title="statement not covered" >rangeToUse[0] + delta * index;</span>
       const y = <span class="cstat-no" title="statement not covered" >model.opacities[index];</span>
 <span class="cstat-no" title="statement not covered" >      nodes.push({ x, y, midpoint, sharpness });</span>
@@ -3159,7 +3159,7 @@ function vtkPiecewiseGaussianWidget(publicAPI, model) <span class="fstat-no" tit
 <span class="cstat-no" title="statement not covered" >      (rangeToUse[1] - rangeToUse[0]) / (model.opacities.length - 1);</span>
     let minIndex = <span class="cstat-no" title="statement not covered" >model.opacities.length - 1;</span>
     let maxIndex = <span class="cstat-no" title="statement not covered" >0;</span>
-<span class="cstat-no" title="statement not covered" >    for (let index = 0; index &lt; model.opacities.length; index++) {</span>
+<span class="cstat-no" title="statement not covered" >    for (let index = <span class="cstat-no" title="statement not covered" >0;</span> index &lt; model.opacities.length; index++) {</span>
 <span class="cstat-no" title="statement not covered" >      if (model.opacities[index] &gt; 0) {</span>
 <span class="cstat-no" title="statement not covered" >        minIndex = Math.min(minIndex, index);</span>
       }
@@ -3247,7 +3247,7 @@ export default Object.assign({ newInstance, extend }, STATIC);
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Mar 04 2019 01:56:48 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Mar 07 2019 15:41:40 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>

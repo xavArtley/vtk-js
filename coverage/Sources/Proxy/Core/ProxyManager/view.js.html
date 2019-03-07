@@ -20,9 +20,9 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">21.74% </span>
+        <span class="strong">18.87% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>10/46</span>
+        <span class='fraction'>10/53</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
@@ -267,7 +267,7 @@ export default function addViewHandlingAPI(publicAPI, model) {
 &nbsp;
   publicAPI.renderAllViews = () =&gt; <span class="fstat-no" title="function not covered" >{</span>
     const allViews = <span class="cstat-no" title="statement not covered" >publicAPI.getViews();</span>
-<span class="cstat-no" title="statement not covered" >    for (let i = 0; i &lt; allViews.length; i++) {</span>
+<span class="cstat-no" title="statement not covered" >    for (let i = <span class="cstat-no" title="statement not covered" >0;</span> i &lt; allViews.length; i++) {</span>
 <span class="cstat-no" title="statement not covered" >      allViews[i].renderLater();</span>
     }
   };
@@ -278,7 +278,7 @@ export default function addViewHandlingAPI(publicAPI, model) {
     const allViews = <span class="cstat-no" title="statement not covered" >publicAPI</span>
       .getViews()
       .filter((v) =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >!enable || v.getContainer())</span></span>;
-<span class="cstat-no" title="statement not covered" >    for (let i = 0; i &lt; allViews.length; i++) {</span>
+<span class="cstat-no" title="statement not covered" >    for (let i = <span class="cstat-no" title="statement not covered" >0;</span> i &lt; allViews.length; i++) {</span>
 <span class="cstat-no" title="statement not covered" >      allViews[i].setAnimation(enable, publicAPI);</span>
     }
   };
@@ -288,7 +288,7 @@ export default function addViewHandlingAPI(publicAPI, model) {
   function clearAnimations() <span class="fstat-no" title="function not covered" >{</span>
 <span class="cstat-no" title="statement not covered" >    model.animating = false;</span>
     const allViews = <span class="cstat-no" title="statement not covered" >publicAPI.getViews();</span>
-<span class="cstat-no" title="statement not covered" >    for (let i = 0; i &lt; allViews.length; i++) {</span>
+<span class="cstat-no" title="statement not covered" >    for (let i = <span class="cstat-no" title="statement not covered" >0;</span> i &lt; allViews.length; i++) {</span>
 <span class="cstat-no" title="statement not covered" >      allViews[i].setAnimation(false, publicAPI);</span>
     }
   }
@@ -299,7 +299,7 @@ export default function addViewHandlingAPI(publicAPI, model) {
 <span class="cstat-no" title="statement not covered" >    if (!model.animating) {</span>
 <span class="cstat-no" title="statement not covered" >      model.animating = true;</span>
       const allViews = <span class="cstat-no" title="statement not covered" >publicAPI.getViews().filter((v) =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >v.getContainer())</span></span>;</span>
-<span class="cstat-no" title="statement not covered" >      for (let i = 0; i &lt; allViews.length; i++) {</span>
+<span class="cstat-no" title="statement not covered" >      for (let i = <span class="cstat-no" title="statement not covered" >0;</span> i &lt; allViews.length; i++) {</span>
 <span class="cstat-no" title="statement not covered" >        allViews[i].setAnimation(true, publicAPI);</span>
       }
 <span class="cstat-no" title="statement not covered" >      model.clearAnimations = macro.debounce(clearAnimations, debouceTimout);</span>
@@ -311,7 +311,7 @@ export default function addViewHandlingAPI(publicAPI, model) {
 &nbsp;
   publicAPI.resizeAllViews = () =&gt; <span class="fstat-no" title="function not covered" >{</span>
     const allViews = <span class="cstat-no" title="statement not covered" >publicAPI.getViews();</span>
-<span class="cstat-no" title="statement not covered" >    for (let i = 0; i &lt; allViews.length; i++) {</span>
+<span class="cstat-no" title="statement not covered" >    for (let i = <span class="cstat-no" title="statement not covered" >0;</span> i &lt; allViews.length; i++) {</span>
 <span class="cstat-no" title="statement not covered" >      allViews[i].resize();</span>
     }
   };
@@ -329,7 +329,7 @@ export default function addViewHandlingAPI(publicAPI, model) {
 &nbsp;
   publicAPI.createRepresentationInAllViews = (source) =&gt; <span class="fstat-no" title="function not covered" >{</span>
     const allViews = <span class="cstat-no" title="statement not covered" >publicAPI.getViews();</span>
-<span class="cstat-no" title="statement not covered" >    for (let i = 0; i &lt; allViews.length; i++) {</span>
+<span class="cstat-no" title="statement not covered" >    for (let i = <span class="cstat-no" title="statement not covered" >0;</span> i &lt; allViews.length; i++) {</span>
 <span class="cstat-no" title="statement not covered" >      publicAPI.getRepresentation(source, allViews[i]);</span>
     }
   };
@@ -338,7 +338,7 @@ export default function addViewHandlingAPI(publicAPI, model) {
 &nbsp;
   publicAPI.resetCameraInAllViews = () =&gt; <span class="fstat-no" title="function not covered" >{</span>
     const allViews = <span class="cstat-no" title="statement not covered" >publicAPI.getViews();</span>
-<span class="cstat-no" title="statement not covered" >    for (let i = 0; i &lt; allViews.length; i++) {</span>
+<span class="cstat-no" title="statement not covered" >    for (let i = <span class="cstat-no" title="statement not covered" >0;</span> i &lt; allViews.length; i++) {</span>
 <span class="cstat-no" title="statement not covered" >      allViews[i].resetCamera();</span>
     }
   };
@@ -349,7 +349,7 @@ export default function addViewHandlingAPI(publicAPI, model) {
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Mar 04 2019 01:56:48 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Mar 07 2019 15:41:40 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>

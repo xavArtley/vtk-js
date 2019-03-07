@@ -20,14 +20,14 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">2.8% </span>
+        <span class="strong">2.71% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>6/214</span>
+        <span class='fraction'>6/221</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>0/86</span>
+        <span class='fraction'>0/90</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
@@ -35,9 +35,9 @@
         <span class='fraction'>0/26</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">2.86% </span>
+        <span class="strong">2.83% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>6/210</span>
+        <span class='fraction'>6/212</span>
       </div>
     </div>
   </div>
@@ -848,27 +848,27 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1167,8 +1167,8 @@ function vtkOpenGLHardwareSelector(publicAPI, model) <span class="fstat-no" titl
 &nbsp;
   //----------------------------------------------------------------------------
 <span class="cstat-no" title="statement not covered" >  publicAPI.buildPropHitList = (pixelbuffer) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
-<span class="cstat-no" title="statement not covered" >    for (let yy = 0; yy &lt;= model.area[3] - model.area[1]; yy++) {</span>
-<span class="cstat-no" title="statement not covered" >      for (let xx = 0; xx &lt;= model.area[2] - model.area[0]; xx++) {</span>
+<span class="cstat-no" title="statement not covered" >    for (let yy = <span class="cstat-no" title="statement not covered" >0;</span> yy &lt;= model.area[3] - model.area[1]; yy++) {</span>
+<span class="cstat-no" title="statement not covered" >      for (let xx = <span class="cstat-no" title="statement not covered" >0;</span> xx &lt;= model.area[2] - model.area[0]; xx++) {</span>
         let val = <span class="cstat-no" title="statement not covered" >publicAPI.convert(xx, yy, pixelbuffer);</span>
 <span class="cstat-no" title="statement not covered" >        if (val &gt; 0) {</span>
 <span class="cstat-no" title="statement not covered" >          val--;</span>
@@ -1332,10 +1332,10 @@ function vtkOpenGLHardwareSelector(publicAPI, model) <span class="fstat-no" titl
 <span class="cstat-no" title="statement not covered" >    if (info &amp;&amp; info.valid) {</span>
 <span class="cstat-no" title="statement not covered" >      return info;</span>
     }
-<span class="cstat-no" title="statement not covered" >    for (let dist = 1; dist &lt; maxDist; ++dist) {</span>
+<span class="cstat-no" title="statement not covered" >    for (let dist = <span class="cstat-no" title="statement not covered" >1;</span> dist &lt; maxDist; ++dist) {</span>
       // Vertical sides of box.
 <span class="cstat-no" title="statement not covered" >      for (</span>
-        let y = dispPos[1] &gt; dist ? dispPos[1] - dist : 0;
+        let y = <span class="cstat-no" title="statement not covered" >dispPos[1] &gt; dist ? dispPos[1] - dist : 0;</span>
         y &lt;= dispPos[1] + dist;
         ++y
       ) {
@@ -1355,7 +1355,7 @@ function vtkOpenGLHardwareSelector(publicAPI, model) <span class="fstat-no" titl
       }
       // Horizontal sides of box.
 <span class="cstat-no" title="statement not covered" >      for (</span>
-        let x = dispPos[0] &gt;= dist ? dispPos[0] - (dist - 1) : 0;
+        let x = <span class="cstat-no" title="statement not covered" >dispPos[0] &gt;= dist ? dispPos[0] - (dist - 1) : 0;</span>
         x &lt;= dispPos[0] + (dist - 1);
         ++x
       ) {
@@ -1420,8 +1420,8 @@ function vtkOpenGLHardwareSelector(publicAPI, model) <span class="fstat-no" titl
 &nbsp;
     const outSelectedPosition = <span class="cstat-no" title="statement not covered" >[0, 0];</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    for (let yy = y1; yy &lt;= y2; yy++) {</span>
-<span class="cstat-no" title="statement not covered" >      for (let xx = x1; xx &lt;= x2; xx++) {</span>
+<span class="cstat-no" title="statement not covered" >    for (let yy = <span class="cstat-no" title="statement not covered" >y1;</span> yy &lt;= y2; yy++) {</span>
+<span class="cstat-no" title="statement not covered" >      for (let xx = <span class="cstat-no" title="statement not covered" >x1;</span> xx &lt;= x2; xx++) {</span>
         const pos = <span class="cstat-no" title="statement not covered" >[xx, yy];</span>
         const info = <span class="cstat-no" title="statement not covered" >publicAPI.getPixelInformation(pos, 0, outSelectedPosition);</span>
 <span class="cstat-no" title="statement not covered" >        if (info &amp;&amp; info.valid) {</span>
@@ -1510,7 +1510,7 @@ export default Object.assign({ newInstance, extend }, Constants);
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Mar 04 2019 01:56:48 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Mar 07 2019 15:41:40 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>

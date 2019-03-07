@@ -20,9 +20,9 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">19.39% </span>
+        <span class="strong">18.54% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>38/196</span>
+        <span class='fraction'>38/205</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
@@ -1079,9 +1079,9 @@ function oppositeSign(a, b) <span class="fstat-no" title="function not covered" 
 &nbsp;
 function getCorners(bounds, corners) <span class="fstat-no" title="function not covered" >{</span>
   let count = <span class="cstat-no" title="statement not covered" >0;</span>
-<span class="cstat-no" title="statement not covered" >  for (let ix = 0; ix &lt; 2; ix++) {</span>
-<span class="cstat-no" title="statement not covered" >    for (let iy = 2; iy &lt; 4; iy++) {</span>
-<span class="cstat-no" title="statement not covered" >      for (let iz = 4; iz &lt; 6; iz++) {</span>
+<span class="cstat-no" title="statement not covered" >  for (let ix = <span class="cstat-no" title="statement not covered" >0;</span> ix &lt; 2; ix++) {</span>
+<span class="cstat-no" title="statement not covered" >    for (let iy = <span class="cstat-no" title="statement not covered" >2;</span> iy &lt; 4; iy++) {</span>
+<span class="cstat-no" title="statement not covered" >      for (let iz = <span class="cstat-no" title="statement not covered" >4;</span> iz &lt; 6; iz++) {</span>
 <span class="cstat-no" title="statement not covered" >        corners[count] = [bounds[ix], bounds[iy], bounds[iz]];</span>
 <span class="cstat-no" title="statement not covered" >        count++;</span>
       }
@@ -1200,7 +1200,7 @@ function vtkBoundingBox(publicAPI, model) {
     const newBounds = <span class="cstat-no" title="statement not covered" >[0, 0, 0, 0, 0, 0];</span>
     const bBounds = <span class="cstat-no" title="statement not covered" >bbox.getBounds();</span>
     let intersects;
-<span class="cstat-no" title="statement not covered" >    for (let i = 0; i &lt; 3; i++) {</span>
+<span class="cstat-no" title="statement not covered" >    for (let i = <span class="cstat-no" title="statement not covered" >0;</span> i &lt; 3; i++) {</span>
 <span class="cstat-no" title="statement not covered" >      intersects = false;</span>
 <span class="cstat-no" title="statement not covered" >      if (</span>
         bBounds[i * 2] &gt;= model.bounds[i * 2] &amp;&amp;
@@ -1246,7 +1246,7 @@ function vtkBoundingBox(publicAPI, model) {
     }
     const bBounds = <span class="cstat-no" title="statement not covered" >bbox.getBounds();</span>
     /* eslint-disable no-continue */
-<span class="cstat-no" title="statement not covered" >    for (let i = 0; i &lt; 3; i++) {</span>
+<span class="cstat-no" title="statement not covered" >    for (let i = <span class="cstat-no" title="statement not covered" >0;</span> i &lt; 3; i++) {</span>
 <span class="cstat-no" title="statement not covered" >      if (</span>
         bBounds[i * 2] &gt;= model.bounds[i * 2] &amp;&amp;
         bBounds[i * 2] &lt;= model.bounds[i * 2 + 1]
@@ -1289,9 +1289,9 @@ function vtkBoundingBox(publicAPI, model) {
     // stores the signed distance to a plane
     const d = <span class="cstat-no" title="statement not covered" >[0, 0, 0, 0, 0, 0, 0, 0];</span>
     let idx = <span class="cstat-no" title="statement not covered" >0;</span>
-<span class="cstat-no" title="statement not covered" >    for (let ix = 0; ix &lt; 2; ix++) {</span>
-<span class="cstat-no" title="statement not covered" >      for (let iy = 2; iy &lt; 4; iy++) {</span>
-<span class="cstat-no" title="statement not covered" >        for (let iz = 4; iz &lt; 6; iz++) {</span>
+<span class="cstat-no" title="statement not covered" >    for (let ix = <span class="cstat-no" title="statement not covered" >0;</span> ix &lt; 2; ix++) {</span>
+<span class="cstat-no" title="statement not covered" >      for (let iy = <span class="cstat-no" title="statement not covered" >2;</span> iy &lt; 4; iy++) {</span>
+<span class="cstat-no" title="statement not covered" >        for (let iz = <span class="cstat-no" title="statement not covered" >4;</span> iz &lt; 6; iz++) {</span>
           const x = <span class="cstat-no" title="statement not covered" >[model.bounds[ix], model.bounds[iy], model.bounds[iz]];</span>
 <span class="cstat-no" title="statement not covered" >          d[idx++] = vtkPlane.evaluate(normal, origin, x);</span>
         }
@@ -1322,7 +1322,7 @@ function vtkBoundingBox(publicAPI, model) {
     );
     let t = <span class="cstat-no" title="statement not covered" >sign &gt; 0 ? 1 : 0;</span>
     /* eslint-disable no-continue */
-<span class="cstat-no" title="statement not covered" >    for (let i = 0; i &lt; 4; i++) {</span>
+<span class="cstat-no" title="statement not covered" >    for (let i = <span class="cstat-no" title="statement not covered" >0;</span> i &lt; 4; i++) {</span>
 <span class="cstat-no" title="statement not covered" >      if (size === 0) {</span>
 <span class="cstat-no" title="statement not covered" >        continue; </span>// shouldn't happen
       }
@@ -1483,7 +1483,7 @@ export default Object.assign({ newInstance, extend }, STATIC);
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Mar 04 2019 01:56:48 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Mar 07 2019 15:41:40 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>

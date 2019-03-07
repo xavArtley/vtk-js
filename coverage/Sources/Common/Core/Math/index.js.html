@@ -20,9 +20,9 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">5.98% </span>
+        <span class="strong">5.77% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>64/1071</span>
+        <span class='fraction'>64/1110</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">3.54% </span>
@@ -4363,7 +4363,7 @@ function notImplemented(method) {
 }
 &nbsp;
 function vtkSwapVectors3(v1, v2) <span class="fstat-no" title="function not covered" >{</span>
-<span class="cstat-no" title="statement not covered" >  for (let i = 0; i &lt; 3; i++) {</span>
+<span class="cstat-no" title="statement not covered" >  for (let i = <span class="cstat-no" title="statement not covered" >0;</span> i &lt; 3; i++) {</span>
     const tmp = <span class="cstat-no" title="statement not covered" >v1[i];</span>
 <span class="cstat-no" title="statement not covered" >    v1[i] = v2[i];</span>
 <span class="cstat-no" title="statement not covered" >    v2[i] = tmp;</span>
@@ -4389,7 +4389,7 @@ const { round, floor, ceil, min, max } = Math;
 &nbsp;
 function arrayMin(arr) <span class="fstat-no" title="function not covered" >{</span>
   let minValue = <span class="cstat-no" title="statement not covered" >Infinity;</span>
-<span class="cstat-no" title="statement not covered" >  for (let i = 0, len = arr.length; i &lt; len; ++i) {</span>
+<span class="cstat-no" title="statement not covered" >  for (let i = <span class="cstat-no" title="statement not covered" >0,</span> len = <span class="cstat-no" title="statement not covered" >arr.length;</span> i &lt; len; ++i) {</span>
 <span class="cstat-no" title="statement not covered" >    if (arr[i] &lt; minValue) {</span>
 <span class="cstat-no" title="statement not covered" >      minValue = arr[i];</span>
     }
@@ -4400,7 +4400,7 @@ function arrayMin(arr) <span class="fstat-no" title="function not covered" >{</s
 &nbsp;
 function arrayMax(arr) <span class="fstat-no" title="function not covered" >{</span>
   let maxValue = <span class="cstat-no" title="statement not covered" >-Infinity;</span>
-<span class="cstat-no" title="statement not covered" >  for (let i = 0, len = arr.length; i &lt; len; ++i) {</span>
+<span class="cstat-no" title="statement not covered" >  for (let i = <span class="cstat-no" title="statement not covered" >0,</span> len = <span class="cstat-no" title="statement not covered" >arr.length;</span> i &lt; len; ++i) {</span>
 <span class="cstat-no" title="statement not covered" >    if (maxValue &lt; arr[i]) {</span>
 <span class="cstat-no" title="statement not covered" >      maxValue = arr[i];</span>
     }
@@ -4426,7 +4426,7 @@ function isPowerOfTwo(x) <span class="fstat-no" title="function not covered" >{<
 &nbsp;
 function binomial(m, n) <span class="fstat-no" title="function not covered" >{</span>
   let r = <span class="cstat-no" title="statement not covered" >1;</span>
-<span class="cstat-no" title="statement not covered" >  for (let i = 1; i &lt;= n; ++i) {</span>
+<span class="cstat-no" title="statement not covered" >  for (let i = <span class="cstat-no" title="statement not covered" >1;</span> i &lt;= n; ++i) {</span>
 <span class="cstat-no" title="statement not covered" >    r *= (m - i + 1) / i;</span>
   }
 <span class="cstat-no" title="statement not covered" >  return Math.floor(r);</span>
@@ -4438,7 +4438,7 @@ function beginCombination(m, n) <span class="fstat-no" title="function not cover
   }
 &nbsp;
   const r = <span class="cstat-no" title="statement not covered" >createArray(n);</span>
-<span class="cstat-no" title="statement not covered" >  for (let i = 0; i &lt; n; ++i) {</span>
+<span class="cstat-no" title="statement not covered" >  for (let i = <span class="cstat-no" title="statement not covered" >0;</span> i &lt; n; ++i) {</span>
 <span class="cstat-no" title="statement not covered" >    r[i] = i;</span>
   }
 <span class="cstat-no" title="statement not covered" >  return r;</span>
@@ -4446,7 +4446,7 @@ function beginCombination(m, n) <span class="fstat-no" title="function not cover
 &nbsp;
 function nextCombination(m, n, r) <span class="fstat-no" title="function not covered" >{</span>
   let status = <span class="cstat-no" title="statement not covered" >0;</span>
-<span class="cstat-no" title="statement not covered" >  for (let i = n - 1; i &gt;= 0; --i) {</span>
+<span class="cstat-no" title="statement not covered" >  for (let i = <span class="cstat-no" title="statement not covered" >n - 1;</span> i &gt;= 0; --i) {</span>
 <span class="cstat-no" title="statement not covered" >    if (r[i] &lt; m - n + i) {</span>
       let j = <span class="cstat-no" title="statement not covered" >r[i] + 1;</span>
 <span class="cstat-no" title="statement not covered" >      while (i &lt; n) {</span>
@@ -4502,8 +4502,8 @@ function dot(x, y) {
 }
 &nbsp;
 function outer(x, y, out_3x3) <span class="fstat-no" title="function not covered" >{</span>
-<span class="cstat-no" title="statement not covered" >  for (let i = 0; i &lt; 3; i++) {</span>
-<span class="cstat-no" title="statement not covered" >    for (let j = 0; j &lt; 3; j++) {</span>
+<span class="cstat-no" title="statement not covered" >  for (let i = <span class="cstat-no" title="statement not covered" >0;</span> i &lt; 3; i++) {</span>
+<span class="cstat-no" title="statement not covered" >    for (let j = <span class="cstat-no" title="statement not covered" >0;</span> j &lt; 3; j++) {</span>
 <span class="cstat-no" title="statement not covered" >      out_3x3[i][j] = x[i] * y[j];</span>
     }
   }
@@ -4528,7 +4528,7 @@ function norm(x, n = 3) {
       return Math.sqrt(x[0] * x[0] + x[1] * x[1] + x[2] * x[2]);
 <span class="branch-3 cbranch-no" title="branch not covered" >    default: {</span>
       let sum = <span class="cstat-no" title="statement not covered" >0;</span>
-<span class="cstat-no" title="statement not covered" >      for (let i = 0; i &lt; n; i++) {</span>
+<span class="cstat-no" title="statement not covered" >      for (let i = <span class="cstat-no" title="statement not covered" >0;</span> i &lt; n; i++) {</span>
 <span class="cstat-no" title="statement not covered" >        sum += x[i] * x[i];</span>
       }
 <span class="cstat-no" title="statement not covered" >      return Math.sqrt(sum);</span>
@@ -4618,7 +4618,7 @@ function projectVector(a, b, projection) <span class="fstat-no" title="function 
 &nbsp;
   const scale = <span class="cstat-no" title="statement not covered" >dot(a, b) / bSquared;</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  for (let i = 0; i &lt; 3; i++) {</span>
+<span class="cstat-no" title="statement not covered" >  for (let i = <span class="cstat-no" title="statement not covered" >0;</span> i &lt; 3; i++) {</span>
 <span class="cstat-no" title="statement not covered" >    projection[i] = b[i];</span>
   }
 <span class="cstat-no" title="statement not covered" >  multiplyScalar(projection, scale);</span>
@@ -4641,7 +4641,7 @@ function projectVector2D(a, b, projection) <span class="fstat-no" title="functio
 &nbsp;
   const scale = <span class="cstat-no" title="statement not covered" >dot2D(a, b) / bSquared;</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  for (let i = 0; i &lt; 2; i++) {</span>
+<span class="cstat-no" title="statement not covered" >  for (let i = <span class="cstat-no" title="statement not covered" >0;</span> i &lt; 2; i++) {</span>
 <span class="cstat-no" title="statement not covered" >    projection[i] = b[i];</span>
   }
 <span class="cstat-no" title="statement not covered" >  multiplyScalar2D(projection, scale);</span>
@@ -4677,8 +4677,8 @@ function gaussianWeight(mean, variance, position) <span class="fstat-no" title="
 }
 &nbsp;
 function outer2D(x, y, out_2x2) <span class="fstat-no" title="function not covered" >{</span>
-<span class="cstat-no" title="statement not covered" >  for (let i = 0; i &lt; 2; i++) {</span>
-<span class="cstat-no" title="statement not covered" >    for (let j = 0; j &lt; 2; j++) {</span>
+<span class="cstat-no" title="statement not covered" >  for (let i = <span class="cstat-no" title="statement not covered" >0;</span> i &lt; 2; i++) {</span>
+<span class="cstat-no" title="statement not covered" >    for (let j = <span class="cstat-no" title="statement not covered" >0;</span> j &lt; 2; j++) {</span>
 <span class="cstat-no" title="statement not covered" >      out_2x2[i][j] = x[i] * y[j];</span>
     }
   }
@@ -4714,7 +4714,7 @@ function LUFactor3x3(mat_3x3, index_3) <span class="fstat-no" title="function no
   const scale = <span class="cstat-no" title="statement not covered" >[0, 0, 0];</span>
 &nbsp;
   // Loop over rows to get implicit scaling information
-<span class="cstat-no" title="statement not covered" >  for (let i = 0; i &lt; 3; i++) {</span>
+<span class="cstat-no" title="statement not covered" >  for (let i = <span class="cstat-no" title="statement not covered" >0;</span> i &lt; 3; i++) {</span>
 <span class="cstat-no" title="statement not covered" >    largest = Math.abs(mat_3x3[i][0]);</span>
 <span class="cstat-no" title="statement not covered" >    if ((tmp = Math.abs(mat_3x3[i][1])) &gt; largest) {</span>
 <span class="cstat-no" title="statement not covered" >      largest = tmp;</span>
@@ -4841,7 +4841,7 @@ function multiply3x3_vect3(mat_3x3, in_3, out_3) <span class="fstat-no" title="f
 function multiply3x3_mat3(a_3x3, b_3x3, out_3x3) <span class="fstat-no" title="function not covered" >{</span>
   const tmp = <span class="cstat-no" title="statement not covered" >[[0, 0, 0], [0, 0, 0], [0, 0, 0]];</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  for (let i = 0; i &lt; 3; i++) {</span>
+<span class="cstat-no" title="statement not covered" >  for (let i = <span class="cstat-no" title="statement not covered" >0;</span> i &lt; 3; i++) {</span>
 <span class="cstat-no" title="statement not covered" >    tmp[0][i] =</span>
       a_3x3[0][0] * b_3x3[0][i] +
       a_3x3[0][1] * b_3x3[1][i] +
@@ -4856,7 +4856,7 @@ function multiply3x3_mat3(a_3x3, b_3x3, out_3x3) <span class="fstat-no" title="f
       a_3x3[2][2] * b_3x3[2][i];
   }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  for (let j = 0; j &lt; 3; j++) {</span>
+<span class="cstat-no" title="statement not covered" >  for (let j = <span class="cstat-no" title="statement not covered" >0;</span> j &lt; 3; j++) {</span>
 <span class="cstat-no" title="statement not covered" >    out_3x3[j][0] = tmp[j][0];</span>
 <span class="cstat-no" title="statement not covered" >    out_3x3[j][1] = tmp[j][1];</span>
 <span class="cstat-no" title="statement not covered" >    out_3x3[j][2] = tmp[j][2];</span>
@@ -4871,12 +4871,12 @@ function multiplyMatrix(a, b, rowA, colA, rowB, colB, out_rowXcol) <span class="
 &nbsp;
   // output matrix is rowA*colB
   // output row
-<span class="cstat-no" title="statement not covered" >  for (let i = 0; i &lt; rowA; i++) {</span>
+<span class="cstat-no" title="statement not covered" >  for (let i = <span class="cstat-no" title="statement not covered" >0;</span> i &lt; rowA; i++) {</span>
     // output col
-<span class="cstat-no" title="statement not covered" >    for (let j = 0; j &lt; colB; j++) {</span>
+<span class="cstat-no" title="statement not covered" >    for (let j = <span class="cstat-no" title="statement not covered" >0;</span> j &lt; colB; j++) {</span>
 <span class="cstat-no" title="statement not covered" >      out_rowXcol[i][j] = 0;</span>
       // sum for this point
-<span class="cstat-no" title="statement not covered" >      for (let k = 0; k &lt; colA; k++) {</span>
+<span class="cstat-no" title="statement not covered" >      for (let k = <span class="cstat-no" title="statement not covered" >0;</span> k &lt; colA; k++) {</span>
 <span class="cstat-no" title="statement not covered" >        out_rowXcol[i][j] += a[i][k] * b[k][j];</span>
       }
     }
@@ -4941,7 +4941,7 @@ function invert3x3(in_3x3, outI_3x3) <span class="fstat-no" title="function not 
 }
 &nbsp;
 function identity3x3(mat_3x3) <span class="fstat-no" title="function not covered" >{</span>
-<span class="cstat-no" title="statement not covered" >  for (let i = 0; i &lt; 3; i++) {</span>
+<span class="cstat-no" title="statement not covered" >  for (let i = <span class="cstat-no" title="statement not covered" >0;</span> i &lt; 3; i++) {</span>
 <span class="cstat-no" title="statement not covered" >    mat_3x3[i][0] = mat_3x3[i][1] = mat_3x3[i][2] = 0;</span>
 <span class="cstat-no" title="statement not covered" >    mat_3x3[i][i] = 1;</span>
   }
@@ -5193,7 +5193,7 @@ function matrix3x3ToQuaternion(mat_3x3, quat_4) <span class="fstat-no" title="fu
   // then use Jacobi to find eigenvalues and eigenvectors
   const NTemp = <span class="cstat-no" title="statement not covered" >[0, 0, 0, 0];</span>
   const eigenvectorsTemp = <span class="cstat-no" title="statement not covered" >[0, 0, 0, 0];</span>
-<span class="cstat-no" title="statement not covered" >  for (let i = 0; i &lt; 4; i++) {</span>
+<span class="cstat-no" title="statement not covered" >  for (let i = <span class="cstat-no" title="statement not covered" >0;</span> i &lt; 4; i++) {</span>
 <span class="cstat-no" title="statement not covered" >    NTemp[i] = tmp[i];</span>
 <span class="cstat-no" title="statement not covered" >    eigenvectorsTemp[i] = eigenvectors[i];</span>
   }
@@ -5235,7 +5235,7 @@ function multiplyQuaternion(quat_1, quat_2, quat_out) <span class="fstat-no" tit
 &nbsp;
 function orthogonalize3x3(a_3x3, out_3x3) <span class="fstat-no" title="function not covered" >{</span>
   // copy the matrix
-<span class="cstat-no" title="statement not covered" >  for (let i = 0; i &lt; 3; i++) {</span>
+<span class="cstat-no" title="statement not covered" >  for (let i = <span class="cstat-no" title="statement not covered" >0;</span> i &lt; 3; i++) {</span>
 <span class="cstat-no" title="statement not covered" >    out_3x3[0][i] = a_3x3[0][i];</span>
 <span class="cstat-no" title="statement not covered" >    out_3x3[1][i] = a_3x3[1][i];</span>
 <span class="cstat-no" title="statement not covered" >    out_3x3[2][i] = a_3x3[2][i];</span>
@@ -5247,7 +5247,7 @@ function orthogonalize3x3(a_3x3, out_3x3) <span class="fstat-no" title="function
   let largest;
 &nbsp;
   // Loop over rows to get implicit scaling information
-<span class="cstat-no" title="statement not covered" >  for (let i = 0; i &lt; 3; i++) {</span>
+<span class="cstat-no" title="statement not covered" >  for (let i = <span class="cstat-no" title="statement not covered" >0;</span> i &lt; 3; i++) {</span>
     const x1 = <span class="cstat-no" title="statement not covered" >Math.abs(out_3x3[i][0]);</span>
     const x2 = <span class="cstat-no" title="statement not covered" >Math.abs(out_3x3[i][1]);</span>
     const x3 = <span class="cstat-no" title="statement not covered" >Math.abs(out_3x3[i][2]);</span>
@@ -5296,7 +5296,7 @@ function orthogonalize3x3(a_3x3, out_3x3) <span class="fstat-no" title="function
   let flip = <span class="cstat-no" title="statement not covered" >0;</span>
 <span class="cstat-no" title="statement not covered" >  if (determinant3x3(out_3x3) &lt; 0) {</span>
 <span class="cstat-no" title="statement not covered" >    flip = 1;</span>
-<span class="cstat-no" title="statement not covered" >    for (let i = 0; i &lt; 3; i++) {</span>
+<span class="cstat-no" title="statement not covered" >    for (let i = <span class="cstat-no" title="statement not covered" >0;</span> i &lt; 3; i++) {</span>
 <span class="cstat-no" title="statement not covered" >      out_3x3[0][i] = -out_3x3[0][i];</span>
 <span class="cstat-no" title="statement not covered" >      out_3x3[1][i] = -out_3x3[1][i];</span>
 <span class="cstat-no" title="statement not covered" >      out_3x3[2][i] = -out_3x3[2][i];</span>
@@ -5313,7 +5313,7 @@ function orthogonalize3x3(a_3x3, out_3x3) <span class="fstat-no" title="function
 &nbsp;
   // Put the flip back into the orthogonalized matrix.
 <span class="cstat-no" title="statement not covered" >  if (flip) {</span>
-<span class="cstat-no" title="statement not covered" >    for (let i = 0; i &lt; 3; i++) {</span>
+<span class="cstat-no" title="statement not covered" >    for (let i = <span class="cstat-no" title="statement not covered" >0;</span> i &lt; 3; i++) {</span>
 <span class="cstat-no" title="statement not covered" >      out_3x3[0][i] = -out_3x3[0][i];</span>
 <span class="cstat-no" title="statement not covered" >      out_3x3[1][i] = -out_3x3[1][i];</span>
 <span class="cstat-no" title="statement not covered" >      out_3x3[2][i] = -out_3x3[2][i];</span>
@@ -5668,15 +5668,15 @@ function invertMatrix(A, AI, size, index = null, column = null) <span class="fst
 <span class="cstat-no" title="statement not covered" >    return 0;</span>
   }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  for (let j = 0; j &lt; size; j++) {</span>
-<span class="cstat-no" title="statement not covered" >    for (let i = 0; i &lt; size; i++) {</span>
+<span class="cstat-no" title="statement not covered" >  for (let j = <span class="cstat-no" title="statement not covered" >0;</span> j &lt; size; j++) {</span>
+<span class="cstat-no" title="statement not covered" >    for (let i = <span class="cstat-no" title="statement not covered" >0;</span> i &lt; size; i++) {</span>
 <span class="cstat-no" title="statement not covered" >      tmp2Size[i] = 0.0;</span>
     }
 <span class="cstat-no" title="statement not covered" >    tmp2Size[j] = 1.0;</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    luSolveLinearSystem(A, tmp1Size, tmp2Size, size);</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    for (let i = 0; i &lt; size; i++) {</span>
+<span class="cstat-no" title="statement not covered" >    for (let i = <span class="cstat-no" title="statement not covered" >0;</span> i &lt; size; i++) {</span>
 <span class="cstat-no" title="statement not covered" >      AI[i][j] = tmp2Size[i];</span>
     }
   }
@@ -5689,8 +5689,8 @@ function estimateMatrixCondition(A, size) <span class="fstat-no" title="function
   let maxValue = <span class="cstat-no" title="statement not covered" >-Number.MAX_VALUE;</span>
 &nbsp;
   // find the maximum value
-<span class="cstat-no" title="statement not covered" >  for (let i = 0; i &lt; size; i++) {</span>
-<span class="cstat-no" title="statement not covered" >    for (let j = i; j &lt; size; j++) {</span>
+<span class="cstat-no" title="statement not covered" >  for (let i = <span class="cstat-no" title="statement not covered" >0;</span> i &lt; size; i++) {</span>
+<span class="cstat-no" title="statement not covered" >    for (let j = <span class="cstat-no" title="statement not covered" >i;</span> j &lt; size; j++) {</span>
 <span class="cstat-no" title="statement not covered" >      if (Math.abs(A[i][j]) &gt; max) {</span>
 <span class="cstat-no" title="statement not covered" >        maxValue = Math.abs(A[i][j]);</span>
       }
@@ -5698,7 +5698,7 @@ function estimateMatrixCondition(A, size) <span class="fstat-no" title="function
   }
 &nbsp;
   // find the minimum diagonal value
-<span class="cstat-no" title="statement not covered" >  for (let i = 0; i &lt; size; i++) {</span>
+<span class="cstat-no" title="statement not covered" >  for (let i = <span class="cstat-no" title="statement not covered" >0;</span> i &lt; size; i++) {</span>
 <span class="cstat-no" title="statement not covered" >    if (Math.abs(A[i][i]) &lt; min) {</span>
 <span class="cstat-no" title="statement not covered" >      minValue = Math.abs(A[i][i]);</span>
     }
@@ -6245,7 +6245,7 @@ function extentIsWithinOtherExtent(extent1, extent2) <span class="fstat-no" titl
 <span class="cstat-no" title="statement not covered" >    return 0;</span>
   }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  for (let i = 0; i &lt; 6; i += 2) {</span>
+<span class="cstat-no" title="statement not covered" >  for (let i = <span class="cstat-no" title="statement not covered" >0;</span> i &lt; 6; i += 2) {</span>
 <span class="cstat-no" title="statement not covered" >    if (</span>
       extent1[i] &lt; extent2[i] ||
       extent1[i] &gt; extent2[i + 1] ||
@@ -6263,7 +6263,7 @@ function boundsIsWithinOtherBounds(bounds1_6, bounds2_6, delta_3) <span class="f
 <span class="cstat-no" title="statement not covered" >  if (!bounds1_6 || !bounds2_6) {</span>
 <span class="cstat-no" title="statement not covered" >    return 0;</span>
   }
-<span class="cstat-no" title="statement not covered" >  for (let i = 0; i &lt; 6; i += 2) {</span>
+<span class="cstat-no" title="statement not covered" >  for (let i = <span class="cstat-no" title="statement not covered" >0;</span> i &lt; 6; i += 2) {</span>
 <span class="cstat-no" title="statement not covered" >    if (</span>
       bounds1_6[i] + delta_3[i / 2] &lt; bounds2_6[i] ||
       bounds1_6[i] - delta_3[i / 2] &gt; bounds2_6[i + 1] ||
@@ -6280,7 +6280,7 @@ function pointIsWithinBounds(point_3, bounds_6, delta_3) <span class="fstat-no" 
 <span class="cstat-no" title="statement not covered" >  if (!point_3 || !bounds_6 || !delta_3) {</span>
 <span class="cstat-no" title="statement not covered" >    return 0;</span>
   }
-<span class="cstat-no" title="statement not covered" >  for (let i = 0; i &lt; 3; i++) {</span>
+<span class="cstat-no" title="statement not covered" >  for (let i = <span class="cstat-no" title="statement not covered" >0;</span> i &lt; 3; i++) {</span>
 <span class="cstat-no" title="statement not covered" >    if (</span>
       point_3[i] + delta_3[i] &lt; bounds_6[2 * i] ||
       point_3[i] - delta_3[i] &gt; bounds_6[2 * i + 1]
@@ -6299,7 +6299,7 @@ function solve3PointCircle(p1, p2, p3, center) <span class="fstat-no" title="fun
   const v23 = <span class="cstat-no" title="statement not covered" >createArray(3);</span>
   const v31 = <span class="cstat-no" title="statement not covered" >createArray(3);</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  for (let i = 0; i &lt; 3; ++i) {</span>
+<span class="cstat-no" title="statement not covered" >  for (let i = <span class="cstat-no" title="statement not covered" >0;</span> i &lt; 3; ++i) {</span>
 <span class="cstat-no" title="statement not covered" >    v21[i] = p1[i] - p2[i];</span>
 <span class="cstat-no" title="statement not covered" >    v32[i] = p2[i] - p3[i];</span>
 <span class="cstat-no" title="statement not covered" >    v13[i] = p3[i] - p1[i];</span>
@@ -6323,7 +6323,7 @@ function solve3PointCircle(p1, p2, p3, center) <span class="fstat-no" title="fun
   const beta = <span class="cstat-no" title="statement not covered" >(norm13 * norm13 * dot(v12, v32)) / normCross22;</span>
   const gamma = <span class="cstat-no" title="statement not covered" >(norm12 * norm12 * dot(v13, v23)) / normCross22;</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  for (let i = 0; i &lt; 3; ++i) {</span>
+<span class="cstat-no" title="statement not covered" >  for (let i = <span class="cstat-no" title="statement not covered" >0;</span> i &lt; 3; ++i) {</span>
 <span class="cstat-no" title="statement not covered" >    center[i] = alpha * p1[i] + beta * p2[i] + gamma * p3[i];</span>
   }
 <span class="cstat-no" title="statement not covered" >  return radius;</span>
@@ -6351,7 +6351,7 @@ function createUninitializedBounds() {
 function getMajorAxisIndex(vector) <span class="fstat-no" title="function not covered" >{</span>
   let maxValue = <span class="cstat-no" title="statement not covered" >-1;</span>
   let axisIndex = <span class="cstat-no" title="statement not covered" >-1;</span>
-<span class="cstat-no" title="statement not covered" >  for (let i = 0; i &lt; vector.length; i++) {</span>
+<span class="cstat-no" title="statement not covered" >  for (let i = <span class="cstat-no" title="statement not covered" >0;</span> i &lt; vector.length; i++) {</span>
     const value = <span class="cstat-no" title="statement not covered" >Math.abs(vector[i]);</span>
 <span class="cstat-no" title="statement not covered" >    if (value &gt; maxValue) {</span>
 <span class="cstat-no" title="statement not covered" >      axisIndex = i;</span>
@@ -6499,7 +6499,7 @@ export default {
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Mar 04 2019 01:56:48 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Mar 07 2019 15:41:40 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>

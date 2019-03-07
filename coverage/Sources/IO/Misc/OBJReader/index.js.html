@@ -20,9 +20,9 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">2.04% </span>
+        <span class="strong">1.97% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>3/147</span>
+        <span class='fraction'>3/152</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
@@ -617,7 +617,7 @@ const data = {};
 // ----------------------------------------------------------------------------
 &nbsp;
 function pushVector(src, srcOffset, dst, vectorSize) <span class="fstat-no" title="function not covered" >{</span>
-<span class="cstat-no" title="statement not covered" >  for (let i = 0; i &lt; vectorSize; i++) {</span>
+<span class="cstat-no" title="statement not covered" >  for (let i = <span class="cstat-no" title="statement not covered" >0;</span> i &lt; vectorSize; i++) {</span>
 <span class="cstat-no" title="statement not covered" >    dst.push(src[srcOffset + i]);</span>
   }
 }
@@ -677,7 +677,7 @@ function parseLine(line) <span class="fstat-no" title="function not covered" >{<
     const faces = <span class="cstat-no" title="statement not covered" >tokens.filter((s) =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >s.length &gt; 0 &amp;&amp; s !== '\r')</span></span>;</span>
     const size = <span class="cstat-no" title="statement not covered" >faces.length;</span>
 <span class="cstat-no" title="statement not covered" >    cells.push(size);</span>
-<span class="cstat-no" title="statement not covered" >    for (let i = 0; i &lt; size; i++) {</span>
+<span class="cstat-no" title="statement not covered" >    for (let i = <span class="cstat-no" title="statement not covered" >0;</span> i &lt; size; i++) {</span>
 <span class="cstat-no" title="statement not covered" >      cells.push(faceMap(faces[i]));</span>
     }
   }
@@ -690,7 +690,7 @@ function end(model) <span class="fstat-no" title="function not covered" >{</span
   const hasNormals = <span class="cstat-no" title="statement not covered" >!!data.vn.length;</span>
 <span class="cstat-no" title="statement not covered" >  if (model.splitMode) {</span>
 <span class="cstat-no" title="statement not covered" >    model.numberOfOutputs = data.size;</span>
-<span class="cstat-no" title="statement not covered" >    for (let idx = 0; idx &lt; data.size; idx++) {</span>
+<span class="cstat-no" title="statement not covered" >    for (let idx = <span class="cstat-no" title="statement not covered" >0;</span> idx &lt; data.size; idx++) {</span>
       const ctMapping = <span class="cstat-no" title="statement not covered" >{};</span>
       const polydata = <span class="cstat-no" title="statement not covered" >vtkPolyData.newInstance({ name: data.pieces[idx] });</span>
       const pts = <span class="cstat-no" title="statement not covered" >[];</span>
@@ -704,7 +704,7 @@ function end(model) <span class="fstat-no" title="function not covered" >{</span
 <span class="cstat-no" title="statement not covered" >      while (offset &lt; nbElems) {</span>
         const cellSize = <span class="cstat-no" title="statement not covered" >polyIn[offset];</span>
 <span class="cstat-no" title="statement not covered" >        polys.push(cellSize);</span>
-<span class="cstat-no" title="statement not covered" >        for (let pIdx = 0; pIdx &lt; cellSize; pIdx++) {</span>
+<span class="cstat-no" title="statement not covered" >        for (let pIdx = <span class="cstat-no" title="statement not covered" >0;</span> pIdx &lt; cellSize; pIdx++) {</span>
           const [vIdx, tcIdx, nIdx] = <span class="cstat-no" title="statement not covered" >polyIn[offset + pIdx + 1];</span>
           const key = <span class="cstat-no" title="statement not covered" >`${vIdx}/${tcIdx}/${nIdx}`;</span>
 <span class="cstat-no" title="statement not covered" >          if (ctMapping[key] === undefined) {</span>
@@ -774,7 +774,7 @@ function end(model) <span class="fstat-no" title="function not covered" >{</span
 <span class="cstat-no" title="statement not covered" >    while (offset &lt; nbElems) {</span>
       const cellSize = <span class="cstat-no" title="statement not covered" >polyIn[offset];</span>
 <span class="cstat-no" title="statement not covered" >      polys.push(cellSize);</span>
-<span class="cstat-no" title="statement not covered" >      for (let pIdx = 0; pIdx &lt; cellSize; pIdx++) {</span>
+<span class="cstat-no" title="statement not covered" >      for (let pIdx = <span class="cstat-no" title="statement not covered" >0;</span> pIdx &lt; cellSize; pIdx++) {</span>
         const [vIdx] = <span class="cstat-no" title="statement not covered" >polyIn[offset + pIdx + 1];</span>
 <span class="cstat-no" title="statement not covered" >        polys.push(vIdx);</span>
       }
@@ -892,7 +892,7 @@ export default { newInstance, extend };
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Mar 04 2019 01:56:48 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Mar 07 2019 15:41:40 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>

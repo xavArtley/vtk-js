@@ -20,9 +20,9 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">1.41% </span>
+        <span class="strong">1.37% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>9/640</span>
+        <span class='fraction'>9/655</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
@@ -4017,7 +4017,7 @@ function vtkOpenGLPolyDataMapper(publicAPI, model) <span class="fstat-no" title=
     const ctx = <span class="cstat-no" title="statement not covered" >model.openGLRenderWindow.getContext();</span>
 <span class="cstat-no" title="statement not covered" >    if (model.context !== ctx) {</span>
 <span class="cstat-no" title="statement not covered" >      model.context = ctx;</span>
-<span class="cstat-no" title="statement not covered" >      for (let i = primTypes.Start; i &lt; primTypes.End; i++) {</span>
+<span class="cstat-no" title="statement not covered" >      for (let i = <span class="cstat-no" title="statement not covered" >primTypes.Start;</span> i &lt; primTypes.End; i++) {</span>
 <span class="cstat-no" title="statement not covered" >        model.primitives[i].setOpenGLRenderWindow(model.openGLRenderWindow);</span>
       }
     }
@@ -4037,7 +4037,7 @@ function vtkOpenGLPolyDataMapper(publicAPI, model) <span class="fstat-no" title=
     }
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    if (shaderReplacements) {</span>
-<span class="cstat-no" title="statement not covered" >      for (let i = 0; i &lt; shaderReplacements.length; i++) {</span>
+<span class="cstat-no" title="statement not covered" >      for (let i = <span class="cstat-no" title="statement not covered" >0;</span> i &lt; shaderReplacements.length; i++) {</span>
         const currReplacement = <span class="cstat-no" title="statement not covered" >shaderReplacements[i];</span>
 <span class="cstat-no" title="statement not covered" >        if (currReplacement.replaceFirst) {</span>
           const shaderType = <span class="cstat-no" title="statement not covered" >currReplacement.shaderType;</span>
@@ -4057,7 +4057,7 @@ function vtkOpenGLPolyDataMapper(publicAPI, model) <span class="fstat-no" title=
 &nbsp;
     // user specified post replacements
 <span class="cstat-no" title="statement not covered" >    if (shaderReplacements) {</span>
-<span class="cstat-no" title="statement not covered" >      for (let i = 0; i &lt; shaderReplacements.length; i++) {</span>
+<span class="cstat-no" title="statement not covered" >      for (let i = <span class="cstat-no" title="statement not covered" >0;</span> i &lt; shaderReplacements.length; i++) {</span>
         const currReplacement = <span class="cstat-no" title="statement not covered" >shaderReplacements[i];</span>
 <span class="cstat-no" title="statement not covered" >        if (!currReplacement.replaceFirst) {</span>
           const shaderType = <span class="cstat-no" title="statement not covered" >currReplacement.shaderType;</span>
@@ -4275,7 +4275,7 @@ function vtkOpenGLPolyDataMapper(publicAPI, model) <span class="fstat-no" title=
 <span class="cstat-no" title="statement not covered" >        break;</span>
 &nbsp;
       case 2: // light kit
-<span class="cstat-no" title="statement not covered" >        for (let lc = 0; lc &lt; lastLightCount; ++lc) {</span>
+<span class="cstat-no" title="statement not covered" >        for (let lc = <span class="cstat-no" title="statement not covered" >0;</span> lc &lt; lastLightCount; ++lc) {</span>
 <span class="cstat-no" title="statement not covered" >          sstring = sstring.concat([</span>
             `uniform vec3 lightColor${lc};`,
             `uniform vec3 lightDirectionVC${lc}; // normalized`,
@@ -4293,7 +4293,7 @@ function vtkOpenGLPolyDataMapper(publicAPI, model) <span class="fstat-no" title=
           '  vec3 specularL = vec3(0,0,0);',
           '  float df;',
         ];
-<span class="cstat-no" title="statement not covered" >        for (let lc = 0; lc &lt; lastLightCount; ++lc) {</span>
+<span class="cstat-no" title="statement not covered" >        for (let lc = <span class="cstat-no" title="statement not covered" >0;</span> lc &lt; lastLightCount; ++lc) {</span>
 <span class="cstat-no" title="statement not covered" >          sstring = sstring.concat([</span>
             `  df = max(0.0, dot(normalVCVSOutput, -lightDirectionVC${lc}));`,
             `  diffuseL += ((df${shadowFactor}) * lightColor${lc});`,
@@ -4319,7 +4319,7 @@ function vtkOpenGLPolyDataMapper(publicAPI, model) <span class="fstat-no" title=
 <span class="cstat-no" title="statement not covered" >        break;</span>
 &nbsp;
       case 3: // positional
-<span class="cstat-no" title="statement not covered" >        for (let lc = 0; lc &lt; lastLightCount; ++lc) {</span>
+<span class="cstat-no" title="statement not covered" >        for (let lc = <span class="cstat-no" title="statement not covered" >0;</span> lc &lt; lastLightCount; ++lc) {</span>
 <span class="cstat-no" title="statement not covered" >          sstring = sstring.concat([</span>
             `uniform vec3 lightColor${lc};`,
             `uniform vec3 lightDirectionVC${lc}; // normalized`,
@@ -4344,7 +4344,7 @@ function vtkOpenGLPolyDataMapper(publicAPI, model) <span class="fstat-no" title=
           '  float attenuation;',
           '  float df;',
         ];
-<span class="cstat-no" title="statement not covered" >        for (let lc = 0; lc &lt; lastLightCount; ++lc) {</span>
+<span class="cstat-no" title="statement not covered" >        for (let lc = <span class="cstat-no" title="statement not covered" >0;</span> lc &lt; lastLightCount; ++lc) {</span>
 <span class="cstat-no" title="statement not covered" >          sstring = sstring.concat([</span>
             '  attenuation = 1.0;',
             `  if (lightPositional${lc} == 0)`,
@@ -5004,7 +5004,7 @@ function vtkOpenGLPolyDataMapper(publicAPI, model) <span class="fstat-no" title=
       // simple headlight, Light Kit, the whole feature set of VTK
 <span class="cstat-no" title="statement not covered" >      lightComplexity = 0;</span>
       const lights = <span class="cstat-no" title="statement not covered" >ren.getLightsByReference();</span>
-<span class="cstat-no" title="statement not covered" >      for (let index = 0; index &lt; lights.length; ++index) {</span>
+<span class="cstat-no" title="statement not covered" >      for (let index = <span class="cstat-no" title="statement not covered" >0;</span> index &lt; lights.length; ++index) {</span>
         const light = <span class="cstat-no" title="statement not covered" >lights[index];</span>
         const status = <span class="cstat-no" title="statement not covered" >light.getSwitch();</span>
 <span class="cstat-no" title="statement not covered" >        if (status &gt; 0) {</span>
@@ -5231,7 +5231,7 @@ function vtkOpenGLPolyDataMapper(publicAPI, model) <span class="fstat-no" title=
 <span class="cstat-no" title="statement not covered" >        numClipPlanes = 6;</span>
       }
       const planeEquations = <span class="cstat-no" title="statement not covered" >[];</span>
-<span class="cstat-no" title="statement not covered" >      for (let i = 0; i &lt; numClipPlanes; i++) {</span>
+<span class="cstat-no" title="statement not covered" >      for (let i = <span class="cstat-no" title="statement not covered" >0;</span> i &lt; numClipPlanes; i++) {</span>
         const planeEquation = <span class="cstat-no" title="statement not covered" >[];</span>
 <span class="cstat-no" title="statement not covered" >        model.renderable.getClippingPlaneInDataCoords(</span>
           actor.getMatrix(),
@@ -5239,7 +5239,7 @@ function vtkOpenGLPolyDataMapper(publicAPI, model) <span class="fstat-no" title=
           planeEquation
         );
 &nbsp;
-<span class="cstat-no" title="statement not covered" >        for (let j = 0; j &lt; 4; j++) {</span>
+<span class="cstat-no" title="statement not covered" >        for (let j = <span class="cstat-no" title="statement not covered" >0;</span> j &lt; 4; j++) {</span>
 <span class="cstat-no" title="statement not covered" >          planeEquations.push(planeEquation[j]);</span>
         }
       }
@@ -5257,7 +5257,7 @@ function vtkOpenGLPolyDataMapper(publicAPI, model) <span class="fstat-no" title=
     }
     const tus = <span class="cstat-no" title="statement not covered" >model.openGLActor.getActiveTextures();</span>
 <span class="cstat-no" title="statement not covered" >    if (tus) {</span>
-<span class="cstat-no" title="statement not covered" >      for (let index = 0; index &lt; tus.length; ++index) {</span>
+<span class="cstat-no" title="statement not covered" >      for (let index = <span class="cstat-no" title="statement not covered" >0;</span> index &lt; tus.length; ++index) {</span>
         const tex = <span class="cstat-no" title="statement not covered" >tus[index];</span>
         const texUnit = <span class="cstat-no" title="statement not covered" >tex.getTextureUnit();</span>
         const tname = <span class="cstat-no" title="statement not covered" >`texture${texUnit + 1}`;</span>
@@ -5311,7 +5311,7 @@ function vtkOpenGLPolyDataMapper(publicAPI, model) <span class="fstat-no" title=
     let numberOfLights = <span class="cstat-no" title="statement not covered" >0;</span>
 &nbsp;
     const lights = <span class="cstat-no" title="statement not covered" >ren.getLightsByReference();</span>
-<span class="cstat-no" title="statement not covered" >    for (let index = 0; index &lt; lights.length; ++index) {</span>
+<span class="cstat-no" title="statement not covered" >    for (let index = <span class="cstat-no" title="statement not covered" >0;</span> index &lt; lights.length; ++index) {</span>
       const light = <span class="cstat-no" title="statement not covered" >lights[index];</span>
       const status = <span class="cstat-no" title="statement not covered" >light.getSwitch();</span>
 <span class="cstat-no" title="statement not covered" >      if (status &gt; 0.0) {</span>
@@ -5370,7 +5370,7 @@ function vtkOpenGLPolyDataMapper(publicAPI, model) <span class="fstat-no" title=
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    numberOfLights = 0;</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    for (let index = 0; index &lt; lights.length; ++index) {</span>
+<span class="cstat-no" title="statement not covered" >    for (let index = <span class="cstat-no" title="statement not covered" >0;</span> index &lt; lights.length; ++index) {</span>
       const light = <span class="cstat-no" title="statement not covered" >lights[index];</span>
       const status = <span class="cstat-no" title="statement not covered" >light.getSwitch();</span>
 <span class="cstat-no" title="statement not covered" >      if (status &gt; 0.0) {</span>
@@ -5550,7 +5550,7 @@ function vtkOpenGLPolyDataMapper(publicAPI, model) <span class="fstat-no" title=
       representation === Representation.SURFACE;
 &nbsp;
     // for every primitive type
-<span class="cstat-no" title="statement not covered" >    for (let i = primTypes.Start; i &lt; primTypes.End; i++) {</span>
+<span class="cstat-no" title="statement not covered" >    for (let i = <span class="cstat-no" title="statement not covered" >primTypes.Start;</span> i &lt; primTypes.End; i++) {</span>
       // if there are entries
       const cabo = <span class="cstat-no" title="statement not covered" >model.primitives[i].getCABO();</span>
 <span class="cstat-no" title="statement not covered" >      if (cabo.getElementCount()) {</span>
@@ -5855,7 +5855,7 @@ export function extend(publicAPI, model, initialValues = {}) <span class="fstat-
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  model.tmpMat4 = mat4.create();</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  for (let i = primTypes.Start; i &lt; primTypes.End; i++) {</span>
+<span class="cstat-no" title="statement not covered" >  for (let i = <span class="cstat-no" title="statement not covered" >primTypes.Start;</span> i &lt; primTypes.End; i++) {</span>
 <span class="cstat-no" title="statement not covered" >    model.primitives[i] = vtkHelper.newInstance();</span>
 <span class="cstat-no" title="statement not covered" >    model.primitives[i].setPrimitiveType(i);</span>
 <span class="cstat-no" title="statement not covered" >    model.primitives[i].set(</span>
@@ -5887,7 +5887,7 @@ export default { newInstance, extend };
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Mar 04 2019 01:56:48 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Mar 07 2019 15:41:40 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>

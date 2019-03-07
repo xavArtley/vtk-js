@@ -20,9 +20,9 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">1.12% </span>
+        <span class="strong">1.1% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>4/357</span>
+        <span class='fraction'>4/365</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
@@ -2120,7 +2120,7 @@ function vtkOpenGLImageMapper(publicAPI, model) <span class="fstat-no" title="fu
         const cRange = <span class="cstat-no" title="statement not covered" >cfun.getRange();</span>
         const cfTable = <span class="cstat-no" title="statement not covered" >new Float32Array(cWidth * 3);</span>
 <span class="cstat-no" title="statement not covered" >        cfun.getTable(cRange[0], cRange[1], cWidth, cfTable, 1);</span>
-<span class="cstat-no" title="statement not covered" >        for (let i = 0; i &lt; cWidth * 3; ++i) {</span>
+<span class="cstat-no" title="statement not covered" >        for (let i = <span class="cstat-no" title="statement not covered" >0;</span> i &lt; cWidth * 3; ++i) {</span>
 <span class="cstat-no" title="statement not covered" >          cTable[i] = 255.0 * cfTable[i];</span>
         }
 <span class="cstat-no" title="statement not covered" >        model.colorTextureString = cfunToString;</span>
@@ -2135,7 +2135,7 @@ function vtkOpenGLImageMapper(publicAPI, model) <span class="fstat-no" title="fu
     } else {
       const cfunToString = <span class="cstat-no" title="statement not covered" >'0';</span>
 <span class="cstat-no" title="statement not covered" >      if (model.colorTextureString !== cfunToString) {</span>
-<span class="cstat-no" title="statement not covered" >        for (let i = 0; i &lt; cWidth * 3; ++i) {</span>
+<span class="cstat-no" title="statement not covered" >        for (let i = <span class="cstat-no" title="statement not covered" >0;</span> i &lt; cWidth * 3; ++i) {</span>
 <span class="cstat-no" title="statement not covered" >          cTable[i] = (255.0 * i) / ((cWidth - 1) * 3);</span>
 <span class="cstat-no" title="statement not covered" >          cTable[i + 1] = (255.0 * i) / ((cWidth - 1) * 3);</span>
 <span class="cstat-no" title="statement not covered" >          cTable[i + 2] = (255.0 * i) / ((cWidth - 1) * 3);</span>
@@ -2160,7 +2160,7 @@ function vtkOpenGLImageMapper(publicAPI, model) <span class="fstat-no" title="fu
         const oRange = <span class="cstat-no" title="statement not covered" >ofun.getRange();</span>
         const ofTable = <span class="cstat-no" title="statement not covered" >new Float32Array(oWidth);</span>
 <span class="cstat-no" title="statement not covered" >        ofun.getTable(oRange[0], oRange[1], oWidth, ofTable, 1);</span>
-<span class="cstat-no" title="statement not covered" >        for (let i = 0; i &lt; oWidth; ++i) {</span>
+<span class="cstat-no" title="statement not covered" >        for (let i = <span class="cstat-no" title="statement not covered" >0;</span> i &lt; oWidth; ++i) {</span>
 <span class="cstat-no" title="statement not covered" >          oTable[i] = 255.0 * ofTable[i];</span>
         }
 <span class="cstat-no" title="statement not covered" >        model.opacityTextureString = ofunToString;</span>
@@ -2254,7 +2254,7 @@ function vtkOpenGLImageMapper(publicAPI, model) <span class="fstat-no" title="fu
 &nbsp;
       const ptsArray = <span class="cstat-no" title="statement not covered" >new Float32Array(12);</span>
       const tcoordArray = <span class="cstat-no" title="statement not covered" >new Float32Array(8);</span>
-<span class="cstat-no" title="statement not covered" >      for (let i = 0; i &lt; 4; i++) {</span>
+<span class="cstat-no" title="statement not covered" >      for (let i = <span class="cstat-no" title="statement not covered" >0;</span> i &lt; 4; i++) {</span>
 <span class="cstat-no" title="statement not covered" >        tcoordArray[i * 2] = i % 2 ? 1.0 : 0.0;</span>
 <span class="cstat-no" title="statement not covered" >        tcoordArray[i * 2 + 1] = i &gt; 1 ? 1.0 : 0.0;</span>
       }
@@ -2268,8 +2268,8 @@ function vtkOpenGLImageMapper(publicAPI, model) <span class="fstat-no" title="fu
 <span class="cstat-no" title="statement not covered" >      if (ijkMode === SlicingMode.I) {</span>
 <span class="cstat-no" title="statement not covered" >        scalars = new basicScalars.constructor(dims[2] * dims[1] * numComp);</span>
         let id = <span class="cstat-no" title="statement not covered" >0;</span>
-<span class="cstat-no" title="statement not covered" >        for (let k = 0; k &lt; dims[2]; k++) {</span>
-<span class="cstat-no" title="statement not covered" >          for (let j = 0; j &lt; dims[1]; j++) {</span>
+<span class="cstat-no" title="statement not covered" >        for (let k = <span class="cstat-no" title="statement not covered" >0;</span> k &lt; dims[2]; k++) {</span>
+<span class="cstat-no" title="statement not covered" >          for (let j = <span class="cstat-no" title="statement not covered" >0;</span> j &lt; dims[1]; j++) {</span>
             const bsIdx =
 <span class="cstat-no" title="statement not covered" >              (sliceOffset + j * dims[0] + k * dims[0] * dims[1]) * numComp;</span>
 <span class="cstat-no" title="statement not covered" >            id = (k * dims[1] + j) * numComp;</span>
@@ -2293,8 +2293,8 @@ function vtkOpenGLImageMapper(publicAPI, model) <span class="fstat-no" title="fu
       } else <span class="cstat-no" title="statement not covered" >if (ijkMode === SlicingMode.J) {</span>
 <span class="cstat-no" title="statement not covered" >        scalars = new basicScalars.constructor(dims[2] * dims[0] * numComp);</span>
         let id = <span class="cstat-no" title="statement not covered" >0;</span>
-<span class="cstat-no" title="statement not covered" >        for (let k = 0; k &lt; dims[2]; k++) {</span>
-<span class="cstat-no" title="statement not covered" >          for (let i = 0; i &lt; dims[0]; i++) {</span>
+<span class="cstat-no" title="statement not covered" >        for (let k = <span class="cstat-no" title="statement not covered" >0;</span> k &lt; dims[2]; k++) {</span>
+<span class="cstat-no" title="statement not covered" >          for (let i = <span class="cstat-no" title="statement not covered" >0;</span> i &lt; dims[0]; i++) {</span>
             const bsIdx =
 <span class="cstat-no" title="statement not covered" >              (i + sliceOffset * dims[0] + k * dims[0] * dims[1]) * numComp;</span>
 <span class="cstat-no" title="statement not covered" >            id = (k * dims[0] + i) * numComp;</span>
@@ -2440,7 +2440,7 @@ export default { newInstance, extend };
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Mar 04 2019 01:56:48 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Mar 07 2019 15:41:40 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>

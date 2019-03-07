@@ -20,9 +20,9 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">0.58% </span>
+        <span class="strong">0.57% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>3/518</span>
+        <span class='fraction'>3/524</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
@@ -3301,7 +3301,7 @@ function vtkOpenGLVolumeMapper(publicAPI, model) <span class="fstat-no" title="f
     let dcxmax = <span class="cstat-no" title="statement not covered" >-1.0;</span>
     let dcymin = <span class="cstat-no" title="statement not covered" >1.0;</span>
     let dcymax = <span class="cstat-no" title="statement not covered" >-1.0;</span>
-<span class="cstat-no" title="statement not covered" >    for (let i = 0; i &lt; 8; ++i) {</span>
+<span class="cstat-no" title="statement not covered" >    for (let i = <span class="cstat-no" title="statement not covered" >0;</span> i &lt; 8; ++i) {</span>
 <span class="cstat-no" title="statement not covered" >      vec3.set(</span>
         pos,
         bounds[i % 2],
@@ -3395,7 +3395,7 @@ function vtkOpenGLVolumeMapper(publicAPI, model) <span class="fstat-no" title="f
     // then use a point on the plane to compute the distance
     const normal = <span class="cstat-no" title="statement not covered" >vec3.create();</span>
     const pos2 = <span class="cstat-no" title="statement not covered" >vec3.create();</span>
-<span class="cstat-no" title="statement not covered" >    for (let i = 0; i &lt; 6; ++i) {</span>
+<span class="cstat-no" title="statement not covered" >    for (let i = <span class="cstat-no" title="statement not covered" >0;</span> i &lt; 6; ++i) {</span>
 <span class="cstat-no" title="statement not covered" >      switch (i) {</span>
         default:
         case 0:
@@ -3893,7 +3893,7 @@ function vtkOpenGLVolumeMapper(publicAPI, model) <span class="fstat-no" title="f
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    if (!model.jitterTexture.getHandle()) {</span>
       const oTable = <span class="cstat-no" title="statement not covered" >new Uint8Array(32 * 32);</span>
-<span class="cstat-no" title="statement not covered" >      for (let i = 0; i &lt; 32 * 32; ++i) {</span>
+<span class="cstat-no" title="statement not covered" >      for (let i = <span class="cstat-no" title="statement not covered" >0;</span> i &lt; 32 * 32; ++i) {</span>
 <span class="cstat-no" title="statement not covered" >        oTable[i] = 255.0 * Math.random();</span>
       }
 <span class="cstat-no" title="statement not covered" >      model.jitterTexture.setMinificationFilter(Filter.LINEAR);</span>
@@ -3919,7 +3919,7 @@ function vtkOpenGLVolumeMapper(publicAPI, model) <span class="fstat-no" title="f
       const ofTable = <span class="cstat-no" title="statement not covered" >new Float32Array(oWidth);</span>
 <span class="cstat-no" title="statement not covered" >      ofun.getTable(oRange[0], oRange[1], oWidth, ofTable, 1);</span>
       const oTable = <span class="cstat-no" title="statement not covered" >new Uint8Array(oWidth);</span>
-<span class="cstat-no" title="statement not covered" >      for (let i = 0; i &lt; oWidth; ++i) {</span>
+<span class="cstat-no" title="statement not covered" >      for (let i = <span class="cstat-no" title="statement not covered" >0;</span> i &lt; oWidth; ++i) {</span>
 <span class="cstat-no" title="statement not covered" >        oTable[i] = 255.0 * (1.0 - (1.0 - ofTable[i]) ** opacityFactor);</span>
       }
 <span class="cstat-no" title="statement not covered" >      model.opacityTexture.setMinificationFilter(Filter.LINEAR);</span>
@@ -3943,7 +3943,7 @@ function vtkOpenGLVolumeMapper(publicAPI, model) <span class="fstat-no" title="f
       const cfTable = <span class="cstat-no" title="statement not covered" >new Float32Array(cWidth * 3);</span>
 <span class="cstat-no" title="statement not covered" >      cfun.getTable(cRange[0], cRange[1], cWidth, cfTable, 1);</span>
       const cTable = <span class="cstat-no" title="statement not covered" >new Uint8Array(cWidth * 3);</span>
-<span class="cstat-no" title="statement not covered" >      for (let i = 0; i &lt; cWidth * 3; ++i) {</span>
+<span class="cstat-no" title="statement not covered" >      for (let i = <span class="cstat-no" title="statement not covered" >0;</span> i &lt; cWidth * 3; ++i) {</span>
 <span class="cstat-no" title="statement not covered" >        cTable[i] = 255.0 * cfTable[i];</span>
       }
 <span class="cstat-no" title="statement not covered" >      model.colorTexture.setMinificationFilter(Filter.LINEAR);</span>
@@ -4001,7 +4001,7 @@ function vtkOpenGLVolumeMapper(publicAPI, model) <span class="fstat-no" title="f
 <span class="cstat-no" title="statement not covered" >    if (!model.tris.getCABO().getElementCount()) {</span>
       // build the CABO
       const ptsArray = <span class="cstat-no" title="statement not covered" >new Float32Array(12);</span>
-<span class="cstat-no" title="statement not covered" >      for (let i = 0; i &lt; 4; i++) {</span>
+<span class="cstat-no" title="statement not covered" >      for (let i = <span class="cstat-no" title="statement not covered" >0;</span> i &lt; 4; i++) {</span>
 <span class="cstat-no" title="statement not covered" >        ptsArray[i * 3] = (i % 2) * 2 - 1.0;</span>
 <span class="cstat-no" title="statement not covered" >        ptsArray[i * 3 + 1] = i &gt; 1 ? 1.0 : -1.0;</span>
 <span class="cstat-no" title="statement not covered" >        ptsArray[i * 3 + 2] = -1.0;</span>
@@ -4138,7 +4138,7 @@ export default { newInstance, extend };
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Mar 04 2019 01:56:48 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Mar 07 2019 15:41:40 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>

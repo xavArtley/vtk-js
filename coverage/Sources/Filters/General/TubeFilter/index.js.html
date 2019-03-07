@@ -20,9 +20,9 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">67.67% </span>
+        <span class="strong">66.54% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>316/467</span>
+        <span class='fraction'>338/508</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">58.22% </span>
@@ -35,9 +35,9 @@
         <span class='fraction'>9/11</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">67.6% </span>
+        <span class="strong">67.52% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>315/466</span>
+        <span class='fraction'>316/468</span>
       </div>
     </div>
   </div>
@@ -1367,7 +1367,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">3×</span>
 <span class="cline-any cline-yes">3×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1383,7 +1383,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -2005,7 +2005,7 @@ function vtkTubeFilter(publicAPI, model) {
 <span class="cstat-no" title="statement not covered" >                  f2 = 0.0;</span>
                 }
                 const c = <span class="cstat-no" title="statement not covered" >[0, 0, 0];</span>
-<span class="cstat-no" title="statement not covered" >                for (let j = 0; j &lt; 3; ++j) {</span>
+<span class="cstat-no" title="statement not covered" >                for (let j = <span class="cstat-no" title="statement not covered" >0;</span> j &lt; 3; ++j) {</span>
 <span class="cstat-no" title="statement not covered" >                  c[j] = sNext[j] + sPrev[j];</span>
                 }
 <span class="cstat-no" title="statement not covered" >                vtkMath.normalize(c);</span>
@@ -2016,7 +2016,7 @@ function vtkTubeFilter(publicAPI, model) {
                 }
 &nbsp;
                 // insert current normal before updating
-<span class="cstat-no" title="statement not covered" >                for (let j = lastNormalId; j &lt; sNextId; ++j) {</span>
+<span class="cstat-no" title="statement not covered" >                for (let j = <span class="cstat-no" title="statement not covered" >lastNormalId;</span> j &lt; sNextId; ++j) {</span>
 <span class="cstat-no" title="statement not covered" >                  normals.setTuple(linePts[j], normal);</span>
                 }
 <span class="cstat-no" title="statement not covered" >                lastNormalId = sNextId;</span>
@@ -2034,7 +2034,7 @@ function vtkTubeFilter(publicAPI, model) {
           }
         } else {
           // no valid segments
-<span class="cstat-no" title="statement not covered" >          for (let j = 0; j &lt; npts; ++j) {</span>
+<span class="cstat-no" title="statement not covered" >          for (let j = <span class="cstat-no" title="statement not covered" >0;</span> j &lt; npts; ++j) {</span>
 <span class="cstat-no" title="statement not covered" >            normals.setTuple(linePts[j], normal);</span>
           }
         }
@@ -2176,8 +2176,8 @@ function vtkTubeFilter(publicAPI, model) {
       } else {
         const nRight = <span class="cstat-no" title="statement not covered" >[0, 0, 0];</span>
         const nLeft = <span class="cstat-no" title="statement not covered" >[0, 0, 0];</span>
-<span class="cstat-no" title="statement not covered" >        for (let k = 0; k &lt; model.numberOfSides; ++k) {</span>
-<span class="cstat-no" title="statement not covered" >          for (let i = 0; i &lt; 3; ++i) {</span>
+<span class="cstat-no" title="statement not covered" >        for (let k = <span class="cstat-no" title="statement not covered" >0;</span> k &lt; model.numberOfSides; ++k) {</span>
+<span class="cstat-no" title="statement not covered" >          for (let i = <span class="cstat-no" title="statement not covered" >0;</span> i &lt; 3; ++i) {</span>
             // Create duplicate vertices at each point
             // and adjust the associated normals so that they are
             // oriented with the facets. This preserves the tube's
@@ -2284,7 +2284,7 @@ function vtkTubeFilter(publicAPI, model) {
       } // for each side of the tube
     } else {
 <span class="cstat-no" title="statement not covered" >      for (</span>
-        let k = offset;
+        let k = <span class="cstat-no" title="statement not covered" >offset;</span>
         k &lt; model.numberOfSides + offset;
         k += model.onRatio
       ) {
@@ -2293,7 +2293,7 @@ function vtkTubeFilter(publicAPI, model) {
         // outCellId = newStrips.getNumberOfCells(true);
 <span class="cstat-no" title="statement not covered" >        newStripsData[outCellIdx] = npts * 2;</span>
 <span class="cstat-no" title="statement not covered" >        outCellIdx++;</span>
-<span class="cstat-no" title="statement not covered" >        for (let i = 0; i &lt; npts; ++i) {</span>
+<span class="cstat-no" title="statement not covered" >        for (let i = <span class="cstat-no" title="statement not covered" >0;</span> i &lt; npts; ++i) {</span>
 <span class="cstat-no" title="statement not covered" >          i3 = i * 2 * model.numberOfSides;</span>
 <span class="cstat-no" title="statement not covered" >          newStripsData[outCellIdx++] = offset + i2 + i3;</span>
 <span class="cstat-no" title="statement not covered" >          newStripsData[outCellIdx++] = offset + i1 + i3;</span>
@@ -2371,10 +2371,10 @@ function vtkTubeFilter(publicAPI, model) {
     const inScalarsData = <span class="cstat-no" title="statement not covered" >inScalars.getData();</span>
 <span class="cstat-no" title="statement not covered" >    if (model.generateTCoords === GenerateTCoords.TCOORDS_FROM_SCALARS) {</span>
 <span class="cstat-no" title="statement not covered" >      s0 = inScalarsData[pts[0]];</span>
-<span class="cstat-no" title="statement not covered" >      for (let i = 0; i &lt; npts; ++i) {</span>
+<span class="cstat-no" title="statement not covered" >      for (let i = <span class="cstat-no" title="statement not covered" >0;</span> i &lt; npts; ++i) {</span>
 <span class="cstat-no" title="statement not covered" >        s = inScalarsData[pts[i]];</span>
 <span class="cstat-no" title="statement not covered" >        tc = (s - s0) / model.textureLength;</span>
-<span class="cstat-no" title="statement not covered" >        for (let k = 0; k &lt; numSides; ++k) {</span>
+<span class="cstat-no" title="statement not covered" >        for (let k = <span class="cstat-no" title="statement not covered" >0;</span> k &lt; numSides; ++k) {</span>
           const tcy = <span class="cstat-no" title="statement not covered" >k / (numSides - 1);</span>
           const tcId = <span class="cstat-no" title="statement not covered" >2 * (offset + i * numSides + k);</span>
 <span class="cstat-no" title="statement not covered" >          newTCoords[tcId] = tc;</span>
@@ -2384,17 +2384,17 @@ function vtkTubeFilter(publicAPI, model) {
     } else <span class="cstat-no" title="statement not covered" >if (model.generateTCoords === GenerateTCoords.TCOORDS_FROM_LENGTH) {</span>
       let len = <span class="cstat-no" title="statement not covered" >0.0;</span>
       const xPrev = <span class="cstat-no" title="statement not covered" >inPts.slice(3 * pts[0], 3 * (pts[0] + 1));</span>
-<span class="cstat-no" title="statement not covered" >      for (let i = 0; i &lt; npts; ++i) {</span>
+<span class="cstat-no" title="statement not covered" >      for (let i = <span class="cstat-no" title="statement not covered" >0;</span> i &lt; npts; ++i) {</span>
         const x = <span class="cstat-no" title="statement not covered" >inPts.slice(3 * pts[i], 3 * (pts[i] + 1));</span>
 <span class="cstat-no" title="statement not covered" >        len += Math.sqrt(vtkMath.distance2BetweenPoints(x, xPrev));</span>
 <span class="cstat-no" title="statement not covered" >        tc = len / model.textureLength;</span>
-<span class="cstat-no" title="statement not covered" >        for (let k = 0; k &lt; numSides; ++k) {</span>
+<span class="cstat-no" title="statement not covered" >        for (let k = <span class="cstat-no" title="statement not covered" >0;</span> k &lt; numSides; ++k) {</span>
           const tcy = <span class="cstat-no" title="statement not covered" >k / (numSides - 1);</span>
           const tcId = <span class="cstat-no" title="statement not covered" >2 * (offset + i * numSides + k);</span>
 <span class="cstat-no" title="statement not covered" >          newTCoords[tcId] = tc;</span>
 <span class="cstat-no" title="statement not covered" >          newTCoords[tcId + 1] = tcy;</span>
         }
-<span class="cstat-no" title="statement not covered" >        for (let k = 0; k &lt; 3; ++k) {</span>
+<span class="cstat-no" title="statement not covered" >        for (let k = <span class="cstat-no" title="statement not covered" >0;</span> k &lt; 3; ++k) {</span>
 <span class="cstat-no" title="statement not covered" >          xPrev[k] = x[k];</span>
         }
       }
@@ -2404,25 +2404,25 @@ function vtkTubeFilter(publicAPI, model) {
       let len = <span class="cstat-no" title="statement not covered" >0.0;</span>
       let len1 = <span class="cstat-no" title="statement not covered" >0.0;</span>
       let xPrev = <span class="cstat-no" title="statement not covered" >inPts.slice(3 * pts[0], 3 * (pts[0] + 1));</span>
-<span class="cstat-no" title="statement not covered" >      for (let i = 0; i &lt; npts; ++i) {</span>
+<span class="cstat-no" title="statement not covered" >      for (let i = <span class="cstat-no" title="statement not covered" >0;</span> i &lt; npts; ++i) {</span>
         const x = <span class="cstat-no" title="statement not covered" >inPts.slice(3 * pts[i], 3 * (pts[i] + 1));</span>
 <span class="cstat-no" title="statement not covered" >        len1 += Math.sqrt(vtkMath.distance2BetweenPoints(x, xPrev));</span>
-<span class="cstat-no" title="statement not covered" >        for (let k = 0; k &lt; 3; ++k) {</span>
+<span class="cstat-no" title="statement not covered" >        for (let k = <span class="cstat-no" title="statement not covered" >0;</span> k &lt; 3; ++k) {</span>
 <span class="cstat-no" title="statement not covered" >          xPrev[k] = x[k];</span>
         }
       }
 <span class="cstat-no" title="statement not covered" >      xPrev = inPts.slice(3 * pts[0], 3 * (pts[0] + 1));</span>
-<span class="cstat-no" title="statement not covered" >      for (let i = 0; i &lt; npts; ++i) {</span>
+<span class="cstat-no" title="statement not covered" >      for (let i = <span class="cstat-no" title="statement not covered" >0;</span> i &lt; npts; ++i) {</span>
         const x = <span class="cstat-no" title="statement not covered" >inPts.slice(3 * pts[i], 3 * (pts[i] + 1));</span>
 <span class="cstat-no" title="statement not covered" >        len += Math.sqrt(vtkMath.distance2BetweenPoints(x, xPrev));</span>
 <span class="cstat-no" title="statement not covered" >        tc = len / len1;</span>
-<span class="cstat-no" title="statement not covered" >        for (let k = 0; k &lt; numSides; ++k) {</span>
+<span class="cstat-no" title="statement not covered" >        for (let k = <span class="cstat-no" title="statement not covered" >0;</span> k &lt; numSides; ++k) {</span>
           const tcy = <span class="cstat-no" title="statement not covered" >k / (numSides - 1);</span>
           const tcId = <span class="cstat-no" title="statement not covered" >2 * (offset + i * numSides + k);</span>
 <span class="cstat-no" title="statement not covered" >          newTCoords[tcId] = tc;</span>
 <span class="cstat-no" title="statement not covered" >          newTCoords[tcId + 1] = tcy;</span>
         }
-<span class="cstat-no" title="statement not covered" >        for (let k = 0; k &lt; 3; ++k) {</span>
+<span class="cstat-no" title="statement not covered" >        for (let k = <span class="cstat-no" title="statement not covered" >0;</span> k &lt; 3; ++k) {</span>
 <span class="cstat-no" title="statement not covered" >          xPrev[k] = x[k];</span>
         }
       }
@@ -2433,14 +2433,14 @@ function vtkTubeFilter(publicAPI, model) {
       const startIdx = <span class="cstat-no" title="statement not covered" >offset + npts * numSides;</span>
 &nbsp;
       // start cap
-<span class="cstat-no" title="statement not covered" >      for (let ik = 0; ik &lt; model.numberOfSides; ++ik) {</span>
+<span class="cstat-no" title="statement not covered" >      for (let ik = <span class="cstat-no" title="statement not covered" >0;</span> ik &lt; model.numberOfSides; ++ik) {</span>
         const tcId = <span class="cstat-no" title="statement not covered" >2 * (startIdx + ik);</span>
 <span class="cstat-no" title="statement not covered" >        newTCoords[tcId] = 0.0;</span>
 <span class="cstat-no" title="statement not covered" >        newTCoords[tcId + 1] = 0.0;</span>
       }
 &nbsp;
       // end cap
-<span class="cstat-no" title="statement not covered" >      for (let ik = 0; ik &lt; model.numberOfSides; ++ik) {</span>
+<span class="cstat-no" title="statement not covered" >      for (let ik = <span class="cstat-no" title="statement not covered" >0;</span> ik &lt; model.numberOfSides; ++ik) {</span>
         const tcId = <span class="cstat-no" title="statement not covered" >2 * (startIdx + model.numberOfSides + ik);</span>
 <span class="cstat-no" title="statement not covered" >        newTCoords[tcId] = 0.0;</span>
 <span class="cstat-no" title="statement not covered" >        newTCoords[tcId + 1] = 0.0;</span>
@@ -2752,7 +2752,7 @@ export default Object.assign({ newInstance, extend });
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Mar 04 2019 01:56:48 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Mar 07 2019 15:41:40 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>

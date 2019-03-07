@@ -20,9 +20,9 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">3.57% </span>
+        <span class="strong">3.43% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>6/168</span>
+        <span class='fraction'>6/175</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
@@ -996,7 +996,7 @@ function vtkMoleculeToRepresentation(publicAPI, model) <span class="fstat-no" ti
 <span class="cstat-no" title="statement not covered" >    bondPositionData.push(position[1]);</span>
 <span class="cstat-no" title="statement not covered" >    bondPositionData.push(position[2]);</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    for (let i = 0; i &lt; color.length; ++i) {</span>
+<span class="cstat-no" title="statement not covered" >    for (let i = <span class="cstat-no" title="statement not covered" >0;</span> i &lt; color.length; ++i) {</span>
 <span class="cstat-no" title="statement not covered" >      bondColorData.push(color[i] * 255);</span>
     }
   }
@@ -1066,7 +1066,7 @@ function vtkMoleculeToRepresentation(publicAPI, model) <span class="fstat-no" ti
     // go through each points and fill from elements.json
     /* eslint-disable no-continue */
     let ptsIdx = <span class="cstat-no" title="statement not covered" >0;</span>
-<span class="cstat-no" title="statement not covered" >    for (let i = 0; i &lt; numPts; i++) {</span>
+<span class="cstat-no" title="statement not covered" >    for (let i = <span class="cstat-no" title="statement not covered" >0;</span> i &lt; numPts; i++) {</span>
       // fetch from elements.json
 <span class="cstat-no" title="statement not covered" >      if (atomicNumber) {</span>
 <span class="cstat-no" title="statement not covered" >        radiusArray.push(ATOMS[atomicNumber[i]][model.radiusType]);</span>
@@ -1109,8 +1109,8 @@ function vtkMoleculeToRepresentation(publicAPI, model) <span class="fstat-no" ti
 <span class="cstat-no" title="statement not covered" >      bondOrder = [];</span>
       // default bond display
       /* eslint-disable no-continue */
-<span class="cstat-no" title="statement not covered" >      for (let i = 0; i &lt; numPts; i++) {</span>
-<span class="cstat-no" title="statement not covered" >        for (let j = i + 1; j &lt; numPts; j++) {</span>
+<span class="cstat-no" title="statement not covered" >      for (let i = <span class="cstat-no" title="statement not covered" >0;</span> i &lt; numPts; i++) {</span>
+<span class="cstat-no" title="statement not covered" >        for (let j = <span class="cstat-no" title="statement not covered" >i + 1;</span> j &lt; numPts; j++) {</span>
           const cutoff = <span class="cstat-no" title="statement not covered" >covalentArray[i] + covalentArray[j] + model.tolerance;</span>
           const jPtsIdx = <span class="cstat-no" title="statement not covered" >j * 3;</span>
           const iPtsIdx = <span class="cstat-no" title="statement not covered" >i * 3;</span>
@@ -1147,7 +1147,7 @@ function vtkMoleculeToRepresentation(publicAPI, model) <span class="fstat-no" ti
     }
 &nbsp;
     // now we have the bonds, draw them
-<span class="cstat-no" title="statement not covered" >    for (let index = 0; index &lt; numBonds; index++) {</span>
+<span class="cstat-no" title="statement not covered" >    for (let index = <span class="cstat-no" title="statement not covered" >0;</span> index &lt; numBonds; index++) {</span>
       // appendBond between i and j
       const i = <span class="cstat-no" title="statement not covered" >bondIndex[index * 2];</span>
       const j = <span class="cstat-no" title="statement not covered" >bondIndex[index * 2 + 1];</span>
@@ -1198,7 +1198,7 @@ function vtkMoleculeToRepresentation(publicAPI, model) <span class="fstat-no" ti
       //   - even order: x * 2 + 1
       // (with x the loop &lt;=&gt; floor(k/2))
       const oddOrEven = <span class="cstat-no" title="statement not covered" >bondOrder[index] % 2;</span> // zero if even order / one if odd order
-<span class="cstat-no" title="statement not covered" >      for (let k = oddOrEven; k &lt; bondOrder[index] + oddOrEven; k++) {</span>
+<span class="cstat-no" title="statement not covered" >      for (let k = <span class="cstat-no" title="statement not covered" >oddOrEven;</span> k &lt; bondOrder[index] + oddOrEven; k++) {</span>
         // dist from center to bond depending of number of bond
         let offset = <span class="cstat-no" title="statement not covered" >((Math.floor(k / 2) * 2 + 1 - oddOrEven) * bondDelta) / 2;</span>
 &nbsp;
@@ -1209,7 +1209,7 @@ function vtkMoleculeToRepresentation(publicAPI, model) <span class="fstat-no" ti
         ];
         const vectUnitJIperp = <span class="cstat-no" title="statement not covered" >[0, 0, 0];</span>
         // Search perp to vectUnitJI: find axis != 0 to create vectUnitJIperp such as dot(vectUnitJIperp,vectUnitJI) = 0
-<span class="cstat-no" title="statement not covered" >        for (let coord = 0; coord &lt; 3; coord++) {</span>
+<span class="cstat-no" title="statement not covered" >        for (let coord = <span class="cstat-no" title="statement not covered" >0;</span> coord &lt; 3; coord++) {</span>
 <span class="cstat-no" title="statement not covered" >          if (Math.abs(vectUnitJI[coord]) &lt; 0.000001) {</span>
 <span class="cstat-no" title="statement not covered" >            continue;</span>
           }
@@ -1405,7 +1405,7 @@ export default { newInstance, extend };
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Mar 04 2019 01:56:48 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Mar 07 2019 15:41:40 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>

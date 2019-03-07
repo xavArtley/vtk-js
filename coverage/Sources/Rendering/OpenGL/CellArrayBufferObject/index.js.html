@@ -20,9 +20,9 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">2.07% </span>
+        <span class="strong">1.94% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>3/145</span>
+        <span class='fraction'>3/155</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
@@ -32,7 +32,7 @@
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>0/7</span>
+        <span class='fraction'>0/19</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">2.07% </span>
@@ -728,50 +728,50 @@ function vtkOpenGLCellArrayBufferObject(publicAPI, model) <span class="fstat-no"
 &nbsp;
     const cellBuilders = <span class="cstat-no" title="statement not covered" >{</span>
       // easy, every input point becomes an output point
-      anythingToPoints(numPoints, cellPts, offset) {
-<span class="cstat-no" title="statement not covered" >        for (let i = 0; i &lt; numPoints; ++i) {</span>
+      anythingToPoints(numPoints, cellPts, offset) <span class="fstat-no" title="function not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >        for (let i = <span class="cstat-no" title="statement not covered" >0;</span> i &lt; numPoints; ++i) {</span>
 <span class="cstat-no" title="statement not covered" >          addAPoint(cellPts[offset + i]);</span>
         }
       },
-      linesToWireframe(numPoints, cellPts, offset) {
+      linesToWireframe(numPoints, cellPts, offset) <span class="fstat-no" title="function not covered" >{</span>
         // for lines we add a bunch of segments
-<span class="cstat-no" title="statement not covered" >        for (let i = 0; i &lt; numPoints - 1; ++i) {</span>
+<span class="cstat-no" title="statement not covered" >        for (let i = <span class="cstat-no" title="statement not covered" >0;</span> i &lt; numPoints - 1; ++i) {</span>
 <span class="cstat-no" title="statement not covered" >          addAPoint(cellPts[offset + i]);</span>
 <span class="cstat-no" title="statement not covered" >          addAPoint(cellPts[offset + i + 1]);</span>
         }
       },
-      polysToWireframe(numPoints, cellPts, offset) {
+      polysToWireframe(numPoints, cellPts, offset) <span class="fstat-no" title="function not covered" >{</span>
         // for polys we add a bunch of segments and close it
-<span class="cstat-no" title="statement not covered" >        for (let i = 0; i &lt; numPoints; ++i) {</span>
+<span class="cstat-no" title="statement not covered" >        for (let i = <span class="cstat-no" title="statement not covered" >0;</span> i &lt; numPoints; ++i) {</span>
 <span class="cstat-no" title="statement not covered" >          addAPoint(cellPts[offset + i]);</span>
 <span class="cstat-no" title="statement not covered" >          addAPoint(cellPts[offset + ((i + 1) % numPoints)]);</span>
         }
       },
-      stripsToWireframe(numPoints, cellPts, offset) {
+      stripsToWireframe(numPoints, cellPts, offset) <span class="fstat-no" title="function not covered" >{</span>
         // for strips we add a bunch of segments and close it
-<span class="cstat-no" title="statement not covered" >        for (let i = 0; i &lt; numPoints - 1; ++i) {</span>
+<span class="cstat-no" title="statement not covered" >        for (let i = <span class="cstat-no" title="statement not covered" >0;</span> i &lt; numPoints - 1; ++i) {</span>
 <span class="cstat-no" title="statement not covered" >          addAPoint(cellPts[offset + i]);</span>
 <span class="cstat-no" title="statement not covered" >          addAPoint(cellPts[offset + i + 1]);</span>
         }
-<span class="cstat-no" title="statement not covered" >        for (let i = 0; i &lt; numPoints - 2; i++) {</span>
+<span class="cstat-no" title="statement not covered" >        for (let i = <span class="cstat-no" title="statement not covered" >0;</span> i &lt; numPoints - 2; i++) {</span>
 <span class="cstat-no" title="statement not covered" >          addAPoint(cellPts[offset + i]);</span>
 <span class="cstat-no" title="statement not covered" >          addAPoint(cellPts[offset + i + 2]);</span>
         }
       },
-      polysToSurface(npts, cellPts, offset) {
+      polysToSurface(npts, cellPts, offset) <span class="fstat-no" title="function not covered" >{</span>
 <span class="cstat-no" title="statement not covered" >        if (npts &lt; 3) {</span>
           // ignore degenerate triangles
 <span class="cstat-no" title="statement not covered" >          vtkDebugMacro('skipping degenerate triangle');</span>
         } else {
-<span class="cstat-no" title="statement not covered" >          for (let i = 0; i &lt; npts - 2; i++) {</span>
+<span class="cstat-no" title="statement not covered" >          for (let i = <span class="cstat-no" title="statement not covered" >0;</span> i &lt; npts - 2; i++) {</span>
 <span class="cstat-no" title="statement not covered" >            addAPoint(cellPts[offset + 0]);</span>
 <span class="cstat-no" title="statement not covered" >            addAPoint(cellPts[offset + i + 1]);</span>
 <span class="cstat-no" title="statement not covered" >            addAPoint(cellPts[offset + i + 2]);</span>
           }
         }
       },
-      stripsToSurface(npts, cellPts, offset) {
-<span class="cstat-no" title="statement not covered" >        for (let i = 0; i &lt; npts - 2; i++) {</span>
+      stripsToSurface(npts, cellPts, offset) <span class="fstat-no" title="function not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >        for (let i = <span class="cstat-no" title="statement not covered" >0;</span> i &lt; npts - 2; i++) {</span>
 <span class="cstat-no" title="statement not covered" >          addAPoint(cellPts[offset + i]);</span>
 <span class="cstat-no" title="statement not covered" >          addAPoint(cellPts[offset + i + 1 + (i % 2)]);</span>
 <span class="cstat-no" title="statement not covered" >          addAPoint(cellPts[offset + i + 1 + ((i + 1) % 2)]);</span>
@@ -781,25 +781,25 @@ function vtkOpenGLCellArrayBufferObject(publicAPI, model) <span class="fstat-no"
 &nbsp;
     const cellCounters = <span class="cstat-no" title="statement not covered" >{</span>
       // easy, every input point becomes an output point
-      anythingToPoints(numPoints, cellPts) {
+      anythingToPoints(numPoints, cellPts) <span class="fstat-no" title="function not covered" >{</span>
 <span class="cstat-no" title="statement not covered" >        return numPoints;</span>
       },
-      linesToWireframe(numPoints, cellPts) {
+      linesToWireframe(numPoints, cellPts) <span class="fstat-no" title="function not covered" >{</span>
 <span class="cstat-no" title="statement not covered" >        return (numPoints - 1) * 2;</span>
       },
-      polysToWireframe(numPoints, cellPts) {
+      polysToWireframe(numPoints, cellPts) <span class="fstat-no" title="function not covered" >{</span>
 <span class="cstat-no" title="statement not covered" >        return numPoints * 2;</span>
       },
-      stripsToWireframe(numPoints, cellPts) {
+      stripsToWireframe(numPoints, cellPts) <span class="fstat-no" title="function not covered" >{</span>
 <span class="cstat-no" title="statement not covered" >        return numPoints * 4 - 6;</span>
       },
-      polysToSurface(npts, cellPts) {
+      polysToSurface(npts, cellPts) <span class="fstat-no" title="function not covered" >{</span>
 <span class="cstat-no" title="statement not covered" >        if (npts &lt; 3) {</span>
 <span class="cstat-no" title="statement not covered" >          return 0;</span>
         }
 <span class="cstat-no" title="statement not covered" >        return (npts - 2) * 3;</span>
       },
-      stripsToSurface(npts, cellPts, offset) {
+      stripsToSurface(npts, cellPts, offset) <span class="fstat-no" title="function not covered" >{</span>
 <span class="cstat-no" title="statement not covered" >        return (npts - 2) * 3;</span>
       },
     };
@@ -820,7 +820,7 @@ function vtkOpenGLCellArrayBufferObject(publicAPI, model) <span class="fstat-no"
     const array = <span class="cstat-no" title="statement not covered" >cellArray.getData();</span>
     const size = <span class="cstat-no" title="statement not covered" >array.length;</span>
     let caboCount = <span class="cstat-no" title="statement not covered" >0;</span>
-<span class="cstat-no" title="statement not covered" >    for (let index = 0; index &lt; size; ) {</span>
+<span class="cstat-no" title="statement not covered" >    for (let index = <span class="cstat-no" title="statement not covered" >0;</span> index &lt; size; ) {</span>
 <span class="cstat-no" title="statement not covered" >      caboCount += countFunc(array[index], array);</span>
 <span class="cstat-no" title="statement not covered" >      index += array[index] + 1;</span>
     }
@@ -854,7 +854,7 @@ function vtkOpenGLCellArrayBufferObject(publicAPI, model) <span class="fstat-no"
 &nbsp;
 <span class="cstat-no" title="statement not covered" >      if (tcoordData !== null) {</span>
 <span class="cstat-no" title="statement not covered" >        tcoordIdx = i * textureComponents;</span>
-<span class="cstat-no" title="statement not covered" >        for (let j = 0; j &lt; textureComponents; ++j) {</span>
+<span class="cstat-no" title="statement not covered" >        for (let j = <span class="cstat-no" title="statement not covered" >0;</span> j &lt; textureComponents; ++j) {</span>
 <span class="cstat-no" title="statement not covered" >          packedVBO[vboidx++] = tcoordData[tcoordIdx++];</span>
         }
       }
@@ -873,7 +873,7 @@ function vtkOpenGLCellArrayBufferObject(publicAPI, model) <span class="fstat-no"
       }
     };
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    for (let index = 0; index &lt; size; ) {</span>
+<span class="cstat-no" title="statement not covered" >    for (let index = <span class="cstat-no" title="statement not covered" >0;</span> index &lt; size; ) {</span>
 <span class="cstat-no" title="statement not covered" >      func(array[index], array, index + 1);</span>
 <span class="cstat-no" title="statement not covered" >      index += array[index] + 1;</span>
 <span class="cstat-no" title="statement not covered" >      cellCount++;</span>
@@ -955,7 +955,7 @@ export default { newInstance, extend };
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Mar 04 2019 01:56:48 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Mar 07 2019 15:41:40 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>
