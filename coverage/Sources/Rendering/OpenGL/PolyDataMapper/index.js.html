@@ -20,24 +20,24 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">1.37% </span>
+        <span class="strong">1.36% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>9/655</span>
+        <span class='fraction'>9/660</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>0/364</span>
+        <span class='fraction'>0/368</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>0/35</span>
+        <span class='fraction'>0/37</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">1.41% </span>
+        <span class="strong">1.4% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>9/640</span>
+        <span class='fraction'>9/645</span>
       </div>
     </div>
   </div>
@@ -1989,7 +1989,32 @@
 1944
 1945
 1946
-1947</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+1947
+1948
+1949
+1950
+1951
+1952
+1953
+1954
+1955
+1956
+1957
+1958
+1959
+1960
+1961
+1962
+1963
+1964
+1965
+1966
+1967
+1968
+1969
+1970
+1971
+1972</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -3227,6 +3252,28 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -3809,6 +3856,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -3816,6 +3864,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -5173,6 +5223,28 @@ function vtkOpenGLPolyDataMapper(publicAPI, model) <span class="fstat-no" title=
       } else {
 <span class="cstat-no" title="statement not covered" >        cellBO.getVAO().removeAttributeArray('normalMC');</span>
       }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >      model.renderable.getCustomShaderAttributes().forEach((attrName, idx) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >        if (cellBO.getProgram().isAttributeUsed(`${attrName}MC`)) {</span>
+<span class="cstat-no" title="statement not covered" >          if (</span>
+            !cellBO
+              .getVAO()
+              .addAttributeArray(
+                cellBO.getProgram(),
+                cellBO.getCABO(),
+                `${attrName}MC`,
+                cellBO.getCABO().getCustomData()[idx].offset,
+                cellBO.getCABO().getStride(),
+                model.context.FLOAT,
+                cellBO.getCABO().getCustomData()[idx].components,
+                false
+              )
+          ) {
+<span class="cstat-no" title="statement not covered" >            vtkErrorMacro(`Error setting ${attrName}MC in shader VAO.`);</span>
+          }
+        }
+      });
+&nbsp;
 <span class="cstat-no" title="statement not covered" >      if (</span>
         cellBO.getProgram().isAttributeUsed('tcoordMC') &amp;&amp;
         cellBO.getCABO().getTCoordOffset()
@@ -5762,6 +5834,9 @@ function vtkOpenGLPolyDataMapper(publicAPI, model) <span class="fstat-no" title=
         cellOffset: 0,
         haveCellScalars: model.haveCellScalars,
         haveCellNormals: model.haveCellNormals,
+        customAttributes: model.renderable
+          .getCustomShaderAttributes()
+          .map((arrayName) =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >poly.getPointData().getArrayByName(arrayName))</span></span>,
       };
 <span class="cstat-no" title="statement not covered" >      options.cellOffset += model.primitives[primTypes.Points]</span>
         .getCABO()
@@ -5887,7 +5962,7 @@ export default { newInstance, extend };
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Apr 29 2019 19:55:12 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri May 03 2019 06:39:22 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>
