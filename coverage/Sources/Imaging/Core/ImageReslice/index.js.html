@@ -1576,8 +1576,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -1589,6 +1587,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -2152,7 +2152,7 @@ function vtkImageReslice(publicAPI, model) <span class="fstat-no" title="functio
       .getNumberOfComponents(); // or s.numberOfComponents;
 &nbsp;
     const outScalarsData = <span class="cstat-no" title="statement not covered" >new window[dataType](</span>
-      outDims[0] * outDims[1] * outDims[2]
+      outDims[0] * outDims[1] * outDims[2] * numComponents
     );
     const outScalars = <span class="cstat-no" title="statement not covered" >vtkDataArray.newInstance({</span>
       name: 'Scalars',
@@ -2306,7 +2306,7 @@ function vtkImageReslice(publicAPI, model) <span class="fstat-no" title="functio
       );
     }
 &nbsp;
-    const background = <span class="cstat-no" title="statement not covered" >model.backgroundColor;</span>
+    const background = <span class="cstat-no" title="statement not covered" >window[inputScalarType].from(model.backgroundColor);</span>
 &nbsp;
     // set color for area outside of input volume extent
     // void *background;
@@ -2549,16 +2549,14 @@ function vtkImageReslice(publicAPI, model) <span class="fstat-no" title="functio
 <span class="cstat-no" title="statement not covered" >              endIdX = iidX;</span>
 &nbsp;
               // perform nearest-neighbor interpolation via pixel copy
-              const inPtrTmp = <span class="cstat-no" title="statement not covered" >inPtrTmp0.subarray(</span>
-                inIdX * inIncX + inIdY * inIncY + inIdZ * inIncZ
-              );
+              let offset = <span class="cstat-no" title="statement not covered" >inIdX * inIncX + inIdY * inIncY + inIdZ * inIncZ;</span>
 &nbsp;
               // when memcpy is used with a constant size, the compiler will
               // optimize away the function call and use the minimum number
               // of instructions necessary to perform the copy
 <span class="cstat-no" title="statement not covered" >              switch (bytesPerPixel) {</span>
                 case 1:
-<span class="cstat-no" title="statement not covered" >                  outPtrTmp[0] = inPtrTmp[0];</span>
+<span class="cstat-no" title="statement not covered" >                  outPtrTmp[0] = inPtrTmp0[offset];</span>
 <span class="cstat-no" title="statement not covered" >                  break;</span>
                 case 2:
                 case 3:
@@ -2566,13 +2564,15 @@ function vtkImageReslice(publicAPI, model) <span class="fstat-no" title="functio
                 case 8:
                 case 12:
                 case 16:
-<span class="cstat-no" title="statement not covered" >                  outPtrTmp.set(inPtrTmp.subarray(0, bytesPerPixel));</span>
+<span class="cstat-no" title="statement not covered" >                  outPtrTmp.set(</span>
+                    inPtrTmp0.subarray(offset, offset + bytesPerPixel)
+                  );
 <span class="cstat-no" title="statement not covered" >                  break;</span>
                 default: {
                   // TODO: check bytes
                   let oc = <span class="cstat-no" title="statement not covered" >0;</span>
 <span class="cstat-no" title="statement not covered" >                  do {</span>
-<span class="cstat-no" title="statement not covered" >                    outPtrTmp[oc] = inPtrTmp[oc];</span>
+<span class="cstat-no" title="statement not covered" >                    outPtrTmp[oc] = inPtrTmp0[offset++];</span>
                   } while (++oc !== bytesPerPixel);
 <span class="cstat-no" title="statement not covered" >                  break;</span>
                 }
@@ -2806,8 +2806,8 @@ function vtkImageReslice(publicAPI, model) <span class="fstat-no" title="functio
   };
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  publicAPI.set1 = (outPtr, inPtr, numscalars, n) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
-<span class="cstat-no" title="statement not covered" >    outPtr.fill(inPtr[0], 0, numscalars * n);</span>
-<span class="cstat-no" title="statement not covered" >    return outPtr.subarray(numscalars * n);</span>
+<span class="cstat-no" title="statement not covered" >    outPtr.fill(inPtr[0], 0, n);</span>
+<span class="cstat-no" title="statement not covered" >    return outPtr.subarray(n);</span>
   };
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  publicAPI.getSetPixelsFunc = (dataType, dataSize, numscalars, dataPtr) =&gt;</span>
@@ -2983,7 +2983,7 @@ export default { newInstance, extend };
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed May 22 2019 19:57:41 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu May 23 2019 07:14:12 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>
