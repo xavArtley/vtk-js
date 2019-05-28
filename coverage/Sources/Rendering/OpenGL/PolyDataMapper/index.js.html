@@ -20,14 +20,14 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">1.36% </span>
+        <span class="strong">1.35% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>9/660</span>
+        <span class='fraction'>9/665</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>0/368</span>
+        <span class='fraction'>0/374</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
@@ -35,9 +35,9 @@
         <span class='fraction'>0/37</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">1.4% </span>
+        <span class="strong">1.38% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>9/645</span>
+        <span class='fraction'>9/650</span>
       </div>
     </div>
   </div>
@@ -3055,26 +3055,26 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -5026,27 +5026,27 @@ function vtkOpenGLPolyDataMapper(publicAPI, model) <span class="fstat-no" title=
     let numberOfLights = <span class="cstat-no" title="statement not covered" >0;</span>
 &nbsp;
     const primType = <span class="cstat-no" title="statement not covered" >cellBO.getPrimitiveType();</span>
-&nbsp;
-    let needLighting = <span class="cstat-no" title="statement not covered" >true;</span>
-&nbsp;
     const poly = <span class="cstat-no" title="statement not covered" >model.currentInput;</span>
 &nbsp;
-    let n =
-<span class="cstat-no" title="statement not covered" >      actor.getProperty().getInterpolation() !== Shading.FLAT</span>
-        ? poly.getPointData().getNormals()
-        : null;
-<span class="cstat-no" title="statement not covered" >    if (n === null &amp;&amp; poly.getCellData().getNormals()) {</span>
-<span class="cstat-no" title="statement not covered" >      n = poly.getCellData().getNormals();</span>
+    // different algo from C++ as of 5/2019
+    let needLighting = <span class="cstat-no" title="statement not covered" >false;</span>
+    const pointNormals = <span class="cstat-no" title="statement not covered" >poly.getPointData().getNormals();</span>
+    const cellNormals = <span class="cstat-no" title="statement not covered" >poly.getCellData().getNormals();</span>
+    const flat = <span class="cstat-no" title="statement not covered" >actor.getProperty().getInterpolation() === Shading.FLAT;</span>
+    // 1) all surfaces need lighting
+<span class="cstat-no" title="statement not covered" >    if (primType !== primTypes.Points &amp;&amp; primType !== primType.Lines) {</span>
+<span class="cstat-no" title="statement not covered" >      needLighting = true;</span>
+      // 2) all cell normals without point normals need lighting
+    } else <span class="cstat-no" title="statement not covered" >if (cellNormals &amp;&amp; !pointNormals) {</span>
+<span class="cstat-no" title="statement not covered" >      needLighting = true;</span>
+      // 3) Phong + pointNormals need lighting
+    } else <span class="cstat-no" title="statement not covered" >if (!flat &amp;&amp; pointNormals) {</span>
+<span class="cstat-no" title="statement not covered" >      needLighting = true;</span>
+      // 4) Phong Lines need lighting
+    } else <span class="cstat-no" title="statement not covered" >if (!flat &amp;&amp; primType === primTypes.Lines) {</span>
+<span class="cstat-no" title="statement not covered" >      needLighting = true;</span>
     }
-&nbsp;
-    const haveNormals = <span class="cstat-no" title="statement not covered" >n !== null;</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >    if (</span>
-      actor.getProperty().getRepresentation() === Representation.POINTS ||
-      primType === primTypes.Points
-    ) {
-<span class="cstat-no" title="statement not covered" >      needLighting = haveNormals;</span>
-    }
+    // 5) everthing else is unlit
 &nbsp;
     // do we need lighting?
 <span class="cstat-no" title="statement not covered" >    if (actor.getProperty().getLighting() &amp;&amp; needLighting) {</span>
@@ -5962,7 +5962,7 @@ export default { newInstance, extend };
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu May 23 2019 19:29:29 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue May 28 2019 17:24:23 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>
