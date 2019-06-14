@@ -46,7 +46,7 @@
 <meta property="og:site_name" content="vtk.js">
 <meta property="og:description" content="IntroductionvtkAppendPolyData - append one or more polygonal datasets together vtkAppendPolyData is a filter that appends one of more polygonal datasets into asingle polygonal dataset. All geometry is">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2019-06-12T09:42:32.268Z">
+<meta property="og:updated_time" content="2019-06-14T17:51:15.299Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="AppendPolyData">
 <meta name="twitter:description" content="IntroductionvtkAppendPolyData - append one or more polygonal datasets together vtkAppendPolyData is a filter that appends one of more polygonal datasets into asingle polygonal dataset. All geometry is">
@@ -102,8 +102,8 @@
               <div class="article-content" itemprop="articleBody">
                 <h2 id="Introduction" class="article-heading"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction<a class="article-anchor" href="#Introduction" aria-hidden="true"></a></h2><p>vtkAppendPolyData - append one or more polygonal datasets together</p>
 <p>vtkAppendPolyData is a filter that appends one of more polygonal datasets into a<br>single polygonal dataset. All geometry is extracted and appended, but point and<br>cell attributes (i.e., scalars, vectors, normals) are extracted and appended<br>only if all datasets have the point and/or cell attributes available.  (For<br>example, if one dataset has point scalars but another does not, point scalars<br>will not be appended.)</p>
-<h2 id="Usage" class="article-heading"><a href="#Usage" class="headerlink" title="Usage"></a>Usage<a class="article-anchor" href="#Usage" aria-hidden="true"></a></h2><p>Provide the first input to the filter via the standard<br><code>SetInput(Data/Connection)</code> methods. Any additional inputs can be provided via<br>the <code>AddInput(Data/Connection)</code> methods. When only a single input is provided,<br>it is passed through as is to the output.</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> cone = vtkConeSource.newInstance();</span><br><span class="line"><span class="keyword">const</span> cylinder = vtkCylinderSource.newInstance();</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> appendFilter = vtkAppendFilter.newInstance();</span><br><span class="line">appendFilter.setInputConnection(cone.getOutputPort());</span><br><span class="line">appendFilter.addInputConnection(cylinder.getOutputPort());</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> appendedData = appendFilter.getOutputData();</span><br></pre></td></tr></table></figure>
+<h2 id="Usage" class="article-heading"><a href="#Usage" class="headerlink" title="Usage"></a>Usage<a class="article-anchor" href="#Usage" aria-hidden="true"></a></h2><p>Provide the first input to the filter via the standard<br><code>setInput(Data/Connection)</code> methods. Any additional inputs can be provided via<br>the <code>addInput(Data/Connection)</code> methods. When only a single input is provided,<br>it is passed through as is to the output.</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> cone = vtkConeSource.newInstance();</span><br><span class="line"><span class="keyword">const</span> cylinder = vtkCylinderSource.newInstance();</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> appendPolyData = vtkAppendPolyData.newInstance();</span><br><span class="line">appendPolyData.setInputConnection(cone.getOutputPort());</span><br><span class="line">appendPolyData.addInputConnection(cylinder.getOutputPort());</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> appendedData = appendPolyData.getOutputData();</span><br></pre></td></tr></table></figure>
 <h2 id="Public-API" class="article-heading"><a href="#Public-API" class="headerlink" title="Public API"></a>Public API<a class="article-anchor" href="#Public-API" aria-hidden="true"></a></h2><h3 id="OutputPointsPrecision-set-get" class="article-heading"><a href="#OutputPointsPrecision-set-get" class="headerlink" title="OutputPointsPrecision (set/get)"></a>OutputPointsPrecision (set/get)<a class="article-anchor" href="#OutputPointsPrecision-set-get" aria-hidden="true"></a></h3><p>Set / get the desired precision for the output types.<br>Available options for desired output precision are:</p>
 <ul>
 <li><code>DEFAULT</code>: Output precision should match the input precision</li>
@@ -115,7 +115,7 @@
 
               </div>
               <footer class="article-footer">
-                <time class="article-footer-updated" datetime="2019-06-12T09:42:32.268Z" itemprop="dateModified">Last updated: 2019-06-12</time>
+                <time class="article-footer-updated" datetime="2019-06-14T17:51:15.299Z" itemprop="dateModified">Last updated: 2019-06-14</time>
                 <a href="Filters_Cornerstone_ImageDataToCornerstoneImage.html" class="article-footer-prev" title="ImageDataToCornerstoneImage"><i class="fa fa-chevron-left"></i><span>Prev</span></a><a href="Filters_General_Calculator.html" class="article-footer-next" title="Calculator"><span>Next</span><i class="fa fa-chevron-right"></i></a>
               </footer>
               
