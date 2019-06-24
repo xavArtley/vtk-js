@@ -20,24 +20,24 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">0.64% </span>
+        <span class="strong">0.63% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>3/466</span>
+        <span class='fraction'>3/473</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>0/201</span>
+        <span class='fraction'>0/205</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>0/21</span>
+        <span class='fraction'>0/22</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">0.67% </span>
+        <span class="strong">0.66% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>3/447</span>
+        <span class='fraction'>3/454</span>
       </div>
     </div>
   </div>
@@ -1021,7 +1021,20 @@
 976
 977
 978
-979</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+979
+980
+981
+982
+983
+984
+985
+986
+987
+988
+989
+990
+991
+992</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1054,6 +1067,18 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1986,6 +2011,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -2030,6 +2056,18 @@ function vtkImageReslice(publicAPI, model) <span class="fstat-no" title="functio
 &nbsp;
   let indexMatrix = <span class="cstat-no" title="statement not covered" >null;</span>
   let optimizedTransform = <span class="cstat-no" title="statement not covered" >null;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  publicAPI.setResliceAxes = (resliceAxes) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >    if (!model.resliceAxes) {</span>
+<span class="cstat-no" title="statement not covered" >      model.resliceAxes = mat4.create();</span>
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    if (!mat4.exactEquals(model.resliceAxes, resliceAxes)) {</span>
+<span class="cstat-no" title="statement not covered" >      mat4.copy(model.resliceAxes, resliceAxes);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >      publicAPI.modified();</span>
+    }
+  };
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  publicAPI.requestData = (inData, outData) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
     // implement requestData
@@ -2949,7 +2987,6 @@ export function extend(publicAPI, model, initialValues = {}) <span class="fstat-
 <span class="cstat-no" title="statement not covered" >  macro.algo(publicAPI, model, 1, 1);</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  macro.setGet(publicAPI, model, [</span>
-    'resliceAxes',
     'outputDimensionality',
     'outputOrigin',
     'outputSpacing',
@@ -2964,6 +3001,8 @@ export function extend(publicAPI, model, initialValues = {}) <span class="fstat-
     'border',
     'backgroundColor',
   ]);
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  macro.get(publicAPI, model, ['resliceAxes']);</span>
 &nbsp;
   // Object specific methods
 <span class="cstat-no" title="statement not covered" >  macro.algo(publicAPI, model, 1, 1);</span>
@@ -2983,7 +3022,7 @@ export default { newInstance, extend };
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Jun 14 2019 17:50:57 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Jun 24 2019 17:12:42 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>
