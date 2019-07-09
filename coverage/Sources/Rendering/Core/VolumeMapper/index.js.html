@@ -20,9 +20,9 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">10.53% </span>
+        <span class="strong">9.68% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>2/19</span>
+        <span class='fraction'>3/31</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
@@ -32,12 +32,12 @@
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>0/4</span>
+        <span class='fraction'>0/9</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">10.53% </span>
+        <span class="strong">9.68% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>2/19</span>
+        <span class='fraction'>3/31</span>
       </div>
     </div>
   </div>
@@ -113,8 +113,39 @@
 68
 69
 70
-71</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -134,6 +165,26 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -157,10 +208,12 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -169,6 +222,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -185,6 +241,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import macro from 'vtk.js/Sources/macro';
 import * as vtkMath from 'vtk.js/Sources/Common/Core/Math';
+import Constants from 'vtk.js/Sources/Rendering/Core/VolumeMapper/Constants';
+&nbsp;
+const { BlendMode } = Constants;
 &nbsp;
 // ----------------------------------------------------------------------------
 // vtkVolumeMapper methods
@@ -210,18 +269,40 @@ function vtkVolumeMapper(publicAPI, model) <span class="fstat-no" title="functio
 <span class="cstat-no" title="statement not covered" >  publicAPI.update = () =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
 <span class="cstat-no" title="statement not covered" >    publicAPI.getInputData();</span>
   };
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  publicAPI.setBlendModeToComposite = () =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >    publicAPI.setBlendMode(BlendMode.COMPOSITE_BLEND);</span>
+  };
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  publicAPI.setBlendModeToMaximumIntensity = () =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >    publicAPI.setBlendMode(BlendMode.MAXIMUM_INTENSITY_BLEND);</span>
+  };
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  publicAPI.setBlendModeToMinimumIntensity = () =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >    publicAPI.setBlendMode(BlendMode.MINIMUM_INTENSITY_BLEND);</span>
+  };
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  publicAPI.setBlendModeToAverageIntensity = () =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >    publicAPI.setBlendMode(BlendMode.AVERAGE_INTENSITY_BLEND);</span>
+  };
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  publicAPI.getBlendModeAsString = () =&gt;</span>
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >    macro.enumToString(BlendMode, model.blendMode);</span></span>
 }
 &nbsp;
 // ----------------------------------------------------------------------------
 // Object factory
 // ----------------------------------------------------------------------------
 &nbsp;
+// TODO: what values to use for averageIPScalarRange to get GLSL to use max / min values like [-Math.inf, Math.inf]?
 const DEFAULT_VALUES = {
   bounds: [1, -1, 1, -1, 1, -1],
   sampleDistance: 1.0,
   imageSampleDistance: 1.0,
   maximumSamplesPerRay: 1000,
   autoAdjustSampleDistances: true,
+  blendMode: BlendMode.COMPOSITE_BLEND,
+  averageIPScalarRange: [-1000000.0, 1000000.0],
 };
 &nbsp;
 // ----------------------------------------------------------------------------
@@ -238,7 +319,10 @@ export function extend(publicAPI, model, initialValues = {}) <span class="fstat-
     'imageSampleDistance',
     'maximumSamplesPerRay',
     'autoAdjustSampleDistances',
+    'blendMode',
   ]);
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  macro.setGetArray(publicAPI, model, ['averageIPScalarRange'], 2);</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  macro.event(publicAPI, model, 'lightingActivated');</span>
 &nbsp;
@@ -259,7 +343,7 @@ export default { newInstance, extend };
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Jul 09 2019 08:04:48 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Jul 09 2019 18:07:06 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>

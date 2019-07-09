@@ -20,9 +20,9 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">0.57% </span>
+        <span class="strong">0.56% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>3/527</span>
+        <span class='fraction'>3/531</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
@@ -37,7 +37,7 @@
       <div class='fl pad1y space-right2'>
         <span class="strong">0.58% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>3/513</span>
+        <span class='fraction'>3/517</span>
       </div>
     </div>
   </div>
@@ -1327,7 +1327,29 @@
 1282
 1283
 1284
-1285</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+1285
+1286
+1287
+1288
+1289
+1290
+1291
+1292
+1293
+1294
+1295
+1296
+1297
+1298
+1299
+1300
+1301
+1302
+1303
+1304
+1305
+1306
+1307</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1501,6 +1523,28 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -2790,6 +2834,28 @@ function vtkOpenGLVolumeMapper(publicAPI, model) <span class="fstat-no" title="f
       ]).result;
     }
 &nbsp;
+    // Set the BlendMode approach
+<span class="cstat-no" title="statement not covered" >    FSSource = vtkShaderProgram.substitute(</span>
+      FSSource,
+      '//VTK::BlendMode',
+      `${model.renderable.getBlendMode()}`
+    ).result;
+&nbsp;
+    const averageIPScalarRange = <span class="cstat-no" title="statement not covered" >model.renderable.getAverageIPScalarRange();</span>
+&nbsp;
+    // TODO: Adding the .0 at the end feels hacky
+<span class="cstat-no" title="statement not covered" >    FSSource = vtkShaderProgram.substitute(</span>
+      FSSource,
+      '//VTK::AverageIPScalarRangeMin',
+      `${averageIPScalarRange[0]}.0`
+    ).result;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    FSSource = vtkShaderProgram.substitute(</span>
+      FSSource,
+      '//VTK::AverageIPScalarRangeMax',
+      `${averageIPScalarRange[1]}.0`
+    ).result;
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    shaders.Fragment = FSSource;</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    publicAPI.replaceShaderLight(shaders, ren, actor);</span>
@@ -3587,7 +3653,7 @@ function vtkOpenGLVolumeMapper(publicAPI, model) <span class="fstat-no" title="f
 <span class="cstat-no" title="statement not covered" >      vtkMath.uninitializeBounds(model.Bounds);</span>
 <span class="cstat-no" title="statement not covered" >      return;</span>
     }
-<span class="cstat-no" title="statement not covered" >    model.bounnds = publicAPI.getInput().getBounds();</span>
+<span class="cstat-no" title="statement not covered" >    model.bounds = publicAPI.getInput().getBounds();</span>
   };
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  publicAPI.updateBufferObjects = (ren, actor) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
@@ -3836,7 +3902,7 @@ const DEFAULT_VALUES = {
   opacityTexture: null,
   opacityTextureString: null,
   colorTexture: null,
-  colortextureString: null,
+  colorTextureString: null,
   jitterTexture: null,
   tris: null,
   framebuffer: null,
@@ -3901,7 +3967,7 @@ export default { newInstance, extend };
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Jul 09 2019 08:04:48 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Jul 09 2019 18:07:06 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>
