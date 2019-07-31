@@ -20,9 +20,9 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">23.68% </span>
+        <span class="strong">25.64% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>27/114</span>
+        <span class='fraction'>30/117</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">7.32% </span>
@@ -30,14 +30,14 @@
         <span class='fraction'>3/41</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">50% </span>
+        <span class="strong">40.91% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>9/18</span>
+        <span class='fraction'>9/22</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">24.11% </span>
+        <span class="strong">25.86% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>27/112</span>
+        <span class='fraction'>30/116</span>
       </div>
     </div>
   </div>
@@ -296,7 +296,17 @@
 251
 252
 253
-254</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+254
+255
+256
+257
+258
+259
+260
+261
+262</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -495,14 +505,17 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">39×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">39×</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">39×</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -510,8 +523,9 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -532,9 +546,11 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">39×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">39×</span>
 <span class="cline-any cline-yes">39×</span>
 <span class="cline-any cline-yes">39×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -552,9 +568,11 @@
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import macro from 'vtk.js/Sources/macro';
 import vtk from 'vtk.js/Sources/vtk';
 import vtkCellArray from 'vtk.js/Sources/Common/Core/CellArray';
+import vtkPoints from 'vtk.js/Sources/Common/Core/Points';
 import vtkCellLinks from 'vtk.js/Sources/Common/DataModel/CellLinks';
 import vtkCellTypes from 'vtk.js/Sources/Common/DataModel/CellTypes';
 import vtkPointSet from 'vtk.js/Sources/Common/DataModel/PointSet';
+import vtkTriangle from 'vtk.js/Sources/Common/DataModel/Triangle';
 &nbsp;
 import { CellType } from 'vtk.js/Sources/Common/DataModel/CellTypes/Constants';
 import { POLYDATA_FIELDS } from 'vtk.js/Sources/Common/DataModel/PolyData/Constants';
@@ -747,26 +765,30 @@ function vtkPolyData(publicAPI, model) {
 <span class="cstat-no" title="statement not covered" >    return { cellType, cellPointIds };</span>
   };
 &nbsp;
+  publicAPI.getPointCells = (ptId) =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >model.links.getCells(ptId);</span></span>
+&nbsp;
   publicAPI.getCellEdgeNeighbors = (cellId, point1, point2) =&gt; <span class="fstat-no" title="function not covered" >{</span>
     const link1 = <span class="cstat-no" title="statement not covered" >model.links.getLink(point1);</span>
     const link2 = <span class="cstat-no" title="statement not covered" >model.links.getLink(point2);</span>
 &nbsp;
-    const cells1 = <span class="cstat-no" title="statement not covered" >link1.cells;</span>
-    const cells2 = <span class="cstat-no" title="statement not covered" >link2.cells;</span>
+<span class="cstat-no" title="statement not covered" >    return link1.cells.filter(</span>
+      (cell) =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >cell !== cellId &amp;&amp; link2.cells.indexOf(cell) !== -1</span></span>
+    );
+  };
 &nbsp;
-    const cellIds = <span class="cstat-no" title="statement not covered" >[];</span>
-<span class="cstat-no" title="statement not covered" >    for (let i = <span class="cstat-no" title="statement not covered" >0;</span> i &lt; link1.ncells; ++i) {</span>
-      const cell1 = <span class="cstat-no" title="statement not covered" >cells1[i];</span>
-<span class="cstat-no" title="statement not covered" >      if (cell1 !== cellId) {</span>
-<span class="cstat-no" title="statement not covered" >        for (let j = <span class="cstat-no" title="statement not covered" >0;</span> j &lt; link2.ncells; ++j) {</span>
-<span class="cstat-no" title="statement not covered" >          if (cell1 === cells2[j]) {</span>
-<span class="cstat-no" title="statement not covered" >            cellIds.push(cell1);</span>
-<span class="cstat-no" title="statement not covered" >            break;</span>
-          }
-        }
-      }
+  publicAPI.getCell = (cellId) =&gt; <span class="fstat-no" title="function not covered" >{</span>
+    const cellInfo = <span class="cstat-no" title="statement not covered" >publicAPI.getCellPoints(cellId);</span>
+<span class="cstat-no" title="statement not covered" >    if (cellInfo.cellType === CellType.VTK_TRIANGLE) {</span>
+      const cell = <span class="cstat-no" title="statement not covered" >vtkTriangle.newInstance();</span>
+      let pointsData = <span class="cstat-no" title="statement not covered" >[];</span>
+<span class="cstat-no" title="statement not covered" >      cellInfo.cellPointIds.forEach((pointId, index) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >        pointsData = pointsData.concat(publicAPI.getPoints().getPoint(pointId));</span>
+      });
+      const points = <span class="cstat-no" title="statement not covered" >vtkPoints.newInstance({ values: pointsData });</span>
+<span class="cstat-no" title="statement not covered" >      cell.initialize(3, cellInfo.cellPointIds, points);</span>
+<span class="cstat-no" title="statement not covered" >      return cell;</span>
     }
-<span class="cstat-no" title="statement not covered" >    return cellIds;</span>
+<span class="cstat-no" title="statement not covered" >    return null;</span>
   };
 }
 &nbsp;
@@ -780,6 +802,7 @@ const DEFAULT_VALUES = {
   // polys: null,
   // strips: null,
   // cells: null,
+  // links: null,
 };
 &nbsp;
 // ----------------------------------------------------------------------------
@@ -789,6 +812,7 @@ export function extend(publicAPI, model, initialValues = {}) {
 &nbsp;
   // Inheritance
   vtkPointSet.extend(publicAPI, model, initialValues);
+  macro.get(publicAPI, model, ['cells', 'links']);
   macro.setGet(publicAPI, model, ['verts', 'lines', 'polys', 'strips']);
 &nbsp;
   // Object specific methods
@@ -808,7 +832,7 @@ export default { newInstance, extend };
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Jul 29 2019 22:21:16 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Jul 31 2019 08:44:45 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>

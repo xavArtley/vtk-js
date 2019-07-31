@@ -2,6 +2,27 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://kitware.github.io/vtk-js/api/Common_DataModel_PolyData.html</loc>
+    
+    <lastmod>2019-07-31T08:45:27.628Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://kitware.github.io/vtk-js/api/Common_DataModel_CellLinks.html</loc>
+    
+    <lastmod>2019-07-31T08:45:27.600Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://kitware.github.io/vtk-js/api/Common_Core_CellArray.html</loc>
+    
+    <lastmod>2019-07-31T08:45:27.556Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://kitware.github.io/vtk-js/api/Filters_General_PaintFilter.html</loc>
     
     <lastmod>2019-07-29T22:21:57.464Z</lastmod>
@@ -72,21 +93,7 @@
   </url>
   
   <url>
-    <loc>https://kitware.github.io/vtk-js/api/Common_DataModel_PolyData.html</loc>
-    
-    <lastmod>2019-07-26T23:54:01.977Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://kitware.github.io/vtk-js/api/Common_DataModel_CellTypes.html</loc>
-    
-    <lastmod>2019-07-26T23:54:01.949Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://kitware.github.io/vtk-js/api/Common_DataModel_CellLinks.html</loc>
     
     <lastmod>2019-07-26T23:54:01.949Z</lastmod>
     
@@ -96,13 +103,6 @@
     <loc>https://kitware.github.io/vtk-js/api/Common_Core_MatrixBuilder.html</loc>
     
     <lastmod>2019-07-26T23:54:01.929Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://kitware.github.io/vtk-js/api/Common_Core_CellArray.html</loc>
-    
-    <lastmod>2019-07-26T23:54:01.913Z</lastmod>
     
   </url>
   
@@ -219,14 +219,14 @@
   </url>
   
   <url>
-    <loc>https://kitware.github.io/vtk-js/examples/OutlineFilter.html</loc>
+    <loc>https://kitware.github.io/vtk-js/examples/TubeFilter.html</loc>
     
     <lastmod>2019-07-02T23:28:24.218Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://kitware.github.io/vtk-js/examples/TubeFilter.html</loc>
+    <loc>https://kitware.github.io/vtk-js/examples/OutlineFilter.html</loc>
     
     <lastmod>2019-07-02T23:28:24.218Z</lastmod>
     
@@ -317,14 +317,14 @@
   </url>
   
   <url>
-    <loc>https://kitware.github.io/vtk-js/api/Rendering_Core_Picker.html</loc>
+    <loc>https://kitware.github.io/vtk-js/api/Rendering_Core_Mapper.html</loc>
     
     <lastmod>2019-07-02T23:28:23.390Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://kitware.github.io/vtk-js/api/Rendering_Core_Mapper.html</loc>
+    <loc>https://kitware.github.io/vtk-js/api/Rendering_Core_Picker.html</loc>
     
     <lastmod>2019-07-02T23:28:23.390Z</lastmod>
     
@@ -345,14 +345,14 @@
   </url>
   
   <url>
-    <loc>https://kitware.github.io/vtk-js/api/Rendering_Core_Glyph3DMapper.html</loc>
+    <loc>https://kitware.github.io/vtk-js/api/Rendering_Core_ImageMapper.html</loc>
     
     <lastmod>2019-07-02T23:28:23.378Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://kitware.github.io/vtk-js/api/Rendering_Core_ImageMapper.html</loc>
+    <loc>https://kitware.github.io/vtk-js/api/Rendering_Core_Glyph3DMapper.html</loc>
     
     <lastmod>2019-07-02T23:28:23.378Z</lastmod>
     
@@ -401,13 +401,6 @@
   </url>
   
   <url>
-    <loc>https://kitware.github.io/vtk-js/api/Interaction_Widgets_ImageCroppingRegionsWidget.html</loc>
-    
-    <lastmod>2019-07-02T23:28:23.306Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://kitware.github.io/vtk-js/api/Interaction_Widgets_ImageCroppingRegionsRepresentation.html</loc>
     
     <lastmod>2019-07-02T23:28:23.306Z</lastmod>
@@ -416,6 +409,13 @@
   
   <url>
     <loc>https://kitware.github.io/vtk-js/api/Interaction_Widgets_LabelRepresentation.html</loc>
+    
+    <lastmod>2019-07-02T23:28:23.306Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://kitware.github.io/vtk-js/api/Interaction_Widgets_ImageCroppingRegionsWidget.html</loc>
     
     <lastmod>2019-07-02T23:28:23.306Z</lastmod>
     
@@ -450,14 +450,14 @@
   </url>
   
   <url>
-    <loc>https://kitware.github.io/vtk-js/api/Interaction_Manipulators_MouseCameraTrackballRollManipulator.html</loc>
+    <loc>https://kitware.github.io/vtk-js/api/Interaction_Manipulators_MouseCameraTrackballRotateManipulator.html</loc>
     
     <lastmod>2019-07-02T23:28:23.278Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://kitware.github.io/vtk-js/api/Interaction_Manipulators_MouseCameraTrackballRotateManipulator.html</loc>
+    <loc>https://kitware.github.io/vtk-js/api/Interaction_Manipulators_MouseCameraTrackballRollManipulator.html</loc>
     
     <lastmod>2019-07-02T23:28:23.278Z</lastmod>
     
