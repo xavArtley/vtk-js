@@ -213,14 +213,8 @@ function createSceneMtimeHandler() {
 // ----------------------------------------------------------------------------
 
 function createSyncFunction(renderWindow, synchronizerContext) {
-  const progressHandler = createProgressHandler(renderWindow.render);
   const mtimeHandler = createSceneMtimeHandler();
-  const context = Object.assign(
-    {},
-    synchronizerContext,
-    progressHandler,
-    mtimeHandler
-  );
+  const context = Object.assign({}, synchronizerContext, mtimeHandler);
   let lastMtime = -1;
   let gcThreshold = 100;
 
@@ -245,7 +239,8 @@ function createSyncFunction(renderWindow, synchronizerContext) {
     gcThreshold = v;
   }
 
-  function synchronize(state) {
+  function synchronize(state, callbackWhenReady = renderWindow.render) {
+    Object.assign(context, createProgressHandler(callbackWhenReady));
     if (!getSynchronizedViewId()) {
       setSynchronizedViewId(state.id);
     }
